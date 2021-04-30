@@ -1,0 +1,414 @@
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>后台通用框架</title>
+    <script src="static/js/public/jquery-3.0.0.min.js"></script>
+    <script src="static/angular-1.5.8/angular.min.js"></script>
+    <script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link href="static/bootstrap-validator/dist/css/bootstrapValidator.min.css" rel="stylesheet">
+    <script src="static/bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="static/bootstrap-table-master/src/extensions/export/bootstrap-table-export.js"></script>
+    <script src="static/bootstrap-table-master/src/extensions/angular/bootstrap-table-angular.js"></script>
+    <link href="static/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet" />
+    <link href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="static/bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="static/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="static/bootstrap-validator/dist/js/bootstrapValidator.min.js"></script>
+    <script src="static/bootstrap-validator/dist/js/language/zh_CN.js"></script>
+    <script src="static/angular-1.5.8/angular-cookies.min.js"></script>
+    <script src="static/layer/layer.js"></script>
+    <link rel="stylesheet" href="static/css/device.css">
+</head>
+<body  ng-app="myApp" ng-controller="deviceCtrl">
+<div class="container pageBox">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- 操作成功 -->
+            <div class="alert alert-success ng-hide" role="alert" ng-show="isSuccess" style="margin-top: 15px;">操作成功</div>
+            <!-- 警告弹框 -->
+            <div class="alert alert-danger ng-hide" role="alert" ng-show="isError" style="margin-top: 15px;">操作失败</div>
+            <!-- 未选择 -->
+            <div class="alert alert-danger ng-hide" role="alert" ng-show="isSelect" style="margin-top: 15px;">请选择数据</div>
+            <!-- 未选择 -->
+            <div class="alert alert-danger ng-hide" role="alert" ng-show="isSelectThis" style="margin-top: 15px;">未选择该条数据</div>
+            <div id="toolbar" class="btn-group">
+                <button type="button" data-toggle="modal" data-target="#addDevice" class="btn btn-default" ng-click="moveClear()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增</button>
+                <button type="button" class="btn btn-danger" ng-click="delDevices()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除</button>
+                <div class="up pull-left">
+                    <iframe id="file_upload_return" hidden="true" name="file_upload_return"></iframe>
+                    <form id= "uploadExcel" enctype="multipart/form-data" method="post"  target="file_upload_return" action="fixed/uploadFixed">
+                        <input type="hidden" name="userId" value="{{userId}}">
+                        <input type="hidden" name="token" value="{{token}}">
+                        <input class="J_export file" name="file" type="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="angular.element(this).scope().upExcel(this.files)" ng-model="file" style="opacity: 0;" />
+                    </form>
+                    <button type="button" data-toggle="modal" data-target="#import" ng-click="import()" class="btn btn-default"><span class="glyphicon glyphicon-import" aria-hidden="true"></span>导入Excel</button>
+                </div>
+                <form id="exportFixed" action="fixed/exportFixed" method="post" style="display: none;">
+                    <input type="hidden" name="userId" value="{{userId}}">
+                    <input type="hidden" name="token" value="{{token}}">
+                    <input type="hidden" name="lBuyTime" ng-model="startDate" value="{{startDate}}">
+                    <input type="hidden" name="rBuyTime" ng-model="endDate" value="{{endDate}}">
+                    <input type="hidden" name="assetsID" ng-model="assetsID" value="{{assetsID}}">
+                    <input type="hidden" name="userName">
+                </form>
+                <button type="button" ng-click="export()" class="btn btn-default"><span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出Excel</button>
+                <!-- 模板下载 -->
+                <form id="fixedMoter" action="app/att/download" method="get" style="display: none;">
+                    <input type="hidden" name="userId" value="{{userId}}">
+                    <input type="hidden" name="token" value="{{token}}">
+                    <input type="hidden" name="data" value="{939D8C44-2A64-4ABA-8A4F-31FC718FB599}">
+                </form>
+                <button type="button" ng-click="downModel()" class="btn btn-default"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>模版下载</button>
+                <div class="form-inline pull-left">
+                    <label typeof="button" class="control-label pull-left date-title" for="startDate">开始时间:</label>
+                    <div class="date-box pull-left">
+                        <div class="input-group date form_date" data-date-format="dd MM yyyy" data-link-format="yyyy-mm-dd">
+                            <input id="startDate" class="form-control" size="16" type="text" readonly="" data-bv-trigger="change" ng-change="reflash()" ng-model="startDate" name="startDate" required>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon "><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline pull-left">
+                    <label typeof="button" class="control-label pull-left date-title" for="endDate">结束时间:</label>
+                    <div class="date-box pull-left">
+                        <div class="input-group date form_date" data-date-format="dd MM yyyy" data-link-format="yyyy-mm-dd">
+                            <input id="endDate" class="form-control" size="16" type="text" readonly="" data-bv-trigger="change" ng-change="reflash()" ng-model="endDate" name="endDate" required>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="dropdown pull-left">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" ng-model="assetsID">{{fixedGroup}}<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="selectIt($event)" data-id="" href="">全部</a></li>
+                        <li ng-mouseleave="doLess($event)" class="sub-select" ng-repeat="fop in opts">
+                            <a ng-click="selectIt($event)" ng-mouseover="doMore($event)" data-id="{{fop.id}}" href="#">{{fop.assetsName}}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="more">
+                                <li ng-repeat="sop in fop.assetsSub"><a href="#">
+                                    <a ng-click="selectIt($event)" data-id="{{sop.id}}" href="#">{{sop.assetsName}}</a></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>--><!--两层-->
+                <!--单层-->
+                <select ng-mouseover="getAssetsList()" class="form-control pull-left" ng-change="reflash()" style="display: inline-block;width: auto;" ng-model="assetsID">
+                    <option value="">请选择分类</option>
+                    <option ng-repeat="opt in opts" value="{{opt.id}}">{{opt.assetsName}}</option>
+                </select>
+                <div class="pull-left"><label class="control-label">使用人：</label></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="table" init-table="options"></table>
+        </div>
+    </div>
+</div>
+
+<!--新增-->
+<div class="modal fade" id="addDevice" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog deviceAddBox">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="addModalLabel">新增设备</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="addForm" class="form-horizontal" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceName">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            名称:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" pattern="^.{1,50}$" data-bv-regexp-message="长度50以内" data-bv-notempty-message="请填写名称" data-bv-trigger="blur" ng-model="deviceName" name="deviceName" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceGroup">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            类别:
+                        </label>
+                        <div class="col-sm-5">
+                            <select ng-mouseover="getAssetsList()" data-bv-trigger="blur" data-bv-notempty-message="请选择分类" name="deviceGroup" class="form-control input" ng-model="deviceGroup" required>
+                                <option value="">请选择分类</option>
+                                <option ng-repeat="x in opts" value="{{x.id}}">{{x.assetsName}}</option>
+                            </select>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceNumber">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            编号:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control"  data-bv-notempty-message="请填写编号" pattern="^[A-Za-z0-9]{1,20}$" data-bv-trigger="blur" data-bv-regexp-message="数字或英文，长度20以内" ng-model="deviceNumber" name="deviceNumber" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceType">规格型号:</label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" data-bv-trigger="blur" pattern="^.{0,30}$" data-bv-regexp-message="长度30以内" ng-model="deviceType" name="deviceType" type="text"/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="buyTime">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            购入时间:
+                        </label>
+                        <div class="col-sm-5">
+                            <div class="input-group date form_date" data-date-format="dd MM yyyy" data-link-format="yyyy-mm-dd">
+                                <input data-bv-notempty-message="不能为空" name="buyTime" class="form-control" size="16" type="text" readonly="" data-bv-trigger="change" ng-model="buyTime" required>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon "><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label autocomplete="off" class="col-sm-3 control-label" for="storagePlace">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            存放地点:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" data-bv-notempty-message="请填写存放地点" data-bv-trigger="blur" pattern="^.{1,50}$" data-bv-regexp-message="长度50以内" ng-model="storagePlace" name="storagePlace" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceCount">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            数量:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" data-bv-notempty-message="请填写数量" data-bv-trigger="blur" pattern="^[\d]{1,10}$" data-bv-regexp-message="数字，长度10以内" ng-model="deviceCount" name="deviceCount" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="devicePrice">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            单价:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" ng-blur="parsePrice($event)" data-bv-notempty-message="请填写单价" data-bv-trigger="blur" pattern="^\d+\.\d{2}$" data-bv-regexp-message="数字，两位小数" ng-model="devicePrice" name="devicePrice" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceAmount">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            总价:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" ng-blur="parseAmount($event)" data-bv-notempty-message="请填写总价" data-bv-trigger="blur" pattern="^\d+\.\d{2}$" data-bv-regexp-message="数字，两位小数" ng-model="deviceAmount" name="deviceAmount" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="useDept">使用部门:</label>
+                        <div class="col-sm-5">
+                            <select data-bv-trigger="blur" name="useDept" class="form-control input" ng-model="useDept">
+                                <option value="">请选择部门</option>
+                                <option value="总裁办">总裁办</option>
+                                <option value="财务部">财务部</option>
+                                <option value="法务部">法务部</option>
+                                <option value="研发部">研发部</option>
+                                <option value="销售部">销售部</option>
+                            </select>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="user">
+                            使用人:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" placeholder="输入使用人关键字" type="text" ng-blur="hideSel()" ng-change="selectTip()" name="user" ng-model="user" class="form-control userInput">
+                            <ul class="dropdown-menu sel-user" style="margin-left: 15px">
+                                <!--<li ng-repeat="y in userTips"><a ng-click="selectUser($event)" data-id="{{y.id}}" href="#">{{y.name}}</a></li>-->
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 userError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="useStatus">使用状态:</label>
+                        <div class="col-sm-5">
+                            <select data-bv-trigger="blur" name="useStatus" class="form-control input" ng-model="useStatus">
+                                <option value="">请选择使用状态</option>
+                                <option ng-repeat="sel in selArr" value="{{sel}}">{{sel}}</option>
+                            </select>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="resetAdd()" type="button" class="btn btn-default">重置</button>
+                <button ng-click="add()" type="button" class="btn btn-default">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--修改-->
+<div class="modal fade" id="editDevice" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog deviceAddBox">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="editModalLabel">编辑设备</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="editForm" class="form-horizontal" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceName">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            名称:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" pattern="^.{1,50}$" data-bv-regexp-message="长度50以内" data-bv-notempty-message="请填写名称" data-bv-trigger="blur" ng-model="deviceName" name="deviceName" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceGroup">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            类别:
+                        </label>
+                        <div class="col-sm-5">
+                            <select data-bv-trigger="blur" data-bv-notempty-message="请选择分类" name="deviceGroup" class="form-control input" ng-model="deviceGroup" required>
+                                <option value="">请选择分类</option>
+                                <option ng-repeat="x in opts" value="{{x.id}}">{{x.assetsName}}</option>
+                            </select>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceNumber">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            编号:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" data-bv-notempty-message="请填写编号" pattern="^[A-Za-z0-9]{1,20}$" data-bv-trigger="blur" data-bv-regexp-message="数字或英文，长度20以内" ng-model="deviceNumber" name="deviceNumber" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceType">规格型号:</label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" data-bv-trigger="blur" pattern="^.{0,30}$" data-bv-regexp-message="长度30以内" ng-model="deviceType" name="deviceType" type="text"/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="buyTime">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            购入时间:
+                        </label>
+                        <div class="col-sm-5">
+                            <div class="input-group date form_date" data-date-format="dd MM yyyy" data-link-format="yyyy-mm-dd">
+                                <input data-bv-notempty-message="不能为空" name="buyTime" class="form-control" size="16" type="text" readonly="" data-bv-trigger="change" ng-model="buyTime" required>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon "><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="storagePlace">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            存放地点:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" data-bv-notempty-message="请填写存放地点" data-bv-trigger="blur" pattern="^.{1,50}$" data-bv-regexp-message="长度50以内" ng-model="storagePlace" name="storagePlace" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceCount">
+                            <span autocomplete="off" class="glyphicon glyphicon-asterisk"></span>
+                            数量:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" data-bv-notempty-message="请填写数量" data-bv-trigger="blur" pattern="^[\d]{1,10}$" data-bv-regexp-message="数字，长度10以内" ng-model="deviceCount" name="deviceCount" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="devicePrice">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            单价:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" ng-blur="parsePrice($event)" data-bv-notempty-message="请填写单价" data-bv-trigger="blur" pattern="^\d+\.\d{2}$" data-bv-regexp-message="数字，两位小数" ng-model="devicePrice" name="devicePrice" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="deviceAmount">
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            总价:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" class="form-control" ng-blur="parseAmount($event)" data-bv-notempty-message="请填写总价" data-bv-trigger="blur" pattern="^\d+\.\d{2}$" data-bv-regexp-message="数字，两位小数" ng-model="deviceAmount" name="deviceAmount" type="text" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="useDept">使用部门:</label>
+                        <div class="col-sm-5">
+                            <select data-bv-trigger="blur" name="useDept" class="form-control input" ng-model="useDept">
+                                <option value="">请选择使用部门</option>
+                                <option value="总裁办">总裁办</option>
+                                <option value="财务部">财务部</option>
+                                <option value="法务部">法务部</option>
+                                <option value="研发部">研发部</option>
+                                <option value="销售部">销售部</option>
+                            </select>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="user">
+                            使用人:
+                        </label>
+                        <div class="col-sm-5">
+                            <input autocomplete="off" placeholder="输入使用人关键字" type="text" ng-blur="hideSel()" ng-change="selectTip()" name="user" ng-model="user" class="form-control">
+                            <ul class="dropdown-menu sel-user" style="margin-left: 15px">
+                                <!--<li ng-repeat="y in userTips"><a ng-click="selectUser($event)" data-id="{{y.id}}" href="#">{{y.name}}</a></li>-->
+                            </ul>
+                        </div>
+                        <div class="col-sm-4 userError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="useStatus">使用状态:</label>
+                        <div class="col-sm-5">
+                            <select  data-bv-trigger="blur" name="useStatus" class="form-control input" ng-model="useStatus">
+                                <option value="">请选择使用状态</option>
+                                <option ng-repeat="sel in selArr" value="{{sel}}">{{sel}}</option>
+                            </select>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="resetEdit()" type="button" class="btn btn-default">重置</button>
+                <button ng-click="edit()" type="button" class="btn btn-default">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="static/js/page/device.js"></script>
+</body>
+</html>

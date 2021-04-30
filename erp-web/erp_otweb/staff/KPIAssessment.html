@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>员工-绩效考核KPI</title>
+	<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+
+</head>
+<body>
+<!-- content -->
+<div class="ea-content">
+	<!-- <div class="ea-content-box"> -->
+
+		<!-- <div class="ea-content-con"> -->
+			<!-- left nav -->
+			<div class="left-bar">
+				<ul>
+					<li class="active"><a href="#/staff/KPIAssessment">{{'101018' | translate}}</a></li>
+					<li><a href="#/staff/setkpiassess">{{'101019' | translate}}</a></li>
+					<li><a href="#/staff/stafffiles">{{'101020' | translate}}</a></li>
+					<li><a href="#/staff/stafftable">{{'101021' | translate}}</a></li>
+					<li><a href="#/staff/nbtz">{{'101022' | translate}}</a></li>
+					<li><a href="#/staff/recruit">{{'101023' | translate}}</a></li>
+					<!-- <li><a href="#/staff/client">员工客户管理</a></li> -->
+				</ul>
+			</div>
+
+			<!-- right con -->
+			<div class="right-bar-wrap ea-right-content">
+				<!-- <div class="bg-geduan"></div> -->
+				<div class="asj-h10"></div>
+				<div class="right-bar">	
+				<!-- right list -->
+				<div class="table-con-box">
+
+					<div class="dateother-box">{{'101024' | translate}}</div>
+					<div class="kpiassess-box clearfix">
+						<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{'100759' | translate}}：</span><span class="singinfo-box-con">
+						<select  ng-model="company" ng-options="item as item.companyName for ($index,item) in companyList" ng-change="companyget(company)">
+								<!--<option ng-repeat="item in departmentList" value="{{item.id}}" >{{item.department}}</option>-->
+							</select>
+						</span>
+						</div>
+						<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{'101025' | translate}}：</span><span class="singinfo-box-con"><select  ng-model="department" ng-options="item as item.department for ($index,item) in departmentList" ng-change="departmentget(department)">
+								<!--<option ng-repeat="item in departmentList" value="{{item.id}}" >{{item.department}}</option>-->
+							</select></span>
+						</div>
+						<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{'101026' | translate}}：</span><span class="singinfo-box-con"><select  ng-model="group" ng-options="item as item.comgroup for ($index,item) in groupList" ng-change="groupget(group)"></span>
+						</div>
+						<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{'101027' | translate}}：</span><span class="singinfo-box-con"><select>
+								<!--<option>所有</option>-->
+							</select>
+						</div>
+						<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{'101027' | translate}}：</span><span class="singinfo-box-con"><select  ng-model="staff" ng-options=" item.name for ($index,item) in stafflist" ng-change="staffinfoget(staff)"></span>
+						</div>
+						<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{'100003' | translate}}：</span><span class="singinfo-box-con"><select>
+								<!--<option>所有</option>-->
+							</select></span>
+						</div>
+					</div>
+					<div class="kpiassess-box clearfix">
+						<div class="singinfo-box clearfix">
+							<label><input type="checkbox" value=""><i></i>{{'101014' | translate}}</label>
+						</div>
+						<div class="singinfo-box clearfix">
+							<label><input type="checkbox" value=""><i></i>{{'101028' | translate}}</label>
+						</div>
+						<div class="singinfo-box clearfix">
+							<label><input type="checkbox" value=""><i></i>{{'101029' | translate}}</label>
+						</div>
+
+					</div>
+
+					<div id='canvasDiv'></div>
+
+
+
+
+				</div>
+			</div>
+
+		<!-- </div> -->
+	</div>
+</div>
+
+
+
+
+</body>
+</html>

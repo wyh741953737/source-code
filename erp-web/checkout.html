@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>检验订单</title>
+    <link rel="shortcut icon" href="static/favicons.png"/>
+    <style type="text/css">
+        .chek-top {
+            text-align: center;
+        }
+
+        .tip-div {
+            text-align: center;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .code-val {
+            height: 30px;
+            width: 240px;
+            vertical-align: middle;
+        }
+
+        .print-btn {
+            background: rgb(32, 178, 170);
+            height: 30px;
+            color: #fff;
+            border: none;
+        }
+
+        .lanzi {
+            font-size: 26px;
+            border-radius: 50%;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            vertical-align: middle;
+            background-color: gold;
+            margin-bottom: 30px;
+        }
+
+        .print-type {
+            height: 30px;
+            vertical-align: middle;
+        }
+
+        .list-div {
+            width: 92%;
+            margin: 30px auto;
+        }
+
+        .list-tab {
+            border: 1px solid #e1e1e1;
+            width: 100%;
+        }
+
+        .list-thead {
+            background-color: #d9edf7;
+        }
+
+        .list-thead th {
+            border-right: 1px solid #e1e1e1;
+            height: 40px;
+            text-align: center;
+        }
+
+        .list-tbody tr {
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .list-tbody td {
+            border-right: 1px solid #e1e1e1;
+            text-align: center;
+        }
+
+        .img-parent {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .w60 {
+            width: 60px;
+        }
+
+        .w200 {
+            width: 300px;
+            position: absolute;
+            top: -50px;
+            left: 60px;
+        }
+
+        .pdf-list {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .pdflist-con {
+            width: 600px;
+            height: 600px;
+            background-color: #fff;
+            border-radius: 4px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+        }
+
+        .bz-con {
+            width: 90%;
+            height: 660px;
+            padding-top: 40px;
+        }
+
+        .closetk-img {
+            position: absolute;
+            right: -11px;
+            top: -11px;
+            cursor: pointer;
+        }
+
+        .bigclosetk-img {
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .pdftk-ul {
+            height: 550px;
+            overflow-y: auto;
+        }
+
+        .list-ul {
+            padding: 0;
+        }
+
+        .list-li {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 1%;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .w23 {
+            width: 23%;
+        }
+
+        .w48 {
+            width: 48%;
+        }
+
+        .w100 {
+            width: 100%;
+        }
+
+        .small-img {
+            width: 100%;
+        }
+
+        .unit-proul {
+            display: inline-block;
+            vertical-align: top;
+            padding: 0;
+            border: 1px solid #ff8d31;
+        }
+
+        .unit-proli {
+            width: 100%;
+            font-size: 20px;
+        }
+
+        .big-img {
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 2;
+        }
+
+        .sp-num {
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: rgb(32, 178, 170);
+            border-radius: 50%;
+        }
+
+        #toggle-span {
+            color: rgb(32, 178, 170);
+            margin-left: 20px;
+        }
+
+        .curPointer {
+            cursor: pointer;
+        }
+
+        .quehuo-div {
+            display: inline-block;
+            margin-left: 200px;
+            text-align: left;
+        }
+
+        .quehuo-div h3 {
+            color: #f45d1a;
+            margin: 0;
+        }
+
+        .quehuo-div p {
+            font-size: 18px;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .quehuo-btn {
+            padding: 0 30px;
+            font-size: 40px;
+            border: 1px solid #5dbdf2;
+            color: #5dbdf2;
+            border-radius: 4px;
+            background-color: #fff;
+            margin-right: 15px;
+        }
+
+        .quehuo-btn:hover {
+            color: #fff;
+            background-color: #5dbdf2;
+        }
+
+        .queh-tk {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .queh-tk-con {
+            width: 450px;
+            height: 160px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 20px 0;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+
+        .queh-btns {
+            margin-top: 20px;
+            text-align: right;
+            position: fixed;
+            bottom: 20px;
+            right: 50px;
+        }
+
+        .qx-qhbtn {
+            color: #333333;
+            height: 50px;
+            width: 96px;
+            border: 1px solid #cfcfcf;
+            border-radius: 4px;
+            font-size: 20px;
+            background-color: #fff;
+            margin-right: 15px;
+        }
+
+        .qx-qhbtn:hover {
+            background-color: #cfcfcf;
+        }
+
+        .sure-qhbtn {
+            color: #fff;
+            height: 50px;
+            width: 96px;
+            border-radius: 4px;
+            border: 1px solid #ff8d31;
+            background-color: #fff;
+            font-size: 20px;
+            color: #ff8d31;
+        }
+
+        .sure-qhbtn:hover {
+            color: #fff;
+            background-color: #ff8d31;
+        }
+
+        .cuowu {
+            display: inline-block;
+            margin-left: 60px;
+            text-align: left;
+            color: red;
+
+        }
+
+        .cuowu h1 {
+            font-size: 36px;
+            color: red;
+        }
+
+        .cuoWrap {
+            display: none;
+        }
+
+        .green-border {
+            border: 1px solid green;
+        }
+
+        .gold-back {
+            background-color: gold;
+        }
+
+        .mask {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.4);
+            top: 0;
+            cursor: pointer;
+        }
+
+        .mask .icon {
+            background-color: #fff;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid #4A4A4A;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            text-align: center;
+            color: red;
+            line-height: 200px;
+        }
+
+        .mask .checked {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url(erp_otweb/images/loginchecked.png);
+        }
+        .bz-listul{
+            display: flex;
+            justify-content: space-around;
+        }
+        .bz-listul img{
+            width: 100%;
+            max-height: 600px;
+        }
+        .tip-div{
+            width: 470px;
+        }
+        .tip-div .yewuyuan{
+            font-size: 20px;
+            margin: 0 0 5px 0;
+            text-align: left;
+            padding-left: 65px;
+            width: 600px;
+            /* overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis; */
+        }
+        .font-redcolor{
+            color: red;
+        }
+        .pici-yandan-show{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .weiyan-div,.yiyan-div{
+            display: inline-block;
+            vertical-align: top;
+            position: relative;
+        }
+        .yandanNum{
+            font-size: 26px;
+            border-radius: 50%;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            vertical-align: middle;
+            background-color: gold;
+            cursor: pointer;
+        }
+        .ord-list{
+            position: absolute;
+            left: 0;
+            top: 60px;
+            border: 1px solid blue;
+            z-index: 9;
+            padding: 10px 20px 0;
+            border: 1px solid #ececec;
+            display: none;
+            height: 500px;
+            overflow-y: auto;
+            background-color: #fff;
+        }
+        .ord-list li{
+            color: #333333;
+            font-size: 14px;
+            border-bottom: 1px solid #ececec;
+        }
+        .proper-sty{
+            color: #5dbdf2;
+        }
+        .p-podnum{
+            color: red;
+        }
+        .border-red{
+            border: 4px solid red;
+        }
+        .border-color1{
+            border: 4px solid #FF7F00;
+        }
+        .border-color2{
+            border: 4px solid #FFFF00;
+        }
+        .border-color3{
+            border: 4px solid #00FF00;
+        }
+        .border-color4{
+            border: 4px solid #00FFFF;
+        }
+        .border-color5{
+            border: 4px solid #0000FF;
+        }
+        .border-color6{
+            border: 4px solid #8B00FF;
+        }
+        .border-black{
+            border: 4px solid black;
+        }
+        .bz-img{
+            margin-right: 20px;
+            float: right;
+        }
+    </style>
+</head>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+<body ng-app="barcodeApp" ng-controller="barcodeAppCtrl">
+<div class="chek-top">
+    <div class="tip-div">
+        <p style="text-align: center;height: 60px;">
+            <span title="篮子编号" class="lanzi" ng-show="lanZi" ng-cloak>{{lanZi}}</span>
+            <font size='10' color="lightseagreen">检验订单</font>
+        </p>
+        <p class="yewuyuan" ng-cloak title="业务员：{{yewuyuan}} 群主：{{ownerName}} 用户：{{yonghu}}">
+            <span ng-show="yewuyuan">业务员：{{yewuyuan}}</span>
+            <span ng-show="ownerName">群主：{{ownerName}}</span>
+            <span ng-show="yonghu">用户：{{yonghu}}</span>
+        </p>
+        <p class="yewuyuan" ng-show="ywyNote" title="{{'留言：' + ywyNote}}" ng-cloak>留言：{{ywyNote}}</p>
+        <!-- <p class="yewuyuan" ng-show="yonghu" ng-cloak>用户：{{yonghu}}</p> -->
+        <select class="print-type" ng-change="cheSelFun()" ng-model="printType">
+            <option value="checkMd">检验订单</option>
+            <option value="queryPdf">获取面单pdf</option>
+            <!-- <option value="newQueryPdf">新获取面单pdf</option> -->
+        </select>
+        <input class="code-val" id="tx" type="text" placeholder="请扫描追踪号" ng-keyup="enterSearch($event)"/>
+        <!-- <span class="lanzi" ng-show="lanZi" ng-cloak>{{lanZi}}</span> -->
+    </div>
+    <div class="quehuo-div">
+        <h3>当检查到该订单货未配齐的情况时:</h3>
+        <p>1.点击下方的缺货按钮</p>
+        <p>2.然后将货物放置一旁,稍后重新入库</p>
+        <button ng-click="QueHuoClick()" class='quehuo-btn'>{{QueHuoTxt}}</button>
+        <button ng-show="isQueHuo" ng-click="QueHuoSub()" class='quehuo-btn'>提交选择</button>
+    </div>
+    <button ng-click="jyspFun()" class='quehuo-btn'>验商品错误?点这里</button>
+    <div class="pici-yandan-show" ng-show="weiYanDanList.length>0||yiYanDanList.length>0">
+        <div class="weiyan-div">
+           未验: <span class="yandanNum">{{weiYanDanList.length}}</span>
+           <ul class="ord-list">
+               <li ng-repeat="item in weiYanDanList">{{item.id}}</li>
+           </ul>
+        </div>
+        <div class="yiyan-div">
+           已验: <span class="yandanNum">{{yiYanDanList.length}}</span>
+           <ul class="ord-list">
+                <li ng-repeat="item in yiYanDanList">{{item.id}}</li>
+           </ul>
+        </div>
+    </div>
+    <div class="cuowu">
+        <div class="cuoWrap">
+            <h1>X</h1>
+            <p>验证错误</p>
+            <p>扫码内容：<span></span></p>
+        </div>
+
+    </div>
+</div>
+<div class="list-div">
+    <ul class="list-ul">
+        <li class="list-li" ng-repeat="item in list" ng-style="{'border':'4px solid' + item.color}" ng-class='{"w23":!item.productRemark,"w48":item.productRemark}' ng-cloak>
+            <ul class="unit-proul unit-product"
+                ng-class='{"w100":!item.productRemark,"w48":item.productRemark,"green-border":item.quantity==item.yanDanNum}'>
+                <li class="unit-proli" ng-if="item.podNum">pod编码: <span class="p-podnum">{{item.podNum}}</span></li>
+                <li class="unit-proli">长sku: <span class="p-sku">{{item.sku}}</span></li>
+                <li class="unit-proli" ng-if="item.sku.substring(0,4)!='BZSP'">短sku: <span class="p-shortsku">{{item.shortSku}}</span></li>
+                <li class="unit-proli">
+                    <span ng-if="item.sku.substring(0,4)!='BZSP'">商品数量: </span>
+                    <span ng-if="item.sku.substring(0,4)=='BZSP'">包装数量: </span>
+                    <span class="sp-num">{{item.quantity}}</span>
+                    <span ng-if="item.sku.substring(0,4)!='BZSP'">检验次数: </span>
+                    <span ng-if="item.sku.substring(0,4)!='BZSP'" class="sp-num">{{item.yanDanNum}}</span>
+                    <img class="bz-img" ng-if="item.sku.substring(0,4)=='BZSP'" src="static/image/public-img/bz-img.svg">
+                </li>
+                <!-- ng-click="showMoreFun()" -->
+                <li class="unit-proli" ng-if="item.sku.substring(0,4)!='BZSP'">
+                    <!-- <span ng-if="!item.pack" style="color:#d9534f;">无指定包装</span> -->
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('COMMON') != -1">普货</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('ELECTRONIC') != -1">电子</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('BATTERY') != -1">内置电池</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('IS_ELECTRICITY') != -1">纯电池</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY=='HAVE_LIQUID'">含液体</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('HAVE_STIVE') != -1">含粉末</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('HAVE_CREAM') != -1">含膏状</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('HAVE_MAGNETISM') != -1">含磁</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('EDGE') != -1">尖锐</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('NO_ENTRY') != -1">海关禁售</span>
+                    <span class="proper-sty" ng-if="item.PROPERTY.split(',').indexOf('CLONE') != -1">仿牌</span>
+                </li>
+                <li class="unit-proli">
+                    <div>库位: {{item.pathName}}</div>
+                </li>
+                <li class="unit-proli" ng-if="item.kucun" ng-show="showMorePath&&$index>0"
+                    ng-repeat="item2 in item.kucun">
+                    <div>{{item2.pathName}} <span>库存数量:</span> {{item2.goodsNum}}</div>
+                </li>
+                <li class="unit-pimg">
+                <span ng-mouseenter="mouseenterFun(item,$index,$event)"
+                      ng-mouseleave="mouseleaveFun(item,$index,$event)" class="img-parent">
+                  <img class="small-img" ng-src="{{item.img}}">
+                  <img class="big-img" ng-show="item.show" ng-src="{{item.img}}">
+                </span>
+                </li>
+                <li ng-if="item.podInfo">
+                    <div>个性化信息:</div>
+                  <span>文本：{{item.podInfo.text}}</span>
+                  <img class="small-img" ng-src="{{item.podInfo.image}}">
+                  <div ng-if="item.podInfo.customPodDesign">
+                      #客户定制信息：<br/>
+                    <span>产品颜色：{{item.podInfo.customPodDesign.cj_pod_color}}</span><br/>
+                    <div>
+                       <span>正面</span><br/>
+                       <span>定制文字：{{item.podInfo.customPodDesign.cj_pod_zone_front.podtext}}</span><br/>
+                       <span>定制文字：{{item.podInfo.customPodDesign.cj_pod_zone_front.fontsize}}</span><br/>
+                       <span>字体颜色：{{item.podInfo.customPodDesign.cj_pod_zone_front.fontcolor}}</span><br/>
+                       <span>字体名字：{{item.podInfo.customPodDesign.cj_pod_zone_front.fontfamily}}</span><br/>
+                       附件：
+                       <img class="small-img" ng-src="{{item.podInfo.customPodDesign.cj_pod_zone_front.podimage}}">
+                       效果图：
+                       <img class="small-img" ng-src="{{item.podInfo.customPodDesign.cj_pod_zone_front.design_sketch}}">
+                    </div>
+                    <div>
+                           <span>反面</span><br/>
+                           <span>定制文字：{{item.podInfo.customPodDesign.cj_pod_zone_back.podtext}}</span><br/>
+                           <span>定制文字：{{item.podInfo.customPodDesign.cj_pod_zone_back.fontsize}}</span><br/>
+                           <span>字体颜色：{{item.podInfo.customPodDesign.cj_pod_zone_back.fontcolor}}</span><br/>
+                           <span>字体名字：{{item.podInfo.customPodDesign.cj_pod_zone_back.fontfamily}}</span><br/>
+                           附件：
+                           <img class="small-img" ng-src="{{item.podInfo.customPodDesign.cj_pod_zone_back.podimage}}">
+                           效果图：
+                           <img class="small-img" ng-src="{{item.podInfo.customPodDesign.cj_pod_zone_back.design_sketch}}">
+                    </div>
+                  </div>
+                  <div ng-if="item.podInfo.customDesign">
+                      客户定制：<br/>
+                      <span>产品颜色：{{item.podInfo.customDesign.color}}</span><br/>
+                      <div>
+                         <span>正面</span><br/>
+                         <span>定制文字：{{item.podInfo.customDesign.front.text}}</span><br/>
+                         <span>定制文字：{{item.podInfo.customDesign.front.fontsize}}</span><br/>
+                         <span>字体颜色：{{item.podInfo.customDesign.front.fontcolor}}</span><br/>
+                         <span>字体名字：{{item.podInfo.customDesign.front.fontfamily}}</span><br/>
+                         附件：
+                         <img class="small-img" ng-src="{{item.podInfo.customDesign.front.imgUrl}}">
+                         效果图：
+                         <img class="small-img" ng-src="{{item.podInfo.customDesign.front.design_sketch}}">
+                      </div>
+                      <div>
+                             <span>反面</span><br/>
+                             <span>定制文字：{{item.podInfo.customDesign.back.text}}</span><br/>
+                             <span>定制文字：{{item.podInfo.customDesign.back.fontsize}}</span><br/>
+                             <span>字体颜色：{{item.podInfo.customDesign.back.fontcolor}}</span><br/>
+                             <span>字体名字：{{item.podInfo.customDesign.back.fontfamily}}</span><br/>
+                             附件：
+                             <img class="small-img" ng-src="{{item.podInfo.customDesign.back.imgUrl}}">
+                             效果图：
+                             <img class="small-img" ng-src="{{item.podInfo.customDesign.back.design_sketch}}">
+                      </div>
+                  </div>
+                  <div ng-if="item.podInfo.customMessgae">
+                      定制区域
+                        <div>
+                            <span>正面</span><br/>
+                            展示图：
+                            <img class="small-img" ng-src="{{item.podInfo.customMessgae.zone.front.showimgurl}}">
+                            定制位置：
+                            <img class="small-img" ng-src="{{item.podInfo.customMessgae.zone.front.editimgurl}}">
+                        </div>
+                        <div>
+                            <span>反面</span><br/>
+                            展示图：
+                            <img class="small-img" ng-src="{{item.podInfo.customMessgae.zone.back.showimgurl}}">
+                            定制位置：
+                            <img class="small-img" ng-src="{{item.podInfo.customMessgae.zone.back.editimgurl}}">
+                        </div>
+                  </div>
+                </span>
+                </li>
+            </ul>
+            <ul class="unit-proul" ng-class='{"w100":!item.productRemark,"w48":item.productRemark}' ng-if="item.productRemark">
+                <li class="unit-proli">
+                    包装:
+                    <span ng-repeat="item2 in item.productRemark.pack">{{item2+' '}}</span>
+                </li>
+                <!-- <li class="unit-proli">短sku: {{item.shortSku}}</li> -->
+                <li class="unit-proli">图片数量: <span class="sp-num">{{item.productRemark.imgs.length}}</span></li>
+                <li class="unit-pimg" ng-repeat="img in item.productRemark.imgs">
+                    <img ng-click="showBigFun(item.productRemark.imgs)" style="width: 100%;cursor:pointer;" ng-src="{{img}}"
+                         ng-if="$index < 1">
+                </li>
+            </ul>
+            <div class="mask" ng-show="isQueHuo" ng-click="SelectQueHuo(item)">
+                <span class="icon" ng-class="{checked:item.isSelect}">
+                    <span ng-show="!item.isSelect">这个商品找不到？请点击这里</span>
+                </span>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="pdf-list" ng-show="pdftkFlag" ng-cloak>
+    <div class="pdflist-con">
+        <img class="closetk-img" ng-click="pdftkFlag=false" src="static/image/public-img/close-circle.png">
+        <ul class="pdftk-ul">
+            <li ng-repeat="item in pdfArr">
+                <a class="pdf-link" target="_black" ng-href="{{item}}">{{item}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="pdf-list" ng-show="newPdfFlag" ng-cloak>
+    <div class="pdflist-con">
+        <img class="closetk-img" ng-click="newPdfFlag=false" src="static/image/public-img/close-circle.png">
+        <ul class="pdftk-ul">
+            <li ng-repeat="item in newPdfJson">
+                <a class="pdf-link" target="_black" ng-href="{{'http://'+item.pdfUrl}}">{{'http://'+item.pdfUrl}}</a>
+                <!-- <span>{{item.stockNumber}}</span> -->
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 包装图 -->
+<div class="pdf-list" ng-show="showBigFlag" ng-cloak>
+    <div class="pdflist-con bz-con">
+        <img class="bigclosetk-img" ng-click="showBigFlag=false" src="static/image/public-img/download.png">
+        <ul class="bz-listul" style="overflow: auto;padding-left: 0;">
+            <li ng-repeat="item in imgList">
+                <img ng-src="{{item}}">
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="queh-tk" ng-show="quehuoFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">确定该订单缺货吗?</p>
+        <div class="queh-btns">
+            <button ng-click="quehuoFlag=false" class="qx-qhbtn">取消</button>
+            <button ng-click="sureQhFun()" class="sure-qhbtn">确定</button>
+        </div>
+    </div>
+</div>
+<div class="queh-tk" ng-show="jyspFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">确定该订单检验商品失败吗?</p>
+        <div class="queh-btns">
+            <button ng-click="jyspFlag=false" class="qx-qhbtn">取消</button>
+            <button ng-click="sureJysbFun()" class="sure-qhbtn">确定</button>
+        </div>
+    </div>
+</div>
+<!-- <div class="queh-tk" ng-show="lanjieFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该订单需要拦截,不要发件!</p>
+        <p ng-show="epacketLanJieFlag" style="font-size: 20px;">E邮宝重复分配的面单,请交给打单组!</p>
+        <div class="queh-btns">
+            <button ng-click="lanjieFlag=false" class="qx-qhbtn">关闭</button>
+        </div>
+    </div>
+</div> -->
+<div class="queh-tk" ng-show="isWeiYanFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该追踪号不属于当前批次,继续验货会中断该批次验单,确定继续验单吗?</p>
+        <div class="queh-btns">
+            <button ng-click="isWeiYanFlag=false" class="qx-qhbtn">取消</button>
+            <button ng-click="sureEndCurPiCiFun()" class="sure-qhbtn">确定</button>
+        </div>
+    </div>
+</div>
+<div class="queh-tk" ng-show="jiufenOrdFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该订单是纠纷订单，请勿进行打包操作。</p>
+        <div class="queh-btns">
+            <button ng-click="addtoLanjieSuc()" class="qx-qhbtn">我已拦截</button>
+        </div>
+    </div>
+</div>
+
+<div class="queh-tk" ng-show="mdsxFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该订单的运单号已经失效，请联系打单组重新打印面单。</p>
+        <div class="queh-btns">
+            <button ng-click="mdsxFlag=false" class="qx-qhbtn">我已了解</button>
+        </div>
+    </div>
+</div>
+<div class="queh-tk" ng-show="lanjieFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该订单是拦截订单，请勿进行打包操作。</p>
+        <div class="queh-btns">
+            <button ng-click="addtoLanjieSuc()" class="qx-qhbtn">我已拦截</button>
+        </div>
+    </div>
+</div>
+<div class="queh-tk" ng-show="lanjieSuccessFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该订单是拦截成功订单，请勿进行打包操作。</p>
+        <div class="queh-btns">
+            <button ng-click="lanjieSuccessFlag=false" class="qx-qhbtn">我已拦截</button>
+        </div>
+    </div>
+</div>
+<div class="queh-tk" ng-show="mdgqFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">此订单面单已过期，请重新打印面单！</p>
+        <div class="queh-btns">
+            <button ng-click="mdgqFlag=false" class="qx-qhbtn">取消出库</button>
+        </div>
+    </div>
+</div>
+<div class="queh-tk" ng-show="mdgq2Flag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">此订单面单已过期，请更新追踪号后打印。</p>
+        <div class="queh-btns">
+            <button ng-click="mdgq2Flag=false" class="qx-qhbtn">我已了解</button>
+        </div>
+    </div>
+</div>
+<audio class="audio-cg" src="static/audio/cg.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-shibai" src="static/audio/shibai.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-jydysp" src="static/audio/jianyanguoduo.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-ydwc" src="static/audio/ydwc.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-cxsmydh" src="static/audio/cxsmydh.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-lanjie-bfj" src="static/audio/lanjie-bfj.mp3" preload="auto">
+    浏览器不支持audio标签,请升级 拦截订单 不发件
+</audio>
+<audio class="audio-danpin" src="static/audio/danpin.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-duopin" src="static/audio/duopin.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-cn-wtdputdaz" src="static/audio/wtdputdaz.mp3" preload="auto">
+    浏览器不支持audio标签,请升级 中文 E邮宝问题单
+</audio>
+</body>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src='./static/layer/layer.js'></script>
+<script type="text/javascript">
+    (function (angular) {
+        var app = angular.module('barcodeApp', ['service']);
+        app.controller('barcodeAppCtrl', ['$scope', "erp", function ($scope, erp) {
+            var bs = new Base64();
+            var erpLoginName = bs.decode(localStorage.getItem('erploginName') == undefined ? '' : localStorage.getItem('erploginName'));
+            $scope.isQueHuo = false;
+            const colorArr = ['#FF7F00','#FFFF00','#00FF00','#00FFFF','#0000FF','#8B00FF']
+            localStorage.setItem('previousCode', "");
+            localStorage.setItem('previousOrderId', "");
+            $("body").css("width", $(window).width());
+            $("#tx").focus();
+            $('.weiyan-div').mouseenter(function () {
+                console.log($scope.weiYanDanList.length,$scope.weiYanDanList)
+                if($scope.weiYanDanList&&$scope.weiYanDanList.length>0){
+                    $(this).children('.ord-list').show();
+                }
+            })
+            $('.weiyan-div').mouseleave(function () {
+                $(this).children('.ord-list').hide();
+            })
+            $('.yiyan-div').mouseenter(function () {
+                if($scope.yiYanDanList&&$scope.yiYanDanList.length>0){
+                    $(this).children('.ord-list').show();
+                }
+            })
+            $('.yiyan-div').mouseleave(function () {
+                $(this).children('.ord-list').hide();
+            })
+            $scope.showBigFun = function (list) {
+                $scope.showBigFlag = true;
+                $scope.imgList = list;
+            }
+            $scope.enterSearch = function (e) {
+                if (e.keyCode == 13) {
+                    $scope.bulkPrintOFun();
+                }
+            }
+            $scope.mouseenterFun = function (item, index, ev) {
+                if ($(ev.target).hasClass('small-img')) {
+                    $scope.list[index].show = true;
+                    var windowW = $(window).width();
+                    console.log(windowW)
+                    var x = ev.pageX;
+                    console.log(x)
+                    console.log(windowW / 2)
+                    if (x > windowW / 2) {
+                        // console.log('you')
+                        $('.big-img').eq(index).css('right', 0)
+                    } else {
+                        // console.log('zuo')
+                        $('.big-img').eq(index).css('left', 0)
+                    }
+                    $('.big-img').eq(index).css('top', $(ev.target).height() / 2 + 9 + 'px')
+                }
+            }
+            $scope.mouseleaveFun = function (item, index, ev) {
+                $scope.list[index].show = false;
+            }
+            $scope.colorArr = ['red','blue','green','black'];
+            $scope.printType = 'checkMd';
+            $scope.cheSelFun = function () {
+                console.log($scope.printType)
+                if ($scope.printType == 'checkMd') {
+                    $("#tx").attr('placeholder', '请扫描追踪号')
+                } else {
+                    $("#tx").attr('placeholder', '请扫描批次号')
+                }
+            }
+
+            $scope.showMorePath = false;
+            $scope.showMoreFun = function () {
+                $scope.showMorePath = !$scope.showMorePath;
+                $('#toggle-span').toggleClass('.glyphicon glyphicon-triangle-top');
+            }
+            //确定货未配齐
+            $scope.sureQhFun = function () {
+                $scope.quehuoFlag = false;
+                erp.postFun('processOrder/checkOrder/shortage', {"track": $scope.trackCode}, function (data) {
+                    console.log(data)
+                    if (data.data.code == 200) {
+                        layer.msg('成功')
+                    } else if (data.data.code == 404) {
+                        layer.msg('请扫描追踪号', {tiem: 3000})
+                    } else {
+                        layer.msg(data.data.message, {tiem: 5000})
+                    }
+                }, function (data) {
+                    layer.msg('网络错误')
+                })
+            }
+            //确定商品检验错误
+            $scope.jyspFun = function () {
+                $scope.jyspFlag = true;
+            }
+            $scope.sureJysbFun = function () {
+                $scope.lastResult = true;
+                var jyspData = {};
+                jyspData.zhuiZongHao = $scope.trackCode;
+                jyspData.msg = scanSpArr;
+                jyspData.caoZuoRen = erpLoginName;
+                jyspData.status = '0';
+                try {
+                    var param = {
+                        orderId: $scope.cjorderid,
+                        operationMsg: "验单失败",
+                        // track: $scope.trackCode
+                    }
+                    erp.postFun('processOrder/checkOrder/addVerifyOrderOperationRecord', param, function() {
+                        localStorage.setItem('previousCode', "");
+                        localStorage.setItem('previousOrderId', "");
+                    })
+                } catch (err) {}
+                erp.postFun('processOrder/checkOrder/checkSheet', JSON.stringify(jyspData), function (data) {
+                    console.log(data)
+                    $("#tx").val('');
+                    if (data.data.code == 200) {
+                        $scope.jyspFlag = false;
+                        scanSpArr = [];
+                        $scope.list = null;
+                        $("#tx").val('');
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+            function isPiciSkuFun(str){
+                let strReg = /^[0-9]*$/;
+                let isPiciSkuFlag = strReg.test(str);
+                if(isPiciSkuFlag&&str.length>8){
+                    let piciSkuObj = {'shortSku':'','piciCode':'','longSku':''};
+                    piciSkuObj.shortSku = str.substring(0,str.length-7);
+                    piciSkuObj.piciCode = str.substring(str.length-7);
+                    piciSkuObj.longSku = str;
+                    console.log(piciSkuObj)
+                    return piciSkuObj
+                }
+            }
+            function getProducts(code,originalCode) {
+                $scope.epacketLanJieFlag = false;
+                if (code.length > 26) {
+                    var midStr = code;
+                    var subResStr = code.substring(midStr.length - 26);
+                    if (subResStr.substring(0, 1) == '9') {
+                        code = subResStr;
+                    }
+                }
+                console.log(code.indexOf('JJD'))
+                if(code.indexOf('JJD')==0){
+                    code = code.substring(1)
+                    console.log(code)
+                }
+                layer.load(2);
+                erp.postFun('processOrder/checkOrder/scanLogisticNumber', {
+                    "logisticNumber": code,
+                    "superLogisticNumber": originalCode
+                }, function (data) {
+                    jlydFun(code)
+                    layer.closeAll('loading');
+                    if (data.data.code == '200') {
+                        if (data.data.data.lanJie) {
+                            //$scope.lanjieFlag = true;
+                            $('.audio-lanjie-bfj').get(0).play();
+                            $("#tx").val('');
+                            return
+                        }
+                        $("#tx").val('');
+                        $scope.lastResult = false;
+                        var result = data.data.data;
+                        var resList = result.list;
+                        localStorage.setItem('previousCode', code);
+                        localStorage.setItem('previousOrderId', result.cjOrderId)
+                        $scope.cjorderid = result.cjOrderId;
+                        $scope.yewuyuan = result.yewuyuan || '';
+                        $scope.yonghu = result.yonghu || '';
+                        $scope.lanZi = result.lanZi;
+                        $scope.ywyNote = result.erpNote || '';
+                        result.ownerName === 'null'?'':result.ownerName;
+                        $scope.ownerName = result.ownerName || '';
+                        let store=result.store+'';
+                        let storeMap = {
+                            '0':28,
+                            '1':30,
+                            '5':30
+                        }
+                        if(store && $scope.lanZi>storeMap[store]){
+                            $scope.lanZi = `${parseInt($scope.lanZi/storeMap[store])}-${$scope.lanZi%storeMap[store]}`;
+                        }else{
+                            $scope.lanZi = result.lanZi || '无';
+                        }
+
+                        var resJson = [];
+                        /*  for (var i = 0; i < resList.length; i++) {
+                            for (var j = i + 1; j < resList.length; j++) {
+                                if (resList[i].sku&&resList[i].sku == resList[j].sku&&resList[i].sku.indexOf('BZSP')==-1) {
+                                    resList[i].quantity = resList[i].quantity + resList[j].quantity;
+                                    resList.splice(j, 1)
+                                    j--
+                                }
+                            }
+                        }*/
+	
+		                    // 相同sku商品合并数量相加
+	
+		                    resList = resList.reduce((obj, item) => {
+                                item.quantity = Number(item.quantity)
+                                let find = obj.find(i => (i.sku === item.sku && !i.podNum));//podNum
+                                console.log(find,obj,item,'obj====')
+			                    if (find) {
+				                    find.quantity += Number(item.quantity)
+				                    item.groupId = find.groupId
+			                    } else {
+				                    obj.push({ ...item })
+			                    }
+			                    return obj
+		                    }, [])
+                        for (var p = 0; p < resList.length; p++) {
+                            resList[p].show = false;
+                            resList[p].isSelect = false;
+                            resList[p].yanDanNum = 0;
+                            if(resList[p].img){
+                                resList[p].img = 'https://cc-west-usa.oss-accelerate.aliyuncs.com'+resList[p].img.split('.com')[1]
+                            }
+                            
+                            if (resList[p].productRemark) {
+                                resList[p].productRemark.imgs = JSON.parse(resList[p].productRemark.imgs);
+                                resList[p].productRemark.pack = JSON.parse(resList[p].productRemark.pack);
+                                resList[p].productRemark.packKey = JSON.parse(resList[p].productRemark.packKey)
+                            }
+                            if(resList[p].properties){
+                                try {
+                                    resList[p].podInfo = JSON.parse(resList[p].properties);
+                                } catch (error) {
+                                    console.log(error)
+                                }
+                            }
+                        }
+                       
+		                    //console.log(sortArr($scope.list,'groupId'))
+		                    let arr = []
+		                    resList = resList.map((o,i) => ({...o, idx:i}))
+		                    sortArr(resList,'groupId').forEach((o,i) =>{
+		                      let ci = i+1 > colorArr.length ? 0 : i
+			                    o.forEach(a => { a.color = colorArr[ci] })
+			                    console.log(o)
+		                      arr.push(...o)
+		                    })
+		                    arr.sort((a , b) =>{
+		                      return a.idx - b.idx
+		                    })
+		                    $scope.list = arr
+		                    console.log('==================',$scope.list)
+                    } else if (data.data.message=='这是纠纷订单'){
+                        $scope.jiufenOrdFlag = true;
+                        $scope.list = [];
+                    }
+                    console.log($scope.list)
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                })
+            }
+            //记录验单
+            $scope.weiYanDanList = [];
+            $scope.yiYanDanList = [];
+            function jlydFun(trackNum) {
+                if(!$scope.weiYanDanList||JSON.stringify($scope.weiYanDanList)=='[]'){
+                    $scope.weiYanDanList = [];
+                    $scope.yiYanDanList = [];
+                    erp.postFun('processOrder/checkOrder/getDopeyVerificationNote',{
+                        Trackingnumber:trackNum
+                    },function (data) {
+                        console.log(data,'-=-=-=-=-=-=-=-=-===--55555')
+                        $scope.weiYanDanList = data.data.data.cjorderInfoList;
+                        var weiLen = $scope.weiYanDanList.length;
+                        for(var i = 0;i<weiLen;i++){
+                            console.log("===",$scope.weiYanDanList[i].trackingnumber==trackNum);
+                            if ($scope.weiYanDanList[i]) {
+                                if($scope.weiYanDanList[i].trackingnumber==trackNum){
+                                    $scope.yiYanDanList.push($scope.weiYanDanList[i])
+                                    $scope.weiYanDanList.splice(i,1)
+                                    break
+                                }
+                            } else {
+                                console.log($scope.weiYanDanList[i])
+                            }
+                        }
+                    },function (data) {
+                        console.log(data)
+                    })
+                }else{
+                    $scope.isWeiYanFlag = false;
+                    var pArr = $scope.weiYanDanList.concat($scope.yiYanDanList)
+                    var pLen = pArr.length;
+                    console.log(pArr)
+                    for(var k = 0;k<pLen;k++){
+                        if(pArr[k].trackingnumber==trackNum){
+                            if($scope.weiYanDanList[k]){//在未匹配
+                                $scope.yiYanDanList.push($scope.weiYanDanList[k])
+                            }else{
+                                //属于改批次但是已经验过单
+                            }
+                            $scope.weiYanDanList.splice(k,1)
+                            break
+                        }
+                        if(k==pLen-1){
+                            $scope.isWeiYanFlag = true;
+                            $scope.endTrackNum = trackNum;
+                            layer.msg('未找到')
+                        }
+                    }
+                }
+            }
+            $scope.sureEndCurPiCiFun = function () {
+                $scope.weiYanDanList = [];
+                $scope.yiYanDanList = [];
+                $scope.isWeiYanFlag = false;
+                erp.postFun('processOrder/checkOrder/getDopeyVerificationNote',{
+                    Trackingnumber:$scope.endTrackNum
+                },function (data) {
+                    console.log(data,'-------------=============233242')
+                    $scope.weiYanDanList = data.data.result.cjorderInfoList;
+                    console.log($scope.weiYanDanList,'----------')
+                    var weiLen = $scope.weiYanDanList.length;
+                    for(var i = 0;i<weiLen;i++){
+                        if ($scope.weiYanDanList[i]) {
+                            if($scope.weiYanDanList[i].trackingnumber==$scope.endTrackNum){
+                                $scope.yiYanDanList.push($scope.weiYanDanList[i])
+                                $scope.weiYanDanList.splice(i,1)
+                            }
+                        } else {
+                            console.log($scope.weiYanDanList[i])
+                        }
+                    }
+                    console.log($scope.yiYanDanList)
+                    console.log($scope.weiYanDanList)
+                },function (data) {
+                    console.log(data)
+                })
+            }
+            $scope.closeJfOrdFun = function(){
+                $scope.jiufenOrdFlag = false;
+                $scope.list = null;
+                $("#tx").val('');
+            }
+            //批量打印条形码
+            var scanSpArr = [];
+            $scope.lastResult = false;
+
+            function jyErrFun() {
+                $scope.lastResult = true;
+                var jyspData = {};
+                jyspData.zhuiZongHao = $scope.trackCode;
+                jyspData.msg = scanSpArr;
+                jyspData.caoZuoRen = erpLoginName;
+                jyspData.status = '0';
+                erp.postFun('processOrder/checkOrder/checkSheet', JSON.stringify(jyspData), function (data) {
+                    console.log(data)
+                    if (data.data.code == 200) {
+                        scanSpArr = [];
+                        $("#tx").val('');
+                    } else {
+                        $("#tx").val('');
+                        layer.msg('执行失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                },{layer:true})
+            }
+            function PrintCode(url) {
+                $.ajax({
+                    url: 'http://127.0.0.1:8808?number='+url,
+                    async: true,
+                    cache: false,
+                    dataType: 'text',
+                    error: function (xhr) {
+                        console.log(xhr)
+                    },
+                    success: function (data) {
+                        $('.yundanhao').val('');
+                        $('.yundanhao').focus();
+                        // console.log(urlArr,i+1,urlArr[i+1])
+                        // PrintCode(urlArr,i+1)
+                    }
+                })
+            }
+            $scope.bulkPrintOFun = function () {
+                $scope.yewuyuan = '';
+                $scope.yonghu = '';
+                console.log(!$("#tx").val())
+                console.log($scope.printType)
+                if (!$("#tx").val()) return;
+                var code = $.trim($("#tx").val());
+                var originalCode = $.trim($("#tx").val());
+                let piciSkuObj = isPiciSkuFun(code)
+                if ($scope.printType == 'checkMd') {
+                    console.log($scope.lastResult)
+                    if ($scope.list == undefined || $scope.list == null || $scope.lastResult) {
+                        $('.cuoWrap').hide();
+                        if(code.length==8){//批次验证
+                            erp.postFun('processOrder/checkOrder/jianyanPiCiShiDanPinHaiShiDuoPin',{
+                                'piCiHao':code
+                            },function(data){
+                                if (data.data.data) {
+                                    layer.msg('您已完成当前单品批次的验单')
+                                    $('.audio-danpin').get(0).play()
+                                    let danPinJiJianJson = {};
+                                    danPinJiJianJson.piCiHao = code;
+                                    danPinJiJianJson.type = 'danPinPiCi';
+                                    danPinJiJianJson.caoZuoRen = erpLoginName;
+                                    danPinJiJianJson.status = '1';
+                                    erp.postFun('processOrder/checkOrder/checkSheet', JSON.stringify(danPinJiJianJson), function (data) {
+                                        console.log(data)
+                                        $("#tx").val('');
+                                    }, function (data) {
+                                        console.log(data)
+                                    })
+                                } else {
+                                    layer.msg('此批次为多品,请按正常验单程序进行操作')
+                                    $('.audio-duopin').get(0).play()
+                                }
+                            },function(data){
+                                console.log(data)
+                            })
+                            erp.postFun2('newScanPiCiGetMianDan',{
+                                "code":code
+                            },function (data) {
+                                console.log(data)
+                                erp.closeLoad()
+                                console.log(JSON.parse(data.data.result))
+                                $scope.newPdfJson = JSON.parse(data.data.result);
+                                // $scope.newPdfFlag = true;
+                                if($scope.newPdfJson){
+                                    var printJson = '';
+                                    for(var i = 0,len=$scope.newPdfJson.length;i<len;i++){
+                                        if ($scope.newPdfJson[i].pdfUrl.indexOf('http')==-1) {
+                                            PrintCode('http://'+$scope.newPdfJson[i].pdfUrl.replace('?AN','').replace('?MING',''))
+                                        } else {
+                                            PrintCode($scope.newPdfJson[i].pdfUrl.replace('?AN','').replace('?MING',''))
+                                        }
+                                    }
+                                    // PrintCode($scope.newPdfJson,0)
+                                }
+                            },function (data) {
+                                console.log(data)
+                                erp.closeLoad()
+                            })
+                            $("#tx").val('');
+                            return
+                        }
+                        if (code.length > 22) {
+                            var subResStr = code.substring(code.length - 22);
+                            if (subResStr.substring(0, 1) == '9') {
+                                code = subResStr;
+                            }
+                            try {
+                                if(localStorage.getItem('previousCode') && localStorage.getItem('previousCode') !== code) {  // 每次验单前 将追踪号存入localStorage中， 如果该验单成功则清除该localStorage， 否则进入下一个追踪号验单时候，发送上一个追踪号验单失败记录
+                                    var param = {
+                                        orderId: localStorage.getItem('previousOrderId'),
+                                        operationMsg: "验单失败",
+                                        // track: localStorage.getItem('previousCode')
+                                    }
+                                    erp.postFun('processOrder/checkOrder/addVerifyOrderOperationRecord', param, function() {})
+                                }
+                            }
+                            catch (err) {}
+                        }
+                        console.log(code)
+                        $scope.trackCode = code;
+                        console.log($scope.trackCode)
+                        getProducts(code,originalCode);
+                        checkOrders(code)
+                    } else {
+                        if ($scope.lastResult) {
+                            $('.audio-cxsmydh').get(0).paly()
+                            $("#tx").val('')
+                            return
+                        }
+                        if ($scope.list.length > 0) {
+                            if(piciSkuObj){
+                                code = piciSkuObj.shortSku;
+                            }
+                            if (code.length < 8 || code.length ==13 || code.toUpperCase().indexOf('CJ') != -1 || code.startsWith('P')) {
+                                for (var i = 0, len = $scope.list.length; i < len; i++) {
+                                    if(code.startsWith('P')){//pod验单
+                                        if(code == $scope.list[i].podNum){
+                                            $scope.list[i].yanDanNum++
+                                            $("#tx").val('');
+                                            $('.list-div .unit-product').removeClass('gold-back')
+                                            $('.list-div .unit-product').eq(i).addClass('gold-back')
+                                            if ($scope.list[i].yanDanNum > $scope.list[i].quantity) {
+                                                $('.audio-jydysp').get(0).play();
+                                                // layer.msg('大于商品数量')
+                                                jyErrFun()
+                                                break
+                                            }
+                                            scanSpArr.push({
+                                                "sku": code,
+                                                "flag": 1
+                                            })
+                                            console.log(scanSpArr)
+                                            $('.audio-cg').get(0).play();
+                                            console.log($scope.list[i])
+                                            break
+                                        }
+                                        if (i == len - 1) {//执行完毕未找到
+                                            scanSpArr.push({
+                                                "sku": code,
+                                                "flag": 0
+                                            })
+                                            $('.audio-shibai').get(0).play();
+                                            jyErrFun()
+                                        }
+                                    }else{
+                                        if (code == $scope.list[i].shortSku || code == $scope.list[i].sku || code == $scope.list[i].podNum || (piciSkuObj && piciSkuObj.longSku && piciSkuObj.longSku==$scope.list[i].shortSku)) {
+                                            $scope.list[i].yanDanNum++
+                                            $("#tx").val('');
+                                            $('.list-div .unit-product').removeClass('gold-back')
+                                            $('.list-div .unit-product').eq(i).addClass('gold-back')
+                                            if ($scope.list[i].yanDanNum > $scope.list[i].quantity) {
+                                                $('.audio-jydysp').get(0).play();
+                                                // layer.msg('大于商品数量')
+                                                jyErrFun()
+                                                break
+                                            }
+                                            scanSpArr.push({
+                                                "sku": code,
+                                                "flag": 1
+                                            })
+                                            console.log(scanSpArr)
+                                            $('.audio-cg').get(0).play();
+                                            console.log($scope.list[i])
+                                            break
+                                        }
+                                        if (i == len - 1) {//执行完毕未找到
+                                            scanSpArr.push({
+                                                "sku": code,
+                                                "flag": 0
+                                            })
+                                            $('.audio-shibai').get(0).play();
+                                            jyErrFun()
+                                        }
+                                    }
+                                    // if (code == $scope.list[i].shortSku || code == $scope.list[i].sku || code == $scope.list[i].podNum || (piciSkuObj && piciSkuObj.longSku && piciSkuObj.longSku==$scope.list[i].shortSku)) {
+                                    //     $scope.list[i].yanDanNum++
+                                    //     $("#tx").val('');
+                                    //     $('.list-div .unit-product').removeClass('gold-back')
+                                    //     $('.list-div .unit-product').eq(i).addClass('gold-back')
+                                    //     if ($scope.list[i].yanDanNum > $scope.list[i].quantity) {
+                                    //         $('.audio-jydysp').get(0).play();
+                                    //         // layer.msg('大于商品数量')
+                                    //         jyErrFun()
+                                    //         break
+                                    //     }
+                                    //     scanSpArr.push({
+                                    //         "sku": code,
+                                    //         "flag": 1
+                                    //     })
+                                    //     console.log(scanSpArr)
+                                    //     $('.audio-cg').get(0).play();
+                                    //     console.log($scope.list[i])
+                                    //     break
+                                    // }
+                                    // if (i == len - 1) {//执行完毕未找到
+                                    //     scanSpArr.push({
+                                    //         "sku": code,
+                                    //         "flag": 0
+                                    //     })
+                                    //     $('.audio-shibai').get(0).play();
+                                    //     jyErrFun()
+                                    // }
+                                }
+                            } else {
+                                scanSpArr.push({
+                                    "sku": code,
+                                    "flag": 0
+                                })
+                                jyErrFun()
+                                $('.audio-shibai').get(0).play();
+                            }
+                            var checkSpWcFlag = true;
+                            //包装商品不需要验单  新建一个剔除掉包装商品的集合
+                            let noBzspList = JSON.parse(JSON.stringify($scope.list))
+                            console.log(noBzspList)
+                            for (let k = noBzspList.length-1; k >= 0; k--) {
+                                console.log(noBzspList[k])
+                                if (noBzspList[k].sku.indexOf('BZSP') != -1) {
+                                    noBzspList.splice(k,1)
+                                }
+                            }
+                            console.log(noBzspList)
+                            for (let k = 0, len = noBzspList.length; k < len; k++) {
+                                if (noBzspList[k].quantity != noBzspList[k].yanDanNum) {
+                                    checkSpWcFlag = false;
+                                    break
+                                }
+                            }
+                            if (checkSpWcFlag) {
+                                // layer.msg('全部成功')
+                                console.log(scanSpArr)
+                                $scope.list = null;
+                                $('.audio-ydwc').get(0).play();
+                                $("#tx").val('');
+                                var jyspData = {};
+                                jyspData.zhuiZongHao = $scope.trackCode;
+                                jyspData.msg = scanSpArr;
+                                jyspData.caoZuoRen = erpLoginName;
+                                jyspData.status = '1';
+                                console.log(jyspData)
+                                try {
+                                    var param = {
+                                        orderId: localStorage.getItem('previousOrderId'),
+                                        operationMsg: "验单成功",
+                                        // track: localStorage.getItem('previousCode')
+                                    }
+                                    erp.postFun('processOrder/checkOrder/addVerifyOrderOperationRecord', param, function() {
+                                        localStorage.setItem('previousCode', "");
+                                        localStorage.setItem('previousOrderId', "");
+                                    })
+                                } catch(err) {
+
+                                }
+                                erp.postFun('processOrder/checkOrder/checkSheet', JSON.stringify(jyspData), function (data) {
+                                    console.log(data)
+                                    if (data.data.code == '200') {
+                                        console.log($scope.list)
+                                        scanSpArr = [];
+                                    } else {
+                                        $("#tx").val('');
+                                    }
+                                }, function (data) {
+                                    console.log(data)
+                                })
+                            }
+                        } else {
+                            $('.cuoWrap').hide();
+                            getProducts(code,originalCode);
+                            checkOrders(code)
+                        }
+                    }
+                } else if($scope.printType == 'queryPdf'){
+                    layer.load(2);
+                    erp.postFun('processOrder/pici/scanPiCiGetMianDan', {
+                        'code': code
+                    }, function (data) {
+                        console.log(data)
+                        layer.closeAll('loading');
+                        if (data.data.code == '200') {
+                            var resultData = data.data.data;
+                            console.log(resultData)
+                            var linkArr = [];
+                            if (resultData.flag == 0) {//已有面单
+                                for (var i = 0; i < resultData.url.length; i++) {
+                                    linkArr.push('http://' + resultData.url[i].replace('http://', ''))
+                                }
+                                $scope.pdfArr = linkArr;
+                                $("#tx").val('');
+                                $scope.pdftkFlag = true;
+                            } else if (resultData.flag == 1) {
+                                var ids = {};
+                                ids.ids = resultData.url;
+                                ids.type = '2';
+                                erp.postFun2('getExpressSheet.json', JSON.stringify(ids), function (data) {
+                                    console.log(data)
+                                    console.log(data.data)
+                                    if (data.data) {
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            linkArr.push('http://' + data.data[i].replace('http://', ''))
+                                        }
+                                        $scope.pdfArr = linkArr;
+                                    }
+                                    if ($scope.pdfArr.length > 0) {
+                                        $("#tx").val('');
+                                        $scope.pdftkFlag = true;
+                                    } else {
+                                        layer.msg('生成面单错误')
+                                    }
+                                }, function (data) {
+                                    console.log(data)
+                                    layer.closeAll("loading")
+                                    layer.msg('网络错误')
+                                })
+                            }
+
+                        } else {
+                            layer.msg(data.data.message)
+                        }
+                    }, function (data) {
+                        console.log(data)
+                        layer.closeAll('loading');
+                    })
+                } else if($scope.printType == 'newQueryPdf'){
+                    erp.postFun2('newScanPiCiGetMianDan',{
+                        "code":code
+                    },function (data) {
+                        console.log(data)
+                        console.log(JSON.parse(data.data.result))
+                        $scope.newPdfJson = JSON.parse(data.data.result);
+                        $scope.newPdfFlag = true;
+                    },function (data) {
+                        console.log(data)
+                    },{layer:true})
+                }
+
+            }
+            //缺货点击
+            $scope.QueHuoTxt = '缺货？请点这里';
+            $scope.QueHuoClick = function () {
+                $scope.isQueHuo = !$scope.isQueHuo;
+                $scope.QueHuoTxt = $scope.isQueHuo == true? '取消选择':'缺货？请点这里';
+                if(!$scope.isQueHuo){
+                    $scope.list.forEach(function (o,i) {
+                        o.isSelect = false;
+                    })
+                }
+            }
+            $scope.SelectQueHuo = function (item) {
+                console.log(item)
+                item.isSelect = !item.isSelect;
+                console.log($scope.list)
+            }
+            $scope.QueHuoSub = function () {
+                const parmas = []
+                $scope.list.forEach(function (item,i) {
+                    const {id,sku,quantity,yanDanNum,isSelect}=item
+                    if(isSelect&&quantity!==yanDanNum){ //选择有缺货的商品
+                        var obj={
+                            cjorderId:$scope.cjorderid,
+                            cjproductId:id,
+                            sku:sku,
+                            stockoutCount:quantity-yanDanNum,
+                        }
+                        parmas.push(obj)  
+                    }
+                })
+                if(parmas.length == 0){
+                    layer.msg('请先选择缺货商品', {tiem: 3000})
+                }else {                 
+                    erp.postFun('processOrder/checkOrder/addStockoutEx',parmas, function (data) {
+                        console.log(data)
+                        if (data.data.code == 200) {
+                            layer.msg('成功');
+                            scanSpArr = [];
+                            $scope.list = null;
+                            $("#tx").val('');
+                            $scope.isQueHuo = false;
+                            $scope.QueHuoTxt = '缺货？请点这里';
+                        } else if (data.data.statusCode == 404) {
+                            layer.msg('请扫描追踪号', {tiem: 3000})
+                        } else {
+                            layer.msg(data.data.message, {tiem: 5000})
+                        }
+                    }, function (data) {
+                        layer.msg('网络错误')
+                    },{layer:true})
+                    //接口转移到异常记录
+                    // erp.postFun('processOrder/checkOrder/shortage',data, function (data) {
+                    //     console.log(data,'==========')
+                    //     if(data.data.success){
+                    //         try {
+                    //         var param = {
+                    //             orderId: $scope.cjorderid,
+                    //             operationMsg: "缺货",
+                    //             // track: $scope.trackCode
+                    //         }
+                    //         erp.postFun('processOrder/checkOrder/addVerifyOrderOperationRecord', param, function() {
+                    //             localStorage.setItem('previousCode', "");
+                    //             localStorage.setItem('previousOrderId', "");
+                    //         })
+                    //     } catch (err) {}
+                    //     }
+                    //     if (data.data.code == 200) {
+                    //         layer.msg('成功');
+                    //         scanSpArr = [];
+                    //         $scope.list = null;
+                    //         $("#tx").val('');
+                    //         $scope.isQueHuo = false;
+                    //         $scope.QueHuoTxt = '缺货？请点这里';
+                    //         // $scope.list.forEach(function (o,i) {
+                    //         //     o.isSelect = false;
+                    //         // })
+                    //     } else if (data.data.statusCode == 404) {
+                    //         layer.msg('请扫描追踪号', {tiem: 3000})
+                    //     } else {
+                    //         layer.msg(data.data.message, {tiem: 5000})
+                    //     }
+                    // }, function (data) {
+                    //     layer.msg('网络错误')
+                    // },{layer:true})
+                }
+            }
+            function checkOrders(code){
+                var parma = {
+                    batchNumber:"",
+                    batchNumberStatus:"",
+                    trackingNumber:code,
+                    cjOrder:""
+                }
+                erp.postFun('processOrder/intercept/verification',parma, function (data) {
+                    console.log(data)
+                    var res=data.data
+                    if(res.code==200 && res.data.interceptList.length!=0){
+                        $scope.cjorder = res.data.interceptList[0].id
+                        $scope.interceptStatus=res.data.interceptStatus
+                        if(res.data.interceptStatus==0){
+                            $scope.lanjieFlag =true
+                        }else if(res.data.interceptStatus==1){
+                            $scope.jiufenOrdFlag=true
+                        }else if(res.data.interceptStatus==2){
+                            $scope.mdgq2Flag=true
+                        }else if(res.data.interceptStatus==3){
+                            $scope.mdgqFlag=true
+                        }else if(res.data.interceptStatus==4){
+                            $scope.lanjieSuccessFlag=true
+                        }else if(res.data.interceptStatus==5){
+                            $scope.mdsxFlag=true
+                        }
+                    }
+                })
+            }
+            $scope.addtoLanjieSuc = function(){
+                erp.postFun('processOrder/intercept/confirm', {cjOrder:$scope.cjorder}, function (data) {
+                console.log(data)
+                const res = data.data
+                $scope.jiufenOrdFlag = false
+                $scope.lanjieFlag = false
+                $("#tx").val('');
+                if(res.code == 200){
+                    $scope.pageNum = 1;
+                    $scope.getList();
+                }else {
+                    layer.msg('操作失败')
+                }
+                }, function (data) {
+                console.log(data)
+                })
+            }
+        }])
+	    
+	    function sortArr(arr,str) {
+				var newArr = [],newArrItem = [],_any;
+				arr = arr.sort(function (a,b) {
+					var s = a[str]
+					var t = b[str]
+					
+					return s < t ? -1 : 1
+				})
+		   
+		    if (arr.length) {
+		    	_any = arr[0][str]
+		    }
+		    
+		    for (var i in arr){
+		      if(arr[i][str] === _any) {
+			      newArrItem.push(arr[i])
+		      }else {
+			      _any = arr[i][str]
+			      newArr.push(newArrItem)
+			      newArrItem = [arr[i]]
+		      }
+		    }
+		    newArr.push(newArrItem)
+		    return newArr
+	    }
+	    
+    })(angular)
+
+</script>
+</html>

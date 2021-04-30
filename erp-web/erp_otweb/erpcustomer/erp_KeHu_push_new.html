@@ -1,0 +1,353 @@
+<style lang="less">
+  .scroll-style::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scroll-style::-webkit-scrollbar-track { border-radius: 3px; background: rgba(0,0,0,0.06); box-shadow: inset 0 0 5px rgba(0,0,0,0.08); }
+  /* 滚动条滑块 */
+  .scroll-style::-webkit-scrollbar-thumb { border-radius: 3px; background: rgba(0,0,0,0.12); box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
+  #push-new-wrap {
+    padding:20px 20px 20px 220px; min-width: 1420px; min-height: 1000px; background:#F2F7FA;  user-select:none;
+  } 
+  .button-yellow {background: #F9AE08;}
+  .button-blue {background:#4A90E2;}
+  .button-disabled {background: #DDDCDC!important;}
+  .checkbox-disabled {background: #DDDCDC!important;}
+  #push-new-wrap span {font-size: 14px;}
+  #push-new-wrap textarea {border: 1px solid #D9D9D9; width: 800px; padding: 5px; border-radius: 5px; font-size: 14px;}
+  #push-new-wrap input {font-size: 14px; height: 32px; border-radius: 5px;}
+  #push-new-wrap select {font-size: 14px; width: 220px; height: 32px; border-radius: 5px; }
+  #push-new-wrap button {color: #fff; width: 80px; height: 32px; line-height: 32px; text-align: center; border-radius: 4px; font-size: 14px;} 
+  #push-new-wrap>.main {
+    width: 100%; height: 100%; background: #fff; box-sizing: border-box; padding: 0 26px 40px; 
+  }
+  #push-new-wrap>.main>.title-area {
+    width: 100%;  height: 60px; line-height: 60px; text-align: center; position: relative; border-bottom: 1px solid #DDDCDC; margin-bottom: 20px;
+  }
+  /* 上传图片 */
+  .upload-area {width: 104px; height: 104px; border-radius: 4px; border: 1px dashed #DDDCDC; background:rgb(249, 249, 249);
+  position: relative; display: flex; flex-direction: column; align-items: center;}
+  .upload-area>.img-wrap {width: 104px; height: 104px; position: absolute; left: -1px; top: -1px;}
+  .upload-area>.img-wrap>img {width: 104px; height: 104px;}
+  .upload-area>.img-wrap>i{position: absolute; width: 22px; height: 22px; background: url('static/image/public-img/close-circle.png') no-repeat center center; background-size: 22px 22px; right: -11px; top: -11px; cursor: pointer;}
+  .upload-area>span:nth-child(1) {margin-bottom: 4px; margin-top: 6px; color: #999; cursor: pointer;}
+  .upload-area>span:nth-child(2) {font-size: 14px; cursor: pointer;}
+
+  .main>.title-area>.back-arrow {
+    position: absolute; width: 9px; height: 18px; left: 10px; top: 20px; background: url('erp_otweb/images/back-arrow.png') no-repeat center center; cursor: pointer;
+  }
+  .main>.operate-area>div { display: flex; padding: 10px 0;}
+  .main>.operate-area>.last-line>section {display: flex; margin-right: 20px;}
+  .last-line>section>span {margin-right: 14px; padding-top: 6px;}
+  .last-line>section>button {margin-right: 20px;}
+  .main>.operate-area>div>span { margin-right: 14px; padding-top: 6px;}
+  /*自定义单选框*/
+  .radio-area>em {font-size: 14px; margin-right: 20px; position: relative; padding-left: 25px;}
+  .radio-area>em::before{content: ''; position: absolute; width: 18px; height: 18px; background: url('erp_otweb/images/radio-check.png') no-repeat center center; left: 0; top: 2px;}
+  .radio-area>.radio-checked::before{background: url('erp_otweb/images/radio-checked.png') no-repeat center center;}
+  /*列表区域*/
+  .down-area {position: relative; width: 1180px; position: relative;}
+  .pic-list-area { display: flex; position: relative;}
+  .pic-list-area>.edit-wrap {position: absolute; left: 0; bottom: 0;  background: rgba(255, 254, 255, 0); z-index: 12; 
+    /* height: 60px; width: 100%; */ right: 0; top: 0;
+  }
+  .pic-list-area button {font-size: 14px;}
+  .pic-list-area>.left-area {
+    width: 842px; box-sizing: border-box; border: 1px solid #D9D9D9; padding-bottom: 68px; position: relative;
+  }
+  .pic-list-area>.left-area>.left-title {
+    height: 56px; border-bottom: 1px solid #D9D9D9; background:rgb(255, 247, 228); line-height: 56px; font-size: 14px; color: #8B572A; text-align: center; margin-bottom: 10px;
+  }
+  .left-area>.left-main>.goods-list {
+    display: flex; flex-wrap: wrap; overflow-y: auto; height: 580px;
+  }
+  
+  .left-main>.goods-list>li {
+    width: 190px; height: 280px; background:rgba(247,246,246,1); margin-right: 16px; box-shadow:0px 3px 7px 0px rgba(0, 0, 0, 0.08); border-radius:4px 4px 0px 0px; display: flex; flex-direction: column;     overflow: hidden;
+  }
+  .left-main>.goods-list>.checked {background:rgb(255, 247, 228); box-shadow: 0 0 0 0 #fff;}
+  .left-main>.goods-list>li>img {width: 190px; height: 186px; margin-bottom: 10px;}
+  .left-main>.goods-list>li>p {width: 190px; padding: 0 13px; margin-bottom: 10px; font-size: 14px; overflow: hidden;}
+  .left-main>.goods-list>li>div {width: 190px; padding: 0 13px; display: flex; justify-content: space-between;}
+  .left-main>.goods-list>li:first-child {margin: 0 16px 20px 16px;}
+  .left-main>.goods-list>li:nth-child(4n+1) {margin: 0 16px 10px 16px;}
+  .left-main>.goods-list>li:nth-child(4n) {margin: 0 0 20px 0px;}
+  
+  .left-area>.left-main>.footer-area {
+    width: 840px; height: 58px; display: flex; background:rgba(247,246,246,1); position: absolute; bottom: 0; left: 0;
+  }
+  .all-select {display: flex; align-items: center;}
+  .checkbox-false {width: 16px; height: 16px; background: url('erp_otweb/images/checkbox-false.png') no-repeat center center; margin-right: 5px;}
+  .checkbox-true {width: 16px; height: 16px; background: url('erp_otweb/images/checkbox-true.png') no-repeat center center; margin-right: 5px;}
+  .pic-list-area>.right-area {
+    width: 294px; box-sizing: border-box; border: 1px solid #D9D9D9; margin-left: -1px; padding-bottom: 68px; position: relative;
+  }
+  .pic-list-area>.right-area>.right-title {
+    height: 56px; border-bottom: 1px solid #D9D9D9; background: rgb(255, 247, 228); line-height: 56px; font-size: 14px; color: #8B572A; text-align: center; margin-bottom: 10px; 
+  }
+  .right-area>.right-main>.goods-list { overflow-y: auto; height: 580px; }
+  .right-main>.goods-list>li {
+    width: 254px; height: 94px; display: flex; background:rgba(247,246,246,1);  margin: 0 auto 20px; overflow: hidden;
+  }
+  .right-main>.goods-list>.checked {background:rgb(255, 247, 228);}
+  .right-main>.goods-list>li>img {min-width: 94px; min-height: 94px; max-width: 94px; max-height: 94px;margin-right: 14px;}
+  .right-main>.footer-area {width: 292px; height: 58px; background:rgba(247,246,246,1); position: absolute; bottom: 0; left: 0; display: flex; justify-content: center; align-items: center;}
+  .right-main>.footer-area>button {width: 80px; height: 32px; line-height: 32px; text-align: center; background: rgb(255, 211, 114); color: #fff; border-radius: 5px;}
+  /*弹窗 自动推送 编辑区域*/
+  .down-area>.box-wrap {
+    background: #fff; margin-bottom: 20px;
+  }
+  .auto-push-edit-area {
+    width: 1048px; height: 730px; margin-top: 33px; background: #fff;
+  }
+  .auto-push-edit-area>.header {height: 58px; background: rgb(236, 244, 252); color: #3B72CF; font-size: 14px; text-align: center; line-height: 58px;}
+  .auto-push-edit-area>.footer {height: 58px; background: rgb(236, 244, 252); }
+  .auto-push-edit-area>.middle {height: 610px; overflow-y: auto; padding-top: 10px; box-sizing: border-box;}
+  .middle>ul {display: flex; flex-wrap: wrap;}
+  .middle>ul>li {width: 190px; height: 280px; background:rgba(247,246,246,1); margin-right: 16px; box-shadow:0px 3px 7px 0px rgba(0, 0, 0, 0.08); border-radius:4px 4px 0px 0px; display: flex; flex-direction: column; position: relative;}
+  .middle>ul>li>img {width: 190px; height: 186px; margin-bottom: 10px;}
+  .middle>ul>li>p {width: 190px; padding: 0 13px; margin-bottom: 10px; font-size: 14px; overflow: hidden;}
+  .middle>ul>li>div {width: 190px; padding: 0 13px; display: flex; justify-content: space-between;}
+  .middle>ul>li:first-child {margin: 0 16px 20px 16px;}
+  .middle>ul>li:nth-child(5n+1) {margin: 0 16px 10px 16px;}
+  .middle>ul>li:nth-child(5n) {margin: 0 0 20px 0px;}
+  .middle>ul>li>i {position: absolute; right: 5px; top: 5px; width: 32px; height: 32px; background: url('erp_otweb/images/check.png') no-repeat center center;}
+  .middle>ul>li>.checked {background: url('erp_otweb/images/checked.png') no-repeat center center;}
+  /*page area*/
+  .page-area {display: flex; justify-content: space-around; background: #fff; align-items: center;}
+  .page-area input, .page-area select {border-radius: 4px; margin: 0 10px;}
+  .page-area a, .page-area div, .page-area span, .page-area button {font-size: 14px;}
+  .page-area a {padding: 0 2px;}
+  .page-size-area, .page-go-area {display: flex; height: 32px; align-items: center;}
+  .current-page {color: #F9AE08;}
+  /* 多行文本缩略 */
+  .ellipsis-font {overflow: hidden; text-overflow: ellipsis;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+  .ellipsis-row {overflow: hidden; text-overflow: ellipsis; white-space:nowrap;}
+  /* 自定义多选框 */
+  .my-select {
+    width: 200px; height: 32px; border: 1px solid #ddd; position: relative; border-radius: 4px; z-index: 13;
+  }
+  .my-select .select-list {
+    position: absolute; left: -1px; top: 34px; border: 1px solid #409eff; width: 200px; border-radius: 4px;
+  }
+  .my-select .select-list>li { background: #fff;}
+  .my-select .select-txt {
+    height: 30px; line-height: 30px; font-size: 12px; text-indent: 1em; position: relative;
+  }
+  .my-select .select-txt>i {background: url('erp_otweb/images/back-arrow.png') no-repeat center center; position: absolute; right: 15px; top: 10px; background-size: 6px 12px; width: 6px; height: 12px; transition: .3s; transform: rotate(-90deg);}
+  .my-select .select-txt .pull-down { transform: rotate(-270deg);}
+  .my-select .select-list>li>p{text-indent: 16px; padding: 2px; font-size: 12px; background: #fff;}
+  .select-list>li>p {position: relative;}
+  .select-list>li>p::before {
+    content: ''; position: absolute; left: 3px; top: 5px; background: url('erp_otweb/images/checkbox-false.png') no-repeat center center; background-size: 12px 12px; width: 12px; height: 12px;
+  }
+  .select-list>li>.actived::before {background: url('erp_otweb/images/checkbox-true.png') no-repeat center center!important; background-size: 12px 12px; width: 12px; height: 12px;}
+  .my-select .select-list>li>.hover-actived {background: #f5f7fa;}
+  .my-select .actived {color: #F9AE08;}
+  .need-input {position: relative; text-indent: 6px;}
+  .need-input::before {content: '*'; color: #f70; position: absolute; left: -10px; top: 7px;}
+</style>
+<div id="push-new-wrap">
+  <div class="main">
+      <section class="title-area">
+        <!-- <i class="back-arrow" ng-click="cancelSend()"></i> -->
+        新增Push
+      </section>
+      <!-- 选项操作区域 -->
+      <section class="operate-area" style="margin-bottom: 10px; width: 1140px;">
+          <div class="operate-area-item">
+            <span>推送类型： 商品推送</span>
+          </div>
+          <div>
+            <span class="need-input">标题:</span>
+            <input type="text" ng-model="submitParams.title" maxlength="60">
+          </div>
+          <div style="align-content: center;">
+            <span class="need-input">内容:</span>
+            <textarea name="" id="" cols="30" rows="6" placeholder="内容不允许超过120个英文字母" maxlength="120" ng-model="submitParams.content"  maxlength="500"></textarea>
+          </div>
+          <div>
+            <span>图片:</span>
+            <div class="upload-area">
+              <span ng-click="uploadImg()" style="font-size: 34px;">+</span>
+              <span ng-click="uploadImg()">上传图片</span>
+              <div class="img-wrap" ng-if="submitParams.picurl">
+                <img ng-src="{{submitParams.picurl}}" alt="">
+                <i ng-click="submitParams.picurl=''"></i>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span>客户群体:</span>
+            <div class="radio-area" style="display: flex; align-items: center;">
+              <em ng-class="submitParams.customerGroup === 1 ? 'radio-checked' : ''" ng-click="toggleMode(1)">系统根据商品自动匹配</em>
+              <em ng-class="submitParams.customerGroup === 2 ? 'radio-checked' : ''" ng-click="toggleMode(2)">定向发送</em>
+              
+              <div class="my-select" style="z-index: 14;" ng-class="mycheckbox.disabled ? 'checkbox-disabled' : ''">
+                <p ng-click="showHandle($event)" class="select-txt">{{mycheckbox.text}}<i ng-class="mycheckbox.textblur ? 'pull-down' : ''"></i></p>
+                <ul class="select-list" ng-show="mycheckbox.selectAreaShow">
+                  <li ng-repeat="item in mycheckbox.kindsList" :key="index" ng-mouseover="mouseoverHandle($index)">
+                    <p ng-class="[mycheckbox.hoverIndex === $index ? 'hover-actived' : '', item.checked ? 'actived' : '']" ng-click="selectItem1($index,$event)">{{item.name}}</p>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+          <div>
+            <span>推送方式:</span>
+            <select ng-model="submitParams.driverWay" ng-change="typeChangeHandle(submitParams.driverWay)">
+              <option value="1">手自一体</option>
+              <option value="2">手动</option>
+              <option value="3">自动</option>
+            </select>
+          </div>
+          <div class="last-line" ng-show="submitParams.driverWay == 1 || submitParams.driverWay == 2">
+            <section>
+              <span>手动推送:</span>
+              <input type="text" placeholder="请输入商品名称/SKU" ng-model="pushGoodsListPamrams.productName">
+            </section>
+            <section>
+              <span>商品类目:</span>
+              <div class="my-select" ng-class="goodscheckbox.disabled ? 'checkbox-disabled' : ''">
+                <p ng-click="showHandle2($event)" class="select-txt">{{goodscheckbox.text}}<i ng-class="goodscheckbox.textblur ? 'pull-down' : ''"></i></p>
+                <ul class="select-list" ng-show="goodscheckbox.selectAreaShow">
+                  <li ng-repeat="item in goodscheckbox.kindsList" :key="index" ng-mouseover="mouseoverHandle2($index)">
+                    <p ng-class="[goodscheckbox.hoverIndex === $index ? 'hover-actived' : '', item.checked ? 'actived' : '']" ng-click="selectItem2($index,$event)">{{item.name}}</p>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <section>
+              <button class="button-yellow" ng-click="searchGoods()">查询</button>
+              <button class="button-yellow" ng-show="allowEdit" ng-click="allowEdit=false">完成</button>
+              <button class="button-blue" ng-show="!allowEdit" ng-click="allowEdit=true">编辑</button>
+            </section>
+          </div>
+      </section>
+      <!-- 选项操作以下区域 -->
+      <section class="down-area">
+        <!-- 商品列表显示区域 -->
+        <section class="pic-list-area" style="width: 1160px; margin-bottom: 30px;" ng-show="submitParams.driverWay == 1 || submitParams.driverWay == 2">
+          <div class="edit-wrap" ng-hide="allowEdit"></div>
+          <div class="left-area">
+            <section class="left-title">商品列表</section>
+            <section class="left-main">
+              <ul class="goods-list scroll-style">
+                <li ng-repeat="item in pushGoodsListInfo" ng-click="selectItem($index)" ng-class="item.checked ? 'checked' : ''">
+                  <img ng-src="{{item.img}}" alt="">
+                  <p class="ellipsis-font" ng-attr-title="{{item.productcate}}" style="min-height: 40px;">{{item.productname}}</p>
+                  <div>
+                    <span style="color: #FF7700;">lists: <em style="color: #666;">{{item.num}}</em></span>
+                    <span style="color: #FF7700;">$ {{item.sellPrice}}</span>
+                  </div>
+                </li>
+              </ul>
+              <div class="footer-area page-area">
+                <div class="page-index-area" style="display: flex;">
+                  <div class="push-page"  style="margin-right: 5px;"></div>
+                  <div class="page-total-area">
+                    共&nbsp;&nbsp;{{ pushGoodsListPamrams.total }}&nbsp;&nbsp;条
+                  </div>
+                </div>
+                <div class="page-go-area">
+                  <span>跳转:</span>
+                  <input type="text" ng-model="pushGoodsListPamrams.navPage" style="width: 60px;" maxlength="6">
+                  <span style="margin-right: 5px;">页</span>
+                  <button ng-click="pageGo()" style="width: 60px; height: 30px; line-height: 30px; text-align:center; color: #fff; border-radius: 4px; background: #F9AE08;" ng-class="allowEdit ? '' : 'button-disabled'">确定</button>
+                </div>
+                <div class="all-select">
+                  <div ng-click="allSelectHandle()" style="display: flex; align-items: center; margin-right: 20p;">
+                      <i ng-class="pushGoodsListPamrams.hasAllSelected ? 'checkbox-true' : 'checkbox-false'"></i>
+                      全选本页商品
+                  </div>
+                  <button class="button-yellow" style="margin-left: 10px;" ng-click="addGoods()" ng-class="allowEdit ? '' : 'button-disabled'">添加</button>
+                </div>
+              </div>
+            </section>
+          </div>
+          <!-- 待推送区域商品 -->
+          <div class="right-area">
+              <section class="right-title">待推送列表</section>
+              <section class="right-main">
+                <ul class="goods-list scroll-style">
+                  <li ng-repeat="item in goodsWaitingPush" ng-click="item.backChecked = !item.backChecked" ng-class="item.backChecked ? 'checked' : ''">
+                    <img ng-src="{{item.img}}" alt="">
+                    <div style="flex-grow: 1; display: flex; flex-direction: column; padding: 13px 10px 13px 0; justify-content: space-between;">
+                      <span class="ellipsis-row" ng-attr-title="{{item.productname}}" style="width: 136px;">{{item.productname}}</span>
+                      <div style="display: flex; flex-direction: column; ">
+                        <span style="color: #FF7700;">lists: <em style="color: #666;">{{item.num}}</em></span>
+                        <span style="color: #FF7700;">$ {{item.sellPrice}}</span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <div class="footer-area">
+                  <button ng-click="backGoods()" style="background: #F9AE08" ng-class="allowEdit ? '' : 'button-disabled'">还原</button>
+                </div>
+              </section>
+          </div>
+        </section>
+        <!-- 商品列表显示区域以下区域 -->
+        <section style="margin-bottom: 30px;" ng-show="submitParams.driverWay == 1 || submitParams.driverWay == 3">
+          <span>自动推送数量:</span> 
+          <input type="text" style="width: 100px; margin: 0 10px;" maxlength="3" ng-model="autoPushGoodsParams.autoCount"
+          placeholder="" oninput="this.value=this.value.replace(/\D/g,'')">
+          <button class="button-blue" ng-click="editAutoPushGoodsList()">修改商品</button>
+        </section>
+        <div ng-show="autoPushGoodsParams.hasShow && submitParams.driverWay != 2" class="box-wrap">
+          <div class="auto-push-edit-area">
+            <section class="header">修改商品</section>
+            <section class="middle scroll-style">
+              <ul>
+                <li ng-repeat="item in autoPushGoodsCurrentList" ng-click="item.checked = !item.checked"">
+                  <i ng-class="item.checked ? 'checked' : ''"></i>
+                  <img ng-src="{{item.img}}" alt="">
+                  <p class="ellipsis-font" ng-attr-title="{{item.productcate}}">{{item.productcate}}</p>
+                  <div>
+                    <span>lists: {{item.num}}</span>
+                    <span>$ {{item.sellPrice}}</span>
+                  </div>
+                </li>
+              </ul>
+            </section>
+            <section class="footer page-area">
+              <div style="display: flex; align-items: center;">
+                <div class="page-index-area" style="display: flex;">
+                    <div class="auto-push-page"  style="margin-right: 5px;"></div>
+                    <div class="page-total-area">
+                      共&nbsp;&nbsp;{{ autoPushGoodsParams.total }}&nbsp;&nbsp;条
+                    </div>
+                </div>
+                <div class="page-go-area">
+                  <span style="margin-left: 5px;">到第</span>
+                  <input type="text" ng-model="autoPushGoodsParams.navPage" style="width: 40px; margin: 0 5px;" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
+                  <span style="margin-right: 5px;">页</span>
+                  <button style="width: 60px; height: 30px; line-height: 30px; text-align:center; color: #333; border-radius: 4px; background: #fff; border: 1px solid #DDDCDC;" ng-click="pageTo()">确定</button>
+                </div>
+              </div>
+              <div>
+                <button style="margin-right: 60px; background: #F9AE08; color: #fff;" ng-click="autoPushGoodsParams.hasShow=false">确认</button>
+                <button ng-click="autoPushGoodsParams.hasShow=false">取消</button>
+              </div>
+            </section>
+          </div>
+        </div>
+        <section>
+          <div style="display: flex; margin: 0 auto; width: 240px; justify-content: space-between;">
+            <button ng-click="sendHandle()" style="background: #FF7700;">发送</button>
+            <button style="background: #fff; box-sizing: border-box; border: 1px solid #ddd; color: #666;" ng-click="cancelSend()">取消</button>
+          </div>
+        </section>
+        <!-- 自动推送弹框 -->
+        
+      </section>
+  </div>
+  <!-- 弹框确认 -->
+  <div class="erp-common-tan-v2-wrap" ng-show="confirmBox.hasShow">
+    <div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: 160px;">
+      <p>{{confirmBox.title}}</p>
+      <div class="tan-v2-bot">
+        <a href="javascript:void(0)" class="qu-xiao-btn" ng-click="confirmBox.cancel()">取消</a>
+        <a href="javascript:void(0)" class="que-ding-btn" ng-click="confirmBox.ok()">确定</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_logisics_search.css" />
+</head>
+
+<body>
+	<div class="ea-content" style="width: 100%;">
+		<div class="right-bar-wrap ea-right-content">
+			<div class="tab">
+				<div class="tabNav tabNav1">
+					<span ng-click="clickTabFn(record)" ng-class="{'act': record.active}"
+						ng-repeat="record in ResourceStatusEnum">
+						{{record.name}}<span ng-if="record.count || record.count === 0">({{record.count}})</span>
+					</span>
+				</div>
+			</div>
+			<div class="contentWrap">
+				<div class="topGd">
+				<div ng-show="statusType === 'all'" class="searchOrderWrap">
+					<div class="searchOrder" style="position:relative;">
+						<ul id="searchOrderUl">
+							<li ng-repeat="(index,item) in TrackingNumberArr track by $index">
+								<span>{{$index+1}}</span><input onpaste="return false;" class="TrackingNumber"
+									placeholder="请输入追踪号或者订单号(一次最多可以搜索100条)" ng-model="$parent.TrackingNumberArr[$index]"
+									ng-keypress="inputEnter($event,index)" type="text" /><b ng-click="remove(index)"></b></li>
+						</ul>
+						<div class="searchBtnGroup">
+							<div ng-click="clearFun()" class="sBtn clearBtn2"><b></b><span>清除</span></div>
+							<div ng-click="searchFun2()" class="sBtn searchBtn2"><b></b><span>搜索</span></div>
+						</div>
+					</div>
+				</div>
+				<div ng-show="statusType === 'all'" class="operation-wrap d-flex" style="flex-wrap: wrap;">
+					<div class="searchGroup">
+						<label>选择日期：</label>
+						<wui-date class="startTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+							placeholder="开始时间" btns="{'ok':'确定','now':'今天'}" ng-model="startTime"></wui-date>
+						<wui-date class="endTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+							class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="endTime">
+						</wui-date>
+					</div>
+					<div class="searchGroup">
+						<label>母订单号：</label>
+						<input class="searchInput" c placeholder="请输入母订单号" type="text"
+							ng-model="parentOrderNum">
+					</div>
+					<div class="searchGroup">
+						<label>物流公司：</label>
+						<div class="position-relative" ng-mouseenter="wlgsObj.dropFlag = true"
+							ng-mouseleave="wlgsObj.dropFlag = false">
+							<input ng-model='wlgsObj.value' oninput="angular.element(this).scope().keyupFn('wlgs', this.value)"
+								class="select-input" placeholder="请选择物流公司" ng-class="{focus: wlgsObj.dropFlag}" />
+							<div class="drop-wrap" ng-show='wlgsObj.dropFlag' style="width: 200%;">
+								<div ng-click="clickItemFn(wlgsObj, logisticsNames, 'wlgs')"
+									ng-repeat="logisticsNames in logisticsNamesArr" class="drop-item">{{logisticsNames}}</div>
+							</div>
+						</div>
+						<!-- <select name="" id="wlgs" ng-model="wlgsInfo" ng-change="changeWlgs()">
+							<option value="">请选择物流公司</option>
+							<option ng-repeat="logisticsNames in logisticsNamesArr" value="{{logisticsNames}}">{{logisticsNames}}
+							</option>
+						</select> -->
+					</div>
+					<div class="searchGroup">
+						<label>物流方式：</label>
+						<div class="position-relative" ng-mouseenter="wlfsObj.dropFlag = true"
+							ng-mouseleave="wlfsObj.dropFlag = false">
+							<input ng-model='wlfsObj.value' oninput="angular.element(this).scope().keyupFn('wlfs', this.value)"
+								class="select-input" placeholder="请选择物流方式" ng-class="{focus: wlfsObj.dropFlag}" />
+							<div class="drop-wrap" ng-show='wlfsObj.dropFlag' style="width: 200%;">
+								<div ng-click="clickItemFn(wlfsObj, logisticsModels)"
+									ng-repeat="logisticsModels in logisticsModelsArr" class="drop-item">{{logisticsModels}}</div>
+							</div>
+						</div>
+						<!-- <select name="" id="wlfs" ng-model="wlfsInfo">
+							<option value="">请选择物流方式</option>
+							<option ng-repeat="logisticsModels in logisticsModelsArr" value="{{logisticsModels}}">
+								{{logisticsModels}}</option>
+						</select> -->
+					</div>
+					<div class="searchGroup" style="display:flex;">
+						<button class="searchBtn-1" ng-click="searchFun()">查询</button>
+						<!-- <button ng-click="exportFun()" class="piliangdaochu"
+							style="position:initial;width: 120px;padding:0;margin-left: 10px;"><b></b> 批量导出</button>
+						<button class="searchBtn-2">重置</button> -->
+						<button ng-click="openInputPassword(exportFun)" class="piliangdaochu" style="width: 120px;padding:0;margin-left: 15px;"><b></b> 批量导出</button>
+					    <button ng-click="batchUpdate()" class="piliangxiugai" style="width: 100px;padding:0;">批量修改</button>
+					</div>	
+				</div>
+			   </div>
+				<div ng-show="statusType === 'customerOrSalesman'" class="searchWrap topGd">
+					<div class="searchRow">
+						<div class="searchGroup">
+							<label>选择日期：</label>
+							<wui-date class="startTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+								placeholder="开始时间" btns="{'ok':'确定','now':'今天'}" ng-model="startDate"></wui-date>
+							<wui-date class="endTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+								class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="endDate">
+							</wui-date>
+						</div>
+						<div class="searchGroup">
+							<select name="" id="selectSearchType" ng-model="searchType">
+								<option value="0">客户名称</option>
+								<option value="1">销售名称</option>
+								<option value="2">母订单</option>
+								<option value="3">订单号</option>
+								<option value="4">运单号</option>
+							</select>
+							<input ng-show="statusType === 'customerOrSalesman'" class="searchInput" placeholder="请输入" type="text"
+								ng-model="customerName">
+						</div>
+						<div class="searchGroup" style="display:flex;">
+							<button class="searchBtn-1" ng-click="searchFun()">查询</button>
+							<!-- <button ng-click="exportFun()" class="piliangdaochu"
+								style="position:initial;width: 120px;padding:0;margin-left: 10px;"><b></b> 批量导出</button>
+							<button class="searchBtn-2">重置</button> -->
+						</div>
+					</div>
+				</div>
+				<div ng-show="statusType !== 'all' && statusType !== 'customerOrSalesman'"
+					class="searchWrap topGd">
+					<div class="searchRow">
+						<div class="searchGroup">
+							<label>选择日期：</label>
+							<wui-date class="startTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+								placeholder="开始时间" btns="{'ok':'确定','now':'今天'}" ng-model="startTime"></wui-date>
+							<wui-date class="endTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+								class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="endTime">
+							</wui-date>
+						</div>
+						<div class="searchGroup">
+							<select name="" id="selectSearchType" ng-model="searchType">
+								<option value="0">订单号</option>
+								<option value="1">追踪号</option>
+								<option value="2">CJ追踪号</option>
+							</select>
+							<input id="searchByType" type="text" ng-model="searchInfo2">
+						</div>
+
+					</div>
+					<div class="searchRow">
+						<div class="searchGroup">
+							<label>发货仓库：</label>
+							<storageTab is-select="true" has-all="false" callback="storageCallback"></storageTab>
+							<!-- <div class="position-relative" ng-mouseenter="storeObj.dropFlag = true"
+								ng-mouseleave="storeObj.dropFlag = false">
+								<input value='{{classStore(storeObj.value)}}' disabled class="select-input" placeholder="请选择发货仓库"
+									ng-class="{focus: storeObj.dropFlag}" />
+								<div class="drop-wrap" ng-show='storeObj.dropFlag'>
+									<div ng-click="clickItemFn(storeObj, '')" class="drop-item">全部</div>
+									<div ng-click="clickItemFn(storeObj, store)" ng-repeat="store in storesArr" class="drop-item">
+										{{classStore(store)}}</div>
+								</div>
+							</div> -->
+							<!-- <select name="" id="fhck" ng-model="storeInfo" ng-change="changeStore()">
+								<option value="">请选择发货仓库</option>
+								<option ng-repeat="store in storesArr" value="{{store}}">{{classStore(store)}}</option>
+							</select> -->
+						</div>
+						<div class="searchGroup">
+							<label>收件国家：</label>
+							<div class="position-relative" ng-mouseenter="countryObj.dropFlag = true"
+								ng-mouseleave="countryObj.dropFlag = false">
+								<input ng-model='countryObj.value'
+									oninput="angular.element(this).scope().keyupFn('country', this.value)" class="select-input"
+									placeholder="请选择收件国家" ng-class="{focus: countryObj.dropFlag}" />
+								<div class="drop-wrap" ng-show='countryObj.dropFlag'>
+									<div ng-click="clickItemFn(countryObj, country)" ng-repeat="country in countrysList"
+										class="drop-item">{{country}}</div>
+								</div>
+							</div>
+							<!-- <select name="" id="sjgj" ng-model="countryInfo">
+								<option value="">请选择收件国家</option>
+								<option ng-repeat="country in countrysList" value="{{country}}">{{country}}</option>
+							</select> -->
+						</div>
+						<div class="searchGroup">
+							<label>物流公司：</label>
+							<div class="position-relative" ng-mouseenter="wlgsObj.dropFlag = true"
+								ng-mouseleave="wlgsObj.dropFlag = false">
+								<input ng-model='wlgsObj.value' oninput="angular.element(this).scope().keyupFn('wlgs', this.value)"
+									class="select-input" placeholder="请选择物流公司" ng-class="{focus: wlgsObj.dropFlag}" />
+								<div class="drop-wrap" ng-show='wlgsObj.dropFlag' style="width: 200%;">
+									<div ng-click="clickItemFn(wlgsObj, logisticsNames, 'wlgs')"
+										ng-repeat="logisticsNames in logisticsNamesArr" class="drop-item">{{logisticsNames}}</div>
+								</div>
+							</div>
+							<!-- <select name="" id="wlgs" ng-model="wlgsInfo" ng-change="changeWlgs()">
+								<option value="">请选择物流公司</option>
+								<option ng-repeat="logisticsNames in logisticsNamesArr" value="{{logisticsNames}}">{{logisticsNames}}
+								</option>
+							</select> -->
+						</div>
+						<div class="searchGroup">
+							<label>物流方式：</label>
+							<div class="position-relative" ng-mouseenter="wlfsObj.dropFlag = true"
+								ng-mouseleave="wlfsObj.dropFlag = false">
+								<input ng-model='wlfsObj.value' oninput="angular.element(this).scope().keyupFn('wlfs', this.value)"
+									class="select-input" placeholder="请选择物流方式" ng-class="{focus: wlfsObj.dropFlag}" />
+								<div class="drop-wrap" ng-show='wlfsObj.dropFlag' style="width: 200%;">
+									<div ng-click="clickItemFn(wlfsObj, logisticsModels)"
+										ng-repeat="logisticsModels in logisticsModelsArr" class="drop-item">{{logisticsModels}}</div>
+								</div>
+							</div>
+							<!-- <select name="" id="wlfs" ng-model="wlfsInfo">
+								<option value="">请选择物流方式</option>
+								<option ng-repeat="logisticsModels in logisticsModelsArr" value="{{logisticsModels}}">
+									{{logisticsModels}}</option>
+							</select> -->
+						</div>
+						<div class="searchGroup" style="display:flex;">
+							<button class="searchBtn-1" ng-click="searchFun()">查询</button>
+							<button ng-click="openInputPassword(exportFun)" class="piliangdaochu"
+								style="width: 120px;padding:0;margin-left: 15px;"><b></b> 批量导出</button>
+							<button ng-click="batchUpdate()" class="piliangxiugai" style="width: 100px;padding:0;">批量修改</button>
+							<!-- <button class="searchBtn-2">重置</button> -->
+						</div>
+					</div>
+				</div>
+				<div class="logisticTable">
+					<table ng-show="statusType !== 'customerOrSalesman'" ng-class="{'ea-list-table ea-erp-cs marginTop-330' : statusType == 'all', 'ea-list-table ea-erp-cs marginTop-200' : statusType != 'all'}" id="">
+						<thead>
+							<tr>
+								<th>
+									<img ng-click="checkAll()" ng-show="!allChecked" src="../../static/image/public-img/multiple1.png"
+										alt="">
+									<img ng-click="checkAll()" ng-show="allChecked" src="../../static/image/public-img/multiple2.png"
+										alt="">
+									序号
+								</th>
+								<th>订单号</th>
+								<th>订单发货日期</th>
+								<th ng-show="statusType == '5'">退回日期</th>
+								<th>妥投日期</th>
+								<th>发件仓</th>
+								<th>签收国</th>
+								<th>发出天数</th>
+								<th>物流公司</th>
+								<th>物流方式</th>
+								<th>物流原追踪号</th>
+								<th>CJ追踪号</th>
+								<th>系统重量(g)</th>
+								<th>出库重量(g)</th>
+								<th>出库时间</th>
+								<th ng-show="statusType == 'all'">状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="order in orderList track by $index">
+								<td>
+									<span>
+										<img ng-click="checkedFn(order)" ng-show="!order.isChecked"
+											src="../../static/image/public-img/multiple1.png" alt="">
+										<img ng-click="checkedFn(order)" ng-show="order.isChecked"
+											src="../../static/image/public-img/multiple2.png" alt="">
+										{{$index+1}}
+									</span>
+								</td>
+								<td ng-click="toAllOrder(order)"><span class="ord-link">{{order.id}}</span></td>
+								<td><span>{{order.deliveryTime}}</span></td>
+								<td ng-show="order.status == '5'"><span>{{order.updateDate}}</span></td>
+								<td><span>{{order.lastOnlineTime || '-'}}</span></td>
+								<td><span>{{classStore(order.store)}}</span></td>
+								<td><span>{{order.destNameCn}}</span></td>
+								<td><span>{{order.deliveryDay}}</span></td>
+								<td><span>{{order.logisticsName}}</span></td>
+								<td><span>{{order.logisticsMode}}</span></td>
+								<td class="huan">
+									<span>{{order.trackNumber}}</span>
+									<span class="sp-change-text"  title="{{'原:'+order.trackNumberHistory.replace(order.trackNumber + ',','')}}" ng-if="order.trackNumberHistory.split(',').length>2">换</span>
+								</td>
+								<td><span>{{order.cJTrackNumber}}</span></td>
+								<td><span>{{order.weight}}</span></td>
+								<td><span>{{order.cjOutWeight || '-'}}</span></td>
+								<td><span>{{order.outBoundTime}}</span></td>
+								<td ng-show="statusType == 'all'"><span>{{classOrderType(order.status)}}</span></td>
+								<td>
+									<span class="moreAction">更多操作 <b></b>
+										<ul>
+											<li ng-show="order.status !='0' && order.status !='1' "><span
+													ng-click="lookDetial(order)">详情</span></li>
+											<!-- <li ng-show="order.status !='0' && order.status !='5' "><span
+													ng-click="returnFun(order.id,5)">收到退件</span>
+											</li> -->
+											<li>
+												<span ng-click="updateStatus(order)">修改状态</span>
+											</li>
+										</ul>
+									</span>
+									<!-- <span ng-show="order.status == '0'">--</span> -->
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table ng-show="statusType === 'customerOrSalesman'" class="ea-list-table ea-erp-cs marginTop-100">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>业务员</th>
+								<th>客户编号</th>
+								<th>客户名称</th>
+								<th>母订单数量</th>
+								<th>子订单数量</th>
+								<th>验单未出库</th>
+								<th>出库无追踪</th>
+								<th>运输中</th>
+								<th>到达待取</th>
+								<th>投递失败</th>
+								<th>成功签收</th>
+								<th>可能异常</th>
+								<th>运输过久</th>
+								<th>纠纷</th>
+								<th>退回</th>
+								<th>销毁</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in logisticsList track by $index">
+								<td><span>{{$index + 1}}</span></td>
+								<td><span>{{item.salesName || '-'}}</span></td>
+								<td><span>{{item.num || '-'}}</span></td>
+								<td><span>{{item.userName || '-'}}</span></td>
+								<td>
+									<span ng-show="item.parentNumberCount && item.parentNumberCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, 'parent')">{{item.parentNumberCount || 0}}</span>
+									<span ng-show="!item.parentNumberCount || item.parentNumberCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.totalCount && item.totalCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, 'all')">{{item.totalCount || 0}}</span>
+									<span ng-show="!item.totalCount || item.totalCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.notOutStockCount && item.notOutStockCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '12')">{{item.notOutStockCount || 0}}</span>
+									<span ng-show="!item.notOutStockCount || item.notOutStockCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.noOutTrackingCount && item.noOutTrackingCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '35')">{{item.noOutTrackingCount || 0}}</span>
+									<span ng-show="!item.noOutTrackingCount || item.noOutTrackingCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.intransitCount && item.intransitCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '2')">{{item.intransitCount || 0}}</span>
+									<span ng-show="!item.intransitCount || item.intransitCount === 0">0</span>
+								</td>
+                                <td>
+									<span ng-show="item.arrivalPickupCount && item.arrivalPickupCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '34')">{{item.arrivalPickupCount || 0}}</span>
+									<span ng-show="!item.arrivalPickupCount || item.arrivalPickupCount === 0">0</span>
+								</td>
+                                <td>
+									<span ng-show="item.notDeliveryCount && item.notDeliveryCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '7')">{{item.notDeliveryCount || 0}}</span>
+									<span ng-show="!item.notDeliveryCount || item.notDeliveryCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.deliveryCount && item.deliveryCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '6')">{{item.deliveryCount || 0}}</span>
+									<span ng-show="!item.deliveryCount || item.deliveryCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.abnormalCount && item.abnormalCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '10')">{{item.abnormalCount || 0}}</span>
+									<span ng-show="!item.abnormalCount || item.abnormalCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.intransitLongCount && item.intransitLongCount > 0"
+										class="count-pointer"
+										ng-click="clickDetail(item, '13')">{{item.intransitLongCount || 0}}</span>
+									<span ng-show="!item.intransitLongCount || item.intransitLongCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.disputeCount && item.disputeCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '8')">{{item.disputeCount || 0}}</span>
+									<span ng-show="!item.disputeCount || item.disputeCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.sendBackCount && item.sendBackCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '5')">{{item.sendBackCount || 0}}</span>
+									<span ng-show="!item.sendBackCount || item.sendBackCount === 0">0</span>
+								</td>
+								<td>
+									<span ng-show="item.destructionCount && item.destructionCount > 0" class="count-pointer"
+										ng-click="clickDetail(item, '9')">{{item.destructionCount || 0}}</span>
+									<span ng-show="!item.destructionCount || item.destructionCount === 0">0</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="page-box">
+						<div class="select-page-num">
+							<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+								style="width: 65px;height: 31px;">
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="50">50</option>
+							</select>
+							<span>每页</span>
+						</div>
+						<div class="total-num">
+							共&nbsp;&nbsp;{{ totalCount }}&nbsp;&nbsp;条
+						</div>
+						<div class="page-index">
+							<div class="pagegroup">
+
+							</div>
+						</div>
+						<div class="to-go">
+							<span>跳转：</span>
+							<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+							<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 物流详情 -->
+	<div class="logisicsDetail" ng-show="isDetail">
+		<div class="logisicsWrap">
+			<div class="logisicsTitle">
+				<span>物流详情</span>
+				<img style="cursor:pointer;" src="static/image/public-img/closeWrap.svg" ng-click="isDetail=false;" alt="">
+			</div>
+			<div class="logisicsContent">
+				<ul>
+					<li ng-repeat="route in routeList"><b></b><span style="width:140px;">{{route.acceptTime}}</span><span
+							style="width:80px; word-break: break-all;">{{route.acceptAddress}}</span><span
+							style="width:240px;">{{route.remark}}</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- 导出订单 -->
+	<div class="downloadExcel" ng-show='isDownload'>
+		<div class="downloadExcelWrap">
+			<p>导出订单</p>
+			<a href="{{excelUrl}}" download="">{{excelUrl}}</a>
+			<div class="downloadExcelBottom">
+				<button ng-click="closeDownloadExcel()">关闭</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 母订单弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showParentOrderFlag">
+		<div class="erp-common-tan-v2" style="width: 1200px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showParentOrderFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>详情</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div class="tb-thead d-flex tb-thead-border">
+					<div style="width: 40%" class="tb-thead-th border-r-coffie">母订单号</div>
+					<div style="width: 40%" class="tb-thead-th border-r-coffie">客户名</div>
+					<div style="width: 20%" class="tb-thead-th">子订单数量</div>
+				</div>
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="modal in parentModalList">
+						<div style="width: 40%" class="tb-tbody-td border-r-td"><span>{{modal.parentNumber}}</span></div>
+						<div style="width: 40%" class="tb-tbody-td border-r-td"><span>{{modal.userName}}</span></div>
+						<div style="width: 20%" class="tb-tbody-td"><span class="count-pointer" ng-click="clickDetail(modal, 'parentOrder')">{{modal.totalCount}}</span></div>
+					</div>
+				</div>
+				<div class="page-box">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="modalPageSize" ng-change="pagechange2(modalPageSize, 'parent')"
+							style="width: 65px;height: 31px;">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ modalTotalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup2">
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="modalPageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange2('parent')">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 物流查询详情 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 1200px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>详情</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div style="margin-bottom: 15px;" class="d-flex flex-row-reverse">
+					<button ng-click="batchUpdate('modal')" class="piliangxiugai">批量修改</button>
+				</div>
+				<div class="tb-thead d-flex tb-thead-border">
+					<div style="width: 5%" class="tb-thead-th border-r-coffie">
+						<img ng-click="checkAll()" ng-show="!allModelChecked" src="../../static/image/public-img/multiple1.png"
+							alt="">
+						<img ng-click="checkAll()" ng-show="allModelChecked" src="../../static/image/public-img/multiple2.png"
+							alt="">
+						序号
+					</div>
+					<div style="width: 13%" class="tb-thead-th border-r-coffie">订单号</div>
+					<div style="width: 9%" class="tb-thead-th border-r-coffie">订单发货日期</div>
+					<div style="width: 4%" class="tb-thead-th border-r-coffie">发件仓</div>
+					<div style="width: 4%" class="tb-thead-th border-r-coffie">签收国</div>
+					<div style="width: 4%" class="tb-thead-th border-r-coffie">发出天数</div>
+					<div style="width: 5%" class="tb-thead-th border-r-coffie">物流公司</div>
+					<div style="width: 5%" class="tb-thead-th border-r-coffie">物流方式</div>
+					<div style="width: 13%" class="tb-thead-th border-r-coffie">物流原追踪号</div>
+					<div style="width: 13%" class="tb-thead-th border-r-coffie">CJ追踪号</div>
+					<div style="width: 4%" class="tb-thead-th border-r-coffie">系统重量(g)</div>
+					<div style="width: 4%" class="tb-thead-th border-r-coffie">出库重量(g)</div>
+					<div style="width: 4%" class="tb-thead-th border-r-coffie">出库时间</div>
+					<div style="width: 3%" class="tb-thead-th border-r-coffie">状态</div>
+					<div style="width: 7%" class="tb-thead-th">操作</div>
+				</div>
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="modal in modalList">
+						<div style="width: 5%" class="tb-tbody-td border-r-td">
+							<span>
+								<img ng-click="checkedFn(modal)" ng-show="!modal.isChecked"
+									src="../../static/image/public-img/multiple1.png" alt="">
+								<img ng-click="checkedFn(modal)" ng-show="modal.isChecked"
+									src="../../static/image/public-img/multiple2.png" alt="">
+								{{$index+1}}
+							</span>
+						</div>
+						<div style="width: 13%" class="tb-tbody-td border-r-td"><span ng-click="toAllOrder(modal)" class="ord-link">{{modal.id}}</span></div>
+						<div style="width: 9%" class="tb-tbody-td border-r-td"><span>{{modal.deliveryTime}}</span></div>
+						<div style="width: 4%" class="tb-tbody-td border-r-td"><span>{{classStore(modal.store)}}</span></div>
+						<div style="width: 4%" class="tb-tbody-td border-r-td"><span>{{modal.destNameCn}}</span></div>
+						<div style="width: 4%" class="tb-tbody-td border-r-td"><span>{{modal.deliveryDay}}</span></div>
+						<div style="width: 5%" class="tb-tbody-td border-r-td"><span>{{modal.logisticsName}}</span></div>
+						<div style="width: 5%" class="tb-tbody-td border-r-td"><span>{{modal.logisticsMode}}</span></div>
+						<div style="width: 13%" class="tb-tbody-td border-r-td huan">
+							<span>{{modal.trackNumber}}</span>
+							<span class="sp-change-text"  title="{{'原:'+modal.trackNumberHistory.replace(modal.trackNumber + ',','')}}" ng-if="modal.trackNumberHistory.split(',').length>2">换</span>
+						</div>
+						<div style="width: 13%" class="tb-tbody-td border-r-td"><span>{{modal.cJTrackNumber}}</span></div>
+						<div style="width: 4%" class="tb-tbody-td border-r-td"><span>{{modal.weight}}</span></div>
+						<div style="width: 4%" class="tb-tbody-td border-r-td"><span></span>{{modal.cjOutWeight || '-'}}</span></div>
+						<div style="width: 4%" class="tb-tbody-td border-r-td"><span>{{modal.outBoundTime}}</span></div>
+						<div style="width: 3%" class="tb-tbody-td border-r-td"><span>{{classOrderType(modal.status)}}</span></div>
+						<div style="width: 7%" class="tb-tbody-td">
+							<span class="moreAction">更多操作 <b></b>
+								<ul>
+									<li ng-show="modal.status !='0' && modal.status !='1' "><span ng-click="lookDetial(modal)">详情</span>
+									</li>
+									<li>
+										<span ng-click="updateStatus(modal)">修改状态</span>
+									</li>
+								</ul>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="page-box">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="modalPageSize" ng-change="pagechange2(modalPageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ modalTotalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup2">
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="modalPageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange2()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 修改状态 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFlag2">
+		<div class="erp-common-tan-v2" style="width: 300px; height: initial">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag2=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>头部</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div>
+					<p>状态：</p>
+					<select ng-model="selectStatus" class="model-select">
+						<option value="">请选择</option>
+						<option ng-show="status.code !== 'all' && status.code !== 'customerOrSalesman'"
+							ng-repeat="status in ResourceStatusEnum" value="{{status.code}}">{{status.name}}</option>
+					</select>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot position-initial">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag2=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" ng-click="updateStatusFn()" class="que-ding-btn">确定</a>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

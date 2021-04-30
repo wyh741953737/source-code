@@ -1,0 +1,452 @@
+<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-home.css"> -->
+<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-ywy-home.css">
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+<div class="ea-content">
+    <div id="anma" class="right-bar-wrap ea-right-content" style="overflow: hidden;">
+        <div class="asj-h10"></div>
+        <div class="erp-comhome-con">
+            <div class="ywy-con-top">
+                <div class="ywy-ctop-left">
+                    <div class="erp-comhome-ctop">
+                        <div class="ecct-imgunit">
+                            <img src="static/image/public-img/icon_product.png">
+                            <p>产品质量</p>
+                        </div>
+                        <img class="ecct-plusimg" src="static/image/public-img/icon_plus.png">
+                        <div class="ecct-imgunit">
+                            <img src="static/image/public-img/icon_logictis.png">
+                            <p>物流质量</p>
+                        </div>
+                        <img class="ecct-plusimg" src="static/image/public-img/icon_plus.png">
+                        <div class="ecct-imgunit">
+                            <img src="static/image/public-img/lcion_service.png">
+                            <p>服务质量</p>
+                        </div>
+                        <img class="ecct-plusimg" src="static/image/public-img/icon_eaual.png">
+                        <div class="ecct-imgunit">
+                            <img src="static/image/public-img/icon_live.png">
+                            <p>生存之本</p>
+                        </div>
+                    </div>
+
+                    <div class="erp-comhome-cmid">
+                        <div class="eccm-ywy-left">
+                            <ul>
+                                <li class="lit20b13">待办事项</li>
+                                <li class="litb20">
+                                    <div class="nav-left-div">
+                                        <img src="static/image/public-img/icon_message.png">
+                                        <span class="c333">消息</span>
+                                    </div>
+                                    <div class="nav-div">
+                                        <div class="w151">
+                                            <a target="_blank" href="#/staff/nbtz">
+                                                <span class="c666">部门消息</span>
+                                                <span class="c4A90E2">{{bmList[0].BMCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/staff/nbtz">
+                                                <span class="c666">小组消息</span>
+                                                <span class="c4A90E2">{{bmList[0].XZCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erpservice/sc/1">
+                                                <span class="c666">顾客消息</span>
+                                                <span class="c4A90E2">{{bmList[0].GKCount}}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="litb20">
+                                    <div class="nav-left-div">
+                                        <img src="static/image/public-img/icon_order.png">
+                                        <span class="c333">订单</span>
+                                    </div>
+                                    <div class="nav-div">
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erp-czi-ord">
+                                               <span class="c666">未处理订单</span>
+                                               <span class="c4A90E2" href="">{{ordList.dclCount}}</span> 
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erppurchase/needbuy">
+                                                <span class="c666">未采购订单</span>
+                                                <span class="c4A90E2">{{ordList.wcgCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/zi-two">
+                                                <span class="c666">未发货</span>
+                                                <span class="c4A90E2">{{ordList.dfhCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erpservice/csdisputePendingm">
+                                                <span class="c666">纠纷订单</span>
+                                                <span class="c4A90E2">{{ordList.jfCount}}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="li-tp20">
+                                    <!-- <img src="static/image/public-img/icon_sourcing.png">
+                                    <span class="c333">搜品</span> -->
+                                    <div class="nav-left-div">
+                                        <img src="static/image/public-img/icon_sourcing.png">
+                                        <span class="float-c333">搜品</span>
+                                    </div>
+                                    <div class="nav-div">
+                                        <div class="nav-topdiv">
+                                            <span class="nav-c333 souce-nav">等待搜品</span>
+                                            <span class="nav-c333 souce-nav">搜品失败</span>
+                                        </div>
+                                        <div class="pt25b25 souce-show">
+                                            <div class="w151">
+                                                <a target="_blank" href="#/cumsourcing/1">
+                                                   <span class="c666">游客搜品</span>
+                                                   <!-- <img class="star-img" src="static/image/order-img/iconstar.png"> -->
+                                                   <span class="c4A90E2">{{seaList0[0].YKCount}}</span> 
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <a target="_blank" href="#/sourcing/1">
+                                                   <span class="c666">客户店铺</span>
+                                                   <span class="c4A90E2" href="">{{seaList0[0].DPCount}}</span> 
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <a target="_blank" href="#/individualsourcing/1">
+                                                    <span class="c666">独有商品</span>
+                                                    <span class="c4A90E2">{{seaList0[0].DYCount}}</span>
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <a target="_blank" href="#/cjsourcing/1">
+                                                    <span class="c666">平台搜品</span>
+                                                    <span class="c4A90E2">{{seaList0[0].PTCount}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="pt25b25 souce-show">
+                                            <div class="w151">
+                                                <!-- <a target="_blank" href="#/cumsourcing/1"> -->
+                                                <a target="_blank" href="#/cumsourcing/0">
+                                                   <span class="c666">游客搜品</span>
+                                                   <span class="c4A90E2">{{seaList0[1].YKCount}}</span> 
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <!-- <a target="_blank" href="#/sourcing/1"> -->
+                                                <a target="_blank" href="#/sourcing/2">
+                                                   <span class="c666">客户店铺</span>
+                                                   <span class="c4A90E2" href="">{{seaList0[1].DPCount}}</span> 
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <!-- <a target="_blank" href="#/individualsourcing/1"> -->
+                                                <a target="_blank" href="#/individualsourcing/2">
+                                                    <span class="c666">独有商品</span>
+                                                    <span class="c4A90E2">{{seaList0[1].DYCount}}</span>
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <!-- <a target="_blank" href="#/cjsourcing/1"> -->
+                                                <a target="_blank" href="#/cjsourcing/2">
+                                                    <span class="c666">平台搜品</span>
+                                                    <span class="c4A90E2">{{seaList0[1].PTCount}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="li-tp20">
+                                    <!-- <img src="static/image/public-img/icon_goods.png">
+                                    <span class="c333">商品</span> -->
+                                    <div class="nav-left-div">
+                                        <img src="static/image/public-img/icon_goods.png">
+                                        <span class="float-c333">商品</span>
+                                    </div>
+                                    <div class="nav-div">
+                                        <div class="nav-topdiv">
+                                            <span class="nav-c333 good-nav">代发商品</span>
+                                            <span class="nav-c333 good-nav">服务商品</span>
+                                        </div>
+                                        <div class="pt25b25 goods-show">
+                                            <div class="w151">
+                                                <a target="_blank" href="#/merchandise/list/drop/1">
+                                                    <span class="c666">待提交</span>
+                                                    <span class="c4A90E2">{{spList0[0].DTJCount}}</span>
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <a target="_blank" href="#/merchandise/list/drop/2">
+                                                    <span class="c666">需审核</span>
+                                                    <span class="c4A90E2">{{spList0[0].DSHCount}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="pt25b25 goods-show">
+                                            <div class="w151">
+                                                <a target="_blank" href="#/merchandise/list/service/1">
+                                                    <span class="c666">待提交</span>
+                                                    <span class="c4A90E2">{{spList0[1].DTJCount}}</span>
+                                                </a>
+                                            </div>
+                                            <div class="w151">
+                                                <a target="_blank" href="#/merchandise/list/service/2">
+                                                    <span class="c666">需审核</span>
+                                                    <span class="c4A90E2">{{spList0[1].DSHCount}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="litb20">
+                                    <div class="nav-left-div">
+                                        <img src="static/image/public-img/icon_customer.png">
+                                        <span class="c333">客服</span>
+                                    </div>
+                                    <div class="nav-div">
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erpcustomer/KeHuLieBiao">
+                                                <span class="c666">今日新客户</span>
+                                                <span class="c4A90E2">{{kfList[0].JRCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erpservice/gd">
+                                                <span class="c666">客户工单</span>
+                                                <span class="c4A90E2">{{kfList[0].GDCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erpservice/complaint">
+                                                <span class="c666">客户差评</span>
+                                                <span class="c4A90E2">{{kfList[0].CPCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erpservice/complaint">
+                                                <span class="c666">客户建议</span>
+                                                <span class="c4A90E2">{{kfList[0].JYCount}}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="litb20">
+                                    <div class="nav-left-div">
+                                        <img src="static/image/public-img/icon_purchase.png">
+                                        <span class="c333">采购</span>
+                                    </div>
+                                    <div class="nav-div">
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erppurchase/needbuy">
+                                                <span class="c666">需采购</span>
+                                                <span class="c4A90E2" href="">{{cgList[0].XCGCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <span class="c666">需还价</span>
+                                            <span class="c4A90E2">{{cgList[0].XHJCount}}</span>
+                                        </div>
+                                        <div class="w151">
+                                            <a target="_blank" href="#/erppurchase/order/2">
+                                                <span class="c666">需签收</span>
+                                                <span class="c4A90E2">{{cgList[0].XQSCount}}</span>
+                                            </a>
+                                        </div>
+                                        <div class="w151">
+                                            <span class="c666">需退货</span>
+                                            <span class="c4A90E2">{{cgList[0].XTHCount}}</span>
+                                        </div>
+                                        <div class="w151">
+                                            <a href="/erpmicro/service/disputeReminder">
+                                                <span class="c666">纠纷提醒</span>
+                                                <span class="c4A90E2">{{disputeNumber}}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="ywy-ctop-right">
+                    <div class="ywy-gg">
+                        <div class="eccm-rtop-tit">
+                            <img src="static/image/public-img/icon_notice.png">
+                            <span>最新公告</span>
+                            <div class="page-num"></div>
+                        </div>
+                        <ul class="notice-ul">
+                            <!-- <li>
+                                <p class="notice-f12">
+                                    1.亲爱的销售精英们，公司对于从代发订单中心转移至我们平台处理订单的最后期限是3月31号，4月1日后不再支持代发订单中心的订单处理方式，请各位尽快安排好各项事宜，并开始把所有客人订单转移至我们的平台，以免对客户和订单处理造成麻烦。
+                                </p>
+                                <p class="notice-time">
+                                    2018/03/08
+                                </p>
+                            </li> -->
+                            <li ng-repeat="item in noticeList">
+                                <p class="notice-f12" ng-click="showNotFun(item)">
+                                    <span class="ywy-notice-info">{{$index+1}}. {{item.info}}</span>  
+                                    <span class="ywy-notice-time">{{item.sendDate | date:'yyyy/MM/dd'}}</span>     
+                                </p>
+                                <!-- <p class="notice-time">
+                                    {{item.sendDate | date:'yyyy/MM/dd'}}
+                                </p> -->
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 业绩 -->
+                    <div class="top-bang">
+                        <div class="topb-ul">
+                            <div class="topb-litit">
+                                <div class="tit-div1">销售业绩排行榜</div>
+                                <div class="tit-div2">
+                                    <span class="day-time" href="javascript:void(0)">今日</span>
+                                    <span class="day-time" href="javascript:void(0)">昨日</span>
+                                    <span class="day-time" href="javascript:void(0)">一周</span>
+                                    <span class="day-time" href="javascript:void(0)">一月</span>
+                                </div>
+                            </div>
+                            <div class="flex" style="justify-content: space-between;">
+                                <div style="width:48%;" class="flex fdc">
+                                    <div class="top-list-li border1bottom">
+                                        <div class="wbfb20">
+                                            排名
+                                        </div>
+                                        <div class="wbfb40">
+                                            姓名
+                                        </div>
+                                        <div class="wbfb40">
+                                            <span>销售金额</span>
+                                            <span>(美元)</span>
+                                        </div>
+                                    </div>
+                                    <div class="top-list-li" ng-repeat="item in phbList" ng-if="$index < 5">
+                                        <div class="wbfb20">
+                                            <span ng-class="{'yellow-bgspan':$index==0}" class="gray-bgspan">{{$index+1}}</span>
+                                        </div>
+                                        <div class="wbfb40">
+                                            {{item.salesmanName}}
+                                        </div>
+                                        <div class="wbfb40">
+                                            {{item.amount}}
+                                            <!-- <span>销售金额</span>
+                                            <span>(美元)</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div style="width:48%;" class="flex fdc">
+                                    <div class="top-list-li border1bottom">
+                                        <div class="wbfb20">
+                                            排名
+                                        </div>
+                                        <div class="wbfb40">
+                                            姓名
+                                        </div>
+                                        <div class="wbfb40">
+                                            <span>销售金额</span>
+                                            <span>(美元)</span>
+                                        </div>
+                                    </div>
+                                    <div class="top-list-li" ng-repeat="item in phbList" ng-if="$index >= 5">
+                                        <div class="wbfb20">
+                                            <span ng-class="{'yellow-bgspan':$index==0}" class="gray-bgspan">{{$index+1}}</span>
+                                        </div>
+                                        <div class="wbfb40">
+                                            {{item.salesmanName}}
+                                        </div>
+                                        <div class="wbfb40">
+                                            {{item.amount}}
+                                            <!-- <span>销售金额</span>
+                                            <span>(美元)</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 表格 -->
+            <div id="main" style="width: 100%;height: 374px;margin-top: 10px;"></div>
+        </div>
+    </div>
+</div>
+<div class="gg-tk-con" ng-show="ggTkFlag">
+    <div class="gg-tk-top">
+        <p>公告</p>
+        <img style="cursor: pointer;" ng-click="ggTkFlag=false" src="static/image/public-img/close-img.png">
+    </div>
+    <div class="gg-tk-mid">
+        <div class="tk-notice-text">
+            <pre ng-bind-html="noticeHTML"></pre>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//     // 基于准备好的dom，初始化echarts实例
+//     var myChart = echarts.init(document.getElementById('main'));
+//     // myChart.showLoading(); //加载动画
+//     // myChart.hideLoading();//关闭动画
+//     // 指定图表的配置项和数据
+//     var option = {
+//         backgroundColor: '#fff',
+//         title: {
+//             text: '总销售趋势'
+//         },
+//         tooltip: {},
+//         // legend: {
+//         //     data:['销量']
+//         // },
+//         xAxis: {
+//             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
+//         },
+//         yAxis: {},
+//         series: [{
+//             name: '销量',
+//             type: 'bar',
+//             data: [5, 20, 36, 10, 10, 20, 205, 36, 10, 10, 20],
+//             itemStyle: {
+//                 normal: {
+//                     label: {
+//                         show: true, //开启显示
+//                         position: 'top', //在上方显示
+//                         textStyle: { //数值样式
+//                             color: 'black',
+//                             fontSize: 16
+//                         }
+//                     }
+//                 }
+//             },
+//         }],
+//         //配置样式
+//         itemStyle: {   
+//             //通常情况下：
+//             normal:{  
+// 　　　　　　　　//每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+//                 color: function (params){
+//                     var colorList = ['#4A90E2'];
+//                     return colorList[params.dataIndex];
+//                 }
+//             },
+//             //鼠标悬停时：
+//             emphasis: {
+//                     shadowBlur: 10,
+//                     shadowOffsetX: 0,
+//                     shadowColor: 'rgba(0, 0, 0, 0.5)'
+//             }
+//         }
+//     };
+
+//     // 使用刚指定的配置项和数据显示图表。
+//     myChart.setOption(option);
+</script>

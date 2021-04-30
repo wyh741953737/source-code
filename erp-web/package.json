@@ -1,0 +1,24 @@
+{
+  "name": "cj-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node scripts/switch-env.js development",
+    "local": "node scripts/switch-env.js test",
+    "build": "node scripts/switch-env.js production && npm run update && npm run cacheRefresh && npm run zip-git",
+    "build-cn": "node scripts/switch-env.js production-cn && npm run update && npm run cacheRefresh && npm run zip-git",
+    "test": "node scripts/switch-env.js test && npm run update && npm run cacheRefresh && npm run zip-git",
+    "test-new": "node scripts/switch-env.js test-new && npm run update && npm run cacheRefresh && npm run zip-git",
+    "cacheRefresh": "node scripts/cacheRefresh.js",
+    "update": "node scripts/update-script.js",
+    "view-env": "node scripts/view.env.js",
+    "zip-git": "node scripts/zip-git.js"
+  },
+  "author": "草鞋没号 <308487730@qq.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-zip": "^5.0.1"
+  }
+}

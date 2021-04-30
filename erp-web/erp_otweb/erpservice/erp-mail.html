@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .search-box{
+            display: flex;
+            height:35px;
+        }
+        .search-box>span{
+            line-height: 35px;
+        }
+        .search-box>input{
+            width: 260px;
+            padding: 0 5px;
+        }
+        .linkbtn{
+            padding:0 15px;
+            background: #F8A636;
+            color: #fff;
+            height: 35px;
+            border-radius: 4px;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999999;
+            display: none;
+        }
+        .zzc-content{
+            background: #fff;
+            border-radius: 5px;
+            width: 700px;
+            min-height: 160px;
+            margin:150px auto;
+            padding: 20px;
+            position: relative;
+        }
+        .zzc-content>h3{
+            text-align: center;
+            margin:10px 0;
+            position: relative;
+        }
+        .table-top{
+            display: flex;
+        }
+        #selectPort{
+            min-width: 200px;
+        }
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .template{
+            height: 35px;
+            margin-bottom: 15px;
+            display: flex;
+            line-height: 32px;
+        }
+        .template>label{
+            width: 120px;
+            text-align: right;
+            line-height: 32px;
+        }
+        .template>input{
+            height: 32px;
+            padding: 0 5px;
+            width: 380px;
+        }
+        #selectSQL{
+            width: 380px;
+        }
+        .parameter-table{
+            display: flex;
+        }
+        .par-left,.par-right{
+            width: 120px;
+            background: #F4F8FB;
+            border: 1px solid #e1e1e1 ;
+            text-align: center;
+            height: 35px;
+            line-height: 32px;
+        }
+        .par-left2,.par-right2{
+            width: 120px;
+            border: 1px solid #e1e1e1 ;
+            text-align: center;
+            border-top: none;
+            height: 35px;
+            line-height: 32px;
+        }
+        .par-left,.par-left2{
+            border-right: none;
+        }
+        .par-right2>input{
+            width: 100px;
+            height:25px;
+            padding: 0 5px;
+        }
+        .par-content{
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .par-content>label{
+            width: 120px;
+            text-align: right;
+            line-height: 32px;
+        }
+        .resultDiv{
+            width: 380px;
+        }
+        .resultDiv>a{
+            line-height: 32px;
+            display: inline-block;
+            width: 60px;
+            height: 32px;
+            border-radius: 4px;
+            text-align: center;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .resultDiv>a:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        #templateContent{
+            width: 380px;
+            border: 1px solid #E0E0E0;
+            height: 80px;
+        }
+        .moreAction{
+            width: 113px;
+            position: relative;
+        }
+        .moreAction>span{
+            cursor: pointer;
+            position: relative;
+
+        }
+        .moreAction>span>b{
+            display: inline-block;
+            border: 5px solid transparent;
+            border-top-color: #9e9e9e;
+        }
+        .moreAction ul{
+            background: #fff;
+            box-shadow: 0px 8px 20px;
+            position: absolute;
+            left: 6px;
+            display: none;
+            z-index: 999999;
+        }
+        .moreAction ul>li>span{
+            display: inline-block;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+        }
+        .moreAction>span:hover>ul{
+            display: block;
+        }
+        .moreAction ul>li>span:hover{
+            background: #e0e0e0;
+        }
+        .model-wrap{
+            display: flex;
+        }
+        .content-wrap{
+            width: 330px;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .left-wrap{
+            border-right: 1px solid #eee;
+        }
+        .left-top{
+            /*border: 1px solid #eee;*/
+            max-height: 184px;
+            overflow: auto;
+        }
+        .right-wrap{
+            width: 330px;
+        }
+        .addCanshu{
+            width: 300px;
+            background: #fff;
+            min-height: 100px;
+            position: absolute;
+            /*top: 0;*/
+            left: -318px;
+            border-radius: 5px;
+            padding: 15px;
+            display: none;
+        }
+        .addCanshu>b{
+            position: absolute;
+            border: 6px solid transparent;
+            border-left-color: #fff;
+            right: -12px;
+        }
+        .canshu-group{
+            margin-bottom: 10px;
+        }
+        .canshu-group>label{
+            width: 80px;
+            text-align: right;
+        }
+        .canshu-group>input{
+            width: 170px;
+        }
+        .selectResult{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .selectResult>span{
+            font-size: 13px;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-right: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            background: #FFFAFA;
+        }
+        .selectResult>span:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        .right-group{
+            margin-bottom: 15px;
+        }
+        .right-group>label{
+            width: 80px;
+            text-align: right;
+            line-height: 30px;
+        }
+        .right-group>input{
+            width: 214px;
+            height: 30px;
+        }
+        .right-group>textarea{
+            width: 220px;
+            height: 120px;
+            border: 1px solid #E0E0E0;
+        }
+        .wrap-btn{
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .notice{
+            display: none;
+        }
+        .interfacePath{
+            min-width: 350px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .ea-right-search{
+            margin-bottom: 15px;
+        }
+        .search-box>button{
+            background: #F8A636;
+            color: #fff;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input style="height: 35px" class="search-text-box" type="text" placeholder="请输入模板名称或邮件标题搜索" ng-model="searchinfo"/>
+                    <button ng-click="SearchBtn()">搜索</button>
+                </div>
+            </div>
+            <div class="mail-content">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>模板名称</th>
+                        <th>模板类型</th>
+                        <th>邮件标题</th>
+                        <th>接口名称</th>
+                        <th>接口地址</th>
+                        <th>创建时间</th>
+                        <th>创建人</th>
+                        <th>验证结果</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="model in modelList">
+                        <td>{{$index+1}}</td>
+                        <td>{{model.modeName}}</td>
+                        <td>{{model.msgContentType}}</td>
+                        <td>{{model.msgName}}</td>
+                        <td>{{model.interfaceName}}</td>
+                        <td class="interfacePath">{{model.interfacePath}}</td>
+                        <td>{{model.createDate}}</td>
+                        <td>{{model.creatorName}}</td>
+                        <td>{{classCheckFlag(model.checkFlag)}}</td>
+                        <td>{{classStatus(model.optStatus)}}</td>
+                        <td class="moreAction">
+                            <span>更多操作 <b></b>
+                                <ul>
+                                    <li><span ng-click="editFun(model.id,model.modeName,model.msgName,model.msgContent,model.emailType)">编辑</span></li>
+                                    <li><span ng-click="changeStatus(model.id,'dell')">删除</span></li>
+                                    <li ng-show="model.optStatus=='107'"><span ng-click="changeStatus(model.id,'open')">启用</span></li>
+                                    <li ng-show="model.optStatus=='106'"><span ng-click="changeStatus(model.id,'close')">停用</span></li>
+                                </ul>
+                            </span>
+                            <!--<button class="linkbtn">编辑</button>-->
+                            <!--<button class="linkbtn">删除</button>-->
+                            <!--<button class="linkbtn">启用</button>-->
+                            <!--<button class="linkbtn">停用</button>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--邮件模板-->
+<div class="zzc">
+    <div class="zzc-content">
+        <h3>修改模板</h3>
+        <div class="addCanshu">
+            <b></b>
+            <h3 style="margin: 10px">新增参数</h3>
+            <div class="canshu-group">
+                <label for="csmc">参数名称：</label>
+                <input type="text" id="csmc"/>
+            </div>
+            <div class="canshu-group">
+                <label for="csz">参数值：</label>
+                <input type="text" id="csz"/>
+            </div>
+            <div class="canshu-group" style="margin-top: 15px; text-align: center">
+                <button class="linkbtn" style="margin-right: 15px" ng-click="sureAdd()">确定</button>
+                <button class="linkbtn" ng-click="closeAdd()">关闭</button>
+            </div>
+        </div>
+        <div class="model-wrap">
+            <div class="content-wrap left-wrap">
+                <div class="top-action" style="margin-bottom: 10px">
+                    <button class="linkbtn" ng-click="openAdd()">新增</button>
+                    <button class="linkbtn" id="selectBtn" >获取参数</button>
+                </div>
+                <div class="left-top">
+                    <table class="ea-list-table ea-erp-cs">
+                        <thead>
+                        <tr>
+                            <th>参数名称</th>
+                            <th>参数值</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="left-bottom" style="margin-top: 15px">
+                    <p style="margin-bottom: 10px">获取结果：(点击参数可以添加到内容中去)</p>
+                    <div class="selectResult">
+                        <span ng-repeat="key in keyList">{{key.key}}</span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="content-wrap right-wrap">
+                <div class="right-group">
+                    <label for="modelName">模板名称：</label>
+                    <input type="text" id="modelName"/>
+                </div>
+                <div class="right-group">
+                    <label for="modelTitle">邮件标题：</label>
+                    <input type="text" id="modelTitle"/>
+                </div>
+                <div class="right-group" style="display: flex;align-items: flex-start">
+                    <label for="modelContent">邮件内容：</label>
+                    <textarea id="modelContent"></textarea>
+                </div>
+                <div class="right-group" style="display: flex;align-items: flex-start">
+                    <label>邮件类型：</label>
+                    <select name="" id="selectModelType" style="width: 214px;">
+                        <option value="Sourcing">Sourcing</option>
+                        <option value="Ordering">Ordering</option>
+                        <option value="Conversation">Conversation</option>
+                        <option value="Tickets">Tickets</option>
+                        <option value="Disputes">Disputes</option>
+                        <option value="Inventory">Inventory</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="notice">
+            <p></p>
+        </div>
+        <div class="wrap-btn">
+            <button class="linkbtn" id="ceshiBtn" style="margin-right: 15px">测试</button>
+            <button class="linkbtn" style="margin-right: 15px" id="sureMail">确定</button>
+            <button class="linkbtn" ng-click="closezzc()">关闭</button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

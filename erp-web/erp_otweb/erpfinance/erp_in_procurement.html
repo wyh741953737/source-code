@@ -1,0 +1,330 @@
+<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_shortage_refund.css">
+<style>
+	.ea-content  .dikou-span {
+		display: inline-block;
+		cursor: pointer;
+		padding: 0 3px;
+		border-radius: 4px;
+		font-size: 10px;
+		color: #fff;
+		background-color: #449d44;
+		margin-top: 4px;
+		margin-left: 5px;
+	}
+	</style>
+<div class="ea-content shortage-refund">
+<div class="right-bar-wrap ea-right-content">
+		<!-- 顶部tab -->
+		<div ng-show="!isOptions" id="top-tab" class="top-tab position-absolute" ng-init="init()">
+			<div class="top-tab-nav d-flex">
+				<span ng-click="changeTabType(procurementModal.pending.key)"
+					ng-class='{"tab-active": currentType === procurementModal.pending.key }'
+					class="tab-span tab-border-bt cursor-pointer">待打款</span>
+				<span ng-click="changeTabType(procurementModal.pay.key)"
+					ng-class='{"tab-active": currentType === procurementModal.pay.key }'
+					class="tab-span tab-border-bt cursor-pointer">已打款</span>
+				<span ng-click="changeTabType(procurementModal.refunded.key)"
+					ng-class='{"tab-active": currentType === procurementModal.refunded.key }'
+					class="tab-span tab-border-bt cursor-pointer">已拒绝</span>
+			</div>
+			<!-- 搜索区域 & 表头 -->
+			<div class="top-tab-bottom bg-white padding-lr-20px">
+				<!-- 搜索区域 -->
+				<div class="top-tab-search shortage-search d-flex justify-content-between align-items-center">
+					<!-- 左侧筛选条件 -->
+					<div class="top-tab-search-left d-flex-center">
+						<div class="shortage-search-item d-flex-center">
+							<label>采购人: </label>
+							<purchaseselect callback="purchasePersonCallback"></purchaseselect>
+						</div>
+						<div class="shortage-search-item d-flex-center">
+							<label>采购订单号: </label>
+							<input ng-model="searchByOderId" type="text" placeholder="请输入采购订单号">
+						</div>
+						<div class="shortage-search-item d-flex-center">
+							<label>采购类型: </label>
+							<select ng-model="caigouType" style="height:38px;">
+								<option value="">全部</option>
+								<option value="1">淘宝</option>
+								<option value="2">天猫</option>
+								<option value="3">1688</option>
+								<option value="4">线下</option>
+							</select>
+						</div>
+						<div class="shortage-search-item d-flex-center">
+							<button ng-click="searchFn()" class="asj-btn-s2 search-btn">筛选</button>
+							<!-- <button class="asj-btn-s3 search-btn">导出</button> -->
+							<!-- <button class="asj-btn-s3 search-btn">清空</button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="content-wrap" class="content-wrap" ng-class="{'noMarginTop': isOptions}">
+			<div ng-show="!isOptions" class="bg-white shortage-content">
+				<table class="w-100">
+					<thead>
+						<tr>
+							<th>内部采购订单号</th>
+							<th>采购类型</th>
+							<th>付款方式</th>
+							<th>申请人</th>
+							<th>采购员</th>
+							<th>采购数量</th>
+							<th>本次支付(¥)</th>
+							<th>本次支付类型</th>
+							<th>共需支付(¥)</th>
+							<th ng-if="currentType === procurementModal.pay.key">财务</th>
+							<th ng-if="currentType === procurementModal.refunded.key">拒绝原因</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in caigouList track by $index">
+							<td>
+								<span>{{item.orderId}}</span>
+								<span title="含优先处理的订单" ng-show="item.isFirst" style="background-color: #FF7700;" class="dikou-span">首</span>
+							</td>
+							<td><span>{{caigouModal[item.type] || '--'}}</span></td>
+							<td><span>{{payTypeModal[+item.payType].name}}</span></td>
+							<td><span>{{item.applicantName}}</span></td>
+							<td><span>{{item.buyerName}}</span></td>
+							<td><span>{{item.num}}</span></td>
+							<td><span>{{item.thisPayment}}</span></td>
+							<td><span>{{currentPayTypeModal[+item.moneyType + 1].name}}</span></td>
+							<td><span>{{item.totalPay}}</span></td>
+							<td ng-if="currentType === procurementModal.pay.key"><span>{{item.financialName || '--'}}</span></td>
+							<td ng-if="currentType === procurementModal.refunded.key">
+								<span class="cursor-pointer" ng-click="lookReasonFun(item.remark)">
+									<img src="../../static/image/public-img/fileicon.svg" alt="">
+								</span>
+							</td>
+							<td>
+								<div class="d-flex align-items-center justify-content-around">
+									<span ng-click="openOptions('dakuan', item)" ng-show="currentType === procurementModal.pending.key"
+										class="stortge-table-btn asj-btn-s2 cursor-pointer">打款</span>
+									<span ng-click="refundFn(item)" ng-show="currentType === procurementModal.pending.key"
+										class="stortge-table-btn asj-btn-s2 cursor-pointer">拒绝</span>
+									<span ng-click="openOptions('look', item)" ng-show="currentType === procurementModal.pay.key"
+										class="stortge-table-btn asj-btn-s2 cursor-pointer">查看</span>
+									<span ng-click="openOptions('refund', item)" ng-show="currentType === procurementModal.refunded.key"
+										class="stortge-table-btn asj-btn-s2 cursor-pointer">查看</span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="d-flex-center no-data-wrap" ng-show="caigouList.length === 0">暂无数据</div>
+				<page ng-show="caigouList.length > 0"></page>
+			</div>
+			<div ng-if="isOptions" class="bg-white shortage-content">
+				<div><button class="asj-btn-s3 back-btn" ng-click="goBackFn()">返回</button></div>
+				<div class="d-flex flex-wrap">
+					<div class="options-item">
+						<label>申请人：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.applicantName}}</span>
+					</div>
+					<div class="options-item">
+						<label>申请原因： </label>
+						<span>{{optionsItem.options.caigouInternalProcurement.pursueReason}}</span>
+					</div>
+					<div class="options-item">
+						<label>采购方式：</label>
+						<span>{{caigouModal[optionsItem.options.caigouInternalProcurement.type]}}</span>
+					</div>
+					<div class="options-item">
+						<label>收货地址：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.shippingAddress}}</span>
+					</div>
+					<div class="options-item">
+						<label>卖家公司：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.sellerCompany}}</span>
+					</div>
+					<div class="options-item">
+						<label>卖家姓名：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.sellerName}}</span>
+					</div>
+					<div class="options-item">
+						<label>卖家电话：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.sellerPhone}}</span>
+					</div>
+					<div class="options-item">
+						<label>付款方式：</label>
+						<span>{{payTypeModal[+optionsItem.options.caigouInternalProcurement.payType].name}}</span>
+					</div>
+					<div class="options-item">
+						<label>收款方式：</label>
+						<span>{{shoukuanModal[optionsItem.options.caigouInternalProcurement.paymentTerm]}}</span>
+					</div>
+					<div class="options-item">
+						<label>收款账号名称：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.accountName}}</span>
+					</div>
+					<div class="options-item">
+						<label>收款账号：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.account}}</span>
+					</div>
+				</div>
+				<div class="options-product-info">
+					<table class="w-100">
+						<thead>
+							<tr>
+								<th>物流公司</th>
+								<th>追踪号</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="logistics in  optionsItem.options.caigouInternalProcurementLogisticss track by $index">
+								<td><span>{{logistics.logisticsName}}</span></td>
+								<td><span>{{logistics.logisticsNum}}</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="options-product-info">
+					<table class="w-100">
+						<thead>
+							<tr>
+								<th>商品名称</th>
+								<th>商品单价(¥)</th>
+								<th>商品数量</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="productItem in optionsItem.options.caigouInternalProcurementProducts track by $index">
+								<td><span>{{productItem.productName}}</span></td>
+								<td><span>{{productItem.productPrice}}</span></td>
+								<td><span>{{productItem.num}}</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="d-flex">
+					<div class="options-item col-3">
+						<label>CJ需付运费(¥)：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.needPayFreight}}</span>
+					</div>
+					<div class="options-item col-3">
+						<label>共需支付(¥)：</label>
+						<span ng-show="optionsItem.currentPayType !== 1">
+							{{optionsItem.options.caigouInternalProcurement.totalPay}}
+						</span>
+						<span ng-show="optionsItem.currentPayType === 1">
+							{{optionsItem.options.caigouInternalProcurement.deposit}}
+						</span>
+					</div>
+					<!-- 当本次支付类型为定金的时候展示次字段 -->
+					<div class="options-item col-3" ng-show="optionsItem.currentPayType === 1">
+						<label>本次预付订金(¥)：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.deposit}}</span>
+					</div>
+					<!-- 当本次支付类型为定金-尾款的时候展示次字段 -->
+					<div class="options-item col-3" ng-show="optionsItem.currentPayType === 2">
+						<label>已付定金(¥)：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.deposit}}</span>
+					</div>
+					<!-- 当本次支付类型为定金-尾款的时候展示次字段 -->
+					<div class="options-item col-3" ng-show="optionsItem.currentPayType === 2">
+						<label>剩余尾款(¥)：</label>
+						<span>{{optionsItem.options.caigouInternalProcurement.totalPay}}</span>
+					</div>
+				</div>
+				<!-- 采购凭证，不知道采购凭证是不是这里要上传的，看文档里好像是一张图片，我这就没做上传，只做了展示 -->
+				<div class="d-flex options-item">
+					<label class="bottom-label">采购凭证：</label>
+					<uploadfiles id="'purchasingDocuments'" init-files="optionsItem.options.caigouInternalProcurement.purchasingDocuments" show-component="true"></uploadfiles>
+				</div>
+				<!-- 实际操作： 当定金支付凭证存在时才展示  -->
+				<div class="d-flex options-item" ng-show="optionsItem.options.depositPaymentCertificate.length > 0">
+					<label class="bottom-label">定金支付凭证：</label>
+					<uploadfiles id="'dingjinzhifupingzheng'" init-files="optionsItem.options.depositPaymentCertificate" show-component="true"></uploadfiles>
+				</div>
+				<!-- 只有在打款状态下且本次支付类型是尾款的时候才需要填写实际支付尾款 -->
+				<div class="d-flex options-item align-items-center"
+					ng-show="optionsItem.currentPayType === 2 && optionsItem.type === optionsTypeModal.dakuan.key">
+					<label class="bottom-label">实际支付尾款：</label>
+					<input onkeypress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false" ng-model="$parent.optionsItem.count" type="number">
+				</div>
+				<!-- 支付凭证存在的情况 -->
+				<div class="d-flex options-item align-items-center" ng-show="optionsItem.options.fullProof.length > 0">
+					<label class="bottom-label">{{optionsItem.currentPayType === 2 ? '尾款支付凭证' : '支付凭证'}}：</label>
+					<uploadfiles id="'zhifupingzheng'" init-files="optionsItem.options.fullProof" show-component="true"></uploadfiles>
+				</div>
+				<div ng-show="optionsItem.type === optionsTypeModal.dakuan.key" class="d-flex options-item">
+					<label class="bottom-label">{{optionsItem.currentPayType === 2 ? '上传尾款支付凭证' : '上传支付凭证'}}：</label>
+					<!-- 在打款状态下显示 上传凭证元素 -->
+					<div>
+						<div>(凭证格式：.jpg, .jpeg, .gif, .png, .pdf)</div>
+						<div class="d-flex flex-wrap upload-wrap">
+							<uploadfiles callback="uploadCallback" id="'uploadRoof'" init-files="optionsItem.imgArr"></uploadfiles>
+						</div>
+					</div>
+				</div>
+				<!-- 在拒绝-查看 状态展示 -->
+				<div ng-show="optionsItem.type === optionsTypeModal.refund.key" class="d-flex options-item">
+					<label>拒绝原因：</label>
+					<span>{{optionsItem.options.remark}}</span>
+				</div>
+				<!-- 只有在打款状态显示 -->
+				<div class="d-flex options-bottom flex-row-reverse" ng-show="optionsItem.type === optionsTypeModal.dakuan.key">
+					<button ng-click="submitFn()" class="asj-btn-s2">提交</button>
+					<button ng-click="goBackFn()" class="asj-btn-s3">取消</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 拒绝原因查看弹窗 -->
+		<div class="erp-common-tan-v2-wrap" ng-show="refundReasonFlag">
+			<div class="erp-common-tan-v2" style="width: 500px; height: initial;">
+				<!-- title -->
+				<div class="tan-v2-top">
+					<h6>拒绝原因</h6>
+				</div>
+				<!-- 内容 -->
+				<div class="tan-v2-con">
+					<div class="d-flex-center">
+						<h4>{{refundReason}}</h4>
+					</div>
+				</div>
+				<!-- 底部 -->
+				<div class="tan-v2-bot">
+					<!-- 取消按钮（灰色） -->
+					<a href="javascript:void(0);" ng-click="refundReasonFlag=false;" class="qu-xiao-btn">关闭</a>
+				</div>
+			</div>
+		</div>
+		<!-- 拒绝弹窗 -->
+		<div class="erp-common-tan-v2-wrap" ng-show="refundFlag">
+			<div class="erp-common-tan-v2" style="width: 500px; height: initial;">
+				<!-- title -->
+				<div class="tan-v2-top">
+					<h6>拒绝</h6>
+				</div>
+				<!-- 内容 -->
+				<div class="tan-v2-con">
+					<div class="d-flex-center">
+						<textarea ng-model="refundItem.remark" placeholder="请输入拒绝原因" class="modal-textArea w-100" name="" id=""
+							cols="30" rows="8"></textarea>
+					</div>
+				</div>
+				<!-- 底部 -->
+				<div class="tan-v2-bot">
+					<!-- 取消按钮（灰色） -->
+					<a href="javascript:void(0);" ng-click="refundFlag=false;" class="qu-xiao-btn">关闭</a>
+					<a href="javascript:void(0);" ng-click="confirmRefund()" class="que-ding-btn">确定</a>
+				</div>
+			</div>
+		</div>
+		<!-- 确认弹窗 -->
+		<div class="erp-common-tan-v2-wrap" ng-show="confirmflag">
+			<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: 160px;">
+				<p>是否确定打款?</p>
+				<div class="tan-v2-bot">
+					<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="confirmflag=false">取消</a>
+					<a href="javascript:void(0)" class="que-ding-btn" ng-click="confrimSubmitFn()">确定</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

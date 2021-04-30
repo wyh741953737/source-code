@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999999;
+            display: none;
+        }
+        .zzcWrap{
+            background: #fff;
+            border-radius: 4px;
+            width: 350px;
+            margin: 250px auto;
+            padding: 20px;
+        }
+        .zzcWrap h1{
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .zzcWrap input{
+            width: 230px;
+            height: 30px;
+            border-radius: 3px;
+        }
+        #searchInput{
+            width: 250px;
+        }
+        .bottomWrap{
+            margin-top: 15px;
+            text-align: center;
+        }
+        .bottomWrap button{
+            padding: 5px 15px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            font-size: 12px;
+        }
+        .bottomWrap button:first-child{
+            background: #F9AE08;
+            color: #FFF;
+            border-color: #F9AE08;
+            margin-right: 15px;
+        }
+        .bottomWrap button:last-child{
+            background: #fff;
+            /*color: #FFF;*/
+            border-color: #999;
+        }
+        .bottomWrap a{
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            font-size: 12px;
+            background: #F9AE08;
+            color: #FFF;
+            border-color: #F9AE08;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:8px 10px;">
+            <div id="mainWrap" class="mainWrap">
+                <style>
+                    h3, p, dd, dl {
+                        margin: 0;
+                    }
+
+                    .clearfix:after {
+                        content: "";
+                        display: block;
+                        clear: both;
+                    }
+
+                    .content {
+                        width: 1000px;
+                        margin: 30px auto 15px auto;
+                        padding: 75px 60px;
+                        /*border: 1px solid #8c8c8c;*/
+                        position: relative;
+                        background-color: #fff;
+                    }
+
+                    .content .top h3 {
+                        font-size: 20px;
+                        font-family: Helvetica-Bold;
+                        color: rgba(51, 51, 51, 1);
+                        line-height: 24px;
+                        margin-bottom: 17px;
+                    }
+
+                    .content .top p {
+                        font-size: 14px;
+                        font-family: Helvetica-Bold;
+                        color: rgba(51, 51, 51, 1);
+                        line-height: 17px;
+                    }
+
+                    .content img {
+                        display: block;
+                        position: absolute;
+                        top: 74px;
+                        right: 74px;
+                    }
+
+                    .content .main {
+                        margin-top: 68px;
+                    }
+
+                    .content .main dl {
+                        font-family: Helvetica-Bold;
+                        min-width: 220px;
+                        /*display: inline-block;*/
+                        float: left;
+                    }
+
+                    .content .main dl dt {
+                        font-size: 12px;
+                        font-family: Helvetica-Bold;
+                        color: rgba(51, 51, 51, 1);
+                        line-height: 14px;
+                        font-weight: bold;
+                        margin-bottom: 16px;
+                    }
+
+                    .content .main dl dd {
+                        font-size: 12px;
+                        font-family: Helvetica;
+                        color: rgba(51, 51, 51, 1);
+                        line-height: 14px;
+                    }
+
+                    table {
+                        border-collapse: collapse;
+                        border-top: 1px solid rgba(74, 74, 74, 1);
+                        border-bottom: 1px solid rgba(74, 74, 74, 1);
+                        margin-top: 60px;
+                        width: 100%;
+                    }
+
+                    table thead tr {
+                        height: 40px;
+                        font-size: 12px;
+                        font-family: Helvetica-Bold;
+                        color: rgba(51, 51, 51, 1);
+                        padding: 0 8px;
+
+                    }
+
+                    /*  .br {
+                          border-right: 1px solid rgba(74, 74, 74, 1);
+                      }*/
+
+                    table tbody tr {
+                        font-size: 12px;
+                        font-family: TimesNewRomanPSMT;
+                        color: rgba(51, 51, 51, 1);
+                        line-height: 15px;
+                        text-align: center;
+                        margin: 20px 0;
+                    }
+                    table tbody tr td{
+                        padding: 5px 0;
+                    }
+                    table tbody td span {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                    }
+
+                    .bot {
+                        font-size: 12px;
+                        font-family: Helvetica-Bold;
+                        color: rgba(74, 74, 74, 1);
+                        line-height: 14px;
+                        /*text-align: right;*/
+                        margin-top: 14px;
+                        font-weight: bold;
+                    }
+
+                    .total-1 {
+                        width: 190px;
+                        display: inline-block;
+                        text-align: right;
+                        /*float: right;*/
+                        text-decoration: line-through;
+                        margin-bottom: 15px;
+                    }
+
+                    .total-2 {
+                        width: 190px;
+                        display: inline-block;
+                        text-align: right;
+                        /*float: right;*/
+                    }
+
+                    .total-price {
+                        float: right;
+                        width: 190px;
+                    }
+
+                    .totals {
+                        text-align: right;
+                        margin-top: 15px;
+                    }
+
+                    .bott {
+                        margin-top: 28px;
+                    }
+
+                    .bott p:nth-child(1) {
+                        margin-top: 10px;
+                    }
+
+                    .bott .not span {
+                        float: left;
+                        font-size: 12px;
+                        font-family: Helvetica-Bold;
+                        color: rgba(51, 51, 51, 1);
+                        line-height: 14px;
+                        font-weight: bold;
+                    }
+
+                    .bott .not i {
+                        float: right;
+                        width: 400px;
+                        height: 1px;
+                        background: rgba(51, 51, 51, 1);
+                    }
+
+                    .bott span {
+                        font-size: 12px;
+                        font-family: Helvetica-Bold;
+                        color: rgba(74, 74, 74, 1);
+                        line-height: 14px;
+                        font-weight: bold;
+                        /*float: right;*/
+                    }
+
+                    .hide2 {
+                        display: none;
+                    }
+
+                    .show2 {
+                        display: inline-block;
+                    }
+                    /*.show3{*/
+                        /*display: table-cell;*/
+                    /*}*/
+                    /*.hide3{*/
+                        /*display: none;*/
+                    /*}*/
+                    input{
+                        padding: 0 5px;
+                    }
+                </style>
+                <div class="content" style="width: 1120px;" ng-cloak>
+                    <div class="top">
+                        <h3 style="font-size: 20px; font-family: Helvetica-Bold;color: rgba(51, 51, 51, 1);line-height: 24px; margin-bottom: 17px;text-align: left;">
+                            Invoice Number: {{Invoice.id}}<span>XS</span>
+                        </h3>
+
+                        <p style="font-size: 14px;font-family: Helvetica-Bold;color: rgba(51, 51, 51, 1);line-height: 17px;">
+                            Invoice Date: <span>{{Invoice.createDate}}</span></p>
+
+                        <p style="font-size: 14px;font-family: Helvetica-Bold;color: rgba(51, 51, 51, 1);line-height: 17px;">
+                            Payment Method:
+                            <span class="hide2">{{Invoice.payment}}</span>
+                            <select class="show2" name="" id="payment">
+                                <option value="">请选择支付方式</option>
+                                <option value="PayPal">PayPal</option>
+                                <option value="Pay with Card">Pay with Card</option>
+                                <option value="Wire transfer">Wire Transfer</option>
+                            </select>
+                        </p>
+                    </div>
+                    <img style=" display: block;position: absolute;top: 74px;right: 74px;width: 95px;height: 95px;"
+                         src="https://cc-west-usa.oss-us-west-1.aliyuncs.com/15282144/1552744644358.jpg" alt=""
+                         width="200">
+                    <button class="editBtn hide2" ng-click="gotoEdit()" style="margin-top: 68px;padding: 2px 10px;border-radius: 4px;background: #fff;border: 1px solid #999;margin-bottom: -52px;">Edit</button>
+                    <div class="main clearfix" style="margin-top: 68px;">
+                        <dl style="margin-right: 150px;">
+                            <dt style="font-size: 12px;
+            font-family: Helvetica-Bold;
+            color: rgba(51, 51, 51, 1);
+            line-height: 14px;
+            font-weight: bold;
+            margin-bottom: 16px;">BILL TO:
+                            </dt>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2" >{{Invoice.billToName}}</span>
+                                <input placeholder="Name" ng-model="Invoice.billToName" ng-value="Invoice.billToName" style="margin-bottom: 5px;margin-right: 10px; width: 210px;height: 24px" class="show2" type="text"/>
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billToContactTel}}</span>
+                                <input placeholder="Contact Tel" ng-model="Invoice.billToContactTel" ng-value="Invoice.billToContactTel"  style="margin-bottom: 5px;margin-right: 10px;width: 210px;height: 24px"
+                                       type="text" class="show2"/>
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billToAddress}}</span>
+                                <input placeholder="Address" ng-model="Invoice.billToAddress" ng-value="Invoice.billToAddress" style="margin-bottom: 5px;margin-right: 10px;width: 210px;height: 24px"
+                                       type="text" class="show2"/>
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billToCity}}, {{Invoice.billToProvince}}, {{Invoice.billToPostcode}}</span>
+                                <div class="show2">
+                                    <input ng-model="Invoice.billToCity" ng-value="Invoice.billToCity" placeholder="City" style="margin-bottom: 5px;margin-right: 10px;width: 120px;height: 24px" type="text" class=""/>
+                                    <input ng-model="Invoice.billToProvince" ng-value="Invoice.billToProvince" placeholder="Province" type="text" class=""
+                                           style="margin-bottom: 5px;margin-right: 10px;width: 120px;height: 24px"/>
+                                    <input ng-model="Invoice.billToPostcode" ng-value="Invoice.billToPostcode" placeholder="Postcode" style="margin-bottom: 5px;margin-right: 10px;width: 120px;height: 24px"
+                                           type="text" class=""/>
+                                </div>
+
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billToCountry}}</span>
+                                <select class="show2" style="width: 210px;height: 24px;margin-bottom: 5px" name="" id="billToCountry">
+                                    <option value="">请选择国家</option>
+                                    <option value="{{country.nameEn}}#{{country.id}}" ng-repeat="country in countrylist">{{country.nameEn}}</option>
+                                </select>
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billToVatNumber}}</span>
+                                <input ng-model="Invoice.billToVatNumber" ng-value="Invoice.billToVatNumber" placeholder="VAT Number" style="margin-bottom: 5px;margin-right: 10px;width: 210px;height: 24px"
+                                       type="text" class="show2"/>
+                            </dd>
+                            <!--<dd>{{invoiceBillMap.billToContactTel}}</dd>-->
+                        </dl>
+                        <dl>
+                            <dt>BILL FROM:</dt>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billFromName}}</span>
+                                <input placeholder="billFromName" ng-model="Invoice.billFromName" ng-value="Invoice.billFromName" style="margin-bottom: 5px;margin-right: 10px;width: 210px;height: 24px"
+                                       type="text" class="show2"/>
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billFromContactTel}}</span>
+                                <input placeholder="billFromContactTel" ng-model="Invoice.billFromContactTel" ng-value="Invoice.billFromContactTel" style="margin-bottom: 5px;margin-right: 10px;width: 210px;height: 24px"
+                                       type="text" class="show2"/>
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billFromAddress}}</span>
+                                <input placeholder="billFromAddress" ng-model="Invoice.billFromAddress" ng-value="Invoice.billFromAddress" style="margin-bottom: 5px;margin-right: 10px;width: 210px;height: 24px"
+                                       type="text" class="show2"/>
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billFromCity}}, {{Invoice.billFromProvince}}, {{Invoice.billFromPostcode}}</span>
+                                <div class="show2" style="">
+                                    <input placeholder="billFromCity" ng-model="Invoice.billFromCity" ng-value="Invoice.billFromCity" style="margin-bottom: 5px;margin-right: 10px;width: 120px;height: 24px" type="text" class=""/>
+                                    <input placeholder="billFromProvince" ng-model="Invoice.billFromProvince" ng-value="Invoice.billFromProvince" style="margin-bottom: 5px;margin-right: 10px;width: 120px;height: 24px" type="text" class=""/>
+                                    <input placeholder="billFromPostcode" ng-model="Invoice.billFromPostcode" ng-value="Invoice.billFromPostcode" style="margin-bottom: 5px;margin-right: 10px;width: 120px;height: 24px" type="text" class=""/>
+                                </div>
+
+                            </dd>
+                            <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+                                <span class="hide2">{{Invoice.billFromCountry}}</span>
+                                <select class="show2" style="width: 210px;height: 24px;margin-bottom: 5px" name="" id="billFromCountry">
+                                    <option value="">请选择国家</option>
+                                    <option render-finish value="{{country.nameEn}}#{{country.id}}" ng-repeat="country in countrylist">{{country.nameEn}}</option>
+                                </select>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="show2" style="text-align: right;position: relative;top: 50px;">
+                        <button style="padding: 5px 15px;background: #F9AE08;color: #fff;border-radius: 4px;" ng-click="addFun()">Add</button>
+                    </div>
+                    <!-- 60-->
+                    <table border="1" cellspacing="0" frame="box" style="margin-top: 60px">
+                        <thead>
+                        <tr>
+                            <th class="br" style="width: 60px;font-size: 12px;text-align: center;">Serial number</th>
+                            <th style="width: 100px;font-size: 12px;text-align: center;">Description</th>
+                            <th style="width: 100px;font-size: 12px;text-align: center;">SKU</th>
+                            <!--<th style="width: 100px;">Country</th>-->
+                            <th style="width: 100px;font-size: 12px;text-align: center;">Quantitly(unit)</th>
+                            <th style="width: 100px;font-size: 12px;text-align: center;">Weight(kg)</th>
+                            <th class="br" style="width: 100px;font-size: 12px;text-align: center;">Price</th>
+                            <th style="width: 100px;font-size: 12px;text-align: center;">Line Total</th>
+                            <th class="show3" style="width: 100px;font-size: 12px;text-align: center;">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(item1,product) in Invoice.productList track by item1">
+                            <td style="font-size: 12px;">{{$index+1}}</td>
+                            <td style="font-size: 12px;" ng-attr-title="{{product.Description}}"><span>{{product.Description}}</span>
+                            </td>
+                            <td style="font-size: 12px;" ng-attr-title="{{product.sku}}"><span>{{product.sku}}</span></td>
+                            <td style="font-size: 12px;" ng-attr-title="{{product.count}}">
+                                <span class="hide2">{{product.count}}</span>
+                                <!--<input oninput="angular.element(this).scope().changeCount(this)" ng-value="product.count" ng-model="product.count" class="show2" type="number" style="width: 100px;padding: 0 5px;height: 24px"/>-->
+                                <input ng-keyup="changeCount($event, product)" ng-value="product.count" ng-model="product.count" class="show2" type="number" style="width: 100px;padding: 0 5px;height: 24px"/>
+                            </td>
+                            <td style="font-size: 12px;" ng-attr-title="{{product.weight}}">
+                                <span class="hide2">{{product.weight}}</span>
+                                <input ng-keyup="changeCount($event, product)"  ng-value="product.weight" ng-model="product.weight" class="show2" type="number" style="width: 100px;padding: 0 5px;height: 24px"/>
+                            </td>
+                            <!-- {{item.price | currency}}-->
+                            <td style="font-size: 12px;" ng-attr-title="{{product.price | currency}}" class="br"><span>{{product.price | currency}}</span>
+                            </td>
+                            <td style="font-size: 12px;" ng-attr-title="{{(product.price*product.count) | currency}}"><span>{{(product.price*product.count) | currency}}</span>
+                            </td>
+                            <td class="show3" style="font-size: 12px;">
+                                <button ng-click="deleteFun(item1)" style="background: #fff;border-radius: 4px;padding: 2px 8px;border: 1px solid #999;font-size: 12px;">Delete</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="bot">
+                        <div class="clearfix tol">
+                            <p style="float: left;font-size: 12px;">Items Quantity:<span> {{Invoice.totalCount}}</span></p>
+                            <span style="float: right;font-size: 12px;">Subtotal: <span class="total">{{Invoice.totalPrice | currency}}</span></span>
+                        </div>
+                        <div class="clearfix" style="margin-top: 15px;">
+                            <p style="float: left;font-size: 12px;">Shipping Method:
+                                <span class="hide2">{{Invoice.logistic}}</span>
+                                <select id="selectWuliu" class="show2" name="" style="width: 200px;height: 24px;border-radius: 4px;">
+                                    <option value="">请选择物流</option>
+                                    <option value="{{wl.logisticName+'#'+wl.price}}" ng-repeat="wl in Invoice.logisticList">{{wl.logisticName}}</option>
+                                </select>
+                            </p>
+
+                            <p style="float: right;font-size: 12px;">Shipping: <span class="total">{{Invoice.logisticPrice | currency}}</span>
+                            </p>
+                        </div>
+                        <div class="clearfix" style="margin-top: 15px;">
+                            <p style="float: left;font-size: 12px;">Items Weight:<span> {{Invoice.totalWeight}} kg</span></p>
+                        </div>
+                    </div>
+                    <div class="bott">
+                        <p class="clearfix not">
+                            <i></i>
+                        </p>
+
+                        <div class="clearfix totals">
+                            <button class="setzkj" style="padding: 6px 10px;background: #FFB900;color: #fff;border-radius: 4px;font-size: 12px;margin-right: 15px;" ng-click="setzzjFun(Invoice.totalPrice,Invoice.logisticPrice)">设置折扣价</button>
+                            <span>Total:</span>
+                            <p class="total-price" ng-show="Invoice.hasZhekou">
+                                <span class="total-1">{{(Invoice.totalPrice+Invoice.logisticPrice) | currency}}</span>
+                                <span class="total-2">{{Invoice.discount | currency}}</span>
+                            </p>
+                            <p class="total-price" ng-show="!Invoice.hasZhekou">
+                                <span class="total-2">{{(Invoice.totalPrice+Invoice.logisticPrice) | currency}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom" style="text-align: center;margin-bottom: 15px;">
+                <button style="padding: 5px 10px;border-radius: 4px;background: #F9AE08;color: #fff;border: 1px solid #F9AE08" class="hide2" ng-click="submitFun()">Submit</button>
+                <button style="padding: 5px 10px;border-radius: 4px;background: #F9AE08;color: #fff;border: 1px solid #F9AE08;margin-right: 15px;" class="show2" ng-click="saveFun()">Save</button>
+                <!--<button style="padding: 5px 10px;border-radius: 4px;background: #fff;border: 1px solid #999" class="hide2">Cancel</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增商品弹框-->
+<div class="zzc zzc1">
+    <div class="zzcWrap">
+        <h1>新增商品</h1>
+        <div>
+            <label style="width: 80px;">商品类型：</label>
+            <select style="width: 220px; border-radius: 4px; height: 30px;" name="" id="" ng-model="productType">
+                <option value="">代发</option>
+                <option value="pod">POD</option>
+            </select>
+        </div>
+        <div style="margin-top: 15px;">
+            <label style="width: 80px;">SKU：</label>
+            <input style="width: 220px" id="searchInput" type="text"/>
+        </div>
+        <div class="bottomWrap">
+            <button ng-click="addProduct()">确定</button>
+            <button ng-click="closeAdd()">取消</button>
+        </div>
+    </div>
+</div>
+<!--设置折扣价-->
+<div class="zzc zzc2">
+    <div class="zzcWrap">
+        <h1>设置折扣价</h1>
+        <div style="margin-bottom: 15px">
+            <label>原价格：</label>
+            <input id="oldPrice" style="background: #eee" type="text" readonly/>
+        </div>
+        <div>
+            <label>折扣价：</label>
+            <input id="zkjInput" type="text"/>
+        </div>
+        <div class="bottomWrap">
+            <button ng-click="surezkjFun()">确定</button>
+            <button ng-click="closezzjFun()">取消</button>
+        </div>
+    </div>
+</div>
+
+<!--生成成功-->
+<div class="zzc zzc3">
+    <div class="zzcWrap">
+        <p style="text-align: center">生成发票成功 !</p>
+        <div class="bottomWrap">
+            <a target="_blank" href="{{url}}">下载</a>
+            <button ng-click="closezzc3()">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

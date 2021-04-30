@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .right-bar>h1{
+            font-size: 26px;
+            /*font-weight: bold;*/
+            color: #333;
+            margin-bottom: 15px;
+        }
+        #mddSearch{
+            width: 300px;
+            /*height: 30px;*/
+            line-height: 30px;
+            border-radius: 4px;
+            padding: 0 10px;
+            margin-bottom: 15px;
+        }
+        .BtnWrap button{
+            padding: 5px 15px;
+            border-radius: 4px;
+            background: #dc8a23;
+            color: #fff;
+            margin-right: 15px;
+        }
+        .resultWrap{
+            margin-top: 30px;
+        }
+        .resultWrap h2{
+            font-size: 18px;
+            margin-bottom: 14px;
+        }
+        .resultWrap p{
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:50px;min-width: 1020px;">
+            <h1>USPS自动打单</h1>
+            <div>
+                <input id="mddSearch" type="text" placeholder="请输入母订单号"/>
+            </div>
+            <div class="BtnWrap">
+                <button ng-click="submitMdd()">提交</button>
+            </div>
+            <h1 style="margin-top: 25px">查询进度</h1>
+            <div class="BtnWrap">
+                <button ng-click="checkFun()">查询进度</button>
+            </div>
+            <div class="resultWrap">
+                <h2>查询结果：</h2>
+                <p>已完成传送数量：<span>{{result.create}}</span></p>
+                <p>已生成追踪号的数量：<span>{{result.dadan}}</span></p>
+                <p>等待生成追踪号的母订单：<span ng-repeat="a in result.list">{{a}},</span></p>
+                <p>正在执行的订单：<span>{{result.orderId}}</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

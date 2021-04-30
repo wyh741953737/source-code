@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Print</title>
+    <link rel="shortcut icon" href="static/favicons.png"/>
+    <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="erp_otweb/js/media.js"></script>
+    <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+    <style>
+
+        .inputcontainer{
+            width: 450px;
+            height: 300px;
+            margin: 50px auto;
+            border: 1px solid #eee;
+            padding: 30px;
+            position: relative;
+        }
+        .inputcontainer h3 {
+          margin: 0;
+          margin-bottom: 20px;
+        }
+        .inputcontainer .item {
+          display: flex;
+          margin-bottom: 20px;
+        }
+        .inputcontainer .item .title {
+          width: 100px;
+          font-size: 14px;
+          line-height: 30px;
+        }
+        .inputcontainer .item input {
+          height: 30px;
+          flex: 1;
+        }
+        .inputcontainer button {
+          width: 120px;
+          height: 36px;
+          position: absolute;
+          right: 20px;
+          bottom: 20px;
+          border-radius: 4px;
+          background: #eee;
+          cursor: pointer;
+        }
+    </style>
+
+</head>
+<body ng-app="printApp" ng-controller="printAppCtrl">
+<div class="inputcontainer">
+  <H3 class="title">批量设置设计商品价格折扣</H3>
+<div class="item">
+  <span class="title">客户登录名</span>
+  <input type="text" ng-model="customeLoginname">
+</div>
+<div class="item">
+  <span class="title">原商品sku</span>
+  <input type="text" ng-model="originalSku">
+</div>
+<!-- <div class="item">
+  <span class="title">商品折扣</span>
+  <input type="number">
+</div> -->
+<button ng-click="submit()">提交</button>
+</div>
+<!--<button id="btn">sadasd</button>-->
+<div class="inputtitle">
+    
+</div>
+
+<div id="container">
+</div>
+
+</body>
+<script type="text/javascript" src="static/js/public/base64.min.js"></script>
+<script type="text/javascript" src="static/js/public/common.js"></script>
+<script type="text/javascript" src='static/layer/layer.js'></script>
+<script type="text/javascript">
+
+    (function(angular){
+        var app = angular.module('printApp',['service']);
+        app.controller('printAppCtrl',['$scope',"erp",function ($scope,erp) {
+          $scope.submit = function () {
+            if (!erp.getUserInfo().erploginName) {
+              layer.msg('请先登录');
+              return;
+            }
+            if (!$scope.customeLoginname) {
+              layer.msg('请输入客户登录名');
+              return;
+            }
+            if (!$scope.originalSku) {
+              layer.msg('请输入原商品SKU');
+              return;
+            }
+            layer.confirm('确认提交吗?', { title: '提示' }, function (index) {
+              //do something
+              erp.postFun('erp/erphomepage/syncDiscountInfo', {
+                "SKU": $scope.originalSku,
+                "userName": $scope.customeLoginname
+              }, function (data) {
+                console.log(data);
+                if (data.data.statusCode == 200) {
+                  layer.msg(data.data.message)
+                  layer.close(index);
+                } else {
+                  layer.msg(data.data.message)
+                  return false;
+                }
+              })
+              // layer.close(index);
+            }); 
+          }
+        }]);
+    })(angular)
+</script>
+</html>

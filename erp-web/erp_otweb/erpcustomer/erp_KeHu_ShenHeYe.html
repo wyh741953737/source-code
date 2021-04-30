@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>客户-审核页-ERP系统</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/wa-erp.css" />
+	<style>
+		.wa-contBox ul:last-child li:nth-child(2){border-bottom:1px solid #f1f1f1;}
+	</style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="wa-contBoxAll" style="padding-bottom:50px;">
+	<div class="wa-contBox clearfix">
+		<ul>
+			<li>申请时间</li>
+			<li>2017-9-12   12:23</li>
+		</ul>
+		<ul>
+			<li>客户ID</li>
+			<li>4343323222</li>
+		</ul>
+		<ul>
+			<li>客户姓名</li>
+			<li>Chompa-rangsey Chan</li>
+		</ul>
+		<ul>
+			<li>联系电话</li>
+			<li>9839393323</li>
+		</ul>
+		<ul>
+			<li>Email</li>
+			<li>aaaaa@hotmail.com</li>
+		</ul>
+		<ul>
+			<li>Skype</li>
+			<li>aaaaa@hotmail.com</li>
+		</ul>
+		<ul>
+			<li>国家</li>
+			<li>us</li>
+		</ul>
+		<ul>
+			<li>地址</li>
+			<li>2017-9-12   12:23</li>
+		</ul>
+		<ul>
+			<li class="liSp">店铺链接</li>
+			<li class="liSp">
+				<p>ssfefefe.com</p>
+			</li>
+		</ul>
+		<ul>
+			<li>每日需处理订单量   </li>
+			<li>6-50</li>
+		</ul>
+		<ul>
+			<li>店铺所在平台</li>
+			<li>wish、shopify</li>
+		</ul>
+		<ul>
+			<li>主要销售商品类目</li>
+			<li>Home & Garden, Furniture</li>
+		</ul>
+		<ul>
+			<li>商品消费人群</li>
+			<li>Engineering、Investment banking</li>
+		</ul>
+	</div>
+	<div class="wa-btn-bottom clearfix">
+		<div class="wa-btnBottom-box clearfix">
+			<div class="wa-btnBottom-close">关闭</div>
+			<div class="wa-btnBottom-pass">通过</div>
+		</div>
+		<div class="wa-RefuseBox">
+			<div class="wa-Refuse">拒绝</div>
+			<div class="wa-addHeiMingDan">加入黑名单</div>
+		</div>
+	</div>
+	<!--点击后的弹框-->
+	<div class="wa-ShenHeBox clearfix">
+		<!--选派业务员-->
+		<div class="wa-selYeWuYuan">
+			<h3>选派业务员</h3>
+			<form action="" method="">
+				<div class="wa-sousuoBox">
+					<input type="text" name="wa-SouSuoCont">
+					<div class="wa-sousuo">搜索</div>
+				</div>
+				<select>
+					<option>王三</option>
+				</select>
+
+				<div class="wa-SelBtn-Box clearfix">
+					<div class="wa-SelBtn-cancle">取消</div>
+					<div class="wa-SelBtn-true">确认</div>
+				</div>
+			</form>
+		</div>
+		<!--拒绝原因-->
+		<div class="wa-RefuseReasonBox">
+			<h3>拒绝原因</h3>
+			<form action="" method="">
+				<textarea></textarea>
+				<div class="wa-SelBtn-Box clearfix">
+					<div class="wa-SelBtn-cancle">取消</div>
+					<div class="wa-SelBtn-true">确认</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--加入黑名单理由-->
+	<div class="wa-addReasonBox">
+		<p>加入黑名单后将不再收到该客户注册申请信息,</p>
+		<p>是否确定将此客户加入黑名单？</p>
+		<h3>加入黑名单理由</h3>
+		<form action="" method="">
+			<div class="wa-text"><textarea></textarea></div>
+			<div class="wa-SelBtn-Box clearfix">
+				<div class="wa-SelBtn-cancle">取消</div>
+				<div class="wa-SelBtn-true">确认</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- 选取两段时间之间插件 -->
+<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+<script>
+    $(".wa-btnBottom-pass").click(function(){
+        $(".wa-ShenHeBox").css("display","block");
+        $(".wa-selYeWuYuan").css("display","block");
+    });
+    $(".wa-Refuse").click(function(){
+        $(".wa-ShenHeBox").css("display","block");
+        $(".wa-RefuseReasonBox").css("display","block");
+    });
+    $(".wa-addHeiMingDan").click(function(){
+        $(".wa-addReasonBox").css("display","block");
+    });
+
+    $(".wa-SelBtn-cancle").click(function(){
+        $(".wa-ShenHeBox").css("display","none");
+        $(".wa-selYeWuYuan").css("display","none");
+        $(".wa-RefuseReasonBox").css("display","none");
+        $(".wa-addReasonBox").css("display","none");
+    });
+    $(".wa-SelBtn-true").click(function(){
+        $(".wa-ShenHeBox").css("display","none");
+        $(".wa-selYeWuYuan").css("display","none");
+        $(".wa-RefuseReasonBox").css("display","none");
+        $(".wa-addReasonBox").css("display","none");
+    });
+</script>
+
+</body>
+</html>

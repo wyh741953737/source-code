@@ -1,0 +1,289 @@
+<link rel="stylesheet" type="text/css" href="static/css/supplier-manage.css">
+<style type="text/css">
+    
+    .g-star{
+        background: url('static/image/public-img/iconstar_g.png');
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+        cursor: pointer;
+    }
+    .star {
+        background: url('static/image/public-img/iconstar_y.png');
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+    }
+    .click-star{
+        background: url('static/image/public-img/iconstar_y.png');
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+        cursor: pointer;
+    }
+    .gys-cz-btn{
+        width: 96px;
+    }
+    .gysp-img{
+        width: 60px;
+        height: 60px;
+    }
+    .gys-link{
+        display: block;
+        margin: 0 auto;
+        width: 160px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    #gys-outstar{
+      vertical-align: middle;
+    }
+    .xggysdj-btn{
+      margin-left: 50px;
+    }
+    .w100{
+      width: 100px;
+    }
+    #sp-star a{
+      cursor: default;
+    }
+</style>
+<div class="main-box custom-orders-wrap">
+    <div class="right-bar-wrap">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px 20px;">
+            <div class="gys-jbxx">
+                基本信息
+            </div>
+            <ul class="gys-xxlist-ul">
+                <li>
+                    <span class="jbxx-fir">供应商编号:</span>
+                    <span class="jbxx-last">{{gysDetailObj.bianhao}}</span>
+                </li>
+                <li>
+                    <span class="jbxx-fir">供应商名称:</span>
+                    <span class="jbxx-last">{{gysDetailObj.gongSiMing}}</span>
+                </li>
+                <li>
+                    <span class="jbxx-fir">联系人:</span>
+                    <span class="jbxx-last">{{gysDetailObj.lianXiRen}}</span>
+                </li>
+                <li>
+                    <span class="jbxx-fir">电话:</span>
+                    <span class="jbxx-last">{{gysDetailObj.shouji}}</span>
+                </li>
+                <li>
+                    <span class="jbxx-fir">QQ:</span>
+                    <span class="jbxx-last">{{gysDetailObj.QQ}}</span>
+                </li>
+                <li>
+                    <span class="jbxx-fir">货源:</span>
+                    <span class="jbxx-last">{{gysDetailObj.diQu}}</span>
+                </li>
+                <li>
+                    <span class="jbxx-fir">供应商等级:</span>
+                    <!-- <i class="ea-gard-star ea-gard{{gysDetailObj.xingJi}}"></i> -->
+                    <div class="right set-star-right" id="gys-outstar">
+                      <a ng-class="{'star':gysDetailObj.xingJi >= 1}" href="javascript:void(0);" data="1" ng-click="changeBuyLinkStar(1,index1,$event)" ng-mouseenter="showYellStar(1,index1,$event)" ng-mouseleave="hideYellStar(1,index1,$event,gysDetailObj)"></a>
+                      <a ng-class="{'star':gysDetailObj.xingJi >= 2}" href="javascript:void(0);" data="2" ng-click="changeBuyLinkStar(2,index1,$event)" ng-mouseenter="showYellStar(2,index1,$event)" ng-mouseleave="hideYellStar(2,index1,$event,gysDetailObj)"></a>
+                      <a ng-class="{'star':gysDetailObj.xingJi >= 3}" href="javascript:void(0);" data="3" ng-click="changeBuyLinkStar(3,index1,$event)" ng-mouseenter="showYellStar(3,index1,$event)" ng-mouseleave="hideYellStar(3,index1,$event,gysDetailObj)"></a>
+                      <a ng-class="{'star':gysDetailObj.xingJi >= 4}" href="javascript:void(0);" data="4" ng-click="changeBuyLinkStar(4,index1,$event)" ng-mouseenter="showYellStar(4,index1,$event)" ng-mouseleave="hideYellStar(4,index1,$event,gysDetailObj)"></a>
+                      <a ng-class="{'star':gysDetailObj.xingJi >= 5}" href="javascript:void(0);" data="5" ng-click="changeBuyLinkStar(5,index1,$event)" ng-mouseenter="showYellStar(5,index1,$event)" ng-mouseleave="hideYellStar(5,index1,$event,gysDetailObj)"></a>
+                    </div>
+                    <button ng-click="szgysDjFun(gysDetailObj.id)" ng-show="changeSFlag" class="gys-cz-btn xggysdj-btn">修改等级</button>
+                </li>
+            </ul>
+            <div class="s-supplier-list table-box">
+                <table>
+                    <thead>
+                    <tr>
+                        <!-- <th><img src="static/image/login/multiple1.png" alt=""></th> -->
+                        <th>图片</th>
+                        <th>商品名称</th>
+                        <th>供应商商品URL</th>
+                        <th>包含商品SKU</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in gysSpList">
+                        <td>
+                            <img class="gysp-img" ng-src="{{item.img}}">
+                        </td>
+                        <td>{{item.name}}</td>
+                        <td>
+                            <a class="gys-link" target="_blank" ng-href="{{item.lianjie}}">{{item.lianjie}}</a>
+                        </td>
+                        <td>{{item.skuCount}}</td>
+                        <td>
+                            <button ng-click="szgysjgFun(item)" class="gys-cz-btn">设置供应价格</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="erpordTnum<1" style="text-align: center;">暂无数据</div>
+            <!-- 分页 -->
+            <div class="pages-fun" ng-show="erpordTnum>0">
+                <select id="page-sel" class="c-select-page-num" ng-change="pageChange()" ng-model="pageSize">
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span class="every-page gong">共</span>
+                <span class="c-all-num-line">{{erpordTnum}}</span>
+                <span class="every-page">条</span>
+                <span id="demo3-text"></span>
+                <div id="c-pages-fun"></div>
+                <span class="every-page">跳转:</span>
+                <input id="inp-num" class="c-inp-num-go" ng-model="pageNum"></input>
+                <span style="cursor: pointer;" ng-click="gopageFun()" class="jump-btn">go</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加供应商 -->
+<div class="add-gys-con" ng-show="addGysFlag">
+    <ul>
+        <li>
+            <span class="add-gys-label">供应商名称:</span>
+            <input ng-model="gysmcVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">联系人:</span>
+            <input ng-model="lxrVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">QQ:</span>
+            <input ng-model="qqVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">电话:</span>
+            <input ng-model="phoneVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">货源:</span>
+            <select class="gys-address-sel" ng-model='selProVal' ng-change="provinCFun()">
+                <option value="">请选择省</option>
+                <option value="{{item.provinceid}}" ng-repeat="item in provinceList">{{item.province}}</option>
+            </select>
+            <select class="gys-address-sel" ng-show="provinFlag" ng-model="selCityVal">
+                <option value="">请选择市</option>
+                <option value="{{item.cityid}}" ng-repeat="item in cityList">{{item.city}}</option>
+            </select>
+        </li>
+        <li>
+            <span class="add-gys-label">等级:</span>
+            <div class="td-star">
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="1" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="2" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="3" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="4" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="5" class="g-star" index="10"></span>
+            </div>       
+        </li>
+    </ul>
+    <div class="gys-tk-btns">
+        <button ng-click="addGysFlag=false" class="ispc-can-btn">取消</button>
+        <button ng-click="sureAddFun()" class="ispc-con-btn">确定</button>
+    </div>
+</div>
+
+<!-- 设置供应商价格弹框 -->
+<div class="asj-common-tanwrap" ng-show="setGysFlag">
+  <div class="asj-common-tan supply-price-layer" style="width:790px;">
+      <div class="tan-title" translate="100406"></div>
+      <!-- <a href="javascript:void(0);" class="add-supply-btn" ng-click="addSupplyFlag=true;">{{'100416' | translate}}</a> -->
+      <div class="link-box-wrap">
+        <div class="link-box">
+          <!-- <div class="sp-top2 clearfix">
+            <span>{{'100417' | translate}}</span>
+            <a href="{{item.supplierLink}}" target="_blank" class="supply-link">{{item.supplierLink}}</a>
+            <a href="javascript:void(0);" class="delete-supply-btn" ng-click="removeOneLink(item,index1)">x</a>
+          </div> -->
+          <div class="sp-bottom">
+            <div class="banch-price clearfix">
+              <div class="set-star clearfix">
+                <div class="left">供应商星级：</div>
+                <div class="right set-star-right" id="sp-star">
+                  <a ng-class="{'star':gysDetailObj.xingJi >= 1}" href="javascript:void(0);" ng-click="changeSPStar()" ng-mouseenter="showYStar()" ng-mouseleave="hideYStar()"></a>
+                  <a ng-class="{'star':gysDetailObj.xingJi >= 2}" href="javascript:void(0);" ng-click="changeSPStar()" ng-mouseenter="showYStar()" ng-mouseleave="hideYStar()"></a>
+                  <a ng-class="{'star':gysDetailObj.xingJi >= 3}" href="javascript:void(0);" ng-click="changeSPStar()" ng-mouseenter="showYStar()" ng-mouseleave="hideYStar()"></a>
+                  <a ng-class="{'star':gysDetailObj.xingJi >= 4}" href="javascript:void(0);" ng-click="changeSPStar()" ng-mouseenter="showYStar()" ng-mouseleave="hideYStar()"></a>
+                  <a ng-class="{'star':gysDetailObj.xingJi >= 5}" href="javascript:void(0);" ng-click="changeSPStar()" ng-mouseenter="showYStar()" ng-mouseleave="hideYStar()"></a>
+
+                </div>
+              </div>
+              <!-- <div class="set-grade clearfix">
+                <div class="left">{{'100419' | translate}}：</div>
+                <div class="right set-grade-right">
+                  <select name="" id="" ng-model="item.rank">
+                    <option value="{{item2}}" ng-repeat="(index2,item2) in gradeNums track by index2">{{item2}}</option>
+                  </select>
+                </div>
+              </div> -->
+              <a href="javascript:void(0);" class="ban-setsp-btn" ng-click="goBanSetSP()">{{'100050' | translate}}</a>
+              <input type="number" ng-model="setTypeVal" class="ban-setsp-inp">
+              <select class="ban-setsp-sele" ng-model="bulkType">
+                <option value="price">{{'100420' | translate}}</option>
+                <option value="number">{{'100421' | translate}}</option>
+              </select>
+              <span class="ban-setsp-span">{{'100422' | translate}}：</span>
+            </div>
+            <div class="sp-vlist">
+              <div class="sp-vlist-title clearfix">
+                <ul>
+                  <li class="sku-li">
+                    <div class="check-box">
+                          <input type="checkbox" name="" id="" ng-model="checkAll" ng-click="checkAllLinkv()">
+                          <label for=""></label>
+                    </div>
+                    <span>sku</span>
+                  </li>
+                  <li>{{'100421' | translate}}</li>
+                  <li>{{'100420' | translate}}</li>
+                  <li>{{'100423' | translate}}</li>
+                </ul>
+                <div class="place-box"></div>
+              </div>
+              <div class="sp-vlist-body">
+                <div class="line-item clearfix" ng-repeat="(index2,itemV) in spBtList track by index2">
+                  <div class="sp-sku">
+                    <div class="check-box">
+                          <input type="checkbox" name="" id="" ng-model="itemV.checked" ng-click="checkOneLinkv(index2,itemV.checked)">
+                          <label for=""></label>
+                    </div>
+                    <span class="sp-sku-name">{{itemV.sku}}</span>
+                  </div>
+                  <div class="line-item-center">
+                    <div class="line-item-item clearfix">
+                      <div class="line-item-inner">
+                        <input type="number" class="w100" ng-blur="countFun(index2,itemV.minCount)" ng-model="itemV.minCount">
+                        <!-- <img class="icon" src="./static/image/public-img/minus_brown.png" alt="" ng-click="removeOneLinkV(index1, index2, itemV)">
+                        <img class="icon"src="./static/image/public-img/add_brown.png" alt="" ng-click="addOneLinkV(index1, index2, itemV)"> -->
+                      </div>
+                      <div class="line-item-inner">
+                        <span>¥</span>
+                        <input class="w100" ng-blur="priceFun(index2,itemV.costPrice)" type="number" ng-model="itemV.costPrice">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="sp-is-supply">
+                    <div class="check-box">
+                          <input type="checkbox" name="" id="" ng-click="stopSupply(itemV,$index)" ng-checked="{{itemV.isSupplier!='1'?false:true}}">
+                          <label for="">{{'100424' | translate}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tan-btns">
+        <a class="tan-btn0" ng-click="setGysFlag=false">{{'100051' | translate}}</a>
+        <a class="tan-btn1" ng-click="goSetGysFun()">{{'100050' | translate}}</a>
+      </div>
+  </div>
+</div>

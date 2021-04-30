@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文章</title>
+    <link rel="stylesheet" href="static/assets/design/css/trumbowyg.css">
+</head>
+<style type="text/css">
+    /*分页*/
+    .fenPage {
+        font-size: 14px;
+        padding: 20px 0 0 0;
+        text-align: right;
+    }
+
+    .fenPage a, .fenPage span {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 6px;
+        color: #737373;
+        margin-right: 2px;
+    }
+
+    .star {
+        background: url('static/image/public-img/iconstar_y.png');
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+    }
+
+    .fenPage a.bga {
+        color: #ffffff;
+        background-color: rgba(255, 154, 0, 1);
+    }
+
+    .fenPage span {
+        border: none;
+    }
+
+    .fenPage input:nth-child(1) {
+        width: 30px;
+        padding: 2px 10px;
+        border: none;
+        border-bottom: solid #ccc 1px;
+        background: none;
+        text-align: center;
+    }
+
+    .fenPage input:nth-child(2) {
+        width: auto;
+        background-color: #eee;
+        border: solid #ccc 1px;
+        padding: 2px 10px;
+    }
+
+    .video-text {
+        width: 560px;
+	      max-height: 400px;
+        background: #fff;
+        border: 1px solid #E0E0E0;
+        box-shadow: 0 0 20px #939393;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+        padding: 50px 30px 20px 30px;
+    }
+
+    .video-text2, .video-text3 {
+        width: 90%;
+        /*height: 50px;*/
+        color: #000;
+        font-size: 16px;
+        vertical-align: middle;
+        margin: 15px auto;
+        /*margin-bottom: 50px;*/
+    }
+
+    .video-text2 > textarea, .video-text3 > textarea {
+        vertical-align: middle;
+    }
+
+    .video-text2 > textarea, .video-text3 > textarea {
+        width: 80%;
+        /*height: 40px;*/
+        border: 1px solid #E0E0E0;
+        color: #000;
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+
+    .video-but {
+        width: 100%;
+        height: 30px;
+        text-align: center;
+        /*margin-top: 50px;*/
+    }
+
+    .video-but > p {
+        width: 100px;
+        height: 30px;
+        font-size: 12px;
+        border-radius: 5px;
+        color: #fff;
+        display: inline-block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .video-but > p:nth-of-type(1) {
+        background: #a3a1a1;
+        margin-right: 40px;
+    }
+
+    .video-but > p:nth-of-type(2) {
+        background: #f99429;
+    }
+
+    .ea-list-tr > td:nth-of-type(3) {
+        max-width: 200px;
+    }
+
+    .ea-list-tr > td:nth-of-type(4) {
+        max-width: 300px;
+    }
+
+    .buchong {
+        width: 100%;
+        height: 20px;
+        background: #F1F3F2;
+    }
+
+    .videoremove {
+        width: 300px;
+        height: 200px;
+        background: #fff;
+        box-shadow: 0 0 30px gainsboro;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        /*display: none;*/
+    }
+
+    .videoremove > p {
+        width: 100%;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .videoremove > div {
+        width: 100%;
+        height: 30px;
+        text-align: center;
+        margin-top: 65px;
+    }
+
+    .videoremove > div > span {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 5px;
+    }
+
+    .videoremoveFalse {
+        border: 1px solid #d2d2d2;
+        background-color: #fff;
+        color: #7f7f7f;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    .videoremoveSure {
+        border: none;
+        background-color: #08aceb;
+        color: #fff;
+        cursor: pointer;
+    }
+    /*.right-bar{
+        background-color: inherit;
+    }*/
+    .ea-right-search{
+        margin-bottom: 10px;
+        margin-left: 0;
+    }
+    .ea-right-search .dc-btn{
+        float: right;
+    }
+    .search-box{
+        width: 100%;
+    }
+
+    .ea-list-table td {
+	    font-size: 12px;
+    }
+
+    .ea-list-table th span {
+	    font-size: 14px;
+    }
+    /*.top-taps{
+        padding-left: 0;
+    }*/
+</style>
+<body>
+<!-- content -->
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <!--<div class="top-taps clearfix">-->
+            <!--<ul>-->
+                <!--<li><a href="#/erpservice/video">{{'100261' | translate}}</a></li>-->
+                <!--<li  class="active"><a href="#/erpservice/article">{{'100262' | translate}}</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input type="text" class="form-control top-search-inp search-text-box" placeholder=""
+                           ng-model="searchinfo">
+                    <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="SearchBtn()">{{'100025' | translate}}</a>
+                    <a class="dc-btn" ng-click="handleAdd()" href="">{{'100269' | translate}}</a>
+                </div>
+            </div>
+            <table class="ea-list-table ea-erp-cs">
+                <tr>
+                    <th><span>{{'100264' | translate}}</span></th>
+                    <th>{{'100265' | translate}}</th>
+                    <th>{{'100266' | translate}}</th>
+                    <th>{{'100271' | translate}}</th>
+                    <th>{{'101443' | translate}}</th>
+                    <th>{{'100043' | translate}}</th>
+                </tr>
+                <tr class="ea-list-tr" ng-repeat="item in videoList">
+                    <td>{{item.uploader}}</td>
+                    <td>{{item.uploadDate}}</td>
+                    <td><img ng-if="item.recommendStatus == true"  src="static/image/public-img/iconstar_y.png" alt="">
+                        {{item.title}}</td>
+                    <td>{{item.contentUrl}}</td>
+                    <td>{{item.clickCount}}</td>
+                    <td>
+                        <span>
+	                         <button type="button" class="ea-to-opea"
+                                    ng-click="handleEidt(item)">编辑</button>
+	                         <button type="button" class="ea-to-opea"
+	                                 ng-click="videoRemove(item,$event)">{{'100227' | translate}}</button>
+                            <button ng-if="item.recommendStatus == false" type="button" class="ea-to-opea"
+                                    ng-click="recommendPageTrue(item)">推荐</button>
+                            <button ng-if="item.recommendStatus == true" type="button" class="ea-to-opea"
+                                    ng-click="recommendCancelPageTrue(item)">取消推荐</button>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+            <!-- 分页 -->
+            <div class="page-box">
+                <div class="select-page-num">
+                    <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)">
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>每页</span>
+                </div>
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup">
+                        <a href="#">&lt;&lt;</a>
+                        <a href="#">&lt;</a>
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a class="current" href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">···</a>
+                        <a href="#">&gt;</a>
+                        <a href="#">&gt;&gt;</a>
+                    </div>
+                </div>
+                <div class="to-go">
+                    <span>跳转：</span>
+                    <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+                    <a class="btn btn-default" href="javascript: void(0);" role="button"
+                       ng-click="pagenumchange()">go</a>
+                </div>
+            </div>
+            <!--弹框-->
+            <div class="video-text" ng-show="isShowModal">
+                <div class="video-text2">
+                    &nbsp;&nbsp;&nbsp;{{'100266' | translate}}:&nbsp;&nbsp;<textarea name="" rows="4" cols="5" ng-model="title"></textarea>
+                </div>
+                <div class="video-text3">
+                    &nbsp;&nbsp;&nbsp;{{'100268' | translate}}:&nbsp;&nbsp;<textarea name="" rows="4" cols="5" ng-model="contentUrl"></textarea>
+                </div>
+                <div class="video-but">
+                    <p ng-click="isShowModal=false">{{'100051' | translate}}</p>
+                    <p ng-click="handleConfirm()">确定</p>
+                </div>
+            </div>
+            <!--删除弹框-->
+            <div class="videoremove" ng-show="videoremovet">
+                <p>{{'100270' | translate}}?</p>
+                <div>
+                    <span class="videoremoveFalse" ng-click="videoremoveFalse()">{{'100051' | translate}}</span>
+                    <span class="videoremoveSure" ng-click="videoremoveSure()">{{'100050' | translate}}</span>
+                </div>
+            </div>
+            <!--推荐弹框-->
+            <div class="videoremove" ng-show="recommendPage">
+                <p>是否推荐?</p>
+                <div>
+                    <span class="videoremoveFalse" ng-click="recommendPage =false">{{'100051' | translate}}</span>
+                    <span class="videoremoveSure" ng-click="recommendConfirm()">{{'100050' | translate}}</span>
+                </div>
+            </div>
+
+            <!--推荐弹框-->
+            <div class="videoremove" ng-show="recommendCancelPage">
+                <p>是否取消推荐?</p>
+                <div>
+                    <span class="videoremoveFalse" ng-click="recommendCancelPage =false">{{'100051' | translate}}</span>
+                    <span class="videoremoveSure" ng-click="recommendCancel()">{{'100050' | translate}}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="static/assets/trumbowyg.js"></script>
+<script src="static/assets/plugins/base64/trumbowyg.base64.js"></script>

@@ -1,0 +1,287 @@
+<style>
+    .customerLevel{
+        font-size: 12px;
+        padding: 3px;
+        background: #e1e1e1;
+        border-radius: 4px;
+        font-weight: normal;
+    }
+    .wa-SpColor{color:#047aa7;text-decoration: underline;cursor: pointer}
+    .right-bar .detail-li-right-amend-href{
+      /* position: absolute;
+      top: 10px;
+      left: 50%;
+      margin-left: 40px; */
+      width: 90px;
+      margin-right: 20px;
+    }
+    .right-bar .detail-li-right-amend-href:hover {
+      color: #FFF3B1;
+    }
+    .clickEmail {
+        cursor: pointer;
+    }
+
+    .clickEmail:hover {
+        color: #F8A636
+    }
+    .between-btn{
+        width: 90px;
+        font-size: 12px;
+        border-radius: 4px;
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+    .orange-btn{
+        background: #F8A636;
+        color: #fff;
+    }
+</style>
+<div class="ea-content">
+    <div class="left-bar">
+          <ul>
+              <li ng-class="{'active': status == 1 }"><a href="#/erpcustomer/KeHuLieBiao">{{'100890' | translate}}（{{customerdata.normal}}）</a></li>
+              <li ng-class="{'active': status == 3 }"><a href="#/erpcustomer/xushenhe">{{'100891' | translate}}（{{customerdata.needaudit}}）</a></li>
+              <li ng-class="{'active': status == 0 }"><a href="#/erpcustomer/shenhenopass">{{'100892' | translate}}（{{customerdata.nopass}}）</a></li>
+              <li ng-class="{'active': status == 2 }"><a href="#/erpcustomer/heimingdan">{{'100608' | translate}}（{{customerdata.black}}）</a></li>
+              <li ng-class="{'active': status == 4 }"><a href="#/erpcustomer/shoplist">{{'100893' | translate}}（{{customerdata.shop}}）</a></li>
+              <li><a href="#/erpcustomer/exhibition">{{'100894' | translate}}（{{customerdata.exhibition}}）</a></li>
+              <li><a href="#/erpcustomer/Affiliate">{{'100895' | translate}}（{{customerdata.affUserNum}}）</a></li>
+              <li><a href="#/erpcustomer/GH">{{'100896' | translate}}（{{customerdata.customerResourceNum}}）</a></li>
+          </ul>
+    </div>
+
+    <div class="right-bar-wrap ea-right-content">
+    <div class="asj-h10"></div>
+    <div class="right-bar c-ord-conall c-m-w detail">
+        <div class="detail-title d-flex justify-content-between align-items-center">
+            <span class="between-btn"></span>
+            <span>{{'100937' | translate}}</span>
+            <span ng-show="!isCod" class="between-btn orange-btn" ng-click="openAnalyze(user.LOGIN_NAME)">转至客户分析</span>
+            <span  ng-show="isCod"></span>
+        </div>
+
+        <ul class="detail-ul">
+        	<!-- <li>
+        		<span class="canel-detail" ng-click="canelDetail()" ng-hide="{{buttonfh}}">返回</span>
+        	</li> -->
+            <li class="detail-li" style=" border-top:1px solid rgba(194, 194, 194, 1)">
+                <div class="detail-li-left">{{'100929' | translate}}</div>
+                <div class="detail-li-right">{{user.CREATE_DATE.year+1900}}-{{user.CREATE_DATE.month+1}}-{{user.CREATE_DATE.date}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100899' | translate}}</div>
+                <div class="detail-li-right">{{user.num}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100815' | translate}}</div>
+                <div class="detail-li-right">{{user.LOGIN_NAME}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100927' | translate}}</div>
+                <div class="detail-li-right">{{user.NAME}}
+                    <span ng-if="!isCod">
+                        <b ng-if="user.userLevel==3" class="customerLevel">优</b>
+                        <b ng-if="user.userLevel==2" class="customerLevel">普</b>
+                        <b ng-if="user.userLevel==1" class="customerLevel">潜</b>
+
+                        <img width="14" src="static/image/public-img/order.png">
+                        <b class="cus-dengji">LV{{user.cunLevel}}</b>
+
+                        <img style="margin-left: 5px;" width="14" src="static/image/public-img/money.png">
+                        <b class="cus-dengji">LV{{user.moneyLevel}}</b>
+
+                        <img width="20" src="static/image/public-img/dy.png">
+                        <b class="cus-dengji">LV{{user.sourceDingYue}}</b>
+                    </span>
+                </div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">客户利润率</div>
+                <div class="detail-li-right">{{user.percent}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">客户纠纷率</div>
+                <div class="detail-li-right">{{user.jiufen ? user.jiufen : '0'}}%</div>
+            </li>
+            <li class="detail-li" ng-show="job != '客服' || showPhone">
+                <div class="detail-li-left">{{'100676' | translate}}</div>
+                <div class="detail-li-right"><span>{{user.PHONE}}</span></div>
+            </li>
+            <li class="detail-li" ng-show="job != '客服'">
+                <div class="detail-li-left">Email</div>
+                <div class="detail-li-right"><span class="clickEmail" ng-click="openEmail(user.EMAIL)">{{user.EMAIL}}</span></div>
+            </li>
+            <li class="detail-li" ng-show="skype && job != '客服'" ng-cloak>
+                <div class="detail-li-left">Skype</div>
+                <div class="detail-li-right">{{skype}}</div>
+            </li>
+            <li class="detail-li" ng-show="whatapp" ng-cloak>
+                <div class="detail-li-left">Whatapp</div>
+                <div class="detail-li-right">{{whatapp}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100724' | translate}}</div>
+                <div class="detail-li-right">{{user.COUNTRY}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100677' | translate}}</div>
+                <div class="detail-li-right">{{user.ADDRESS}}</div>
+            </li>
+            <li class="detail-li" style="position: relative" ng-show="job != '客服'">
+                <div class="detail-li-left" style="position: absolute;top: 0;bottom: 0;left: 0;">{{'100938' | translate}}</div>
+                <div class="detail-li-right">
+                    <p ng-repeat="item in user.STORE_LINK track by $index">{{item}}</p>
+                </div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100939' | translate}}</div>
+                <div class="detail-li-right">{{orderNumber}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100940' | translate}}</div>
+                <div class="detail-li-right">{{platforms}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100941' | translate}}</div>
+                <div class="detail-li-right">{{markets}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100464' | translate}}</div>
+                <div class="detail-li-right">{{niches}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100942' | translate}}</div>
+                <div class="detail-li-right">{{user.encDate1}}&nbsp;&nbsp;&nbsp;{{user.encDate2}}</div>
+            </li>
+            <!--<li class="detail-li">-->
+                <!--<div class="detail-li-left">{{'100943' | translate}}</div>-->
+                <!--<div class="detail-li-right">{{user.memberBalance}}</div>-->
+            <!--</li>-->
+            <li class="detail-li">
+                <div class="detail-li-left">{{'100321' | translate}}</div>
+                <div class="detail-li-right">{{user.integration}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">备注</div>
+                <div class="detail-li-right">
+                    <span ng-if="user.remark=='' || user.remark==null">--</span>
+                    <span ng-if="user.remark!='' && user.remark!=null">{{user.remark}}</span>
+                </div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">{{'101318' | translate}}</div>
+                <div class="detail-li-right">
+                      <!-- ng-show="status == 1" -->
+                    <span>{{user.RELATE_SALESMAN}}</span>
+                </div>
+                <!-- passshenhe && user.RELATE_SALESMAN -->
+                <!-- <div class="detail-li-right-amend" style="float: right;" ng-show="status == 1 && user.RELATE_SALESMAN && isAdminLogin" ng-click="ywyamend(user)">{{'100546' | translate}}</div> -->
+                <!-- ng-show="passshenhe && !user.RELATE_SALESMAN" -->
+                <!-- <div class="detail-li-right-add" style="float: right;" ng-show="status == 1 && !user.RELATE_SALESMAN" ng-click="ywyadd()">添加</div> -->
+                <!-- <div class="detail-li-right-add" style="float: right;" ng-hide="false" ng-click="ywyadd()">添加</div> -->
+            </li>
+
+            <li ng-if="!isCod" class="detail-li">
+                <div class="detail-li-left">客户类型</div>
+                <div class="detail-li-right">{{classVIP(user.vip)}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">子订单数</div>
+                <div class="detail-li-right">{{user.zidingdan}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">已关联商品数</div>
+                <div class="detail-li-right"><span class="wa-SpColor" ng-click="guanlianshangpinNew(user)">{{user.yiguanlian}}</span></div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">SKU List</div>
+                <div class="detail-li-right"><span class="wa-SpColor" ng-click="skulistshangpinNew(user)">{{user.skuLists}}</span></div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">指定可见商品</div>
+                <div class="detail-li-right"><span class="wa-SpColor" ng-click="privatecomNew(user)">{{user.zhidingkejian}}</span></div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">总销售额</div>
+                <div class="detail-li-right">{{user.zongxiaoshoue}}</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">店铺</div>
+                <div class="detail-li-right"><a class="wa-SpColor" ng-click="detailShopget(user)">{{user.dianpu}}</a></div>
+            </li>
+        </ul>
+        <div class="detail-button">
+            <div style="text-align: center;width: 100%;">
+            <!-- <button style="width: 150px;" class="detail-button1" ng-click="go()" ng-hide="{{buttongb}}">关闭</button> -->
+             <!-- ng-hide="{{buttontg}}" -->
+            <button style="width: 150px;" class="detail-button2" ng-click="pase(user)" ng-show="status == 3 || status == 0">{{'100400' | translate}}</button>
+            <!-- </div>
+            <div> -->
+                 <!-- ng-hide="{{buttonjj}}" -->
+            <button style="width: 150px;margin-left: 30px;" class="detail-button3" ng-click="refuse=true;through=false;blacklist=false" ng-show="status == 3">{{'100128' | translate}}</button>
+            <!-- ng-hide="{{buttonjrhmd}}" -->
+            <button style="width: 150px;" class="detail-button4" ng-click="blacklist=true;refuse=false;through=false;" ng-show="status == 1">{{'100616' | translate}}</button>
+             <!-- ng-hide="{{buttonjrbmd}}" -->
+            <button style="width: 150px;" class="detail-button5" ng-click="addWhite()" ng-show="status == 2 && isAdminLogin">{{'100944' | translate}}</button>
+            </div>
+        </div>
+        <!-- ng-show="through||refuse||blacklist" -->
+        <div class="detail-tanchuang"  ng-show="through" id="assign-saleman">
+            <div class="detail-tanchuang1 detail-tanchuang-item" ng-show="through">
+                <p>{{'100945' | translate}}</p>
+                <div class="detail-tanchuang1-search">
+                	<div class="top-mes">{{'100946' | translate}}：</div>
+    				<input type="text" ng-model="empname" ng-change="empchange()" ng-blur="embul=false" ng-focus="empchange()" id="assign-saleman-inp">
+    				    <ul class="emplist" ng-show="embul">
+    						<li ng-repeat="item in emblist" ng-mousedown="getemp(item)">{{item.NAME}}</li>
+    					</ul>
+    			</div>
+    			<div class="detail-tanchuang1-button"><button  class="detail-tanchuang1-button1" ng-click="through=false">{{'100051' | translate}}</button><button  class="detail-tanchuang1-button2" ng-click="throughquery()">{{'100050' | translate}}</button></div>
+                </div>
+        </div>
+        <div class="detail-tanchuang" ng-show="refuse">
+    	    <div class="detail-tanchuang2 detail-tanchuang-item">
+    	            <p>{{'100334' | translate}}</p>
+    	            <div><textarea name="" id="" cols="30" rows="10" ng-model="remarks2"></textarea></div>
+    	            <div class="detail-tanchuang1-button"><button  class="detail-tanchuang1-button1" ng-click="refuse=false">{{'100051' | translate}}</button><button  class="detail-tanchuang1-button2" ng-click="refusequery()">{{'100050' | translate}}</button></div>
+    	    </div>
+        </div>
+    		<div class="detail-tanchuang" ng-show="blacklist">
+    	    <div class="detail-tanchuang3 detail-tanchuang-item">
+    	            <p>{{'100947' | translate}}？</p>
+    	            <p>{{'100948' | translate}}</p>
+    	            <div><textarea name="" id="" cols="30" rows="10"  ng-model="remarks1"></textarea></div>
+    	            <div class="detail-tanchuang1-button"><button  class="detail-tanchuang1-button1" ng-click="blacklist=false">{{'100051' | translate}}</button><button  class="detail-tanchuang1-button2" ng-click="blacklistquery()">{{'100050' | translate}}</button></div>
+    	    </div>
+        </div>
+
+       <!--客户列表里面分配业务员-->
+      	<!--<div class="add-ywy" >-->
+      	<div class="detail-tanchuang" ng-show="through1">
+      		<div class="detail-tanchuang11 detail-tanchuang-item">
+            <p>{{'100583' | translate}}</p>
+            <div class="wllSerch">
+               <div class="top-mes">{{'100946' | translate}}：</div>
+    						<input type="text" ng-model="empname1" ng-change="empchange1()" ng-blur="embul1=false" ng-focus="empchange1()" >
+    				    <ul class="emplist" ng-show="embul1">
+    							<li ng-repeat="item in emblist1" ng-mousedown="getemp1(item)">{{item.NAME}}</li>
+    						</ul>
+    				</div>
+    				<div class="wllSerch-btn"><button  class="wllSerch-btn1" ng-click="through1=false">{{'100051' | translate}}</button><button  class="wllSerch-btn2" ng-click="throughquery1()">{{'100050' | translate}}</button></div>
+    			</div>
+        </div>
+      	<!--</div>-->
+    </div>
+    </div>
+  <!--发送邮件-->
+<send-Email ng-if="isSendMail" no="ctrl.no"></send-Email>
+</div>
+<customer-connected></customer-connected>
+<customer-skulist></customer-skulist>
+<customer-private></customer-private>
+
+

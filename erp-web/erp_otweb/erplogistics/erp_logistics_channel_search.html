@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>订单查询</title>
+	<!--<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />-->
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/wa-erp.css">
+</head>
+<body>
+<!-- content -->
+<div class="ea-content">
+	<!--<div class="ea-content-box">-->
+
+		<!--<div class="ea-content-con">-->
+			<!-- left nav -->
+			<div class="left-bar">
+				<ul>
+					<li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+					<li><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+					<li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+					<li class="active"><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+					<li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+					<li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+					<li><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+				</ul>
+			</div>
+			<div class="bg-geduan"></div>
+			<!-- right con -->
+			<div class="right-bar-wrap ea-right-content">
+				<div class="right-bar" style="padding-top: 0;">
+				<div class="order_find_head">
+				<!--<img src="../images/background.png" class="head_img">-->
+					<div class="order-num-searchBox">
+						<div class="order-num-box">
+							<ul>
+								<!--<li><span class="span-serial">1</span></li>	-->							
+							</ul>
+							<textarea placeholder="{{'100782' | translate}}" name="" rows="" cols="" class="order-num-box-text"></textarea>
+						</div>
+						<div class="order-btn-search">
+							<input type="button" class="clear-order-num" ng-click="clearAway()" value="{{'100783' | translate}}">
+							<input type="button" class="enter-btn-search" ng-click="search()" value="{{'100025' | translate}}">
+						</div>
+					</div>
+</div>
+				<!-- right list -->
+				<div class="table-con-box sec_opp" style="margin-top: 5px;">
+
+					<div class="ea-right-list-nav" style="margin-bottom: 0;">
+						<ul>
+							<li>{{'100390' | translate}}(28)</li>
+							<li>{{'100784' | translate}}(0)</li>
+							<li>{{'100785' | translate}}(1)</li>
+							<li>{{'100786' | translate}}(0)</li>
+							<li>{{'100787' | translate}}(27)</li>
+							<li>{{'100788' | translate}}(0)</li>
+							<li>{{'100789' | translate}}(0)</li>
+						</ul>
+					</div>
+
+					<table class="ea-list-table ea-channel-result">
+						<tr>
+							<th><span>{{'100027' | translate}}</span></th>
+							<th><span>{{'100109' | translate}}</span></th>
+							<th><span>{{'100790' | translate}}</span></th>
+							<th><span>{{'100651' | translate}}</span></th>
+							<th><span>{{'100724' | translate}}</span></th>
+							<th><span>{{'100380' | translate}}</span></th>
+							<th><span>{{'100791' | translate}}</span></th>
+							<th><span>{{'100202' | translate}}</span></th>
+						</tr>
+						<tr ng-repeat="item in logisticsDetails" repeat-finish="aa()" class="repeat">
+							<td colspan="9">
+								<div class="ea-channel-search-result clearfix" style="margin-top: 8px;">
+									<!--订单号-->	
+									<div class="ea-channel-state-num-left" style="padding: 1% 0;">
+										<p>{{item.vsnumber}}</p>
+									</div>
+									<!--追踪号-->	
+									<div class="ea-channel-state-num-left danhao" style="padding: 1% 0;">
+										<p>{{item.aptrackingNumber}}</p>
+									</div>
+
+									<div class="ea-channel-com-right">
+										<div class="ea-channel-com-right-tit">
+											<ul class="clearfix">
+												<!--订单日期-->
+												<li class="tit-1">{{item.apTdate?item.apTdate:"-"}}</li>
+												<!--物流公司-->
+												<li class="tit-1">{{item.shipName?item.shipName:"-"}}</li>
+												<!--国家-->
+												<li class="tit-1">{{item.apdestination?item.apdestination:"-"}}</li>
+												<!--重量-->
+												<li class="tit-1">{{item.apweight?item.apweight:"-"}}</li>
+												<!--总运费-->
+												<li class="tit-1">${{item.apvalue?item.apvalue:"-"}}</li>
+												<!--状态-->
+												<li class="tit-1 nth6" ng-show="item.parcelstatus == 1" style="text-align: right;">{{'100604' | translate}}</li>
+												<li class="tit-1 nth6" ng-show="item.parcelstatus == 2" style="text-align: right;">{{'100792' | translate}}</li>
+												<li class="tit-1 nth6" ng-show="item.parcelstatus == 3" style="text-align: right;">{{'100793' | translate}}</li>
+												<li class="tit-1 nth6" ng-show="item.parcelstatus == 4" style="text-align: right;">{{'100794' | translate}}</li>
+											</ul>
+										</div>
+										<div class="ea-channel-com-right-con" style="padding:0 0 0 50px;">
+											
+											<em style="border-bottom: 1px solid #ececec;"><span class="this-new-dataem" style="display: inline-block;font-size: 14px;">2017-09-30 11:57</span><p class="this-new-data" style="font-size: 14px;">{{'100795' | translate}}妥投</p></em>
+											<i></i>
+											<dl class="show-more-box">
+												<dd ng-repeat="item1 in item.trackingRecord" repeat-finish="bb()" style="height: 25px;line-height: 25px;">
+													<span class="ea-span-datatime">{{item1.trackTm}}</span>
+													[{{item1.oprBranch}}][{{item1.oprUser}}]{{item1.remark}}
+												</dd>
+												<!--<dd><span class="ea-span-datatime">2017-10-14 20:05:28</span>[金华市]圆通速递 浙江省金华市武义县收件员 已揽件</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 22:23:35</span>浙江省金华市武义县公司 已打包</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 13:36:44</span>[金华市]快件已从浙江省金华市武义县发出，准备发往金华转运中心</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 00:01:51</span>[金华市]快件已到达 金华转运中心</dd>-->
+											</dl>
+										</div>
+									</div>
+								</div>
+
+							</td>
+						</tr>
+						<!--<tr>
+							<td colspan="9">
+								<div class="ea-channel-search-result clearfix" style="margin-top: 8px;">
+									<div class="ea-channel-state-num-left">
+										<p>LX492671898CN</p>
+									</div>
+
+									<div class="ea-channel-com-right">
+										<div class="ea-channel-com-right-tit">
+											<ul class="clearfix">
+												<li class="tit-1">2017-09-24</li>
+												<li class="tit-1">E邮宝</li>
+												<li class="tit-1">中国-美国</li>
+												<li class="tit-1">3257823</li>
+												<li class="tit-1">40g</li>
+												<li class="tit-1">$3.5</li>
+												<li class="tit-1">运输中</li>
+											</ul>
+										</div>
+										<div class="ea-channel-com-right-con">
+											<dl class="show-more-box">
+												<dd><span class="ea-span-datatime">2017-10-14 13:36:44</span>包裹正在等待揽收</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 20:05:28</span>[金华市]圆通速递 浙江省金华市武义县收件员 已揽件</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 22:23:35</span>浙江省金华市武义县公司 已打包</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 13:36:44</span>[金华市]快件已从浙江省金华市武义县发出，准备发往金华转运中心</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 00:01:51</span>[金华市]快件已到达 金华转运中心</dd>
+											</dl>
+											<em>2017-09-30 11:57<p class="this-new-data">妥投</p></em>
+											<i></i>
+										</div>
+									</div>
+								</div>
+
+							</td>
+						</tr>
+						<tr>
+							<td colspan="9">
+								<div class="ea-channel-search-result clearfix" style="margin-top: 8px;">
+									<div class="ea-channel-state-num-left">
+										<p>LX492671898CN</p>
+									</div>
+
+									<div class="ea-channel-com-right">
+										<div class="ea-channel-com-right-tit">
+											<ul class="clearfix">
+												<li class="tit-1">2017-09-24</li>
+												<li class="tit-1">中国邮政</li>
+												<li class="tit-1">中国-美国</li>
+												<li class="tit-1">3257823</li>
+												<li class="tit-1">40g</li>
+												<li class="tit-1">$3.5</li>
+												<li class="tit-1">运输中</li>
+											</ul>
+										</div>
+										<div class="ea-channel-com-right-con">
+											<dl class="show-more-box">
+												<dd><span class="ea-span-datatime">2017-10-14 13:36:44</span>包裹正在等待揽收</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 20:05:28</span>[金华市]圆通速递 浙江省金华市武义县收件员 已揽件</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 22:23:35</span>浙江省金华市武义县公司 已打包</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 13:36:44</span>[金华市]快件已从浙江省金华市武义县发出，准备发往金华转运中心</dd>
+												<dd><span class="ea-span-datatime">2017-10-14 00:01:51</span>[金华市]快件已到达 金华转运中心</dd>
+											</dl>
+											<em>2017-09-30 11:57<p class="this-new-data">妥投</p></em>
+											<i></i>
+										</div>
+									</div>
+								</div>
+
+							</td>
+						</tr>-->
+
+					</table>
+
+
+					<!--<div class="fenPage">
+							<span><select ng-model="pagesize" ng-change="pagechange(pagesize)" ng-options="item as item for item in pagenumarr">
+							</select>
+							条每页
+							</span>
+                        <span>共{{totalpage()}}页</span>
+                        <span class="pagegroup"></span>
+                        <span>跳转 <input class="goyema" type="number" style=" padding: 0;" step="1"  placeholder=""> 页 <input type="button" value="GO" ng-click="pagenumchange()"></span>
+                    </div>-->
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

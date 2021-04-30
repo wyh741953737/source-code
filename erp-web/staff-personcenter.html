@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>账户信息</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/>
+    <link rel="shortcut icon" href="static/favicons.png"/>
+    <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/angular-1.5.8/angular-route.min.js"></script>
+    <script src="./static/layer/layer.js"></script>
+    <script src="./static/wang-editor-master/js/wangEditor.min.js"></script>
+    <script src="./static/jqPaginator-master/jqPaginator.js"></script>
+    <script src="./static/ng-draggable-master/ngDraggable.js"></script>
+    <script src="static/layer/layer.js"></script>
+    <script src="./static/ng-paginator-master/ng-paginator.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>
+    <style type="text/css">
+        .ea-content-box {
+            background-image: none;
+        }
+
+        .ea-content-box .ea-content-con {
+            width: 80%;
+            margin-left: 0px;
+            margin: 60px auto;
+        }
+
+        .centerhead {
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            font-family: MicrosoftYaHei;
+            font-size: 24px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 24px;
+            letter-spacing: 0px;
+            color: #030303;
+            border-bottom: 1px solid #f1f1f1;
+            margin-bottom: 50px;
+        }
+
+        .centercontent {
+            width: 430px;
+            /*margin: 0 auto;*/
+            display: inline-block;
+            vertical-align: top;
+            /*margin-left: 10px;*/
+            /*margin-top: 10px;*/
+        }
+
+        .centercontent li {
+            overflow: hidden;
+            /*padding-top: 25px;*/
+            margin-bottom: 15px;
+        }
+
+        .centercontent li p {
+            float: left;
+            font-family: MicrosoftYaHei;
+            font-size: 18px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 24px;
+            letter-spacing: 0px;
+            color: #686868;
+        }
+        .centercontent li p:first-child {
+            /*margin-right: 200px;*/
+        }
+
+        .centercontent li p span {
+            color: #000000;
+            /*margin-left: 20px;*/
+            font-size: 16px;
+        }
+		.avatar {
+		    width: 110px;
+		    height: 110px;
+		    position: relative;
+		    vertical-align: top;
+		    display: inline-block;
+		    margin-left: 15%;
+            margin-right: 5%;
+		}
+		.ea-content-con .avatar img {
+		    width: 100%;
+		    height: 100%;
+		    border: solid 1px #ececec;
+		    border-radius: 50%
+		}
+       	.ea-content-con .avatar p{
+		    line-height: 114px;
+		    text-align: center;
+		    border: solid 1px #ececec;
+		    border-radius: 50%;
+		    font-size: 80px;
+		    float: none;
+		    width: auto;
+		    color: #000000;
+		}
+		#camare-img{
+		    position: absolute;
+		    z-index: 99;
+		    left: 50%;
+		    top: 100px;
+		    transform: translateX(-50%);
+		    height: 19px;
+		}
+        .firstinput {
+            border: none;
+            width: 150px;
+            margin-left: 20px;
+        }
+        .centercontent input{
+            width: 170px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 3px;
+            padding: 0 8px;
+        }
+        .centercontent button{
+            width: 150px;
+            height: 32px;
+            line-height: 30px;
+            background: #08ACE9;
+            border: 1px solid #08ACE9;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .centercontent .vst{
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<!-- content -->
+<div class="ea-content" ng-app="staffpersoncenter-app" ng-controller="staffpersoncenterCtrl2">
+    <div class="ea-content-box">
+        <div class="ea-content-con">
+            <div class="ea-content-con">
+                <p class="centerhead">账户信息修改</p>
+                <div class="avatar pull-left" style="display: inline-block;">
+					<img ng-src="{{user.AVATAR}}" ng-show="user.AVATAR">
+					<p ng-show="!user.AVATAR" ng-bind="imgname"></p>
+					<!--头像-->
+					<form action="" method="post" enctype="multipart/form-data" id="uploadimg2" style="display: inline" >
+						<input type="file" ng-model="documentupload2" id="document2"  onchange="angular.element(this).scope().upLoadImg4(this.files)" style="cursor:pointer;opacity: 0;width: 114px;height: 114px;position: absolute;top: 0;left: 0;" >
+					</form>
+					<span alt="Upload photo" id="camare-img" class="glyphicon glyphicon-camera"></span>
+				</div>
+                <ul class="centercontent">
+                    <li>
+                        <p>账号：
+                            <!-- <input type="text" ng-model="user.LOGIN_NAME">
+                            <span ng-show="userState" class="vst">必填！</span> -->
+                            <span>{{user.LOGIN_NAME}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>昵称：
+                            <!-- <input type="text" ng-model="user.eename">
+                            <span ng-show="nameState" class="vst">必填！</span> -->
+                            <span>{{user.eename}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>英文名：
+                            <!-- <input type="text" ng-model="user.nameEN" onKeyUp="value=value.replace(/[^a-zA-Z]/g,'')" > -->
+                            <!--<span ng-show="user.nameEN">{{user.nameEN}}</span>-->
+                            <span>{{user.nameEN}}</span>
+                        </p>
+                        
+                    </li>
+                    <li>
+                        <p>性别：
+                            <span>{{user.sex}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>生日：
+                            <span>{{user.age}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>工号：
+                            <span>{{user.number}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>部门：
+                            <span>{{user.department}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>职位：
+                            <span>{{user.position}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>岗位：
+                            <span>{{user.job}}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <button ng-click="infoClick()">信息更改</button>
+                    </li>
+                    <li>
+                        <p>当前密码：
+                            <input type="password" value="" ng-model="password1">
+                            <span ng-show="DQpasswordState" class="vst">必填！</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>新密码：
+                            <input type="password" value="" ng-model="password" ng-blur="pawbl()">
+                            <span ng-show="passwordState" class="vst">必填！</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>确认密码：
+                            <input type="password" value="" ng-model="confirmpassword">
+                            <span ng-show="confirmpasswordState" class="vst">请再次输入新密码！</span>
+                        </p>
+                    </li>
+                    <li>
+                        <button ng-click="subClick()">密码修改</button>
+                    </li>
+                    <li>
+                        <button style="width: 290px;" ng-click="gologin()">去登陆</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="static/js/login/staff-personcenter.js"></script>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src="./static/md5/md5.min.js"></script>

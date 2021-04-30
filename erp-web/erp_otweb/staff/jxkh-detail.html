@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>详情</title>
+  <style type="text/css">
+    .fun-div {
+      padding: 0 10px;
+      height: 30px;
+    }
+
+    .fun-div .sku-inp {
+      width: 280px;
+      height: 30px;
+      text-indent: 12px;
+      vertical-align: top;
+    }
+
+    .fun-div .skusea-btn {
+      height: 30px;
+      padding: 0 10px;
+      background-color: #fff;
+      border: 1px solid #E0E0E0;
+      vertical-align: top;
+      /*border-left: none;*/
+      margin-right: 50px;
+    }
+
+    .fun-div .skusea-btn:hover {
+      color: #f99429;
+    }
+
+    .ea-list-table td span {
+      font-size: 12px;
+    }
+
+    .ea-list-table td p {
+      font-size: 12px;
+    }
+
+    .pici-btn {
+      height: 30px;
+      padding: 0 15px;
+      background-color: #87CEFA;
+      color: #fff;
+      vertical-align: top;
+    }
+
+    .lightseagreen {
+      background-color: lightseagreen;
+    }
+
+    .second-tr {
+      display: none;
+    }
+
+    .fun-div .data-inp {
+      width: 133px;
+      height: 30px;
+      padding: 0;
+      border: solid #e1e1e1 1px;
+      text-indent: .7em;
+    }
+
+    .fun-div .drk-seachInp {
+      background-color: #fff;
+      height: 30px;
+      padding: 0 10px;
+      vertical-align: top;
+      /*border-left: none;*/
+    }
+
+    .fun-div .drk-seachInp:hover {
+      color: #f99429;
+    }
+
+    .time-span {
+      margin-right: 20px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .time-span.active {
+      color: #08ACE9;
+    }
+
+    .sea-select {
+      height: 30px;
+      width: 160px;
+    }
+
+    .flex-th {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .sort-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .groupZzc {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99999;
+    }
+
+    .groupWrap {
+      background: #fff;
+      border-radius: 4px;
+      width: 710px;
+      min-height: 200px;
+      padding: 20px;
+      margin: 150px auto;
+    }
+
+    .groupWrap>h1 {
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .groupWrap .input-group {
+      align-items: center;
+    }
+
+    .groupInput-tr {
+      text-align: center;
+    }
+
+    .groupInput-tr .input-group {
+      margin-top: 20px;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .groupInput-tr .thead {
+      background-color: #FCF4D9;
+      /* height: 40px; */
+      align-items: center;
+
+    }
+
+    .groupInput-tr li {
+      width: 33%;
+      padding: 10px 0;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    /* 弹框 */
+    .score-changes {
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      background-color: rgba(0, 0, 0, .2);
+    }
+    .score-changes .m-main {
+      padding: 20px;
+      background-color: #fff;
+    }
+    .score-changes .btn {
+      padding: 2px 35px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ea-content">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+      <!-- right nav -->
+      <div class="asj-h10"></div>
+      <div class="right-bar">
+        <!-- right list -->
+        <div class="fun-div">
+          <span class="time-span" ng-repeat="item in date_option_list" ng-click="getListByClick(item)" ng-class="{active: item.activeColor}">{{item.txt}}</span>
+
+          <input id="start-time" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="开始" />
+          <input id="end-time" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="结束" />
+          <input ng-click="timeSFun()" class="drk-seachInp" type="button" value="{{'100025' | translate}}" />
+          <button class="drk-seachInp" ng-show="addAchievementFlag" ng-click="changeCreateModelStatus(true)" style="float: right;color: #f99429">新增</button>
+          
+        </div>
+        <div class="table-con-box">
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+            <tr>
+              <th><span>时间</span></th>
+              <th><span>记录</span></th>
+              <th><span>积分变动</span></th>
+              <th><span>总分</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>
+                  <span>
+                    {{item.createAt.replace("T", ' ')}}
+                  </span>
+                </td>
+                <td>
+                  <span>{{item.content}}</span>
+                </td>
+                <td>
+                  <span>{{item.score}}</span>
+                </td>
+                <td>
+                  <span>{{item.totalScore}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="text-align: center;" ng-cloak ng-show="listArr.length <1">暂无数据</div>
+          <!--以下是分页-->
+          <!-- 分页 -->
+          <div class="page-box" ng-show="totalNum>0">
+            <div class="select-page-num">
+              <select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <span>每页</span>
+            </div>
+            <div class="total-num">
+              共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+            </div>
+            <div class="page-index">
+              <div id="pagination1" class="pagination2">
+
+              </div>
+            </div>
+            <div class="to-go">
+              <span>跳转：</span>
+              <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+              <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="erp-common-tan-v2-wrap" ng-show="false">
+    <div class="erp-common-tan-v2" style="width: 800px;">
+      <!-- 关闭按钮 -->
+      <a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img src="static/image/public-img/close-img.png"></a>
+      <!-- title -->
+      <div class="tan-v2-top">
+        <h6>头部</h6>
+      </div>
+      <!-- 内容 -->
+      <div class="tan-v2-con" style="max-height: 600px;overflow-y: auto;">
+        <div class="groupInput-tr">
+          <ul class="d-flex thead">
+            <li>扣分原因</li>
+            <li>分数</li>
+            <li>相关SKU</li>
+          </ul>
+          <ul class="d-flex" ng-repeat="item in bgMesList" ng-init="index=$index">
+            <li>{{item.orderId}}</li>
+            <li>{{item.createDate | date:"yyyy-MM-dd HH:mm:ss"}}</li>
+            <li>{{item.logisticsCompany}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="createModelStatus" class="score-changes">
+    <div class="m-main">
+      <h4 style="text-align:center">新增积分变更</h4>
+      <div style="margin: 10px 0;">
+        <input type="text" ng-model="createModelFrom.content" placeholder="请输入扣分原因">
+        <input type="number" ng-model="createModelFrom.score" placeholder="积分变更值(扣分输入负数)">
+      </div>
+      <div style="text-align: center;">
+        <div class="btn" ng-click="changeCreateModelStatus(false)">取消</div>
+        <div class="btn" ng-click="createModelOk(createModelFrom)">确定</div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

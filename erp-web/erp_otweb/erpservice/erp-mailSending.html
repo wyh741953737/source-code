@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!--&lt;!&ndash; 富文本编辑器 &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="static/assets/design/css/trumbowyg.css">-->
+    <!--<script src="static/assets/trumbowyg.js"></script>-->
+    <!--<script src="static/assets/plugins/base64/trumbowyg.base64.js"></script>-->
+    <style>
+        .input-group{
+            display: flex;
+            justify-content: center;
+        }
+        .input-group>input{
+            height: 35px;
+            width: 250px;
+            padding: 2px 5px;
+        }
+        .input-group>button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -1px;
+            /*top: 1px;*/
+            height: 35px;
+            padding: 0 15px;
+        }
+        .addresseEmail {
+            margin-right: 15px;
+        }
+        .searchGroup{
+            margin-left: 15px;
+        }
+        .searchGroup input{
+            height: 35px;
+            width: 150px;
+            padding: 2px 5px;
+            border: 1px solid #e0e0e0;
+        }
+        .searchGroup input:nth-child(2){
+            position: relative;
+            left: -5px;
+        }
+        .searchGroup button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -10px;
+            /*top: 1px;*/
+            height: 35px;
+            padding: 0 15px;
+        }
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .search-box>input{
+            height: 35px;
+            width: 280px;
+            padding: 2px 5px;
+        }
+        .search-box>button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -1px;
+            top: 1px;
+            height: 35px;
+            padding: 0 15px;
+        }
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .fastBtn{
+            padding: 5px 15px;
+            background: #F8A636;
+            color: #fff;
+            border-radius: 4px;
+            margin: 0 15px;
+        }
+        tbody button{
+            color: #F8A636;
+            border: 1px solid #F8A636;
+            border-radius: 5px;
+            padding: 5px 10px;
+            background: #fff;
+        }
+        tbody button:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right:0;
+            background: rgba(0,0,0,0.4);
+            z-index: 9999999;
+        }
+        .wrap{
+            background: #fff;
+            border-radius: 5px;
+            min-height: 300px;
+            padding: 15px 25px;
+        }
+        .wrap h2{
+            text-align: center;
+        }
+        .wrapGroup{
+            margin-top: 20px;
+            display: flex;
+        }
+        .wrapGroup label{
+            width: 80px;
+            line-height: 30px;
+        }
+        .wrapGroup input{
+            width: 240px;
+            height: 30px;
+            border-radius: 5px;
+            padding: 0 5px;
+        }
+        .wrapGroup textarea{
+            width: 240px;
+            height: 100px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+        }
+        .wrapBottom button{
+            margin: 0 15px;
+            background: #F8A636;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 5px;
+        }
+        .previewWrap{
+            width: 768px;
+            margin: 50px auto;
+            position: relative;
+        }
+        .zzc2{
+            display: none;
+        }
+        .zzc1{
+            display: none;
+        }
+        .sendWrap{
+            width: 830px;
+            margin:70px auto ;
+        }
+        .radioBox div{
+            display: flex;
+            align-items: center;
+            flex-wrap:wrap;
+            height: 28px;
+        }
+        .radioBox input[type='radio']{
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            margin-top: 0;
+        }
+        .radioWrap{
+            display: flex;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .khmc01{
+            display: none;
+        }
+        .khmc03{
+            display: none;
+        }
+        .selectTypeBtnGroup button{
+            background: #fff;
+            border-radius: 5px;
+            border: 1px solid #F8A636;
+            color: #F8A636;
+            margin-right: 15px;
+            padding: 2px 10px;
+        }
+        .selectTypeBtnGroup button:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        .selectTypeBtnGroup button.act{
+            background: #F8A636;
+            color: #fff;
+        }
+        .wrapGroup select{
+            border-radius: 5px;
+            width: 200px;
+        }
+        .yjmb01 button{
+            background: #fff;
+            border-radius: 5px;
+            border: 1px solid #F8A636;
+            color: #F8A636;
+            margin-left: 15px;
+            padding: 2px 10px;
+            /*position: relative;*/
+            /*top: -2px;*/
+        }
+        .yjmb01 button:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        .yjmb{
+            display: none;
+        }
+        .yjmb.act{
+            display: flex;
+        }
+        .zzcBtn{
+            background: #F8A636;
+            border-radius: 5px;
+            color: #fff;
+            padding: 2px 10px;
+        }
+        .previewWin{
+            background: #fff;
+            width:350px;
+            min-height: 100px;
+            border-radius: 5px;
+            /*position: absolute;*/
+            /*left: 780px;*/
+            /*top: 0;*/
+            padding: 15px;
+        }
+        #bdsc p{
+            display: none;
+        }
+        .wrapBottom button:nth-child(1){
+            display:none;
+        }
+        .winWrap{
+            display: none;
+        }
+        .previewWin{
+            /*display: none;*/
+            margin: 200px auto;
+        }
+        #tplj{
+            display: none;
+        }
+        .canshuGroup{
+            display: flex;
+            align-items: center;
+        }
+        .canshuGroup>span{
+            display: inline-block;
+            padding: 2px 8px;
+            background: #fff;
+            border: 1px solid #F8A636;
+            color: #F8A636;
+            border-radius: 3px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .canshuGroup>span:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        #wang {
+          width: 700px;
+          height: 220px;
+        }
+        #wang .w-e-text-container{
+          height: 200px !important;
+        }
+        .tool{
+            display: flex;
+            padding: 10px 10px;
+            background: #EDEDED;
+        }
+        .tool>span{
+            display: inline-block;
+            font-size: 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .tool>span:hover{
+            color: #F8A636;
+        }
+        #mailContent{
+            border-radius: 0 0 5px 5px;
+        }
+        .zzc3{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px 20px">
+            <div class="ea-right-search">
+                <div class="input-group">
+                    <input placeholder="请输入收件人邮箱" id="addresseEmail" ng-model="addresseEmail" type="text" class="addresseEmail" maxlength="100"/>
+                    <input placeholder="请输入模板名称" id="searchInput" ng-model="searchInfo" type="text"/>
+                    <!-- <button ng-click="search()">{{'100025' | translate}}</button> -->
+                    <div class="searchGroup">
+                        <input class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                        <input id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                        <button class="linkBtn" ng-click="searchFun()">查询</button>
+                    </div>
+                </div>
+                <button class="fastBtn" id="addFastReply" ng-click="opensend()">发送邮件</button>
+            </div>
+            <div class="pageWrap" style="margin-top: 15px">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>发送时间</th>
+                        <th>发送人</th>
+                        <th>客户名称</th>
+                        <th>收件人邮箱</th>
+                        <th>邮件标题</th>
+                        <th>客户类型</th>
+                        <th>模板类型</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="history in historyList">
+                        <td>{{history.sendingTime}}</td>
+                        <td>{{history.NAME}}</td>
+                        <td>{{history.customerName || '--'}}</td>
+                        <td ng-if="!isAdminLogin">{{'*'.repeat((history.designatedCustomerEmail && history.designatedCustomerEmail.length) || 0)}}</td>
+                        <td ng-if="isAdminLogin">{{history.designatedCustomerEmail}}</td>
+                        <td>{{history.emailTitle}}</td>
+                        <td>{{classGetType(history)}}</td>
+                        <td>{{history.templateName}}</td>
+                        <td>
+                            <button ng-click="openPreview(history.pageSourceCode);">详情</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--发送邮件-->
+<div class="zzc zzc1">
+    <div class="wrap sendWrap">
+        <h2>发送邮件</h2>
+        <div class="wrapGroup">
+            <label>客户状态：</label>
+            <div class="radioBox khzt">
+                <div class="radioTop" style="margin-bottom: 8px;">
+                    <div class="radioWrap">
+                        <input type="radio" value="0" name="customer" checked/>
+                        <span>全部</span>
+                    </div>
+                    <div class="radioWrap">
+                        <input type="radio" value="1" name="customer"/>
+                        <span>未通过</span>
+                    </div>
+                    <div class="radioWrap">
+                        <input type="radio" value="2" name="customer"/>
+                        <span>正常</span>
+                    </div>
+                    <div class="radioWrap">
+                        <input type="radio" value="3" name="customer"/>
+                        <span>黑名单</span>
+                    </div>
+                    <div class="radioWrap">
+                        <input type="radio" value="4" name="customer"/>
+                        <span>待审核</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="wrapGroup">
+            <label>其他状态：</label>
+            <div class="radioBox khzt">
+                <div class="radiobottom">
+                    <div class="radioWrap">
+                        <input type="radio" value="5" name="customer"/>
+                        <span>游客</span>
+                    </div>
+                    <div class="radioWrap">
+                        <input type="radio" value="6" name="customer"/>
+                        <span>指定客户</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrapGroup khmc01">
+            <label>客户邮箱：</label>
+            <input id="customerAdress" style="width: 440px;" type="text"/>
+        </div>
+        <div class="khmc01">
+            <p>请填写邮件地址，地址间用英文逗号隔开。</p>
+        </div>
+        <div class="wrapGroup khmc02">
+            <label>客户名称：</label>
+            <div class="radioBox" style="display: flex;align-items: center">
+                <div class="radioWrap">
+                    <input value="0" type="radio" name="customerName" checked/>
+                    <span>(默认)不选</span>
+                </div>
+                <div class="radioWrap">
+                    <input value="1" type="radio" name="customerName"/>
+                    <span>包含</span>
+                </div>
+                <div class="radioWrap">
+                    <input value="2" type="radio" name="customerName"/>
+                    <span>不包含</span>
+                </div>
+            </div>
+        </div>
+        <div class="wrapGroup khmc02" style="margin-top: 5px;">
+            <label></label>
+            <textarea id="customerUserName" style="width: 440px;height: 100px;"></textarea>
+            <!--<input id="customerUserName" style="width: 440px;" type="text"/>-->
+        </div>
+        <div class="khmc02">
+            <p>请填写客户名称，名称间用英文逗号隔开。</p>
+        </div>
+        <div class="wrapGroup khmc03">
+            <label>游客邮箱：</label>
+            <div class="radioBox" style="display: flex;align-items: center">
+                <div class="radioWrap">
+                    <input value="0" type="radio" name="youkeName2" checked/>
+                    <span>(默认)不选</span>
+                </div>
+                <div class="radioWrap">
+                    <input value="1" type="radio" name="youkeName2"/>
+                    <span>包含</span>
+                </div>
+                <div class="radioWrap">
+                    <input value="2" type="radio" name="youkeName2"/>
+                    <span>不包含</span>
+                </div>
+            </div>
+        </div>
+        <div class="wrapGroup khmc03" style="margin-top: 5px;">
+            <label></label>
+            <textarea id="YoukeName" style="width: 440px;height: 100px;"></textarea>
+            <!--<input id="YoukeName" style="width: 440px;" type="text"/>-->
+        </div>
+        <div class="khmc03">
+            <p>请填写游客邮箱地址，地址间用英文逗号隔开。</p>
+        </div>
+        <div class="wrapGroup selectTypeBtnGroup">
+            <button class="btn01 act">模板邮件</button>
+            <button class="btn02 ">文本邮件</button>
+        </div>
+        <div class="wrapGroup yjmb yjmb01 act">
+            <label>选择模板：</label>
+            <select name="" id="modelNameSelect">
+                <option value="">请选择模板</option>
+                <option value="{{$index}}" data-id="{{model.id}}" data-title="{{model.emailTitle}}" data-code="{{model.pageSourceCode}}" ng-repeat="model in modelList">{{model.templateName}}</option>
+            </select>
+            <button ng-click="yulan()">预览</button>
+            <button ng-click="openEidt()">编辑</button>
+        </div>
+        <div class="wrapGroup yjmb yjmb02 emailCanshu" ng-hide="true">
+            <label>邮件参数：</label>
+            <div class="canshuGroup">
+                <span class="canshubtn" data-en="country">国家</span>
+                <span class="canshubtn" data-en="email">邮箱</span>
+                <span class="canshubtn" data-en="loginName">登录名</span>
+                <span class="canshubtn" data-en="name">姓名</span>
+                <span class="canshubtn" data-en="phone">电话</span>
+                <span class="canshubtn" data-en="num">客户编号</span>
+            </div>
+        </div>
+        <!-- <div class="wrapGroup yjmb yjmb02">
+            <label>邮件内容：</label>
+            <div class="textAreaWrap">
+                <div class="tool">
+                    <span>换行</span>
+                    <span>空格</span>
+                    <span>加粗</span>
+                </div>
+                <textarea id="mailContent" style="width: 440px;height: 180px"></textarea>
+            </div>
+        </div> -->
+        <div class="wrapGroup yjmb yjmb02">
+            <label>邮件内容：</label>
+            <div id="wang"></div>
+        </div>
+        <div class="wrapGroup">
+            <label>邮件标题：</label>
+            <input style="width: 440px;" id="mailTitle" type="text" maxlength="50"/>
+        </div>
+        <div class="wrapGroup">
+            <label>邮件类型：</label>
+            <select name="" id="selectMailType">
+                <option value="Products">Products</option>
+            </select>
+        </div>
+        <div class="wrapGroup" style="justify-content: center">
+            <button class="zzcBtn yjmb email" ng-click="emailYulan()">预览</button>
+            <button class="zzcBtn" style="margin:0 20px;" ng-click="sendFun()">发送</button>
+            <button class="zzcBtn" ng-click="closezzc1()">关闭</button>
+        </div>
+    </div>
+</div>
+<!--邮件详情-->
+<div class="zzc zzc2">
+    <div class="wrap previewWrap">
+        <h2>预览</h2>
+        <div class="preview" style="margin-top: 15px;height: 720px;overflow-y: auto">
+
+        </div>
+        <div class="wrapGroup wrapBottom" style="justify-content: center">
+            <button ng-click="" class="saveBtn">保存</button>
+            <button ng-click="closeZzc2()">关闭</button>
+        </div>
+
+    </div>
+</div>
+
+<!---->
+<div class="zzc zzc3" style="z-index: 9999999;">
+    <div class="previewWin">
+        <div class="winWrap" id="bjwa">
+            <h2>编辑文案</h2>
+            <div class="wrapGroup">
+                <label style="width: 60px">文案：</label>
+                <div class="textAreaWrap">
+                    <div class="tool">
+                        <span>换行</span>
+                        <span>空格</span>
+                        <span>加粗</span>
+                    </div>
+                    <textarea id="bjwaTextarea" style="width: 440px;height: 180px;border-radius: 0 0 5px 5px;"></textarea>
+                </div>
+            </div>
+            <div class="wrapGroup" style="justify-content: center">
+                <button class="zzcBtn" id="bjwaBtn" style="margin-right: 20px;">确定</button>
+                <button class="zzcBtn" ng-click="closeWin()">关闭</button>
+            </div>
+        </div>
+        <div class="winWrap" id="bjlm">
+            <h2>编辑类目</h2>
+            <div class="wrapGroup">
+                <label style="width: 60px">类目：</label>
+                <input id="bjlmText" type="text" style="width: 250px"/>
+            </div>
+            <div class="wrapGroup" style="justify-content: center">
+                <button class="zzcBtn" id="bjlmBtn" style="margin-right: 20px;">确定</button>
+                <button class="zzcBtn" ng-click="closeWin()">关闭</button>
+            </div>
+        </div>
+        <div class="winWrap" id="bjlj">
+            <h2>编辑链接</h2>
+            <div class="wrapGroup">
+                <label style="width: 60px">链接：</label>
+                <input id="bjljLink" type="text" style="width: 250px"/>
+            </div>
+            <div class="wrapGroup" style="justify-content: center">
+                <button class="zzcBtn" id="bjljBtn" style="margin-right: 20px;">确定</button>
+                <button class="zzcBtn" ng-click="closeWin()">关闭</button>
+            </div>
+        </div>
+        <div class="winWrap" id="thsp">
+            <h2>替换商品</h2>
+            <div class="wrapGroup">
+                <label style="width: 60px">SKU：</label>
+                <input id="thspSKU" type="text" style="width: 250px"/>
+            </div>
+            <div class="wrapGroup" style="justify-content: center">
+                <button class="zzcBtn" id="thspBtn" style="margin-right: 20px;">确定</button>
+                <button class="zzcBtn" ng-click="closeWin()" >关闭</button>
+            </div>
+        </div>
+        <div class="winWrap" id="thtp">
+            <h2>替换图片</h2>
+            <div class="wrapGroup radioBox">
+                <div class="radioWrap">
+                    <input type="radio" value="0" name="picUrl" checked/>
+                    <span>本地上传</span>
+                </div>
+                <div class="radioWrap">
+                    <input type="radio" value="1" name="picUrl"/>
+                    <span>url链接</span>
+                </div>
+            </div>
+            <div class="wrapGroup" id="bdsc" style="align-items: center">
+                <input type="file" id="submitPic" style="width: 91px;border: none;"/>
+                <p style="margin-left: 15px;">上传成功！</p>
+            </div>
+            <div class="wrapGroup" id="tplj">
+                <label>图片链接：</label>
+                <input id="piclink2" style="width: 230px;" type="text"/>
+            </div>
+            <div class="wrapGroup" style="justify-content: center">
+                <button class="zzcBtn" id="thtpBtn" style="margin-right: 20px;">确定</button>
+                <button class="zzcBtn" ng-click="closeWin()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

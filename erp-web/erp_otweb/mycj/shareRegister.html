@@ -1,0 +1,274 @@
+<style>
+  .my-wrap {
+    height: 100vh;
+    padding: 15px 15px 15px 230px;
+  }
+
+  .title {
+    background: #fff;
+    font-size: 20px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border-radius: 4px;
+  }
+
+  .head-option {
+    overflow: hidden;
+    background: #fff;
+    padding: 24px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+  }
+
+  .search-item {
+    display: inline-block;
+    margin-right: 24px;
+    margin-bottom: 18px;
+  }
+
+  #c-data-time,
+  #cdatatime2 {
+    height: 30px;
+    border-right: none;
+    border: 1px solid #ececec;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .search-btn {
+    display: inline-block;
+    background: #ffa500;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 12px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .option-btn {
+    background: #ffa500;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 12px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 24px;
+    float: right;
+  }
+
+  .list-container {
+    margin-top: 24px;
+    padding: 12px;
+    background: #fff;
+  }
+
+  .create-item{
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+  }
+  .create-item >input{
+    margin-top: 10px;
+    float: right;
+  }
+
+  .create-item >select{
+    margin-top: 10px;
+    float: right;
+  }
+  
+
+  .itemOption{
+    cursor: pointer;
+    color: #ff7700;
+  }
+</style>
+
+<body>
+  <div class="my-wrap">
+    <div class="title">
+      分享注册链接
+    </div>
+    <!-- 查询列表 -->
+    <div class="head-option">
+      <!-- sku -->
+      <div class="search-item">
+        <input ng-model="searchValue" placeholder="网红链接/邮箱/运营姓名"></input>
+      </div>
+
+      <!-- 查询按钮 -->
+      <div class="search-btn" ng-click="handleSearch()">
+        查询
+      </div>
+
+      <div class="option-btn" ng-click="createFlag = true">
+        生成专属链接
+      </div>
+
+      <!-- <div class="option-btn" ng-click="changeFlag = true">
+        转移链接
+      </div> -->
+
+    </div>
+
+    <div class="list-container">
+      <table style="width: 100%;table-layout:fixed;word-break:break-all;">
+        <thead class="es-ord-thead">
+          <tr>
+            <th style="width: 50px">编号</th>
+            <th style="width: 150px">创建时间</th>
+            <th style="width: 150px">运营人</th>
+            <th style="width: 120px">专属链接</th>
+            <th style="width: 100px">引流人</th>
+            <th style="width: 100px">邮箱</th>
+            <th style="width: 70px">引流人链接</th>
+            <th style="width: 100px">点击次数</th>
+            <th style="width: 100px">注册次数</th>
+            <th style="width: 90px">操作</th>
+          </tr>
+        </thead>
+        <tbody class="es-ord-tbody" ng-repeat="item in list">
+          <tr>
+            <!-- 编号 -->
+            <td>{{ item.id }}</td>
+
+            <!-- 创建时间 -->
+            <td>{{ item.timeStr }}</td>
+
+            <!-- 运营人 -->
+            <td>{{ item.employeeName }}</td>
+
+            <!-- 专属链接 -->
+            <td>{{ item.flowLink }}</td>
+
+            <!-- 引流人 -->
+            <td>{{ item.flowName }}</td>
+
+            <!-- 邮箱 -->
+            <td>{{ item.flowEmail }}</td>
+
+            <!-- 引流人链接 -->
+            <td>{{ item.flowUrl }}</td>
+
+            <!-- 点击次数 -->
+            <td>{{ item.clickCount }}</td>
+
+            <!-- 注册次数 -->
+            <td>{{ item.regCount }}</td>
+
+            <!-- 操作 -->
+            <td>
+              <span ng-click="singleChange(item.id)" class="itemOption">转移</span>
+              <span ng-click="singleDelete(item.id,item.employeeName)" class="itemOption">删除</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <page></page>
+    </div>
+  </div>
+
+  <!-- 生成链接 -->
+  <div class="tkbg-wrap" ng-show='createFlag'>
+    <div class="tk-con" style="width: 500px;">
+      <div class="d-flex">
+        <span>生成链接</span>
+        <img ng-click="cancelCreate()" class="close-tkimg" src="static/image/public-img/close-img.png">
+      </div>
+
+      <div style="margin-top: 24px;padding-left: 24px;">
+        <div class="create-item">
+          <span style="color: red;">*</span>
+          <span>姓名:</span>
+          <input ng-model="createName" style="width: 210px;"></input>
+        </div>
+
+        <div class="create-item">
+          <span style="color: red;">*</span>
+          <span>邮箱:</span>
+          <input ng-model="createEmail" style="width: 210px;"></input>
+        </div>
+
+        <div class="create-item">
+          <span>网红链接:</span>
+          <input ng-model="createUrl" style="width: 210px;"></input>
+        </div>
+
+        <div class="create-item">
+          <span>国家:</span>
+          <select ng-model="createCountry" ng-options='country.ID as country.NAME for country in countryList' style="width: 210px">
+          </select>
+        </div>
+
+        <div class="create-item">
+          <span>源链接:</span>
+          <select ng-model="createSourceUrl"  style="width: 210px">
+            <option value="cjdropshipping.com">https://cjdropshipping.com</option>
+            <option value="app.cjdropshipping.com">https://app.cjdropshipping.com</option>
+            <option value="app.cjdropshipping.com/register.html">https://app.cjdropshipping.com/register.html</option>
+            <option value="app.cjdropshipping.com/printonDemand/home">https://app.cjdropshipping.com/printonDemand/home</option>
+            <option value="app.cjdropshipping.com/productReport/list">https://app.cjdropshipping.com/productReport/list</option>
+            <option value="cjdropship.com">https://cjdropship.com</option>
+            <option value="cjdropship.com/fulfillment-service">https://cjdropship.com/fulfillment-service</option>
+            <option value="cjdropship.com/us-dropshipping-suppliers">https://cjdropship.com/us-dropshipping-suppliers</option>
+            <option value="cjdropship.com/cjpacket">https://cjdropship.com/cjpacket</option>
+            <option value="cjdropship.com/sourcing-design-shipping-all-in-one">http://cjdropship.com/sourcing-design-shipping-all-in-one</option>
+            <option value="cjdropship.com/photography-for-winning-products">https://cjdropship.com/photography-for-winning-products</option>
+          </select>
+        </div>
+
+      </div>
+
+
+      <div class="isaddyfh-btns">
+        <button ng-click="cancelCreate()" class="ispc-can-btn">取消</button>
+        <button ng-click="handleCreate()" class="ispc-con-btn">确定</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 转移链接 -->
+  <div class="tkbg-wrap" ng-show='changeFlag'>
+    <div class="tk-con" style="width: 500px;">
+      <div class="d-flex">
+        <span>转移链接</span>
+        <img ng-click="cancelChange()" class="close-tkimg" src="static/image/public-img/close-img.png">
+      </div>
+
+      <div style="margin-top: 24px;padding-left: 24px;">
+        <div class="create-item">
+          <span>选择人员:</span>
+          <select ng-model="staffId" ng-options='staff as staff.name for staff in staffList' style="width: 210px">
+          </select>
+        </div>
+      </div>
+
+
+      <div class="isaddyfh-btns">
+        <button ng-click="cancelChange()" class="ispc-can-btn">取消</button>
+        <button ng-click="handleChange()" class="ispc-con-btn">确定</button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="tkbg-wrap" ng-show='deleteFlag'>
+    <div class="tk-con" style="width: 500px;">
+      <div class="d-flex">
+        <span>确认删除</span>
+        <img ng-click="cancelDelete()" class="close-tkimg" src="static/image/public-img/close-img.png">
+      </div>
+
+      <div class="isaddyfh-btns">
+        <button ng-click="cancelDelete()" class="ispc-can-btn">取消</button>
+        <button ng-click="handleDelete()" class="ispc-con-btn">确定</button>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+
+

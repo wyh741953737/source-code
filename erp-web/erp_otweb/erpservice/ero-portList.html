@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .portBtn{
+            background: #F8A636;
+            color: #fff;
+            border-radius: 4px;
+            padding: 5px 10px ;
+        }
+        .port-bottom{
+            margin-top: 15px;
+        }
+        .right-bar{
+            padding: 15px 40px;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999999;
+            display: none;
+        }
+        .zzc-content{
+            background: #fff;
+            border-radius: 4px;
+            width: 400px;
+            min-height: 300px;
+            margin: 150px auto;
+            padding: 15px;
+        }
+        .zzc-content>h3{
+            margin: 18px 0;
+        }
+        .port-content{
+            margin-bottom: 15px;
+            display: flex;
+        }
+        .port-content>label{
+            width: 100px;
+            text-align: right;
+            line-height: 30px;
+        }
+        .port-content>input{
+            width: 230px;
+            height: 30px;
+            padding: 0 5px;
+        }
+        textarea{
+            border: 1px solid #E0E0E0;
+            width: 230px;
+            height: 80px;
+            padding: 0 5px;
+        }
+        .port-content:last-child{
+            justify-content: center;
+        }
+        .port-content:last-child>button{
+            margin: 0 10px;
+        }
+        .search-box{
+            display: flex;
+            height:35px;
+        }
+        .search-box>span{
+            line-height: 35px;
+        }
+        .search-box>input{
+            width: 260px;
+            padding: 0 5px;
+        }
+        .search-box>button{
+            background: #F8A636;
+            color: #fff;
+            padding: 0 15px;
+        }
+        .zzc2{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99999;
+            display: none;
+        }
+        .zzcWrap{
+            width: 350px;
+            background: #fff;
+            border-radius: 5px;
+            margin: 150px auto;
+            padding: 20px;
+        }
+        .zzcWrap h2{
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .inputGroup{
+            display: flex;
+        }
+        .inputGroup>select{
+            width: 200px;
+
+        }
+        .zzcFooter{
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .zzcFooter button{
+            background: #F8A636;
+            color: #fff;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <!--<div class="ea-right-search">-->
+                <!--<div class="input-group search-box">-->
+                    <!--<button class="portBtn" ng-click="addPort()">新增接口</button>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input style="height: 35px" class="search-text-box" type="text" placeholder="请输入接口名称或接口地址搜索" ng-model="searchinfo"/>
+                    <button ng-click="SearchBtn()">搜索</button>
+                </div>
+            </div>
+            <div class="port-bottom">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>接口名称</th>
+                        <th>接口路径</th>
+                        <th>备注</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="port in portList">
+                        <td>{{port.interfaceName}}</td>
+                        <td>{{port.interfacePath}}</td>
+                        <td>{{port.remark}}</td>
+                        <td>{{classStatus(port.optStatus)}}</td>
+                        <td>
+                            <button class="portBtn" ng-click="updatePortFun(port.interfaceName,port.interfacePath,port.remark)">修改</button>
+                            <button class="portBtn" ng-show="port.optStatus!='106'" ng-click="changeStatus(port.interfacePath,'open')">启用</button>
+                            <button class="portBtn" ng-show="port.optStatus=='106'" ng-click="changeStatus(port.interfacePath,'close')">停用</button>
+                            <button class="portBtn" ng-click="addModel(port.id,port.interfacePath)">新增模板</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--接口弹窗-->
+<div class="zzc" id="portZzc">
+    <div class="zzc-content">
+        <h3>新增接口</h3>
+        <div class="port-wrap">
+            <div class="port-content">
+                <label for="portName">接口名称：</label>
+                <input type="text" id="portName"/>
+            </div>
+            <div class="port-content">
+                <label for="portHref">接口路径：</label>
+                <input type="text" id="portHref" readonly style="background: #F5F5F5"/>
+            </div>
+            <div class="port-content">
+                <label>备注：</label>
+                <textarea id="portRemark"></textarea>
+            </div>
+            <div class="port-content">
+                <button class="portBtn" id="addPort">新增</button>
+                <button class="portBtn" id="updatePort">保存</button>
+                <button class="portBtn" id="closePort">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--新增模板选择模板类型-->
+<div class="zzc2">
+    <div class="zzcWrap">
+        <h2>选择模板类型</h2>
+        <div class="inputGroup">
+            <label>模板类型：</label>
+            <select name="" id="selectModelType">
+                <option value="">请选择模板类型</option>
+                <option value="Sourcing">Sourcing</option>
+                <option value="Ordering">Ordering</option>
+                <option value="Conversation">Conversation</option>
+                <option value="Tickets">Tickets</option>
+                <option value="Disputes">Disputes</option>
+                <option value="Inventory">Inventory</option>
+            </select>
+        </div>
+        <div class="zzcFooter">
+            <button style="margin-right: 15px;" id="sureAddBtn">确定</button>
+            <button ng-click="closeZzc2()">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

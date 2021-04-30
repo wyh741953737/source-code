@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="义乌市促佳贸易有限公司"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>注册</title>
+	<link rel="stylesheet" type="text/css" href="./static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./static/bootstrap-validator/dist/css/bootstrapValidator.min.css">
+	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="./static/css/register.css">
+	<script type="text/javascript" src="./static/js/public/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="./static/angular-1.5.8/angular.min.js"></script>
+	<script type="text/javascript" src="./static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./static/bootstrap-validator/dist/js/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="./static/angular-1.5.8/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="./static/angular-1.5.8/angular-translate.min.js"></script>
+	<script src="./static/layer/layer.js"></script>
+</head>
+<body ng-app="app">
+	<div class="forgot-wrap" ng-controller="registerCtrl">
+		<!-- 头部 -->
+		<div class="forgot-header">
+
+			<div class="main">
+			<div class="main-child">
+				<a class="home-link" href="javascript:void(0)">
+					<img src="./static/image/login/logoapp.png">
+				</a>
+			</div>
+			</div>
+		</div>
+		<!-- 中间部分 -->
+		<div class="register-con">
+			<div class="register-center">
+				<form name="registerForm" id="registerForm" novalidate>
+					<ul>
+						<li>
+							<!-- 用户名 -->
+							<div class="reg-lable">
+								<p>Username *</p>
+							</div>
+							<div class="user-inp form-group">
+								<input autocomplete="off" class="md-inp" type="text" name="user" ng-model="user"
+								ng-minlength="4" ng-maxlength="8" required>
+							</div>
+						</li>
+						<li>
+							<!-- First name -->
+							<div class="reg-lable user-lable">
+								<p class="full-name">First name *</p>
+								<p class="user-length">4 - 8 characters</p>
+							</div>
+							<div class="fullname-inp form-group">
+								<input class="md-inp" type="text" name="firstname" ng-model="firstname" required>
+							</div>
+						</li>
+						<li>
+							<!-- Last name -->
+							<div class="reg-lable">
+								<p class="full-name">Last name *</p>
+							</div>
+							<div class="fullname-inp form-group">
+								<input class="md-inp" type="text" name="lastname" ng-model="lastname" required>
+							</div>
+						</li>
+						<!-- <li> -->
+							<!-- 性别 -->
+							<!-- <div class="reg-gender">
+								<div class="reg-lable">
+									<p>Gender *</p>
+								</div>
+								<select>
+									<option value="famale">famale</option>
+									<option value="male">male</option>
+								</select>
+							</div> -->
+						<!-- </li> -->
+						<li>
+							<!-- 密码 -->
+							<div class="reg-lable">
+								<p>Password *</p>
+							</div>
+							<div class="fullname-inp form-group">
+								<input class="md-inp" type="password" name="pass" ng-model="pass" ng-minlength="6" ng-maxlength="18" required>
+							</div>
+						</li>
+						<li>
+							<!-- 确认密码 -->
+							<div class="reg-lable">
+								<p>Confirm Password *</p>
+							</div>
+							<div class="user-inp form-group">
+								<input class="md-inp" type="password" name="confirmPass" ng-model="confirmPass" required>
+							</div>
+						</li>
+						<li>
+							<!-- 手机号码 -->
+							<div class="reg-lable">
+								<p>Mobile *</p>
+							</div>
+							<div class="user-inp form-group">
+								<input class="md-inp" type="text" name="telephone" required ng-model="telephone">
+							</div>
+						</li>
+						<li>
+							<!-- 邮件地址 -->
+							<div class="reg-lable">
+								<p>Email *</p>
+							</div>
+							<div class="user-inp form-group">
+								<!-- <input autocomplete="off" class="md-inp" type="email" name="email" ng-model="email" required>
+								<span ng-show="registerForm.email.$dirty && registerForm.email.$invalid">
+									<span ng-show="registerForm.email.$error.email">非法的邮箱地址
+									</span>
+								</span> -->
+
+								<input autocomplete="off" class="md-inp" type="email" name="email" ng-model="email" required>
+							</div>
+						</li>
+						<li>
+							<!-- 网络电话 -->
+							<div class="reg-lable">
+								<p>Skype / Whatapp *</p>
+							</div>
+							<div class="app-select form-group">
+								<select ng-model="webphoneType">
+									<option value="Skype">Skype</option>
+									<option value="Whatapp">Whatapp</option>
+								</select>
+								<input class="md-inp" type="text" name="webphoneNum" ng-model="webphoneNum" required>
+							</div>
+						</li>
+						<li>
+							<!-- 三级联动-->
+							<div class="reg-lable">
+								<!-- <ul>
+									<li>Country</li>
+									<li class="province">Province</li>
+									<li>City</li>
+								</ul> -->
+								<p>Country *</p>
+							</div>
+								<div class="adress-controls">
+									<!-- <select name="location_p" id="location_p">
+									</select>
+									<select name="location_c" id="location_c">
+									</select>
+									<select name="location_a" id="location_a">
+									</select> -->	
+									<select>
+										<option></option>
+									</select>	
+								</div>
+						</li>
+						<li>
+							<!-- 详细地址-->
+							<div class="reg-lable">
+								<p>Address</p>
+							</div>
+							<div class="user-inp form-group">
+								<input class="lg-inp" type="text" name="address" required ng-model="address">
+							</div>
+						</li>
+						<li>
+							<!-- 商店链接-->
+							<div class="reg-lable">
+								<p>Your Store Link</p>
+							</div>
+							<div class="user-inp form-group">
+								<input class="lg-inp" type="text" name="storeLink" required ng-model="storeLink">
+							</div>
+						</li>
+						<li class="order-li">
+							<!-- orders-->
+							<div class="reg-lable">
+								<p>How many daily orders you need to be processed?</p>
+							</div>
+							<ul class="daily-orders form-group">
+								<li>
+									<div class="orders-num">
+										<img class="orders-radio" src="./static/image/login/radiobutton1.png">
+										<span>Just starting no order yet</span>
+									</div>
+								</li>
+								<li>
+									<div class="orders-num">
+										<img class="orders-radio" src="./static/image/login/radiobutton1.png">
+										<span>Less than 5 orders</span>
+									</div>
+								</li>
+								<li>
+									<div class="orders-num">
+										<img class="orders-radio" src="./static/image/login/radiobutton1.png">
+										<span>6-50 orders</span>
+									</div>
+								</li>
+								<li>
+									<div class="orders-num">
+										<img class="orders-radio" src="./static/image/login/radiobutton1.png">
+										<span>51-200 orders</span>
+									</div>
+								</li>
+								<li>
+									<div class="orders-num">
+										<img class="orders-radio" src="./static/image/login/radiobutton1.png">
+										<span>201-1000 orders</span>
+									</div>
+								</li>
+								<li>
+									<div class="orders-num">
+										<img class="orders-radio" src="./static/image/login/radiobutton1.png">
+										<span>More than 1000 orders</span>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="platform-li form-group">
+							<!-- 平台-->
+							<div class="reg-lable">
+								<p>What kinds of platform you are running?</p>
+							</div>
+							<ul>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="shopify" value="platform1">
+										<span>Shopify</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="ebay" value="platform2">
+										<span>Ebay</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="amazon" value="platform3">
+										<span>Amazon</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="wish" value="platform4">
+										<span>Wish</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="etsy" value="platform5"><span>Etsy</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="magento" value="platform6"><span>Magento</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="zencart" value="platform7"><span>Zencart</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="wooc" value="platform8"><span>WooCommerce</span>
+									</div>
+								</li>
+								<li>
+									<div class="platform">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="other" value="platform9"><span>Others</span>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="marketing-li form-group">
+							<!--营销类别-->
+							<div class="reg-lable">
+								<p>Which categories you are marketing?</p>
+							</div>
+							<ul>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="women" value="marketing1"><span>Women's Clothing</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="men" value="marketing2"><span>Men's Clothing</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="phone" value="marketing3"><span>Phones & Accessories</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="computer" value="marketing4"><span>Computer & Office</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="consumer" value="marketing5"><span>Consumer Electronics</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="watches" value="marketing6"><span>Jewelry & Watches</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="garden" value="marketing7"><span>Home & Garden, Furniture</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="bag" value="marketing8"><span>Bag & Shoes</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="kids" value="marketing9"><span>Toys, Kids & Baby</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="outdoors" value="marketing10"><span>Sports & Outdoors</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="health" value="marketing11"><span>Health & Beauty, Hair</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="automobile" value="marketing12"><span>Automobiles & Motorcycles</span>
+									</div>
+								</li>
+								<li>
+									<div class="marketing">
+										<img src="./static/image/login/multiple1.png">
+										<input type="checkbox" name="improvement" value="marketing13"><span>Home Improvement</span>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<div class="reg-submit">
+								<!-- <a href="javascript:void(0);">
+									<input id="submit" type="submit" value="Sign up">
+								</a> -->
+								<input id="submit" type="submit" value="Sign up">
+							</div>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+
+
+		<!-- 尾部备案号 -->
+		<div class="forgot-footer">
+			<div class="forfoo-con">
+				<span>Privacy Policy</span>
+				<a href="javascript:void(0);">Help</a>
+				<span><span class="copyright-logo">©</span>2017 CJDropshipping.com.All Rights Reserved.</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="./static/js/login/register.js"></script>
+</body>
+</html>

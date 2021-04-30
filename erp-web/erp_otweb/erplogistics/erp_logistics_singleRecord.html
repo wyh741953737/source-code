@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .input-group input{
+            width: 300px;
+            height: 35px;
+            padding: 0 10px;
+        }
+        .input-group button{
+            height: 35px;
+            line-height: 35px;
+            color: #fff;
+            background-color: #F8A636;
+            padding: 0 10px;
+        }
+        #addFendan{
+            height: 35px;
+            line-height: 35px;
+            color: #fff;
+            background-color: #F8A636;
+            padding: 0 10px;
+            /*border-radius: 5px;*/
+        }
+        table button{
+            padding: 5px 10px;
+            color: #fff;
+            background-color: #F8A636;
+            border-radius: 5px;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,.4);
+            z-index: 999999;
+            display: none;
+        }
+        .fdWrap{
+            background: #ffffff;
+            border-radius: 5px;
+            min-height: 300px;
+            width: 600px;
+            margin: 150px auto;
+            padding: 15px 25px;
+        }
+        .table-group{
+            display: flex;
+        }
+        .table-group div{
+            text-align: center;
+            padding: 10px 5px;
+        }
+        .table-thead{
+            background: #FFF8DC;
+            color:#F8A636 ;
+        }
+        .zzh{
+            width: 250px;
+            text-align: center;
+        }
+        .wl{
+            width: 150px;
+            text-align: center;
+        }
+        .cz{
+            width: 150px;
+            text-align: center;
+        }
+        .table-tbody{
+            border: 1px solid #E0E0E0;
+            border-top: none;
+        }
+        .table-tbody .zzh,.table-tbody .wl{
+            border-right: 1px solid #e0e0e0;
+            line-height: 35px;
+            display:flex;
+            justify-content: center;
+        }
+        .table-tbody button{
+            padding: 5px 10px;
+            border: 1px solid #F8A636;
+            color: #F8A636;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .table-tbody button:hover{
+            background: #F8A636;
+            color: #FFF;
+        }
+        .table-group .zzh>input,.table-group .wl>input{
+            display: none;
+        }
+        .table-group .zzh>span,.table-group .wl>span{
+            display: block;
+        }
+        .table-group .cz>.btn01{
+            display: none;
+        }
+        .table-group .cz>.btn02{
+            display: inline-block;
+        }
+        .table-group.edit .zzh>input,.table-group.edit .wl>input{
+            display: block;
+        }
+        .table-group.edit .zzh>span,.table-group.edit .wl>span{
+            display: none;
+        }
+        .table-group.edit>.cz>.btn01{
+            display: inline-block;
+        }
+        .table-group.edit>.cz>.btn02{
+            display: none;
+        }
+        .cz{
+            display: flex;
+            justify-content: space-around;
+        }
+        .wrapBtn{
+            background: #F8A636;
+            color: #FFF;
+            border-radius: 5px;
+            padding: 5px 15px;
+        }
+        .updateBtn{
+            display: none;
+        }
+        .ddh span{
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px 20px">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input placeholder="请输入订单号" id="searchInput" ng-model="searchInfo" type="text"/>
+                    <button ng-click="search()">{{'100025' | translate}}</button>
+                </div>
+                <button class="fastBtn" id="addFendan">新增分单</button>
+            </div>
+            <div class="fast-bottom" style="margin-top: 15px">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>订单号</th>
+                        <th>录入人</th>
+                        <th>录入时间</th>
+                        <th>分单数量</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="track in trackList">
+                        <td>{{$index+1}}</td>
+                        <td>{{track.orderNumber}}</td>
+                        <td>{{track.userName}}</td>
+                        <td>{{track.crateDate}}</td>
+                        <td>{{track.count}}</td>
+                        <td>
+                            <button ng-click="lookdetail(track)">详情</button>
+                            <button ng-click="updateFun(track)">修改</button>
+                            <button ng-click="deleteFun(track.id)">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="5">5</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--遮罩层-->
+<div class="zzc">
+    <div class="fdWrap">
+        <h2 style="text-align: center;font-size: 20px">新增分单</h2>
+        <div style="margin-top: 30px;" class="ddh">
+            <label style="width: 80px">订单号：</label>
+            <input style="height: 35px;width:300px;" type="text"/>
+            <span style="height: 35px;line-height: 35px;width: 300px;">111</span>
+            <button style="background: #F8A636;color: #fff;border-radius: 5px;padding: 0 15px;height: 35px;margin-left: 10px;position: relative;top: -1px;" ng-click="addZZH()">新增追踪号</button>
+        </div>
+        <div class="table-group table-thead" style="margin-top: 20px">
+            <div class="zzh">追踪号</div>
+            <div class="wl">物流</div>
+            <div class="cz">操作</div>
+        </div>
+        <div class="tbodyWrap" style="max-height: 395px;overflow-y: auto">
+            <div class="table-group table-tbody" ng-repeat="group in groupList">
+                <div class="zzh">
+                    <span>{{group.trackNumber}}</span>
+                    <input style="width: 220px" type="text"/>
+                </div>
+                <div class="wl">
+                    <span>{{group.logisticsName}}</span>
+                    <input style="width: 120px" type="text"/>
+                </div>
+                <div class="cz">
+                    <button ng-show="showBtn" class="btn02 editBtn">编辑</button>
+                    <button ng-show="showBtn" class="btn02 deleteBtn">删除</button>
+                    <button ng-show="showBtn" class="btn01 saveBtn">保存</button>
+                    <button ng-show="showBtn" class="btn01 cancelBtn">取消</button>
+                    <span ng-show="showSpan" class="nospan">--</span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 30px;display: flex;justify-content: center;">
+            <button class="wrapBtn addBtn" style="margin-right: 15px;">新增</button>
+            <button class="wrapBtn updateBtn" style="margin-right: 15px;">修改</button>
+            <button class="wrapBtn closeBtn">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

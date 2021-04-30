@@ -1,0 +1,340 @@
+<style type="text/css">
+  .bigimg {
+    position: absolute;
+    top: -70px;
+    left: 100%;
+    z-index: 999;
+    max-width: 360px;
+    width: 360px;
+    height: auto;
+    display: none;
+  }
+
+  .proimg:hover .bigimg {
+    display: block;
+  }
+
+  .descripte-tankuang,
+  .action-tankuang {
+    width: 500px;
+    height: 300px;
+    padding: 10px 25px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background: #fff;
+    border: 1px solid lightgray;
+    box-shadow: 0 0 30px lightgray;
+    border-radius: 5px;
+  }
+
+  .descripte-tankuang .title {
+    width: 98%;
+    height: 30px;
+    color: #000;
+    margin: auto;
+    margin-top: 10px;
+  }
+
+  .descripte-tankuang .word {
+    width: 100%;
+    height: 160px;
+    border: 1px solid lightgrey;
+    color: gray;
+    margin-top: 5px;
+  }
+
+  .descripte-tankuang .clos {
+    width: 80px;
+    height: 30px;
+    color: #fff;
+    background: #a3a1a1;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .action-tankuang div {
+    width: 50%;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .action-tankuang div button {
+    color: #fff;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .date-box input {
+    height: 30px;
+    border-right: none;
+    border: 1px solid #ececec;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .date-box .erp-seachInp {
+    height: 30px;
+    background-color: #fff;
+    width: 50px;
+    vertical-align: top;
+  }
+
+  .existing-tankuang {
+    width: 800px;
+    height: 500px;
+    /*min-height: 300px;*/
+    padding: 10px 15px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 30px #ccc;
+    border-radius: 5px;
+  }
+
+  input::-webkit-input-placeholder {
+    font-size: 12px;
+  }
+
+  .existing-tankuang .existing-content ul li {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+  }
+
+  .existing-tankuang .existing-content ul li span {
+    text-align: center;
+  }
+
+  .existing-tankuang .existing-content ul li p {
+    font-size: 13px;
+    text-align: center;
+    line-height: 50px;
+  }
+
+  .existing-tankuang .existing-btns button {
+    padding: 3px 5px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .sbyy-wrap {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .sbyy-con {
+    width: 450px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -46%);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+
+  .sbyy-con button {
+    color: #6b6b6b;
+    height: 30px;
+    width: 76px;
+    border: 1px solid #cfcfcf;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f6f6f6;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+  }
+
+  .boreder_red {
+    border-bottom: 2px solid red !important;
+    border: 2px solid red;
+  }
+  .border-span {
+    height: 100% !important;
+  }
+  .filter {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    line-height: 30px !important;
+    /* display: flex; */
+  }
+
+  .filter .datetab {
+    margin-left: 15px;
+  }
+
+  .filter .dateact {
+    color: #0d8efb;
+  }
+  .filter .search {
+    cursor: pointer;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    /* background: #0d8efb; */
+    background: rgba(249, 174, 8, 1);
+    color: #fff;
+    border-radius: 5px;
+  }
+  .filter input {
+    margin: 0 5px;
+    width: 140px;
+    /* width: auto; */
+  }
+  .filter select {
+    float: none;
+    width: auto;
+  }
+</style>
+
+<div class="e-sourcing-wrap">
+  <div class="left-bar">
+    <ul class="left-bar-tabs">
+      <li>
+        <a href="#/sourcing">{{'100864' | translate}}<span></span></a>
+      </li>
+      <li>
+        <a href="#/individualsourcing">{{'100865' | translate}}<span></span></a>
+      </li>
+      <li class="active">
+        <a href="#/cjsourcing">{{'100866' | translate}}<span></span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="right-bar-wrap e-sou-con">
+    <div class="asj-h10"></div>
+    <div
+      class="right-bar e-sou-content"
+      style="min-height: 1000px;background-color: #fff;"
+    >
+    
+      <div class="filter clearfix">
+        <div class="date-box" style="color: #888;padding-bottom: 5px;float: left;">
+        	<input id="checkerTime1" placeholder="开始" autocomplete="off"  class="Wdate data-inp"  style="text-indent: 12px;"  type="text" onclick="WdatePicker({maxDate:'#F{$dp.$D(\'checkerTime1\')}'})"></input>
+					<input id="checkerTime2" placeholder="结束" autocomplete="off"  class="Wdate data-inp" style="text-indent: 12px;" type="text" onclick="WdatePicker({minDate:'#F{$dp.$D(\'checkerTime2\')}'})" />
+        </div>
+        <input
+          class="seach-inp"
+          ng-model="checker"
+          style="border-radius: 0;float: none;"
+          placeholder="请输入盘点人"
+        />
+				<input
+          class="seach-inp"
+          ng-model="checkSku"
+          style="border-radius: 0;float: none;"
+          placeholder="请输入sku"
+        />
+				<input
+          class="seach-inp"
+          ng-model="checkshortSku"
+          style="border-radius: 0;float: none;"
+          placeholder="请输入短sku"
+        />
+				仓库：
+        <select class="font-size-14px" ng-model="storageDoId" ng-options="item.id as item.storageName for item in wareList">
+						<option value="">全部</option>
+        </select>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+        盘点结果：
+        <select class="font-size-14px" ng-model="type">
+					<option value="">全部</option>
+          <option value="1">盘赢</option>
+          <option value="2">盘亏</option>
+          <option value="3">实盘</option>
+        </select>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+        <button
+          class="search"
+          style="float: none;border-radius: 0;"
+          ng-click="checkSearch()"
+        >
+          搜索
+        </button>
+				<button
+          class="search"
+          style="float: none;border-radius: 0;"
+          ng-click="clearCheckSearch()"
+        >
+          清空
+        </button>
+      </div>
+      <!-- 订单的列表部分 -->
+      <div class="es-ord-list">
+        <table id="sourcelist-table" style="width: 100%;" ng-if="wareList">
+          <thead class="es-ord-thead">
+            <tr>
+              <th style="width: 100px">序号</th>
+              <th style="width: 100px">时间</th>
+              <th style="width: 100px">盘点人</th>
+              <th style="width: 100px">SKU</th>
+              <th style="width: 100px">短SKU</th>
+              <th style="width: 100px">仓库</th>
+              <th style="width: 100px">库位</th>
+              <th style="width: 100px">盘点结果</th>
+							<th style="width: 100px">差异数量</th>
+            </tr>
+          </thead>
+          <tbody class="es-ord-tbody">
+            <tr ng-repeat="i in checklist">
+              <td>
+                {{i.id}}<span class="border-span"></span>
+              </td>
+              <td>{{i.createTime}}<span class="border-span"></span></td>
+              <td>{{i.operationName}}<span class="border-span"></span></td>
+              <td>
+                {{i.sku}}<span class="border-span"></span>
+              </td>
+              <td>
+                {{i.shortCode}}<span class="border-span"></span>
+              </td>
+              <td>
+                {{wareListObj[i.storageDoId]}}<span class="border-span"></span>
+              </td>
+              <td>
+                {{i.regionPath}}<span class="border-span"></span>
+              </td>
+              <td>
+                 {{i.type | checkType}}<span class="border-span"></span>
+              </td>
+							<td>
+               {{i.realityCount - i.originalCount}}<span class="border-span"></span>
+              </td>
+            </tr>
+            <!-- 第二行 -->
+          </tbody>
+        </table>
+      </div>
+      <page></page>
+    </div>
+  </div>
+</div>

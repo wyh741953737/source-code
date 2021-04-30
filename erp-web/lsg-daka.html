@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>临时工打卡</title>
+  <style type="text/css">
+    .tip-div {
+      text-align: center;
+    }
+
+    #tx {
+      text-indent: 12px;
+      width: 500px;
+      height: 100px;
+      font-size: 40px;
+      margin-top: 150px;
+    }
+
+    .tit-p {
+      margin-top: 100px;
+      font-size: 48px;
+      color: lightseagreen;
+    }
+    .daywoker-input{
+      margin-left: 55px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/css/staff.css">
+<script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<body ng-app="lsgdkApp" ng-controller="lsgdkAppCtrl">
+
+  <div id="readText"></div>
+  <div class="tip-div">
+    <p class="tit-p">临时工打卡</p>
+    <div class="daywoker-btn-box">
+      <span class="daywoker-select-box">
+        <select class="daywoker-select" name="" id="warehouse">
+          <option value="bc228e33b02a4c03b46b186994eb6eb3">义乌仓</option>
+          <option value="522d3c01c75e4b819ebd31e854841e6c">金华仓</option>
+          <option value="08898c4735bf43068d5d677c1d217ab0">深圳仓</option>
+        </select>
+      </span>
+      <a class="daywoker-btn" href="add-daywoker.html" target="_blank">扫描收款码</a>
+      <input class="Wdate daywoker-input" id="c-data-time" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+          placeholder="请设置打卡时间"/>
+      <span class="daywoker-btn" ng-click="setTime()">设置时间</span>
+    </div> 
+    <input id="tx" type="text" ng-model="dakaName" placeholder="请扫描临时工工牌编号" />
+
+  </div>
+</body>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src="./static/layer/layer.js"></script>
+<script src="static/seldate/WdatePicker.js"></script>
+<script type="text/javascript">
+  (function (angular) {
+    var app = angular.module('lsgdkApp', ['service']);
+    app.controller('lsgdkAppCtrl', ['$scope', "erp", "$timeout", function ($scope, erp, $timeout) {
+      console.log('临时工')
+      $("#tx").focus();
+      $('#tx').keypress(function (e) {
+        if (e.which == 13) {
+          $scope.qiandaoFun();
+        }
+      });
+      /* 语音播报功能 */
+      function doTTS(txt) {
+        var readText = document.getElementById('readText');
+        var ttsAudio = document.getElementById('tts_autio_id');
+
+        // 文字转语音
+        if (ttsAudio) {
+          readText.removeChild(ttsAudio);
+        }
+
+        var au1 = '<audio id="tts_autio_id" autoplay="autoplay">';
+        var sss = '<source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&ok spd=5&text=' + txt + '" type="audio/mpeg">';
+        var eee = '<embed id="tts_embed_id" height="0" width="0" src="">';
+        var au2 = '</audio>';
+        readText.innerHTML = au1 + sss + eee + au2;
+
+        ttsAudio = document.getElementById('tts_autio_id');
+
+        ttsAudio.play();
+      }
+      function getStore() {
+        const warehouse = document.getElementById("warehouse");
+        const warehouseMap = {
+          0: 'bc228e33b02a4c03b46b186994eb6eb3',
+          1: '522d3c01c75e4b819ebd31e854841e6c',
+          2: '08898c4735bf43068d5d677c1d217ab0'
+        }
+        return warehouseMap[warehouse.selectedIndex]
+      }
+      $scope.setTime= () =>{
+        let time = document.getElementById('c-data-time').value;
+        let now = new Date().getTime();
+        let setTime = new Date(time).getTime();
+        if(!setTime){
+          return doTTS('请设置打卡时间');
+        }else if((now-setTime)/60000>60 || (now-setTime)/60000<-60 ){
+          return doTTS('请重新设置打卡时间');
+        }
+        let param = {
+          jiSuanShiJian: setTime, //选择的时间（时间戳），
+          store: getStore(), //仓库id
+        }
+        erp.postFun('linShiGong/setComputingTime', JSON.stringify(param), function({data}) {
+          if(data.code==200){
+            doTTS('已设置打卡时间')
+          }else{
+            doTTS('设置失败，请重新设置')
+          }
+        })
+      }
+      $scope.qiandaoFun = function () {
+        // var nowDate = timestampToTime(new Date());
+        var nowDate = document.getElementById('c-data-time').value;
+        var dakaJson = {
+          id : $scope.dakaName,
+          time : nowDate,
+          store:getStore()
+        };
+        const opath = 'linShiGong/daKa';//pojo/linShiGong/daKa
+        erp.postFun(opath, JSON.stringify(dakaJson), function ({data}) {
+          console.log(data)
+          $scope.dakaName = '';
+          layer.msg(data.message)
+          if (data.code == 9901) { //扫码
+            doTTS('请扫描收款码')
+          } else if (data.code == 9902) {
+            doTTS('请设置打卡时间')
+          } else if (data.code == 9903) {
+            doTTS(`上班成功`)
+          } else if (data.code == 9904) {
+            doTTS(`下班成功`)
+          }
+        }, function (data) {
+          console.log(data)
+          layer.msg('网络错误')
+          $('.audio-dksb').get(0).play();
+        })
+      }
+    }]);
+    function err(error) {
+      erp.closeLoad();
+      console.log(error);
+      // layer.closeAll('loading');
+    }
+    //格式化时间
+    function timestampToTime(date) {
+      var Y, M, D, h, m, s
+      Y = date.getFullYear() + '-';
+      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      D = date.getDate() < 10 ? '0' + date.getDate() + ' ' : date.getDate() + ' ';
+      h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':';
+      m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':';
+      s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+      return Y + M + D + h + m + s;
+    }
+    //格式化日期
+    function timestampToDate(date) {
+      var Y, M, D, h, m, s
+      Y = date.getFullYear() + '-';
+      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      D = date.getDate() + ' ';
+      h = date.getHours() + ':';
+      m = date.getMinutes() + ':';
+      s = date.getSeconds();
+      return Y + M + D;
+    }
+  })(angular)
+
+</script>
+
+</html>

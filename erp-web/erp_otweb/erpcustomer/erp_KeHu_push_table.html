@@ -1,0 +1,126 @@
+<style>
+  .font-ellipsis {text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
+  #push-table-wrap {
+    padding:20px 20px 20px 220px; min-width: 1350px; min-height: 1000px; 
+  }
+  #push-table-wrap>.main {
+    width: 100%; height: 100%;
+  }
+  #push-table-wrap>.main>.search-area {
+    width: 100%;  height: 60px; display: flex; background: #fff; margin-bottom: 10px;
+  }
+  #push-table-wrap>.main>.table-area {
+    width: 100%; height: 100%; background: #fff;
+  }
+  #push-table-wrap input {border: 1px solid #ddd!important;}
+  .search-area>.time {display: flex; align-items: center; margin:0 20px 0;}
+  .search-area>.time>span {height: 32px; line-height: 32px; padding: 0 10px;}
+  .search-area>.time>input {height: 32px; width: 130px;}
+  .search-area>.content {display: flex; align-items: center; margin:0 20px 0 0;}
+  .search-area>.content>span {height: 32px; line-height: 32px; padding: 0 10px;}
+  .search-area>.content>select {height: 32px; margin-right: 10px; border-radius: 4px;}
+  .search-area>.content>input {height: 32px; width: 200px;}
+  .search-area>.search-btn {display: flex; align-items: center; margin:0 20px 0 0;}
+  .search-area>.search-btn> button {width:60px; height: 32px; border-radius: 4px; background: #F3BB41; color: #fff; margin: 0 10px;}
+  .search-area>.search-btn> .disabled {opacity: 0.6; cursor: not-allowed; }
+  .table-area {padding: 15px;}
+  .table-area>.table-title {display: flex; border: 1px solid rgba(238, 238, 238, 0.664);}
+  .table-area>.table-content {display: flex; border: 1px solid #eee; margin-top: -1px;}
+  .table-area>.table-title>li {font-size: 12px; height: 58px; background: rgb(254, 244, 214); color: rgb(164, 108, 58); border-right: 1px solid rgba(238, 238, 238, 0.664); display: flex; align-items: center; justify-content: center;}
+  .table-area >.table-content>li {font-size: 12px; height: 50px; line-height: 50px; border-right: 1px solid rgba(238, 238, 238, 0.664);
+  text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding: 4px; box-sizing: border-box;}
+  /*page area*/
+  .footer-area {display: flex; background: #fff; align-items: center; padding: 0 20px;}
+  .table-area li {text-align: center; font-size: 12px;}
+</style>
+<div id="push-table-wrap">
+  <div class="main">
+    <section class="search-area">
+      <div class="time">
+        <span>发布时间:</span>
+        <input class="Wdate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'})" ng-model="info.sTime" id="s-time">
+        <span>-</span>
+        <input class="Wdate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'})" ng-model="info.eTime" id="e-time">
+      </div>
+      <div class="content">
+        <span>发布人:</span>
+        <select ng-model="info.userName" style="width: 100px;">
+          <option value="全部">全部</option>
+          <option ng-repeat="item in userNameList" value="{{item.name}}">{{item.name}}
+          </option>
+        </select>
+        <input type="text" ng-model="info.search" placeholder="请输入标题/内容" maxlength="200">
+      </div>
+      <div class="search-btn">
+        <button ng-click="searchInfo()">查询</button>
+        <button ng-click="newItem()">新增</button>
+      </div>
+    </section>
+    <section class="table-area">
+      <ul class="table-title">
+        <li style="width: 3%;">序号</li>
+        <li style="width: 7%;">发布时间</li>
+        <li style="width: 10%;">标题</li>
+        <li style="width: 16%;">内容</li>
+        <li style="width: 5%;">发布人</li>
+        <li style="width: 5%;">发送量</li>
+        <li style="width: 5%;">点击数</li>
+        <li style="width: 4%;">触达率</li>
+        <li style="width: 4%;">点击率</li>
+        <li style="width: 5%;">不感兴趣</li>
+        <li style="width: 4%;">禁推率</li>
+        <li style="width: 4%;">卸载率</li>
+        <li style="width: 4%;">刊登率</li>
+        <li style="width: 5%;">收藏率</li>
+        <li style="width: 6%;">视频拍摄请求</li>
+        <li style="width: 8%;">Add to SKU List</li>
+        <li style="width: 7%;">Add to cart</li>
+        <li style="width: 3%; border-right: 0;">操作</li>
+      </ul>
+      <ul class="table-content" ng-repeat="item in goodsPushList">
+          <!-- create_time, title, content, user_name, sent_count, touch, click, not_interested, not_push, uninstall, published, collection, video, addSkuList, addCate, status -->
+        <li style="width: 3%;">{{$index + 1}}</li>
+        <li style="width: 7%;" ng-attr-title="{{item.create_time}}">{{item.create_time}}</li>
+        <li style="width: 10%;" class="font-ellipsis" ng-attr-title="{{item.title}}">{{item.title}}</li>
+        <li style="width: 16%;" class="font-ellipsis" ng-attr-title="{{item.content}}">{{item.content}}</li>
+        <li style="width: 5%;">{{item.user_name}}</li>
+        <li style="width: 5%;">{{item.sent_count}}</li>
+        <li style="width: 5%;">{{item.clickNumber}}</li>
+        <li style="width: 4%;">{{item.touch}}</li>
+        <li style="width: 4%;">{{item.click}}</li>
+        <li style="width: 5%;">{{item.not_interested}}</li>
+        <li style="width: 4%;">{{item.not_push}}</li>
+        <li style="width: 4%;">{{item.uninstall}}</li>
+        <li style="width: 4%;">{{item.published}}</li>
+        <li style="width: 5%;">{{item.collection}}</li>
+        <li style="width: 6%;">{{item.video}}</li>
+        <li style="width: 8%;">{{item.addSkuList}}</li>
+        <li style="width: 7%;">{{item.addCate}}</li>
+        <li style="width: 3%; border-right: 0;"><span style="cursor: pointer;" ng-if="item.detailBtn" ng-click="checkDetail($index)">详情</span></li>
+      </ul>
+    </section>
+    <!-- 页面跳转 -->
+    <section class="footer-area">
+      <div class="page-box">
+        <div class="select-page-num">
+            <select class="form-control" ng-model="info.pageSize" ng-change="pageSizeChange()">
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+            </select>
+            <span>每页</span>
+        </div>
+        <div class="total-num">
+            共&nbsp;&nbsp;{{ info.total }}&nbsp;&nbsp;条
+        </div>
+        <div class="page-index">
+            <div class="page-group" class="pagination2"></div>
+        </div>
+        <div class="to-go">
+            <span>跳转：</span>
+            <input type="text" class="form-control" ng-model="pageIndex">
+            <a class="btn btn-default" href="javascript: void(0);" ng-click="pageIndexHandle()">go</a>
+        </div>
+      </div>
+    </section>
+  </div>

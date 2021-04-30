@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>后台通用框架</title>
+    <meta charset="utf-8">
+    <script src="static/js/public/jquery-3.0.0.min.js"></script>
+    <script src="static/angular-1.5.8/angular.min.js"></script>
+    <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link href="static/bootstrap-validator/dist/css/bootstrapValidator.min.css" rel="stylesheet">
+    <script src="static/bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="static/bootstrap-table-master/src/extensions/export/bootstrap-table-export.js"></script>
+    <script src="static/bootstrap-table-master/src/extensions/angular/bootstrap-table-angular.js"></script>
+    <link href="static/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet" />
+    <link href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="static/bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="static/bootstrap-validator/dist/js/bootstrapValidator.min.js"></script>
+    <script src="static/bootstrap-validator/dist/js/language/zh_CN.js"></script>
+    <script src="static/angular-1.5.8/angular-cookies.min.js"></script>
+    <script src="static/layer/layer.js"></script>
+    <link rel="stylesheet" href="static/css/deviceGroup.css">
+</head>
+<body  ng-app="myApp" ng-controller="deviceGroupCtrl">
+<div class="container pageBox">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- 操作成功 -->
+            <div class="alert alert-success ng-hide" role="alert" ng-show="isSuccess" style="margin-top: 15px;">操作成功</div>
+            <!-- 警告弹框 -->
+            <div class="alert alert-danger ng-hide" role="alert" ng-show="isError" style="margin-top: 15px;">操作失败</div>
+            <!-- 警告弹框 -->
+            <div class="alert alert-danger ng-hide" role="alert" ng-show="isHasData" style="margin-top: 15px;">该分组下还有设备，请移除设备后再删除</div>
+            <div id="toolbar" class="btn-group">
+                <button type="button" data-toggle="modal" pattern="^[\u4e00-\u9fa5]{1,10}$" data-bv-regexp-message="汉字，长度10以内" data-target="#addAssets" ng-click="clear()" class="btn btn-primary">添加分组</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="table" init-table="options"></table>
+        </div>
+    </div>
+</div>
+<!--新增-->
+<div class="modal fade" id="addAssets" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog center-block">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="addModalLabel">新增分组</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="addAssetsForm" class="form-horizontal" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="addID">分组编号：</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" placeholder="输入分组编号" type="text" data-bv-notempty-message="请填写分组编号" data-bv-trigger="blur" pattern="^[A-Za-z0-9]{1,20}$" data-bv-regexp-message="英文或数字，长度20以内" id="addID" ng-model="assetsID" name="assetsID" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="addName">分组名称：</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" placeholder="输入分组名称" type="text" data-bv-notempty-message="请填写分组名称" data-bv-trigger="blur" pattern="^[\u4E00-\u9FA5]{1,10}$" data-bv-regexp-message="汉字，长度10以内" id="addName" ng-model="assetsName" name="assetsName" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="cancelAdd()" type="button" class="btn btn-default">取消</button>
+                <button ng-click="addAssets()" type="button" class="btn btn-default">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑-->
+<div class="modal fade" id="editAssets" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog center-block">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="editModalLabel">编辑分组</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="editAssetsForm" class="form-horizontal" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="editID">分组编号：</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" placeholder="输入分组编号" type="text" data-bv-notempty-message="请填写分组编号" data-bv-trigger="blur" pattern="^[A-Za-z0-9]{1,20}$" data-bv-regexp-message="英文或数字，长度20以内" id="editID" ng-model="assetsID" name="assetsID" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="editName">分组名称：</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" placeholder="输入分组名称" type="text" data-bv-notempty-message="请填写分组名称" data-bv-trigger="blur" pattern="^[\u4E00-\u9FA5]{1,10}$" data-bv-regexp-message="汉字，长度10以内" id="editName" ng-model="assetsName" name="assetsName" required/>
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="cancelEdit()" type="button" class="btn btn-default">取消</button>
+                <button ng-click="editAssets()" type="button" class="btn btn-default">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="static/js/page/deviceGroup.js"></script>
+</body>
+</html>

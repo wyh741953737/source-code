@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .firstNav{
+            border: 1px solid #F3F3F3;
+            width: 212px;
+        }
+        .firstNav li{
+            display: flex;
+            height: 44px;
+            line-height: 44px;
+            border-bottom: 1px solid #F3F3F3;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            color: #666;
+            font-size:14px;
+            font-family:PingFangSC-Medium;
+            font-weight:500;
+            cursor: pointer;
+            background: #fff;
+        }
+        .firstNav li:last-child{
+            border-bottom: none;
+        }
+        .firstNav>li.act{
+            background: #FFB900;
+            color: #fff;
+        }
+        .firstNav li>b{
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: url("static/image/staff/next.png") no-repeat;
+        }
+        .firstNav>li.act>b{
+            background: url("static/image/staff/chevron.png") no-repeat;
+        }
+        .firstNav>li.act>.secondNav{
+            display: block;
+        }
+        .secondNav{
+            position: absolute;
+            width: 240px;
+            border: 1px solid #F3F3F3;
+            left: 210px;
+            top: 0;
+            display: none;
+        }
+        .firstNav>li.act>.secondNav{
+            display: block;
+        }
+        .firstNav li:nth-child(9)>.secondNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(10)>.secondNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(11)>.secondNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(12)>.secondNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(13)>.secondNav{
+            top: -132px;
+        }
+        .secondNav>li{
+            position: relative;
+        }
+        .secondNav>li.act{
+            background: #FCF4D9;
+            color: #FF9900;
+        }
+        .secondNav>li.act>.thirdNav{
+            display: block;
+        }
+        .thirdNav{
+            position: absolute;
+            width: 300px;
+            border: 1px solid #f3f3f3;
+            left: 238px;
+            top:0;
+            display: none;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -220px;
+        }
+
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -176px;
+        }
+
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -264px;
+        }
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -176px;
+        }
+
+        .firstNav li:nth-child(9)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -308px;
+        }
+        .firstNav li:nth-child(9)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -220px;
+        }
+        .firstNav li:nth-child(9)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -308px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -220px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(7)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(1)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -484px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -220px;
+        }
+        .thirdNav>li.act{
+            background: #FFFAFA;
+            color: #FF9900;
+        }
+        .pname{
+            margin-right: 15px;
+        }
+        .difficulty{
+            margin-right: 15px;
+        }
+        .difficulty>input{
+            display: none;
+            width: 28px;
+            height: 28px;
+        }
+        .difficulty>.fenshu{
+            display: inline-block;
+            color: #FF9900;
+        }
+        #taskTable>thead>tr>th{
+            background: #FFB900;
+            color: #fff;
+            font-size: 14px;
+            border-color: #FFB900;
+            padding: 10px;
+        }
+        #taskTable>thead>tr>th:first-child{
+            border-top-left-radius: 5px;
+        }
+        #taskTable>tbody>tr{
+            padding: 0 5px;
+        }
+        #taskTable>thead>tr{
+            border-color: #FFB900;
+        }
+        #taskTable>thead>tr>th:last-child{
+            border-top-right-radius: 5px;
+
+        }
+        #taskTable td{
+            font-size:14px;
+            padding: 15px 0;
+        }
+        #taskTable>tbody>tr>td:not(:last-child){
+            border-right: none;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .diffBtn>a{
+            border: 1px solid #f0f0f0;
+            border-radius: 50px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content asj-service-docu">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding-top: 50px;padding-left: 20px;min-height: 980px;">
+            <ul class="firstNav">
+
+                <li class="" data-type="1" ng-repeat="first in FirstList" data-id="{{first.id}}">
+                    <span>{{first.name}}</span>
+                    <b></b>
+                    <ul class="secondNav">
+                        <li data-type="2" class="" ng-repeat="second in first.children" data-id="{{second.id}}">
+                            <span>{{second.name}}</span>
+                            <b></b>
+                            <ul class="thirdNav">
+                                <li data-type="3" ng-repeat="third in second.children" data-id="{{third.ID}}" data-pid="{{third.PID}}">
+                                    <span class="pname">{{third.NAME}}</span>
+                                    <div class="difficulty">
+                                        <span>基础分:</span>
+                                        <span class="fenshu">{{third.baseScore}}</span>
+                                        <span>分</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+            <div style="width: 450px;float: right;position: relative;top: -570px;right: 20px;" class="task-right">
+                <p style="margin-bottom: 10px">今日已录入数量（{{entryCount}}）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待办任务（{{backlogCount}}）</p>
+                <table class="ea-list-table ea-erp-cs" id="taskTable">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>时间</th>
+                        <th>录入人</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="task in taskList" data-id="{{task.ID}}">
+                        <td>{{$index+1}}</td>
+                        <td>{{task.time}}</td>
+                        <td>{{task.NAME}}</td>
+                        <td class="diffBtn">
+                            <a href="{{task.address}}" class="lookLink">查看链接</a>
+                            <a href="javascript:void(0);" ng-click="lingqu(task.categoryId,task.ID)">领取任务</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

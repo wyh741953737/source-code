@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>通知-已发送-ERP系统</title>
+		<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+	</head>
+	<body>
+		
+
+		
+		<!-- content -->
+		<div class="ea-content">
+			<!-- <div class="ea-content-box"> -->
+				
+				<!-- <div class="ea-content-con"> -->
+					<!-- left nav -->
+					<div class="left-bar">
+	            <ul>
+					<li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+					<li><a href="#/erpservice/document">{{'Document'}}</a></li>
+					<li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+					<li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+					<li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+					<li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+					<li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+	            </ul>
+	        </div>
+					
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+	          <!--<div class="top-taps clearfix">-->
+	            	<!--<ul>-->
+	                  <!--<li><a href="#/erpservice/tz">{{'100219' | translate}}</a></li>-->
+	                  <!--<li><a href="#/erpservice/tzdraft">{{'100220' | translate}}</a></li>-->
+	                  <!--<li class="active"><a href="#/erpservice/tztime">{{'100221' | translate}}</a></li>-->
+	                  <!--<li><a href="#/erpservice/tztemplet">{{'100222' | translate}}</a></li>-->
+	              <!--</ul>-->
+			    	<!--</div>-->
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+							<div class="input-group search-box">
+                  <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+                    <option value="SKU">SKU</option>
+                    <option value="CH">中文</option>
+                    <option value="EN">英文</option>
+                  </select> -->
+                  <input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+                  <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100025' | translate}}</a>
+              </div>
+							<!-- <p><input type="text" value=""  class="search-text-box" /><input type="button" value="搜索" class="search-button" /></p> -->
+							<!-- <p><select class="search-select">
+								<option>全部</option>
+								<option>无追踪信息</option>
+								<option>追踪信息不更新</option>
+								<option>追踪信息错误</option>
+								<option>商品退回</option>
+								<option>商品缺失</option>
+								<option>商品损坏</option>
+								<option>商品错发</option>
+								<option>订单未收到</option>
+							</select></p> -->
+							<a class="dc-btn" href="#/erpservice/tzedit/0">{{'100223' | translate}}</a>
+						</div>
+						
+						<!-- right list -->
+						
+						<!-- <div class="ea-list-manipulation"><li class="active"><a href="#/erpservice/tzedit/0">写通知</a></li></div> -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr>
+								<th><span class="chek-span"><input type="checkbox"></span></th>
+								<th><span>{{'100226' | translate}}</span></th>
+								<th>{{'100159' | translate}}</th>
+								<th>{{'100225' | translate}}</th>
+								<!-- <th><span><p>平台母订单号</p><p>子订单号</p></span></th>
+								<th><span>店铺订单号</span></th>
+								<th><span>图片</span></th>
+								<th><span>产品SKU</span></th>
+								<th><span>单价</span></th>
+								<th><span>数量</span></th>
+								<th><span>金额</span></th>
+								<th><span>纠纷原因</span></th>--> 
+								<th><span>{{'100043' | translate}}</span></th>
+							</tr>
+							<tr ng-repeat="item in list">
+								<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>
+								<td>{{item.relationType==1?('100258' | translate):('100249' | translate)}}</td>
+								<td>{{item.notificationType}}....{{item.info}}</td>
+								<td>{{item.sendDate.year+1900}}-{{item.sendDate.month+1}}-{{item.sendDate.date}}</td>
+								<td><span><button type="button" class="ea-to-close" ng-click="delet(item)">{{'100227' | translate}}</button></span></td>
+							</tr>
+						</table>
+
+
+						<!-- 分页 -->
+			<!-- ng-show="hasMerch" -->
+			<div ng-show="!canShowFlag" class="d-flex-center" style="padding: 20px">暂无数据</div>
+            <div ng-show="canShowFlag" class="page-box">
+                <div class="select-page-num">
+                    <select class="form-control" ng-model="pagesize" ng-change="pagesizechange(pagesize)">
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>每页</span>
+                </div>
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup">
+                    	<a href="#">&lt;&lt;</a>
+					            <a href="#">&lt;</a>
+					            <a href="#">1</a>
+					            <a href="#">2</a>
+					            <a class="current" href="#">3</a>
+					            <a href="#">4</a>
+					            <a href="#">5</a>
+					            <a href="#">6</a>
+					            <a href="#">···</a>
+					            <a href="#">&gt;</a>
+					            <a href="#">&gt;&gt;</a>
+                    </div>
+                </div>
+                <div class="to-go">
+                    <span>跳转：</span>
+                    <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+                    <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                </div>
+            </div>
+
+
+						</div>
+						
+						
+						</div>
+						</div>
+					</div>
+					
+				<!-- </div> -->
+			<!-- </div> -->
+		</div>
+		
+	</body>
+</html>

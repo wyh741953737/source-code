@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>客户-kehuliebiao-ERP系统</title>
+    <!--<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />-->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+    <style type="text/css">
+        .vip-icon {
+            width: 18px;
+            cursor: pointer;
+        }
+        /* upload img */
+        .upload-img{margin-right:10px;width:100px;height:100px;position:relative;}
+        .upload-img.upBtn{background:url('/static/image/public-img/plus.png') center no-repeat;}
+        .upload-img img{width:100%;height:100%;position:absolute;top:0;left:0;}
+        .upload-img input[type='file']{position: absolute;left:0;top:0;opacity:0;display: block;width: 100%!important;height: 100%!important;cursor: pointer;}
+        .upload-img .edit-box-wrap{position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; display: none; background: rgba(0, 0, 0, 0.5); transition: all 0.5s; -moz-transition: all 0.5s; -webkit-transition: all 0.5s; -o-transition: all 0.5s; }
+        .upload-img:hover .edit-box-wrap{display: block;}
+        .upload-img .edit-box-wrap .edit-box { position: absolute; width: 100%;  height: 30px; bottom: 0; left: 50%; margin-left: -50px; line-height: 30px; }
+        .upload-img .edit-box-wrap .edit-box a{ color: #fff; float: left; width: 50%; text-align: center; font-size: 14px; line-height: 24px; }
+
+        .div1 {
+            position: relative;
+        }
+
+        .div2 {
+            width: 100px;
+            height: 36px;
+            background: #aebbca;
+            color: #fff;
+            text-align: center;
+            line-height: 36px;
+            border-radius: 25px;
+        }
+
+        .file_input {
+            width: 200px;/*因为file-input在部分浏览器中会自带一个输入框，需要双击才可以点击上传,放大后将其定位到div外面就好啦*/
+            height: 36px;
+            position: absolute;
+            left: -100px;
+            top: 0;
+            z-index:1;
+            -moz-opacity: 0;
+            -ms-opacity: 0;
+            -webkit-opacity: 0;
+            opacity: 0;  /*css属性——opcity不透明度，取值0-1*/
+            filter: alpha(opacity=0); /*兼容IE8及以下--filter属性是IE特有的，它还有很多其它滤镜效果，而filter: alpha(opacity=0); 兼容IE8及以下的IE浏览器(如果你的电脑IE是8以下的版本，使用某些效果是可能会有一个允许ActiveX的提示,注意点一下就ok啦)*/
+            cursor: pointer;
+        }
+
+
+        /*预览图片*/
+        .preview-wrap {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .pre-bigImg {
+            height: 350px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .close-p {
+            color: #7a7a7a;
+            line-height: 40px;
+        }
+
+        .cancel-btn { line-height: 28px;margin-right: 20px; padding: 0 15px; border-radius: 4px; background-color: #fff; border: 1px solid #ddd; font-size: 14px;}
+        .confirm-btn { line-height: 28px;margin-right: 20px; padding: 0 15px; border-radius: 4px; color: #fff; background-color: #4a90e2; font-size: 14px; }
+
+        .tab {
+            background: #fff;
+            width: calc(100% - 270px);
+            position: fixed;
+            top: 0;
+            padding: 0 15px;
+            z-index: 999;
+            min-width: 1119px;
+        }
+
+        .tab>span {
+            display: inline-block;
+            height: 60px;
+            line-height: 60px;
+            padding: 0 20px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .tab>span.act {
+            color: rgba(255, 162, 0, 1);
+            border-bottom-color: rgba(255, 162, 0, 1);
+        }
+
+        .moreAction {
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+            display: inline-block !important;
+            /* width: 100px; */
+        }
+
+        .moreAction b {
+            border: 4px solid transparent;
+            border-top-color: #999;
+            position: absolute;
+            right: -10px;
+            top: 7px;
+        }
+
+        .moreAction ul {
+            position: absolute;
+            background: #fff;
+            box-shadow: 0px 8px 20px;
+            border-radius: 2px;
+            z-index: 999;
+            top: 14px;
+            left: -75px;
+            width: 150px;
+            display: none;
+        }
+        .moreAction ul>li>span{
+            display: block;
+            font-size: 13px;
+            padding: 3px;
+        }
+        .moreAction ul>li>span:hover{
+            background: #e1e1e1;
+        }
+        .moreAction:hover ul {
+            display: block;
+        }
+        .table-thead{
+            display: flex;
+            margin: 10px 5px 0 5px;
+            background: #F4F8FB;
+            border-bottom: 1px solid #e1e1e1;
+            border-left: 1px solid #e1e1e1;
+            border-top: 1px solid #e1e1e1;
+        }
+        .table-th{
+            /* border-right: 1px solid #e1e1e1; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 10px 0;
+            min-height: 60px;
+        }
+        .table-th:last-child{
+            border-right: 1px solid #e1e1e1;
+        }
+        .table-th p{
+            text-align: center;
+            font-size: 13px;
+        }
+        .yonghuming>span{
+            word-break: break-all;
+        }
+        .ea-list-table td span{
+            font-size: 14px;
+            padding: 0 5px;
+        }
+        .yonghuming{
+            width: 11%;
+        }
+        .yonghuming.yonghumingAct{
+            width: 16%;
+        }
+        .zzc{
+            position: fixed;
+            top:0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99999;
+            display: none;
+        }
+        .VIPWrap{
+            background: #fff;
+            border-radius: 5px;
+            margin: 150px auto;
+            width: 400px;
+            min-height: 150px;
+            padding: 20px;
+        }
+        .vipTitle>p{
+            text-align: center;
+        }
+        .vipRemark{
+            display: flex;
+            margin-top: 15px;
+        }
+        #vipRemark{
+            border: 1px solid #e1e1e1;
+            border-radius: 3px;
+            width: 300px;
+            height: 120px;
+            resize: none;
+            padding: 0 5px;
+        }
+        .vipBtnWrap{
+            margin-top: 15px;
+            border-top: 1px solid #e1e1e1;
+            padding: 10px 0 0 0;
+            display: flex;
+            justify-content: center;
+        }
+        .vipBtnWrap .vipBtn{
+            padding: 5px 15px;
+            border-radius: 4px;
+        }
+        .vipBtnWrap .vipBtn:first-child{
+            margin-right: 15px;
+            color: #fff;
+            background: rgba(255, 162, 0, 1);
+            border: 1px solid rgba(255, 162, 0, 1);
+        }
+        .vipBtnWrap .vipBtn:last-child{
+            border: 1px solid #666;
+            background: #fff;
+        }
+        .VIPICON{
+            position: relative;
+        }
+        .VIPremark{
+            padding: 3px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            border-radius: 2px;
+            position:absolute;
+            min-width: 150px;
+            font-size: 12px;
+            font-weight: normal;
+            z-index: 999;
+            left: -615%;
+            top: 29px;
+            display: none;
+        }
+        .VIPremark>b{
+            border: 4px solid transparent;
+            border-bottom-color: rgba(0,0,0,0.8);
+            position: absolute;
+            left: 50%;
+            top: -8px;
+        }
+        .VIPICON:hover .VIPremark{
+            display: block;
+        }
+        .zdbz-con{
+            width: 750px;
+        }
+        .lookBaozhuang{
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: rgba(255, 162, 0, 1);
+            color: #fff;
+        }
+        .lookPackPic{
+            position: fixed;
+            top:0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99999;
+        }
+        .lookPackPicWrap{
+            background: #fff;
+            border-radius: 4px;
+            width: 820px;
+            min-height: 200px;
+            padding: 20px;
+            margin: 100px auto;
+        }
+        .lookPackPicContent{
+            display: flex;
+            flex-wrap: wrap;
+            max-height: 540px;
+            overflow: auto;
+            padding-top: 20px;
+        }
+        .lookPackPictur{
+            display: inline-block;
+            width: 200px;
+            border: 1px solid #e1e1e1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 23px 15px 23px;
+            position: relative;
+        }
+        .lookPackPictur img{
+            max-width: 100%;
+            cursor: pointer;
+        }
+        .lookPackPicBottom{
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .lookPackPicBottom button{
+            background: #fff;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            padding: 5px 15px;
+        }
+        .lookPackPicTitle{
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .lostTab{
+            border-bottom: 1px solid #e1e1e1;
+            /* margin-top: 15px; */
+            padding: 0 20px;
+        }
+        .lostTab>span{
+            display: inline-block;
+            padding: 5px 12px;
+            background: #fff;
+            border: 1px solid transparent;
+            border-bottom-color: #e1e1e1;
+            position: relative;
+            top: 1px;
+            cursor: pointer;
+        }
+        .lostTab>span:hover{
+            color: rgba(255, 162, 0, 1);
+        }
+        .lostTab>span.act{
+            border-color: #e1e1e1;
+            border-bottom-color: #fff;
+            color: rgba(255, 162, 0, 1);
+        }
+        .maylostSearchWrap{
+            display: flex;
+            padding: 15px;
+        }
+        .maylostSearchGroup{
+            margin-right: 15px;
+        }
+        .maylostSearchGroup>span{
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            border: 1px solid #e1e1e1;
+            margin-right: 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .maylostSearchGroup>span.act{
+            background: rgba(255, 162, 0, 1);
+            color: #fff;
+            border-color: rgba(255, 162, 0, 1);
+        }
+        .maylostSearchGroup select{
+            width: 100px;
+            height: 32px;
+        }
+        .mayLostWrap{
+            display: flex;
+            border: 1px solid #e1e1e1;
+        }
+        .maylostLeft{
+            width: 30%;
+            border-right: 1px solid #e1e1e1;
+            height: 730px;
+        }
+        .mayLostRight{
+            width: 70%;
+            height: 730px;
+            padding: 10px;
+        }
+        .maylostThead{
+            display: flex;
+            padding: 5px;
+            background: #FCF4D9;
+            color: #8B572A;
+        }
+        .msylostTh{
+            width: 20%;
+            font-size: 12px;
+            text-align: center;
+        }
+        .msylostTh>p{
+            font-size: 12px;
+            text-align: center;
+        }
+        .msylostTr{
+            display: flex;
+            background: #fff;
+            padding: 8px 0;
+            border-bottom: 1px solid #e1e1e1;
+            cursor: pointer;
+        }
+        .maylostTd{
+            width: 20%;
+
+        }
+        .msylostTr:hover{
+            background: #e1e1e1;
+        }
+        .msylostTr.active{
+            background: #e1e1e1;
+        }
+        .maylostTd>span{
+            display: block;
+            font-size: 12px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .maylostTbody{
+            height: 686px;
+            overflow-y: auto;
+        }
+        .ttRed{
+            color: red;
+        }
+        .rightMenu>p{
+            font-size: 12px;
+        }
+        .rightMenu>p:first-child{
+            color: #F9AE08;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .lostedSearch{
+            padding: 10px 0;
+            display: flex;
+        }
+        .lostedSearchGroup{
+            display: flex;
+        }
+        .lostedSearchGroup>input{
+            width: 250px;
+            height: 30px;
+            border-radius: 0;
+        }
+        .lostedSearchGroup>button{
+            background: #F9AE08;
+            color: #fff;
+            padding: 0 10px;
+            height: 30px;
+            line-height: 30px;
+        }
+        .lostedSearchGroup span{
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+        .lostedSearchGroup span.act{
+            color: #F9AE08;
+        }
+        .lostedThead{
+            display: flex;
+            text-align: center;
+            padding:10px 5px;
+            background: #FCF4D9;
+            color: #8B572A;
+            font-weight: 600;
+        }
+        .lostedTh{
+            width: 20%;
+            /* padding: 5px */
+            text-align: center;
+            border: 1px solid #FCF4D9;
+        }
+        .lostedTr{
+            display: flex;
+            border-left: 1px solid #e1e1e1;
+            border-bottom: 1px solid #e1e1e1;
+        }
+        .lostedTd{
+            width: 20%;
+            border-right: 1px solid #e1e1e1;
+        }
+        .lostedTd>span{
+            display: block;
+            padding: 10px 5px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .lostedTd:last-child>span{
+            position: relative;
+        }
+        .lostedTd>span>b{
+            display: inline-block;
+            border: 4px solid transparent;
+            border-top-color: #666;
+            position: relative;
+            top: 1px;
+            left: 5px;
+        }
+        .lostedTd ul{
+            position: absolute;
+            background: #fff;
+            width: 100px;
+            border-radius: 4px;
+            box-shadow: 0px 8px 20px;
+            z-index: 999;
+            left: calc(50% - 50px);
+            display: none;
+        }
+        .lostedTd ul span{
+            display: block;
+            font-size: 13px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .lostedTd ul span:hover{
+            background: #e1e1e1;
+        }
+        .lostedTd>span:hover ul{
+            display: block;
+        }
+        .spbz-btn{
+            height: inherit !important;
+            font-size: 12px;
+            padding: 3px 8px;
+        }
+        .baoz-mes{
+            border: 1px solid #dddee1;
+            border-radius: 4px;
+            vertical-align: middle;
+            width: 220px;
+            height: 76px;
+            text-indent: 12px;
+        }
+        .del-bzimg{
+            position: absolute;
+            right: -16px;
+            top: -16px;
+        }
+        .break-allp{
+            word-break: break-all;
+            width: 200px;
+        }
+        .wllSort-subjoin {
+          right: 40%;
+        }
+        .width15 {
+          width: 15%;
+        }
+        .width25 {
+          width: 25%;
+        }
+        .width9 {
+            width: 9%;
+        }
+        .width8 {
+          width: 8%;
+        }
+        .width7 {
+          width: 7%;
+        }
+        .width6 {
+            width: 6%;
+        }
+        .width5 {
+          width: 5%;
+        }
+	    .zdbz-wrap .content-warp{
+		    width: 740px;
+		    background-color: #fff;
+		    box-shadow:0px 12px 24px 0px rgba(0,0,0,0.1);
+		    border-radius:4px;
+		    position: absolute;
+		    left: 50%;
+		    top: 50%;
+		    transform: translate(-50%, -50%);
+	    }
+      .zdbz-wrap .title{
+	      height: 60px;
+	      display: flex;
+	      align-items: center;
+	      justify-content: center;
+	      font-size: 16px;
+	      border-bottom: 1px solid #F0F0F0;
+      }
+      .zdbz-wrap .title a{
+	      color: #999;
+	      margin: 0 15px;
+      }
+      .zdbz-wrap .title a.active{
+	      color: #333;
+      }
+	    .zdbz-wrap .content-box{
+		    padding: 20px 20px 0 20px;
+		    max-height: 648px;
+		    overflow-y: auto;
+	    }
+      .zdbz-wrap .filter select{
+        width: 210px;
+        height: 40px;
+        border-radius:4px;
+        border:1px solid rgba(217,217,217,1);
+      }
+      .zdbz-wrap h3{
+        font-size: 16px;
+        padding-left: 10px;
+        width:100%;
+        height:48px;
+        line-height: 48px;
+        background:rgba(249,174,8,0.1);
+        margin: 20px 0;
+      }
+      .zdbz-wrap .search-box{
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .zdbz-wrap .search-box input{
+        width: 210px;
+        height: 40px;
+        padding: 0 8px;
+        border-radius:4px 0 0 4px;
+        border:1px solid rgba(217,217,217,1);
+        border-right: none;
+        margin-left: 12px;
+      }
+      .zdbz-wrap .search-box button{
+        width:48px;
+        height:40px;
+        background:rgba(249,174,8,1);
+        border-radius:0px 4px 4px 0px;
+        font-size: 14px;
+        color: #fff;
+      }
+	    .zdbz-wrap .table-box{
+		    width: 100%;
+		    border: 1px solid #F3F3F3;
+		    border-radius:4px;
+		    text-align: center;
+	    }
+      .zdbz-wrap .table-box .thead{
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        height:44px;
+        background:rgba(250,250,250,1);
+        border-bottom: 1px solid #F3F3F3;
+      }
+      .zdbz-wrap .table-box .tbody{
+        max-height: 256px;
+        overflow-y: auto;
+      }
+      .zdbz-wrap .table-box .col{
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        height: 64px;
+        border-bottom: 1px solid #F3F3F3;
+	      font-size: 12px;
+      }
+      .zdbz-wrap .table-box .col div{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+	      word-break: break-all;
+      }
+	    .zdbz-wrap .related-warp{
+		    display: flex;
+		    justify-content: space-between;
+		    margin: 20px 0;
+	    }
+      .zdbz-wrap .related-warp .related-box{
+	      width: 565px;
+	      margin-left: 10px;
+	      display: flex;
+	      flex-wrap: wrap;
+      }
+      .zdbz-wrap .related-warp .related-box .item{
+	      width:272px;
+	      height:28px;
+	      padding: 0 10px;
+	      color: #F9AE08;
+	      font-size: 12px;
+	      background:rgba(249,174,8,0.1);
+	      border-radius:4px;
+	      margin: 0 10px 10px 0;
+	      display: flex;
+	      justify-content: space-between;
+	      align-items: center;
+      }
+      .zdbz-wrap .item .close_btn{
+	      cursor: pointer;
+	      font-size: 18px;
+      }
+	    .zdbz-wrap .ramrk-box{
+		    display: flex;
+		    justify-content: space-between;
+	    }
+      .zdbz-wrap .ramrk-box textarea{
+        width: 564px;
+        height:80px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(217,217,217,1);
+        resize: none;
+	      padding: 8px;
+      }
+	    .zdbz-wrap .btn-box{
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin: 30px 0;
+	    }
+      .zdbz-wrap .btn-box button:nth-child(1){
+	      width:80px;
+	      height:32px;
+	      border-radius:4px;
+	      border:1px solid rgba(193,193,193,1);
+	      color: #666;
+	      font-size: 14px;
+	      margin-right: 10px;
+      }
+      .zdbz-wrap .btn-box button:nth-child(2){
+	      width:80px;
+	      height:32px;
+	      background:rgba(249,174,8,1);
+	      border-radius:4px;
+	      color: #fff;
+	      font-size: 14px;
+	      margin-left: 10px;
+      }
+	    .zdbz-wrap .sle-box {
+		    display: flex;
+	    }
+        .zdbz-wrap .sle-box .radio-box{
+	        margin-left: 10px;
+	        position: initial;
+	        height: initial;
+	        margin-bottom: 20px;
+        }
+        .zdbz-wrap .sle-box .radio-box .item{
+	        margin-right: 15px;
+	        display: inline-block;
+        }
+        .zdbz-wrap .sle-box .radio-box input{
+	        position: initial;
+	        opacity: initial;
+	        width: 16px;
+	        height: 16px;
+        }
+        .zdbz-wrap .sle-box .radio-box p{
+	        margin-top: 10px;
+	        color: #999;
+	        font-size: 12px;
+        }
+		    .zdbz-wrap .radio-box input[type='radio']{
+			    display: none;
+		    }
+        .addPayAuthModal {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10003;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .addPayAuthModal .operateBox {
+            width: 400px;
+            height: 200px;
+            border: 1px solid #ddd;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .addPayAuthModal .operateBox .passsword {
+            display: flex;
+            align-items: center;
+            justify-items: center;
+        }
+        .addPayAuthModal .operateBox .passsword span {
+            width: 80px;
+            flex: none;
+        }
+        .addPayAuthModal .operateBox .passsword input {
+            width: 200px;
+            flex: none;
+        }
+        .addPayAuthModal .operateBox .add {
+            width: 100px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            border-radius: 2px;
+            background: #08aceb;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .addPayAuthModal .operateBox .radioList {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .addPayAuthModal .operateBox .radioList .tips {
+            width: 100px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;
+        }
+        .addPayAuthModal .operateBox .radioList .radioAuthStyle {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- content -->
+    <div class="ea-content">
+        <div class="left-bar">
+            <ul>
+                <li ng-click="refresh()" class="active"><a href="#/erpcustomer/KeHuLieBiao">{{'100890' |
+                translate}}（{{customerdata.normal}}）</a></li>
+                <li><a href="#/erpcustomer/xushenhe">{{'100891' | translate}}（{{customerdata.needaudit}}）</a></li>
+                <li><a href="#/erpcustomer/shenhenopass">{{'100892' | translate}}（{{customerdata.nopass}}）</a></li>
+                <li><a href="#/erpcustomer/heimingdan">{{'100608' | translate}}（{{customerdata.black}}）</a></li>
+                <li><a href="#/erpcustomer/shoplist">{{'100893' | translate}}（{{customerdata.shop}}）</a></li>
+                <li><a href="#/erpcustomer/exhibition">{{'100894' | translate}}（{{customerdata.exhibition}}）</a></li>
+                <li><a href="#/erpcustomer/Affiliate">{{'100895' | translate}}（{{customerdata.affUserNum}}）</a></li>
+                <li><a href="#/erpcustomer/GH">{{'100896' | translate}}（{{customerdata.customerResourceNum}}）</a></li>
+            </ul>
+        </div>
+        <!-- <div class="bg-geduan"></div> -->
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content" style="min-width:1450px;">
+            <!-- tab -->
+            <div id="kehu-tab" class="tab" style="min-width: 1220px; left: 260px;">
+                <span ng-if="!isCodkehu" ng-click="changeStatus(0)" ng-class="{act:cuStatus=='0'}">{{'101410' | translate}}</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus(1)" ng-class="{act:cuStatus=='1'}">{{'101411' | translate}}</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus(4)" ng-class="{act:cuStatus=='4'}">{{'101412' | translate}}</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus(3)" ng-class="{act:cuStatus=='3'}">{{'101413' | translate}}</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('sourceVip')" ng-class="{act:cuStatus=='sourceVip'}">{{'101414' | translate}}</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('lost')" ng-class="{act:cuStatus=='lost'}">{{'101415' | translate}}</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('lv1',1)" ng-class="{act:cuStatus=='lv1'}">LV1</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('lv2',2)" ng-class="{act:cuStatus=='lv2'}">LV2</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('lv3',3)" ng-class="{act:cuStatus=='lv3'}">LV3</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('lv4',4)" ng-class="{act:cuStatus=='lv4'}">LV4</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('lv5',5)" ng-class="{act:cuStatus=='lv5'}">LV5</span>
+                <span ng-if="!isCodkehu" ng-click="changeStatus('vip',1)" ng-class="{act:cuStatus=='vip'}">VIP</span>
+
+
+                        <div ng-show="!isLost" class="ea-right-search" style="display:flex;align-items: center;margin-top: 15px;">
+                            <div class="input-group search-box" style="display:flex;float:none;width:700px;">
+                                <input style="width: 200px" type="text" class="form-control top-search-inp"
+                                       placeholder="{{'100897' | translate}}" ng-model="searchinfo" ng-keyup="enterSearch($event)">
+                                <input class="Wdate data-inp"
+                                       style="text-indent: 12px;position:relative;top: 0px;height: 30px;border: 1px solid #08aceb;width: 120px;"
+                                       id="c-data-time2" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                       placeholder="注册起始日期" readonly="readonly">
+                                <input id="cdatatime3" placeholder="注册结束日期" class="Wdate data-inp"
+                                       style="text-indent: 12px;position:relative;top: 0px;height: 30px; border: 1px solid #08aceb;width: 120px;"
+                                       type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly"/>
+                                <input id="assignmentDateStart" placeholder="分配日期-开始" class="Wdate data-inp"
+                                       style="text-indent: 12px;position:relative;top: 0px;height: 30px; border: 1px solid #08aceb;width: 120px;"
+                                       type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly"/>
+                                <input id="assignmentDateEnd" placeholder="分配日期-结束" class="Wdate data-inp"
+                                       style="text-indent: 12px;position:relative;top: 0px;height: 30px; border: 1px solid #08aceb;width: 120px;"
+                                       type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly"/>
+
+                        <a role="button" class="btn btn-default top-search-btn" type="button"
+                            ng-click="searchcustomer()">{{'100025'
+                        | translate}}</a>
+                    </div>
+                    <div class="input-group" style="display:flex;float:none;width:auto;align-items: center;">
+                        <span style="top:0;" ng-click="dayTimeFun1($event)" class="day-time-span">{{'100296' | translate}}</span>
+                        <span style="top:0;" ng-click="dayTimeFun3($event)" class="day-time-span">{{'100646' | translate}}</span>
+                    </div>
+                </div>
+                <div ng-show="!isLost" class="ea-right-search">
+                    <div class="filter-box">
+                        <div class="input-group">
+                            <span class="input-group-title">{{'101200' | translate}}：</span>
+                            <select name="onlineStatus" id="onlineStatus"
+                                style="top: 0px;width: 100px;position: relative;height: 25px;">
+                                <option value="">{{'100187' | translate}}</option>
+                                <option value="1">{{'100285' | translate}}</option>
+                                <option value="0">{{'101199' | translate}}</option>
+                            </select>
+                        </div>
+                        <div class="input-group" style="display:flex;float:none;align-items: center;">
+                            <span class="input-group-title">{{'101316' | translate}}：</span>
+                            <!-- <select name="ywysx" id="ywysx"
+                                ng-model="salesmanid"
+                                ng-change="searchByYwy()"
+                                style="top: 0px;width: 150px;position: relative;height: 25px;">
+                                <option value="">{{'100187' | translate}}</option>
+                                <option ng-repeat="ywy in ywList" value="{{ywy.ID}}">{{ywy.LOGIN_NAME}}
+                                </option>
+                            </select> -->
+                            <customer-select
+                                show-all='true'
+                                data="ywList"
+                                label-key="LOGIN_NAME"
+                                value-key="ID"
+                                value="salesmanid"
+                                onvalchange="searchByYwy()"
+                            >
+                            </customer-select>
+                        </div>
+                        <div ng-if="!isCodkehu" class="input-group" style="display:flex;float:none;align-items: center;">
+                            <span class="input-group-title">{{'101317' | translate}}：</span>
+                            <!-- <select id="ywysx2" name="ywysx2"
+                                ng-model="$parent.ownerName"
+                                ng-change="searchByOwner()">
+                                <option value="all">{{'100187' | translate}}</option>
+                                <option ng-repeat="owner in ownerList" value="{{owner.relate_salesman}}">{{owner.relate_salesman}}</option>
+                            </select> -->
+                            <customer-select
+                                show-all='true'
+                                data="ownerList"
+                                label-key="relate_salesman"
+                                value-key="relate_salesman"
+                                value="$parent.ownerName"
+                                onvalchange="searchByOwner()"
+                            >
+                            </customer-select>
+                        </div>
+                        <div ng-if="!isCodkehu" class="input-group">
+                            <span class="input-group-title">客户来源：</span>
+                            <select class=""
+                                ng-model="$parent.sourceType"
+                                ng-change="searchByFrom()">
+                                <option value="0">{{'100187' | translate}}</option>
+                                <option value="2">分销客户</option>
+                                <option value="1">正常注册</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-title">是否审核：</span>
+                            <select ng-disabled="cuStatus!=0" ng-model="status" ng-change="searchcustomer()" style="top: 0px;width: 100px;position: relative;height: 25px;">
+                                <option value="all">全部</option>
+                                <option value="1">已审核</option>
+                                <option value="3">未审核</option>
+                            </select>
+                        </div>
+                        <a ng-show="allocationFlag && !isCaiwuFlag" class="ui-btn" ng-click="openFpkhFun()">{{'100898' | translate}}</a>
+                        <a ng-show="loginName === 'admin'" class="ui-btn" ng-click="daoChuFun()">{{'100068' | translate}}</a>
+                    </div>
+                </div>
+                <div ng-show="!isLost" class="table-thead">
+                    <div class="table-th" ng-class="{width25:isCodkehu,width9:!isCodkehu}"><span>
+                        <img class="c-mu-allchekbox" src="static/image/order-img/multiple1.png" alt="">
+                        {{'100899' | translate}}</span>
+                    </div>
+                    <div ng-if="!isCodkehu" class="width5 table-th kehuleixing"><span>{{'101416' | translate}}</span></div>
+                    <div style="position: relative;" class="table-th" ng-class="{width15:isCodkehu,width7:!isCodkehu}"><span>{{'100900' | translate}}</span><span class="wllSort1 wllSort-subjoin" ng-click="wllSort1()"></span>
+                        <span class="wllSort2 wllSort-subjoin" ng-click="wllSort2()"></span></div>
+                    <div class="table-th yonghuming" ng-class="{width15:isCodkehu,width7:!isCodkehu}"><span>{{'101417' | translate}}</span></div>
+                    <div class="table-th" ng-class="{width15:isCodkehu,width8:!isCodkehu}"><span>{{'101418' | translate}}</span></div>
+                    <div class="table-th" ng-class="{width15:isCodkehu,width5:!isCodkehu}"><span>{{'101316' | translate}}</span></div>
+                    <div ng-if="!isCodkehu" class="table-th width6"><span>客户来源</span></div>
+                    <div ng-if="!isCodkehu" class="table-th width7"><span>{{'101317' | translate}}</span></div>
+                    <div ng-if="!isCodkehu" class="table-th width7"><span>{{'101419' | translate}}</span></div>
+                    <div ng-if="!isCodkehu" class="table-th width5"><span>直发订单数</span></div>
+                    <div ng-if="!isCodkehu" class="table-th width5"><span>{{'101420' | translate}}</span></div>
+                    <div ng-if="!isCodkehu" class="table-th width5"><span><p>SKU</p><p>List</p></span></div>
+<!--
+                    <div ng-if="!isCodkehu" style="width:5%;" class="table-th"><span>{{'101421' | translate}}</span></div>
+-->
+                    <div ng-if="!isCodkehu" style="width:5%;position: relative;" class="table-th"><span>{{'100289' | translate}}</span>
+                        <span class="wllSort1 wllSort-subjoin" ng-click="changeTotalReturnsSort('asc')"></span><span class="wllSort2 wllSort-subjoin" ng-click="changeTotalReturnsSort('desc')"></span></div>
+                    <div ng-if="!isCodkehu" style="width:5%;" class="table-th"><span>{{'100055' | translate}}</span></div>
+                    <div class="table-th" ng-class="{width15:isCodkehu,width5:!isCodkehu}"><span>{{'100954' | translate}}</span></div>
+<!--
+                    <div style="width:5%;" class="table-th"><span>私有库存商品</span></div>
+-->
+                    <div ng-if="!isCodkehu" style="width:5%;" class="table-th"><span>MFA验证</span></div>
+                    <div ng-if="!isCodkehu" class="table-th width9"><span>{{'100043' | translate}}</span></div>
+                </div>
+            </div>
+            <!-- right search -->
+            <div ng-show="!isLost"  class="right-bar" id="kehu-content" style="margin-top:205px;">
+
+                <!-- right list -->
+                <div  class="table-con-box" id="c-mu-ord">
+                    <table class="ea-list-table ea-erp-cs" style="table-layout:fixed;">
+                        <tr class="table-tr"   ng-repeat="item in customerList.list" repeat-finish>
+                            <!--客户编号-->
+                            <td ng-class="{width25:isCodkehu,width8:!isCodkehu}"><span>
+                                    <img ng-if="item.status != 3" class="c-mu-chekbox stop-prop" src="static/image/order-img/multiple1.png">
+                                    {{item.num}}
+                                    <p class="hide-order-id" style="display: none;">{{item.id}}</p>
+                                    <a ng-if="!isCodkehu" style="display: block;background: #f99429; width: 50px; border-radius: 4px; margin:0 auto; color: #fff; margin-top: 3px;" href="javascript:void(0);" ng-click="goToCj(item)">To CJ</a>
+                                    <a ng-if="isCodkehu" style="display: block;background: #f99429; width: 50px; border-radius: 4px; margin:0 auto; color: #fff; margin-top: 3px;" href="javascript:void(0);" ng-click="goToCod(item)">To Cod</a>
+                                </span>
+                            </td>
+                            <td ng-show="dataType==='' && !isCodkehu" class="width5 kehuleixing"><span style="font-size:14px;">{{classVIP(item.vip)}}</span></td>
+                            <!--注册日期-->
+                            <td ng-class="{width15:isCodkehu,width7:!isCodkehu}"><span>{{item.createdate1}} <br> {{item.createdate2}}</span></td>
+                            <!--用户名-->
+                            <td style="position:relative;" class="yonghuming" ng-class="{yonghumingAct:dataType!=='',width15:isCodkehu,width7:!isCodkehu}">
+                                <span ng-click="shenhe(item)" style="cursor: pointer">{{item.LOGIN_NAME}}
+                                    <b class="VIPICON">
+                                        <img ng-if="item.remark =='' || item.remark ==null" src="static\image\public-img\remarks-gray.svg" alt="">
+                                        <img ng-if="item.remark !='' && item.remark !=null " src="static\image\public-img\remarks_green.svg" alt="">
+                                        <p ng-if="item.remark !='' && item.remark !=null" class="VIPremark"><b></b>{{item.remark}}</p>
+                                    </b>
+                                    <span class="icon-blue" ng-if="item.sourceType=='2' && !isCodkehu">分</span>
+                                </span>
+                                <p ng-if="item.onlineStatus=='1'"><span style="color:limegreen;">[
+                                        {{'100285' | translate}} ]</span>
+                                </p>
+                                <!-- <p>来源{{item.domainName}}</p> -->
+                            </td>
+                            <!--客户名称-->
+                            <td class="cus-lvtd" ng-class="{width15:isCodkehu,width7:!isCodkehu}">
+                                <span>
+                                    <p style="word-break:break-all;">{{item.NAME}}</p>
+                                    <p ng-click=szVipFun(item,$index) style="cursor: pointer;">
+                                        <!-- <i class="ea-gard-star ea-gard1"></i>
+								<span ng-if="item.vip==1" style="color: limegreen;display: inline;">VIP</span> -->
+                                    </p>
+                                </span>
+                                <b ng-if="item.status == 3" class="skkehu-flag">审</b>
+                                <b ng-if="item.userLevel==3 && !isCodkehu" class="yzkehu-flag">优</b>
+                                <b ng-if="item.userLevel==2 && !isCodkehu" class="ptkehu-flag">普</b>
+                                <b ng-if="item.userLevel==1 && !isCodkehu" class="qzkehu-flag">潜</b>
+	                              <b ng-if="!isCodkehu" class="cus-dengji">LV{{item.moneyLevel}}</b>
+                                <b ng-if="item.vip==1 && !isCodkehu" class="vip-flag">vip</b>
+                            </td>
+                            <!--业务员-->
+                            <td ng-class="{width15:isCodkehu,width5:!isCodkehu}"><span>{{item.relate_salesman}}</span></td>
+                            <!-- 客户来源 -->
+                            <td ng-if="!isCodkehu" style="width:6%;"><span>{{item.sourceType==2?'分销注册':'正常注册'}}</span></td>
+                            <!-- 群主 -->
+                            <td ng-if="!isCodkehu" style="width:7%;"><span>{{item.ownerName || '--'}}</span></td>
+                            <!--绿色通道额度-->
+                            <!--<td><span>${{item.memberBalance}}</span></td>-->
+                            <!--积分-->
+                            <!--<td><span>{{item.integration}}</span></td>-->
+                            <!--账户余额-->
+                            <!-- <td><span>${{item.memberBalance}}</span></td> -->
+                            <!--子订单数-->
+							              <td ng-if="!isCodkehu" style="width:5%;"><span>{{item.orderCount}}</span></td>
+							              <td ng-if="!isCodkehu" style="width:5%;"><span>{{item.zfCount || 0}}</span></td>
+                            <!--已关联商品数-->
+                            <!-- ng-click="guanlianshangpin(item)" -->
+                            <td ng-if="!isCodkehu" style="width:5%;"><span class="wa-SpColor" ng-click="guanlianshangpinNew(item)">{{item.accnum}}</span></td>
+                            <!--SKU LIST ng-click="excelshangpin(item)"-->
+                            <!-- ng-click="skulistshangpin(item)" -->
+                            <td ng-if="!isCodkehu" style="width:5%;"><span class="wa-SpColor" ng-click="skulistshangpinNew(item)">{{item.skunum}}</span></td>
+                            <!--指定可见商品-->
+                            <!-- ng-click="privatecom(item)" -->
+<!--                            <td ng-if="!isCodkehu" style="width:5%;"><span class="wa-SpColor" ng-click="privatecomNew(item)">{{item.autanum}}</span></td>-->
+                            <!--刊登商品-->
+                            <!-- <td><span class="wa-SpColor" ng-click="listcom(item)">{{item.listednum}}</span></td> -->
+                            <!--客单价-->
+                            <!--<td><span>$5</span></td>-->
+                            <!--总销售额-->
+                            <td ng-if="!isCodkehu" style="width:5%;"><span>${{item.totalReturns || 0}}</span></td>
+                            <!--平均利润率-->
+                            <!--<td><span>{{item.percent}}</span></td>-->
+                            <!--店铺-->
+                            <td ng-if="!isCodkehu" style="width:5%;"><a class="wa-SpColor" ng-click="shopget(item)">{{item.shopNum}}</a></td>
+
+                            <!--邮箱-->
+                            <td ng-class="{width15:isCodkehu,width5:!isCodkehu}"><span ng-show="item.operator!='' && item.operator!=null">{{item.operator}}</span><span ng-show="item.operator=='' || item.operator==null">--</span></td>
+
+                            <td >
+                                 <span style="cursor: pointer" style="cursor: pointer"  ng-click="closeVoucher(item.authentication)"  >
+                                     {{item.authentication.status==1?'开启':'关闭'}}
+                                     </span>
+                                        <img style="cursor: pointer"  ng-if="item.authentication !=null "  ng-click="authenticationDetails(item.authentication)" src="static\image\public-img\icon_order.png" alt="">
+
+                            </td>
+                            <!--
+                            <td style="width:5%;"><span class="wa-SpColor" ng-click="privateRecord(item)">{{item.inventorys || 0}}</span></td>
+-->
+                            <td ng-if="!isCodkehu" class="width8">
+                                <!-- <img ng-if="item.vip!=1" class="vip-icon" ng-click=szVipFun(item,$index) title="设置为VIP"
+                                    src="static/image/public-img/bvip.png">
+                                <img ng-if="item.vip==1" ng-click=szVipFun(item,$index) class="vip-icon"
+                                    src="static/image/public-img/avip.png"> -->
+	                              <div class="moreActionWrap">
+		                            <span class="moreAction" style="font-size: 12px;">操作<b></b>
+                                  <ul>
+                                      <li ng-show="isUS && !isCaiwuFlag && isAudited(item)"><span ng-click="handleDesPackage(item)">指定包装</span></li>
+                                      <li ng-show="isUS && !isCaiwuFlag"><span ng-click="openBzFun(item)">备注</span></li>
+                                      <li><span ng-click="addPayAuth(item)">支付宝/微信支付权限</span></li>
+                                      <li ng-show="isUS && !isCaiwuFlag"><span ng-click="turnOndetailStatistics(item)">查看详情</span></li>
+                                      <li><span ng-click="setLogisticsBtn(item)">设置默认物流</span></li>
+                                  </ul>
+                                </span>
+	                            </div>
+
+                                <div ng-show="isUS && fpkhBtnFlag && !isCaiwuFlag && isAudited(item)" class="moreActionWrap">
+                                    <span class="moreAction" style="font-size: 12px;">{{'101423' | translate}}<b></b>
+                                        <ul>
+                                            <li ng-show="item.vip!='0'"><span ng-click="changeVIP(0,item)">{{'101411' | translate}}</span></li>
+                                            <li ng-show="item.vip!='3'"><span ng-click="changeVIP(3,item)">{{'101412' | translate}}</span></li>
+                                            <li ng-show="item.vip!='2'"><span ng-click="changeVIP(2,item)">{{'101413' | translate}}</span></li>
+                                            <li ng-show="(cuStatus === 3 || cuStatus.includes('lv')) && userJob === '管理'"><span ng-click="changeVIP(1,item)">VIP</span></li>
+                                        </ul>
+                                    </span>
+                                </div>
+                                <span ng-show="!isUS">--</span>
+                            </td>
+
+                            <!--<td><span>{{item.email}}</span></td>-->
+                        </tr>
+												<tr>
+													<td colspan="100" ng-show="needOptimisation">
+														您好，为了节省服务器带宽，默认将不显示所有客户，但你仍可通过 <a ng-click="searchcustomer()">搜索</a> 查找所有客户信息
+													</td>
+												</tr>
+                    </table>
+
+                    <!-- 分页 -->
+                    <!-- ng-show="hasMerch" -->
+                    <div class="no-data" ng-show="customerList.list.length == 0">没有数据</div>
+                    <div class="page-box" ng-show="customerList.list.length > 0">
+                        <div class="select-page-num">
+                            <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>每页</span>
+                        </div>
+                        <div class="total-num">
+                            共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                        </div>
+                        <div class="page-index">
+                            <div class="pagegroup">
+                                <a href="#">&lt;&lt;</a>
+                                <a href="#">&lt;</a>
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a class="current" href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+                                <a href="#">6</a>
+                                <a href="#">···</a>
+                                <a href="#">&gt;</a>
+                                <a href="#">&gt;&gt;</a>
+                            </div>
+                        </div>
+                        <div class="to-go">
+                            <span>跳转：</span>
+                            <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                            <a class="btn btn-default" href="javascript: void(0);" role="button"
+                                ng-click="pagenumchange()">go</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="isLost" class="right-bar" style="margin-top:60px;">
+                <div class="lostTab">
+                    <span ng-click="changeLostType('1')" ng-class="{act: lostType == '1'}">可能流失的客户</span>
+                    <span ng-click="changeLostType('2')" ng-class="{act: lostType == '2'}">已流失的客户</span>
+                </div>
+                <div ng-show="lostType=='1'" class="lostWrap">
+                    <div class="maylostSearchWrap">
+                        <div class="maylostSearchGroup">
+                            <span ng-click="changeDayTypeFun('1')" ng-class="{act: dayType=='1'}">近三天</span>
+                            <span ng-click="changeDayTypeFun('2')" ng-class="{act: dayType=='2'}">上周</span>
+                            <span ng-click="changeDayTypeFun('3')" ng-class="{act: dayType=='3'}">上月</span>
+                        </div>
+                        <div class="maylostSearchGroup">
+                            业务员:
+                            <select name="" id="selectBySales">
+                                <option value="">全部</option>
+                                <option value="{{ywy.relate_salesman}}" ng-repeat="ywy in ywList">{{ywy.relate_salesman}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mayLostWrap">
+                        <div class="maylostLeft">
+                            <div class="maylostThead">
+                                <div class="msylostTh">姓名</div>
+                                <div class="msylostTh">业务员</div>
+                                <div class="msylostTh">
+                                    <p>CJ订单量</p>
+                                    <p>(本期/环比)</p>
+                                </div>
+                                <div class="msylostTh">
+                                        <p>总订单量</p>
+                                        <p>(本期/环比)</p>
+                                </div>
+                                <div class="msylostTh">CJ订单占比</div>
+                            </div>
+                            <div class="maylostTbody">
+                                <div class="msylostTr" ng-repeat="cus in customerList2" ng-class="{ttRed:cus.orderRatio>100 || cus.comcun==0}" data-id="{{cus.paymentId}}" render-finish>
+                                    <div class="maylostTd">
+                                        <span ng-click="gotoDetailFun($event,cus.paymentId)">{{cus.paymentName}}</span>
+                                    </div>
+                                    <div class="maylostTd">
+                                        <span>{{cus.salesmanName}}</span>
+                                    </div>
+                                    <div class="maylostTd">
+                                        <span>{{cus.cun}}/{{cus.ocun}}</span>
+                                    </div>
+                                    <div class="maylostTd">
+                                        <span>{{cus.comcun}}/{{cus.comocun}}</span>
+                                    </div>
+                                    <div class="maylostTd">
+                                        <span>{{classRatio(cus.orderRatio)}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mayLostRight">
+                            <div class="tongjitu" id="main1" style="width: 100%;height: 300px">
+
+                            </div>
+                            <div style="margin-top: 20px;display: flex">
+                                <div class="tongjitu" id="main2" style="width: 70%;height: 300px"></div>
+                                <div class="rightMenu">
+                                    <p>{{customerInfo.name}}</p>
+                                    <p>店铺数量：<span>{{customerInfo.length}}</span></p>
+                                    <p style="margin-bottom: 10px">总订单：{{customerInfo.total}}</p>
+                                    <!--<p>采购失败：500</p>-->
+                                    <p ng-repeat="ca in cakeList">
+                                        <span style="font-weight: 600">{{ca.store_name}}</span>: <span>{{ca.ocun}} ( {{classRate(ca.ocun)}}% )</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="lostType=='2'" class="lostWrap" style="padding:10px 15px;" >
+                    <div class="lostedSearch">
+                        <div class="lostedSearchGroup" style="margin-right:15px;">
+                            <input ng-model="lostedSearchInfo" placeholder="请输入业务员姓名" type="text">
+                            <button ng-click="searchLostedFun()">搜索</button>
+                        </div>
+                        <div class="lostedSearchGroup">
+                            <span ng-click="changeDayType2Fun('1')" ng-class="{act: dayType2=='1'}">近三天</span>
+                            <span ng-click="changeDayType2Fun('2')" ng-class="{act: dayType2=='2'}">本周</span>
+                            <span ng-click="changeDayType2Fun('3')" ng-class="{act: dayType2=='3'}">本月</span>
+                        </div>
+                    </div>
+                    <div class="lostedThead">
+                        <div class="lostedTh">客户类型</div>
+                        <div class="lostedTh">姓名</div>
+                        <div class="lostedTh">业务员</div>
+                        <div class="lostedTh">最后消费日期</div>
+                        <div class="lostedTh">CJ订单数量</div>
+                        <div class="lostedTh">CJ订单金额($)</div>
+                        <div class="lostedTh">操作</div>
+                    </div>
+                    <div class="lostedTbody">
+                        <div class="lostedTr" ng-repeat="losted in lostedList">
+                            <div class="lostedTd"><span>{{classLostedVip(losted.vip)}}</span></div>
+                            <div class="lostedTd"><span style="cursor:pointer;" ng-click="gotoDetailFun($event,losted.id)">{{losted.login_name}}</span></div>
+                            <div class="lostedTd"><span>{{losted.salesmanName}}</span></div>
+                            <div class="lostedTd"><span>{{classlostedEmpty(losted.createDate)}}</span></div>
+                            <div class="lostedTd"><span>{{classlostedEmpty(losted.cjCun)}}</span></div>
+                            <div class="lostedTd"><span>{{classlostedEmpty(losted.sumMoney)}}</span></div>
+                            <div class="lostedTd">
+                                <span ng-show="!isCaiwuFlag">客户类型<b></b>
+                                    <ul>
+                                        <li ng-if="losted.vip!='0'"><span ng-click="changeVIPlosted('0',losted)">小客户</span></li>
+                                        <li ng-if="losted.vip!='1'"><span ng-click="changeVIPlosted('1',losted)">VIP</span></li>
+                                        <li ng-if="losted.vip!='2'"><span ng-click="changeVIPlosted('2',losted)">需吃透</span></li>
+                                        <li ng-if="losted.vip!='3'"><span ng-click="changeVIPlosted('3',losted)">需跟进</span></li>
+                                    </ul>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-box" >
+                            <div class="select-page-num">
+                                <select class="form-control" ng-model="pageSizelosted" ng-change="pagechangelosted(pageSizelosted)"
+                                    style="width: 65px;height: 31px;">
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <span>每页</span>
+                            </div>
+                            <div class="total-num">
+                                共&nbsp;&nbsp;{{ LostTotalCounts }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index">
+                                <div class="pagegroup pagegroupLosted">
+
+                                </div>
+                            </div>
+                            <div class="to-go">
+                                <span>跳转：</span>
+                                <input type="text" class="goyema form-control" placeholder="" ng-model="pageNumlosted">
+                                <a class="btn btn-default" href="javascript: void(0);" role="button"
+                                    ng-click="pagenumchangelosted()">go</a>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 指定包装（原指定包装代码） -->
+    <div class="zdbz-wrap" ng-show="bzFlag" style="z-index:99999;">
+        <div class="zdbz-con">
+            <div class="zdbz-sea">
+                <input class="sea-inp" ng-model="zdbzSeaVal" ng-keyup="zdbzSeaFun()"></input>
+                <button class="sea-btn" ng-click="zdbzSeaFun()">搜索</button>
+                <select class="zdbz-selstore" ng-model="cusStoreVal" ng-show="isStoreFlag">
+                    <option value="">请选择店铺</option>
+                    <option ng-repeat="item in cusStoreList" value="{{item.id}}">{{item.name}}</option>
+                </select>
+                <button ng-show="isStoreFlag" class="lookBaozhuang" ng-click="lookPackPicFun(1)">当前店铺包装</button>
+            </div>
+            <div class="zdbz-listab">
+                <table class="zdbz-tab">
+                    <thead>
+                        <tr>
+                            <th class="zdbz-th">图片</th>
+                            <th class="zdbz-th">商品名称</th>
+                            <th class="zdbz-th">SKU</th>
+                            <th class="zdbz-th">价格</th>
+                            <th class="zdbz-th">当前包装</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="zdbz-tr" ng-repeat="item in pList">
+                            <td>
+                                <img class="ipn-option" ng-click="optionSelFun($event,item)"
+                                     src="static/image/public-img/radiobutton1.png">
+                                <img style="width: 60px;" ng-src="{{item.bigImg}}">
+                            </td>
+                            <td>
+                                <p style="max-width: 300px;">{{item.name}}</p>
+                            </td>
+                            <td>
+                                <p style="max-width: 130px;">{{item.sku}}</p>
+                            </td>
+                            <td>
+                                <p>{{item.sellPrice}}</p>
+                            </td>
+                            <td>
+                                <p><button class="lookBaozhuang" ng-click="lookPackPicFun(2,item)">查看</button></p>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sel-bz">
+                <div class="clearfix">
+                    <span style="float: left;margin-top:-4px;margin-right: 20px;">包装:</span>
+                    <div class="check-box ">
+                        <input type="checkbox" name="PLASTIC_BAG" ng-click="getPackingInfo($event)">
+                        <label for="">{{'100514' | translate}}</label>
+                    </div>
+                    <div class="check-box ">
+                        <input type="checkbox" name="PAPER_BOX" ng-click="getPackingInfo($event)">
+                        <label for="">{{'100515' | translate}}</label>
+                    </div>
+                    <div class="check-box ">
+                        <input type="checkbox" name="PLASTIC_BOX" ng-click="getPackingInfo($event)">
+                        <label for="">{{'100516' | translate}}</label>
+                    </div>
+                    <div class="check-box ">
+                        <input type="checkbox" name="FARBIC_BAG" ng-click="getPackingInfo($event)">
+                        <label for="">{{'100517' | translate}}</label>
+                    </div>
+                    <div class="check-box ">
+                        <input type="checkbox" name="PAPER_BAG" ng-click="getPackingInfo($event)">
+                        <label for="">{{'100518' | translate}}</label>
+                    </div>
+                    <div class="check-box ">
+                        <input type="checkbox" name="KAPIAN" ng-click="getPackingInfo($event)">
+                        <label for="">卡片</label>
+                    </div>
+                </div>
+            </div>
+            <div class="upload-imglist">
+                <div class="upload-form">
+                    <button class="up-hdexcel">上传图片</button>
+                    <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" id="uploadInp" multiple
+                               onchange="angular.element(this).scope().upLoadImg4(this.files)"
+                               style="display:inline-block; margin: 0;font-size: 0;cursor: pointer;height: 30px;width:100px;position: absolute;top: 0;left: 0;opacity: 0;">
+                        <input type="hidden">
+                    </form>
+                </div>
+                <ul class="img-listul" style="width: 280px;">
+                    <li ng-repeat="item in imgArr">
+                        <img ng-click="deletImgFun($index)" class="close-img"
+                             src="static/image/public-img/close-circle.png">
+                        <img class="item-img" ng-src="{{item}}">
+                    </li>
+                </ul>
+                <span>留言: </span>
+                <textarea class="baoz-mes" ng-model="bzRemark"></textarea>
+            </div>
+            <div class="bot-btns">
+                <button ng-click="closeBzFun()" class="bot-qx">取消</button>
+                <button ng-click="sureZdBzFun()" class="bot-sure">确定</button>
+            </div>
+        </div>
+    </div>
+    <!--分配客户弹出框-->
+    <div class="staffwindow" ng-show="add">
+        <div class="windowcontent" style="height: 250px;">
+            <!--<div><img src="./static/image/login/iconsuccess.png" alt=""><span>修改成功</span></div>-->
+            <!--<div><p>新增员工账号为:</p>-->
+            <!--<p>{{windowname}}</p>-->
+            <!--</div>-->
+            <div><span style="font-size: 14px;">{{'101318' | translate}}&nbsp;:&nbsp;&nbsp;
+                </span>
+                <input class="ywyinput" type="text" ng-model="empname" ng-change="empchange()" ng-blur="embul=false"
+                    ng-focus="empchange()">
+                <ul class="emplist" ng-show="embul">
+                    <li ng-repeat="item in emblist" ng-mousedown="getemp(item)">
+                        <p style="padding-left: 5px;">{{item.number}}</p>
+                        <p style="padding-left: 5px;" class="zwj-smallp">{{item.relate_salesman}}</p>
+                    </li>
+                </ul>
+            </div>
+            <!-- <div>&nbsp;&nbsp;&nbsp;<span style="font-size: 14px;">{{'100008' | translate}}&nbsp;:&nbsp;&nbsp; </span><input type="text" ng-model="clientname" ng-change="clientchange()" ng-blur="clientul=false" ng-focus="clientchange()">
+            <ul class="emplist emplist3" ng-show="clientul" style="top: 26px;">
+                <li ng-repeat="item in clientlist" ng-mousedown="getclient(item)">
+                    <p>{{item.num + '-' + item.NAME}}</p>
+                </li>
+            </ul></div> -->
+            <div style="margin-bottom: 30px;"><span style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;验证密码&nbsp;:&nbsp;&nbsp;
+            </span>
+            <input class="verifyPwdInput" type="password" ng-model="verifyPwd" autocomplete="new-password">
+            </div>
+            <div>
+                <button ng-click="add=false" style="background: #e5e5e5;color: #fff;">取消</button>
+                <button ng-click="submit()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <!--分配客户弹出框-->
+    <div class="staffwindow" ng-show="szVipFlag">
+        <div class="windowcontent" style="height: 130px;">
+            <p style="padding-left: 40px;">{{vipMsg}}</p>
+            <div>
+                <button ng-click="szVipFlag=false" style="background: #e5e5e5;color: #fff;">取消</button>
+                <button ng-click="sureSzVipFun()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <!--导出-->
+    <div class="staffwindow" ng-show="daoChuFlag">
+        <div class="windowcontent" style="height: 160px;padding: 20px;text-align: center;">
+            <a style="text-decoration: underline;color: #047aa7;" href="javascript:void(0)"
+                ng-click="downExcelFun()">{{excelLink}}</a>
+            <div>
+                <button ng-click="closeExcelFun()" style="margin:0;color: #fff;">关闭</button>
+            </div>
+        </div>
+    </div>
+    <!-- 改变客户类型 -->
+    <div class="zzc VIPzzc">
+        <div class="VIPWrap">
+            <div class="vipTitle">
+                <p>你确定要将{{customerName}}</p>
+                <p>加入到{{classVIP(customerChangeType)}}吗？</p>
+            </div>
+            <p class="vipRemark">
+                <label>备注：</label>
+                <textarea maxlength="200" id="vipRemark"></textarea>
+            </p>
+            <div class="vipBtnWrap">
+                <button class="vipBtn" ng-click="sureChangeVIP()">确定</button>
+                <button class="vipBtn" ng-click="closeVIPWrap()">取消</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 改变客户类型 -->
+    <div class="zzc detail"  >
+        <div class="VIPWrap" >
+            <p>私有库存商品<span class="wa-SpColor" ng-click="privateRecord(detailItem)">{{detailInventorys || 0 }}</span></p>
+            <p>指定可见商品<span class="wa-SpColor" ng-click="privatecomNew(detailItem)">{{detailAutanum || 0 }}</span></p>
+            <div class="vipBtnWrap">
+                <button type="button" class="btn btn-default"  ng-click="closeDetailStatistics()">取消</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 给客户添加支付宝/微信支付权限时输入密码 -->
+    <div ng-click="maskJustclose()" ng-if="payAuthShow" class="addPayAuthModal">
+        <div ng-click="stopProp($event)" class="operateBox">
+            <div class="passsword">
+                <span>操作密码：</span>
+                <input class="payAuthInput" type="password" autocomplete="off"/>
+            </div>
+            <div ng-click='closePayAuth()' class="add">确定密码</div>
+        </div>
+    </div>
+
+    <!-- 设置支付权限 -->
+    <div ng-click="maskJustclose()" ng-if="payAuthSecond" class="addPayAuthModal">
+        <div ng-click="stopProp($event)" class="operateBox">
+            <div class="radioList">
+                <span class="tips">微信支付：</span>
+                <span class="radioGroup">
+                    <label><input class="radioAuthStyle" type="radio" name="radio1" value="1" ng-checked="payAuthUser.isWechatPay=='1'" />开启</label>&nbsp;&nbsp;
+                    <label><input class="radioAuthStyle" type="radio" name="radio1" value="0" ng-checked="payAuthUser.isWechatPay=='' || payAuthUser.isWechatPay=='0'"/>关闭</label>
+                </span>
+            </div>
+            <div class="radioList">
+                <span class="tips">支付宝支付：</span>
+                <span class="radioGroup">
+                    <label><input disabled class="radioAuthStyle" type="radio" name="radio2" value="1" ng-checked="payAuthUser.isAliPay=='1'" />开启</label>&nbsp;&nbsp;
+                    <label><input disabled class="radioAuthStyle" type="radio" name="radio2" value="0" ng-checked="payAuthUser.isAliPay=='' || payAuthUser.isAliPay=='0'"/>关闭</label>
+                </span>
+            </div>
+            <div ng-click='submitAuth()' class="add">更新权限</div>
+        </div>
+    </div>
+
+    <!-- 查看包装图片 -->
+    <div class="lookPackPic" ng-show="lookPackFlag">
+        <div class="lookPackPicWrap">
+            <p class="lookPackPicTitle">包装图片</p>
+            <div class="lookPackPicContent">
+                <div class="lookPackPictur" ng-repeat="pic in packPicList" ng-init="index = $index">
+                    <div class="bz-box-dev">
+                        <!-- <img ng-show="(delBzStu === 0 && pic.shopId!='all'&&pic.pid=='all')||(delBzStu === 1&&pic.pid!='all')" class="del-bzimg" ng-click="delBzImgFun(pic,$index)" src="static/image/public-img/close-circle.png" alt=""> -->
+                        <img class="del-bzimg" ng-show="pic.accountId" ng-click="delBzImgFun(pic,$index)" src="static/image/public-img/close-circle.png" alt="">
+                        <p class="break-allp" ng-show="pic.shopId=='all'&&pic.pid=='all'">客户包装</p>
+                        <p class="break-allp" ng-show="pic.shopId&&pic.shopId!='all'&&pic.pid=='all'">店铺包装</p>
+                        <p class="break-allp" ng-show="pic.pid&&pic.pid!='all'">商品包装</p>
+                        <p class="break-allp" ng-show="!pic.accountId" style="color:red;">无包装</p>
+                        <img ng-click="openPIC(pic.image)" src="{{pic.image}}" alt="">
+                        <p class="break-allp" ng-show="pic.shopName">店铺: {{pic.shopName}}</p>
+                        <p class="break-allp" ng-show="pic.remark">留言: {{pic.remark}}</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="lookPackPicBottom">
+                <button ng-click="lookPackFlag = false">关闭</button>
+            </div>
+        </div>
+    </div>
+    <!--是否删除包装-->
+    <div class="staffwindow" ng-show="delBzFlag" style="z-index: 99999;">
+        <div class="windowcontent" style="height: 130px;">
+            <p style="padding-left: 40px;">确定删除包装吗?</p>
+            <div>
+                <button ng-click="delBzFlag=false" style="background: #e5e5e5;color: #fff;">取消</button>
+                <button ng-click="sureDelBzFun()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+    <customer-connected></customer-connected>
+    <customer-skulist></customer-skulist>
+    <customer-private></customer-private>
+
+
+
+    <!--查看二次验证详情-->
+    <div class="lookOperationRecord" ng-show="authenticationDetailsShow">
+        <div class="content">
+            <h3>关闭凭证详情<span class="close" ng-click="authenticationDetailsShowShut()">×</span></h3>
+            <ul  style="min-height: 300px;overflow-y:auto;">
+                <li class="clearfix" ng-repeat="item in closeVoucherList">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <span class="name">{{item.operator}}</span>
+                            <span class="date">{{item.operatorDate | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+                            <h3></h3>
+                            <ol>
+                                <li ng-click="viewBigImg(imageUrl)"  style="cursor: pointer;line-height: 40px;"  ng-repeat="imageUrl in item.closeVoucherUrl track by $index">
+<!--                                    <img ng-src="{{imageUrl}}" style="height: 100px;width:100px;" src="{{imageUrl}}">-->
+                                    <span class="imageUrl" data-url="{{imageUrl}}" datasrc="">{{imageUrl |limitTo:-15}}</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div>
+                <button class="confirm-btn pull-right"  ng-click="authenticationDetailsShow = false">好的</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!--   关闭MFA验证    -->
+    <div class="lookOperationRecord" ng-show="closeVoucherShow">
+        <div class="content">
+            <h3>关闭MFA验证<span class="close" ng-click="closeVoucherShowShut()">×</span></h3>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <P>请上传用户同意关闭MFA验证的凭证</P>
+                    <P class="close-p" >聊天截图，客户声明等等</P>
+<!--                    <uploadfiles id="'uploadFilesPaying1'" max-size="1" callback="uploadFilesCallback" init-files="payBox.img"></uploadfiles>-->
+
+<!--                    <div class="upload-img upBtn">-->
+<!--                        <input type="file" multiple id="upload-img1"  accept="image/jpg,image/gif,image/jpeg,image/png" onchange="angular.element(this).scope().uploadCloseVoucherImage(this.files)" />-->
+<!--                    </div>-->
+                    <div class="div1">
+                        <div class="div2">上传图片</div>
+                        <input type="file" class="file_input" multiple id="upload-img1"  accept="image/jpg,image/gif,image/jpeg,image/png" onchange="angular.element(this).scope().uploadCloseVoucherImage(this.files)" />
+                    </div>
+
+                    <ul>
+                        <li class="clearfix" style=" line-height: 40px;" ng-repeat="item in closeVoucherUrl">
+                            <span class="imageUrl" data-url="{{item}}" datasrc="">{{item |limitTo:-15}}</span>
+                            <span  style="margin-left: 25px;cursor: pointer" ng-click="cancelImage($index)">X</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <button class="confirm-btn pull-right"  ng-click="closeVoucherSubmit()">确定</button>
+                <button class="cancel-btn pull-right"  ng-click="closeVoucherShow = false">取消</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    <!-- 图片的预览 -->
+    <div class="preview-wrap" ng-show="viewImgFlag" ng-click="closePreImg()">
+        <img class="pre-bigImg" ng-src="{{bigImgSrc}}">
+    </div>
+
+
+<!-- 指定包装 -->
+<div class="zdbz-wrap" style="z-index:99999;" ng-show="packageModal">
+	<div class="content-warp">
+		<div class="title">
+			<a ng-class="{'active': packageType === '1'}" ng-click="packageType = '1'">商品</a>
+			<a ng-show="itemData.shopNum > 0" ng-class="{'active': packageType === '2'}" ng-click="packageType = '2'">店铺</a>
+		</div>
+		<div class="content-box">
+			<div class="filter" ng-show="packageType === '2'">
+				店铺名称：
+				<select ng-options="item.id as item.name for item in storeList" ng-model="shopId">
+					<option value="">请选择</option>
+				</select>
+			</div>
+			<div class="search-box" ng-show="packageType === '1'">
+				商品搜索：
+				<input type="text" ng-model="proSearch">
+				<button ng-click="handleProductSearch()">搜索</button>
+			</div>
+			<div class="table-box" ng-show="packageType === '1'">
+				<div class="thead">
+					<div style="width: 15%">图片</div>
+					<div style="width: 25%">商品名称</div>
+					<div style="width: 25%">SKU</div>
+					<div style="width: 20%">价格</div>
+					<div style="width: 15%">商品材质</div>
+				</div>
+				<div class="tbody">
+					<div class="col" ng-repeat="item in productList">
+						<div style="width: 15%">
+							<img width="50" ng--src="{{item.bigImg}}" alt="">
+						</div>
+						<div style="width: 25%">{{item.name}}</div>
+						<div style="width: 25%">{{item.sku}}</div>
+						<div style="width: 20%">{{'$'+item.sellPrice}}</div>
+						<div style="width: 15%">{{item.packing}}</div>
+					</div>
+				</div>
+			</div>
+			<h3>关联包装商品</h3>
+			<div class="sle-box">
+				是否应用于订单:
+				<div class="radio-box">
+					<div class="item">
+						<input type="radio" name="packge_radio" id="packge_radio_y" value="1" ng-model="isUseOrder">
+						<label for="packge_radio_y">是</label>
+					</div>
+					<div class="item">
+						<input type="radio" name="packge_radio" id="packge_radio_n" value="0" ng-model="isUseOrder">
+						<label for="packge_radio_n">否</label>
+					</div>
+					<p>如果选择“是”，同一订单下，多个该商品，每一个指定包装数量为1</p>
+        </div>
+			</div>
+			<div class="search-box">
+				包装商品SKU：
+				<input type="text" ng-model="packageSearch">
+				<button ng-click="handlePackageSearch()">搜索</button>
+			</div>
+			<div class="table-box">
+				<div class="thead">
+					<div style="width: 15%">图片</div>
+					<div style="width: 25%">商品名称</div>
+					<div style="width: 25%">SKU</div>
+					<div style="width: 20%">价格</div>
+					<div style="width: 15%">操作</div>
+				</div>
+				<div class="tbody">
+					<div class="col" ng-repeat="item in packgeList">
+						<div style="width: 15%">
+							<img width="50" height="50" ng--src="{{item.imgUrl}}" alt="">
+						</div>
+						<div style="width: 25%">{{item.nameEn}}</div>
+						<div style="width: 25%">{{item.sku}}</div>
+						<div style="width: 20%">{{'$'+item.sellPrice}}</div>
+						<div style="width: 15%">
+							<a style="color: #F9AE08;" ng-click="handleAddPackage(item)">添加</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="related-warp">
+				关联包装商品：
+				<div class="related-box">
+					<div class="item" ng-repeat="item in relatedList">
+						{{item.sku}}
+						<i class="close_btn" ng-click="handleRemove(item)">×</i>
+					</div>
+				</div>
+			</div>
+			<div class="ramrk-box">
+				包装商品备注：
+				<textarea ng-model="remark"></textarea>
+			</div>
+		</div>
+		<p style="margin-top: 20px;text-align: center;">该操作会覆盖商品和包装的关联关系，请谨慎操作</p>
+		<div class="btn-box">
+			<button ng-click="packageModal = false">取消</button>
+			<button ng-click="handlePackageConfirm()">确定</button>
+		</div>
+	</div>
+</div>
+
+    <customer-record></customer-record>
+</body>
+
+</html>

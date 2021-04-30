@@ -1,0 +1,763 @@
+<style type="text/css">
+	.c-seach-inp {
+		height: 30px;
+		float: left;
+		width: 200px;
+		text-indent: 12px;
+		border-radius: 0;
+		border-left: none;
+	}
+
+	.c-seach-btn {
+		padding: 0 10px;
+		border: 1px solid #ececec;
+		border-left: none;
+		height: 30px;
+		line-height: 28px;
+		float: left;
+	}
+
+	.c-fun-right .two-ck-btn {
+		height: 30px;
+		border-top-left-radius: 0;
+		margin: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	.c-fun-right .act-btn {
+		background-color: #08aceb;
+		color: #fff;
+	}
+
+	#up-form {
+		position: relative;
+		float: right;
+	}
+
+	#upLoadInp,#nbcgUpLoadInp {
+		width: 75px;
+		font-size: 0;
+		border: 1px solid red;
+		display: inline-block;
+		height: 30px;
+		position: absolute;
+		right: 0;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.cg-href {
+		width: 120px;
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin: 0 auto;
+	}
+
+	.tj-sku-btn {
+		padding: 2px 4px;
+		border: 1px solid #5dbdf2;
+		background-color: #fff;
+		color: #5dbdf2;
+		border-radius: 4px;
+	}
+
+	.tj-sku-btn:hover {
+		background-color: #5dbdf2;
+		color: #fff;
+	}
+
+	.sku-val {
+		height: 26px;
+		width: 230px;
+	}
+
+	.add-sp-tit {
+		width: 80px;
+		display: inline-block;
+		text-align: right;
+	}
+
+	.add-sp-inp {
+		height: 30px;
+		width: 290px;
+	}
+
+	.add-sku-list li {
+		margin: 10px 0;
+	}
+
+	.puchord-czbtn {
+		height: 30px;
+		width: 66px;
+		margin: 0 2px;
+		color: #5dbdf2;
+		border: 1px solid #5dbdf2;
+		background-color: #fff;
+		border-radius: 4px;
+		font-size: 12px;
+	}
+
+	.puchord-czbtn:hover {
+		background-color: #5dbdf2;
+		color: #fff;
+	}
+
+	.warn-span {
+		display: inline-block;
+		padding: 0 3px;
+		border-radius: 4px;
+		font-size: 10px;
+		color: #fff;
+		background-color: #f45d1a;
+		margin-top: 4px;
+		cursor: pointer;
+	}
+
+	.warn-bg {
+		background-color: #f45d1a;
+	}
+
+	.add-sku-table {
+		width: 100%;
+		border: 1px solid #ececec;
+		text-align: center;
+	}
+
+	.add-sku-table tr {
+		border-bottom: 1px solid #ececec;
+	}
+
+	.add-sku-table th {
+		border-right: 1px solid #ececec;
+		height: 40px;
+		text-align: center;
+	}
+
+	.add-sku-table td {
+		border-right: 1px solid #ececec;
+		height: 40px;
+		font-size: 12px;
+	}
+
+	.w60h60 {
+		width: 60px;
+		height: 60px;
+	}
+
+	.overwidth80 {
+		width: 100px;
+		height: 30px;
+		text-align: center;
+	}
+
+	.add-tabcon {
+		height: 400px;
+		overflow-y: auto;
+	}
+
+	.addsku-btn {
+		padding: 0 15px;
+		height: 30px;
+		line-height: 28px;
+		border: 1px solid #b4b4b4;
+		border-radius: 4px;
+		background: #d2d2d2;
+		color: #000000;
+		text-align: center;
+		font-size: 12px;
+		float: right;
+		margin-top: -5px;
+	}
+
+	.zzh-li {
+		font-size: 12px;
+		text-align: center;
+		padding: 5px 0;
+	}
+
+	.w200 {
+		width: 200px;
+		height: 30px;
+		margin-right: 30px;
+	}
+
+	.zzh-li img {
+		cursor: pointer;
+	}
+
+	.zzh-li img:last-child {
+		padding: 11px 2px;
+	}
+
+	.suc-back {
+		background-color: #04a452;
+	}
+
+	.label-span {
+		display: inline-block;
+		width: 100px;
+		text-align: right;
+		margin-right: 20px;
+	}
+
+	.rk-btn {
+		background: #08aceb;
+		height: 30px;
+		line-height: 30px;
+		border-radius: 4px;
+		color: #fff;
+		padding: 0 15px;
+		float: right;
+		margin-left: 15px;
+	}
+
+	.time-click {
+		height: 30px;
+		line-height: 30px;
+		padding: 0 10px;
+		cursor: pointer;
+	}
+
+	.time-click:hover {
+		color: #5dbdf2;
+	}
+
+	.time-act {
+		color: #5dbdf2;
+	}
+
+	.thead-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-width: 952px;
+		z-index: 99999;
+		border: 1px solid #e1e1e1;
+		border-bottom: none;
+		margin-top: 20px;
+	}
+
+	.th-group {
+		background: #F4F8FB;
+		text-align: center;
+		padding: 10px 0;
+		height: 60px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 14px;
+		white-space: normal;
+		word-wrap: break-word;
+		/*border-right: 1px solid red;*/
+	}
+
+	.th-group span {
+		font-size: 14px;
+	}
+
+	.tit-box {
+		/*position: fixed;*/
+		left: 290px;
+		right: 58px;
+		z-index: 999;
+		background-color: #fff;
+		min-width: 952px;
+	}
+
+	.c-ord-conall {
+		min-width: 1010px;
+		min-height: 500px;
+	}
+
+	.c-ord-conall .pur-chuli-act {
+		background-color: #5dbdf2;
+		color: #fff;
+	}
+
+	.wl-mes-ul li {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	.wid20 {
+		width: 20%;
+	}
+	.wid30 {
+		width: 30%;
+	}
+	.wid76 {
+		width: 76%;
+	}
+
+	.clearfix {
+		display: flex;
+	}
+
+	.clearfix li {
+		float: left;
+		padding: 0 10px;
+		margin: 0 15px;
+		line-height: 54px;
+	}
+
+	.clearfix .Act {
+		color: #F9AE08;
+		border-bottom: 4px solid #F9AE08;
+	}
+
+	.blank-span {
+		position: relative;
+	}
+
+	.sp-smallimg {
+		width: 60px;
+		height: 60px;
+		cursor: pointer;
+	}
+
+	.hide-bigimg {
+		width: 200px;
+		height: 200px;
+		position: absolute;
+		left: 60px;
+		top: -60px;
+		background-color: #fff;
+		z-index: 9;
+		cursor: pointer;
+		max-width: none;
+		max-height: none;
+	}
+	.top-150px{
+		top: -150px;
+	}
+	.radio-td .check-box{
+		margin-left: 10px;
+	}
+	.radio-td .check-box input {
+		padding: 0;
+		width: 17px;
+	}
+
+	.add-sku-table .radio-td .check-box label {
+		background-image: url(../static/image/public-img/radiobutton1.png);
+	}
+	.add-sku-table .radio-td .check-box .act {
+		background-image: url(../static/image/public-img/radiobutton2.png);
+	}
+	.dis-flex-wrap{
+		display: flex;
+		justify-content: space-between;
+	}
+	.edit-add-btn{
+		color: #ff8d31;
+		height: 30px;
+		width: 76px;
+		border-radius: 4px;
+		font-size: 14px;
+		background-color: #fff;
+		border: 1px solid #ff8d31;
+	}
+	.edit-act{
+		background-color: #ff8d31;
+		color: #fff;
+	}
+	.invoice-ul li{
+		font-size: 12px;
+	}
+	.pingzhengImgs img{
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+	}
+	.tk-big-img{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%,-50%);
+		max-width: 1000px;
+	}
+	.dispute-upload {
+        display: flex;
+        margin: 5px auto 0;
+        /* margin-top: 5px; */
+        overflow-y: auto;
+		padding-top: 12px;
+    }
+    
+    .dispute-upload .upload_wrap {
+        max-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .dispute-upload .upload_wrap li {
+        margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+    }
+    
+    .dispute-upload .upload_wrap .li-img {
+        width: 104px;
+        height: 104px;
+		position: relative;
+    }
+	.dispute-upload .upload_wrap .before-img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .dispute-upload .upload_wrap .close-img {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        z-index: 1000;
+        cursor: pointer;
+		width: 20px;
+    }
+	.upload-img {
+        width: 104px;
+        height: 104px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.02);
+        position: relative;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+    
+    .upload_file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 104px;
+        height: 104px;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    .upload_img_wrap img {
+        width: 37px;
+        height: 33px;
+    }
+	.selsea-key{
+		float: left;
+		height: 30px;
+		margin-left: 10px;
+		border: 1px solid #ececec;
+	}
+	.c-ord-tbody .check-box{
+		position: absolute;
+		/* left: 16px; */
+		left: 50%;
+    	transform: translateX(-50%);
+	}
+	.thead-box .check-box{
+		position: absolute;
+		left: 47px;
+	}
+	.pad-left40px{
+		padding-left: 40px;
+	}
+	@media screen and (max-width: 1300px){
+		.isaddyfh-wrap .tijiao-ordcon{
+			left: 260px;
+			transform: translateY(-50%);
+		}
+	}
+	.red-border{
+		border: 1px solid red;
+	}
+	.remark{
+		width: 200px;
+		word-wrap:break-word;
+	}
+	.imgs{
+		width: 50px;
+		height: 50px;
+	}
+	.Aws{
+		width: 10%;
+	}
+	.Aw{
+		width: 12%;
+	}
+	#upexcel-btn{
+        background-color: #fff;
+        border: 1px solid #5dbdf2;
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 4px;
+        color: #5dbdf2;
+    }
+	.moshow-sp-td .input{
+		width: 60%;
+		text-align: center;
+		margin: 5px 20%;
+	}
+	.moshow-sp-td .input.active{
+		border-color: #f45d1a;
+	}
+	.c-us-stuv{
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.c-us-stuv .c-fun-right{
+		width: auto;
+	}
+	.erporder-detail.active{
+		background: rgba(255, 141, 49, 0.72);
+	}
+	.th-group.width7,
+	.c-ord-tbody tr td.width7{
+		width: 7%;
+	}
+	.th-group.overwidth8,
+	.c-ord-tbody tr td.overwidth8{
+		width: 8.4%;
+	}
+	.two-ck-btn{
+		margin: 2px 0;
+	}
+	.ui-select{
+		height: 30px;
+		border-radius: 4px;
+	}
+
+	.example-image-link >.example-image{
+		width: 25px;
+		height: 25px;
+	}
+	.table_header{
+		color: #333333;
+		font-size: 13px;
+		background: #F4F8FB;
+		text-align: center;
+	}
+</style>
+<link rel="stylesheet" type="text/css" href="erp_otweb/css/lightBox.css" />
+<script type="text/javascript" src="static/js/erp-purchase/lightBox.js"></script>
+
+<div class="custom-orders-wrap">
+	<div class="c-ord-mid">
+		<!-- 右边的内容部分 -->
+		<div class="ord-right-con">
+			<div class="content">
+				<div class="c-ord-conall">
+					<div class="c-ord-con" style="padding-bottom: 20px;">
+						<div class="c-ord-fun tit-box" id="purch-box">
+							<!-- 退货处理  - 1.04 退货单 功能 -->
+							<ul class="clearfix" style="padding-top: 20px">
+								<button ng-click="status=1"
+									class="two-ck-btn" ng-class="{'pur-chuli-act': status==1}" style="margin-right: 20px;">重量异常待确认</button>
+								<button ng-click="status=2"
+									class="two-ck-btn" ng-class="{'pur-chuli-act': status==2}" >重量异常已修改</button>
+							</ul>
+							<div class="c-us-stuv">
+								<div class="c-fun-right">
+									<select style="float: left;height: 30px;margin-left: 10px" name="" ng-model="searchType" id="selectSearch">
+										<option value="cjSku">SKU</option>
+										<option value="cjShortSku">短码</option>
+									</select>
+									<input id="searchInfo" placeholder="" ng-model="searchVal" class="c-seach-inp">
+									<button class="two-ck-btn" ng-click="searchFun()">搜索</button>
+									<select class="ui-select" ng-show="status==1" ng-click="searchFun()" ng-model="type">
+										<option value="">全部</option>
+										<option value="1">增加</option>
+										<option value="2">减少</option>
+									</select>
+								</div>
+								<div class="c-fun-right">
+									<span class="cj-btn" ng-show='status==1' ng-click="changeListFun(2)">批量修改</span>
+									<span class="cj-btn" ng-show='status==1' ng-click="changeListFun(3)">批量不修改</span>
+								</div>
+							</div>
+							<!-- <div class="thead-box">
+								<div style="width: 2%;" class="th-group">
+									<div class="check-box">
+										<input type="checkbox" ng-model="checkAllFlag" ng-change="checkAllFun()">
+										<label for=""></label>
+									</div>
+								</div>
+								<div style="width: 5%;" class="th-group">
+									图片
+								</div>
+								<div style="width: 10%;" class="th-group" ng-style="{'width':(status==1?'10%':'15%')}">
+									SKU
+								</div>
+								<div style="width: 3%;" class="th-group">
+									批次号
+								</div>
+								<div style="width: 5%;" class="th-group">
+									采购员
+								</div>
+								<div style="width: 3%;" class="th-group">
+									长<br/>（cm）
+								</div>
+								<div style="width: 3%;" class="th-group">
+									宽<br/>（cm）
+								</div>
+								<div style="width: 3%;" class="th-group">
+									高<br/>（cm）
+								</div>
+								<div style="width: 6%;" class="th-group">
+									销售员
+								</div>
+								<div style="width: 5%;" class="th-group">
+									提交异常时间
+								</div>
+								<div style="width: 3%;" class="th-group">
+									修改人
+								</div>
+								<div ng-class="{overwidth8:status==2}" class="th-group width7">
+									修改时间
+								</div>
+								<div style="width: 5%;" class="th-group" ng-show="status==1">
+									近期修改次数（天/周/月）
+								</div>
+								<div ng-class="{overwidth8:status==2}" class="th-group width7">
+									商品系统重量（g）
+								</div>
+								<div ng-class="{overwidth8:status==2}" class="th-group width7">
+									商品实际重量（g）
+								</div>
+								<div ng-class="{overwidth8:status==2}" class="th-group width7">
+									商品包装后系统重量（g）
+								</div>
+								<div ng-show="status==1" class="th-group width7">
+									商品包装后修改重量（g）
+								</div>
+								<div ng-class="{overwidth8:status==2}" class="th-group width7">
+									称重人
+								</div>
+								<div style="width: 8%;" ng-style="" class="th-group">
+									销售确认是否修改
+								</div>
+							</div> -->
+						</div>
+						<div class="toogle-ord-stu" id="c-zi-ord">
+							<!-- 订单列表部分 -->
+							<div class="c-ord-list">
+								<table class="orders-table">
+									<thead>
+										<th class="table_header">
+											<div class="check-box" style="left: 50%;transform: translateX(-50%);">
+												<input type="checkbox" ng-model="checkAllFlag" ng-change="checkAllFun()">
+												<label for=""></label>
+											</div>
+										</th>
+										<th class="table_header">图片</th>
+										<th class="table_header">SKU</th>
+										<th class="table_header">批次号</th>
+										<th class="table_header">采购员</th>
+										<th class="table_header">长<br/>（cm）</th>
+										<th class="table_header">宽<br/>（cm）</th>
+										<th class="table_header">高<br/>（cm）</th>
+										<th class="table_header">销售员</th>
+										<th class="table_header">提交异常时间</th>
+										<th class="table_header">修改人</th>
+										<th class="table_header">修改时间</th>
+										<th class="table_header" ng-show="status==1">近期修改次数（天/周/月</th>
+										<th class="table_header">商品系统重量（g）</th>
+										<th class="table_header">商品实际重量（g）</th>
+										<th class="table_header" >商品包装后系统重量（g）</th>
+										<th class="table_header" ng-show="status==1">商品包装后修改重量（g）</th>
+										<th class="table_header">称重人</th>
+										<th class="table_header">销售确认是否修改</th>
+									</thead>
+									<tbody class="c-ord-tbody" ng-repeat="item in changesList"
+										ng-init="pIndex=$index" repeat-finish>
+										<tr class="erporder-detail" ng-class="{active:(item.active && item.check)}">
+											<td style="width: 50px" class="moshow-sp-td">
+												<div class="check-box">
+													<input type="checkbox" ng-model="item.check" ng-change="checkFun()">
+													<label for=""></label>
+												</div>
+											</td>
+											<td style="width: 5%" class="moshow-sp-td">
+												<img src="{{item.cjImg}}" class="imgs">
+											</td>
+											<td class="moshow-sp-td" style="width: 10%;" ng-style="{'width':(status==1?'10%':'15%')}">
+													<p class="stop-prop cg-id" ng-cloak>{{ item.cjSku }}</p>
+													<p class="stop-prop cg-id" ng-cloak>短码：{{ item.cjShortSku }}</p>
+											</td>
+											<td class="moshow-sp-td" style="width: 3%">
+												<p ng-cloak>{{item.batchNumber}}</p>
+											</td>
+											<td class="moshow-sp-td" style="width: 5%">
+												<p ng-cloak>{{item.caiGouRen}}</p>
+											</td>
+											<td class="moshow-sp-td" style="width: 3%">
+												<p ng-cloak>{{item.productL}}</p>
+											</td>
+											<td class="moshow-sp-td" style="width: 3%;">
+												<p ng-cloak>{{item.productW}}</p>
+											</td>
+											<td style="width: 3%;" class="moshow-sp-td">
+												<p ng-cloak>{{item.productH}}</p>
+											</td>
+											<td style="width: 6%;" class="moshow-sp-td">
+												<p ng-cloak>{{item.salesmanName}}</p>
+											</td>
+											<td style="width: 5%;" class="moshow-sp-td">
+												<p ng-cloak>{{item.changeDate}}</p>
+											</td>
+											<td style="width: 3%;" class="moshow-sp-td">
+												<p ng-cloak>{{item.updateUser}}</p>
+											</td>
+											<td ng-class="{overwidth8:status==2}" class="moshow-sp-td width7">
+												<p ng-cloak>{{item.updateTime}}</p>
+											</td>
+											<td style="width: 5%;" ng-show="status==1">
+												{{item.dayNum||0}}/{{item.weekNum||0}}/{{item.monthNum||0}}
+											</td>
+											<td ng-class="{overwidth8:status==2}" class="moshow-sp-td width7">
+												<p ng-cloak>{{item.weight}}</p>
+											</td>
+											<td ng-class="{overwidth8:status==2}" class="moshow-sp-td width7">
+												<p ng-cloak>{{item.newWeight}}</p>
+
+												<p ng-if="item.errImg">
+													<a class="example-image-link" ng-href="{{item.errImg}}"  data-lightbox="example-set" ><img class="example-image" ng-src="{{item.errImg}}" alt="无法显示"/></a>
+												</p>
+											</td>
+											<td ng-class="{overwidth8:status==2}" class="moshow-sp-td width7">
+												<p ng-cloak>{{item.originPackWeight}}</p>
+											</td>
+											<td class="moshow-sp-td width7" ng-show='status==1'>
+												<input type="text" class="input" ng-model="item.packWeight" ng-change="changePackWeight(item)" ng-class="{active:item.active}" onkeyup="this.value=this.value.replace(/\D/g,'')">
+											</td>
+											<td  ng-class="{overwidth8:status==2}" class="moshow-sp-td width7">
+												<p ng-cloak>{{item.operatorName}}</p>
+											</td>
+											<td  style="width: 8%;" class="moshow-sp-td">
+												<div ng-show='status==1'>
+													<button class="two-ck-btn" ng-click="onChangeOk(2,item)">
+														确认修改
+													</button>
+													<button class="two-ck-btn" ng-click="onChangeOk(3,item)">
+														不修改
+													</button>
+												</div>
+												<div ng-show="status == 2">---</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div ng-show="changesList.length<1" ng-cloak style="text-align: center; min-height: 300px;line-height: 300px;">暂无数据</div>
+						<!-- 分页 -->
+						<page ng-show="changesList.length>0" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

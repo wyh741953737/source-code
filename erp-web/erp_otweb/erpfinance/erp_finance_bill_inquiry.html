@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>汇款管理-财务收入管理-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <style type="text/css">
+      /*执行弹窗*/
+
+      .isequalTc-wrap .isequalTc-con {
+        position: absolute;
+        width: 360px;
+        height: 120px;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        border-radius: 4px;
+      }
+
+      .isequalTc-con p {
+        font-size: 12px;
+        margin-top: 30px;
+      }
+
+
+      .isequalTc-btns {
+        position: fixed;
+        bottom: 20px;
+        right: 50px;
+        /*// border: 1px solid red;
+			    // display: block;*/
+      }
+
+      .isequalTc-btns .isequalTc-cancelbtn {
+        width: 76px;
+        height: 30px;
+        margin-right: 15px;
+        background: #f6f6f6;
+        border: 1px solid #cfcfcf;
+        color: #6b6b6b;
+        border-radius: 4px;
+      }
+
+      .isequalTc-btns .isequalTc-confirmbtn {
+        background-color: #ff8d31;
+        color: #fff;
+        border-radius: 4px;
+        width: 76px;
+        height: 30px;
+        /*// margin-right: 50px;*/
+      }
+      /*拒绝弹框*/
+
+      .jjTc-con {
+        position: absolute;
+        width: 360px;
+        height: 120px;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        border-radius: 4px;
+      }
+
+      .jjTc-con .wskx-btn {
+        width: 96px;
+        height: 30px;
+        margin-right: 15px;
+        margin-top: 20px;
+        background: #fff;
+        border: 1px solid #ff8d31;
+        color: #ff8d31;
+        border-radius: 4px;
+      }
+
+      .jjTc-con .wskx-btn:hover {
+        background: #ff8d31;
+        color: #fff;
+      }
+
+      .jjTc-con .jeqs-btn {
+        width: 76px;
+        height: 30px;
+        margin-top: 20px;
+        margin-right: 15px;
+        background: #fff;
+        border: 1px solid #ff8d31;
+        color: #ff8d31;
+        border-radius: 4px;
+      }
+
+      .jjTc-con .jeqs-btn:hover {
+        background: #ff8d31;
+        color: #fff;
+      }
+
+      .jjTc-con p {
+        font-size: 12px;
+        margin-top: 30px;
+      }
+
+
+      .jjTc-btns {
+        position: fixed;
+        bottom: 20px;
+        right: 140px;
+        /*// border: 1px solid red;
+			    // display: block;*/
+      }
+
+      .jjTc-btns .jjTc-cancelbtn {
+        width: 76px;
+        height: 30px;
+        margin-right: 15px;
+        background: #f6f6f6;
+        border: 1px solid #cfcfcf;
+        color: #6b6b6b;
+        border-radius: 4px;
+      }
+
+      .jjTc-btns .jjTc-confirmbtn {
+        background-color: #ff8d31;
+        color: #fff;
+        border-radius: 4px;
+        width: 76px;
+        height: 30px;
+        /*// margin-right: 50px;*/
+      }
+      /*金额缺少的弹框*/
+
+      .jeqs-con {
+        position: absolute;
+        width: 300px;
+        height: 120px;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        border-radius: 4px;
+      }
+
+      .jeqs-con p {
+        margin-top: 23px;
+      }
+
+      .jeqs-con p span {
+        font-size: 12px;
+      }
+
+      .jeqs-con p input {
+        width: 140px;
+        text-indent: 12px;
+      }
+
+      .jeqs-con button {
+        background-color: #ff8d31;
+        color: #fff;
+        border-radius: 4px;
+        width: 76px;
+        height: 30px;
+        margin-top: 20px;
+      }
+      	.mt-30{
+        margin-top: 30px !important;
+      }
+      .mt-20{
+        margin-top: 20px;
+      }
+      .mb-30{
+        margin-bottom: 30px;
+      }
+    .wallet-table{
+		border: 1px solid #eee;
+    }
+    .wallet-table 	th{
+			background: #FBFBFB;
+			font-size: 14px;
+			color: #999;
+			padding: 10px;
+			border-right: none;
+			font-weight: 500;
+			border-bottom: 1px solid #eee;
+			text-align: left;
+
+		}
+    .wallet-table 	th .amount {
+      text-align: center;
+    }
+    .wallet-table td{
+			border-bottom: 1px solid #eee;
+			padding: 25px 10px;
+			text-align: left;
+			font-size: 14px;
+			color: #666;
+	
+	
+			
+		}
+    .wallet-table td img {
+      max-width: 40px;
+				max-height: 40px;
+    }
+    .wallet-table td .amount {
+      text-align: center;
+    }
+    .wallet-table td .bot-p{
+      font-size: 14px;
+    }
+	
+    </style>
+  </head>
+
+  <body>
+    <!-- content -->
+    <div class="ea-content">
+      <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+
+        <div class="right-bar">
+          <div class="ea-right-search">
+            <div class="search-box-wrap">
+              <div class="input-group search-box">
+                <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+						                    <option value="SKU">SKU</option>
+						                    <option value="CH">中文</option>
+						                    <option value="EN">英文</option>
+						                  </select> -->
+                <input
+                  type="text"
+                  class="form-control top-search-inp"
+                  placeholder="输入客户编号、用户名、客户名称查询"
+                  ng-model="searchContent"
+                />
+                <a
+                  role="button"
+                  class="btn btn-default top-search-btn"
+                  type="button"
+                  ng-click="getList()"
+                  >{{'100025' | translate}}</a
+                >
+              </div>
+            </div>
+          </div>
+          <!-- right list -->
+          <div class="table-con-box">
+            <!-- 历史账单 模块 -->
+          <div class="mt-30 mb-30">
+            <table class="wallet-table w-100">
+              <thead>
+                <tr>
+                  <th>CJ Order ID</th>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Payment Method</th>
+                  <th>Account</th>
+                  <th>Transfer Slip</th>
+                  <th class="amount">Amount</th>
+                  <th>Message</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in billList track by $index">
+                  <td><span>{{item.cjorderid || item.id}}</span></td>
+                  <td><span>{{item.createdate | date:"yyyy-MM-dd HH:mm:ss"}}</span></td>
+                  <td>
+                    <ng-template ng-if="item.type==8">Other</ng-template>
+                    <ng-template ng-if="item.type==7">Benefits</ng-template>
+                    <ng-template ng-if="item.type==1">Charge</ng-template>
+                    <ng-template ng-if="item.type==2 || item.type==6">Order paid</ng-template>
+                    <ng-template ng-if="item.type==3">Withdraw cash</ng-template>
+                    <ng-template ng-if="item.type==4">Order refund</ng-template>
+                  </td>
+                  <td>
+                    <span>{{item.paymenttype || '--'}}</span>
+                  </td>
+                  <td><span>{{item.account||'--'}}</span></td>
+                  <td>
+                    <span ng-if="!item.image">--</span>
+                    <span ng-if="item.image">
+                      <a href="{{'https://'+img}}" target="_blank" ng-repeat="img in item.image"><img
+                          src="{{'https://'+ img}}" alt=""></a>
+                    </span>
+                  </td>
+                  <td class="amount">
+                    <span ng-if="item.type==7">+${{item.copemoney}}</span>
+                    <span ng-if="item.type==1 && item.status != '2'">+${{item.copemoney}}</span>
+                    <span ng-if="item.type==1 && item.status == '2'" style="color: #999;">${{item.copemoney}}</span>
+                    <span ng-if="item.type==2 || item.type==6 ||  item.type==8">-${{item.copemoney}}</span>
+                    <span ng-if="item.type==4">+${{item.copemoney}}</span>
+                  </td>
+                  <td>
+                    <a class="mes-a" href="javascript:void(0);" ng-if="item.message"
+                      ng-mouseover="showMes(item.message, $event)">{{item.message}}</a>
+                    <span ng-if="!item.message">--</span>
+                  </td>
+                  <td>
+                    <div ng-if="item.status == '2'">
+                      <p class="bot-p mb-1">Failed</p>
+                      <p class="bot-p" ng-if='item.errorinfo=="金额有误"'>(incorrect amount)</p>
+                      <p class="bot-p" ng-if='item.errorinfo && item.errorinfo!="金额有误"'>({{item.errorinfo}})</p>
+                    </div>
+                    <div ng-if="item.status == '0'">Pending</div>
+                    <div ng-if="item.status == '1'">Success</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <page></page>
+            <div ng-if="billNoDataFlag" class="bill-list-noData d-flex-center flex-column pt-5 pb-5">
+              <div class="mt-3">Sorry, the data is not found.</div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>财务确认</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <!-- <link rel="stylesheet" href="erp_otweb/css/li_erp.css"> -->
+    <style type="text/css">
+        .viewgys-wrap, .ordnum-wrap, .errbtn-wrap {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10003;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .view-con, .ordnum-con {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 500px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .errtk-con {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 200px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .ywy-con {
+            height: 520px;
+            width: 260px;
+        }
+
+        .ywy-list {
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .head-li {
+            background-color: #F4F8FB;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .errtk-text {
+            height: 130px;
+        }
+
+        .err-textVal {
+            width: 300px;
+            height: 120px;
+            border: 1px solid #ececec;
+            text-indent: 12px;
+        }
+
+        .view-con th {
+            font-weight: normal;
+            text-align: center;
+            height: 30px;
+        }
+
+        .view-con .table > tbody > tr > td {
+            vertical-align: middle;
+        }
+
+        /*.view-con table tbody {
+            display:block;
+            height:195px;
+            overflow-y:scroll;
+        }
+
+        .view-con table thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;
+        }
+
+        .view-con table thead {
+            width: calc( 100% - 1em )
+        }
+        .view-con table thead th{ 
+            background:#ccc;
+        }*/
+        .caigou-tab-wrap {
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .tit-name {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .tbody-ul {
+            /*border: 1px solid red;*/
+            background-color: #f4f8fd;
+            padding: 10px 0;
+            /*display: flex;
+            justify-content: space-between;*/
+        }
+
+        .tbody-ul span {
+            /*border: 1px solid red;*/
+            text-align: center;
+            display: inline-block;
+        }
+
+        .tbody-listul {
+            /*border: 1px solid blue; */
+            height: 350px;
+            overflow-y: auto;
+        }
+
+        .tblist-li {
+            /*border: 1px solid red; */
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ececec;
+            padding: 15px 0;
+        }
+
+        .tblist-li p {
+            /*border: 1px solid pink; */
+            text-align: center;
+        }
+
+        .name-p {
+            width: 520px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .star-p {
+            width: 130px;
+            overflow: hidden;
+        }
+
+        .bottom-btns button {
+            width: 76px;
+            height: 30px;
+            margin-right: 15px;
+            margin-top: 10px;
+            background: #f6f6f6;
+            border: 1px solid #cfcfcf;
+            color: #6b6b6b;
+            border-radius: 4px;
+        }
+
+        .poplinkt {
+            display: inline-block;
+            font-size: 12px;
+            width: 60px;
+            height: 30px;
+            line-height: 30px;
+            margin: 0;
+            border: 1px solid #818181;
+            color: #333;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .poplinkt.active {
+            color: #fff;
+            background: #08aceb;
+            border: none;
+        }
+
+        .lashop_img .blank-b {
+            position: relative;
+        }
+
+        .lashop_img .s-img {
+            cursor: pointer;
+        }
+
+        .lashop_img .hide-bigimg {
+            width: auto;
+            height: 236px;
+            position: absolute;
+            left: 60px;
+            top: -19px;
+            background-color: #fff;
+            z-index: 9;
+            cursor: pointer;
+            /*border: 1px solid red;*/
+            max-width: none;
+            max-height: none;
+            display: none;
+            border: 1px solid #ddd;
+        }
+
+        .lashop_img .hide-bigimg-active {
+            top: -192px;
+        }
+
+        .close-numbtn, .errtk-canbtn {
+            width: 76px;
+            height: 30px;
+            margin-top: 20px;
+            background: #f6f6f6;
+            border: 1px solid #cfcfcf;
+            color: #6b6b6b;
+            border-radius: 4px;
+        }
+
+        .errtk-canbtn {
+            margin-top: 0;
+        }
+
+        .errtk-surebtn {
+            width: 76px;
+            height: 30px;
+            margin-left: 30px;
+            background: #fff;
+            border: 1px solid #faa538;
+            color: #faa538;
+            border-radius: 4px;
+        }
+
+        .ordncon-list {
+            height: 400px;
+            /*border: 1px solid red;*/
+            /*overflow-y: scroll; */
+            overflow: auto;
+        }
+
+        /*变体表格*/
+        .bt-list {
+            display: none;
+        }
+
+        .fun-div {
+            padding: 0 10px;
+            height: 30px;
+        }
+
+        .fun-div .sku-inp {
+            width: 280px;
+            height: 30px;
+            text-indent: 12px;
+        }
+
+        .fun-div .skusea-btn {
+            height: 30px;
+            padding: 0 10px;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            vertical-align: top;
+            border-left: none;
+            margin-left: -5px;
+        }
+
+        .fun-div .skusea-btn:hover {
+            color: #f99429;
+        }
+
+        .qk-btn {
+            width: 70px;
+            color: #5dbdf2;
+            float: right;
+            color: #5dbdf2;
+            float: right;
+            height: 30px;
+            background-color: #fff;
+            border: 1px solid #5dbdf2;
+            border-radius: 4px;
+            margin-left: 30px;
+        }
+
+        .fiexdbottom-btns {
+            margin-top: 20px;
+        }
+
+        .ea-list-table td span {
+            font-size: 12px;
+        }
+
+        .view-gys {
+            text-decoration: underline;
+            color: #0094FF;
+            font-size: 12px;
+        }
+
+        /*复选框*/
+        .check-p {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            float: left;
+            left: 15px;
+            margin-right: 5px;
+        }
+
+        .check-p input {
+            width: 17px;
+            height: 16px;
+            position: absolute;
+            top: 0;
+            left: 1px;
+            opacity: 0;
+            margin: 0;
+            z-index: 99;
+        }
+
+        .check-p input:checked + label {
+            background-image: url(static/image/public-img/multiple2.png);
+            background-size: 17px 16px;
+        }
+
+        .check-p input + label {
+            display: block;
+            width: 100%;
+            padding-left: 21px;
+            height: 16px;
+            line-height: 16px;
+            text-align: left;
+            background: url(static/image/public-img/multiple1.png) left center no-repeat;
+            background-size: 17px 16px;
+        }
+        .Unrelated {
+            background-color: orange;
+            font-size: 12px;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+        .active,.drk-time.active{
+            color: #08ACE9;
+        }
+        .drk-time{
+            margin-right: 15px;
+        }
+        .ea-list-table td .price{
+            width: 80px;
+            line-height: 26px;
+            height: 26px;
+            border-radius: 3px;
+            padding: 0 5px;
+            font-size: 12px;
+        }
+        .layui-layer-btn .layui-layer-btn0 {
+            width: 70px;
+            background-color: #999;
+            border: none;
+        }
+        .layui-layer-btn .layui-layer-btn1{
+            width: 70px;
+        }
+        table a{
+            font-size: 12px;
+            width: 200px;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+<!-- content -->
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li class="active"><a href="#/erppurchase/needbuy">{{'100549' | translate}}</a></li>
+            <li><a href="#/supplier-manage">{{'100550' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <!--<div class="top-taps clearfix">-->
+            <!--<ul>-->
+                <!--<li><a href="#/erppurchase/needbuy">{{'100551' | translate}}</a></li>-->
+                <!--<li><a href="#/erppurchase/cgdlist">{{'100552' | translate}}</a></li>-->
+                <!--<li><a href="#/erppurchase/addpurchase">{{'100553' | translate}}</a></li>-->
+                <!--<li><a href="#/erppurchase/arrivalabnormal">{{'100554' | translate}}（2）</a></li>-->
+                <!--<li class="active"><a href="#/erppurchase/financial">{{'100555' | translate}}</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!-- right search -->
+        <div class="right-bar">
+            <!-- right list -->
+            <div class="fun-div">
+                <a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time active">{{'100296' | translate}}</a>
+                <a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time">{{'100297' | translate}}</a>
+                <a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time">{{'100298' | translate}}</a>
+                <input class="sku-inp" ng-model="searchSku" placeholder="{{'100597' | translate}}"></input>
+                <button class="skusea-btn" ng-click="skuSearchFun()">{{'100025' | translate}}</button>
+                <!--<button class="qk-btn" ng-click="bulkCgFun()">批量采购</button>-->
+            </div>
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+                    <tr>
+                        <th><span>{{'100225' | translate}}</span></th>
+                        <th><span>{{'100027' | translate}}</span></th>
+                        <th><span>{{'100109' | translate}}</span></th>
+                        <th><span>{{'100598' | translate}}</span></th>
+                        <th style="width: 130px;"><span>{{'100599' | translate}}</span></th>
+                        <th style="width: 210px;"><span>{{'100558' | translate}}</span></th>
+                        <th><span>{{'100600' | translate}}</span></th>
+                        <th><span>{{'100601' | translate}}</span></th>
+                        <th><span>{{'100602' | translate}}</span></th>
+                        <th><span>{{'100005' | translate}}</span></th>
+                        <th style="width: 140px;"><span>{{'100043' | translate}}</span></th>
+                    </tr>
+                    <tbody ng-repeat="item in chudanliebiao">
+                        <tr class="la_tr la_tr01">
+                        <td><span>
+                        <!--    <p class="check-p">
+                                <input type="checkbox" name="" id="" ng-model="item.checked"
+                                       ng-click="checkAll(item,item.checked, $event,chudanliebiao)">
+                            </p>-->
+                            {{item.procurementDate}}
+                        </span></td>
+                        <td>
+                           <!-- <span class="lashop_img">
+                                <b class="blank-b">
+                                    <img class="s-img" ng-src={{item.IMG}} alt="">
+                                    <img class="hide-bigimg" ng-class="{'hide-bigimg-active':$index>9}"
+                                         ng-src="{{item.IMG}}">
+                                </b>
+						    </span>-->
+                            <span>{{item.procurementOrder}}</span>
+                        </td>
+                        <td>
+                            <span>
+                                {{item.wayBill}}
+						        <!--  <span ng-if="!item.remark" class="glyphicon glyphicon-comment" ng-click="aaa(item)"
+                                        aria-hidden="true"></span>
+						          <span ng-if="item.remark" class="glyphicon glyphicon-duplicate" ng-click="aaa(item)"
+                                        style="color:#00CD00" aria-hidden="true"></span>-->
+						    </span>
+                        </td>
+                        <td>
+                           <p style="cursor: pointer;" ng-click="ckFun(item)"><font class="view-gys">{{item.vidCount}}</font></p>
+                        <td>
+                            <input class="price" type="number" ng-show="item.isinput" ng-model="item.price">
+                            <span ng-show="!item.isinput">¥{{item.price | number:2}}</span>
+                        </td>
+                        <td><a target="_blank" ng-href="{{item.supplierLink}}">{{item.supplierLink}}</a></td>
+                            <td><span>{{item.procurementer}}</span></td>
+                            <td><span>{{item.signDate}}</span></td>
+                        <td><span>{{item.signer}}</span></td>
+                        <td><span>{{item.storage}}</span></td>
+                        <td>
+                            <button ng-show="item.isClear == '0'" class="Unrelated" ng-click="editPrice(item)">{{'100603' | translate}}</button>
+                            <button ng-show="item.isClear == '0'" class="Unrelated" ng-click="confirmClick(item)">{{'100050' | translate}}</button>
+                            <span style="color: green;" ng-show="item.isClear == '1'">{{'100604' | translate}}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div id="pagination1" class="pagination2">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button"
+                           ng-click="toSpecifiedPage()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 弹窗 -->
+<div class="viewgys-wrap" ng-show="ckflag">
+    <div class="view-con">
+        <div class="tit-name">{{'100605' | translate}}</div>
+        <div class="caigou-tab-wrap">
+            <table class="table table-bordered" id="SKUtable">
+                <tr class="tbody-ul">
+                    <th style="width: 50px;">{{'100382' | translate}}</th>
+                    <th style="width: 500px;">SKU</th>
+                    <th style="width: 100px;">{{'100308' | translate}}</th>
+                </tr>
+                <tr ng-repeat="item in gysList">
+                    <td>
+                         <span class="lashop_img" style="position: relative;">
+                             <b class="blank-b">
+                                 <img class="s-img" ng-src={{item.img}} alt="">
+                                 <img class="hide-bigimg" ng-class="{'hide-bigimg-active':$index+1>2}"
+                                      ng-src="{{item.img}}">
+                             </b>
+                         </span>
+                    </td>
+                    <td>
+                        <span>{{item.sku}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.co}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="bottom-btns">
+            <button ng-click="ckcloseFun()">{{'100066' | translate}}</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

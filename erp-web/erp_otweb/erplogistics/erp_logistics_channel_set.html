@@ -1,0 +1,139 @@
+<!--<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">-->
+		<title>财务对账查询-ERP系统</title>
+		<!--<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />-->
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/wa-erp.css">
+	<!--</head>
+	<body>-->
+		
+		<!-- content -->
+		<div class="ea-content" style="position:relative;">
+			<!--<div class="ea-content-box">-->
+				
+				<!--<div class="ea-content-con">-->
+					<!-- left nav -->
+					<!--<div class="ea-left-nav">
+						<ul>
+							<li><a href="#/erplogistics/setmoney">运费设置</a></li>
+							<li class="active"><a href="#/erplogistics/channelset">渠道设置</a></li>
+							<li><a href="#/erplogistics/freighttrial">运费试算</a></li>
+							<li><a href="#/erplogistics/waybillsearch">物流查询</a></li>
+							<li><a href="#/erplogistics/trackstatistics">追踪统计</a></li>
+						</ul>
+					</div>-->
+					
+						<div class="left-bar">
+				            <ul>
+				                <li><a href="#/erplogistics/setmoney">运费设置</a></li>
+								<li class="active"><a href="#/erplogistics/channelset">渠道设置</a></li>
+								<li><a href="#/erplogistics/freighttrial">运费试算</a></li>
+								<li><a href="#/erplogistics/waybillsearch">物流查询</a></li>
+								<li><a href="#/erplogistics/trackstatistics">追踪统计</a></li>
+								<li><a href="#/erplogistics/forwarding">出货记录</a></li>
+								<li><a href="#/erplogistics/ReturnRecords">退件记录</a></li>
+							</ul>
+				       </div>
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content">
+						<!-- right nav -->
+						<!--<div class="ea-right-nav">
+							<ul>
+								<li class="active"><a href="#/erplogistics/channelset">默认物流渠道设置</a></li>
+								<li><a href="#/erplogistics/coopcompany">物流合作公司管理</a></li>
+							</ul>
+						</div>-->
+						
+						<div class="asj-h10"></div>
+				         <div class="top-taps clearfix">
+				            <ul>
+				                <li class="active"><a href="#/erplogistics/channelset">默认物流渠道设置</a></li>
+								<li><a href="#/erplogistics/coopcompany">物流合作公司管理</a></li>
+				            </ul>
+			    		</div>
+						
+						
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+							<div class="input-group search-box">
+			                  <input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+			                  <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">搜索</a>
+			                </div>
+							<!--<p><input type="text" value=""  class="search-text-box" /><input type="button" value="搜索" class="search-button" /></p>-->
+							<!--<span style="position: absolute;bottom: 0;right: 0;color: #666666;font-weight: 700" ng-click="win =true">物流设置</span>-->
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr class="wa-list-title">
+								<th><span>物流方式</span></th>
+								<th><span>操作</span></th>
+								<th class="loginsFirm" ng-repeat="item in logisticsMode"><span>{{item.aa}}</span></th>							
+							</tr>
+							<tr ng-repeat="item in logisticsModelist" repeat-finish="aa()">
+								<td><span class="wa-WL">{{item.bb}}</span></td>
+								<td><span><label class="ea-input-checked-first"><input type="radio" name="inp-name1" value="禁用"><i>禁用</i></label></span></td>
+								<td><span><label class="ea-input-checked"><input ng-click="dianji($event)" type="radio" checked="" name="inp-name1" value=""><i class="eee"></i></label></span></td>
+								<td><span><label class="ea-input-checked"><input ng-click="dianji($event)" type="radio" name="inp-name1" value=""><i class="eee"></i></label></span></td>
+								<td><span><label class="ea-input-checked"><input ng-click="dianji($event)" type="radio" name="inp-name1" value=""><i class="eee"></i></label></span></td>
+								<td><span><label class="ea-input-checked"><input ng-click="dianji($event)" type="radio" name="inp-name1" value=""><i class="eee"></i></label></span></td>
+								<td><span><label class="ea-input-checked"><input ng-click="dianji($event)" type="radio" name="inp-name1" value=""><i class="eee"></i></label></span></td>
+								<!--<td><span><label class="ea-input-checked"><input type="radio" name="inp-name1" value=""><i></i></label></span></td>
+								<td><span><label class="ea-input-checked"><input type="radio" name="inp-name1" value=""><i></i></label></span></td>
+								<td><span><label class="ea-input-checked"><input type="radio" name="inp-name1" value=""><i></i></label></span></td>-->
+							</tr>
+							
+						</table>
+
+						<div class="fenPage">
+							<span><select>
+								<option>30</option>
+								<option>50</option>
+								<option>100</option>
+								<option>200</option>
+								<option>300</option>
+							</select>
+							条每页
+							</span>
+							<span>共145页</span>
+						<a href="#">首页</a>
+						<a href="#">上一页</a>
+						<a class="bga" href="#">1</a>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">7</a>
+						<a href="#">8</a>
+						<a href="#">9</a>
+						<a href="#">下一页</a>
+						<a href="#">尾页</a>
+						<span>跳转 <input type="text" placeholder=""> 页 <input type="button" value="GO"></span>
+					</div>
+					<!--<div class="wa-inpBox">
+						<div class="wa-inpBoxCont">
+								<p class="wa-inpBoxContMsg">将<span class="wa-guaHao">中国邮政挂号</span> 默认发货公司设置为 <span class="wa-WuLiuGongSi">物流公司C</span></p>
+								<div class="wa-selBox2 clearfix">
+									<div class="wa-cancel" style="cursor: pointer;">取消</div>
+									<div class="wa-true" style="cursor: pointer;">确定</div>
+								</div>
+						</div>
+					</div>-->
+						
+
+					</div>
+				</div>
+			</div>
+
+		<!--</div>-->
+<script type="text/template" id="inpBox">
+	<div class="wa-inpBox">
+		<div class="wa-inpBoxCont">
+			<p class="wa-inpBoxContMsg">将<span class="wa-guaHao">中国邮政挂号</span> 默认发货公司设置为 <span class="wa-WuLiuGongSi">物流公司C</span></p>
+		</div>
+	</div>
+</script>

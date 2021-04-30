@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>财务对账查询-ERP系统</title>
+		<!--<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />-->
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/wa-erp.css">
+		<style type="text/css">
+			.ea-list-table .moneyfu .moneyafter1{
+				display: inline-block;
+			}
+			.ea-list-table .moneyfu .moneyafter1 input,.ea-list-table .moneyfu .time1 input{
+				width: 40px;
+				height: 20px;
+				padding: 5px;
+				font-size: 12px;
+				vertical-align: middle;
+				color: #000000;
+				text-align: center;
+			}
+			.ea-list-table .moneyfu .moneyafter1 span{
+				display: inline-block;
+				vertical-align: middle;
+			}
+			.ea-list-table .moneyfu .count1{
+				width: 100%;
+				display: inline-block;
+				height: 30px;
+			}
+			.ea-list-table .moneyfu .count1 input{
+				width: 250px;
+				height: 20px;
+				padding: 5px;
+				color: #000000;
+				font-size: 12px;
+				text-align: center;
+			}
+			.ea-list-table .moneyfu .country1 input{
+				width: 80px;
+				height: 20px;
+				padding: 5px;
+				font-size: 12px;
+				color: #000000;
+				text-align: center;
+			}
+			.search-by-con .check-box {
+				margin: 0 0 1px 0;
+			}
+			.search-by-con .check-box input{
+				cursor: pointer;
+				width: 17px;
+				height: 17px;
+			}
+			.search-by-con .check-box label {
+				 padding-left: 20px;
+				 width: 100px;
+				 background-position: top left;
+				 line-height: 16px;
+				 color: #333333;
+				 font-size: 12px;
+			}
+			.search-by-con .w60 {
+				width: 80px;
+			}
+			.moneyfu .propertyTD .str1 {
+				font-size: 12px;
+				height: 22px;
+				border: 1px solid #ccc;
+				/*width: 100px;*/
+				display: none;
+			}
+			.moneyfu .propertyTD p span {
+				margin-right: 3px;
+				display: inline-block;
+			}
+			.ea-list-table th {
+				font-size: 14px;
+			}
+			.ea-list-table tr td span {
+				font-size: 13px;
+			}
+			.ea-list-table tr td .changes-inp{
+				font-size: 12px;
+				/*font-weight: normal;*/
+				border: 1px solid #ececec;
+				width: 60px;
+				height: 26px;
+				display: inline-block;
+			}
+			.ea-list-table tr td .changeb-inp{
+				font-size: 12px;
+				/*font-weight: normal;*/
+				border: 1px solid #ececec;
+				width: 100px;
+				height: 26px;
+				display: inline-block;
+				text-align: center;
+			}
+			.ea-list-table tr td .activedis{
+				border:none;
+				background-color: #fff;
+			}
+			.ea-right-tianjia{
+				width: 135px;
+				float: left;
+				margin: 0;
+				margin-left: 10px;
+				margin-top: 8px;
+			}
+			.spanRed{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<!-- content -->
+		<div class="ea-content">
+			<!--<div class="ea-content-box">-->
+				<!--<div class="ea-content-con">-->
+					<!-- left nav -->
+					<!--<div class="ea-left-nav">
+						<ul>
+							<li class="active"><a href="#/erplogistics/setmoney">运费设置</a></li>
+							<li><a href="#/erplogistics/channelset">渠道设置</a></li>
+							<li><a href="#/erplogistics/freighttrial">运费试算</a></li>
+							<li><a href="#/erplogistics/waybillsearch">物流查询</a></li>
+							<li><a href="#/erplogistics/trackstatistics">追踪统计</a></li>
+						</ul>
+					</div>-->
+					
+					<div class="left-bar">
+			          <ul>
+			              <li ng-click="refresh()" class="active"><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+			              <li><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+			              <li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+			              <li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+						  <li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+						  <li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+						  <li><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+					  </ul>
+			      </div>
+					<div class="bg-geduan"></div>
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content">
+						<!--<div class="bg-geduan"></div>-->
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+					<div class="input-group search-box" ng-show="wuliufangshi != '1'">
+		              <input type="text" id="searchInpt" class="form-control top-search-inp" placeholder="{{'100703' | translate}}" ng-model="scountryinfo">
+		              <a style="width: 70px;" role="button" class="btn btn-default top-search-btn" type="button" ng-click="searchcountry()">{{'100025' | translate}}</a>
+		            </div>		
+				</div>
+						<!-- <div class="ea-right-con1">
+							<span>选择物流公司</span>
+							<select ng-change="company1(company)" ng-model="company">
+								<option value="">请选择</option>
+								<option ng-repeat="item in logistCompany" value="{{item.id}}" ng-click="logistCompanybtn()">{{item.name}}</option>							
+							</select>
+						</div> -->
+						<!-- ng-show="logiststyleshow" -->
+						<div class="ea-right-con2 pull-left" style="margin-left: 10px;">
+							<span style="font-size: 14px;">计算方式</span>
+							<select name="" id="selectWuliuFangshi" ng-model="wuliufangshi" ng-change="changewuliufangshi(wuliufangshi)">
+								<option value="2">公式计算</option>
+								<option value="1">区间计算</option>
+								
+							</select>
+						</div>
+						<div class="ea-right-con2 pull-left" style="margin-left: 10px;">
+							<span style="font-size: 14px;">{{'100704' | translate}}</span>
+							<select id="ea-right-con2select" ng-change="Style1(Style)" ng-model="Style" ng-options="itemh.nameen as itemh.namecn for itemh in logistStyle" style="font-size: 14px;">
+								<!-- <option value="">E邮宝</option> -->
+								<!-- <option ng-repeat="item in logistStyle" value="{{item.code}}">{{item.name}}</option> -->
+							</select>
+							<select id="sel-gj" ng-show="wuliufangshi == '1'" ng-change="selChangeFun()" ng-model="countrynameEn">
+								<option value="">{{'100705' | translate}}</option>
+								<option ng-repeat="gj in countryList" value="{{gj.country}}">{{gj.country}}-{{gj.countryname}}</option>
+							</select>
+						</div>
+						<!--<div class="ea-right-con3">
+						    <p class="ea-set-somenum">批量设置：
+								<select>
+									<option>重量运费</option>
+									<option>挂号费</option>
+									<option>时效</option>
+								</select>
+							<span>提高百分比 <input type="text" value="" class="wa-Improves"> %</span>
+							</p>
+						</div>-->
+						<div ng-show="isAdminFlag" class="pull-left" style="margin-left:10px;margin-top: 10px;" ng-click="">
+							<button style="background-color: #08aceb;color: #fff;border-radius: 5px;padding:2px 3px;width: 185px;height: 30px;" ng-click="shuancunFun()">{{'100706' | translate}}</button>
+							<span style="font-size: 12px;">({{'100707' | translate}})</span>
+							<span ng-if="require1" style="font-size: 12px;color: #08aceb">{{'100708' | translate}}</span>
+							<span ng-if="require11" style="font-size: 12px;color: #08aceb">{{'100709' | translate}}</span>
+							<span ng-if="require3" style="font-size: 12px;color: #08aceb">{{'100710' | translate}}</span>
+							<span ng-if="require33" style="font-size: 12px;color: #08aceb">{{'100711' | translate}}</span>
+							<span ng-if="require2" style="font-size: 12px;color: #08aceb">{{'100712' | translate}}</span>
+							<span ng-if="require22" style="font-size: 12px;color: #08aceb">{{'100713' | translate}}</span>
+						</div>
+						<div style="clear: both" ng-show="isAdminFlag">
+							<div class="ea-right-tianjia ea-right-gongshi" ng-click="countBtn()">{{'100714' | translate}}</div>
+							<div ng-hide="table2" class="ea-right-tianjia" ng-click="addCt()" style="margin-right: 50px;">{{'100715' | translate}}</div>
+							<div ng-show="table2" class="ea-right-tianjia" ng-click="addlistFun()" style="margin-right: 50px;">{{'100715' | translate}}</div>
+						</div>
+
+						<!-- right list -->
+						<div class="table-con-box" style="margin-top: 50px;">
+						<div style="clear: both" ng-repeat="item in showLogisticModeList">
+							<span>{{item.mode}}:  </span>
+							<b ng-class="{'red':item.propertycn.indexOf('电子')>=0}">{{'100084' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('内置电池')>=0}">{{'100085' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('纯电池')>=0}">{{'100086' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('含液体')>=0}">{{'100087' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('含粉末')>=0}">{{'100088' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('水')>=0}">{{'100438' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('含膏状')>=0}">{{'100089' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('含磁')>=0}">{{'100090' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('尖锐')>=0}">{{'100091' | translate}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('海关禁售')>=0}">{{'海关禁售'}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('仿牌')>=0}">{{'仿牌'}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('抛货')>=0}">{{'抛货'}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('轻薄')>=0}">{{'轻薄'}}</b>
+							<b ng-class="{'red':item.propertycn.indexOf('薄平')>=0}">{{'薄平'}}</b>
+						</div>
+						<table  ng-hide="wuliufangshi == '1'" class="ea-list-table ea-setmonet">
+							<tr>
+								<th><span>{{'100174' | translate}}</span>
+								</th>
+								<!--<th><span>物流公司</span></th>-->
+								<!--<th><span>物流方式</span></th>-->
+								<th><span>{{'100716' | translate}}</span></th>
+								<th><span>{{'100717' | translate}}</span></th>
+								<th><span>{{'100718' | translate}}</span></th>
+								<th><span>{{'100719' | translate}}(g)</span></th>
+								<th><span>{{'100720' | translate}}</span></th>
+								<th><span>{{'100721' | translate}}</span></th>
+								<th><span>{{'100429' | translate}}</span></th>
+								<th><span>最大重量(g)</span></th>
+								<th><span>最小重量(g)</span></th>
+								<!-- <th><span>补发退款条款</span></th> -->
+								<th ng-show="isAdminFlag"><span>{{'100043' | translate}}</span></th>
+							</tr>
+							<tr class="moneyfu" ng-repeat="item in logicountry">
+								<!--<td class="checkss">
+									<div class="check-box" style="float: none;margin: auto;"> 
+					                    <input type="checkbox" name="" id="">
+					                    <label for=""></label>
+					                </div>
+								</td>-->
+								<td>{{$index+1}}</td>
+								<!--<td class="wa-wuLiu">物流公司A</td>-->
+								<td class="wa-channel-type">
+									<!-- <span class="moneyafter country">{{item.countryName}}</span>
+									<span class="moneyafter1 country1" style="display: none;"><input type="text" /></span> -->
+									<span>{{item.countryName}}</span>
+								</td>
+								<!-- <td><span class="countrysx">{{item.country}}</span></td> -->
+								<td><span class="countrysx">
+									<span class="moneyafter country">{{item.country}}</span>
+									<span class="moneyafter1 country1" style="display: none;"><input type="text" /></span>
+								</span></td>
+								<td><span class="logiSstyle">{{item.namecn?item.namecn:styletxt}}</span></td>
+								<td class="wa-YunFei">
+									<span class="moneyafterhou moneyafter zhongyunfei">¥{{item.unitprice}}</span>
+									<span class="moneyafter1 moneyafter1hou unitprice" style="display: none;"><span>¥</span><input type="number" name=""/></span>
+								</td>
+								<td>
+									<span class="moneyafterhou1 moneyafter guahaofei">¥{{item.registrationfee}}</span>
+									<span class="moneyafter1 moneyafter1hou1 registrationfee" style="display: none;"><span>¥</span><input type="number" name="" /></span>
+								</td>
+								<td>
+									<span class="count moneyafter">{{item.formula}}</span>
+									<span class="count1 moneyafter1" style="display: none;"><input type="text" style="width: 100%;" /></span>
+								</td>
+								
+								<!-- <td>{{item.property?item.property:"-"}}</td> -->
+								<td class="propertyTD">
+									<span class="moneyafter property1" ng-class="{spanRed:item.propertycn}">{{item.propertycn?item.propertycn:'-'}}</span>
+									<span class="moneyafter1 property" style="display: none;"><input style="width: 100%;" type="text" readonly="readonly"  ng-click="shuxingFun($index)" /></span>
+									<p class="str1" ng-click="shuxingFun($index)"></p>
+								</td>
+								<td>
+									<span class="moneyafter country-max-weight1">{{item.maxweight ? item.maxweight : ''}}</span>
+									<span class="moneyafter1 country-max-weight" style="display: none;"><input type="number" style="width: 100%;" /></span>
+								</td>
+								<td>
+									<span class="moneyafter country-min-weight1">{{item.minweight ? item.minweight : ''}}</span>
+									<span class="moneyafter1 country-min-weight" style="display: none;"><input type="number" style="width: 100%;" /></span>
+								</td>
+								<!-- <td></td> -->
+								<td ng-show="isAdminFlag">
+									<button style="cursor: pointer;margin: 0;outline: none;" class="btn bjbtn" ng-click="bianji($index,item)">{{'100120' | translate}}</button>
+									<button style="cursor: pointer;margin: 0;outline: none;" class="btn scbtn" ng-click="shanchu($index,item,$event)">{{'100227' | translate}}</button>
+									<button style="cursor: pointer;margin: 0;outline: none;" class="btn bcbtn" ng-click="baocun($index,item)">{{'100133' | translate}}</button>
+									<button style="cursor: pointer;margin: 0;outline: none;" class="btn qxbtn" ng-click="quxiao($index,item)">{{'100051' | translate}}</button>
+								</td>
+							</tr>
+						</table>
+							<table ng-show="wuliufangshi == '1'" class="ea-list-table ea-setmonet">
+								<tr>
+									<th><span>{{'100174' | translate}}</span></th>
+									<th><span>{{'100722' | translate}}</span></th>
+									<th><span>{{'100723' | translate}}</span></th>
+									<th><span>{{'100724' | translate}}</span></th>
+									<th><span>{{'100717' | translate}}</span></th>
+									<th><span>{{'100718' | translate}}</span></th>
+									<th ng-show="isAdminFlag"><span>{{'100043' | translate}}</span></th>
+								</tr>
+								<tr class="moneyfu" ng-repeat="item in newList" repeat-finish>
+									<td>{{$index+1}}</td>
+									<td class="wa-channel-type">
+										<!-- <span class="moneyafter country">{{item.freight}}</span> -->
+										<input style="text-align: center;" id="yf-inp" class="changes-inp dis-inp" value="{{item.freight}}"></input>
+										<p style="display: none;" class="hide-yfp">{{item.freight}}</p>
+										<!-- <span class="moneyafter1 country1" style="display: none;"><input type="text" /></span> -->
+									</td>
+									<td><span class="countrysx">
+										<!-- <b class="zlqj-b">{{item.minweight}}</b> -->
+										<input style="text-align: center;" id="min-w" class="changes-inp dis-inp" value="{{item.minweight}}"></input>
+										<p style="display: none;" class="hide-minwp">{{item.minweight}}</p>
+										-
+										<input style="text-align: center;" id="max-w" class="changes-inp dis-inp" value="{{item.maxweight}}"></input>
+										<p style="display: none;" class="hide-maxwp">{{item.maxweight}}</p>
+										<!-- <b class="zlqj-b">{{item.maxweight}}</b> -->
+									</span></td>
+									<td>
+										<!-- <span class="countrysx">{{item.countryname}}</span> -->
+										<input style="text-align: center;" id="gj-inp" class="changeb-inp dis-inp" value="{{item.countryname}}"></input>
+										<p style="display: none;" class="hide-gjp">{{item.countryname}}</p>
+									</td>
+									<td>
+										<span class="countrysx">{{item.country}}</span>
+										<!-- <input value=""></input> -->
+									</td>
+									<td>
+										<span>{{item.enName}}</span>
+										<!-- <input class="change-inp" value="{{item.enName}}"></input> -->
+									</td>
+									<td ng-show="isAdminFlag">
+										<button style="cursor: pointer;margin: 0;outline: none;" class="btn bjbtn" ng-click="newBJFun($index,$event)">{{'100120' | translate}}</button>
+										<button style="cursor: pointer;margin: 0;outline: none;" class="btn scbtn" ng-click="deleteFun($index,$event,item)">{{'100227' | translate}}</button>
+										<button style="cursor: pointer;margin: 0;outline: none;" class="btn bcbtn" ng-click="saveFun($event,item)">{{'100133' | translate}}</button>
+										<button style="cursor: pointer;margin: 0;outline: none;" class="btn qxbtn" ng-click="cancelFun($event)">{{'100051' | translate}}</button>
+									</td>
+								</tr>
+							</table>
+						<!--<div class="fenPage">
+							<span><select>
+								<option>30</option>
+								<option>50</option>
+								<option>100</option>
+								<option>200</option>
+								<option>300</option>
+							</select>
+							条每页
+							</span>
+							<span>共145页</span>
+						<a href="#">首页</a>
+						<a href="#">上一页</a>
+						<a class="bga" href="#">1</a>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">7</a>
+						<a href="#">8</a>
+						<a href="#">9</a>
+						<a href="#">下一页</a>
+						<a href="#">尾页</a>
+						
+						<span>跳转 <input type="text" placeholder=""> 页 <input type="button" value="GO"></span>
+						
+					</div>-->
+						</div>
+						<div class="wa-BulletBox">
+							<!--特殊国家弹框-->
+							<div class="wa-SpecialCountry" >
+								<h3>{{'100725' | translate}}</h3>
+								<div class="wa-country clearfix">
+									<p>{{'100724' | translate}}：</p>
+									<select class="wa-sel"><option value="wa-countyBox">{{'100726' | translate}}</option></select>
+									<p class="wa-del">{{'100227' | translate}}</p>
+								</div>
+								<div class="wa-addCountry">{{'100613' | translate}}</div>
+								<div class="wa-selBox clearfix">
+									<div class="wa-cancel">{{'100051' | translate}}</div>
+									<div class="wa-true">{{'100050' | translate}}</div>
+								</div>
+							</div>
+							<!--正常情况弹框-->
+							<div class="wa-NormalCircum">
+								<h3>{{'100727' | translate}}</h3>
+								<div class="wa-dayNumBox clearfix">
+									<p>{{'100728' | translate}}：</p>
+									<div class="wa-dayNumCont clearfix">
+										<input class="wa-dayNumPrev" value=""/>
+										<p class="wa-inputLine"> &emsp;-&emsp;</p>
+										<input class="wa-dayNumNext" value=""/>
+									</div>
+									<p class="wa-dayTitle">{{'100539' | translate}}</p>
+								</div>
+								<div class="wa-selBox clearfix">
+									<div class="wa-cancel">{{'100051' | translate}}</div>
+									<div class="wa-true">{{'100050' | translate}}</div>
+								</div>
+							</div>
+							<!--重置运费设置弹框-->
+							<div class="wa-ResetFreight">
+								<h3>{{'100729' | translate}}</h3>
+								<div class="wa-Logistics"><span>{{'100651' | translate}}：</span><span class="wa-LogisticsCont">物流公司A</span></div>
+								<div class="wa-channel"><span>{{'100730' | translate}}：</span><span class="wa-channelCont">普货E邮宝</span></div>
+								<div class="wa-improve"><span>{{'100731' | translate}}：</span><input class="wa-improveCont" value=""><span>%</span></div>
+								<div class="wa-selBox clearfix">
+									<div class="wa-cancel">{{'100051' | translate}}</div>
+									<div class="wa-true">{{'100050' | translate}}</div>
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					
+				<!--</div>-->
+			<!--</div>-->
+			<!--运费弹窗-->
+			<!--<div class="moneywin twin" ng-show="moneywin">
+<h4>重量运费设置</h4>
+<p><span class="twinleft">物流公司:</span><span>物流公司A</span></p>
+				<p><span class="twinleft">渠道类型:</span><span>普货E邮宝</span></p>
+				<p><span class="twinleft" style="padding: 0;margin-right: 12px">提高百分比:</span><input type="text" class="day"></p>
+				<p class="winbtngroup">
+					<button class="btn btn-default">取消</button>
+					<button class="btn btn-default btn2">确定</button>
+				</p>
+			</div>-->
+			<!--时间弹窗-->
+			<!--<div class="timewin twin" ng-show="timewin">
+<h4>正常情况</h4>
+<p><span class="twinleft">天数:</span><input type="text" class="day"> - <input type="text"  class="day">天</p>
+				<p class="winbtngroup">
+					<button class="btn btn-default">取消</button>
+					<button class="btn btn-default btn2">确定</button>
+				</p>
+			</div>-->
+			<!--特殊国家弹窗弹窗-->
+			<!--<div class="scwin twin" ng-show="scwin">
+<h4>特殊国家</h4>
+<p><span class="twinleft">国家</span><select>
+	<option value="巴西">巴西</option></select><span>删除</span></p>
+				<div><button class="btn btn-default btn3">删除</button></div>
+				<p class="winbtngroup">
+					<button class="btn btn-default">取消</button>
+					<button class="btn btn-default btn2">确定</button>
+				</p>
+			</div>
+		</div>-->
+		<!--<script src="../js/jquery.min.js"></script>-->
+		<!--<script src="../js/wa-WuLiu.js"></script>-->
+	</body>
+</html>
+<script type="text/template" id="addct">
+	<div class="addctcon" style="font-size: 15px;">
+		<div class="addctcon1">
+			<span>物流方式:</span>
+			<p style="display: inline-block;width: 70%;text-align: left;font-size: 14px;">{{con1}}</p>
+			<!-- <input type="text" ng-model="con1"/> -->
+		</div>
+		<div class="addctcon2">
+			<span>物流方式缩写:</span>
+			<!-- <input type="text" ng-model="con2"/> -->
+			<p style="display: inline-block;width: 70%;text-align: left;font-size: 14px;">{{con12}}</p>
+		</div>
+		<div class="addctcon2-1">
+			<span>国家二字码:</span>
+			<input class="sm-inp" type="text" ng-model="addezmcon"/>
+			<span class="err-tipspan">数据库中没有该简码!</span>
+		</div>
+		<div class="addctcon2-2">
+			<span>到达国家中文:</span>
+			<input class="ddgj-inp zh-valipn" type="text" ng-model="addzhinp"/>
+		</div>
+		<div class="addctcon2-3">
+			<span>到达国家英文:</span>
+			<input class="ddgj-inp en-valinp" type="text" ng-model="addeninp"/>
+		</div>
+		
+		<!-- <div class="addctcon4">
+			<span>国家缩写:</span>
+			<input type="text" ng-model="con4"/>
+		</div> -->
+		<div class="addctcong">
+			<span>重量运费(g):</span>
+			<input type="text" ng-model="cong"/>
+		</div>
+		<div class="addctconf">
+			<span>挂号费(¥):</span>
+			<input type="text" ng-model="conf"/>
+		</div>
+		<div class="addctcon5">
+			<span>计算公式:</span>
+			<input type="text" ng-model="con5"/>
+		</div>
+		<div class="countryMaxWeight">
+			<span>最大重量:</span>
+			<input type="number" ng-model="countryMaxWeight"/>
+		</div>
+		<div class="countryMinWeight">
+			<span>最小重量:</span>
+			<input type="number" ng-model="countryMinWeight"/>
+		</div>
+		<div class="addctcon6">
+			<span style="float: left;width: 118px;">属性:</span>
+			<!-- <input type="text" ng-model="con6"/> -->
+			
+			<div class="search-by-con" style="float: left;width: 69%;margin-top: 1px;margin-left: 7px;">
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="ELECTRONIC">
+					<label for="" style="width: 100px;">电子</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="BATTERY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">内置电池</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="IS_ELECTRICITY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">纯电池</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_LIQUID" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含液体</label>
+				</div>
+				<div class="check-box w80" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_STIVE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含粉末</label>
+				</div>
+				<div class="check-box w80" style="width: 50px;text-align: left;">
+					<input type="checkbox" value="WATER" ng-click="getPropertyInfo($event)">
+				    <label for="" style="width: 100px;">水</label>
+				</div>
+				<div class="check-box w80" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_CREAM" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含膏状</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_MAGNETISM" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含磁</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="EDGE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">尖锐</label>
+				</div>
+				<div class="check-box w90" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="NO_ENTRY" ng-click="getPropertyInfo($event)">
+					<label for="">海关禁售</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="CLONE" ng-click="getPropertyInfo($event)">
+					<label for="">仿牌</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="OVERSIZE" ng-click="getPropertyInfo($event)">
+					<label for="">抛货</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="THIN" ng-click="getPropertyInfo($event)">
+					<label for="">轻薄</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="FLAT" ng-click="getPropertyInfo($event)">
+					<label for="">薄平</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<script type="text/template" id="remove">
+	<p style="width: 100%;text-align: center;margin-top: 60px;padding: 0 10px;">确定要删除&nbsp;<span class="removect1">国家</span>&nbsp;到&nbsp;<span class="removect2">&nbsp;美国</span>&nbsp;的物流方式?</p>
+</script>
+<script type="text/template" id="count">
+	<div><img src="./erp_otweb/images/count1.png"/></div>
+	<div class="count1-imgnext"><img src="./erp_otweb/images/count2.jpg"/></div>
+	<div class="weit">
+		<span>重量</span><input type="number" />&nbsp;g
+	</div>
+	<div class="countTest">
+		<span>公式</span><input type="text" style="width: 80%"/>
+	</div>
+</script>
+<script type="text/template" id="shuxingKuang">
+	<div class="search-by-con center-block" style="width: 260px;margin-top: 70px;">
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="ELECTRONIC">
+					<label for="" style="width: 100px;">电子</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="BATTERY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">内置电池</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="IS_ELECTRICITY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">纯电池</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="HAVE_LIQUID" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含液体</label>
+				</div>
+				<div class="check-box w80" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="HAVE_STIVE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含粉末</label>
+				</div>
+				<div class="check-box w80" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="WATER" ng-click="getPropertyInfo($event)">
+				    <label for="" style="width: 100px;">水</label>
+				</div>
+				<div class="check-box w80" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="HAVE_CREAM" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含膏状</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="HAVE_MAGNETISM" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含磁</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="EDGE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">尖锐</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="NO_ENTRY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">海关禁售</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="CLONE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">仿牌</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="OVERSIZE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">抛货</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="THIN" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">轻薄</label>
+				</div>
+				<div class="check-box w60" style="margin: 0 3px 20px 3px;">
+					<input type="checkbox" value="FLAT" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">薄平</label>
+				</div>
+			</div>
+
+	
+</script>
+<!-- 刷新物流缓存弹框 -->
+<div class="shuaxin" style="width: 350px;height: 200px;background-color: #fff;border-radius: 5px;border: 1px #ccc solid;box-shadow: 0 0 10px #ccc;position: fixed;left: 0;right: 0;top: 0;bottom: 0;margin:auto;">
+	<p class="center-block" style="width: 70%;text-align: center;margin-top: 60px;">{{'100732' | translate}}?</p>
+	<div class="center-block" style="width: 50%;margin-top: 25px;display: flex;justify-content: space-between;">
+		<button style="color: #fff;background-color: #666;border-radius: 5px;padding: 2px 4px;" ng-click="shuxinquxiaoFun()">{{'100051' | translate}}</button>
+		<button style="color: #fff;background-color: #08aceb;border-radius: 5px;padding: 2px 4px;" ng-click="shuxinquedingFun()">{{'100050' | translate}}</button>
+
+	</div>
+	
+</div>
+<!-- usps dhl添加国家的弹框 -->
+<script type="text/template" id="gj-wrap">
+	<div class="addctcon" style="font-size: 15px;">
+		<div class="addctcon1">
+			<span>物流方式:</span>
+			<p style="display: inline-block;width: 70%;text-align: left;font-size: 14px;">{{con1}}</p>
+		</div>
+		<div class="addctcon2">
+			<span>物流方式缩写:</span>
+			<p style="display: inline-block;width: 70%;text-align: left;font-size: 14px;">{{con12}}</p>
+		</div>
+		<div class="addctcon3">
+			<span>国家:</span>
+			<input type="text" ng-model="con3"/>
+		</div>
+		<div class="addctcong">
+			<span>运费(¥):</span>
+			<input type="text" ng-model="cong"/>
+		</div>
+		<div class="min-wdiv">
+			<span>最小重量(g):</span>
+			<input type="text" ng-model="conf"/>
+		</div>
+		<div class="max-wdiv">
+			<span>最大重量(g):</span>
+			<input type="text" ng-model="con5"/>
+		</div>
+		<div class="addctcon6">
+			<span style="float: left;width: 118px;">属性:</span>
+			<!-- <input type="text" ng-model="con6"/> -->
+			
+			<div class="search-by-con" style="float: left;width: 69%;margin-top: 1px;margin-left: 7px;">
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="ELECTRONIC">
+					<label for="" style="width: 100px;">电子</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="BATTERY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">内置电池</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="IS_ELECTRICITY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">纯电池</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_LIQUID" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含液体</label>
+				</div>
+				<div class="check-box w80" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_STIVE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含粉末</label>
+				</div>
+				<div class="check-box w80" style="width: 50px;text-align: left;">
+					<input type="checkbox" value="WATER" ng-click="getPropertyInfo($event)">
+				    <label for="" style="width: 100px;">水</label>
+				</div>
+				<div class="check-box w80" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_CREAM" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含膏状</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="HAVE_MAGNETISM" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">含磁</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="EDGE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">尖锐</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="NO_ENTRY" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">海关禁售</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="CLONE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">仿牌</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="OVERSIZE" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">抛货</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="THIN" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">轻薄</label>
+				</div>
+				<div class="check-box w60" style="display: inline-block;text-align: left;">
+					<input type="checkbox" value="FLAT" ng-click="getPropertyInfo($event)">
+					<label for="" style="width: 100px;">薄平</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>

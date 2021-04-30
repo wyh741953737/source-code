@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .statistics-top{
+            padding: 13px 61px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+        }
+        .statistics-top span{
+            display: block;
+            position: absolute;
+            width: 14px;
+            height: 12px;
+            background: url("static/image/public-img/Back.png") no-repeat;
+            left:10px;
+            top: 18px;
+            cursor: pointer;
+        }
+        .statistics-top p{
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+        .statistics-bottom{
+            padding: 52px 55px;
+            position: relative;
+        }
+        .selectTimeWrap{
+            display: inline-block;
+            position: absolute;
+            z-index: 9999;
+            left: 240px;
+            top: 63px;
+        }
+        .selectTimeWrap input{
+            cursor: pointer;
+            width: 224px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid #d9d9d9;
+            padding:0 12px;
+            background: url("static/image/public-img/Shape.png") no-repeat 195px 10px;
+        }
+        .selsectTimeCon{
+            width: 280px;
+            background: #fff;
+            box-shadow:0px 1px 8px 1px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            position: absolute;
+            top: 38px;
+            left: 0;
+            display: none;
+        }
+        .selsectTimeCon.show{
+            display: block;
+        }
+        .select-top{
+            padding: 9px 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: space-between;
+        }
+        .select-top span{
+            cursor: pointer;
+        }
+        .select-bottom{
+            padding: 32px 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
+        }
+        .row{
+            display: flex;
+            justify-content: space-between;
+        }
+        .row:not(:last-child){
+            margin-bottom: 32px;
+        }
+        .row>span{
+            font-size: 14px;
+            border-radius: 4px;
+            display: inline-block;
+            text-align: center;
+            width: 37px;
+            height: 25px;
+            line-height: 26px;
+            cursor: pointer;
+        }
+        .selectTime3 .row>span{
+            width: 50px;
+        }
+        .row>span.active{
+            color: #fff;
+            background: #F9AE08;
+        }
+        .select-btn{
+            display: flex;
+            flex-direction: row-reverse;
+            padding: 14px;
+        }
+        .select-btn button{
+            height: 32px;
+            border-radius: 4px;
+        }
+        .nextBtn{
+            width: 60px;
+            background: #fff;
+            color: #666;
+            font-size: 14px;
+            border: 1px solid #e6e6e6;
+        }
+        .searchBtn{
+            width: 58px;
+            background: #F9AE08;
+            color: #fff;
+            font-size: 14px;
+            border: 1px solid #F9AE08;
+            margin-right: 6px;
+        }
+        .selectTime1{
+            display: none;
+        }
+        .selectTime2{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:30px;min-width: 1020px;">
+            <div id="statisticsWrap1" class="statisticsWrap">
+                <div class="statistics-top">
+                    <span ng-click="goBackFun()"></span>
+                    <p>{{userName}} 的订单量数据分析</p>
+                </div>
+                <div class="statistics-bottom">
+                    <div class="selectTimeWrap">
+                        <input type="text" class="selectInput" readonly placeholder="时间"/>
+                        <div class="selsectTimeCon">
+                            <div data-id="selectTime1" class="selectTime1">
+                                <div class="select-top">
+                                    <span class="prevFun">&Lt;</span>
+                                    <span>{{ThisYear}}年</span>
+                                    <span class="nextFun">&Gt;</span>
+                                </div>
+                                <div class="select-bottom">
+                                    <div class="row">
+                                        <span>{{nowYear-4}}</span>
+                                        <span>{{nowYear-3}}</span>
+                                        <span>{{nowYear-2}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{nowYear-1}}</span>
+                                        <span class="active">{{nowYear}}</span>
+                                        <span>{{nowYear+1}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{nowYear+2}}</span>
+                                        <span>{{nowYear+3}}</span>
+                                        <span>{{nowYear+4}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{nowYear+5}}</span>
+                                        <span>{{nowYear+6}}</span>
+                                        <span>{{nowYear+7}}</span>
+                                    </div>
+                                </div>
+                                <div class="select-btn">
+                                    <button class="nextBtn">下一步</button>
+                                    <button class="searchBtn">查询</button>
+                                </div>
+                            </div>
+                            <div data-id="selectTime2" class="selectTime2">
+                                <div class="select-top">
+                                    <span>&Lt;</span>
+                                    <span>{{ThisYear}}年</span>
+                                    <span>&Gt;</span>
+                                </div>
+                                <div class="select-bottom">
+                                    <div class="row">
+                                        <span class="month2 active"><span>1</span>月</span>
+                                        <span class="month2"><span>2</span>月</span>
+                                        <span class="month2"><span>3</span>月</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="month2"><span>4</span>月</span>
+                                        <span class="month2"><span>5</span>月</span>
+                                        <span class="month2"><span>6</span>月</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="month2"><span>7</span>月</span>
+                                        <span class="month2"><span>8</span>月</span>
+                                        <span class="month2"><span>9</span>月</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="month2"><span>10</span>月</span>
+                                        <span class="month2"><span>11</span>月</span>
+                                        <span class="month2"><span>12</span>月</span>
+                                    </div>
+                                </div>
+                                <div class="select-btn">
+                                    <button class="nextBtn">下一步</button>
+                                    <button class="searchBtn">查询</button>
+                                </div>
+                            </div>
+                            <div data-id="selectTime3" class="selectTime3">
+                                <div class="select-top">
+                                    <span>&Lt;</span>
+                                    <span>{{ThisYear}}年/{{month}}月</span>
+                                    <span>&Gt;</span>
+                                </div>
+                                <div class="select-bottom">
+                                    <div class="row">
+                                        <span class="active">第一周</span>
+                                        <span>第二周</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>第三周</span>
+                                        <span>第四周</span>
+                                    </div>
+                                </div>
+                                <div class="select-btn">
+                                    <!--<button class="nextBtn">下一步</button>-->
+                                    <button class="searchBtn">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tongjitu" id="main" style="width: 100%;height: 300px">
+
+                    </div>
+                </div>
+            </div>
+            <div id="statisticsWrap2" class="statisticsWrap" style="margin-bottom: 60px;">
+                <div class="statistics-top">
+                    <p>{{userName}} 的订单金额数据分析</p>
+                </div>
+                <div class="statistics-bottom">
+                    <!--<div class="selectTimeWrap">-->
+                        <!--<input type="text" class="selectInput" readonly placeholder="时间"/>-->
+                        <!--<div class="selsectTimeCon">-->
+                            <!--<div data-id="selectTime1" class="selectTime1">-->
+                                <!--<div class="select-top">-->
+                                    <!--<span class="prevFun">&Lt;</span>-->
+                                    <!--<span>{{ThisYear2}}年</span>-->
+                                    <!--<span class="nextFun">&Gt;</span>-->
+                                <!--</div>-->
+                                <!--<div class="select-bottom">-->
+                                    <!--<div class="row">-->
+                                        <!--<span>{{nowYear2-4}}</span>-->
+                                        <!--<span>{{nowYear2-3}}</span>-->
+                                        <!--<span>{{nowYear2-2}}</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="row">-->
+                                        <!--<span>{{nowYear2-1}}</span>-->
+                                        <!--<span class="active">{{nowYear2}}</span>-->
+                                        <!--<span>{{nowYear2+1}}</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="row">-->
+                                        <!--<span>{{nowYear2+2}}</span>-->
+                                        <!--<span>{{nowYear2+3}}</span>-->
+                                        <!--<span>{{nowYear2+4}}</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="row">-->
+                                        <!--<span>{{nowYear2+5}}</span>-->
+                                        <!--<span>{{nowYear2+6}}</span>-->
+                                        <!--<span>{{nowYear2+7}}</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="select-btn">-->
+                                    <!--<button class="nextBtn">下一步</button>-->
+                                    <!--<button class="searchBtn">查询</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div data-id="selectTime2" class="selectTime2">-->
+                                <!--<div class="select-top">-->
+                                    <!--<span>&Lt;</span>-->
+                                    <!--<span>{{ThisYear2}}年</span>-->
+                                    <!--<span>&Gt;</span>-->
+                                <!--</div>-->
+                                <!--<div class="select-bottom">-->
+                                    <!--<div class="row">-->
+                                        <!--<span class="month2 active"><span>1</span>月</span>-->
+                                        <!--<span class="month2"><span>2</span>月</span>-->
+                                        <!--<span class="month2"><span>3</span>月</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="row">-->
+                                        <!--<span class="month2"><span>4</span>月</span>-->
+                                        <!--<span class="month2"><span>5</span>月</span>-->
+                                        <!--<span class="month2"><span>6</span>月</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="row">-->
+                                        <!--<span class="month2"><span>7</span>月</span>-->
+                                        <!--<span class="month2"><span>8</span>月</span>-->
+                                        <!--<span class="month2"><span>9</span>月</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="row">-->
+                                        <!--<span class="month2"><span>10</span>月</span>-->
+                                        <!--<span class="month2"><span>11</span>月</span>-->
+                                        <!--<span class="month2"><span>12</span>月</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="select-btn">-->
+                                    <!--<button class="nextBtn">下一步</button>-->
+                                    <!--<button class="searchBtn">查询</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div data-id="selectTime3" class="selectTime3">-->
+                                <!--<div class="select-top">-->
+                                    <!--<span>&Lt;</span>-->
+                                    <!--<span>{{ThisYear2}}年/{{month2}}月</span>-->
+                                    <!--<span>&Gt;</span>-->
+                                <!--</div>-->
+                                <!--<div class="select-bottom">-->
+                                    <!--<div class="row">-->
+                                        <!--<span class="active">第一周</span>-->
+                                        <!--<span>第二周</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="row">-->
+                                        <!--<span>第三周</span>-->
+                                        <!--<span>第四周</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="select-btn">-->
+                                    <!--&lt;!&ndash;<button class="nextBtn">下一步</button>&ndash;&gt;-->
+                                    <!--<button class="searchBtn">查询</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="tongjitu" id="main2" style="width: 100%;height: 300px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+</body>
+</html>

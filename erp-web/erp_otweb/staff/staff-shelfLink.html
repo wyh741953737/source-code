@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .table-head{
+            display: flex;
+            width: 100%;
+            background: #FCF4D9;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+        .table-th{
+            padding: 10px 0;
+            text-align: center;
+            color: #8B572A;
+            font-size:14px;
+            font-weight:500;
+        }
+        .w5{
+            width: 5%;
+        }
+        .width50{
+            width: 50%;
+        }
+        .w30{
+            width: 25%;
+        }
+        .w15{
+            width: 10%;
+        }
+        .table-body{
+            border: 1px solid #F3F3F3;
+            border-top: none;
+        }
+        .addWrap{
+            padding: 18px 16px;
+        }
+        .addDiv{
+            text-align: center;
+            border: 1px dashed #C1C1C1;
+            padding: 20px;
+            cursor: pointer;
+            font-size:16px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+        }
+        .table-tr{
+            display: flex;
+            width: 100%;
+            text-align: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #F3F3F3;
+        }
+        .table-tr:last-child{
+            border-bottom: none;
+        }
+        .table-tr>.lianjie{
+            padding: 0 20px;
+            line-height: 35px;
+        }
+        .table-tr>.lianjie>a{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            text-decoration: underline;
+        }
+        .nolianjie{
+            line-height: 35px;
+        }
+        .table-td{
+            padding: 0 20px;
+            border-right: 1px solid #f3f3d3;
+        }
+        .table-td:last-child{
+            border-right: none;
+        }
+        .table-tr button{
+            background: none;
+        }
+        select,input{
+            height: 32px;
+            border-radius: 4px;
+        }
+        select{
+            margin-right: 8px;
+        }
+        .table-tr input{
+            display: none;
+        }
+        .table-tr .shangjialink{
+            display: inline-block;
+        }
+        .table-tr.act input{
+            display: inline-block;
+        }
+        .table-tr.act .shangjialink{
+            display: none;
+        }
+        .table-tr select{
+            display: none;
+        }
+        .table-tr .leimu{
+            display: inline-block;
+        }
+        .table-tr.act select{
+            display: inline-block;
+        }
+        .table-tr.act .leimu{
+            display: none;
+        }
+
+        .table-tr .editBtn{
+            display: inline-block;
+        }
+        .table-tr .deleteBtn{
+            display: inline-block;
+        }
+        .table-tr .saveBtn{
+            display: none;
+        }
+        .table-tr .quxiaoBtn{
+            display: none;
+        }
+
+        .table-tr.act .editBtn{
+            display: none;
+        }
+        .table-tr.act .deleteBtn{
+            display: none;
+        }
+        .table-tr.act .saveBtn{
+            display: inline-block;
+        }
+        .table-tr.act .quxiaoBtn{
+            display: inline-block;
+        }
+
+        .add-content{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content asj-service-docu">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px">
+            <div class="table-head">
+                <div class="table-th w5"><span>序号</span></div>
+                <div class="table-th width50"><span>链接类目</span></div>
+                <div class="table-th w30"><span>链接地址</span></div>
+                <div class="table-th w15">录入状态</div>
+                <div class="table-th w15"><span>操作</span></div>
+            </div>
+            <div class="table-body">
+                <div class="addWrap">
+                    <div class="addDiv">
+                        <span>+ 新增链接</span>
+                    </div>
+                </div>
+                <div class="add-content">
+                    <div class="table-tr act" style="border-bottom: 1px solid #f3f3f3">
+                        <div class="table-td nolianjie w5"><span></span></div>
+                        <div class="table-td nolianjie width50">
+                            <select name="" id="firstCatory" style="width: 160px">
+                                <option value="">请选择一级类目</option>
+                                <option value="{{first.id}}" ng-repeat="first in FirstList">{{first.name}}</option>
+                            </select>
+                            <select name="" id="SecondCatory" style="width: 160px">
+                                <option value="">请选择二级类目</option>
+                                <option value="{{second.id}}" ng-repeat="second in secondList">{{second.name}}</option>
+                            </select>
+                            <select name="" id="ThirdCatory" style="width: 160px">
+                                <option value="">请选择三级类目</option>
+                                <option value="{{third.id}}" ng-repeat="third in thirdList">{{third.name}}</option>
+                            </select>
+                        </div>
+                        <div class="table-td w30 lianjie">
+                            <input style="width: 100%;padding: 0 5px" type="text" placeholder="复制地址在这"/>
+                        </div>
+                        <div class="table-td w15"></div>
+                        <div class="table-td nolianjie w15">
+                            <button style="margin-right: 15px" ng-click="addLinkFun()">添加</button>
+                            <button ng-click="quxiao()">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-content" >
+                    <div class="table-tr" ng-repeat="link in linkList" data-third="{{link.categoryId}}" data-first="{{link.onecategory}}" data-second="{{link.twocategory}}" data-id="{{link.ID}}">
+                        <div class="table-td nolianjie w5"><span>{{$index+1}}</span></div>
+                        <div class="table-td nolianjie width50">
+                            <span class="leimu">{{link.categoryname}}</span>
+                            <select name="firstCatory"  style="width: 160px">
+                                <option value="">请选择一级类目</option>
+                                <option value="{{first2.id}}" ng-repeat="first2 in FirstList">{{first2.name}}</option>
+                            </select>
+                            <select name="SecondCatory"  style="width: 160px">
+                                <option value="">请选择二级类目</option>
+                                <option value="{{second2.id}}" ng-repeat="second2 in secondList2">{{second2.name}}</option>
+                            </select>
+                            <select name="ThirdCatory" style="width: 160px">
+                                <option value="">请选择三级类目</option>
+                                <option value="{{third2.id}}" ng-repeat="third2 in thirdList3">{{third2.name}}</option>
+                            </select>
+                        </div>
+                        <div class="table-td w30 lianjie">
+                            <a class="shangjialink" href="{{link.address}}" target="_blank">{{link.address}}</a>
+                            <input style="width: 100%;padding: 0 5px" name="shangjialink" type="text" placeholder="复制地址在这"/>
+                        </div>
+                        <div class="table-td w15" style="line-height: 35px">
+                            {{classState(link.state)}}
+                        </div>
+                        <div class="table-td nolianjie w15">
+                            <button style="margin-right: 15px" class="editBtn">编辑</button>
+                            <button style="margin-right: 15px" class="saveBtn">保存</button>
+                            <button class="deleteBtn" ng-click="deleteLink(link.ID)">删除</button>
+                            <button class="quxiaoBtn">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

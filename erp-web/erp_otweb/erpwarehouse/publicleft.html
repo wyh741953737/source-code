@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>已取消订单金额-财务收入管理-ERP系统</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+		<link rel="stylesheet" href="erp_otweb/css/li_erp.css">
+		<style>
+			.la_depotln01{
+				width: 300px;
+				border: 1px solid #999;
+				box-shadow: #999999 10px 10px 10px 10px;
+				overflow: hidden;
+				display: none;
+			}
+			.la_depotln01 .la_colose{
+				float: right;
+				margin:5px 10px;
+			}
+			.la_depotln01 h4{
+				text-align: center;
+
+				margin: 20px 0;
+			}
+			.la_bbtn{
+				text-align: center;
+			}
+            .la_bbtn button{
+				color: white;
+				border: none;
+				border-radius: 20px;
+				padding:5px 10px;
+				font-size: 16px;
+				line-height: 1.6;
+				margin: 20px 2px;
+			}
+			.la_blue{
+				background: #359DD4;
+			}
+			.la_yell{	background: #F0B915;}
+			.la_blac{	background: #545662;}
+			.la_ainpu{
+               line-height: 2;
+			}
+			.la_ainpu span:first-child{
+				display: inline-block;
+				width: 30%;
+				text-align: right;
+			}
+			.la_ainpu span:last-child{
+				display: inline-block;
+				width: 65%;
+
+			}
+			.la_ainpu span select,.la_ainpu span input{
+				width: 130px;
+				height: 20px;
+				border: 1px solid #dedede;
+			}
+			.la_rela{
+				position: relative;
+			}
+			.la_rkleixing{
+				position: absolute;
+				left: 40px;
+				top: 50px;
+			}
+			.la_rkqubuth{
+				position: absolute;
+				top: 503px;
+				left: 220px;
+						  }
+			.la_rktuquanbu{
+				position: absolute;
+				top: 400px;
+				left: 662px;
+			}
+			.la_rktubufen{
+				position: absolute;
+				top: 50px;
+				left: 340px;
+			}
+			.la_rktuihuo{
+				position: absolute;
+				top: 50px;
+				left: 740px;
+			}
+		</style>
+	</head>
+	<body>
+		
+
+		
+		<!-- content -->
+		<div class="ea-content">
+			<div class="ea-content-box">
+				
+				<div class="ea-content-con">
+					<!-- left nav -->
+					<div class="ea-left-nav">
+						<ul>
+							<li class="active"><a href="javascript:;">义乌仓</a></li>
+							<li><a href="javascript:;">深圳仓</a></li>
+							<li><a href="javascript:;">美国仓</a></li>
+						</ul>
+					</div>
+
+					<!-- right con -->
+					<div class="ea-right-content li_ea-right-content">
+						<!-- right nav -->
+						<div class="ea-right-nav">
+							<ul>
+								<li class="active"><a href="erp_depotIn.html">入库</a></li>
+								<li><a href="erp_depot_kucun.html">库存</a></li>
+								<li><a href="erp_depotOut.html">出库</a></li>
+							</ul>
+						</div>
+						<!-- right search -->
+						<div class="ea-right-search">
+							<div class="datatime-screen"><a href="#" class="active">今日</a><a href="#">最近一周</a><a href="#">一个月</a><a href="#">三个月</a><input type="text" id="txtBeginDate" placeholder="选取开始日期" /><input type="text" id="txtEndDate" placeholder="选取结束日期" /><input type="button" value="点击筛选">
+</div>
+							
+							<p><input type="text" value=""  class="search-text-box" /><input type="button" value="搜索" class="search-button" /></p>
+							
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr>
+								<th><span><input type="checkbox"></span></th>
+								<th><span>日期</span></th>
+								<th><span>图片</span></th>
+								<th><span>商品SKU</span></th>
+								<th><span>供应商</span></th>
+								<th><span>订单号</span></th>
+								<th><span>物流公司</span></th>
+								<th><span>追踪号</span></th>
+								<th><span>物流状态</span></th>
+								<th><span>已采购数量</span></th>
+								<th><span>卸货数量</span></th>
+								<th><span>操作</span></th>
+
+							</tr>
+							<tr class="la_tr la_tr01">
+								<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>
+								<td><span>09-12 12:30</span></td>
+								<td><span class="lashop_img">
+									<img src="../images/li01.png" alt="" >
+								</span></td>
+								<td><span>asss222-black-s</span></td>
+								<td><span>Chompa-rangsey Chan</span></td>
+								<td><span>22323222222</span></td>
+								<td><span>韵达</span></td>
+								<td><span>22323222222</span></td>
+								<td><span>义乌签收</span></td>
+								<td><span>300</span></td>
+								<td><span>0</span></td>
+								<td class="active"><span>
+									<a href="####" class="active la_ruku">
+									  入库
+								  </a>
+
+								</span></td>
+							</tr>
+							<tr class="la_tr la_tr01">
+								<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>
+								<td><span>09-12 12:30</span></td>
+								<td><span class="lashop_img">
+									<img src="../images/li01.png" alt="" >
+								</span></td>
+								<td><span>asss222-black-s</span></td>
+								<td><span>Chompa-rangsey Chan</span></td>
+								<td><span>22323222222</span></td>
+								<td><span>韵达</span></td>
+								<td><span>22323222222</span></td>
+								<td><span>义乌签收</span></td>
+								<td><span>300</span></td>
+								<td><span>0</span></td>
+								<td class="active"><span>
+									<a href="####" class="active la_ruku">
+									  入库
+								  </a>
+
+								</span></td>
+							</tr>
+						</table>
+						</div>
+					</div>
+					<!--以下是弹框-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rkleixing">
+							<p class="la_colose">X</p>
+                           <h4>请选择操作类型</h4>
+							<p class="la_bbtn">
+								<button value="全部入库" class="la_blue la_lxqb">全部入库</button>
+								<button value="部分入库" class="la_yell la_lxbf">部分入库</button>
+								<button value="全部退货" class="la_blac la_lxth">全部退货</button>
+							</p>
+						</div>
+					</div>
+					<!--以下是是否需要退货-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rktuihuo">
+							<p class="la_colose">X</p>
+							<h4>是否需要退货</h4>
+							<p class="la_bbtn">
+								<button value="不需要退货" class="la_blue la_bxy">不需要退货</button>
+								<button value="需要退货" class="la_blac la_xyth">需要退货</button>
+							</p>
+						</div>
+					</div>
+					<!--以下是是否部分入库-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rktubufen">
+							<h4>部分入库</h4>
+							<p class="la_ainpu">
+								<span>SKU：</span>
+								<span>
+									abddkfffff
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>入库数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>达标：</span>
+								<span>
+									<select name="" id="">
+										<option value="达标">达标</option>
+										<option value="不达标">不达标</option>
+									</select>
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>缺少数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>破损数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>破损数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>破损数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>退货数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>退货原因：</span>
+								<span>
+									<select name="" id="">
+										<option value="颜色">颜色</option>
+										<option value="不达标">不达标</option>
+									</select>
+								</span>
+							</p>
+							<div class="la_sub">
+								<button value="取消" class="la_btn01">取消</button>
+								<button value="确定" class="la_btn02">确定</button>
+							</div>
+						</div>
+					</div>
+					<!--以下是全部入库-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rktuquanbu">
+							<h4>全部入库</h4>
+							<p class="la_ainpu">
+								<span>SKU：</span>
+								<span>
+									abddkfffff
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>入库数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+
+							<p class="la_ainpu">
+								<span>退货原因：</span>
+								<span>
+									<select name="" id="">
+										<option value="颜色">颜色</option>
+										<option value="不达标">不达标</option>
+									</select>
+								</span>
+							</p>
+							<div class="la_sub">
+								<button value="取消" class="la_btn01">取消</button>
+								<button value="确定" class="la_btn02">确定</button>
+							</div>
+						</div>
+					</div>
+					<!--以下是全部退货-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rkqubuth">
+							<h4>全部退货</h4>
+							<p class="la_ainpu">
+								<span>SKU：</span>
+								<span>
+									abddkfffff
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>入库数量：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+
+							<p class="la_ainpu">
+								<span>退货原因：</span>
+								<span>
+									<select name="" id="">
+										<option value="颜色">颜色</option>
+										<option value="不达标">不达标</option>
+									</select>
+								</span>
+							</p>
+							<div class="la_sub">
+								<button value="取消" class="la_btn01">取消</button>
+								<button value="确定" class="la_btn02">确定</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- 选取两段时间之间插件 -->
+		<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+		<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+            //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+//    以下是弹框
+			$('.la_ruku').click(function () {
+                $('.la_rkleixing').show()
+            })
+//			以下是全部入库
+			$('.la_lxqb').click(function () {
+				$('.la_rktuquanbu').show()
+            });
+    //			以下是部分入库
+			$('.la_lxbf').click(function () {
+                $('.la_rktubufen').show()
+            });
+    //			以下是是否需要退货
+    $('.la_lxth').click(function () {
+        $('.la_rktuihuo').show()
+    });
+    //			以下是需要退货
+    $('.la_xyth').click(function () {
+        $(this).parent().parent().hide();
+        $('.la_rkqubuth').show()
+    });
+    //	以下是不需要退货
+    $('.la_bxy').click(function () {
+        $(this).parent().parent().hide();
+    })
+    $('.la_btn01').click(function () {
+		$(this).parent().parent().hide();
+    })
+//			以下是关闭
+		$('.la_colose').click(function () {
+			$(this).parent().hide();
+        })
+</script>
+ 
+		
+	</body>
+</html>

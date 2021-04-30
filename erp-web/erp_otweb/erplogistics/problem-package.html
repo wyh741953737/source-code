@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>提现</title>
+  <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_financing_income.css" />
+</head>
+
+<body>
+  <div class="ea-content">
+    <div class="right-bar-wrap ea-right-content">
+    
+      <!-- 顶部tab -->
+      <div id="top-tab" class="top-tab">
+          <!-- tab -->
+				<div class="top-tab-nav d-flex">
+            <span ng-click="changeIncomeType(expenditureTypeModel.cost.val)"
+              ng-class='{"tab-active": expenditureType === expenditureTypeModel.cost.val }'
+              class="tab-span tab-border-bt cursor-pointer">已通知</span>
+            <span ng-click="changeIncomeType(expenditureTypeModel.dispute.val)"
+              ng-class='{"tab-active": expenditureType === expenditureTypeModel.dispute.val }'
+              class="tab-span tab-border-bt cursor-pointer">待重派</span>
+            <span ng-click="changeIncomeType(expenditureTypeModel.sellComposite.val)"
+              ng-class='{"tab-active": expenditureType === expenditureTypeModel.sellComposite.val }'
+              class="tab-span tab-border-bt cursor-pointer">已重派</span>
+        </div>
+        
+        <!-- 搜索区域 & 表头 -->
+        <div class="top-tab-bottom bg-white padding-lr-20px mt-0">
+          <!-- 搜索区域 -->
+          <!-- 销售成本 -->
+          <div class="top-tab-search d-flex align-items-center">
+              <div class="input-group">
+                  <select name="" id="searchType">
+                      <!--<option value="0">请选择查询类型</option>-->
+                      <option value="追踪号">重派追踪号</option>
+                      <option value="子订单号">子订单号</option>
+                  </select>
+                  <input style="padding: 0 10px" type="text"  class="" placeholder="请输入追踪号或子订单号进行搜索" id="searchInfo" ng-model="searchinfo">
+                  <input ng-show="expenditureType !== expenditureTypeModel.cost.val" style="padding: 0 10px; margin-left: 10px;" type="text"  class="" placeholder="请输入群主或者业务员" ng-model="searchOwnerName">
+                  <button class="searchBtn" ng-click="propackagesearch()" style="padding: 4px 0 4px;margin-left: 10px">{{'100025' | translate}}</button>
+              </div>
+              <div class="search-group d-flex align-items-center">
+                <!-- <button class="asj-btn-s asj-btn-s2 search-btn" style="margin-right: 20px;"
+                  ng-click="import()">上传Excel</button> -->
+                  <form action="" method="post" enctype="multipart/form-data" id="uploadimg2" style="display: inline;margin-left: 5px" >
+                    <label for="document2" class="asj-btn-s asj-btn-s2 mu-sczzh" ng-if="expenditureType === expenditureTypeModel.cost.val" style="border-radius: 0">上传Excel文件</label>
+                    <!-- <label ng-click="clickUpload($event)" class="asj-btn-s asj-btn-s2 mu-sczzh" ng-if="expenditureType === expenditureTypeModel.cost.val" style="border-radius: 0">上传Excel文件</label> -->
+                    <input name="file" type="file" multiple ng-model="documentupload2" id="document2"  onchange="angular.element(this).scope().upLoadExcelFun(this.files)" style="display: none;font-size: 0;cursor: pointer;" >
+                  </form>
+              </div>
+              <div class="search-group d-flex align-items-center asj-btn-s2  mu-sczzh" ng-if="expenditureType === expenditureTypeModel.cost.val" style="margin-left:10px">
+                    <a class="asj-btn-s"  style="color: #fff"
+                     href="template/tem.xls">下载模板</a> 
+                </div>  
+            </div>
+             <!-- 表头 -->
+					<!-- 已通知 -->
+					<div class="tb-thead d-flex tb-thead-border" ng-if="expenditureType === expenditureTypeModel.cost.val">
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">子订单号</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">追踪号</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">货代名称</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">邮局联系方式</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">取单方式</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">重派费（$）</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">截止日期</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">问题描述</div>
+              <div style="width: 20%" class="tb-thead-th d-flex-center">通知时间</div>
+            </div>
+            <!-- 待重派 -->
+            <div class="tb-thead d-flex tb-thead-border" ng-if="expenditureType === expenditureTypeModel.dispute.val">
+                <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">子订单号</div>
+                <div style="width: 9%" class="tb-thead-th d-flex-center border-r-coffie">货代名称</div>
+                <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">邮局联系方式</div>
+                <div style="width: 9%" class="tb-thead-th d-flex-center border-r-coffie">已付重派费（$）</div>
+                <div style="width: 8%" class="tb-thead-th d-flex-center border-r-coffie">截止日期</div>
+                <div style="width: 13%" class="tb-thead-th d-flex-center border-r-coffie">收件人信息</div>
+                <div style="width: 14%" class="tb-thead-th d-flex-center border-r-coffie">重派追踪号</div>
+                <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">业务员/群主</div>
+                <div style="width: 7%" class="tb-thead-th d-flex-center border-r-coffie">支付时间</div>
+                <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">备注</div>
+                <!-- <div style="width: 8%" class="tb-thead-th d-flex-center">操作</div> -->
+            </div>
+             <!-- 已重派 -->
+             <div class="tb-thead d-flex tb-thead-border" ng-if="expenditureType === expenditureTypeModel.sellComposite.val">
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">子订单号</div>
+              <div style="width: 9%" class="tb-thead-th d-flex-center border-r-coffie">货代名称</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">邮局联系方式</div>
+              <div style="width: 8%" class="tb-thead-th d-flex-center border-r-coffie">已付重派费（$）</div>
+              <div style="width: 7%" class="tb-thead-th d-flex-center border-r-coffie">截止日期</div>
+              <div style="width: 14%" class="tb-thead-th d-flex-center border-r-coffie">收件人信息</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">重派追踪号</div>
+              <div style="width: 8%" class="tb-thead-th d-flex-center border-r-coffie">业务员/群主</div>
+              <div style="width: 7%" class="tb-thead-th d-flex-center border-r-coffie">重派时间</div>
+              <div style="width: 7%" class="tb-thead-th d-flex-center border-r-coffie">支付时间</div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center">备注</div>
+            </div>
+          </div>
+      </div>
+      
+      <!-- 内容区 -->
+      <div id="content-wrap" class="content-wrap bg-white padding-lr-20px" style="min-height: 600px; margin-top: 144px;">
+        <!-- 表格 -->
+       
+        <!-- 已通知 -->
+        <div class="tb-tbody" ng-if="expenditureType === expenditureTypeModel.cost.val" style="min-width: 946px">
+          <div class="tb-tbody-tr" ng-repeat="cost in costList">
+            <!-- {{cost}} -->
+            <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.cjorderNo}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.localTn}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.v1}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.localContact}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.resendType}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.fee}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.deadline}}</span></div>
+
+            <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center noteremark">
+              <span class="hidden-three">{{cost.note}}</span>
+              <div class="hiddenNote">{{cost.note}}</div>
+            </div>
+            <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{cost.createdTime}}</span></div>
+          </div>
+        </div>
+        
+        <!-- 待重派 -->
+        <div class="tb-tbody" ng-if="expenditureType === expenditureTypeModel.dispute.val" >
+          <!-- {{expenditureTypeModel.dispute.val}} -->
+            <div class="tb-tbody-tr" ng-repeat="cost in disputeList">
+                <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div> -->
+                <div style="width: 10%" class="tb-tbody-td border-r-td"><span>{{cost.cjorderNo}}</span></div>
+                <div style="width: 9%" class="tb-tbody-td border-r-td"><span>{{cost.v1}}</span></div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td"><span>{{cost.localContact}}</span></div>
+                <div style="width: 9%" class="tb-tbody-td border-r-td"><span>{{cost.fee}}</span></div>
+                <div style="width: 8%" class="tb-tbody-td border-r-td"><span>{{cost.deadline}}</span></div>
+                <div style="width: 13%" class="tb-tbody-td border-r-td">
+                      <span style="text-align: left">姓名：{{cost.nameOfTheAddressee}}</span>
+                      <span style="text-align: left">地址：{{cost.address}}</span>
+                      <span style="text-align: left">城市：{{cost.city}}</span>
+                      <span style="text-align: left">省州: {{cost.province}}</span>
+                      <span style="text-align: left">邮编：{{cost.zipcode}}</span>
+                      <span style="text-align: left">电话：{{cost.telephone}}</span>
+                      <span style="text-align: left">国家：{{cost.country}}</span>
+                </div>
+                <div style="width: 14%" class="tb-tbody-td border-r-td">
+                  <!-- <span>{{cost.trackingNumber}}</span> -->
+                  <input style="width: 160px; margin:0 auto 10px;height: 70px;box-shadow: none;border-radius: 0 !important" type="text" class="form-control trackingNum" placeholder="请输入追踪号" ng-model="cost.chongpaiflow" id="chongpaiflow{{$index+1}}">
+                  <!-- <span>请输入追踪号</span> -->
+                  <!-- <b class="tb-btn-long"></b> -->
+                  <span class="searchBtn" ng-click="sureReceipt($index+1,cost,'chongpai')" style="cursor: pointer;margin: 0 auto">确定</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td">
+                  <div class="d-flex-center"><span>{{cost.ownerName || cost.salesmanName}}</span></div>
+                  <div class="d-flex-center" style="margin-top: 8px; color: #999;"><span>{{cost.ownerName ? '群主' : '业务员'}}</span></div>
+                </div>
+                <div style="width: 7%" class="tb-tbody-td border-r-td">
+                  <span>{{cost.execTime}}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td">
+                  <div class="tb-tbody-td border-r-td d-flex-center noteremark" ng-show="!showEdit">
+                    <span class="hidden-three">{{cost.v2 || '未填写'}}</span>
+                    <div class="hiddenNote">{{cost.v2 || '未填写'}}</div>
+                  </div>
+                  <!-- <span ng-show="!showEdit" style="height: 80px;">{{cost.v2 || '未填写'}}</span> -->
+                  <input ng-show="showEdit" style="width: 160px; margin:0 auto 10px;height: 70px;box-shadow: none;border-radius: 0 !important" type="text" class="form-control trackingNum" placeholder="请输入备注" ng-model="cost.chongpaips" id="chongpaips{{$index+1}}">
+                  <!-- <b class="tb-btn-long"></b> -->
+                  <span class="searchBtn" style="cursor: pointer;display: inline-block;margin-left: 38px;" ng-click="sureReceipt($index+1,cost,'beizhu')" ng-show="showEdit">确定</span>
+                  <span class="searchBtn" style="cursor: pointer;margin: 0 auto" ng-click="editPs(cost,$index)" ng-show="!showEdit">编辑</span>
+                  <span class="searchBtn" style="cursor: pointer;display: inline-block;" ng-click="cancleEditPs(cost,$index)" ng-show="showEdit">取消</span>
+                </div>
+                <!-- <div style="width: 8%" class="tb-tbody-td border-r-td">
+                  <span class="searchBtn" ng-click="sureReceipt($index+1,cost)" style="cursor: pointer;margin: 0 auto">确定</span>
+                </div> -->
+              </div>
+        </div>
+        <!-- 已重派 -->
+        <div class="tb-tbody" ng-if="expenditureType === expenditureTypeModel.sellComposite.val">
+            <div class="tb-tbody-tr" ng-repeat="cost in sellCompositeList">
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 10%" class="tb-tbody-td border-r-td"><span>{{cost.cjorderNo}}</span></div>
+              <div style="width: 9%" class="tb-tbody-td border-r-td"><span>{{cost.v1}}</span></div>
+              <div style="width: 10%" class="tb-tbody-td border-r-td"><span>{{cost.localContact}}</span></div>
+              <div style="width: 8%" class="tb-tbody-td border-r-td"><span>{{cost.fee}}</span></div>
+              <div style="width: 7%" class="tb-tbody-td border-r-td"><span>{{cost.deadline}}</span></div>
+              <div style="width: 14%" class="tb-tbody-td border-r-td">
+                  <span style="text-align: left">姓名：{{cost.nameOfTheAddressee}}</span>
+                  <span style="text-align: left">电话：{{cost.telephone}}</span>
+                  <span style="text-align: left">城市：{{cost.city}}</span>
+                  <span style="text-align: left">省州：{{cost.province}}</span>
+                  <span style="text-align: left">地址：{{cost.address}}</span>
+                  <span style="text-align: left">邮编：{{cost.zipcode}}</span>
+                  <span style="text-align: left">国家：{{cost.country}}</span>
+               </div>
+              <div style="width: 10%" class="tb-tbody-td border-r-td"><span>{{cost.trackingNumber}}</span><br></div>
+              <div style="width: 8%" class="tb-tbody-td border-r-td">
+                <div class="d-flex-center"><span>{{cost.ownerName || cost.salesmanName}}</span></div>
+                <div class="d-flex-center" style="margin-top: 8px; color: #999;"><span>{{cost.ownerName ? '群主' : '业务员'}}</span></div>
+              </div>
+              <div style="width: 7%" class="tb-tbody-td border-r-td">
+                <span>{{cost.updatedTime}}</span>
+              </div>
+              <div style="width: 7%" class="tb-tbody-td border-r-td">
+                <span>{{cost.execTime}}</span>
+              </div>
+              <div style="width: 10%" class="tb-tbody-td border-r-td"><span>{{cost.v2}}</span><br></div>
+            </div>
+        </div>
+        <!-- 分页 -->
+        <!-- 没有数据 -->
+        <div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+          <span>暂无数据</span>
+        </div>
+        <div class="page-box" ng-show="canShowPage">
+          <div class="select-page-num">
+            <select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+              style="width: 65px;height: 31px;">
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+            </select>
+            <span>每页</span>
+          </div>
+          <div class="total-num">
+            共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+          </div>
+          <div class="page-index">
+            <div class="pagegroup">
+              <a href="#">&lt;&lt;</a>
+              <a href="#">&lt;</a>
+              <a href="#">1</a>
+              <a href="#">2</a>
+              <a class="current" href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+              <a href="#">6</a>
+              <a href="#">···</a>
+              <a href="#">&gt;</a>
+              <a href="#">&gt;&gt;</a>
+            </div>
+          </div>
+          <div class="to-go">
+            <span>跳转：</span>
+            <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+            <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  
+    <!-- 重派确认弹框 -->
+    <div class="erp-common-tan-v2-wrap" ng-show="showFLag2">
+        <div class="erp-common-tan-v2 erp-common-tan-confirm" style="height: initial; width: 982px"> 
+            <div id="content-wrap2" class="content-wrap bg-white padding-lr-20px" style="margin-top: 80px">
+            <div class="right-bar-wrap ea-right-content right-bar-wrap1" style="height: initial; width: 940px; min-width: 0; padding: 20px 10px 20px 20px">
+             <!-- 表头 -->
+             <!-- 待重派 -->
+          <div class="tb-thead d-flex tb-thead-border">
+              <div style="width: 14%" class="tb-thead-th d-flex-center border-r-coffie">子订单号</div>
+              <div style="width: 14%" class="tb-thead-th d-flex-center border-r-coffie">货代名称</div>
+              <div style="width: 14%" class="tb-thead-th d-flex-center border-r-coffie">邮局联系方式</div>
+              <div style="width: 14%" class="tb-thead-th d-flex-center border-r-coffie">已付重派费（$）</div>
+              <div style="width: 14%" class="tb-thead-th d-flex-center border-r-coffie">截止日期</div>
+              <div style="width: 20%" class="tb-thead-th d-flex-center border-r-coffie">收件人信息</div>
+              <div style="width: 16%" class="tb-thead-th d-flex-center border-r-coffie">重派追踪号</div>
+              <div style="width: 16%" class="tb-thead-th d-flex-center">备注</div>
+          </div>
+                                                                                                                                                
+      <div class="tb-tbody" style="background: #fff">
+          <!-- <div class="tb-tbody-tr" ng-repeat="cost in chongdata"> -->
+          <div class="tb-tbody-tr">
+              <!-- <div style="width: 12.5%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div> -->
+              <div style="width: 14%" class="tb-tbody-td border-r-td d-flex-center"><span>{{chongdata.cjorderNo}}</span></div>
+              <div style="width: 14%" class="tb-tbody-td border-r-td d-flex-center"><span>{{chongdata.v1}}</span></div>
+              <div style="width: 14%" class="tb-tbody-td border-r-td d-flex-center"><span>{{chongdata.localContact}}</span></div>
+              <div style="width: 14%" class="tb-tbody-td border-r-td d-flex-center"><span>{{chongdata.fee}}</span></div>
+              <div style="width: 14%" class="tb-tbody-td border-r-td d-flex-center"><span>{{chongdata.deadline}}</span></div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td d-flex-center">
+                
+                <!-- <span>{{chongdata.info}}</span> -->
+                <span style="text-align: left">姓名：{{chongdata.nameOfTheAddressee}}</span>
+                <span style="text-align: left">地址：{{chongdata.address}}</span>
+                <span style="text-align: left">城市：{{chongdata.city}}</span>
+                <span style="text-align: left">省州: {{chongdata.province}}</span>
+                <span style="text-align: left">邮编：{{chongdata.zipcode}}</span>
+                <span style="text-align: left">电话：{{chongdata.telephone}}</span>
+                <span style="text-align: left">国家：{{chongdata.country}}</span>
+              
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td d-flex-center">
+                  <!-- <p>追踪号</p> -->
+                  <span>{{chongdata.chongpaiflow}}</span>
+              
+              </div>
+              
+              <div style="width: 16%" class="tb-tbody-td d-flex-center">
+                <!-- <p>备注</p> -->
+                <span>{{chongdata.chongpaips ? chongdata.chongpaips : chongdata.v2 ? chongdata.v2 :'未填写'}}</span>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top: 25px; margin-bottom: 38px;">{{showText}}</p>
+          <div class="tan-v2-bot">
+              <a href="javascript:void(0)" class="qu-xiao-btn" ng-click="showFLag2=false">取消</a>
+              <a href="javascript:void(0)" class="que-ding-btn" ng-click="sureConfirm1()">确定</a>
+          </div>
+        </div>
+      </div>
+      </div>
+        </div>
+    
+      <!-- 上传表格弹框 -->
+      <div class="erp-common-tan-v2-wrap" ng-show="showFLag3">
+          <div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 982px; height: 600px"> 
+              <div id="content-wrap3" class="content-wrap bg-white padding-lr-20px"
+              style="margin-top: 80px; height: 600px">
+              <div class="right-bar-wrap ea-right-content right-bar-wrap1" style="height: 500px; width: 940px; min-width: 0; padding: 20px 10px 20px 20px;">
+               <!-- 表头 -->
+               <!-- 待重派 -->
+            <div class="tb-thead d-flex tb-thead-border" >
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">子订单号</div>
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">追踪号</div>
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">货代名称</div>
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">邮局联系方式</div>
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">取单方式</div>
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">重派费（$）</div>
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">截止日期</div>
+                <div style="width: 12.5%" class="tb-thead-th d-flex-center border-r-coffie">问题描述</div>
+            </div>
+   <!-- 待重派 -->
+        <div class="tb-tbody"  style="background: #fff;  height: 450px;overflow: scroll; min-width: 956px;">
+            <div class="tb-tbody-tr" ng-repeat="cost in loadList" ng-class="{check:cost.v3==1 || cost.v3==3 || cost.v3 == 5, 'y-repeat': cost.v3 ==4}">
+                <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>
+                    {{cost.cjorderNo}}<br/>
+                      <span style="color:red;font-weight: bolder">
+                          {{cost.v3 == 1 ? '(订单不存在)' : ''}}
+                          {{cost.v3 == 3 ? '(订单已存在)' : ''}}
+                          {{cost.v3 == 4 ? '(订单重复)' : ''}}
+                      </span>
+                  </span>
+                </div>
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.localTn}}</span></div>
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.v1}}</span></div>
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.localContact}}</span></div>
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.resendType}}</span></div>
+                <!-- <div style="width: 12%;" class="tb-tbody-td border-r-td"><span>{{cost.updatedTime | date : 'yyyy/MM/dd'}} </span></div> -->
+                <!-- <div style="width: 12%;" class="tb-tbody-td border-r-td"><span>{{cost.updatedTime}} </span></div> -->
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cost.fee}}</span></div>
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center">
+                    <span>
+                        {{cost.deadline}}<br/>
+                         <span style="color:red;font-weight: bolder">
+                        {{cost.v3 == 5 ? '(截止日期必须在当前日期之后)' : ''}}
+                         </span>
+                    </span>
+                </div>
+                <div style="width: 12.5%" class="tb-tbody-td border-r-td d-flex-center noteremark">
+                  <span class="hidden-three">{{cost.note}}</span>
+                  <div class="hiddenNote">{{cost.note}}</div>
+                  <!-- <span>{{cost.note}}</span> -->
+                </div>
+                  <!-- <p>追踪号</p> -->
+              </div>
+          </div>
+        </div>
+        <div class="tan-v2-bot">
+            <a href="javascript:void(0)" class="qu-xiao-btn" ng-click="showFLag3=false" style="margin-top: 10px">取消</a>
+            <div class="search-group d-flex align-items-center hangnei" ng-if="!global">
+                <form action="" method="post" enctype="multipart/form-data" id="uploadimg3" style="display: inline">
+                    <label for="document2" class="asj-btn-s asj-btn-s2  mu-sczzh"
+                           style="display:inline-block;padding: 1px 12px">重新上传</label>
+                    <input name="file" type="file" multiple ng-model="documentupload3" id="document3"
+                           onchange="angular.element(this).scope().upLoadExcelFun1(this.files)"
+                           style="display: none;font-size: 0;cursor: pointer;">
+                </form>
+            </div>
+            <a href="javascript:void(0)" class="que-ding-btn" ng-click="sureConfirm()" ng-if="global">立即通知客户</a>
+            <!-- <a href="javascript:void(0)" class="que-ding-btn" ng-click="sureConfirm()" >立即通知客户</a> -->
+        </div>        
+        </div>
+        </div>
+      </div>
+</body>
+</html>
+<style>
+  .right-bar-wrap{
+      min-height: 0;
+  }
+  .tb-tbody{
+    /* min-width: 983px; */
+  }
+  .tb-tbody-tr {
+    align-items: center;
+  }
+  .erp-common-tan-v2-wrap{
+    width:100%;
+    min-height: 0;
+    padding-left: 0;
+  }
+  .right-bar-wrap1{
+    padding: 0 !important;
+  }
+  #content-wrap{
+      /* padding: 10px; */
+      box-sizing: border-box;
+  }
+  select{
+    padding: 2px 0 4px;
+  }
+  .hangnei{
+    display: inline !important;
+  }
+  .check{
+      color: #ff7700;
+  }
+  .y-repeat{
+    color: #ff0000;
+  }
+  .border-r-td{
+      vertical-align:middle;
+  }
+  .tb-tbody-td{
+    /* white-space:pre-line; */
+    word-wrap: break-word;
+    word-break: break-all;
+    position: relative;
+  }
+  .noteremark:hover .hiddenNote{
+        display: block   
+  }
+  .hiddenNote{
+    display: none;
+    width: 400px;
+    height: auto;
+    position: absolute;
+    top: 30px;
+    right: 130px;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    z-index: 12;
+  }
+ 
+</style>
+

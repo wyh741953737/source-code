@@ -1,0 +1,335 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>后台通用框架</title>
+</head>
+<meta charset="utf-8">
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/js/public/topinyin.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="static/bootstrap-table-master/src/bootstrap-table.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/export/bootstrap-table-export.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/angular/bootstrap-table-angular.js"></script>
+<link href="static/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet" />
+<link href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="static/bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+<script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="static/bootstrap-validator/dist/js/bootstrapValidator.min.js"></script>
+<script src="static/bootstrap-validator/dist/js/language/zh_CN.js"></script>
+<script src="static/layer/layer.js"></script>
+<link href="static/bootstrap-validator/dist/css/bootstrapValidator.min.css" rel="stylesheet">
+<script src="static/angular-1.5.8/angular-cookies.min.js"></script> 
+<link rel="stylesheet" href="static/css/index.css">
+<body>
+<div class="pageBox container" ng-app="myApp" ng-controller="tableCtrl">
+    <!-- 修改弹框 -->
+    <div class="modal fade" id="Modal-exdit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        修改列表
+                    </h4>
+                </div>
+                <div class="modal-body form-horizontal">
+                    <h4><span class="label label-info">基本信息</span></h4>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">姓名<span class="glyphicon glyphicon-asterisk"></span></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" pattern="[a-zA-Z\u4E00-\u9FA5]+$" data-bv-regexp-message="只能包含中文或英文" id="name" placeholder="请输入" ng-model="name" name="name" disabled  ng-blur="loginTrue()">
+                        </div>
+                        <div class="help-block with-errors col-sm-4"></div>                        
+                    </div>
+                    <div class="form-group">
+                        <label for="loginName" class="col-sm-3 control-label">登录名<span class="glyphicon glyphicon-asterisk"></span></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="loginName" placeholder="请输入" ng-model="loginName" name="loginName" disabled  ng-blur="loginTrue()">
+                        </div>                   
+                    </div>
+                    <form id="editMol" class="form-horizontal" role="form" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                        <div class="form-group">
+                           <label for="idCard" class="col-sm-3 control-label">身份证号<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" placeholder="请输入" pattern="(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)" data-bv-regexp-message="请输入正确的身份证号" data-bv-notempty-message="请输入身份证号" data-bv-trigger="blur" name="idCard" ng-model="idCard" ng-blur="setBirday()" required>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>                          
+                        </div>
+                        <div class="form-group">
+                            <label for="sex" class="col-sm-3 control-label">性别<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <div style="padding-left: 0">
+                                    <select class="form-control input" ng-model="sex"  data-bv-notempty-message="请选择性别" name="sex" data-bv-trigger="blur" disabled required>
+                                        <option value="">请选择</option>
+                                        <option value="0">男</option>
+                                        <option value="1">女</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate" class="col-sm-3 control-label">出生日期<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="birthDate" data-bv-trigger="blur" data-bv-notempty-message="出生日期不能为空" ng-model="birthDate" name="birthDate" disabled required>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hireDate" class="col-sm-3 control-label">入职时间<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <div class="input-group date form_hireDate" data-date="" id="hireDate" data-date-format="dd MM yyyy" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="16" type="text" readonly="" data-bv-trigger="change" ng-model="hireDate" name="hireDate" required>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                       <div class="form-group">
+                            <label for="roles" class="col-sm-3 control-label">权限分组<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+
+                                <div style="padding-left: 0">
+                                    <select class="form-control input" ng-model="roles" data-bv-notempty-message="请选择权限分组" data-bv-trigger="blur" name="roles" required>
+                                        <option value="">请选择</option>
+                                        <option  ng-repeat="list in getList" value="{{list.id}}">{{list.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="department" class="col-sm-3 control-label">部门<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <div style="padding-left: 0">
+                                    <select class="form-control input" ng-model="department" data-bv-notempty-message="请选择部门" data-bv-trigger="blur" name="department" required>
+                                        <option value="">请选择</option>
+                                        <option value="总裁办">总裁办</option>
+                                        <option value="财务部">财务部</option>
+                                        <option value="法务部">法务部</option>
+                                        <option value="研发部">研发部</option>
+                                        <option value="销售部">销售部</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <h4><span class="label label-info">联系方式</span></h4>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-3 control-label">手机号码<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="phone" class="form-control" id="phone" pattern="^1[3,4,5,7,8]\d{9}$" data-bv-trigger="blur" placeholder="请输入" name="phone" data-bv-notempty-message="请输入正确的手机号码" ng-model="phone" required>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">电子邮件<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="email" class="form-control" id="email"  pattern="^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" placeholder="请输入" data-bv-trigger="blur" data-bv-regexp-message="请输入正确的邮箱" name="email" ng-model="email" maxlength="50" ng-change="eyeEmail()" required>
+                            </div>
+                            <div class="help-block with-errors col-sm-4" ng-show="mailShow">{{moreEmail}}</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" ng-click="confirEdiClear()">
+                        重置
+                    </button>
+                    <button type="submit" class="btn btn-primary" ng-click="addBtnEditarClick()">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 新增弹框 -->
+    <div class="modal fade" id="Modal-add" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        新增用户
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="addMol" class="form-horizontal" role="form" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                        <h4><span class="label label-info">基本信息</span></h4>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">姓名<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" placeholder="请输入" pattern="[a-zA-Z\u4E00-\u9FA5]+$" data-bv-regexp-message="只能包含中文或英文" ng-model="name" name="name" ng-change="setLogin()" data-bv-notempty-message="请输入姓名" data-bv-trigger="blur" required ng-blur="loginTrue()" maxlength="11">
+                            </div>
+                            <div class="help-block with-errors col-sm-4" ng-show="moreShow">{{more}}</div>                        
+                        </div>
+                        <div class="form-group">
+                            <label for="toPinyin" class="col-sm-3 control-label">登录名<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" pattern="^[0-9a-zA-Z]*$" id="toPinyin" placeholder="请输入" data-bv-regexp-message="登录名只能包含数字或字母" ng-model="toPinyin" ng-change="cheackLogin()" name="toPinyin" data-bv-notempty-message="请输入登录名" data-bv-trigger="blur" required ng-blur="loginTrue()"  maxlength="31">
+                            </div>
+                            <div class="help-block with-errors col-sm-4" ng-show="flow">{{exit}}</div>                        
+                            <div class="help-block with-errors col-sm-4" ng-show="lengthFlow">{{lengthExit}}</div>                        
+                        </div>
+                        <div class="form-group">
+                            <label for="idCard" class="col-sm-3 control-label">身份证号<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" placeholder="请输入" pattern="(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)" data-bv-regexp-message="请输入正确的身份证号" data-bv-notempty-message="请输入身份证号" data-bv-trigger="blur" name="idCard" ng-model="idCard" ng-blur="setBirday()" required>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>                        
+                        </div>
+                        <div class="form-group">
+                            <label for="sex" class="col-sm-3 control-label">性别<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <div style="padding-left: 0">
+                                    <select class="form-control input" ng-model="sex"  data-bv-notempty-message="请选择性别" name="sex" data-bv-trigger="blur" disabled required>
+                                        <option value="">请选择</option>
+                                        <option value="0">男</option>
+                                        <option value="1">女</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate" class="col-sm-3 control-label">出生日期<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input class="form-control" class="form-control" type="text" data-bv-trigger="change" data-bv-notempty-message="出生日期不能为空" placeholder="点击获取" ng-model="birthDate" name="birthDate" required disabled>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hireDate" class="col-sm-3 control-label">入职时间<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <div class="input-group date form_hireDate" data-date="" id="hireDate" data-date-format="dd MM yyyy" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="16" type="text" readonly="" data-bv-trigger="change" ng-model="hireDate" name="hireDate" required>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="roles" class="col-sm-3 control-label">权限分组<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <div style="padding-left: 0">
+                                    <select class="form-control input" ng-model="roles" data-bv-notempty-message="请选择权限分组" data-bv-trigger="blur" name="roles" required>
+                                        <option value="">请选择</option>
+                                        <option  ng-repeat="list in getList" value="{{list.id}}">{{list.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="department" class="col-sm-3 control-label">部门<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <div style="padding-left: 0">
+                                    <select class="form-control input" ng-model="department" data-bv-notempty-message="请选择部门" data-bv-trigger="blur" name="department" required>
+                                        <option value="">请选择</option>
+                                        <option value="总裁办">总裁办</option>
+                                        <option value="财务部">财务部</option>
+                                        <option value="法务部">法务部</option>
+                                        <option value="研发部">研发部</option>
+                                        <option value="销售部">销售部</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <h4><span class="label label-info">联系方式</span></h4>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-3 control-label">手机号码<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="phone" class="form-control" id="phone" pattern="^1[3,4,5,7,8]\d{9}$" data-bv-trigger="blur" placeholder="请输入" name="phone" data-bv-notempty-message="请输入正确的手机号码" ng-model="phone" required>
+                            </div>
+                            <div class="help-block with-errors col-sm-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">电子邮件<span class="glyphicon glyphicon-asterisk"></span></label>
+                            <div class="col-sm-5">
+                                <input type="email" class="form-control" id="email" pattern="^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" placeholder="请输入" data-bv-trigger="blur" maxlength="50" data-bv-regexp-message="请输入正确的邮箱" name="email" ng-model="email" ng-change="eyeEmail()" required>
+                            </div>
+                            <div class="help-block with-errors col-sm-4" ng-show="mailShow">{{moreEmail}}</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" ng-click="confirNewClear()">
+                        重置
+                    </button>
+                    <button type="submit" class="btn btn-primary" ng-click="add()">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 操作成功 -->
+    <div class="alert alert-success ng-hide" role="alert" ng-show="isFalse" style="margin-top: 15px;">操作成功</div>
+    <!-- 警告弹框 -->
+    <div class="alert alert-danger ng-hide" role="alert" ng-show="isHttp" style="margin-top: 15px;">操作失败</div>
+    <div id="toolbar" class="btn-group">
+        <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#Modal-add" ng-click="moveClear()">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+        </button>
+        <button id="btn_delete" type="button" class="btn  btn-danger" ng-click="btnNovoClick('')">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+        </button> 
+        <!-- 模板下载 -->           
+        <form id="userMoter" action="app/att/download" method="get" style="display: none;"> 
+            <input type="hidden" name="userId" value="{{userId}}">               
+            <input type="hidden" name="token" value="{{token}}">               
+            <input type="hidden" name="data" value="{5C7E16D1-0D95-480B-A78D-4BC2027D78B3}"> 
+        </form>
+        <button id="btn_basic" type="button" class="btn  btn-default" ng-click="moUser()">
+            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>模板下载
+        </button>
+        <!-- 用户导出 -->
+        <form id="exportUser" action="app/user/exportUser" method="post" style="display: none;"> 
+            <input type="hidden" name="userId" value="{{userId}}">               
+            <input type="hidden" name="token" value="{{token}}">               
+            <input type="hidden" name="department" ng-model="roleId" value="{{roleId}}">               
+            <input type="hidden" name="name" class="serName">               
+        </form>
+        <button id="btn_export" type="button" class="btn  btn-default" ng-click="downExcel()">
+            <span class="glyphicon glyphicon-open" aria-hidden="true"></span>导出excel
+        </button>
+        <div class="up"> 
+            <!-- 用户上传 -->
+            <iframe id="file_upload_return" hidden="true" name="file_upload_return"></iframe>               
+            <form id= "uploadExcel" enctype="multipart/form-data" method="post"  target="file_upload_return" action="app/user/uploadUser">
+                <input type="hidden" name="userId" value="{{userId}}">               
+                <input type="hidden" name="token" value="{{token}}">
+                <input class="J_export file form-control" name="file" type="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="angular.element(this).scope().upExcel(this.files)" ng-model="file" style="opacity: 0;" />
+            </form>
+            <button id="btn_export" type="button" class="btn  btn-default">
+                <span class="glyphicon glyphicon-open" aria-hidden="true"></span>导入excel
+            </button>
+        </div>
+        <label class="" for="department">部门</label>
+        <select class="form-control" name="department" style="display: inline-block;width: auto;" ng-model="roleId" ng-change="roleSelect()">
+            <option value="">全部</option>
+                <option value="总裁办">总裁办</option>
+                <option value="财务部">财务部</option>
+                <option value="法务部">法务部</option>
+                <option value="研发部">研发部</option>
+                <option value="销售部">销售部</option>
+        </select>
+        <label class="control-label">姓名</label>
+    </div>
+    <table id="table" init-table="options"></table>
+</div>
+<script src="static/js/page/user.js"></script>
+<script>
+    $(document).ready(function() {          
+        $('#addMol').bootstrapValidator();
+        $('#editMol').bootstrapValidator();
+    });
+</script>
+</body>
+</html>

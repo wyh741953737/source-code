@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .input-group{
+            display: flex;
+            justify-content: center;
+        }
+        .input-group>input{
+            height: 35px;
+            width: 250px;
+            padding: 2px 5px;
+        }
+        .input-group>button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -1px;
+            /*top: 1px;*/
+            height: 35px;
+            padding: 0 15px;
+        }
+        .searchGroup{
+            margin-left: 15px;
+        }
+        .searchGroup input{
+            height: 35px;
+            width: 150px;
+            padding: 2px 5px;
+            border: 1px solid #e0e0e0;
+        }
+        .searchGroup input:nth-child(2){
+            position: relative;
+            left: -5px;
+        }
+        .searchGroup button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -10px;
+            /*top: 1px;*/
+            height: 35px;
+            padding: 0 15px;
+        }
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .fastBtn{
+            padding: 5px 15px;
+            background: #F8A636;
+            color: #fff;
+            border-radius: 4px;
+            margin: 0 15px;
+        }
+        tbody button{
+            color: #F8A636;
+            border: 1px solid #F8A636;
+            border-radius: 5px;
+            padding: 5px 10px;
+            background: #fff;
+        }
+        tbody button:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right:0;
+            background: rgba(0,0,0,0.4);
+            z-index: 9999999;
+        }
+        .zzc1{
+            display: none;
+        }
+        .wrap{
+            background: #fff;
+            border-radius: 5px;
+            min-height: 300px;
+            padding: 15px 25px;
+        }
+        .addWrap{
+            width: 400px;
+            margin: 150px auto;
+        }
+        .wrap h2{
+            text-align: center;
+        }
+        .wrapGroup{
+            margin-top: 20px;
+            display: flex;
+        }
+        .wrapGroup label{
+            width: 80px;
+            line-height: 30px;
+        }
+        .wrapGroup input{
+            width: 240px;
+            height: 30px;
+            border-radius: 5px;
+        }
+        .wrapGroup textarea{
+            width: 240px;
+            height: 100px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+        }
+        .wrapBottom button{
+            margin: 0 15px;
+            background: #F8A636;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 5px;
+        }
+        .UpdateBtn{
+            display: none;
+        }
+        .previewWrap{
+            width: 768px;
+            margin: 50px auto;
+        }
+        .zzc2{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px 20px">
+            <div class="ea-right-search">
+                <div class="input-group">
+                    <input placeholder="请输入模板名称" id="searchInput" ng-model="searchInfo" type="text"/>
+                    <button ng-click="search()">{{'100025' | translate}}</button>
+                    <div class="searchGroup">
+                        <input class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                        <input id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                        <button class="linkBtn" ng-click="searchFun()">查询</button>
+                    </div>
+                </div>
+
+                <button class="fastBtn" id="addFastReply" ng-click="openAdd()">新增模板</button>
+            </div>
+            <div class="pageWrap" style="margin-top: 15px">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>创建时间</th>
+                        <th>模板名称</th>
+                        <th>邮件标题</th>
+                        <th>创建人</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="page in pageList">
+                        <td>{{page.creatDate}}</td>
+                        <td>{{page.templateName}}</td>
+                        <td>{{page.emailTitle}}</td>
+                        <td>{{page.name}}</td>
+                        <td>{{classState(page.state)}}</td>
+                        <td>
+                            <button ng-click="openPreview(page.pageSourceCode)">预览</button>
+                            <button ng-click="openEdit(page.id,page.templateName,page.emailTitle,page.pageSourceCode,page.state)">编辑</button>
+                            <button ng-show="page.state==0" ng-click="updateState(page)">停用</button>
+                            <button ng-show="page.state==1" ng-click="updateState(page)">启用</button>
+                            <button ng-click="deleteFun(page.id)">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <page></page>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--新增编辑 弹窗-->
+<div class="zzc zzc1">
+    <div class="wrap addWrap">
+        <h2>新增模板</h2>
+        <div class="wrapGroup">
+            <label>模板名称：</label>
+            <input id="modelName" type="text"/>
+        </div>
+        <div class="wrapGroup">
+            <label>邮件标题：</label>
+            <input id="mailTitle" type="text"/>
+        </div>
+        <div class="wrapGroup">
+            <label>模板代码：</label>
+            <textarea id="modelCode">
+            </textarea>
+        </div>
+        <div class="wrapGroup wrapBottom" style="justify-content: center">
+            <button class="addBtn" ng-click="addFun()">新增</button>
+            <button class="UpdateBtn">修改</button>
+            <button ng-click="closeZzc1()">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!--预览 弹窗-->
+<div class="zzc zzc2">
+    <div class="wrap previewWrap">
+        <h2>预览</h2>
+        <div class="preview" style="margin-top: 15px;height: 720px;overflow-y: auto">
+
+        </div>
+        <div class="wrapGroup wrapBottom" style="justify-content: center">
+            <button ng-click="closeZzc2()">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

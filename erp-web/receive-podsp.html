@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>POD商品签收</title>
+    <link rel="shortcut icon" href="static/favicons.png"/>
+    <style type="text/css">
+        .tip-div {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #tx {
+            text-indent: 12px;
+            width: 500px;
+            height: 40px;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        .rk-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            /*display: none;*/
+            z-index: 99;
+        }
+
+        .changebz-wrap, .chage-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            z-index: 99;
+        }
+
+        .index-wrap {
+            z-index: 999;
+        }
+
+        .ydh-rk-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            z-index: 99;
+        }
+
+        .rk-con, .changWeight-con {
+            width: 1000px;
+            height: 520px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 4px;
+            border: 1px solid #ececec;
+            background-color: #fff;
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        .changWeight-con {
+            width: 450px;
+            height: 190px;
+        }
+
+        .qs-con {
+            width: 450px;
+            height: 190px;
+        }
+
+        .changWeight-con p {
+            font-size: 18px;
+        }
+
+        .next-change {
+            height: 120px;
+        }
+
+        .next-change p {
+            font-size: 14px;
+        }
+
+        .next-change .btn-primary {
+            margin-left: 50px;
+        }
+
+        .changWeight-con .cwtip-p {
+            font-size: 12px;
+        }
+
+        .changWeight-con label {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .rk-main {
+            overflow: hidden;
+        }
+
+        .rk-main .rk-left {
+            float: left;
+            width: 50%;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .ydh-rk-left {
+            padding-right: 20px;
+        }
+
+        .rk-main .rk-right {
+            float: left;
+            width: 50%;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .rk-sp-img {
+            max-width: 260px;
+            max-height: 300px;
+        }
+
+        .rksp-detailcon ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rksp-detailcon li {
+            padding: 10px 0;
+            height: 40px;
+            /*border: 1px solid blue;*/
+        }
+
+        .rk-num {
+            text-indent: 12px;
+        }
+
+        .rksp-detailcon select {
+            width: 60%;
+            height: 30px;
+            border-radius: 4px;
+        }
+
+        .rkspdetail-left {
+            /*border:1px solid red;*/
+            width: 28%;
+            display: inline-block;
+            vertical-align: top;
+            text-align: right;
+        }
+
+        .rkspdetail-right {
+            /*border:1px solid red;*/
+            width: 70%;
+            display: inline-block;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .selck-div {
+            margin-top: 20px;
+        }
+
+        .rk-btns {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .rk-btns .qs-btn {
+            margin-left: 50px;
+        }
+
+        #sure-rktk {
+            margin-left: 20px;
+        }
+
+        /*树样式*/
+        ul.domtree, ul.domtree ul {
+            margin: 0;
+            /*padding: 0 0 0 2em;*/
+            padding: 0 0 0 2.5em;
+        }
+
+        ul.domtree li {
+            list-style: none;
+            position: relative;
+            color: #B05609;
+            line-height: 2em;
+            font-size: 16px;
+        }
+
+        ul.domtree > li:first-child:before {
+            border-style: none none solid none;
+        }
+
+        ul.domtree li:before {
+            position: absolute;
+            content: '';
+            top: -0.01em;
+            left: -0.7em;
+            width: 0.5em;
+            height: 1em;
+            /* height: 0.615em; */
+            border-style: none none solid solid;
+            /* border-width: 1px; */
+            border-width: 0.05em;
+            border-color: #FFB85F;
+        }
+
+        ul.domtree li:not(:last-child):after {
+            position: absolute;
+            content: '';
+            top: -0.1em;
+            /* top: 0.7em; */
+            left: -0.7em;
+            bottom: 0;
+            border-style: none none none solid;
+            /* border-width: 1px; */
+            border-width: 0.05em;
+            border-color: #FFB85F;
+        }
+
+        .openup-icon, .packup-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            text-align: center;
+            background: #FCF4D9;
+            color: #FFB85F;
+        }
+
+        .name-span {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0 5px;
+            font-size: 14px;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .name-span.active {
+            background: #f7debd;
+        }
+
+        p.top-info {
+            text-align: left;
+            margin: 0;
+        }
+
+        .rk-wight {
+            vertical-align: top;
+        }
+
+        .inp-erractive {
+            border: 1px solid red;
+            color: red;
+        }
+
+        .inp-sucactive {
+            border: 1px solid green;
+            color: green;
+        }
+
+        .selck-div .radio-inp {
+            margin-right: 20px;
+        }
+
+        .ydh-img-box {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            /*height: 120px;*/
+            margin: 0 auto;
+        }
+
+        .ydh-img {
+            max-height: 60px;
+            /*max-width: 120px;*/
+        }
+
+        .ydh-img-box .ydh-big-img {
+            position: absolute;
+            left: 60px;
+            top: 0;
+            display: none;
+            z-index: 9;
+        }
+
+        .ydh-img-box:hover .ydh-big-img {
+            display: block;
+        }
+
+        .ydh-img-box .ydh-big-img-bottom {
+            bottom: 0;
+            top: auto;
+        }
+
+        .ydh-tit {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .bulk-ydhrk {
+            float: right;
+            margin-right: 50px;
+        }
+
+        .ydh-rktit {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .ydhrk-detailcon {
+            height: 390px;
+            overflow-y: auto;
+        }
+
+        /*运单号入库重量的输入框*/
+        .ydh-table th {
+            text-align: center;
+        }
+
+        .ydh-table td {
+            text-align: center;
+        }
+
+        .ydh-weightInp {
+            width: 80px;
+        }
+
+        .qs-res-con textarea {
+            resize: none;
+            width: 100%;
+            height: 100px;
+            border-radius: 4px;
+        }
+
+        .sku-right {
+            font-size: 24px;
+            color: #e55264;
+        }
+
+        .gold-back {
+            background-color: gold;
+        }
+
+        .yjy-sku {
+            font-size: 24px;
+            text-align: center;
+            color: #04a452;
+        }
+
+        /*.modal-body {
+            height: 300px;
+            overflow: auto;
+        }
+*/
+        /*.model-bodyact {
+            width: 50%;
+            display: inline-block;
+        }*/
+
+        .detail-div {
+            float: right;
+            width: 50%;
+            padding: 15px;
+        }
+
+        .big-img-div img {
+            width: 100%;
+        }
+
+        .WaringTxt {
+            font-size: 16px;
+            color: red;
+            text-align: left;
+            line-height: 2;
+        }
+        .putong{
+            width: 45%;
+            float: left;
+        }
+        .zhifa{
+            width: 45%;
+            float: right;
+        }
+        ul li {
+            list-style: none;
+        }
+        .mar-left70{
+            margin-left: 70px;
+        }
+    </style>
+</head>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<body ng-app="barcodeApp" ng-controller="barcodeAppCtrl">
+<!-- <div class="bg-wrap"></div> -->
+<div class="tip-div">
+    <p>
+        <font size='10' color="lightseagreen">POD商品签收</font>
+    </p>
+    <input id="tx" type="text" placeholder="请扫描条形码"/>
+</div>
+<p class="mar-left70" ng-show="danPinMdLink">
+    <span>面单链接: </span>
+    <span>{{danPinMdLink}}</span>
+</p>
+<p class="mar-left70" ng-show="duoPinBianHao">
+    <span>POD编号: </span>
+    <span>{{duoPinBianHao}}</span>
+</p>
+<p class="mar-left70" ng-show="duoPinBianHaoTiaoMa">
+    <span>POD条码: </span>
+    <span>{{duoPinBianHaoTiaoMa}}</span>
+</p>
+<p class="WaringTxt">{{WaringTxt}}</p>
+<!-- 运单号入库的弹框 -->
+<!-- class="modal fade" -->
+<div id="YdhModal" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document" style="width: 90%;">
+        <div class="modal-content"
+             style="box-shadow: 0 0 10px #eee; border: 1px solid #ececec; background: #f8f8f8;padding-bottom: 40px;">
+            <div class="modal-header">
+                <span class="ydh-tit">sku详情</span>
+                <span style="margin-left: 30px;" ng-repeat="(key,val) in ydhList[0].zhuiZongHao">{{val}} {{key}}</span>
+                
+                <button type="button" style="margin-right: 0;margin-left: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="selSpStuFun(1)">验货通过
+                </button>
+                <button type="button" style="margin-right: 0;margin-left: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="selSpStuFun(2)">次品
+                </button>
+                <button type="button" style="margin-right: 0;margin-left: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="selSpStuFun(3)">定制不符
+                </button>
+                <!-- <button type="button" style="margin-right: 0;margin-left: 10px;" class="btn btn-primary bulk-ydhrk" ng-click="danyinFun()">打印
+                </button> -->
+                <!-- <button type="button" style="margin-right: 0;margin-left: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="selSpStuFun(0)">未验货
+                </button> -->
+                
+            </div>
+            <div class="modal-body" ng-class='{"model-bodyact":ydhList.length>0}'>
+                <table class="table table-bordered ydh-table">
+                    <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>订单号</th>
+                        <th>商品名称</th>
+                        <th>商品编码</th>
+                        <th>商品状态</th>
+                        <th>商品数量</th>
+                        <!-- <th>到货仓库</th> -->
+                        <!-- <th>操作</th> -->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="qianshou-tr" ng-repeat="item in ydhList">
+                        <td>
+                            <p style="position: relative; padding-right: 24px;">
+                                <span>{{item.skuLeft}}</span><span class="sku-right">{{item.skuRight}}</span>
+                                <a href="javascript:void(0)"
+                                   style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;"
+                                   title="复制SKU" ng-click="copyWord(item.sku)"><img style="height: 18px;"
+                                                                                    src="./static/image/public-img/copy.png"
+                                                                                    alt=""></a>
+                            </p>
+                            <!-- <p>短码：{{item.shortSku}}</p> -->
+                        </td>
+                        <td>{{item.cjorderId}}</td>
+                        <td>{{item.cjproductnamecn}}</td>
+                        <td>
+                            {{item.numberLabel}}
+                        </td>
+                        <td>
+                            <p ng-if="item.goodsStatus==0">未验货</p>
+                            <p ng-if="item.goodsStatus==1">验货通过</p>
+                            <p ng-if="item.goodsStatus==2">次品</p>
+                            <p ng-if="item.goodsStatus==3">定制不符</p>
+                            <p ng-if="item.goodsStatus==4">已退回</p>
+                            <p ng-if="item.goodsStatus==5">已补发</p>
+                            <p ng-if="item.goodsStatus==6">补发已送达</p>
+                        </td>
+                        <td>{{item.productQuantity}}</td>
+                        <!-- <td>
+                            {{item.procurementOrderId}}
+                            <p>采购人: {{item.caiGouRen}}</p>
+                            <p ng-if="item.dingDanZhuangtai=='zhengChang'">状态: <span style="color:#04a452;">正常</span>
+                            </p>
+                            <p ng-if="item.dingDanZhuangtai=='vip'">状态: <span style="color:#f1ca16;">Vip</span></p>
+                            <p ng-if="item.dingDanZhuangtai=='jiaJi'">状态: <span style="color:#e55264;">加急</span></p>
+                            <p ng-if="item.dingDanZhuangtai=='zhiFa'">状态: <span style="color:#5dbdf2;">直发</span></p>
+                            <p ng-if="item.dingDanZhuangtai=='zuZhuang'">状态: <span style="color:#faa538;">组装</span></p>
+                            <p ng-if="item.dingDanZhuangtai=='buRuKu'">状态: <span style="color:#faa538;">不入库</span></p>
+                        </td> -->
+                        <!-- <td>
+                            <input type="number" ng-model="item.COUNT" style="width:80px;">
+                        </td>
+                        <td>{{item.STORAGENAME}}</td> -->
+                        <!-- <td>
+                            <button class="btn btn-primary" ng-click="yiChangFun(item)">异常</button>
+                        </td> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-body" ng-if="properties.type==0">
+                <table class="table table-bordered ydh-table" ng-if="properties.customMessgae">
+                    <thead>
+                        <tr>
+                            <th>定制位置</th>
+                            <th>定制区域图</th>
+                            <th>展示图</th>
+                            <th>定制信息</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="qianshou-tr"  ng-if="properties.customMessgae.zone.front">
+                            <td>前</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.front.editimgurl}}" alt=""/>
+                            </td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.front.showimgurl}}" alt=""/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr class="qianshou-tr"  ng-if="properties.customMessgae.zone.back">
+                            <td>后</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.back.editimgurl}}" alt=""/>
+                            </td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.back.showimgurl}}" alt=""/>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered ydh-table" ng-if="properties.customDesign">
+                    <thead>
+                        <tr>
+                            <th>定制位置</th>
+                            <th>定制区域图</th>
+                            <th>定制信息</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="qianshou-tr"  ng-if="properties.customMessgae.zone.front">
+                            <td>前</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customDesign.front.imgUrl}}" alt=""/>
+                            </td>
+                            <td>
+                                <p class="pod-text-p" ng-show="properties.customDesign.front.text">
+                                    <span class="pod-text-tit">定制文字:</span>
+                                    <span>{{properties.customDesign.front.text}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customDesign.front.fontsize">
+                                    <span class="pod-text-tit">字体大小:</span>
+                                    <span>{{properties.customDesign.front.fontsize}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customDesign.front.fontcolor">
+                                    <span class="pod-text-tit">字体颜色:</span>
+                                    <span>{{properties.customDesign.front.fontcolor}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customDesign.front.fontfamily">
+                                    <span class="pod-text-tit">字体名字:</span>
+                                    <span>{{properties.customDesign.front.fontfamily}}</span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr class="qianshou-tr"  ng-if="properties.customMessgae.zone.back">
+                            <td>后</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customDesign.back.imgUrl}}" alt=""/>
+                            </td>
+                            <td>
+                                <p class="pod-text-p" ng-show="properties.customDesign.back.text">
+                                    <span class="pod-text-tit">定制文字:</span>
+                                    <span>{{properties.customDesign.back.text}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customDesign.back.fontsize">
+                                    <span class="pod-text-tit">字体大小:</span>
+                                    <span>{{properties.customDesign.back.fontsize}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customDesign.back.fontcolor">
+                                    <span class="pod-text-tit">字体颜色:</span>
+                                    <span>{{properties.customDesign.back.fontcolor}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customDesign.back.fontfamily">
+                                    <span class="pod-text-tit">字体名字:</span>
+                                    <span>{{properties.customDesign.back.fontfamily}}</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-body" ng-if="properties.type==1">
+                <h2 style="text-align: center;font-size: 18px;">客户的客户定制个性化信息</h2>
+                <p style="text-align: center;" ng-if="properties.customMessgae">CJ定制区域</p>
+                <table class="table table-bordered ydh-table" ng-if="properties.customMessgae">
+                    <thead>
+                        <tr>
+                            <th>定制位置</th>
+                            <th>定制区域图</th>
+                            <th>展示图</th>
+                            <th>定制信息</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="qianshou-tr"  ng-if="properties.customMessgae.zone.front">
+                            <td>前</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.front.editimgurl}}" alt=""/>
+                            </td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.front.showimgurl}}" alt=""/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr class="qianshou-tr"  ng-if="properties.customMessgae.zone.back">
+                            <td>后</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.back.editimgurl}}" alt=""/>
+                            </td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customMessgae.zone.back.showimgurl}}" alt=""/>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="text-align: center;" ng-if="properties.customPodDesign">客户定制信息</p>
+                <table class="table table-bordered ydh-table" ng-if="properties.customPodDesign">
+                    <thead>
+                        <tr>
+                            <th>定制位置</th>
+                            <th>效果图</th>
+                            <th>定制图</th>
+                            <th>定制信息</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="qianshou-tr"  ng-if="properties.customPodDesign.cj_pod_zone_front">
+                            <td>前</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customPodDesign.cj_pod_zone_front.design_sketch}}" alt=""/>
+                            </td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customPodDesign.cj_pod_zone_front.podimage}}" alt=""/>
+                            </td>
+                            <td>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_front.podtext">
+                                    <span class="pod-text-tit">定制文字:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_front.podtext}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_front.fontsize">
+                                    <span class="pod-text-tit">字体大小:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_front.fontsize}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_front.fontcolor">
+                                    <span class="pod-text-tit">字体颜色:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_front.fontcolor}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_front.fontfamily">
+                                    <span class="pod-text-tit">字体名字:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_front.fontfamily}}</span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr class="qianshou-tr"  ng-if="properties.customPodDesign.cj_pod_zone_back">
+                            <td>后</td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customPodDesign.cj_pod_zone_back.design_sketch}}" alt=""/>
+                            </td>
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.customPodDesign.cj_pod_zone_back.podimage}}" alt=""/>
+                            </td>
+                            <td>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_back.podtext">
+                                    <span class="pod-text-tit">定制文字:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_back.podtext}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_back.fontsize">
+                                    <span class="pod-text-tit">字体大小:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_back.fontsize}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_back.fontcolor">
+                                    <span class="pod-text-tit">字体颜色:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_back.fontcolor}}</span>
+                                </p>
+                                <p class="pod-text-p" ng-show="properties.customPodDesign.cj_pod_zone_back.fontfamily">
+                                    <span class="pod-text-tit">字体名字:</span>
+                                    <span>{{properties.customPodDesign.cj_pod_zone_back.fontfamily}}</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-body" ng-if="properties.type==2">
+                <h2 style="text-align: center;font-size: 18px;">客户的客户第三方定制个性化信息</h2>
+                    <table class="table table-bordered ydh-table">
+                        <thead>
+                        <tr>
+                            <th>示例图片</th>
+                            <th>留言备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="qianshou-tr">
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.image}}" alt=""/>
+                            </td>
+                            <td>
+                                <span>{{properties.text}}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-body" ng-if="!properties.type&&(properties.image||properties.text)">
+                <h2 style="text-align: center;font-size: 18px;">客户的客户第三方定制个性化信息</h2>
+                    <table class="table table-bordered ydh-table">
+                        <thead>
+                        <tr>
+                            <th>示例图片</th>
+                            <th>留言备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="qianshou-tr">
+                            <td>
+                                <img width="60" height="60" ng-src="{{properties.image}}" alt=""/>
+                            </td>
+                            <td>
+                                <span>{{properties.text}}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div class="detail-div" ng-show="itemObj">
+                <div class="info-detail-div">
+                    变体信息: <span class="sku-right" style="margin-right: 50px;">{{itemObj.skuRight}}</span>
+                    预计到货数量: <span class="sku-right">{{itemObj.COUNT}}</span>
+                </div>
+                <div class="big-img-div">
+                    <img ng-src="{{itemObj.img}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改商品状态 -->
+<div class="chage-wrap ng-hide stop-pro" ng-show="spChangeStuFlag">
+    <div class="changWeight-con next-change">
+        <p ng-if="spStu==1">确定该商品验货通过吗?</p>
+        <p ng-if="spStu==2">确定该商品是次品吗?</p>
+        <p ng-if="spStu==3">确定该商品与定制不符吗?</p>
+        <div class="rk-btns">
+            <button type="button" ng-click="cancelSpStuFun()" class="btn btn-default">关闭</button>
+            <button type="button" ng-click="sureSpStuFun()" class="btn btn-primary">确定</button>
+        </div>
+    </div>
+</div>
+<audio class="audio-vip" src="static/audio/vip.mp3"></audio>
+<audio class="audio-shoudan" src="static/audio/shoudan.mp3"></audio>
+<audio class="audio-zhengchang" src="static/audio/zhengchang.mp3"></audio>
+<audio class="audio-jiaji" src="static/audio/jiaji.mp3"></audio>
+<audio class="audio-qingzhuyi" src="static/audio/qingzhuyi.mp3"></audio>
+<audio class="audio-zhifa" src="static/audio/zhifa.mp3"></audio>
+<audio class="audio-zuzhuang" src="static/audio/zuzhuang.mp3"></audio>
+<audio class="audio-bufa" src="static/audio/bufa.mp3"></audio>
+<audio class="audio-buruku" src="static/audio/buruku.mp3"></audio>
+<audio class="audio-quehuoxuyao" src="static/audio/ssss.mp3"></audio>
+<audio class="audio-shibai" src="static/audio/shibai.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+<audio class="audio-podsp" src="static/audio/podsp.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+</audio>
+</body>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src='./static/layer/layer.js'></script>
+<script type="text/javascript">
+    (function (angular) {
+        var app = angular.module('barcodeApp', ['service']);
+        app.controller('barcodeAppCtrl', ['$scope', "erp", "$timeout", function ($scope, erp, $timeout) {
+            var nowDate = timestampToDate(new Date());
+            var bs = new Base64();
+            var erpLoginName = bs.decode(localStorage.getItem('erploginName')==undefined?'':localStorage.getItem('erploginName'));
+            $("#tx").focus();
+            $(document).click(function () {
+                $("#tx").focus();
+            })
+
+            $("#vsku").focus(function () {
+                $("#tx").focus();
+            });
+            // $scope.danyinFun = function(){
+            //     var upData = {};
+            //     upData.number = 'http://cc-west-usa.oss-us-west-1.aliyuncs.com/timers/c88f46fe3e334654ae0c6f992723c542.pdf,http://cc-west-usa.oss-us-west-1.aliyuncs.com/timers/b10489747a5d41339b8758bfb3dbbfc8.pdf'
+            //     upData.type = 2;
+            //     $.post('http://127.0.0.1:8080',upData,function(data){
+            //         console.log(data)
+            //     });
+            // }
+            function printFun(url,type){
+                if(url.indexOf('http')==-1){
+                    url = 'https://'+url;
+                }
+                var upData = {};
+                upData.number = url;
+                upData.type = type;
+                console.log(upData)
+                $.post('http://127.0.0.1:9090',upData,function(data){
+                    console.log(data)
+                });
+            }
+            function hashCode(str) {
+                var h = 0;
+                var len = str.length;
+                var t = 2147483648;
+                var mode,localPdfLink;
+                for (var i = 0; i < len; i++) {
+                    h = 31 * h + str.charCodeAt(i);
+                    if(h > 2147483647) h %= t;//java int溢出则取模
+                }
+                console.log(h)
+                mode = h%1000;
+                localPdfLink = "http://miandan.cjdropshipping.com/"+mode+'/'+str+'.pdf';
+                return localPdfLink;
+            }
+            hashCode('LM457076183CN')
+            var responseObj;
+            var storageId;
+            var menuId;
+            var ydhGlobelNum;
+            //扫码展示商品信息
+            var code;
+            var isCheckEndFlag = false;
+            var timer;
+            $scope.selSpStuFun = function(stu){
+                $scope.spChangeStuFlag = true;
+                $scope.spStu = stu;
+                console.log($scope.spStu)
+            }
+            $scope.cancelSpStuFun = function(){
+                $scope.spChangeStuFlag = false;
+            }
+            $scope.sureSpStuFun = function(){
+                console.log($scope.spStu)
+                erp.load()
+                var upJson = {};
+                upJson.id = $scope.ydhList[0].id;
+                upJson.goodsStatus = $scope.spStu;
+                erp.postFun('procurement/order/podExamineGoods',JSON.stringify(upJson),function(data){
+                    console.log(data)
+                    erp.closeLoad()
+                    var result;
+                    layer.msg(data.data.message)
+                    $scope.spChangeStuFlag = false;
+                    $scope.danPinMdLink = '';
+                    $scope.duoPinBianHao = '';
+                    $scope.duoPinBianHaoTiaoMa = '';
+                    if(data.data.code==200){
+                        $scope.ydhList = [];
+                        $scope.properties = null;
+                        // printFun()
+                        if($scope.spStu==1){//验货通过
+                            result = data.data.data;
+                            if (result.cjorderId) {
+                                erp.postFun2('getExpressSheetQianShou.json',{
+                                    ids: result.cjorderId,
+                                    loginName: erpLoginName
+                                },function(data){
+                                    console.log(data)
+                                    if(data.data.length>0){
+                                        var mdPdfLink = data.data[0];
+                                        if(mdPdfLink.indexOf('http')==-1){
+                                            mdPdfLink = 'https://'+mdPdfLink
+                                        }
+                                        $scope.danPinMdLink = mdPdfLink;
+                                        printFun(mdPdfLink,1)
+                                    }else{
+                                        console.log('没有获取到面单链接')
+                                    }
+                                },function(data){
+                                    console.log(data)
+                                })
+                            } else {
+                                console.log('单品没有返回订单号')
+                            }
+                        }
+                        
+                    }else if(data.data.code==500){
+                        $scope.ydhList = [];
+                        $scope.properties = null;
+                        console.log($scope.spStu)
+                        if($scope.spStu==1){//验货通过
+                            result = data.data.data;
+                            $scope.duoPinBianHao = result.pdfFillUrl;
+                            $scope.duoPinBianHaoTiaoMa = result.podNumUrl;
+                            if(result.pdfFillUrl){
+                                printFun(result.pdfFillUrl,2)
+                            }
+                            if(result.podNumUrl){
+                                printFun(result.podNumUrl,2)
+                            }
+                        }
+                    }
+                },function(data){
+                    console.log(data)
+                    erp.closeLoad()
+                })
+            }
+            $scope.showSpFun = function () {
+                code = $.trim($("#tx").val());
+                if (code == null || code == "") {
+                    return;
+                } else {
+                    console.log($scope.ydhList)
+                    console.log(!$scope.ydhList,isCheckEndFlag)
+                    if (!$scope.ydhList|| JSON.stringify($scope.ydhList)=='[]' || isCheckEndFlag) {
+                        if (timer) {
+                            $timeout.cancel(timer);
+                        }
+                        $scope.itemObj = null;
+                        showProduct()
+                    } else {
+                        // console.log(code)
+                        if (code.length < 8) {
+                            for (var i = 0, len = $scope.ydhList.length; i < len; i++) {
+                                if (code == $scope.ydhList[i].shortSku) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.qianshou-tr').eq(i).addClass('gold-back')
+                                    // $scope.ydhList[i].chekCount = 1;
+                                    $scope.itemObj = $scope.ydhList[i];
+                                    // console.log($scope.itemObj)
+                                    $scope.$apply()
+                                    console.log($scope.ydhList[i])
+                                    $('.modal-body').animate({
+                                        scrollTop: i * $('.qianshou-tr').eq(0).height()
+                                    }, 1000);
+                                    // $scope.$apply();
+                                    break
+                                }
+                                if (i == len - 1) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.audio-shibai').get(0).play();
+                                }
+                            }
+                        } else if (code.toUpperCase().indexOf('CJ') != -1) {
+                            for (var i = 0, len = $scope.ydhList.length; i < len; i++) {
+                                if (code == $scope.ydhList[i].sku) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.qianshou-tr').eq(i).addClass('gold-back')
+                                    // $scope.ydhList[i].chekCount = 1;
+                                    $scope.itemObj = $scope.ydhList[i]
+                                    // console.log($scope.itemObj)
+                                    $scope.$apply()
+                                    console.log($scope.ydhList[i])
+                                    console.log($scope.itemObj)
+                                    console.log($scope.itemObj.COUNT)
+                                    console.log($scope.itemObj.skuRight)
+                                    $('.modal-body').animate({
+                                        scrollTop: i * $('.qianshou-tr').eq(0).height()
+                                    }, 1000);
+                                    console.log($('.qianshou-tr').eq(0).height())
+                                    break
+                                }
+                                if (i == len - 1) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.audio-shibai').get(0).play();
+                                }
+                            }
+                        } else {
+                            $('.qianshou-tr').removeClass('gold-back')
+                            $scope.itemObj = null;
+                            showProduct()
+                        }
+                        $("#tx").val('')
+                    }
+                }
+            }
+            function PrintCode(url) {
+                console.log(url)
+                $.ajax({
+                    url: 'http://127.0.0.1:8808?number='+url,
+                    async: true,
+                    cache: false,
+                    dataType: 'text',
+                    error: function (xhr) {
+
+                    },
+                    success: function (data) {
+                        $('.yundanhao').val('');
+                        $('.yundanhao').focus();
+                    }
+                })
+            }
+            function printMdFun(pdfLink) {
+                if(pdfLink){
+                    if (pdfLink.indexOf('http')!=-1) {
+                        PrintCode(pdfLink.replace('?AN','').replace('?MING',''))
+                    } else {
+                        PrintCode('http://'+pdfLink.replace('?AN','').replace('?MING',''))
+                    }
+                }
+            }
+            function showProduct() {
+                $scope.danPinMdLink = '';
+                $scope.duoPinBianHao = '';
+                $scope.duoPinBianHaoTiaoMa = '';
+                $scope.WaringTxt = '';
+                var b = true;
+                ydhGlobelNum = $("#tx").val();
+                console.log("---" + code + "---");
+                if (code == null || code == "") {
+                    return;
+                    // layer.msg("请求失效  请刷新页面后重试");
+                } else {
+                    layer.load(2);
+                    erp.postFun('procurement/order/podQianShou', {"locations": code}, function (data) {
+                        layer.closeAll('loading');
+                        console.log(data)
+                        if (data.data.code==200) {
+                            var arrives = data.data.data;
+                            arrives.skuLeft = arrives.sku.substring(0, 14)
+                            arrives.skuRight = arrives.sku.substring(14)
+                            arrives.properties = JSON.parse(arrives.properties);
+                            $scope.properties = arrives.properties;
+                            $scope.properType = arrives.properties.type;
+                            // console.log(gxhMes)
+                            // arrives.img = gxhMes.image;
+                            // arrives.text = gxhMes.text;
+                            $scope.ydhList = [];
+                            $scope.ydhList.push(arrives)
+                            console.log($scope.ydhList)
+                            $("#tx").val('')
+                        } else {
+                            layer.msg(data.data.message)
+                        }
+                        $("#tx").val('')
+                    })
+                }
+            }
+
+            //异常
+            $scope.ycYyVal = '0';
+            var itemYcId;
+            $scope.yiChangFun = function (item) {
+                itemYcId = '';
+                $scope.ycCount = 0;
+                console.log(item)
+                $scope.ycYyFlag = true;
+                $scope.ycCount = item.COUNT;
+                itemYcId = item.caiGouShangPinid;
+            }
+            $scope.sureYcFun = function () {
+                if ($scope.ycCount <= 0 || !$scope.ycCount) {
+                    layer.msg('请输入数量')
+                    return
+                }
+                if ($scope.ycYyVal == '4') {
+                    if (!$scope.newQsYcReson) {
+                        layer.msg('请输入异常原因')
+                        return
+                    }
+                }
+                erp.load()
+                var ycUpJoson = {};
+                ycUpJoson.id = itemYcId;
+                ycUpJoson.yuanYin = $scope.newQsYcReson;
+                ycUpJoson.shuLiang = $scope.ycCount;
+                ycUpJoson.leiXing = $scope.ycYyVal;
+                const url = 'procurement/dealWith/yiChang';//接口更改 
+                erp.mypost(url, ycUpJoson).then(() => {
+                    $scope.ycYyFlag = false;
+                })
+            }
+            //批量打印条形码
+            $scope.bulkPrintOFun = function () {
+                console.log($scope.ydhList)
+                if (!$scope.ydhList) return;
+                var printData = {};
+                var printArr = [];
+                for (var i = 0; i < $scope.ydhList.length; i++) {
+                    var shortSKU = $scope.ydhList[i].shortSku || $scope.ydhList[i].sku;
+                    var sku = $scope.ydhList[i].sku;
+                    var count;
+                    if (printData[shortSKU]) {
+                        console.log(printData[shortSKU]);
+                        console.log(printData[shortSKU].sku);
+                        if (printData[shortSKU].sku) {
+                            count = printData[shortSKU].sum;
+                        } else {
+                            count = null;
+                        }
+                    } else {
+                        count = null;
+                    }
+                    if (!count) {
+                        count = $scope.ydhList[i].COUNT;
+                    } else {
+                        count = $scope.ydhList[i].COUNT + count;
+                    }
+                    if (count && count > 0) {
+                        printData[shortSKU] = {
+                            "sku": sku,
+                            "sum": count
+                        };
+                    }
+                    // printData[shortSKU] = JSON.stringify(printData[shortSKU]);
+                }
+                if (JSON.stringify(printData) == "{}") {
+                    layer.msg('打印数量不能为0');
+                    return;
+                }
+                console.log(printData)
+                // return;
+                layer.load(2)
+                var pUpdata = {};
+                // pUpdata.skuMap = JSON.stringify(printData);
+                pUpdata.skuMap = printData;
+                var printLink;
+                console.log(JSON.stringify(pUpdata))
+                erp.postFun('app/pdfOpt/getBarcode128Batch', JSON.stringify(pUpdata), function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                    if (data.data.code == '200') {
+                        // $scope.txmTkFlag = true;
+                        // $scope.txmHref = data.data.pdfFillUrl;
+                        // console.log($scope.txmHref)
+                        printLink = data.data.pdfFillUrl;
+                        //PrintCode('https://'+printLink)
+                    } else {
+                        // layer.msg('打印错误')
+                        printLink = 'error';
+                    }
+
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                    printLink = 'error';
+                })
+
+                var printTimer = setInterval(function () {
+                    console.log('100')
+                    if (printLink == 'error') {
+                        layer.msg('打印错误')
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('error');
+                    } else if (printLink) {
+                        window.open('https://' + printLink, '_blank', '');
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('succsee');
+                    }
+                }, 100);
+            }
+
+            $scope.copyWord = function (word) {
+                var Url1;
+                Url1 = document.createElement('input');
+                Url1.setAttribute('readonly', 'readonly');
+                Url1.setAttribute('value', word);
+                document.body.appendChild(Url1);
+                //console.log(Url1.value);
+                Url1.select(); //选择对象
+                document.execCommand("Copy");
+                var tag = document.execCommand("Copy"); //执行浏览器复制命令
+                if (tag) {
+                    layer.msg('复制成功');
+                }
+                document.body.removeChild(Url1);
+            }
+
+            $('#YdhModal').click(function (e) {
+                e.stopPropagation();
+            })
+            $('.ydh-rk-wrap').click(function (e) {
+                e.stopPropagation();
+            })
+            $('.stop-pro').click(function (e) {
+                e.stopPropagation();
+            })
+            $('.chage-wrap').click(function (e) {
+                e.stopPropagation();
+            })
+            //运单号入库 修改重量的函数
+            var targetVal;
+            $scope.thisList;
+            $scope.thisIndex;
+            $scope.isValidWFun = function (item, index, ev) {
+                targetVal = $(ev.target).val();
+                console.log(targetVal)
+                $scope.thisIndex = index;
+                $scope.itemOldWei = item.oldWeight;
+                $scope.thisList = $scope.ydhList[index];
+                if (item.isChangeWeight != '1') {//如果没有修改过 提示修改
+                    if (targetVal > item.packWeight) {
+                        $scope.ydhchangeWFlag = true;
+                        $scope.tipWeight = item.packWeight;
+                        $scope.ydhbzWeight = item.packWeight;
+                    } else if (targetVal == item.oldWeight) {
+                        return;
+                    } else {
+                        if (targetVal <= 0) {
+                            layer.msg('请输入重量')
+                            return;
+                        }
+                        erp.postFun('pojo/procurement/changeWeight', {
+                            productId: item.productId,
+                            variantId: item.variantId,
+                            oldWeight: item.oldWeight,
+                            newWeight: targetVal
+                        }, function (data) {
+                            console.log(data)
+                            if (data.data.statusCode == 200) {
+                                layer.msg('修改成功')
+                                $scope.ydhList[index].isChangeWeight = '1';
+                                $scope.ydhList[index].oldWeight = targetVal;
+                                $scope.ydhisNextChangeFlag = false;
+                            } else {
+                                layer.msg('修改失败')
+                            }
+                        }, function (data) {
+                            console.log(data)
+                        })
+                    }
+                } else {//如果修改过
+                    if (targetVal == item.oldWeight) {
+                        return;
+                    }
+                    $scope.ydhisNextChangeFlag = true;
+                }
+
+            }
+            //运单号入库 再次修改商品重量
+            $scope.ydhnextQxFun = function () {
+                $scope.ydhisNextChangeFlag = false;
+                $('.ydh-weightInp').eq($scope.thisIndex).val($scope.itemOldWei);
+            }
+            //确定再次修改重量
+            $scope.ydhnextSureFun = function () {
+                console.log($scope.thisList)
+                if (targetVal <= 0) {
+                    layer.msg('请输入重量')
+                    return;
+                } else if (targetVal >= $scope.thisList.packWeight) {//净重量大于包装重量
+                    $scope.ydhchangeWFlag = true;
+                    $scope.ydhtipWeight = $scope.thisList.packWeight;
+                    return;
+                }
+                $scope.isNextChangeFlag = false;
+                erp.postFun('pojo/procurement/changeWeight', {
+                    productId: $scope.thisList.productId,
+                    variantId: $scope.thisList.variantId,
+                    oldWeight: $scope.thisList.oldWeight,
+                    newWeight: targetVal
+                }, function (data) {
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        $scope.ydhisNextChangeFlag = false;
+                        layer.msg('修改成功')
+                        $scope.ydhList[$scope.thisIndex].isChangeWeight = '1';
+                        $scope.ydhList[$scope.thisIndex].oldWeight = targetVal;
+                    } else {
+                        layer.msg('修改失败')
+                        isChangeWeight = false;
+                        $('.rk-weight').addClass('inp-erractive')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+            //运单号入库按钮
+            $scope.ydhRkFun = function () {
+                // console.log('00098978')
+                console.log($scope.ydhList)
+                console.log(responseObj)
+                $scope.bulkRkTime = timestampToTime(new Date())
+                console.log(timestampToTime(new Date()))
+                // layer.msg('开发中')
+                $scope.ydhrkFlag = true;
+            }
+            //运单号入库的取消 确定
+            $scope.ydhRkSureFun = function () {
+                console.log($scope.ydhList)
+                //{"list":[{variantId,productId,waybillId,count},....], storageId}
+                var upObj = {};//存储上传的参数
+                var upListArr = [];//存储list数组
+                var arrOneObj = {};//存储数组中的一条
+                var itemStoreId;
+                for (var i = 0; i < $scope.ydhList.length; i++) {
+                    if ($scope.ydhList[i].isChangeWeight != '1') {
+                        layer.msg('请修改商品的重量')
+                        return;
+                    } else {
+                        arrOneObj.variantId = $scope.ydhList[i].variantId;
+                        arrOneObj.productId = $scope.ydhList[i].productId;
+                        arrOneObj.wayBillId = $scope.ydhList[i].id;
+                        arrOneObj.count = $scope.ydhList[i].count;
+                        itemStoreId = $scope.ydhList[i].storageId;
+                    }
+                    upListArr.push(arrOneObj);
+                }
+                // upObj.list = JSON.stringify($scope.ydhList)
+                layer.load(2)
+                upObj.list = upListArr;
+                upObj.storageId = itemStoreId;
+                upObj.trackingNumber = code;
+                console.log(upObj)
+                console.log(JSON.stringify(upObj))
+                // return;
+                erp.postFun('pojo/procurement/inStorages', JSON.stringify(upObj), function (data) {
+                    console.log(data)
+                    layer.closeAll('loading')
+                    if (data.data.statusCode == '200') {
+                        layer.msg('批量入库成功')
+                        $scope.ydhrkFlag = false;
+                    } else {
+                        layer.msg('批量入库失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading')
+                })
+            }
+            $scope.ydhCloseRk = function () {
+                $scope.ydhrkFlag = false;
+            }
+            $scope.ydhRkQsFun = function () {
+                $scope.isqianshouFlag = true;
+            }
+            //询问是否签收
+            $scope.ydhNoQs = function () {
+                $scope.isqianshouFlag = false;
+            }
+            //签收
+            $scope.ydhSureQs = function () {
+                layer.load(2);
+                erp.getFun('pojo/procurement/sign?wayBill=' + ydhGlobelNum, function (data) {
+                    layer.closeAll('loading');
+                    if (data.data.statusCode == '200') {
+                        $scope.isqianshouFlag = false;
+                        layer.msg('签收成功')
+                        $scope.ydhList = [];
+                        $("#tx").val("");
+                        setTimeout(function () {
+                            $("#tx").blur().focus();
+                        }, 100);
+                    } else {
+                        layer.msg('签收失败')
+                    }
+                }, function (data) {
+                    layer.closeAll('loading');
+                    layer.msg('网络错误');
+                    console.log(data)
+                })
+            }
+            //异常签收
+            $scope.ycqsFun = function () {
+                $scope.qsycResonFlag = true;
+            }
+            $scope.qsycSureFun = function () {
+                if (!$scope.qsycReson) {
+                    layer.msg('请输入异常原因')
+                    return;
+                }
+                var ycqsData = {};
+                ycqsData.wayBillId = code;
+                ycqsData.exceptionResone = $scope.qsycReson;
+                layer.load(2);
+                erp.postFun('pojo/procurement/daoHuoYiChang', JSON.stringify(ycqsData), function (data) {
+                    layer.closeAll('loading');
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        $scope.qsycResonFlag = false;
+                        $scope.isqianshouFlag = false;
+                        layer.msg('异常签收成功')
+                        $scope.ydhList = [];
+                        $("#tx").val("");
+                        setTimeout(function () {
+                            $("#tx").blur().focus();
+                        }, 100);
+                    } else {
+                        layer.msg('异常签收失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+            //运单号的修改包装重量
+            $scope.ydhcloseCWFun = function () {
+                $scope.ydhchangeWFlag = false;
+            }
+            $scope.ydhsureCWFun = function function_name() {
+                if ($scope.ydhbzWeight <= 0) {
+                    layer.msg('请输入重量')
+                    return;
+                }
+                erp.postFun('pojo/procurement/changePackWeight', {
+                    productId: $scope.thisList.productId,
+                    variantId: $scope.thisList.variantId,
+                    oldWeight: $scope.thisList.oldWeight,
+                    newWeight: $scope.ydhbzWeight
+                }, function (data) {
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        layer.msg('修改成功')
+                        $scope.ydhList[$scope.thisIndex].packWeight = $scope.ydhbzWeight;
+                        $scope.ydhchangeWFlag = false;
+                    } else {
+                        layer.msg('修改失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+
+            $(document).keypress(function (e) {
+                if (e.which == 13) {
+                    $scope.showSpFun();
+                }
+            });
+            $('.rk-wrap').click(function (e) {
+                e.stopPropagation();
+            })
+            $('#weight-con').click(function (e) {
+                e.stopPropagation();
+            })
+            var isChangeWeight = false;
+            //点击入库按钮
+            $scope.rkBtnFun = function (ev) {
+                // $(ev.target).stopPropagation();
+                console.log(responseObj)
+                $scope.skuorTxmFlag = true;
+                if (responseObj.storageId01) {//如果是sku需要选择仓库
+                    $scope.moreFlag = true;//显示入库的单选按钮
+                    $("#tx").blur();
+                    $(".rk-sp-img").attr("src", responseObj.img)
+                    $('.rk-num').val(responseObj.mores);//填入获取到的多品数量
+                    $('.rk-weight').val(responseObj.oldWeight);//填入商品重量
+                    $('.sku-text').text(responseObj.sku);//填入sku
+                    $('.rk-wrap').show();
+                    if (responseObj.isChangeWeight == 0) {//没有修改过重量
+                        isChangeWeight = false;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-erractive')
+                    } else {
+                        isChangeWeight = true;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-sucactive')
+                    }
+                    storageId = responseObj.storageId;
+                    menuId = responseObj.firstCategoryId;
+                    //默认展示义乌仓
+                    renderBrunch();
+                } else {
+                    $scope.moreFlag = false;
+                    $("#tx").blur();
+                    $(".rk-sp-img").attr("src", responseObj.img)
+                    $('.rk-num').val(responseObj.mores);//填入获取到的多品数量
+                    $('.rk-weight').val(responseObj.oldWeight);//填入商品重量
+                    $('.sku-text').text(responseObj.sku);//填入sku
+                    $('.rk-wrap').show();
+                    if (responseObj.isChangeWeight == 0) {
+                        isChangeWeight = false;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-erractive')
+                        // alert('false')
+                    } else {
+                        isChangeWeight = true;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-sucactive')
+                        // alert('true')
+                    }
+                    storageId = responseObj.storageId;
+                    menuId = responseObj.firstCategoryId;
+                    console.log(responseObj)
+                    console.log(storageId)
+                    console.log(menuId)
+                    renderBrunch();
+                }
+            }
+            //如果是sku入库 需要选择仓库
+            $scope.selCkFun = function (ev) {
+                console.log($(ev.target).val())
+                var selRadioVal = $(ev.target).val();
+                switch (selRadioVal) {
+                    case '1':
+                        storageId = responseObj.storageId;
+                        erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                            storageId: storageId,
+                            idList: menuId
+                        }), function (data) {
+                            console.log(data);
+                            // var resArr = data.data.list;
+                            $scope.folderData = data.data.root;
+                            $scope.folderData.open = true;
+                            $scope.folderData.active = true;
+                            $scope.folderData.codeType = '仓';
+                            $scope.folder = $scope.folderData
+                            $scope.brunchItem = $scope.folderData;
+                            console.log($scope.brunchItem)
+                        }, err);
+                        break;
+                    case '2':
+                        storageId = responseObj.storageId01;
+                        erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                            storageId: storageId,
+                            idList: menuId
+                        }), function (data) {
+                            console.log(data);
+                            // var resArr = data.data.list;
+                            $scope.folderData = data.data.root;
+                            $scope.folderData.open = true;
+                            $scope.folderData.active = true;
+                            $scope.folderData.codeType = '仓';
+                            $scope.folder = $scope.folderData
+                            $scope.brunchItem = $scope.folderData;
+                            console.log($scope.brunchItem)
+                        }, err);
+                        break;
+                    case '3':
+                        storageId = responseObj.storageId02;
+                        erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                            storageId: storageId,
+                            idList: menuId
+                        }), function (data) {
+                            console.log(data);
+                            // var resArr = data.data.list;
+                            $scope.folderData = data.data.root;
+                            $scope.folderData.open = true;
+                            $scope.folderData.active = true;
+                            $scope.folderData.codeType = '仓';
+                            $scope.folder = $scope.folderData
+                            $scope.brunchItem = $scope.folderData;
+                            console.log($scope.brunchItem)
+                        }, err);
+                        break;
+                }
+
+            }
+            //修改重量
+            $scope.editWeiFun = function () {
+                console.log(responseObj)
+                var newWeightVal = $('.rk-weight').val();
+                if (responseObj.isChangeWeight == 0) {
+                    if (newWeightVal <= 0) {
+                        layer.msg('请输入重量')
+                        return;
+                    } else if (newWeightVal >= responseObj.packWeight) {//净重量大于包装重量
+                        $scope.changeWFlag = true;
+                        $scope.bzWeight = responseObj.packWeight;
+                        $scope.tipWeight = responseObj.packWeight;
+                        return;
+                    }
+                    erp.postFun('pojo/procurement/changeWeight', {
+                        productId: responseObj.productId,
+                        variantId: responseObj.variantId,
+                        oldWeight: responseObj.oldWeight,
+                        newWeight: newWeightVal
+                    }, function (data) {
+                        console.log(data)
+                        if (data.data.statusCode == 200) {
+                            layer.msg('修改成功')
+                            isChangeWeight = true;
+                            $('.rk-weight').addClass('inp-sucactive')
+                        } else {
+                            layer.msg('修改失败')
+                            isChangeWeight = false;
+                            $('.rk-weight').addClass('inp-erractive')
+                        }
+                    }, function (data) {
+                        console.log(data)
+                    })
+                } else {
+                    $scope.isNextChangeFlag = true;
+                }
+                //取消再次修改
+                $scope.nextQxFun = function () {
+                    $scope.isNextChangeFlag = false;
+                }
+                //确定再次修改
+                $scope.nextSureFun = function () {
+                    var newWeightVal = $('.rk-weight').val();
+                    if (newWeightVal <= 0) {
+                        layer.msg('请输入重量')
+                        return;
+                    } else if (newWeightVal >= responseObj.packWeight) {//净重量大于包装重量
+                        $scope.changeWFlag = true;
+                        $scope.bzWeight = responseObj.packWeight;
+                        $scope.tipWeight = responseObj.packWeight;
+                        return;
+                    }
+                    $scope.isNextChangeFlag = false;
+                    erp.postFun('pojo/procurement/changeWeight', {
+                        productId: responseObj.productId,
+                        variantId: responseObj.variantId,
+                        oldWeight: responseObj.oldWeight,
+                        newWeight: newWeightVal
+                    }, function (data) {
+                        console.log(data)
+                        if (data.data.statusCode == 200) {
+                            layer.msg('修改成功')
+                            isChangeWeight = true;
+                            $('.rk-weight').addClass('inp-sucactive')
+                        } else {
+                            layer.msg('修改失败')
+                            isChangeWeight = false;
+                            $('.rk-weight').addClass('inp-erractive')
+                        }
+                    }, function (data) {
+                        console.log(data)
+                    })
+                }
+            }
+            //关闭sku/条形码入库弹框
+            $scope.skuOrTxmCloseFun = function () {
+                $scope.skuorTxmFlag = false;
+            }
+
+            $scope.sureRkFun = function () {
+                // responseObj = JSON.parse(arr)
+                console.log(responseObj)
+                var dpCount = responseObj.count;//多品的总数量
+                var spId = responseObj.productId;//商品id
+                var btId = responseObj.variantId;//变体id
+                var ydId = responseObj.wayBillId;//运单id
+                // var storageId = responseObj.storageId;//仓库id
+                var rkCount = $('.rk-num').val();//获取入库数量
+                var upckId = $scope.brunchItem.id;//该层级的id
+                var rkData = {};
+                if (!isChangeWeight) {
+                    layer.msg('请修改商品的重量')
+                    return;
+                } else {
+                    rkData.waybillId = ydId;
+                    rkData.storageId = storageId;
+                    rkData.areaId = upckId;
+                    rkData.count = rkCount;
+                    rkData.variantId = btId;
+                    rkData.productId = spId;
+                    console.log(rkCount)
+                    if (!$scope.moreFlag) {
+                        if (rkCount < 0) {
+                            layer.msg('输入的数量不能小于零')
+                            return;
+                        } else {
+                            if (rkCount * 1 > dpCount * 1) {
+                                layer.msg('输入的数量不能大于总数量')
+                                return;
+                            }
+                        }
+                    } else {
+                        if (rkCount < 0) {
+                            layer.msg('输入的数量不能小于零')
+                            return;
+                        }
+                    }
+                    erp.load();
+                    // storageId = responseObj.storageId;//仓库id
+
+                    console.log(dpCount, spId, btId, ydId, rkCount, upckId)
+                    console.log(JSON.stringify(rkData))
+                    erp.postFun('pojo/procurement/inStorage', JSON.stringify(rkData), function (data) {
+                        console.log(data)
+                        $('.rk-wrap').hide();
+                        erp.closeLoad()
+                        if (data.data.statusCode == 200) {
+                            $scope.skuorTxmFlag = false;
+                            layer.msg('入库成功')
+                        } else {
+                            layer.msg('入库失败')
+                        }
+                    }, err)
+                }
+            }
+            $scope.closeRkFun = function () {
+                $('.rk-wrap').hide();
+            }
+            //修改包装重量
+            $scope.closeCWFun = function () {
+                $scope.changeWFlag = false;
+            }
+            $scope.sureCWFun = function function_name() {
+                console.log($scope.bzWeight)
+                console.log(responseObj)
+                if ($scope.bzWeight <= 0) {
+                    layer.msg('请输入重量')
+                    return;
+                }
+                erp.postFun('pojo/procurement/changePackWeight', {
+                    productId: responseObj.productId,
+                    variantId: responseObj.variantId,
+                    oldWeight: responseObj.oldWeight,
+                    newWeight: $scope.bzWeight
+                }, function (data) {
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        layer.msg('修改成功')
+                        responseObj.packWeight = $scope.bzWeight;
+                        $scope.changeWFlag = false;
+                    } else {
+                        layer.msg('修改失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+
+            $scope.index1 = '00';
+            //点击某个仓库
+            $scope.pointOne = function (item, e, posi) {
+                $scope.folder.active = false;
+                // console.log($scope.folder)
+                setAllChiToUnactive($scope.folder.childrens, 'childrens');//把节点置为非选中
+                $scope.pointArr = getTheArr(posi, e, $scope);
+                // console.log($scope.pointArr)
+                // $scope.pointArr.active = true;
+                $scope.pointArr.active = true;
+                // console.log($scope.folder)
+                $scope.brunchItem = item;
+                // 选中的仓库分支
+                console.log('选中的仓库分支', $scope.brunchItem);
+            }
+            $scope.switchList = function (posi, e, flag) {
+                $scope.temArr = getTheArr(posi, e, $scope);
+                $scope.temArr.open = flag;
+            }
+
+            // 获取当前节点的信息
+            function renderBrunch() {
+                console.log(menuId)
+                erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                    storageId: storageId,
+                    idList: menuId
+                }), function (data) {
+                    console.log(data);
+                    // var resArr = data.data.list;
+                    $scope.folderData = data.data.root;
+                    $scope.folderData.open = true;
+                    $scope.folderData.active = true;
+                    $scope.folderData.codeType = '仓';
+                    $scope.folder = $scope.folderData
+                    $scope.brunchItem = $scope.folderData;
+                    console.log($scope.brunchItem)
+                }, err);
+            }
+
+            // renderBrunch();
+
+        }]);
+
+        app.directive("folderTree", function () {
+            return {
+                restrict: "E",
+                scope: {
+                    //传入当前项的值
+                    currentFolder: '=',
+                    //循环索引的值
+                    myIndex: '=',
+                    // folderList: '=',
+                    //点击某个的方法
+                    pointOne: '&',
+                    // openupList: '&',
+                    // packupList: '&'
+                    //展开伸缩的方法
+                    switchList: '&'
+                },
+                // scope: true,
+                templateUrl: 'static/template/tree.html',
+            };
+        });
+
+        function err(error) {
+            erp.closeLoad();
+            console.log(error);
+            // layer.closeAll('loading');
+        }
+
+        //获取当前节点
+        function getTheArr(posi, e, $scope, cateflag) {
+            var rootArr, resArr, childFlag;
+            if (cateflag) {
+                rootArr = $scope.cateList;
+                childFlag = 'children';
+            } else {
+                rootArr = $scope.folder;
+                childFlag = 'childrens';
+            }
+            var temDom = e.target.parentElement;
+            var firIndex = angular.element(temDom).find('.index-span').html();
+            if (firIndex == '00') {
+                // $scope.folder.active = true;
+                console.log(firIndex);
+                console.log(rootArr)
+                return rootArr;
+            } else {
+                console.log(firIndex, 6666)
+            }
+            var posiArr = [angular.element(temDom).find('.index-span').html() * 1];
+            for (var i = 0; i < (posi); i++) {
+                temDom = turnToParentIndex(temDom);
+                posiArr.unshift(temDom.find('.index-span').html() * 1);
+            }
+            // console.log(posiArr);
+            var temArr = rootArr;
+            for (var i = 0; i < posiArr.length; i++) {
+                temArr = turnToChildren(temArr, posiArr[i], childFlag)
+            }
+            return temArr;
+            // console.log(temArr);
+            // temArr.active = true;
+        }
+
+        function turnToChildren(arr, index, tag) {
+            return arr[tag][index];
+        }
+
+        function turnToParentIndex(dom) {
+            return angular.element(dom).parent().parent().parent().siblings('.top-info');
+        }
+
+        //把所有节点置为非选中
+        function setAllChiToUnactive(arr, tag) {
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].active = false;
+                if (arr[i][tag] && arr[i][tag].length > 0) {
+                    setAllChiToUnactive(arr[i][tag], tag);
+                }
+            }
+        }
+
+        function sequencePlusOne(arr) {
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].sequence = arr[i].sequence * 1 + 1;
+                if (arr[i].childrens && arr[i].childrens.length > 0) {
+                    sequencePlusOne(arr[i].childrens);
+                }
+            }
+        }
+
+        //格式化时间
+        function timestampToTime(date) {
+            var Y, M, D, h, m, s
+            Y = date.getFullYear() + '-';
+            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            D = date.getDate() + ' ';
+            h = date.getHours() + ':';
+            m = date.getMinutes() + ':';
+            s = date.getSeconds();
+            return Y + M + D + h + m + s;
+        }
+
+        //格式化日期
+        function timestampToDate(date) {
+            var Y, M, D, h, m, s
+            Y = date.getFullYear() + '-';
+            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            D = date.getDate() + ' ';
+            h = date.getHours() + ':';
+            m = date.getMinutes() + ':';
+            s = date.getSeconds();
+            return Y + M + D;
+        }
+    })(angular)
+
+</script>
+</html>

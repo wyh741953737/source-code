@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>客户-kehuliebiao-ERP系统</title>
+	 <!--<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />--> 
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+	<style type="text/css">
+		.fpkh-content{
+			min-width: 1020px;
+		}
+		.fun-div{
+		    /*padding: 0 10px;*/
+		    height: 30px;
+		    margin-top: 20px;
+		}
+		.fun-div .sku-inp{
+		    width: 280px;
+		    height: 30px;
+		    text-indent: 12px;
+		    vertical-align: top;
+		}
+		.fun-div .skusea-btn{
+		    height: 30px;
+		    padding: 0 10px;
+		    background-color: #fff;
+		    border: 1px solid #E0E0E0;
+		    vertical-align: top;
+		    border-left: none;
+		    margin-right: 50px;
+		}
+		.fun-div .skusea-btn:hover{
+		    color: #f99429;
+		}
+		.fun-div .data-inp{
+		    width: 133px;
+		    height: 30px;
+		    padding: 0;
+		    border: solid #e1e1e1 1px
+		}
+		.fun-div .drk-seachInp{
+		    background-color: #fff;
+		    height: 30px;
+		    padding: 0 10px;
+		    vertical-align: top;
+		    border-left: none;
+		}
+		.fun-div .drk-seachInp:hover{
+		    color: #f99429;
+		}
+		.table-con-box{
+			margin: 20px 0;
+		}
+		.la_tr span{
+			font-size: 12px;
+		}
+		.qxsq-btn{
+			padding: 0 10px;
+			height: 30px;
+			border-radius: 4px;
+			border: solid #F8A636 1px;
+			background: #fff;
+			color: #F8A636;
+		}
+		.qxsq-btn:hover{
+			background: #F8A636;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="ea-content">
+	<div class="bg-geduan"></div>
+	<div class="right-bar-wrap ea-right-content">
+		<div class="fpkh-content">
+			<div class="fpkh-seadiv">
+				<span>授权人</span>
+				<input class="fpkh-inp" ng-model="logiName"></input>
+				<!-- <input class="fpkh-inp" ng-model="logiName"></input> -->
+				<div class="fil-div-group">
+					<span>被授权人</span>
+					<input ng-blur="blurFun('1')" ng-change="bzpYwyFun()" placeholder="请输入业务员中文名" id="bzpywy-inp" class="fpkh-inp posr-inp" ng-model="bzpywyName"></input>
+					<ul class="fpkh-resul" ng-show="ywyNameList.length>0" ng-click="clearFun(1)">
+						<li ng-repeat="item in ywyNameList" ng-click="ywySelFun(item)">
+							<img class="radio-btn" ng-click="radioFun($event,item)" src="static/image/public-img/radiobutton1.png">
+							<!-- <p class="fpkh-cusname">{{item.NAME}}</p> -->
+							<span class="fpkh-cusname">{{item.NAME}}</span>
+						</li>
+						<!-- <li>
+							<p class="fpkh-cusname">zhangsagwu</p>
+						</li> -->
+					</ul>
+				</div>
+				<div class="fil-div-group">
+					<span>客户姓名</span>
+					<input ng-blur="blurFun('2')" ng-change="keHuFun()" placeholder="请输入客户名字" class="fpkh-inp posr-inp" ng-model="bzpkhName"></input>
+					<ul class="fpkh-resul fpkh-ul2" ng-show="keHuNameList.length>0 && showKehuList" ng-click="clearFun(2)">
+						<li ng-repeat="item in keHuNameList">
+							<img ng-click="chekFun($event)" class="cor-check-box" src="static/image/order-img/multiple1.png">
+							<span class="fpkh-cusname">{{item.NAME}} - {{item.LOGIN_NAME}}</span>
+							<span class="cus-id" style="display: none;">{{item.ID}}</span>
+						</li>
+					</ul>
+				</div>
+				<div class="fil-div-group">
+					<button ng-click="addFpFun()" class="sure-fpkh-btn">确认授权</button>
+				</div>
+			</div>
+			<div class="fun-div">
+			    <input class="sku-inp" placeholder="请输入授权人/被授权人/客户名" ng-model="searchSku"></input><button class="skusea-btn" ng-click="searchFun()">{{'100025' | translate}}</button>
+			    <input class="Wdate data-inp" style="text-indent: 12px;" id="left-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></input><input id="right-time" placeholder="Now" class="Wdate data-inp" style="text-indent: 12px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/><input ng-click="timeSFun()" class="drk-seachInp" type="button" value="{{'100025' | translate}}"></input>
+			</div>
+			<div class="table-con-box">
+			    <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+			        <tr>
+			            <th><span>时间</span></th>
+			            <th><span>授权人</span></th>
+			            <th><span>被授权人</span></th>
+			            <th><span>客户用户名</span></th>
+			            <th><span>操作</span></th>
+			        </tr>
+			    <tbody>
+			        <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+			            <td>
+			                <span>
+			                    {{ item.CREATEDATE | date:'yyyy-MM-dd HH:mm:ss'}}
+			                </span>
+			            </td>
+			            <td>
+			                <span>
+			                    {{item.operatorName}}
+			                </span>
+			            </td>
+			            <td>
+			                <span>{{item.promoterName}}</span>
+			            </td>
+			            <td>
+			                <span>{{item.accName}}</span>
+			            </td>
+			            <td>
+			                 <span><button ng-click="qxsqFun(item)" class="qxsq-btn">取消授权</button></span>
+			            </td>
+			        </tr>
+			    </tbody>
+			    </table>
+			    <div style="text-align: center;" ng-cloak ng-show="totalNum<1">暂无数据</div>
+			    <!--以下是分页-->
+			    <!-- 分页 -->
+			     <!-- ng-show="hasMerch" -->
+			    <div class="page-box" ng-show="totalNum>0">
+			        <div class="select-page-num">
+			            <select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+			                <option value="20">20</option>
+			                <option value="30">30</option>
+			                <option value="50">50</option>
+			                <option value="100">100</option>
+			            </select>
+			            <span>每页</span>
+			        </div>
+			        <div class="total-num">
+			            共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+			        </div>
+			        <div class="page-index">
+			            <div id="pagination1" class="pagination2">
+			                
+			            </div>
+			        </div>
+			        <div class="to-go">
+			            <span>跳转：</span>
+			            <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+			            <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+			        </div>
+			    </div>
+			</div>
+			<!-- <div class="fpkh-btns">
+				<button class="sure-fpkh-btn">确定</button>
+			</div> -->
+		</div>
+	</div>		
+</div>
+<div class="isonecxcl-wrap" ng-show="qxsqFlag">
+	<div class="isonecxcl-con">
+		<p>确定取消授权并删除记录吗?</p>
+		<div class="isonecxcl-btns">
+			<button ng-click="qxsqFlag=false" class="iscxclqx-btn">取消</button>
+			<button ng-click="sureQxsqFun()" class="iscxclqd-btn">确定</button>
+		</div>
+	</div>
+</div>
+</body>
+</html>

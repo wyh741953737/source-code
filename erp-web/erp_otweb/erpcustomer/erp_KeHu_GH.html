@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>客户-客户公海</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+    <style type="text/css">
+        .wllSort1 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            top: 23px;
+            cursor: pointer;
+        }
+
+        .wllSort2 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            bottom: 23px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+        .reasonsfalse {
+            width: 500px;
+            height: 300px;
+            padding: 10px 25px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            background: #fff;
+            border: 1px solid lightgray;
+            box-shadow: 0 0 30px lightgray;
+        }
+
+        .reasonsname {
+            width: 98%;
+            height: 30px;
+            color: #000;
+            margin: auto;
+            margin-top: 10px;
+        }
+
+        .reasonsText {
+            width: 100%;
+            height: 160px;
+            border: 1px solid lightgrey;
+            color: gray;
+            margin-top: 5px;
+        }
+
+        .reasonsText > p {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            overflow: auto;
+            font-size: 14px;
+        }
+
+        .reasonsclose {
+            width: 80px;
+            height: 30px;
+            color: #fff;
+            background: #a3a1a1;
+            margin: auto;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 30px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .tan-grant-gist {
+            width: 480px;
+            max-height: 500px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            padding:40px 15px;
+            background: #fff;
+            box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .tan-grant-gist .tan-title {
+            margin: 45px 0;
+        }
+        .input-group{
+            display: inherit;
+            width: inherit;
+        }
+        .ea-right-search{
+            overflow: inherit;
+        }
+        .ea-right-search .search-box{
+            float: inherit;
+            height: inherit;
+        }
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .search-box{
+            flex-wrap: wrap;
+        }
+        .search-box .top-search-btn,.input-group .form-control{
+            float: inherit;
+        }
+        .search-box > div{
+            margin:  0 10px 10px 0;
+            /*width: 345px;*/
+        }
+        .search-box .top-search-btn{
+            margin-left: -40px;
+        }
+        .search-box .top-search-btn{
+            width: 90px;
+        }
+        .tan-grant-gist input{
+            display: inline-block;
+        }
+        .tan-grant-gist .top-search-title{
+            width: 165px;
+            font-size: 15px;
+            display: inline-block;
+            text-align: right;
+        }
+        .table-con-box button{
+            background-color: orange;
+            font-size: 12px;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+        .timeSelect input{
+            width: 120px;
+            height: 30px;
+            border-color: #08aceb;
+        }
+        th span,td span{
+            font-size: 12px;
+        }
+        .online{
+            color: rgb(64, 194, 24) !important;
+        }
+        .offline{
+            color: #999 !important;
+        }
+        .email-notice{
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background: url('../../static/image/finance/notice.svg') no-repeat;
+            background-size: 15px;
+            margin-left: 5px;
+        }
+        .email-notice:hover .email-notice-content {
+            display: block !important;
+        }
+        .email-notice-content{
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            border-radius: 4px;
+            width: 120px;
+            padding: 3px;
+            top: 20px;
+            left: -22px; 
+            display: none !important;
+        }
+        .email-notice-content b{
+            display: inline-block;
+            border: 4px solid transparent;
+            position: absolute;
+            border-bottom-color: rgba(0,0,0,0.8);
+            top: -7px;
+            left: 25px;
+        }
+    </style>
+</head>
+<body>
+<!-- content -->
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpcustomer/KeHuLieBiao">{{'100890' | translate}}（{{customerdata.normal}}）</a></li>
+            <li><a href="#/erpcustomer/xushenhe">{{'100891' | translate}}（{{customerdata.needaudit}}）</a></li>
+            <li><a href="#/erpcustomer/shenhenopass">{{'100892' | translate}}（{{customerdata.nopass}}）</a></li>
+            <li><a href="#/erpcustomer/heimingdan">{{'100608' | translate}}（{{customerdata.black}}）</a></li>
+            <li><a href="#/erpcustomer/shoplist">{{'100893' | translate}}（{{customerdata.shop}}）</a></li>
+            <li><a href="#/erpcustomer/exhibition">{{'100894' | translate}}（{{customerdata.exhibition}}）</a></li>
+            <li><a href="#/erpcustomer/Affiliate">{{'100895' | translate}}（{{customerdata.affUserNum}}）</a></li>
+            <li ng-click="refresh()" class="active"><a href="#/erpcustomer/GH">{{'100896' | translate}}（{{customerdata.customerResourceNum}}）</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="bg-geduan"></div>
+        <!-- right search -->
+        <div class="right-bar">
+            <div class="ea-right-search clearfix">
+                <div class="input-group search-box clearfix">
+                    <label>
+                        <select style="height: 30px;position: relative;top: 2px;border: 1px solid #08aceb;" name="" id="selectType">
+                            <option value="sername">姓名</option>
+                            <option value="seremailId">邮箱</option>
+                            <option value="serwhatsAppId">WhatsApp</option>
+                            <option value="serskypeId">Skype</option>
+
+                        </select>
+                        <input id="searchInput" style="position: relative;left: -5px;" type="text" ng-model="searchinfo" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty"/>
+                    </label>
+                    <label class="timeSelect">
+                        <input  class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;left: -20px;" id="c-data-time2" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                        <input  id="cdatatime3" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;left: -25px" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                    </label>
+                    <!--<label class="clearfix">-->
+                        <!--<span>{{'100992' | translate}}：</span>-->
+                        <!--<input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="sername">-->
+                    <!--</label>-->
+                    <!--<label class="clearfix">-->
+                        <!--<span>{{'100176' | translate}}：</span>-->
+                        <!--<input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="seremailId">-->
+                    <!--</label>-->
+                    <!--<label class="clearfix">-->
+                        <!--<span>WhatsApp：</span>-->
+                        <!--<input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="serwhatsAppId">-->
+                    <!--</label>-->
+                    <!--<label class="clearfix">-->
+                        <!--<span>Skype：</span>-->
+                        <!--<input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="serskypeId">-->
+                    <!--</label>-->
+                    <label>
+                        <button class="btn btn-default top-search-btn" type="button" ng-click="searchcustomer()">{{'100025' | translate}}</button>
+                    </label>
+                </div>
+                <div class="input-group search-box clearfix" >
+                    <a class="dc-btn" style="float: left;" ng-click="addExcel()">{{'100993' | translate}}</a>
+                    <a href="https://cc-west-usa.oss-us-west-1.aliyuncs.com/15301152/4936725500697.xlsx" class="dc-btn" style="margin-left:10px;float: left;">{{'100994' | translate}}</a>
+                    <input multiple type="file" onchange="angular.element(this).scope().upLoadExcelFun(this.files)" id="upexcel" style="display: none;">
+                    <a class="dc-btn" ng-click="addCustomer()">{{'100995' | translate}}</a>
+                    <button ng-if="dcAdminFlag" style="margin-right: 20px;" class="dao-chu-btn" ng-click="openInputPassword(daoChuFun)">导出</button>
+                </div>
+            </div>
+            <div class="table-con-box" id="c-mu-ord">
+                <table class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <!-- <th><span style="min-width: 30px;">
+                            <img class="c-mu-allchekbox" src="static/image/order-img/multiple1.png">
+                        </span></th> -->
+                        <th><span>序号</span></th>
+                        <th><span>{{'100225' | translate}}</span></th>
+                        <th><span>来源</span></th>
+                        <th><span>{{'100992' | translate}}</span></th>
+                        <th><span>{{'100176' | translate}}</span></th>
+                        <th><span>WhatsApp</span></th>
+                        <th><span>Skype</span></th>
+                        <th><span>Facebook</span></th>
+                        <th><span>PhoneNumber</span></th>
+                        <th><span>{{'100996' | translate}}</span></th>
+                        <th><span>操作人</span></th>
+                        <th><span>{{'100340' | translate}}</span></th>
+                        <th><span>{{'100043' | translate}}</span></th>
+                    </tr>
+                    <tr ng-repeat="item in custExhiList">
+                        <!-- <td><span>
+                            <img class="c-mu-chekbox stop-prop" src="static/image/order-img/multiple1.png">
+                            <p class="hide-order-id" style="display: none;">{{item.id}}</p>
+                        </span></td> -->
+                        <td><span>{{$index+1}}</span></td>
+                        <td><span>{{item.createDate}}</span></td>
+                        <td><span>{{item.status ==='tempChat' 
+                            ? '临时聊天'
+                            : item.isSubscribe === 1
+                              ? '订阅'  
+                              : !item.Operator
+                                ? item.status
+                                : '客服操作'}}</span></td>
+                        <td><span>{{item.name}}
+                            <span ng-show="item.onlineStatus && item.onlineStatus === 1" class="online">[ 在线 ]</span>
+                        </span></td>
+                        <td><span class="d-flex-center" style="width: 200px;line-height: 22px;word-break: break-all;">
+                            {{item.emailId}} <b ng-show="item.isSubscribe === 1 && item.emailCount === 0" class="email-notice position-relative cursor-pointer">
+                                <span class="position-absolute email-notice-content">未给该订阅邮箱发送邮件<b></b></span>
+                            </b></span></td>
+                        <td><span>{{item.whatsAppId}}</span></td>
+                        <td><span>{{item.skypeId}}</span></td>
+                        <td><span>{{item.Facebook}}</span></td>
+                        <td><span>{{item.PhoneNumber}}</span></td>
+                        <td><span>{{item.businessCategoryId}}</span></td>
+                        <td><span>{{classOperator(item.Operator)}}</span></td>
+                        <td><span style="display: inline-block;max-width: 250px;">{{item.remark}}</span></td>
+                        <td>
+                            <button ng-click="CategoryClick(item)">{{'100996' | translate}}</button>
+                        </td>
+                    </tr>
+                </table>
+                <!-- 分页 -->
+                <div class="no-data" ng-show="custExhiList.length == 0">{{'100980' | translate}}</div>
+                <!-- ng-show="hasMerch" -->
+                <div class="page-box" ng-show="custExhiList.length > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="asj-common-tanwrap clearfix" ng-show="isCategory">
+    <div class=" tan-grant-gist">
+        <p style="text-align: center;line-height: 55px;">{{'100996' | translate}}</p>
+        <div class="search-box">
+            <div class="clearfix">
+                <span class="top-search-title">{{'100690' | translate}}：</span>
+                <select class="top-search-inp" ng-options="item as item.name for item in categoryListOne" ng-change="selectOne(firstMenu)" ng-model="firstMenu">
+                    <option value="">{{'100693' | translate}}</option>
+                </select>
+            </div>
+            <div class="clearfix">
+                <span class="top-search-title">{{'100691' | translate}}：</span class="top-search-title">
+                <select class="top-search-inp" ng-options="item as item.name for item in categoryListTwo" ng-change="selectTwo(secondMenu)" ng-model="secondMenu">
+                    <option value="">{{'100693' | translate}}</option>
+                </select>
+            </div>
+            <div class="clearfix">
+                <span class="top-search-title">{{'100692' | translate}}：</span class="top-search-title">
+                <select class="top-search-inp" ng-options="item as item.name for item in categoryListThree" ng-change="selectThree(thirdMenu)" ng-model="thirdMenu">
+                    <option value="">{{'100693' | translate}}</option>
+                </select>
+            </div>
+            <div>
+                <button role="button" style="margin-left: 99px;background: #ccc;" class="btn btn-default top-search-btn" type="button" ng-click="isCategory = false;">{{'100051' | translate}}</button>
+                <button role="button" style="margin-left: 87px;" class="btn btn-default top-search-btn" type="button" ng-click="confCategory()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="asj-common-tanwrap clearfix" ng-show="grantGiftFlag">
+    <div class=" tan-grant-gist">
+        <div class="search-box">
+            <div class="clearfix">
+                <span class="top-search-title">{{'100992' | translate}}：</span class="top-search-title">
+                <input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="name">
+            </div>
+            <div class="clearfix">
+                <span class="top-search-title">{{'100176' | translate}}：</span class="top-search-title">
+                <input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="emailId">
+            </div>
+            <div class="clearfix">
+                <span class="top-search-title">WhatsApp：</span class="top-search-title">
+                <input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="whatsAppId">
+            </div>
+            <div class="clearfix">
+                <span class="top-search-title">Skype：</span class="top-search-title">
+                <input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="skypeId">
+            </div>
+            <div class="clearfix">
+                <span class="top-search-title">Facebook：</span class="top-search-title">
+                <input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="Facebook">
+            </div>
+            <div class="clearfix">
+                <span class="top-search-title">PhoneNumber：</span class="top-search-title">
+                <input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="PhoneNumber">
+            </div>
+          <!--  <div class="clearfix">
+                <span class="top-search-title">经营类目：</span>
+                <input type="text" ng-click="isCategory = true;$event.stopPropagation();"  class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="businessCategoryId">
+            </div>-->
+            <div class="clearfix">
+                <span class="top-search-title" style="float: left;">{{'100340' | translate}}：</span class="top-search-title">
+                <!--<input type="text" class="form-control top-search-inp ng-pristine ng-untouched ng-valid ng-empty" placeholder="" ng-model="remark">-->
+                <textarea ng-model="remark" style="float: left;width: 270px;max-width: 270px;border: 1px solid #08aceb;resize:auto;padding: 8px;margin-left: 4px;"></textarea>
+            </div>
+            <div style="float: right;">
+                <button role="button" style="margin-left: 99px;background: #ccc;" class="btn btn-default top-search-btn" type="button" ng-click="grantGiftFlag = false;">{{'100051' | translate}}</button>
+                <button role="button" style="margin-left: 87px;" class="btn btn-default top-search-btn" type="button" ng-click="confCustomer()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--导出-->
+<div class="staffwindow" ng-show="daoChuFlag">
+    <div class="windowcontent" style="height: 160px;padding: 20px;text-align: center;">
+        <a style="text-decoration: underline;color: #047aa7;" href="javascript:void(0)" ng-click="downExcelFun()">{{excelLink}}</a>
+    <div>
+    <button ng-click="closeExcelFun()" style="margin:0;color: #fff;" >关闭</button>
+</div>
+</body>
+</html>

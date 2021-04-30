@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>document</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css"/>
+    <style type="text/css">
+        .asj-service-docu .search-line {
+            margin: 10px;
+        }
+
+        .asj-service-docu .search-line .search-box {
+            margin-top: 0;
+        }
+
+        .docu-list-item {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .docu-list-item .top-info .edit-btn {
+            float: right;
+            color: #666;
+            font-size: 12px;
+            margin-left: 5px;
+            /*line-height: 24px;*/
+            padding: 0 5px;
+        }
+
+        .docu-list-item .top-info input {
+            width: 100px;
+            height: 24px;
+            font-size: 12px;
+        }
+
+        .docu-list-item li .name-span {
+            display: inline-block;
+            /*width: 340px;*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .name-span {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0 5px;
+            font-size: 14px;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .add-category-btn {
+            display: inline-block;
+            width: 130px;
+            height: 36px;
+            line-height: 36px;
+            color: #B05609;
+            text-align: center;
+            background: #FCF4D9;
+            margin-left: 10px;
+        }
+
+        .add-category {
+            margin-top: 10px;
+        }
+
+        .add-cate-p {
+            display: inline-block;
+        }
+
+        .add-cate-inp {
+            width: 140px;
+            height: 30px;
+            padding: 0 5px;
+        }
+
+        .asj-service-docu .confirm-btn {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            background: #F9AE08;
+            font-size: 12px;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .asj-service-docu .cancel-btn {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            background: #eee;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .table-con-box {
+            margin: initial;
+            padding: 10px;
+        }
+
+        .tab-ware-brunch .edit {
+            display: inline-block;
+            width: 106px;
+            height: 30px;
+            line-height: 30px;
+            color: #fff;
+            text-align: center;
+            background-color: #08aceb;
+            border-radius: 4px;
+            margin-right: 20px;
+        }
+
+        .tab-ware-brunch .delete {
+            background: #fff;
+            border: 1px solid #ccc;
+            color: #666;
+            width: 106px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 4px;
+        }
+
+        .table-con-box .fujian {
+            margin-top: 10px;
+            border-top: 1px dashed #CCCCCC;
+            padding: 10px;
+        }
+
+        .table-con-box .fujian span {
+            float: left;
+            margin-right: 8px;
+        }
+
+        .table-con-box .fujian ul {
+            float: left;
+        }
+
+        .table-con-box .fujian ul li {
+            color: #B05609;
+            float: initial;
+            width: initial;
+            font-size: 12px;
+        }
+
+        .table-con-box .fujian ul li a {
+            color: #08ACE9;
+            font-size: 14px;
+        }
+
+        .table-con-box .contentTXT img {
+            max-width: 100%;
+        }
+
+        .ware-cate-box .asj-tree-wrap {
+            float: left;
+            border-right: 1px solid #eee;
+            position: initial;
+            width: 400px;
+        }
+
+        .tab-ware-brunch {
+            width: calc(100% - 400px);
+            float: left;
+            height: 100%;
+            padding: 10px;
+        }
+
+        .table-con-box h3 {
+            margin-top: initial;
+            border-bottom: 1px dashed #CCCCCC;
+            margin-bottom: 10px;
+            line-height: 30px;
+            font-size: 16px;
+        }
+
+        .folder {
+            width: 16px;
+            height: 16px;
+            background-image: url("erp_otweb/images/folder.svg");
+            background-size: cover;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .folder {
+            width: 16px;
+            height: 16px;
+            background-image: url("erp_otweb/images/folder.svg");
+            background-size: cover;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .doc {
+            width: 16px;
+            height: 16px;
+            background-image: url("erp_otweb/images/doc.svg");
+            background-size: cover;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        .active {
+            background-color: #f7debd;
+        }
+
+        .text-field {
+            padding: 2px 3px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .text-field:hover {
+            background-color: #f7debd;
+        }
+
+        .icon {
+            background: #FCF4D9;
+            color: #FFB85F;
+            width: 16px;
+            height: 16px;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        .tree-viewcont {
+            width: 400px;
+            height: 500px;
+            overflow: auto;
+            padding: 5px 0;
+        }
+
+        .tree-view li {
+            /*width: 320px;*/
+        }
+
+        .tree-view li a {
+            float: right;
+        }
+
+        .edit-cate-inp {
+            border-radius: 3px;
+            padding: 0 5px;
+            /*max-width: 100px;*/
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content asj-service-docu">
+    <!-- right con -->
+    <div class="ea-right-content" ng-class="{'right-bar-wrap': isHideNav !== '1'}">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="search-line clearfix">
+                <div class="input-group search-box">
+                    <input type="text" class="form-control top-search-inp" placeholder='Keyword search'
+                           ng-model="searchStr"
+                           ng-change="enterSearch()">
+                    <!--<a role="button" class="btn btn-default top-search-btn" type="button" ng-click="search()">搜索</a>-->
+                </div>
+                <div ng-show="isadmin" class="add-merch">
+                    <a href="javascript:void(0);" class="add-merch-btn" ng-click="addDocument()">Add Document</a>
+                </div>
+                <div ng-show="isadmin" class="delete-merch">
+                    <a href="javascript:void(0);" class="poplink-active" ng-click="deleteDocument()">Delete Document</a>
+                </div>
+            </div>
+            <script>
+
+            </script>
+            <div class="ware-cate-box clearfix">
+                <div class="asj-tree-wrap">
+                    <div class="tree-title">
+                        All Documents
+                    </div>
+                    <!--<ul class="docu-list domtree docu-content">-->
+                    <!--<li class="docu-list-item domtree" ng-repeat="item in cateList track by $index">-->
+                    <!--<p class="top-info name-span" ng-class="{'active': curQuestion==item}">-->
+                    <!--<a href="javascript:void(0);" class="openup-icon"-->
+                    <!--ng-show="!item.open && (item.problem.length>0)"-->
+                    <!--ng-click="switchList($index,true)">+</a>-->
+                    <!--<a href="javascript:void(0);" class="packup-icon"-->
+                    <!--ng-show="item.open || !item.problem || (item.problem.length<=0)"-->
+                    <!--ng-click="switchList($index,false)">-</a>-->
+                    <!--<span class="name-span" ng-attr-title="{{item.problemType.name}}" ng-click="treeClick(item)"-->
+                    <!--ng-show="!item.edit"><i class="folder"></i>{{item.problemType.name}}</span>-->
+                    <!--<input class="edit-cate-inp" type="text" ng-show="item.edit"-->
+                    <!--ng-blur="cancelEdit($index, item)" ng-keydown="goActEdit($index,$event)">-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);"-->
+                    <!--ng-click="goEdit($index,item, $event)">Edit</a>-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);" href=""-->
+                    <!--ng-click="topOrbot('top',item,$index)">Move up</a>-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);" href=""-->
+                    <!--ng-click="topOrbot('bot',item,$index)">Move down</a>-->
+                    <!--</p>-->
+                    <!--&lt;!&ndash; ng-show="currentFolder.open" &ndash;&gt;-->
+                    <!--<ul class="domtree" ng-show="item.open">-->
+                    <!--<li ng-repeat="itemQ in item.problem">-->
+                    <!--<span ng-class="{'name-span': true, 'active': curQuestion==itemQ}"-->
+                    <!--ng-attr-title="{{itemQ.headline}}"-->
+                    <!--ng-click="treeClick(itemQ)"><i class="doc"></i>{{itemQ.headline}}</span>-->
+                    <!--</li>-->
+                    <!--<ul class="docu-list domtree" style="margin-left: -11px;padding-left: 1px;">-->
+                    <!--<li class="docu-list-item domtree" ng-repeat="item in cateList track by $index">-->
+                    <!--<p class="top-info name-span" ng-class="{'active': curQuestion==item}">-->
+                    <!--<a href="javascript:void(0);" class="openup-icon"-->
+                    <!--ng-show="!item.open && (item.problem.length>0)"-->
+                    <!--ng-click="switchList($index,true)">+</a>-->
+                    <!--<a href="javascript:void(0);" class="packup-icon"-->
+                    <!--ng-show="item.open || !item.problem || (item.problem.length<=0)"-->
+                    <!--ng-click="switchList($index,false)">-</a>-->
+                    <!--<span class="name-span" ng-attr-title="{{item.problemType.name}}" ng-click="treeClick(item)"-->
+                    <!--ng-show="!item.edit"><i class="folder"></i>{{item.problemType.name}}</span>-->
+                    <!--<input class="edit-cate-inp" type="text" ng-show="item.edit"-->
+                    <!--ng-blur="cancelEdit($index, item)" ng-keydown="goActEdit($index,$event)">-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);"-->
+                    <!--ng-click="goEdit($index,item, $event)">Edit</a>-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);" href=""-->
+                    <!--ng-click="topOrbot('top',item,$index)">Move up</a>-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);" href=""-->
+                    <!--ng-click="topOrbot('bot',item,$index)">Move down</a>-->
+                    <!--</p>-->
+                    <!--&lt;!&ndash; ng-show="currentFolder.open" &ndash;&gt;-->
+                    <!--<ul class="domtree" ng-show="item.open">-->
+                    <!--<li ng-repeat="itemQ in item.problem">-->
+                    <!--<span ng-class="{'name-span': true, 'active': curQuestion==itemQ}"-->
+                    <!--ng-attr-title="{{itemQ.headline}}"-->
+                    <!--ng-click="treeClick(itemQ)"><i class="doc"></i>{{itemQ.headline}}</span>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <!--</li>-->
+                    <!--<ul class="docu-list domtree" style="margin-left: -11px;padding-left: 1px;">-->
+                    <!--<li class="docu-list-item domtree" ng-repeat="item in cateList track by $index">-->
+                    <!--<p class="top-info name-span" ng-class="{'active': curQuestion==item}">-->
+                    <!--<a href="javascript:void(0);" class="openup-icon"-->
+                    <!--ng-show="!item.open && (item.problem.length>0)"-->
+                    <!--ng-click="switchList($index,true)">+</a>-->
+                    <!--<a href="javascript:void(0);" class="packup-icon"-->
+                    <!--ng-show="item.open || !item.problem || (item.problem.length<=0)"-->
+                    <!--ng-click="switchList($index,false)">-</a>-->
+                    <!--<span class="name-span" ng-attr-title="{{item.problemType.name}}" ng-click="treeClick(item)"-->
+                    <!--ng-show="!item.edit"><i class="folder"></i>{{item.problemType.name}}</span>-->
+                    <!--<input class="edit-cate-inp" type="text" ng-show="item.edit"-->
+                    <!--ng-blur="cancelEdit($index, item)" ng-keydown="goActEdit($index,$event)">-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);"-->
+                    <!--ng-click="goEdit($index,item, $event)">Edit</a>-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);" href=""-->
+                    <!--ng-click="topOrbot('top',item,$index)">Move up</a>-->
+                    <!--<a ng-show="isadmin" class="edit-btn" href="javascript:void(0);" href=""-->
+                    <!--ng-click="topOrbot('bot',item,$index)">Move down</a>-->
+                    <!--</p>-->
+                    <!--&lt;!&ndash; ng-show="currentFolder.open" &ndash;&gt;-->
+                    <!--<ul class="domtree" ng-show="item.open">-->
+                    <!--<li ng-repeat="itemQ in item.problem">-->
+                    <!--<span ng-class="{'name-span': true, 'active': curQuestion==itemQ}"-->
+                    <!--ng-attr-title="{{itemQ.headline}}"-->
+                    <!--ng-click="treeClick(itemQ)"><i class="doc"></i>{{itemQ.headline}}</span>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <!--</ul>-->
+                    <!--</ul>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <div class="tree-viewcont">
+                        <tree-view tree-data="tree" text-field="headline" value-field='id'
+                                   item-clicked="itemClicked($item)"
+                                   can-checked="true"></tree-view>
+                    </div>
+                    <!--<pre>{{selectedItem | json}}</pre>-->
+                    <script type="text/ng-template" id="/treeView.html">
+                        <ul class="tree-view">
+                            <li ng-repeat="item in treeData" ng-include="itemTemplateUrl || '/treeItem.html'"></li>
+                        </ul>
+                    </script>
+                    <script type="text/ng-template" id="/treeItem.html">
+                        <i ng-click="itemExpended(item, $event);"
+                           ng-class="{'icon':item.menuType == 1 || item.menuType == 2}"
+                           class="{{getItemIcon(item)}}"></i>
+                        <i ng-if="item.menuType == 1 || item.menuType == 2" class="folder"></i>
+                        <!--  <input type="checkbox" ng-model="item.$$isChecked" class="check-box" ng-if="canChecked"
+                               ng-change="warpCallback('itemCheckedChanged', item, $event)">-->
+                        <span class='text-field' ng-show="!item.editFlag"
+                              ng-class="{'active': curQuestion == item}"
+                              ng-dblclick="goEdit($index,item, $event)"
+                              ng-click="warpCallback('itemClicked', item, $event);">
+                            {{item[textField]}}
+                        </span>
+                        <input class="edit-cate-inp" type="text" ng-show="item.editFlag"
+                               ng-blur="cancelEdit($index, item)" ng-keydown="goActEdit($index,$event,item)">
+                        <ul ng-if="!isLeaf(item)" ng-show="item.$$isExpend">
+                            <li ng-repeat="item in item.children" ng-include="itemTemplateUrl || '/treeItem.html'"></li>
+                        </ul>
+                    </script>
+                    <div class="add-category" ng-show="isadmin">
+                        <a class="add-category-btn" href="javascript:void(0)"
+                           ng-click="addCate = true;addCateName = '';">+ Add
+                            Category</a>
+                        <p class="add-cate-p" ng-show="addCate">
+                            <input type="text" class="add-cate-inp" ng-model="addCateName">
+                            <span class="cancel-btn" ng-click="addCate=false;">Cancel</span>
+                            <span class="confirm-btn" ng-click="goAddCate()">Confirm</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="table-con-box tab-ware-brunch clearfix">
+                    <div style="height: 530px;overflow: auto;">
+                        <h3 ng-show="$root.Title">{{$root.Title}}</h3>
+                        <div class="contentTXT" ng-bind-html="$root.contentTXT"></div>
+                        <div ng-show="$root.annexlist[0]" class="fujian clearfix">
+                            <span>Annex:</span>
+                            <ul>
+                                <li ng-repeat="item in $root.annexlist">
+                                    {{item.name}}
+                                    <a ng-href="{{'https://'+item.url[0]}}" download="{{item.name}}">Download</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-show="$root.contentTXT && isadmin" style="float: right;margin-top: 15px;">
+                        <button class="edit" ng-click="docEdit()">Edit</button>
+                        <button class="delete" ng-click="docDel()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<div ng-show="deleteDocumentFlag" class="oneistbdp-wrap">
+    <div class="oneistbdp-con">
+        <p>是否删除?</p>
+        <div class="oneistbdp-btns">
+            <button ng-click="deleteDocumentFlag=false" class="oneistbdp-can-btn">取消</button>
+            <button ng-click="deleteDocumentFun()" class="oneistbdp-con-btn">确定</button>
+        </div>
+    </div>
+</div>
+
+</html>

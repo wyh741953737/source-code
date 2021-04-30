@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>批次处理</title>
+    <style type="text/css">
+        .viewgys-wrap, .ordnum-wrap, .errbtn-wrap {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10003;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .view-con, .ordnum-con {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 500px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .errtk-con {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 200px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .ywy-con {
+            height: 520px;
+            width: 260px;
+        }
+
+        .ywy-list {
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .head-li {
+            background-color: #F4F8FB;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .errtk-text {
+            height: 130px;
+        }
+
+        .err-textVal {
+            width: 300px;
+            height: 120px;
+            border: 1px solid #ececec;
+            text-indent: 12px;
+        }
+
+        .view-con th {
+            font-weight: normal;
+            text-align: center;
+            height: 30px;
+        }
+
+        .view-con .table > tbody > tr > td {
+            vertical-align: middle;
+        }
+
+        .caigou-tab-wrap {
+            height: 380px;
+            overflow-y: auto;
+        }
+
+        .tit-name {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .close-numbtn, .errtk-canbtn {
+            width: 76px;
+            height: 30px;
+            margin-top: 20px;
+            background: #f6f6f6;
+            border: 1px solid #cfcfcf;
+            color: #6b6b6b;
+            border-radius: 4px;
+        }
+
+        .errtk-canbtn {
+            margin-top: 0;
+        }
+
+        .errtk-surebtn {
+            width: 76px;
+            height: 30px;
+            margin-left: 30px;
+            background: #fff;
+            border: 1px solid #faa538;
+            color: #faa538;
+            border-radius: 4px;
+        }
+
+        .ordncon-list {
+            height: 400px;
+            overflow: auto;
+        }
+
+        /*变体表格*/
+        .bt-list {
+            display: none;
+        }
+
+        .fun-div {
+            padding: 0 10px;
+            /* height: 30px; */
+            font-size: 0;
+            float: left;
+            margin-bottom: 21px;
+        }
+
+        .fun-div .sku-inp {
+            width: 280px;
+            height: 30px;
+            text-indent: 12px;
+            vertical-align: top;
+            font-size: 12px;
+        }
+
+        .fun-div .skusea-btn {
+            height: 30px;
+            padding: 0 10px;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            vertical-align: top;
+            border-left: none;
+            font-size: 12px;
+            margin-right: 40px;
+        }
+
+        .fun-div .skusea-btn:hover {
+            color: #f99429;
+        }
+
+        .qk-btn {
+            width: 110px;
+            color: #5dbdf2;
+            float: right;
+            color: #5dbdf2;
+            float: right;
+            height: 30px;
+            background-color: #fff;
+            border: 1px solid #5dbdf2;
+            border-radius: 4px;
+            margin-left: 30px;
+        }
+
+        .fiexdbottom-btns {
+            margin-top: 20px;
+        }
+
+        .ea-list-table td span {
+            font-size: 12px;
+        }
+
+        .ea-list-table td p {
+            font-size: 12px;
+        }
+
+        .pici-btn {
+            height: 30px;
+            padding: 0 15px;
+            background-color: #87CEFA;
+            color: #fff;
+            vertical-align: top;
+        }
+
+        .lightseagreen {
+            background-color: lightseagreen;
+        }
+
+        .second-tr {
+            /* display: none; */
+        }
+
+        .tan-delete-ware {
+            border-radius: 4px;
+        }
+        .tan-delete-ware {
+            width: initial;
+            height: initial;
+            min-width: 340px !important;
+            min-height: 120px !important;
+            max-width: 800px;
+            max-height: 700px;
+            overflow-y: scroll;
+        }
+        .asj-common-tan h3 {
+            font-size: 14px;
+            font-family: PingFangSC-Medium;
+            color: rgba(102, 102, 102, 1);
+            line-height: 20px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .asj-common-tan .tan-btns {
+            text-align: right;
+            position: initial;
+        }
+
+        .asj-common-tan .tan-btns .tan-btn1 {
+            /*width: 80px;*/
+            height: 30px;
+            background: rgba(249, 174, 8, 1);
+            border-radius: 2px;
+            color: #fff;
+            margin-right: 10px;
+            margin-left: 0;
+        }
+
+        .asj-common-tan .tan-btns .tan-btn0 {
+            width: 80px;
+            height: 30px;
+            border-radius: 2px;
+            border: 1px solid rgba(247, 157, 45, 1);
+            margin: 0 ;
+            color: #F9AE08;
+            background-color: #fff;
+        }
+        .asj-common-tan li{
+            border-bottom: 1px solid #ccc;
+            margin: 10px 0;
+        }
+        .daochu-btn{
+            height: 30px;
+            padding: 0 20px;
+            border-radius: 4px;
+            border: 1px solid #5dbdf2;
+            background-color: #fff;
+            float: right;
+            color: #5dbdf2;
+            font-size: 12px;
+        }
+        .daochu-btn:hover{
+            background-color: #5dbdf2;
+            color: #fff;
+        }
+        .two-ck-btn{
+            height: 30px;
+            padding: 0 10px;
+            color: #5dbdf2;
+            border: 1px solid #5dbdf2;
+            background-color: #fff;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 16px;
+        }
+        .two-ck-activebtn {
+            color: #fff;
+            background-color: #5dbdf2;
+        }
+        .asj-common-tan li a{
+            word-break: break-all;
+        }
+        .ord-link{
+            font-size: 12px;
+            text-decoration: underline;
+            color: #08ACE9;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom:0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99999;
+            display: none;
+        }
+        .zzcWrap{
+            padding: 20px;
+            border-radius: 4px;
+            background: #fff;
+            width: 350px;
+            margin: 250px auto;
+        }
+        .zzcWrap h1{
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .zzcWrap input{
+            width: 240px;
+            padding: 0 10px;
+            height: 30px;
+            border-radius: 4px;
+        }
+        .wrapBottom{
+            text-align: center;
+            margin-top: 15px;
+        }
+        .wrapBottom button{
+            padding: 5px 15px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+        .wrapBottom button:first-child{
+            background: #F9AE08;
+            color: #fff;
+            border-color: #F9AE08;
+            margin-right: 15px;
+        }
+        .wrapBottom button:last-child{
+            background: #fff;
+            /*color: #fff;*/
+            border-color: #9e9e9e;
+        }
+        #pdf-link-json{
+            position: absolute;
+            left: 9999px;
+        }
+        /*#selectQuery option{*/
+            /*/!*padding: 5px 10px;*!/*/
+            /*font-size: 14px;*/
+        /*}*/
+        .data-inp{
+            float: left;
+            height: 30px;
+            border-radius: 0;
+        }
+        .search{
+            width: 60px;
+            height: 30px;
+            font-size: 12px;
+            background: #fff;
+            border: 1px solid #ccc;
+        }
+        .focus{
+            background: #5dbdf2;
+        }
+    </style>
+</head>
+
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li class="active"><a href="#/erppurchase/needbuy">{{'100549' | translate}}</a></li>
+            <li><a href="#/supplier-manage">{{'100550' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <!-- right list -->
+            <storageTab has-all="false" callback="storageCallback"></storageTab>
+            <div class="fun-div">
+                <select id="selectQuery" style="font-size: 14px;height: 30px;width: 70px;">
+                    <option value="0" selected>批次号</option>
+                    <option value="1">订单号</option>
+                </select>
+                <input class="sku-inp" ng-model="searchSku">
+                <button class="skusea-btn" ng-click="searchFun()">{{'100025' | translate}}</button>
+
+                <!-- <button ng-repeat="item in storeList track by $index" ng-click="storeFun(item)" class="two-ck-btn" ng-class="{'two-ck-activebtn':item.check}">{{item.name}}</button> -->
+                <span class="two-ck-box">
+                    <button ng-repeat="item in orderTypeList track by $index" ng-click="orderTypeFun(item)" class="two-ck-btn" ng-class="{'two-ck-activebtn':item.check}">{{item.name}}</button>
+                </span>
+                <div>
+                    <button ng-show="(store==0 && (erpLoginName=='陈真' || erpLoginName=='陈小琴' || erpLoginName=='杨玉' || erpLoginName=='王波' || erpLoginName=='admin')) || (store==5 && (erpLoginName=='张丽萍'||erpLoginName=='admin' || erpLoginName=='杨利姣' || erpLoginName=='朱彩虹' || erpLoginName=='崔宏涛'))||(store==1 && (erpLoginName=='张俊佩' || erpLoginName == '孙娅' || erpLoginName=='冯丽萍' || erpLoginName=='admin')) || (store==10 && (erpLoginName=='张俊佩' || erpLoginName=='孙娅' || erpLoginName=='冯丽萍' || erpLoginName=='陈真' || erpLoginName=='陈小琴' || erpLoginName=='杨玉' || erpLoginName=='王波' || erpLoginName=='admin'))" ng-click="piciSelect()" style="float: left;margin-top: 5px;" class="two-ck-btn">批量打印批次</button>
+                </div>
+                <!-- <button ng-click="isdcflag" class="daochu-btn">导出</button> -->
+               
+            </div>
+            <button ng-click="openRestore()" style="float: right;" class="two-ck-btn">还原批次状态</button>
+            <select id="selectChuku" style="font-size: 14px;height: 30px;width: 70px;float: left;" ng-model="chukuVal">
+                <option value="1">已出库</option>
+                <option value="0">未出库</option>
+                <option value="">All</option>
+            </select>
+            <input id="date1" class="Wdate data-inp noneborder" ng-focus="dateFocus()"
+            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="" ng-model="startTime">
+     <span class="line" style="float: left;">-</span>
+     <input id="date2" class="Wdate data-inp noneborder" ng-focus="dateFocus()"
+            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="" ng-model="endTime">
+            <button class="search sku-inp" style="float: none;border-radius: 0;" ng-click="searchChuku()">查询</button>
+            
+            <input id="pdf-link-json" ng-model="miandanData"></input>
+            <button ng-click="chukuSelect()" style="float: right;margin-top: 5px;" class="two-ck-btn">批量出库</button>
+            <button style="float: right;margin-top: 5px;" class="two-ck-btn"><a style="color: #5dbdf2" href="/erpmicro/warehouse/batch/sowing">播种</a></button>
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+                    <tr>
+                        <th><span><img class="cg-checkall" src="static/image/order-img/multiple1.png"></span></th>
+                        <th><span>
+                            批次号
+                        </span></th>
+                        <th><span>类型</span></th>
+                        <th><span>类别</span></th>
+                        <th><span>时间</span></th>
+                        <th><span>创建人</span></th>
+                        <th><span>批次状态</span></th>
+                        <th><span>打单状态</span></th>
+                        <th><span>打单人</span></th>
+                        <th ng-show="yandanren"><span>验单人</span></th>
+                        <th><span>找货人</span></th>
+                        <th><span>打单时间</span></th>
+                        <th><span>出库状态</span></th>
+                        <th><span>操作</span></th>
+                    </tr>
+                    <tbody ng-repeat="item in piciList track by $index">
+                    <tr class="la_tr la_tr01" ng-click="TrClick($index)" ng-class="{focus: $index == focus}">
+                        <td><img class="cg-checkbox" src="static/image/order-img/multiple1.png"></td>
+                        <td class="cg-list-id">
+                            <span ng-click="toOrdFun(item)" class="ord-link">{{item.id}}</span>
+                            <img style="height: 18px;cursor: pointer;" ng-click="copyPiCiFun(item.id)" src="./static/image/public-img/copy.png" alt="">
+                        </td>
+                        <td ng-show="item.piCiStatus=='0'"><span >多品</span></td>
+                        <td ng-show="item.piCiStatus=='1'"><span >单品</span></td>
+                        <td>
+                            <span style="color: #e55264;" ng-if="item.batchType==2">1单1品:{{item.guiGe}}</span>
+                            <span style="color: #f1ca16;" ng-if="item.batchType==0||item.batchType==1 || item.batchType==3 || item.batchType==5">其他:{{item.guiGe}}</span>
+                        </td>
+                        <td>
+                            <span>
+                                {{item.createDate}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>{{item.creater}}</span><br />
+                            <span style="color: #005AB5;" ng-if="item.isVip==1">vip</span>
+                            <span style="color: #804040;" ng-if="item.isFirst==1">首单</span>
+                        </td>
+                        <td>
+                            <span style="color: #e55264;" ng-if="item.status==0">批次待处理</span>
+                            <span style="color: #f1ca16;" ng-if="item.status==1||item.status==7">找货中</span>
+                            <span style="color: #04a452;" ng-if="item.status==2">找货完成</span>
+                            <span style="color: #f1ca16;" ng-if="item.status==3">分单中</span>
+                            <span style="color: #04a452;" ng-if="item.status==4">分单完成</span>
+                            <span style="color: #f1ca16;" ng-if="item.status==5">分货中</span>
+                            <span style="color: #04a452;" ng-if="item.status==6">批次已完成</span>
+                        </td>
+                        <td>
+                            <span style="color: green;" ng-show="item.daDanUserId">已打单</span>
+                            <span style="color: red;" ng-show="!item.daDanUserId">未打单</span>
+                        </td>
+
+                        <td>
+                            <span>{{item.daDanUserId}}</span>
+                        </td>
+                        <td ng-show="yandanren">
+                            <span title="{{item.yandanren}}" style="max-width:150px;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                                {{item.yandanren.operator}} 
+                                <b style="color:#04a452;font-size: 12px;font-weight: normal;" ng-show="item.yandanren.status=='验单成功'">{{item.yandanren.status}}</b>
+                                <b style="color:#e55264;font-size: 12px;font-weight: normal;" ng-show="item.yandanren.status!='验单成功'">{{item.yandanren.status}}</b>
+                            </span>
+                        </td>
+                        <td>
+                            <span>{{item.zhaoHuoRen}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="item.daDanDate">
+                                {{item.daDanDate}}
+                            </span>
+                        </td>
+                        <td ng-show="item.outStatus=='0'" style="color: red;cursor: pointer;" ng-click="weichuku(item.daDan)"><span>未出库</span> </td>
+                        <td ng-show="item.outStatus=='1'" style="color: #04a452;"><span>已出库</span></td>                        
+                        <!-- <td ng-show="item.outStatus=='未出库'" style="color: red;cursor: pointer;" ng-click="weichuku(item.daDan)"><span>未出库</span> </td>
+                        <td ng-show="item.outStatus=='已出库'" style="color: #04a452;"><span>已出库</span></td> -->
+                        <td class="relative">
+                             <span>
+                                <button class="pici-btn" ng-click="fenDanFun(item)">分单</button>
+                                <button class="pici-btn" ng-show="listIndex == '1'"
+                                        ng-click="DaDanFun(item,$index)">打单</button>
+                                        <button class="pici-btn" ng-click="dcHbFun(item)">导出</button>
+                                        <button class="pici-btn" ng-click="chukuFun(item)" ng-show="item.outStatus=='0'">出库</button>
+                                <i ng-click="showBtFun(item,$event,$index)" id="toggle-logo1"
+                                   style="font-size: 20px;cursor: pointer;margin-top: 5px;"
+                                   class="glyphicon glyphicon-triangle-bottom"></i>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="la_tr la_tr01 second-tr" ng-repeat="item1 in item.zhaoFenHuo" ng-show="item.isShow"><!--  -->
+                        <td></td>
+                        <td><span>
+                            11
+                            {{item1.horizontalFlag}}
+                        </span></td>
+                        <td><span>
+                            SKU: {{item1.sku}}
+                        </span></td>
+                        <td>
+                            <span>短SKU: {{item1.shortSku}}</span>
+                        </td>
+                        <td><span>数量: {{item1.quantity}}</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td ng-show="yandanren"><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span ng-if="item1.dateDetail">找货时间: {{item1.dateDetail}}</span></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2"><span>
+                            <button class="pici-btn lightseagreen" ng-click="fenHuoFun(item1)">分货</button>
+                            <i style="font-size: 20px;opacity: 0;margin-top: 5px;"
+                               class="glyphicon glyphicon-triangle-bottom"></i>
+                        </span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--以下是分页-->
+                <!-- 分页 -->
+                <!-- ng-show="hasMerch" -->
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div id="pagination1" class="pagination2">
+
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button"
+                           ng-click="toSpecifiedPage()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 分单 -->
+<div class="ordnum-wrap" ng-show='fenDanFlag'>
+    <div class="ordnum-con">
+        <div class="ordncon-list">
+            <table class="table table-bordered">
+                <tr style="background-color: #f4f8fd;">
+                    <td>追踪号</td>
+                    <td>篮子号</td>
+                </tr>
+                <tr ng-repeat="(key,value) in fendanObj">
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                </tr>
+            </table>
+        </div>
+        <button class="close-numbtn" ng-click="closeFenDanFun()">{{'100066' | translate}}</button>
+    </div>
+</div>
+<!-- 分货 -->
+<div class="ordnum-wrap" ng-show='fenHuoFlag'>
+    <div class="ordnum-con">
+        <div class="ordncon-list">
+            <table class="table table-bordered">
+                <tr style="background-color: #f4f8fd;">
+                    <td>篮子号</td>
+                    <td>数量</td>
+                </tr>
+                <tr ng-repeat="(key,value) in fenhuoObj">
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                </tr>
+            </table>
+        </div>
+        <button class="close-numbtn" ng-click="closeFenHuoFun()">{{'100066' | translate}}</button>
+    </div>
+</div>
+<!--打单-->
+<div class="asj-common-tanwrap ng-scope" ng-show="dadanFlag">
+    <div class="asj-common-tan tan-delete-ware">
+        <h3>是否打单？</h3>
+        <div class="tan-btns">
+            <a class="tan-btn1" ng-click="pcibtn()">打印批次号</a>
+            <a class="tan-btn1" ng-click="Ybtn()">打单</a>
+            <a class="tan-btn1" ng-click="Allbtn()">合并打单</a>
+            <a class="tan-btn0" ng-click="dadanFlag = false">取消</a>
+        </div>
+    </div>
+</div>
+<div class="asj-common-tanwrap ng-scope" ng-show="dadanURL">
+    <div class="asj-common-tan tan-delete-ware">
+        <h3 ng-show="codeUrl">批次号</h3>
+        <ul>
+            <li><a target="_blank" ng-href="{{codeUrl.indexOf('http')==-1?('https://'+codeUrl):codeUrl}}">{{codeUrl.indexOf('http')==-1?('https://'+codeUrl):codeUrl}}</a></li>
+        </ul>
+        <h3 ng-show="miandanData.length>0">面单</h3>
+        <ul>
+            <li ng-repeat="item in miandanData">
+                <span>{{$index+1}}</span>
+                <a target="_blank" ng-href="{{'http://'+item}}">{{'http://'+item}}</a>
+            </li>
+        </ul>
+        <div class="tan-btns">
+            <a class="tan-btn1" ng-click="cnChangeFun()">{{isCn?'国际转换':'国内转换'}}</a>
+            <a class="tan-btn1" ng-click="copyMdFun()">一键复制</a>
+            <a class="tan-btn0" ng-click="dadanURL = false">关闭</a>
+        </div>
+    </div>
+</div>
+<!-- 是否导出订单 -->
+<div ng-show="isdcflag" class="isdcord-wrap">
+    <div class="isdcord-con">
+        <p>是要导出订单吗?</p>
+        <div class="isdc-btns">
+            <button ng-click="isdcclosefun()" class="isdc-can-btn">取消</button>
+            <button ng-click="dcHbFun()" class="isdc-con-btn">导出</button>
+        </div>
+    </div>
+</div>
+<!-- 生成excel的导出弹窗 -->
+<div ng-show="dcflag" class="dcexcel-wrap">
+    <div class="dcexcel-con">
+        <a ng-click="closeatc()" ng-href="{{(hrefsrc.indexOf('http') == -1 ? ('http://' + hrefsrc) : hrefsrc)}}">{{(hrefsrc.indexOf('http') == -1 ? ('http://' + hrefsrc) : hrefsrc)}}</a>
+        <div class="dc-conbtns">
+            <button ng-click="closeatc()">{{'100066' | translate}}</button>
+        </div>
+    </div>
+</div>
+
+<!--还原批次-->
+<div class="zzc">
+    <div class="zzcWrap">
+        <h1>还原批次状态</h1>
+        <div>
+            <label>批次号：</label>
+            <input id="RestoreInput" type="text"/>
+        </div>
+        <p style="margin: 10px 0;font-size: 12px;">多个批次号之间请用英文逗号隔开</p>
+        <div class="wrapBottom">
+            <button ng-click="RestoreFun()">还原</button>
+            <button ng-click="closeRestore()">关闭</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- 未出库 -->
+<!-- 分货 -->
+<div class="ordnum-wrap" ng-show='ischuku'>
+    <div class="ordnum-con">
+        <div class="ordncon-list">
+            <table class="table table-bordered overflowHidden" >
+                <tr style="background-color: #f4f8fd;">
+                    <td>订单号</td>
+                    <td>出库状态</td>
+                    <td>留言</td>
+                </tr>
+                <tr ng-repeat="item in weichukuList">
+                    <td>{{item.orderId}}</td>
+                    <td>
+                        <span ng-show="item.status=='0'" style="color: red;">未出库</span>
+                        <span ng-show="item.status=='1'">已出库</span>
+                        <button ng-show="item.status=='0'" ng-click="addRemark(item)">留言</button>
+                    </td>
+                    <td><span>{{item.reason}}</span></td>
+                </tr>
+            </table>
+        </div>
+        <button class="close-numbtn" ng-click="ischuku = false">{{'100066' | translate}}</button>
+    </div>
+</div>
+<!--  -->
+<div class="erp-common-tan-v2-wrap ng-scope" ng-show="isMark==true">
+    <div class="erp-common-tan-v2" style="width: 404px; height: initial;">
+        <div class="tan-v2-top">
+            <h6 class="text-align-center ng-binding">编辑备注</h6>
+        </div>
+        <div class="tan-v2-con" style="margin-bottom: 20px;">
+            <div class="item-group d-flex align-items-center" style="border: 1px solid #ccc;height: 120px;">
+                <textarea ng-model="reason" name="" id="" placeholder="" class="ng-pristine ng-valid ng-empty ng-touched" style="display: block;width: 100%;height: 100%;"></textarea>
+            </div>
+        </div>
+        <div class="tan-v2-bot">
+            <a href="javascript:void(0);" class="qu-xiao-btn" ng-click="cancelEdit()">取消</a>
+            <a href="javascript:void(0);" class="que-ding-btn" ng-click="sureEdit(remarks)">确定</a>
+        </div>
+    </div>
+</div>
+<div class="isdymd-wrap" ng-show="downLoadFlag">
+    <div class="isdymd-con" style="width: 500px;height: 200px;">
+        <p>未检测到自动打印软件，请下载、解压、运行。如果已经下载，请双击启动</p>
+        <a href="http://erp.cjdropshipping.cn/down/cjapp.zip" ng-click="downLoadFlag = false" style="color: #87CEFA;">自动打单软件</a>
+        <div class="isdymd-btns">
+            <button ng-click="downLoadFlag = false" class="isdymd-can-btn">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+<style>
+        .overflowHidden {
+            table-layout: fixed;
+        }
+        .overflowHidden td{
+           
+            /* width: 120px; */
+        }
+        .overflowHidden td span{
+            width: 100%;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+    </style>

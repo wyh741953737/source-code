@@ -1,0 +1,203 @@
+<div class="my-wrap">
+  <main class="my-main">
+    <section class="back-area mb-10">
+      <button class="bd br-4" ng-click="handleBack()">back</button>
+    </section>
+    <section class="filter-area mb-20 bd">
+      <ul class="condition-list flex fyc fwp mb-20">
+        <li>
+          <span>供货公司:</span>
+          <input type="text" ng-model="params.gongHuoGongSi" class="fg-1" placeholder="请输入供货公司">
+        </li>
+        <li>
+          <span>仓库:</span>
+          <select class="br-4" style="width: 160px; height: 30px;" ng-model="params.cangKu" ng-change="selectWarehouse()">
+            <option value="{{item.value}}" ng-repeat="item in warehouseList"> {{item.label}} </option>
+          </select>
+        </li>
+        <li>
+          <span>标记:</span>
+          <select class="br-4" style="width: 160px; height: 30px;" ng-model="params.biaoji">
+            <option value="{{item.value}}" ng-repeat="item in markList"> {{item.label}} </option>
+        </select>
+        </li>
+        <li>
+          <span>标记备注：</span>
+          <input type="text" ng-model="params.signRemark" id="">
+        </li>
+        <li>
+          <span>{{name}}订单号:</span>
+          <input type="text" ng-model="params.dingDanHao">
+        </li>
+        <li>
+          <span>原总价(¥):</span>
+          <input type="number" step="0.01" ng-model="params.yuanZongJia">
+        </li>
+      </ul>
+    </section>
+    <section class="table-area">
+      <div class="tb-thead d-flex">
+        <div style="width: 10%" class="tb-thead-th">图片</div>
+        <div style="width: 10%" class="tb-thead-th">SKU</div>
+        <div style="width: 10%" class="tb-thead-th">属性</div>
+        <div style="width: 15%" class="tb-thead-th">今日订单统计数量</div>
+        <div style="width: 10%" class="tb-thead-th">可用库存数量</div>
+        <div style="width: 10%" class="tb-thead-th">建议采购数量</div>
+        <div style="width: 10%" class="tb-thead-th">预采购数量</div>
+        <div style="width: 10%" class="tb-thead-th">搜品价格(¥)</div>
+        <div style="width: 10%" class="tb-thead-th">实际采购数量 <a href="javascript:void(0)" ng-click="batchingSetting.show()">批量设置</a></div>
+        <div style="width: 10%" class="tb-thead-th">退货天数</div>
+        <!-- <div style="width: 10%" class="tb-thead-th">退货倒计时</div> -->
+        <!-- <div style="width: 5%; color: #97b4e8;" class="tb-thead-th cp" ng-click="batchingSetting.show()">批量设置</div> -->
+      </div>
+      <div class="tb-tbody table-content">
+        <div class="tb-tbody-tr" ng-repeat="item in list">
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>
+            <img ng-src="{{item.img}}" alt="" width="60%">
+          </span></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.sku}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc">
+            <span ng-repeat="(key,val) in item.variantKeyMap" style="display: block;font-size: 12px;">
+              {{key}}：{{val}}
+            </span>
+          </div>
+          <div style="width: 15%" class="tb-tbody-td flex fxc fyc"><span>{{item.orderNeedCount}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.kuCun}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.recommentCount}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.procurementCount || '--'}} {{ isHandleAdvancePuchaseNum(item) }} <a href="#/advancePurchase/list/{{item.sku}}" class="k-seeMore" ng-show="!!item.procurementCount">查看</a></span></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.costPrice}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><input type="number" style="width: 80%" ng-model="item.count" maxlength="10"></div>
+          <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><input type="text" style="width: 80%" ng-model="item.returnDays" ng-keyup="keyUpNum($index,'returnDays')"></div>
+          <!-- <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><input type="text" style="width: 80%" ng-model="item.returnDays" ng-keyup="keyUpNum($index,'returnDays')"></div> -->
+          <!-- <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><input type="text" style="width: 80%" ng-model="item.returndaytask" ng-keyup="keyUpNum($index,'returndaytask')"></div> -->
+        </div>
+        <div class="no-data flex fyc fxc" style="height: 300px;" ng-show="!list.length">暂无数据</div>
+      </div>
+    </section>
+    <section class="confirm-area flex fxr">
+      <div class="button-area">
+        <button class="br-4" ng-click="handleBack()">取 消</button>
+        <button class="br-4" ng-click="handleConfirm()">提 交</button>
+      </div>
+    </section>
+  </main>
+  <div class="erp-common-tan-v2-wrap flex fyc fxc br-4" ng-show="confirmBoxShow">
+     <div class="box-container">
+      <header class="box-header">{{name}}采购</header>
+      <ul class="box-filter-area fs-14 flex fwp">
+        <li>供货公司: {{params.gongHuoGongSi}}</li>
+        <li>仓库: {{wareName}}</li>
+        <li>标记: {{markName}}</li>
+        <li>标记备注: {{params.signRemark}}</li>
+        <li>{{name}}订单号: {{params.dingDanHao}}</li>
+        <li>原总价(¥): {{params.yuanZongJia}}</li>
+      </ul>
+      <section>
+        <div class="tb-thead d-flex">
+          <div style="width: 10%" class="tb-thead-th">图片</div>
+          <div style="width: 10%" class="tb-thead-th">SKU</div>
+          <div style="width: 10%" class="tb-thead-th">属性</div>
+          <div style="width: 10%" class="tb-thead-th">今日订单统计数量</div>
+          <div style="width: 10%" class="tb-thead-th">可用库存数量</div>
+          <div style="width: 10%" class="tb-thead-th">建议采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">预采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">搜品价格(¥)</div>
+          <!-- <div style="width: 10%" class="tb-thead-th">商品价格(¥)</div> -->
+          <div style="width: 10%" class="tb-thead-th">实际采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">退货天数</div>
+          <!-- <div style="width: 10%" class="tb-thead-th">退货倒计时</div> -->
+        </div>
+        <div class="tb-tbody box-table-content table-content">
+          <div class="tb-tbody-tr" ng-repeat="item in list">
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>
+              <img ng-src="{{item.img}}" alt="" width="60%">
+            </span></div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.sku}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"> 
+              <span ng-repeat="(key,val) in item.variantKeyMap" style="display: block;font-size: 12px;">
+                    {{key}}：{{val}}
+              </span>
+            </div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.orderNeedCount}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.kuCun}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.recommentCount}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.procurementCount || '--'}} {{ isHandleAdvancePuchaseNum(item) }}</span></div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.costPrice}}</span></div>
+            <!-- <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.calcPrice}}</span></div> -->
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><input type="text" style="width: 80%" ng-model="item.count" disabled></div>
+            <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.returnDays || '--'}}</span></div>
+            <!-- <div style="width: 10%" class="tb-tbody-td flex fxc fyc"><span>{{item.returndaytask || '--'}}</span></div> -->
+          </div>
+          <div class="no-data flex fyc fxc" style="height: 300px;" ng-show="!list.length">暂无数据</div>
+        </div>
+      </section>
+      <section class="flex fxr confirm-area">
+        <div class="button-area">
+          <button class="br-4" ng-click="confirmBoxShow = false">取 消</button>
+          <button class="br-4" ng-click="handleSubmit()">提 交</button>
+        </div>
+      </section>
+     </div> 
+  </div>
+  <div ng-show="batchingSetting.batchingSettingBoxShow">
+    <div class="erp-common-tan-v2-wrap">
+      <div class="erp-common-tan-v2" style="width: 500px; height: 210px;">
+        <!-- 关闭按钮 -->
+        <a class="tan-v2-close" href="javascript:void(0);" ng-click="batchingSetting.batchingSettingBoxShow=false;"><img src="static/image/public-img/close-img.png"></a>
+        <!-- title -->
+        <div class="tan-v2-top">
+          <h6>批量设置</h6>
+        </div>
+        <!-- 内容 -->
+        <div class="tan-v2-con flex fyc">
+          <span class="mr-10">批量设置数量:</span>
+          <input type="number" maxlength="8" placeholder="批量设置数量" ng-model="batchingSetting.value">
+        </div>
+        <!-- 底部 -->
+        <div class="tan-v2-bot">
+          <!-- 取消按钮（灰色） -->
+          <a href="javascript:void(0);" ng-click="batchingSetting.batchingSettingBoxShow=false;" class="qu-xiao-btn">取消</a>
+          <!-- 确认按钮（彩色） -->
+          <a href="javascript:void(0);" ng-click="batchingSetting.batchingNumberUpdate()" class="que-ding-btn">确定</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .my-wrap { height: 100vh; padding: 15px 15px 15px 230px; }
+  .my-main { background: #fff; height: 100%; padding: 15px 15px 30px; }
+  .back-area>button { background: #fff; padding: 4px 15px; font-size: 14px; color: #666;}
+  .filter-area {min-height: 120px; padding: 10px;}
+  .condition-list>li { margin-right: 10px; margin-bottom: 10px; display: flex; font-size: 14px; line-height: 30px;}
+  .condition-list input {width: 160px}
+  .condition-list>li>span {width: 120px; text-align: right; margin-right: 5px;}
+  .table-content { overflow: auto; height: calc(100vh - 470px); box-shadow: 0px 1px 4px 0px #c5c7c645; }
+  .table-content::-webkit-scrollbar { width: 4px; height: 1px; }
+  .table-content::-webkit-scrollbar-thumb { border-radius: 10px; box-shadow: inset 0 0 5px rgba(0,0,0,0.2); background: #888; }
+  .table-content::-webkit-scrollbar-track { box-shadow: inset 0 0 5px rgba(0,0,0,0.2); border-radius: 10px; background: #EDEDED; }
+  .confirm-area {border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;}
+  .button-area>button {padding: 4px 15px; font-size: 14px;}
+  .button-area>button:nth-child(1) {background: #fff; border: 1px solid #eee; color: #666;}
+  .button-area>button:nth-child(2) {background: rgba(24, 144, 255, 1); color: #fff;}
+  /* 弹框区域 */
+  .box-container { width: 80vw; height: 71vh; min-height: 600px; background: #fff; padding: 20px 30px;}
+  .box-header {border-bottom: 1px solid #eee; padding-bottom: 10px;}
+  .box-filter-area {min-height: 100px; padding: 10px;}
+  .box-filter-area>li { margin-right: 10px; margin-bottom: 10px; display: flex; font-size: 14px; line-height: 30px; width: 200px;}
+  .box-table-content {overflow: auto; height: calc(40vh); box-shadow: 0px 1px 4px 0px #c5c7c645;}
+  /* 公共样式区域 */
+  .fs-14 {font-size: 14px;}
+  .lh-30 {line-height: 30px;}
+  .mb-10 {margin-bottom: 10px;}
+  .mb-20 {margin-bottom: 20px;}
+  .bd {border: 1px solid #eee;}
+  .flex {display: flex;}
+  .fxc {justify-content: center;}
+  .fxr {justify-content: flex-end;}
+  .fyc {align-items: center;}
+  .fdc {flex-direction: column;}
+  .fwp {flex-wrap: wrap;}
+  .fg-1 {flex-grow: 1;}
+  .tb-tbody-td {padding: 10px 5px;}
+</style>

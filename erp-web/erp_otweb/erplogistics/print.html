@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Print</title>
+    <link rel="shortcut icon" href="../../static/favicons.png"/>
+    <script type="text/javascript" src="../../static/js/public/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="../js/media.js"></script>
+    <script type="text/javascript" src="../../static/angular-1.5.8/angular.min.js"></script>
+
+
+    <style>
+
+        .inputcontainer{
+            text-align: center;
+            margin-top: 25px;
+        }
+        #inputsrc{
+            width: 500px;
+            height: 40px;
+
+            border-radius: 5px;
+            outline: none;
+            padding: 0 5px;
+            font-size: 14px;
+            border: 1px solid #DBDBDB;
+            box-sizing: border-box;
+        }
+        .result-title{
+            margin: 10px 0 ;
+        }
+
+        h4{
+            display: inline-block;
+            width: 500px;
+            text-align: left;
+        }
+        .inputtitle{
+            text-align: center;
+        }
+        #media{
+           margin: 5px auto;
+        }
+    </style>
+
+</head>
+<body ng-app="printApp" ng-controller="printAppCtrl">
+<div class="inputcontainer"><input type="text"  id="inputsrc"/></div>
+
+<!--<button id="btn">sadasd</button>-->
+<div class="inputtitle">
+    <div>
+        <h4 class="result-title">获取结果预览：</h4>
+    </div>
+
+    <p id="popnoptice" style="width:500px;text-align:left;display: inline-block;margin-top: 0"></p>
+</div>
+
+<div id="container">
+</div>
+
+</body>
+<script type="text/javascript" src="../../static/js/public/base64.min.js"></script>
+<script type="text/javascript" src="../../static/js/public/common.js"></script>
+<script type="text/javascript" src='../../static/layer/layer.js'></script>
+<script type="text/javascript">
+
+    (function(angular){
+        var app = angular.module('printApp',['service']);
+        app.controller('printAppCtrl',['$scope',"erp",function ($scope,erp) {
+            var time = 0;
+            $('#inputsrc').on('keypress',function(event){
+
+                //console.log(event.keyCode);
+                if(event.keyCode=='13'){
+                    if (time == 0) {
+                        time = 1; //设定间隔时间（秒）
+
+                        //启动计时器，倒计时time秒后自动关闭计时器。
+                        var index = setInterval(function(){
+                            time--;
+                            if (time == 0) {
+                                clearInterval(index);
+                            }
+                        }, 1000);
+
+//                        alert('按钮事件被触发');
+                        var code = $(this).val();
+                        console.log(code);
+//                    if(document.getElementById('media')){
+//                        var ele = document.getElementById('media');
+//                        document.getElementById('container').removeChild(ele);
+//                    }
+                        $('#container').empty();
+                        $('#popnoptice').html('');
+                        var data = {
+                            "orderNum":code
+                        };
+                        var sendUrl = "app/order/getOrderNumPdf";
+                        erp.postFun(sendUrl,JSON.stringify(data),vedio,err);
+                        function vedio(n){
+//                        console.log(n.data);
+                            var href = n.data.href;
+                            var str = n.data.message;
+                            $('#popnoptice').html(str);
+                            //console.log(count);
+                            if(href=="not found"){
+                                layer.msg("not found");
+                            }else if(href=="the number is wrong"){
+                                layer.msg("the number is wrong");
+                            }else{
+                                var media = document.createElement('a');
+                                media.className='media';
+                                media.href='https://'+href;
+                                media.id='media';
+                                document.getElementById('container').appendChild(media);
+//                        var count = document.getElementsByClassName('media').length;
+//                        console.log(count);
+                                $('a.media').media({width:650, height:650});
+                            }
+
+                            $('#inputsrc').blur();
+                        }
+                        function err(n){}
+
+                    }else{
+//                        alert('目前按钮事件不允许被触发');
+                    }
+
+                }
+
+
+            });
+            $('#inputsrc').focus(function(e){
+                $(this).val('');
+            });
+        }]);
+    })(angular)
+
+//    var time = 0;
+//    $('button').click(function() {
+//        //判断计时器是否处于关闭状态
+//        if (time == 0) {
+//            time = 10; //设定间隔时间（秒）
+//
+//            //启动计时器，倒计时time秒后自动关闭计时器。
+//            var index = setInterval(function(){
+//                time--;
+//                if (time == 0) {
+//                    clearInterval(index);
+//                }
+//            }, 1000);
+//
+//            alert('按钮事件被触发');
+//        }else{
+//            alert('目前按钮事件不允许被触发');
+//        }
+//    });
+</script>
+</html>

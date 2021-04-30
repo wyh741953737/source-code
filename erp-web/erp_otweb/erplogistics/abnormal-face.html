@@ -1,0 +1,280 @@
+<div class="custom-orders-wrap">
+	<div class="c-ord-mid">
+		<div class="left-bar-nav">
+			<ul>
+				<!-- <li><a class="ord-left-nav" style="background: #fff;border-left: solid #08ACE9 4px;color: #08ACE9;" href="#/custom-ord">客户店铺订单</a></li>
+				<li><a class="ord-left-nav" href="#/excel-ord">Excel订单</a></li> -->
+				<!-- <input style="width: 120px;"></input> -->
+				<li><a class="ord-left-nav" style="background: #fff;border-left: solid #08ACE9 4px;color: #08ACE9;" href="#/custom-ord">{{'100012' | translate}}</a></li>
+				<li><a class="ord-left-nav" href="#/erp-czi-ord">{{'100013' | translate}}</a></li>
+				<li><a class="ord-left-nav" href="#/erp-zf-ord">{{'100014' | translate}}</a></li>
+				<li><a class="ord-left-nav" href="#/erp-stock-ord">{{'100015' | translate}}</a></li>
+			</ul>
+		</div>
+		<!-- 右边的内容部分 -->
+		<div class="ord-right-con">
+			<div class="content">
+			
+				<div class="c-ord-conall">
+					<div class="c-ord-con">
+
+						<!-- 变动展示的内容部分 查看母订单-->
+						<!-- <h1 style="color: red;">查看母订单</h1> -->
+						<div class="toogle-ord-stu" id="c-mu-ord">
+							<!-- 订单搜索部分 -->
+							<div class="c-seach-fun fiexd-box">
+								<div class="c-seach-div">
+									<select class="c-seach-country" ng-model="isSelJqcz">
+                                        <option value="">运单号</option>
+										<!-- <option>精确查找</option> -->
+									</select>
+									<input class="c-seach-inp tj-search">
+									<a ng-click="searchFun()" class="c-seach-btn" href="javascript:void(0)">{{'100025' | translate}}</a>
+								</div>
+
+                                <input class="Wdate data-inp" style="text-indent: 12px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})">
+                                <input id="cdatatime2" placeholder="Now" class="Wdate data-inp" style="text-indent: 12px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+                                <button class="fastBtn" id="addFendan" ng-click="addAbnormal()">新增异常面单</button>
+								<!-- <a class="c-export-ord" id="fhzl-btn" href="javascript:void(0)">发货滞留</a> -->
+								<!-- <button ng-click="ydOrdStuFun()" class="bulk-funbtn">批量处理订单</button> -->
+							</div>
+							<!-- 订单列表部分 -->
+							<div class="c-ord-list">
+								<table  id="c-mu-ord-table">
+									<thead class="c-ord-thead">
+										<tr>
+											<th class="ordlist-fir-th" style="width: 180px">
+												<img class="c-mu-allchekbox" src="static/image/order-img/multiple1.png">
+												<span class="mu-ordspan">客户订单号</span>
+											</th>
+											<th style="width: 138px">运单号</th>
+											<!-- <th style="width: 90px">{{'100029' | translate}}</th> -->
+											<th style="width: 90px">销售名称</th>
+											<th style="width: 80px;">货代名称</th>
+											<th style="width: 80px;">数量/金额</th>
+											<th style="width: 110px">重量/邮费</th>
+											<th style="width: 100px;">收件人</th>
+											<th style="width: 160px">
+												<p>地址1</p>
+												<p>地址2</p>
+											</th>
+											<th style="width: 100px;">地址详情</th>
+											<th style="width: 100px;">物流</th>
+											<th style="width: 80px;">订单状态</th>
+											<th style="width: 60px;">操作</th>
+										</tr>
+									</thead>
+									<!-- <tbody class="c-ord-tbody" ng-repeat='mulist in erporderList'> -->
+									<tbody class="c-ord-tbody">
+										<tr>
+											<td class="ordlist-fir-td">
+												<img class="c-mu-chekbox" src="static/image/order-img/multiple1.png">
+                                                <!-- <span class="mu-ord-time" ng-bind="mulist.ID"></span> -->
+                                            <!-- <br /> -->
+												<!-- <button ng-click="ddzNodeFun(mulist,$index,$event)" ng-if="!mulist.erpOrderNote" class="ddz-message">{{'100045' | translate}}</button> -->
+												<!-- <img title="{{mulist.erpOrderNote}}" class="ddz-message-img" ng-if="mulist.erpOrderNote" ng-click="ddzNodeFun(mulist,$index,$event)" src="static/image/public-img/iconnote.png"> -->
+                                                <!-- <button ng-click="ddzNodeFun(mulist,$index,$event)" ng-if="mulist.erpOrderNote" class="ddz-message">修改留言</button> -->
+												<p>13115664546</p>
+												<img ng-click="LookLog(zddlist.id,$event)" class="log-img" src="static/image/public-img/ord-log.png">
+											</td>
+											<td class="c-mu-onumtd">
+												<p class="c-muorder-id" ng-cloak>1313566646787987888545646</p>
+											</td>
+											<!-- <td>
+												<p ng-if="mulist.operator=='true'">{{'100046' | translate}}</p>
+												<p ng-if="mulist.operator=='false'">{{'100049' | translate}}</p>
+											</td> -->
+											<td>
+												<p ng-cloak >销售名称华文</p>
+											</td>
+											<td
+												title="{{mulist.ownerName ? '群主' : '没有群主显示业务员'}}"
+                                                >
+                                                货代名称围绕沃尔特
+											</td>
+											
+											<td>
+												<!-- <p ng-cloak>100个</p> -->
+												<span class="quantity-sty" ng-cloak> <span>12</span> 个</span>/<span class="quantity-sty"  ng-cloak>$ <span>12.8</span></span>
+
+											</td>
+											<td>
+                                                    <span class="quantity-sty" ng-cloak> <span>12</span> 公斤</span>/<span class="quantity-sty"  ng-cloak>$ <span>11</span></span>
+											</td>
+											<td>
+												
+												<p>收件人陈蓉</p>
+											</td>
+											<td>
+												<p>
+                                                    25布拉本特街
+                                                </p>
+											</td>
+											<td>
+												<p >史坦顿岛 纽约 美国</p>
+											</td>
+											<td>
+												<p >物流运送中</p>
+                      </td>
+                      <td>
+												<p  ng-class="{'red-color':mulist.stockout>0}">订单状态待处理</p>
+                      </td>
+											<td class="mu-cztd">
+												<!-- <button ng-click="dcMuOrd(mulist)">导出</button>
+												<form action="" method="post" enctype="multipart/form-data" id="uploadimg2" style="display: inline" >
+										            <label for="document2" class="mu-sczzh" >上传追踪号</label>
+										            <input type="file" multiple ng-model="documentupload2" id="document2"  onchange="angular.element(this).scope().upLoadExcelFun(this.files)" style="display: none;font-size: 0;cursor: pointer;" >
+												</form> -->
+												<!-- 更多操作 -->
+												<div style="width: 92px;" class="morefun-div">
+													<a href="javascript:void(0);" class="more-btn">{{'100094' | translate}}</a><span class="caret"></span>
+													<ul class="more-selul">
+														<li ng-click="dcMuOrd(mulist)">{{'100068' | translate}}</li>
+														<li ng-click="hqidFun(mulist,$event)">
+															<p style="display: none;" class="hide-mu-id">{{mulist.ID}}</p>
+															<form action="" method="post" enctype="multipart/form-data" id="uploadimg2" style="display: inline" >
+													            <label for="document2" class="mu-sczzh" >{{'100069' | translate}}</label>
+													            <!-- <p for="document2" class="mu-sczzh" >上传追踪号</p> -->
+													            <input name="file" type="file" multiple ng-model="documentupload2" id="document2"  onchange="angular.element(this).scope().upLoadExcelFun(this.files)" style="display: none;font-size: 0;cursor: pointer;" >
+															</form>
+														</li>
+														<li ng-show="isAdminFlag" ng-click="changePriceFun(mulist,$index)">修改订单金额</li>
+														<!-- <li ng-click="oneYdOrdFun(mulist)">处理订单</li> -->
+														<li ng-click="zdbzFun(mulist,$index)">指定包装</li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<!-- 分页 -->
+                        <div ng-show="erpordTnum<1" style="text-align: center;">暂无数据</div>
+						<div class="pages-fun" ng-show="erpordTnum>0">
+							<select id="page-sel" class="c-select-page-num">
+								<!-- <option value="3">3</option>
+								<option value="5">5</option> -->
+								<option value="30">30</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span class="every-page">每页</span>
+							<span class="every-page gong">共</span>
+							<span class="c-all-num-line">{{erpordTnum}}</span>
+							<span class="every-page">条</span>
+						    <span id="demo3-text"></span>
+						    <div id="c-pages-fun"></div>
+						    <span class="every-page">跳转:</span>
+						    <input id="inp-num" class="c-inp-num-go">
+						    <span style="cursor: pointer;" ng-click="gopageFun()" class="jump-btn">go</span>
+						    <span class="count-money">总金额:</span>
+						    <!-- <span class="count-mnum">{{countMoney}}</span> -->
+						    <span class="count-mnum">1231.6</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 新增异常面单弹窗 -->
+<div class="asj-common-tanwrap" ng-show="isAbnormal">
+    <div class="asj-common-tan tan-delete-ware" style="height: initial;padding: 20px;text-align: right;">
+		<div style="margin-bottom: 50px"> 
+			<ul>
+				<li style="margin-bottom: 10px">
+					<span>客户订单号:</span>
+					<input type="text" ng-model="trankingNum">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>运单号:</span>
+					<input type="text" ng-model="shippingNum">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>销售名称:</span>
+					<input type="text" ng-model="shippingName">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>货代名称:</span>
+					<input type="text" ng-model="goodsName">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>数量/金额:</span>
+					<input type="text" ng-model="countMoney">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>重量/邮费:</span>
+					<input type="text" ng-model="weightMoney">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>收件人:</span>
+					<input type="text" ng-model="nameOfAddress">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>地址1:</span>
+					<input type="text" ng-model="address1">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>地址2:</span>
+					<input type="text" ng-model="address2">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>地址详情:</span>
+					<input type="text" ng-model="addressDetail">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>物流:</span>
+					<input type="text" ng-model="shippingFlow">
+				</li>
+				<li style="margin-bottom: 10px">
+					<span>订单状态:</span>
+					<input type="text" ng-model="shippingStatus">
+				</li>
+			</ul>
+		</div>
+		<div class="tan-btns">
+			<a class="tan-btn1" ng-click="AbnormalShippingConfirm()">{{'101275' | translate}}</a>
+			<a class="tan-btn0" ng-click="Abnormalcancel()">{{'100051' | translate}}</a>
+		</div>
+    </div>
+</div>
+
+
+<!-- 日志弹窗 -->
+<!-- <log-tk ng-if="isLookLog" no="ctrl.no"></log-tk> -->
+<div class="lookOperationRecord" ng-show="isLookLog">
+	<div class="content">
+		<h3>操作日志<span class="close" ng-click="isLookLog = false;">×</span></h3>
+		<ul>
+			<li class="clearfix">
+				<b></b>
+				<span class="name">Amasdz</span>
+				<p>asdasdasdadasdasdasd</p>
+				<span class="date">2018/09/01 12:34:56</span>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+
+<!--客户分析-->
+<customer-Analysis ng-if="isAnalysis" no="ctrl.no"></customer-Analysis>
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+<style>
+    td{
+        /* white-space: pre-line; */
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    .fastBtn{
+        float: right;
+        padding: 6px;
+        background: #08ACE9;
+        font-size: 14px;
+        color: #fff;
+        box-sizing: border-box;
+    }
+</style>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新品</title>
+    <!--业务员管理-->
+    <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+    <script src="erp_otweb/js/video.min.js"></script>
+</head>
+<style>
+    .filter {
+        line-height: 30px !important;
+        /* display: flex; */
+    }
+
+    .filter .datetab {
+        margin-left: 15px;
+    }
+
+    .filter .dateact {
+        color: #0d8efb;
+    }
+    .chartsbox .dateact {
+        color: #0d8efb;
+    }
+
+    .search-by-con {
+        height: 30px;
+        position: relative;
+        float: left;
+    }
+
+    .default-con {
+        width: 240px;
+        height: 30px;
+        padding-left: 10px;
+        line-height: 30px;
+        border: 1px solid #e5e5e5;
+        position: relative;
+    }
+
+    .has-list-cate {
+        float: left;
+        margin-right: 15px;
+    }
+
+    .serch-by-name {
+        height: 30px;
+        line-height: 30px;
+        float: left;
+    }
+
+    input, select {
+        height: 30px !important;
+    }
+
+    .three-grade-list {
+        position: absolute;
+        left: 0;
+        top: 0px;
+        margin-top: 0;
+        padding-left: 0;
+        background: #fff;
+        z-index: 99;
+        display: none;
+    }
+
+    .caret {
+        position: absolute;
+        right: 10px;
+        top: 13px;
+    }
+
+    .filter .search {
+        height: 30px;
+    }
+
+    .samlimg {
+        position: absolute;
+        /* top: -160px; */
+        /* left: 72px; */
+    }
+    .samlimg:hover{
+        transform: scale(15);
+    }
+
+    .lookProduct {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        top: 0;
+        left: 0;
+        z-index: 10000;
+    }
+
+    .lookProduct .content {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: #fff;
+        box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+        width: 523px;
+        min-height: 330px;
+        margin: initial;
+        border-radius: 4px;
+        padding: initial;
+    }
+
+    .lookProduct .content h3 {
+        padding: 15px;
+        margin: initial;
+        text-align: left;
+        border-bottom: 1px solid #F0F0F0;
+    }
+
+    .lookProduct .content h3 .close {
+        font-size: 25px;
+        font-weight: initial;
+        opacity: .4;
+    }
+
+    .my-video-dimensions {
+        width: 100%;
+        height: 273px;
+    }
+
+    .lookProduct .content {
+        top: 35%;
+    }
+
+    .filter input {
+        margin: 0 5px;
+        /* width: auto; */
+    }
+    .page-box .to-idx{
+        float: left;
+    }
+    .page-box .to-idx input{
+        text-align: center;
+        width: 50px;
+        height: 25px!important;
+        margin: 0 5px;
+    }
+    .page-box .to-idx button{
+        border: 1px solid #dddee1;
+        height: 25px;
+        line-height: 25px;
+        width: 50px;
+        border-radius: 3px;
+    }
+    .chartsbox{
+        /* margin-bottom: 20px; */
+    }
+    .tableTs tr td{
+        /* white-space:pre-line; */
+        word-wrap: break-word;
+        word-break: break-all;
+        max-width: 160px;
+        /* width:11%; */
+        border: 1px solid rgb(241, 237, 237);
+    }
+    .textsbox{
+        border: 1px solide #ccc !important;
+        background: red;
+    }
+    .textsbox .edittextarea{
+        display:block;
+        border: 1px solide #ccc !important;
+        
+    }
+    .item-group textarea {
+        width: 348px;
+        height: 138px;
+        padding: 10px;
+        resize: none;
+    }
+    .filter select{
+        float:none;
+    }
+    .filter input{
+        float:none;
+    }
+    .editpointer{
+        color:blue;
+        cursor: pointer;
+    }
+    .bordertext{
+        border: 1px solid #ccc;
+        margin-bottom: 25px;
+        height: 180px;
+    }
+    .textstyle{
+        display: block;
+        width: 100%;
+        padding: 20px;
+        height: 178px;
+    }
+    .tanbutton{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .imgbox{
+        width:60px;
+        height:60px;
+        display: flex;
+        justify-content: center;
+        margin: 5px;
+    }
+    .imgbox .img1{
+        width:60px;
+        height:60px
+    }
+    .img2{
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 60px;
+        height: 120px;
+    }
+    .imgbox a{
+        background: none;
+        border: 0;
+    }
+    .imgbox:hover .img2{
+        display: block;
+    }
+    .searchlistbox{
+        position: relative;
+        float: left;
+    }
+    .listsbox{
+        position: absolute;
+        left: 5px;
+        top: 30px;
+        width: 280px;
+        height: 160px;
+        border: 1px #ccc solid;
+        background: #fff;
+        cursor: pointer;
+    }
+    .listsbox ul li{
+        padding: 0 10px;
+    }
+    .libac{
+        background: rgba(252, 244, 217, 1);
+    }
+</style>
+<body>
+<div class="tab">
+    <ul class="clearfix" style="cursor: pointer;">
+        <!-- {{tabArr}} -->
+            <li class="datetab" ng-click="checkTab(item)"  ng-repeat = "item in tabArr" ng-class="{'Act':item.isActive}">{{item.name}}</li>
+            <!-- <a class="datetab margin-left-10px" ng-class="{dateact:item.flag,'margin-left-30px':$index==0}" href="javascript:void(0)" ng-repeat="item in dateArr"
+            ng-click="dateClick(item)">{{item.name}}</a> -->
+        <!-- <li class="Act" ng-click="checkTab()"><a href="#/CommodityAnalysis/LinkageAndPublication">佣金设置</a></li> -->
+        <!-- <li style="float: right;">
+            <span>币种展示：</span>
+            <select class="font-size-14px" ng-model="moneyType">
+                <option value="USD">USD</option> -->
+                <!-- <option value="SKU">SKU</option> -->
+            <!-- </select> -->
+        <!-- </li> -->
+    </ul>
+</div>
+<div style="height: 68px;"></div>
+<div class="content" style="overflow: hidden;">
+    <div class="left">
+        <div class="filter clearfix">
+        <span style="float: left;">选择日期：</span>
+        <input id="date1" class="Wdate data-inp" ng-focus="dateFocus()" style="border-radius: 0;float: left;"
+               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="">
+        <span class="line" style="float: left;">-</span>
+        <input id="date2" class="Wdate data-inp" ng-focus="dateFocus()" style="border-radius: 0;float: left;margin-right:30px"
+               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="">
+    
+            <!-- <span class="font-size-14px" style="margin-left: 15px;">费用类型：</!-->
+        <select class="font-size-14px" ng-model="seaType" ng-change="checkSelect()" style="float: left;margin: 0;">
+            <option value="0">企业</option>
+            <option value="1">个体</option>
+        </select> 
+        
+       <div class="searchlistbox">
+           <!-- <input class="seach-inp" ng-model="searVal" style="border-radius: 0;float: none;" placeholder="供应商名称" id="searShop">  -->
+           <input class="seach-inp" ng-model="searVal" style="border-radius: 0;float: none;display: block;margin: 0;" placeholder="供应商名称" id="searShop"> 
+            <div class="listsbox" ng-show="searchShowList.length>0">
+                <ul ng-repeat="item in searchShowList">
+                    <li ng-click="selectName(item)" ng-class="{libac:item.changed==true}">{{item.name}}</li>
+                </ul>
+            </div>
+       </div>
+       
+       <button class="search" style="float: none;border-radius: 0;" ng-click="searchInput()">查询</button>
+        </div>
+        <div class="parent-order">
+            <table class="tableTs">
+                <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>供应商名称</th>
+                    <th>包裹编号</th>
+                    <th style="width: 12%;">
+                        运费
+                    </th>
+                    <th style="width: 12%;">
+                        其他费用
+                    </th>
+                    <th>来源平台</th>
+                    <th>凭证</th>
+                    <th ng-show="val=='1'">付款方式</th>
+                    <th ng-show="val=='1'">备注</th>
+                    <th ng-show="val=='1'">操作</th>
+                    <th ng-show="val=='2'">付款方式</th>
+                    <th ng-show="val=='2'">审核人</th>
+                    <th ng-show="val=='2'">备注</th>
+                    <th ng-show= "val=='3'">审核人</th>
+                    <th ng-show= "val=='3'">付款方式</th>
+                    <th ng-show= "val=='3'">备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                   <!-- <td>{{$index+1}}</td> -->
+                    <td>{{item.createAt | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td style="width: 12%;">{{item.userName}}</td>
+                    <td>{{item.packageCode}}</td>
+                    <td>{{item.freightAmount | currency}}</td>
+                    <td>{{item.otherAmount | currency}}</td>
+                    <td>
+                        {{item.comeFrom}}
+                    </td>
+                    <td>
+                        <div ng-repeat="ite in item.proofImgUrl" class="imgbox">
+                            <a href="{{ite}}" target="_blank"><img ng-src="{{ite}}" alt="" class="img1"></a>
+                        </div>
+                    </td>
+                    <td ng-show="val=='1'">
+                        {{item.payType}}
+                    </td>
+                    <td ng-show="val=='1'">
+                        {{item.remarks}}
+                    </td>
+                    <td ng-show="val=='1'">
+                        <span ng-click="confirmTixian(item)" class="editpointer">同意</span>
+                        <span ng-click="refuseTixian(item)" class="editpointer">拒绝</span>
+                    </td>
+                    <td ng-show= "val=='2'">
+                        {{item.payType}}
+                    </td>
+                    <td ng-show= "val=='2'">{{item.reviewer }}</td>
+                    <td ng-show= "val=='2'">{{item.remarks}}</td>
+                    <td ng-show= "val=='3'">{{item.reviewer }}</td>
+                    <td ng-show= "val=='3'">{{item.payType}}</td>
+                    <td ng-show= "val=='3'">
+                        {{item.remarks}}
+                    </td>
+                </tr>
+                <tr ng-show="dataList.length == 0">
+                    <!-- <td colspan="9" ng-show="val=='1' || val == '2'">暂无数据。</td> -->
+                    <td colspan="20">暂无数据。</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--分页-->
+            <div class="page-box">
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="total-num">
+                        <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="pageSize" ng-change="pagechange(pageSize)" style="width: 65px;height: 31px;">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                        </select>
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup1"></div>
+                </div>
+                <div class="to-idx">
+                    到第<input type="number" ng-model="pageNum">页
+                    <button ng-click="toPage1()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- tan -->
+
+    <div class="lookProduct ng-scope" ng-show="isConfirm" style="border:1px #bbb solid">
+            <div class="content">
+                <h3 style="font-size: 16px;text-align: center;">运费审核<span class="close" ng-click="closeAlltan()">×</span></h3>
+                     <div style="padding: 30px;" class="ng-binding">
+                    
+                            <div class="upload-imglist" style="height: 160px;">
+                                    <div class="upload-form" style="margin-bottom: 20px;">
+                                        <button class="up-hdexcel">上传图片</button>
+                                        <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                                            <input type="file" name="file" class="uploadInp" multiple
+                                                   onchange="angular.element(this).scope().upLoadImg4(this.files)"
+                                                   style="display:inline-block; margin: 0;font-size: 0;cursor: pointer;height: 30px;width:100px;position: absolute;top: 0;left: 0;opacity: 0;">
+                                            <input type="hidden">
+                                        </form>
+                                    </div>
+                                    <ul class="img-listul">
+                                            <li ng-repeat="ite in imgArr">
+                                                <img ng-click="deletImgFun($index)" class="close-img"
+                                                     src="static/image/public-img/close-circle.png">
+                                                <img class="item-img" ng-src="{{ite}}">
+                                            </li>
+                                    </ul>
+                                    
+                                </div>
+
+                    <div class="bordertext">
+                        <textarea type="text" class="rote ng-pristine ng-untouched ng-valid ng-not-empty textstyle" ng-model="remarks" placeholder="请输入备注"></textarea>
+                    </div>
+                    <div class="search-group d-flex align-items-center tanbutton">
+                        <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="sureConfirm(remarks)">确定</button>
+                        <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="cancelTixian()">取消</button>
+                    </div>
+                </div>
+                <!-- <span ng-show="ProDetail.length == 0" style="font-size: 12px;text-align: center;display: block;line-height: 40px;">暂无数据。</span> -->
+            </div>
+    </div>
+
+    <!-- 拒绝弹窗 -->
+    <div class="lookProduct ng-scope" ng-show="isRefuse" style="border:1px #bbb solid">
+            <div class="content">
+                <h3 style="font-size: 16px;text-align: center;">拒绝<span class="close" ng-click="closeAlltan()">×</span></h3>
+                     <div style="padding: 30px;" class="ng-binding">
+
+                            <!-- <div class="upload-imglist" style="height: 160px;">
+                                    <div class="upload-form" style="margin-bottom: 20px;">
+                                        <button class="up-hdexcel">上传图片</button>
+                                        <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                                            <input type="file" name="file" class="uploadInp" multiple
+                                                   onchange="angular.element(this).scope().upLoadImg4(this.files)"
+                                                   style="display:inline-block; margin: 0;font-size: 0;cursor: pointer;height: 30px;width:100px;position: absolute;top: 0;left: 0;opacity: 0;">
+                                            <input type="hidden">
+                                        </form>
+                                    </div>
+                                    <ul class="img-listul">
+                                            <li ng-repeat="item in imgArr">
+                                                <img ng-click="deletImgFun($index)" class="close-img"
+                                                     src="static/image/public-img/close-circle.png">
+                                                <img class="item-img" ng-src="{{item}}">
+                                            </li>
+                                    </ul>
+                                </div> -->
+
+                    <div class="bordertext" style="height: 240px;">
+                        <textarea type="text" class="rote ng-pristine ng-untouched ng-valid ng-not-empty textstyle" ng-model="remarks" placeholder="请输入至少五个字符"></textarea>
+                    </div>
+                    <div class="search-group d-flex align-items-center tanbutton">
+                        <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="sureConfirm1(remarks)">确定</button>
+                        <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="cancelTixian1()">取消</button>
+                    </div>
+                </div>
+                <!-- <span ng-show="ProDetail.length == 0" style="font-size: 12px;text-align: center;display: block;line-height: 40px;">暂无数据。</span> -->
+            </div>
+    </div>
+</body>
+</html>

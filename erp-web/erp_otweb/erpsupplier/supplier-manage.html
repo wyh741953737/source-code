@@ -1,0 +1,173 @@
+<link rel="stylesheet" type="text/css" href="static/css/supplier-manage.css">
+<style type="text/css">
+    
+    .g-star{
+        background: url('static/image/public-img/iconstar_g.png');
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+        cursor: pointer;
+    }
+    .star {
+        background: url('static/image/public-img/iconstar_y.png');
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+    }
+    .click-star{
+        background: url('static/image/public-img/iconstar_y.png');
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+        cursor: pointer;
+    }
+</style>
+<div class="main-box custom-orders-wrap">
+    <div class="right-bar-wrap">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px 20px;">
+            <div class="s-supplier-search" style="margin: 0 0 20px;">
+                <div class="input-group search-box" style="display: inline-block;width: 350px;">
+                  <input type="text" class="form-control top-search-inp" placeholder="供应商/联系人/地区/电话/QQ/微信" ng-model="searchVal">
+                  <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="searchFun()">{{'100025' | translate}}</a>
+                </div>
+                <!-- <div class="sort-group">
+                    <span>金额排序</span>
+                    <p>
+                        <span ng-click="moneyUpFun()" class="top-span"></span>
+                        <span ng-click="moneyDownFun()" class="down-span"></span>
+                    </p>
+                </div>
+                <div class="sort-group">
+                    <span>采购次数</span>
+                    <p>
+                        <span ng-click="countUpFun()" class="top-span"></span>
+                        <span ng-click="countDownFun()" class="down-span"></span>
+                    </p>
+                </div>
+                <button ng-click="addGysFun()" class="gys-cz-btn top-btn">添加供应商</button> -->
+            </div>
+            <div class="s-supplier-list table-box">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>供应商编号</th>
+                        <th>供应商名称</th>
+                        <!-- <th>链接数量</th> -->
+                        <th>联系人</th>
+                        <th>电话</th>
+                        <th>微信</th>
+                        <th>QQ</th>
+                        <th>旺旺</th>
+                        <th>货源</th>
+                        <th>等级</th>
+                        <!-- <th>操作</th> -->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in gysList">
+                        <td>{{item.bianhao}}</td>
+                        <td>{{item.gongSiMing}}</td>
+                        <!-- <td>{{item.linkCount}}</td> -->
+                        <td>{{item.lianXiRen}}</td>
+                        <td>{{item.shouji}}</td>
+                        <td>{{item.weiXing}}</td>
+                        <td>{{item.QQ}}</td>
+                        <td>{{item.wangwang}}</td>
+                        <td>{{item.diQu}}</td>
+                        <td>
+                            <i class="ea-gard-star ea-gard{{item.xingJi}}"></i>
+                        </td>
+                        <!-- <td>
+                            <button ng-click="detailFun(item)" class="gys-cz-btn">查看</button>
+                            <button ng-click="laHeiFun(item)" class="gys-cz-btn">拉黑</button>
+                        </td> -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="erpordTnum<1" style="text-align: center;">暂无数据</div>
+            <!-- 分页 -->
+            <div class="pages-fun" ng-show="erpordTnum>0">
+                <select id="page-sel" class="c-select-page-num" ng-change="pageChange()" ng-model="pageSize">
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span class="every-page gong">共</span>
+                <span class="c-all-num-line">{{erpordTnum}}</span>
+                <span class="every-page">条</span>
+                <span id="demo3-text"></span>
+                <div id="c-pages-fun"></div>
+                <span class="every-page">跳转:</span>
+                <input id="inp-num" class="c-inp-num-go" ng-model="pageNum"></input>
+                <span style="cursor: pointer;" ng-click="gopageFun()" class="jump-btn">go</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加供应商 -->
+<div class="add-gys-con" ng-show="addGysFlag">
+    <ul>
+        <li>
+            <span class="add-gys-label">供应商名称:</span>
+            <input ng-model="gysmcVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">联系人:</span>
+            <input ng-model="lxrVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">微信:</span>
+            <input ng-model="weiXinVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">QQ:</span>
+            <input ng-model="qqVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">旺旺:</span>
+            <input ng-model="wangWangVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">电话:</span>
+            <input ng-model="phoneVal" class="add-gys-inp"></input>
+        </li>
+        <li>
+            <span class="add-gys-label">货源:</span>
+            <select class="gys-address-sel" ng-model='selProVal' ng-change="provinCFun()">
+                <option value="">请选择省</option>
+                <option value="{{item.provinceid}}" ng-repeat="item in provinceList">{{item.province}}</option>
+            </select>
+            <select class="gys-address-sel" ng-show="provinFlag" ng-model="selCityVal">
+                <option value="">请选择市</option>
+                <option value="{{item.cityid}}" ng-repeat="item in cityList">{{item.city}}</option>
+            </select>
+        </li>
+        <li>
+            <span class="add-gys-label">等级:</span>
+            <div class="td-star">
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="1" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="2" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="3" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="4" class="g-star"></span>
+                <span ng-click="changeBuyLinkStar($event)" ng-mouseenter="showYellStar($event)" ng-mouseleave="hideYellStar($event)" data="5" class="g-star" index="10"></span>
+            </div>       
+        </li>
+    </ul>
+    <div class="gys-tk-btns">
+        <button ng-click="addGysFlag=false" class="ispc-can-btn">取消</button>
+        <button ng-click="sureAddFun()" class="ispc-con-btn">确定</button>
+    </div>
+</div>
+<!-- 是否拉黑供应商 -->
+<div class="isaddyfh-wrap" ng-show="laHeiFlag">
+    <div class="isaddyfh-con">
+        <p>是否拉黑该供应商?</p>
+        <div class="isaddyfh-btns">
+            <button ng-click="laHeiFlag=false" class="ispc-can-btn">取消</button>
+            <button ng-click="surelaHeiFun()" class="ispc-con-btn">确定</button>
+        </div>
+    </div>
+</div>
+

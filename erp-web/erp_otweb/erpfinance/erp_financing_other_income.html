@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>提现</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_financing_income.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab position-absolute" ng-init="init()">
+				<div class="top-tab-nav d-flex">
+					<span ng-click="changeIncomeType(otherIncomeTypeModel.drawback.val)"
+						ng-class='{"tab-active": otherIncomeType === otherIncomeTypeModel.drawback.val }'
+						class="tab-span tab-border-bt cursor-pointer">退税</span>
+					<span ng-click="changeIncomeType(otherIncomeTypeModel.interest.val)"
+						ng-class='{"tab-active": otherIncomeType === otherIncomeTypeModel.interest.val }'
+						class="tab-span tab-border-bt cursor-pointer">利息</span>
+					<span ng-click="changeIncomeType(otherIncomeTypeModel.cardRebate.val)"
+						ng-class='{"tab-active": otherIncomeType === otherIncomeTypeModel.cardRebate.val }'
+						class="tab-span tab-border-bt cursor-pointer">信用卡返点</span>
+					<span ng-click="changeIncomeType(otherIncomeTypeModel.camp.val)"
+						ng-class='{"tab-active": otherIncomeType === otherIncomeTypeModel.camp.val }'
+						class="tab-span tab-border-bt cursor-pointer">营外收入</span>
+				</div>
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索区域 -->
+					<div class="top-tab-search d-flex justify-content-between align-items-center">
+						<!-- 左侧筛选条件 -->
+						<div class="top-tab-search-left">
+							<!-- 退税搜索 -->
+							<div class="d-flex align-items-center">
+								<!-- 时间筛选 公用 -->
+								<div class="search-group d-flex align-items-center">
+									<span ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val">退税时间：</span>
+									<span ng-if="otherIncomeType !== otherIncomeTypeModel.drawback.val">录入时间：</span>
+									<wui-date class="startTime searchDay" format="yyyy-mm-dd"
+										ng-class="{'disable-opacity': disable.select}" placeholder="开始时间" btns="{'ok':'确定','now':'今天'}"
+										ng-model="startDate"></wui-date>
+									<wui-date class="endTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+										class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="endDate">
+									</wui-date>
+								</div>
+
+								<!-- 退税 -->
+								<div ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val"
+									class="search-group search-group-drawback d-flex align-items-center">
+									<span>状态：</span>
+									<select style="width: 90px" name="" id="" ng-model="$parent.searchDrawbackStatus">
+										<option value="">全部</option>
+										<option value="0">应收</option>
+										<option value="1">已收</option>
+									</select>
+								</div>
+								<div ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val"
+									class="search-group search-group-drawback d-flex align-items-center">
+									<button ng-click="searchFun()" class="asj-btn-s asj-btn-s2 search-btn"
+										style="width: 60px;">查询</button>
+								</div>
+								<div ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val"
+									class="search-group search-group-drawback d-flex align-items-center">
+									<span>退税金额：<span>{{drawbackTotalMoney}}</span>&nbsp;&nbsp;RMB</span>
+								</div>
+
+								<!-- 利息 / 信用卡返点  -->
+								<div
+									ng-if="otherIncomeType === otherIncomeTypeModel.interest.val || otherIncomeType === otherIncomeTypeModel.cardRebate.val"
+									class="search-group search-group-interest d-flex align-items-center">
+									<span ng-if="otherIncomeType === otherIncomeTypeModel.interest.val">账户类型：</span>
+									<span ng-if="otherIncomeType === otherIncomeTypeModel.cardRebate.val">银行：</span>
+									<select style="width: 90px" name="" id="" ng-model="$parent.searchInterestType">
+										<option value="">全部</option>
+										<option value="{{st}}" ng-repeat="st in searchTypeList">{{st}}</option>
+									</select>
+								</div>
+								<div
+									ng-if="otherIncomeType === otherIncomeTypeModel.interest.val || otherIncomeType === otherIncomeTypeModel.cardRebate.val"
+									class="search-group search-group-interest d-flex align-items-center">
+									<button ng-click="searchFun()" class="asj-btn-s asj-btn-s2 search-btn"
+										style="width: 60px;">查询</button>
+								</div>
+								<div
+									ng-if="otherIncomeType === otherIncomeTypeModel.interest.val || otherIncomeType === otherIncomeTypeModel.cardRebate.val"
+									class="search-group search-group-interest d-flex align-items-center">
+									<span ng-if="otherIncomeType === otherIncomeTypeModel.interest.val">利息</span>
+									<span ng-if="otherIncomeType === otherIncomeTypeModel.cardRebate.val">返点：</span>
+									<select style="width: 90px" name="" id="" ng-model="showCurrency">
+										<option value="RMB">￥{{showRMB}}</option>
+										<option value="USD">${{showUSD}}</option>
+									</select>
+								</div>
+
+								<!-- 币种 利息 和 信用卡返点 公用 -->
+								<div
+									ng-if="otherIncomeType === otherIncomeTypeModel.interest.val || otherIncomeType === otherIncomeTypeModel.cardRebate.val"
+									class="search-group search-group-interest d-flex align-items-center">
+									<span>币种展示：</span>
+									<select style="width: 90px" name="" id="" ng-model="$parent.rateTypeShow">
+										<option value="">全部</option>
+										<option value="RMB">RMB</option>
+										<option value="USD">USD</option>
+									</select>
+								</div>
+
+								<!-- 营外收入 -->
+								<div ng-if="otherIncomeType === otherIncomeTypeModel.camp.val"
+									class="search-group search-group-drawback d-flex align-items-center">
+									<span>收入类型：</span>
+									<select style="width: 90px" name="" id="" ng-model="$parent.searchCampType">
+										<option value="">全部</option>
+										<option value="1">废品</option>
+										<option value="2">其他</option>
+									</select>
+								</div>
+								<div ng-if="otherIncomeType === otherIncomeTypeModel.camp.val"
+									class="search-group search-group-drawback d-flex align-items-center">
+									<button ng-click="searchFun()" class="asj-btn-s asj-btn-s2 search-btn"
+										style="width: 60px;">查询</button>
+								</div>
+								<div ng-if="otherIncomeType === otherIncomeTypeModel.camp.val"
+									class="search-group search-group-drawback d-flex align-items-center">
+									<span>金额：<span>{{campTotalMoney ? campTotalMoney : 0}}</span>&nbsp;&nbsp;RMB</span>
+								</div>
+
+							</div>
+						</div>
+						<!-- 右侧操作按钮 -->
+						<div class="top-tab-search-right d-flex">
+							<button ng-click="openAdd({})" class="asj-btn-s asj-btn-s2 search-btn" style="width: 80px;">新增</button>
+							<button ng-click="openInputPassword(export)" class="asj-btn-s asj-btn-s2 search-btn" style="width: 80px;">Excel导出</button>
+							<button
+								ng-if="otherIncomeType === otherIncomeTypeModel.interest.val || otherIncomeType === otherIncomeTypeModel.cardRebate.val"
+								ng-click="openAccount()" class="asj-btn-s asj-btn-s1 search-btn" style="width: 80px;">账户管理</button>
+						</div>
+					</div>
+
+					<!-- 表头 -->
+					<div class="tb-thead d-flex">
+						<div style="width: 10%" class="tb-thead-th">
+							<span>序号</span>
+						</div>
+						<div style="width: 15%" class="tb-thead-th">
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val">退税时间</span>
+							<span ng-if="otherIncomeType !== otherIncomeTypeModel.drawback.val">录入时间</span>
+						</div>
+						<div style="width: 18%" class="tb-thead-th">
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val">退税批次</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.interest.val">账户类型</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.cardRebate.val">银行</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.camp.val">收入类型</span>
+						</div>
+						<div style="width: 18%" class="tb-thead-th">
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val">退税金额(RMB)</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.interest.val">账号</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.cardRebate.val">卡号</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.camp.val">金额</span>
+						</div>
+						<div style="width: 15%" class="tb-thead-th">
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val">状态</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.interest.val">利息</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.cardRebate.val">返点金额</span>
+							<span ng-if="otherIncomeType === otherIncomeTypeModel.camp.val">摘要</span>
+						</div>
+						<div style="width: 24%" class="tb-thead-th">
+							<span>操作</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" class="content-wrap bg-white padding-lr-20px">
+				<!-- 退税 -->
+				<div ng-if="otherIncomeType === otherIncomeTypeModel.drawback.val" class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="drawback in drawbackList">
+						<div style="width: 10%" class="tb-tbody-td"><span class="cut-word">{{$index + 1}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td"><span class="cut-word">{{drawback.drawbackDate}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td"><span class="cut-word">{{drawback.drawbackBach}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td"><span class="cut-word">{{drawback.drawbackMoney}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td"><span
+								class="cut-word">{{drawback.drawbackStatus === drawbackStatusModel.receivable.val ? drawbackStatusModel.receivable.txt : drawbackStatusModel.received.txt}}</span>
+						</div>
+						<div style="width: 24%" class="tb-tbody-td d-flex-center">
+							<span class="tb-btn-default" ng-click='openAdd({item: drawback, idx: $index})'>编辑</span>
+							<b class="tb-btn-long"></b>
+							<span class="tb-btn-default" ng-click="sureReceipt(drawback, $index, 'delete')">删除</span>
+							<b ng-show="drawback.drawbackStatus === drawbackStatusModel.receivable.val" class="tb-btn-long"></b>
+							<span ng-show="drawback.drawbackStatus === drawbackStatusModel.receivable.val" class="tb-btn-default"
+								ng-click="sureReceipt(drawback, $index, 'received')">确认收款</span>
+						</div>
+					</div>
+				</div>
+				<!-- 利息 -->
+				<div
+					ng-if="otherIncomeType === otherIncomeTypeModel.interest.val || otherIncomeType === otherIncomeTypeModel.cardRebate.val"
+					class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="interest in interestList">
+						<div style="width: 10%" class="tb-tbody-td"><span class="cut-word">{{$index + 1}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td"><span class="cut-word">{{interest.createTime}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td"><span class="cut-word">{{interest.cardName}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td"><span class="cut-word">{{interest.cardNumber}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td">
+							<span ng-show="!rateTypeShow"
+								class="cut-word">{{interest.rateType === currencyModel.RMB.id ? '￥' : '$'}}{{interest.money}}</span>
+							<span ng-show="rateTypeShow === 'RMB'">￥{{interest.RMB}}</span>
+							<span ng-show="rateTypeShow === 'USD'">${{interest.USD}}</span>
+						</div>
+						<div style="width: 24%" class="tb-tbody-td d-flex-center">
+							<span class="tb-btn-default" ng-click='openAdd({item: interest, idx: $index})'>编辑</span>
+							<b class="tb-btn-long"></b>
+							<span class="tb-btn-default" ng-click="sureReceipt(interest, $index, 'delete')">删除</span>
+						</div>
+					</div>
+				</div>
+				<!-- 营外收入 -->
+				<div ng-if="otherIncomeType === otherIncomeTypeModel.camp.val" class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="camp in campList">
+						<div style="width: 10%" class="tb-tbody-td"><span class="cut-word">{{$index + 1}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td"><span class="cut-word">{{camp.createTime}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td"><span
+								class="cut-word">{{camp.outsideType === campTypeModel.feipin.id ? '废品' : '其他'}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td"><span class="cut-word">￥{{camp.outsideMoney}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td">
+							<span class="cut-word">{{camp.remark}}</span>
+						</div>
+						<div style="width: 24%" class="tb-tbody-td d-flex-center">
+							<span class="tb-btn-default" ng-click='openAdd({item: camp, idx: $index})'>编辑</span>
+							<b class="tb-btn-long"></b>
+							<span class="tb-btn-default" ng-click="sureReceipt(camp, $index, 'delete')">删除</span>
+						</div>
+					</div>
+				</div>
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+					<span>暂无数据</span>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="canShowPage">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 新增编辑弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFLag1">
+		<div class="erp-common-tan-v2" style="width: 404px; height: initial;">
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6 class="text-align-center">{{operateType.txt}}</h6>
+			</div>
+			<!-- 内容 -->
+			<!-- 新增退税记录 -->
+			<div class="tan-v2-con"
+				ng-if="operateType.val === operateModel.addDrawback.val || operateType.val === operateModel.editDrawBack.val">
+				<div class="item-group d-flex align-items-center">
+					<label>
+						退税时间：
+					</label>
+					<div class="right-con">
+						<wui-date class="" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}" placeholder="退税时间"
+							btns="{'ok':'确定','now':'今天'}" ng-model="$parent.drawbackDate"></wui-date>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						退税批次：
+					</label>
+					<div class="right-con">
+						<input type="text" ng-model="$parent.drawbackBach">
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						退税金额：
+					</label>
+					<div class="right-con position-relative">
+						<input style="padding-right: 50px;" type="number" ng-model="$parent.drawbackMoney"
+							onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+						<span class="position-absolute currencyIcon">RMB</span>
+					</div>
+				</div>
+			</div>
+			<!-- 新增利息 -->
+			<div class="tan-v2-con"
+				ng-if="operateType.val === operateModel.addInterest.val || operateType.val === operateModel.editInterest.val">
+				<div class="item-group d-flex align-items-center">
+					<label>
+						账户类型：
+					</label>
+					<div class="right-con position-relative">
+						<select name="" id="" ng-model="$parent.incomeAccountType" ng-change="changeIncomeAccountType()">
+							<option value="">请选择</option>
+							<option value="{{cardType}}" ng-repeat="cardType in cardTypeList">{{cardType}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
+					</label>
+					<div class="right-con position-relative">
+						<select name="" id="" ng-model="$parent.incomeCardId">
+							<option value="">请选择</option>
+							<option value="{{card.id}}#{{card.cardNumber}}" ng-if="$parent.incomeAccountType === card.cardName"
+								ng-repeat="card in startAccountList">{{card.cardNumber}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：
+					</label>
+					<div class="right-con position-relative">
+						<select name="" id="" ng-model="$parent.rateType">
+							<!-- <option value="" hidden></option> -->
+							<option value="1">RMB</option>
+							<option value="2">USD</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						利&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;息：
+					</label>
+					<div class="right-con position-relative">
+						<input type="number" ng-model="$parent.incomeMoney"
+							onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+					</div>
+				</div>
+			</div>
+			<!-- 信用卡返点 -->
+			<div class="tan-v2-con"
+				ng-if="operateType.val === operateModel.addCardRebate.val || operateType.val === operateModel.editCardRebate.val">
+				<div class="item-group d-flex align-items-center">
+					<label>
+						银&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;行：
+					</label>
+					<div class="right-con position-relative">
+						<select name="" id="" ng-model="$parent.incomeAccountType" ng-change="changeIncomeAccountType()">
+							<option value="">请选择</option>
+							<option value="{{cardType}}" ng-repeat="cardType in cardTypeList">{{cardType}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
+					</label>
+					<div class="right-con position-relative">
+						<select name="" id="" ng-model="$parent.incomeCardId">
+							<option value="">请选择</option>
+							<option value="{{card.id}}#{{card.cardNumber}}" ng-if="$parent.incomeAccountType === card.cardName"
+								ng-repeat="card in startAccountList">{{card.cardNumber}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：
+					</label>
+					<div class="right-con position-relative">
+						<select name="" id="" ng-model="$parent.rateType">
+							<option value="2">USD</option>
+							<option value="1">RMB</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						返点金额：
+					</label>
+					<div class="right-con position-relative">
+						<input type="number" ng-model="$parent.incomeMoney"
+							onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+					</div>
+				</div>
+			</div>
+			<!-- 营外收入 -->
+			<div class="tan-v2-con"
+				ng-if="operateType.val === operateModel.addCamp.val || operateType.val === operateModel.editCamp.val">
+				<div class="item-group d-flex align-items-center">
+					<label>
+						收入类型
+					</label>
+					<div class="right-con position-relative">
+						<select name="" id="" ng-model="$parent.campType">
+							<option value="1">废品</option>
+							<option value="2">其他</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>
+						金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：
+					</label>
+					<div class="right-con position-relative">
+						<input style="padding-right: 50px;" type="number" ng-model="$parent.campMoney"
+							onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+						<span class="position-absolute currencyIcon">RMB</span>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<textarea name="" id="" placeholder="请填写金额摘要(非必填)" ng-model="$parent.campRemark"></textarea>
+				</div>
+
+			</div>
+
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFLag1=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" ng-click="sureAdd()" class="que-ding-btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- 账号管理弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFLag2">
+		<div class="erp-common-tan-v2" style="width: 534px; height: initial;">
+			<!-- title - tab -->
+			<div class="tan-v2-top d-flex-center">
+				<h6>
+					<span ng-click="changeOperateType(operateModel.account)"
+						ng-class='{"top-tab-active": operateType.val === operateModel.account.val}'
+						ng-if='otherIncomeType === otherIncomeTypeModel.interest.val' class="cursor-pointer">账户管理</span>
+					<span ng-click="changeOperateType(operateModel.credit)"
+						ng-class='{"top-tab-active": operateType.val === operateModel.credit.val}'
+						ng-if='otherIncomeType === otherIncomeTypeModel.cardRebate.val' class="cursor-pointer">信用卡管理</span>
+					<span ng-click="changeOperateType(operateModel.addAccount)"
+						ng-class='{"top-tab-active": operateType.val === operateModel.addAccount.val}'
+						ng-if='otherIncomeType === otherIncomeTypeModel.interest.val' class="cursor-pointer ">新增账户</span>
+					<span ng-click="changeOperateType(operateModel.addCard)"
+						ng-if='otherIncomeType === otherIncomeTypeModel.cardRebate.val'
+						ng-class='{"top-tab-active": operateType.val === operateModel.addCard.val}'
+						class="cursor-pointer ">新增账户</span>
+				</h6>
+			</div>
+			<!-- 内容 -->
+			<!-- 账户管理 -->
+			<div class="tan-v2-con"
+				ng-if="operateType.val === operateModel.account.val || operateType.val === operateModel.credit.val">
+				<div class="d-flex align-items-center">
+					<div ng-if="operateType.val === operateModel.account.val" style="width: 30%" class="acc-th text-align-center">
+						账户管理</div>
+					<div ng-if="operateType.val === operateModel.credit.val" style="width: 30%" class="acc-th text-align-center">
+						银行</div>
+					<div style="width: 40%" class="acc-th text-align-center">账号</div>
+					<div style="width: 30%" class="acc-th text-align-center">操作</div>
+				</div>
+				<div class="acc-wrap">
+					<div class="acc-tr d-flex align-items-center"
+						ng-class="{'gray-color': account.cardStatus === accountStatusModel.forbidden.val}"
+						ng-repeat="account in accountList">
+						<div style="width: 30%; height: 30px;" class="acc-td d-flex-center padding-lr-10px">
+							<span ng-show='!account.isEdit' class="d-block cut-word">{{account.cardName}}</span>
+							<input ng-show='account.isEdit' type="text" ng-model="account.editcardName">
+						</div>
+						<div style="width: 40%; height: 30px;" class="acc-td d-flex-center padding-lr-10px">
+							<span ng-show="!account.isEdit" class="d-block cut-word">{{account.cardNumber}}</span>
+							<input ng-show="account.isEdit" type="text" ng-model="account.editcardNumber">
+						</div>
+						<div style="width: 30%; height: 30px;" class="acc-td d-flex-center">
+							<span class="tb-btn-default" ng-click="account.isEdit = true"
+								ng-show="!account.isEdit && account.cardStatus === accountStatusModel.start.val">编辑</span>
+							<b class="tb-btn-long"
+								ng-show="!account.isEdit && account.cardStatus === accountStatusModel.start.val"></b>
+							<span class="tb-btn-default" ng-click="forbiddenFun(account, $index, accountStatusModel.forbidden.val)"
+								ng-show="!account.isEdit && account.cardStatus === accountStatusModel.start.val">禁用</span>
+							<span class="tb-btn-default" ng-click="sureEditAccount(account, $index)"
+								ng-show="account.isEdit">确认</span>
+							<b class="tb-btn-long" ng-show="account.isEdit"></b>
+							<span ng-click="account.isEdit = false" class="tb-btn-default" ng-show="account.isEdit">取消</span>
+							<span class="tb-btn-default" ng-click="forbiddenFun(account, $index, accountStatusModel.start.val)"
+								ng-show="account.cardStatus === accountStatusModel.forbidden.val">启用</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 信用卡管理 -->
+
+			<!-- 新增账户 -->
+			<div class="tan-v2-con"
+				ng-if="operateType.val === operateModel.addCard.val || operateType.val === operateModel.addAccount.val ">
+				<div ng-if="otherIncomeType === otherIncomeTypeModel.interest.val" class="item-group d-flex-center">
+					<label>
+						账户类型：
+					</label>
+					<div class="right-con position-relative">
+						<input type="text" ng-model="$parent.$parent.accountType">
+					</div>
+				</div>
+				<div ng-if="otherIncomeType === otherIncomeTypeModel.cardRebate.val" class="item-group d-flex-center">
+					<label>
+						银&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;行：
+					</label>
+					<div class="right-con position-relative">
+						<input type="text" ng-model="$parent.$parent.accountType">
+					</div>
+				</div>
+				<div class="item-group d-flex-center">
+					<label>
+						账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
+					</label>
+					<div class="right-con position-relative">
+						<input type="text" ng-model="$parent.accountName">
+					</div>
+				</div>
+			</div>
+
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFLag2=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a ng-show="operateType.val === operateModel.addCard.val || operateType.val === operateModel.addAccount.val "
+					href="javascript:void(0);" class="que-ding-btn" ng-click="sureAddAccount()">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- 确认弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFLag3">
+		<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: initial;">
+			<p style="margin-top: 25px; margin-bottom: 38px;">{{operateType.txt}}</p>
+			<div class="tan-v2-bot">
+				<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="showFLag3=false">取消</a>
+				<a href="javascript:void(0)" class="que-ding-btn" ng-click="sureConfirm()">确定</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

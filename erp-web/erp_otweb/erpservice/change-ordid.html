@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户-客户分销-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/> -->
+    <style>
+        .right-bar{
+            padding: 20px;
+        }
+        .ordids-text{
+            width: 80%;
+            border: 1px solid #ccc;
+            height: 300px;
+            border-radius: 4px;
+            padding: 8px;
+        }
+        .btns-group button{
+            width: 80px;
+            height: 30px;
+            color: #fff;
+            background-color: #dc8a23;
+            border-radius: 4px;
+            margin-right: 50px;
+        }
+        .ordid-item{
+            border-bottom: 1px solid #eeeeee;
+            padding-left: 20px;
+            width: 80%;
+        }
+        .hideInput{
+            opacity: 0;
+        }
+        h4{
+            padding: 10px 0;
+        }
+				.upd-order-textarea-box{
+					margin: 10px 0 20px 0;
+				}
+				.upd-order-tab{
+					margin-top: 16px;
+				}
+				.upd-order-tab span{
+					display: inline-block;
+					border: 1px solid #e1e1e1;
+					padding: 4px 16px;
+					margin-right: 8px;
+					border-radius: 4px;
+					cursor: pointer;
+				}
+				.upd-order-tab span:hover{
+					color: #dc8a23;
+					border-color: #dc8a23;
+				}
+				.upd-order-tab span.active{
+					background: #dc8a23;
+					color: #fff !important;
+					border-color: #dc8a23;
+				}
+				/* #dc8a23 */
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="right-bar-wrap ea-right-content">
+        <div class="bg-geduan"></div>
+        <div class="right-bar" style="min-height: 850px;">
+            <h3>更换订单号</h3>
+            <!-- right list -->
+            <div class="upd-order-tab">
+								<span 
+								  ng-click="targetTab = '代发'"
+								  ng-class="{'active': targetTab === '代发'}"
+								>代发单</span>
+								<span
+								  ng-click="targetTab = '直发'"
+								  ng-class="{'active': targetTab === '直发'}"
+								>直发单</span>
+            </div>
+            <div class="table-con-box upd-order-textarea-box">
+							<textarea 
+								class="ordids-text" 
+								ng-model="orderNum" 
+								placeholder="{{targetTab === '代发' ? '请输入子订单号以逗号的形式隔开！' : '请输入客户订单号以逗号的形式隔开！'}}">
+							</textarea>
+                
+            </div>
+            <div class="btns-group">
+                <button ng-click="submitFun();">更换</button>
+                <button ng-click="clearFun()">清空</button>
+                <button ng-show="successList.length>0" ng-click="copyFun()">一键复制</button>
+                <input class="hideInput" type="text" ng-model="ordIdStr">
+            </div>
+            <div class="padding-tb-10px" ng-show="successList.length>0">
+              <h4>更换后的订单号</h4>
+              <p class="ordid-item" ng-repeat="item in successList">{{item.oldName}} 更换成 {{item.newName}}</p>
+						</div>
+						<div class="padding-tb-10px" ng-show="failList.length>0">
+              <h4>更换失败的订单号</h4>
+              <p class="ordid-item" ng-repeat="item in failList">{{item}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="isaddyfh-wrap" ng-show="tipsFlag">
+    <div class="isaddyfh-con">
+        <p>是否确定更换订单号?</p>
+        <div class="isaddyfh-btns">
+            <button ng-click="tipsFlag=false" class="ispc-can-btn">取消</button>
+            <button ng-click="submitConfirm()" class="ispc-con-btn">确定</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

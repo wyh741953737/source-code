@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>盘点缺货记录</title>
+  <link rel="stylesheet" type="text/css" href="static/css/fuwusp.css">
+  <style>
+    .tab .active {
+      border-bottom: 4px solid #F9AE08;
+    }
+    .tab .active a {
+      color: #F9AE08;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tab d-flex justify-content-between align-items-center">
+    <ul class="clearfix">
+      <li ng-class="state == 1 ? 'active' : ''"><a href="#/erppurchase/stockout-log/1">待处理</a></li>
+      <li ng-class="state == 2 ? 'active' : ''"><a href="#/erppurchase/stockout-log/2">已加入采购</a></li>
+    </ul>
+    <div style="width: 500px;">
+      <sapn>仓库：</sapn>
+      <select ng-options="item.id as item.label for item in warehouseList" ng-model="warehouseID" ng-change="changeWarehouse()"></select>
+    </div>
+  </div>
+  <div style="height: 68px;"></div>
+  <div class="content">
+    <div class="filter clearfix">
+    </div>
+    <div class="parent-order">
+      <table ng-show="state == 1">
+        <thead id="table-header">
+          <tr>
+            <th>SKU</th>
+            <th>位置</th>
+            <th>数量</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in inventoryList">
+            <td>{{item.sku}}</td>
+            <td>{{item.regionPath}}</td>
+            <td>{{item.quantity}}</td>
+            <td>
+              <button ng-click="variantInfo(item)" class="dbopter-btn font-size-14px">变体</button>
+              <button ng-click="addProcurement(item)" class="dbopter-btn font-size-14px">加入采购</button>
+            </td>
+          </tr>
+          <tr ng-show="inventoryList.length < 1">
+            <td colspan="19">暂无数据。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table ng-show="state == 2">
+        <thead id="table-header">
+          <tr>
+            <th>SKU</th>
+            <th>数量</th>
+            <th>短码</th>
+            <!-- <th>仓库</th> -->
+            <th>位置</th>
+            <th>创建日期</th>
+            <th>采购日期</th>
+            <th>更新日期</th>
+            <th>操作人</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in recordInfoList">
+            <td>{{item.sku}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.shortCode}}</td>
+            <!-- <td>{{item.storageId}}</td> -->
+            <td>{{item.regionPath}}</td>
+            <td>{{item.createDate}}</td>
+            <td>{{item.procurementDate || '--'}}</td>
+            <td>{{item.upDate}}</td>
+            <td>{{item.userName}}</td>
+          </tr>
+          <tr ng-show="recordInfoList.length < 1">
+            <td colspan="19">暂无数据。</td>
+          </tr>
+        </tbody>
+      </table>
+      <page></page>
+    </div>
+  </div>
+
+  <div class="lookProduct" ng-show="variantShow">
+  <div class="content media-content paddinglrt20px" style="width: 900px;min-height: inherit;top:50%;">
+    <div class="tk-top-tit" style="background-color: #fff;">
+      <p>变体 <span class="close-icon" ng-click="variantShow = false">×</span></p>
+    </div>
+    <div class="tk-mid-con margin-bt20px" style="height: 460px;overflow-y:auto;">
+      <table style="width: 99%;">
+        <thead>
+          <th>SKU</th>
+          <th>数量</th>
+          <th>短码</th>
+          <!-- <th>仓库</th> -->
+          <th>位置</th>
+          <th>创建日期</th>
+          <th>采购日期</th>
+          <th>更新日期</th>
+          <th>操作人</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in variantList">
+            <td>{{item.sku}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.shortCode}}</td>
+            <!-- <td>{{item.storageId}}</td> -->
+            <td>{{item.regionPath}}</td>
+            <td>{{item.createDate}}</td>
+            <td>{{item.procurementDate || '--'}}</td>
+            <td>{{item.upDate}}</td>
+            <td>{{item.userName}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="tk-btns">
+            <button ng-click="" class="tk-qx-btn"></button>
+        </div> -->
+  </div>
+</div>
+</body>
+
+</html>

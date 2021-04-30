@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .ea-right-search{
+            display: flex;
+        }
+        .search-group{
+            display: flex;
+            line-height: 35px;
+            margin-right: 32px;
+        }
+        #TaskStatus{
+            width: 134px;
+            border-radius: 5px;
+        }
+        .search-group input{
+            height: 35px;
+            border-color: #e0e0e0;
+        }
+        #c-data-time{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-right: none;
+        }
+        /*#cdatatime2{*/
+            /*border-top-right-radius: 5px;*/
+            /*border-bottom-right-radius: 5px;*/
+        /*}*/
+        .searchBtn{
+            height: 35px;
+            padding: 0 15px;
+            color: #fff;
+            background: #FFB900;
+            /*border-radius: 5px;*/
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        #taskTable{
+            border: none;
+        }
+        #taskTable>thead>tr{
+            border: none;
+        }
+        #taskTable>thead>tr>th:first-child{
+            border-top-left-radius: 5px;
+        }
+        #taskTable>thead>tr>th:last-child{
+            border-top-right-radius: 5px;
+        }
+        #taskTable>thead>tr>th{
+            background: #FCF4D9;
+            font-size:14px;
+            font-family:PingFangSC-Medium;
+            font-weight:500;
+            color:rgba(139,87,42,1);
+            border-color: #FCF4D9;
+        }
+        #taskTable>tbody>tr>td:not(:last-child){
+            border-right: none;
+        }
+        #taskTable>tbody>tr>td{
+            padding: 15px 10px;
+            font-size: 14px;
+        }
+        .enterInfo>a{
+            display: inline-block;
+            border: 1px solid #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .enterInfo>a:hover{
+            color: #FFB900;
+        }
+        .tableBtn{
+            background: #fff;
+        }
+        .tableBtn:hover{
+            color:#FFB900 ;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content asj-service-docu">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="ea-right-search" style="margin-bottom: 15px;">
+                <div class="search-group">
+                    <span>状态：</span>
+                    <select name="" id="TaskStatus">
+                        <option value="">全部</option>
+                        <option value="0">未录入</option>
+                        <option value="1">已录入</option>
+                    </select>
+                </div>
+                <div class="search-group" style="margin-right: 0">
+                    <input class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                    <input id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                </div>
+                <div class="search-group">
+                    <button class="searchBtn">查询</button>
+                </div>
+            </div>
+            <div class="taskContent">
+                <table class="ea-list-table ea-erp-cs" id="taskTable">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>商品类目</th>
+                        <th>录入信息</th>
+                        <th>状态</th>
+                        <th>难度系数</th>
+                        <th>得分(总计10分)</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="task in taskList">
+                        <td>{{$index+1}}</td>
+                        <td>{{task.NAME}}</td>
+                        <td class="enterInfo">
+                            <a href="{{task.address}}" target="_blank" style="margin-right: 15px">查看链接</a>
+                            <a ng-show="task.state=='1'" href="javascript:void(0);" ng-click="showDetails(task.locproductId)">查看商品</a>
+                            <a ng-show="task.state=='0'" href="javascript:void(0);" ng-click="luru(task.categoryId,task.ID)">录入商品</a>
+                        </td>
+                        <td>{{classState(task.state)}}</td>
+                        <td>{{task.baseScore || '0'}}</td>
+                        <td>{{task.score || '0'}}</td>
+                        <td>
+                            <span ng-if="task.state=='1'">--</span>
+                            <button ng-if="task.state=='0'" class="tableBtn" ng-click="deleteFun(task.ID)">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

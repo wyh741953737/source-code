@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>通知-已发送-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/> -->
+    <style type="text/css">
+        .erp-mc-text {
+            width: 1000px;
+        }
+        .erp-mc-text .erp-text-p {
+            float: left;
+        }
+        .erp-mc-text #wang {
+            float: left;
+            margin-left: 51px;
+            width: 800px;
+        }
+        .asj-service-docu .erp-mes-stu .erp-stu-p .erp-stu-span {
+            display: inline-block;
+            width: 74px;
+        }
+        .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue {
+            padding-left: 0;
+        }
+        .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue span {
+            font-size: 14px;
+            color: #686868;
+        }
+        .enclosure-file {
+            width: 0;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #uploadfile{
+            display: inline-block;
+            width: 90px;
+        }
+        .fjfuplod {
+            color: #fff;
+            background-color: #08aceb;
+            padding: 5px 8px;
+            font-size: 12px;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+            margin-left: 28px;
+        }
+        .file-list {
+            margin-left: 98px;
+            margin-right: 10px;
+        }
+        .file-list li {
+            font-size: 14px;
+            line-height: 30px;
+            color: #666;
+            position: relative;
+            width: 300px;
+            transition: all .5s;
+            padding-left: 24px;
+        }
+        .file-list li span {
+            display: block;
+            width: 250px;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .file-list li .file-icon {
+            position: absolute;
+            top: 8px;
+            left: 0px;
+        }
+        .file-list li .right-icon {
+            position: absolute;
+            top: 6px;
+            right: 0px;
+        }
+        .file-list li .close-icon {
+            display: none;
+            cursor: pointer;
+        }
+        .file-list li:hover {
+            background: #f5f7fa;
+        }
+        .file-list li:hover .close-icon {
+            display: block;
+        }
+        .file-list li:hover .check-icon {
+            display: none;
+        }
+        .file-list li {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue {
+            margin-bottom: 20px;
+        }
+        .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue .fj-tip {
+            font-size: 12px;
+            line-height: 24px;
+            color: #999;
+        }
+        .asj-service-docu .erp-mes-btns {
+            margin: 30px 100px 100px 98px;
+        }
+        .asj-service-docu .erp-mes-btns a{
+            margin-right: 20px;
+        }
+        .asj-service-docu .erp-mes-btns .cancel-btn {
+            background: #fff;
+            border: 1px solid #ccc;
+            color: #666;
+        }
+        .erp-mc-text ul{
+            margin-left: 100px;
+        }
+        .erp-mc-text ul li{
+            margin-bottom: 10px;
+        }
+        .erp-mc-text textarea{
+            border: 1px solid #efeded;
+            width: 760px;
+            height: 106px;
+            font-family: PingFangSC-Regular;
+            padding: 8px;
+        }
+        .erp-main-top p{
+            padding: 10px 0 ;
+        }
+        .erp-mc-text img{
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            cursor: pointer;
+        }
+        .erp-mc-text .closeimg{
+            top: 0;
+        }
+        .erp-mc-text .addimg{
+            top: 42px;
+        }
+        .erp-mc-text .add{
+            top: 84px;
+        }
+    </style>
+    <!-- content -->
+    <div class="ea-content asj-service-docu">
+        <!-- left nav -->
+        <div class="left-bar">
+            <ul>
+                <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+                <li class="active"><a href="#/erpservice/document">{{'Document'}}</a></li>
+                <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+                <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+                <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+                <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+                <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+            </ul>
+        </div>
+        <!-- right con -->
+        <div class="right-bar-wrap cj-am-main">
+            <div class="asj-h10"></div>
+            <div class="right-bar">
+            <div class="erp-main-top">
+                <p ng-if="addFlag">{{'Add Document'}}</p>
+                <p ng-if="editFlag">{{'Edit Document'}}</p>
+            </div>
+            <div class="erp-main-content">
+                <div class="erp-mes-num">
+                    <p class="erp-num-p">
+                    </p>
+                </div>
+                <div class="erp-mes-stu">
+                    <p class="erp-stu-p">
+                        <span class="erp-stu-span">{{'Category'}}:</span>
+                        <select class="erp-stu-sel" ng-model="cateItem" ng-options="item as item.problemType.name for item in cateList">
+                        </select>
+                        </select>
+                    </p>
+                </div>
+                <div class="erp-mes-stu">
+                    <p class="erp-stu-p">
+                        <span class="erp-stu-span">{{'Title'}}:</span>
+                        <input class="erp-stu-sel" type="text" ng-model="docuTitle">
+                    </p>
+                </div>
+                <div class="erp-mid-con">
+                    <div class="erp-mc-left">
+                        <div class="erp-jianlue">
+                            <div>
+                                <span>{{'Enclosure'}}:</span>
+                                <form action="https://erp.cjdropshipping.com/app/ajax/upload" method="post" enctype="multipart/form-data" id="uploadfile" class="ng-pristine ng-valid">
+                                   <input type="file" name="file" id="enclosure-file" class="enclosure-file" multiple onchange="angular.element(this).scope().upLoadImg(this.files)" title="">
+                                   <label class="fjfuplod" for="enclosure-file">Upload</label>
+                                 </form>
+                                 <ul class="file-list">
+                                     <li ng-repeat="item in hasUploadFile">
+                                        <img class="file-icon" src="./static/image/public-img/fileicon.svg" alt="">
+                                        <span>{{item}}</span>
+                                        <img class="right-icon check-icon" src="./static/image/public-img/checkicon.svg" alt="">
+                                        <img class="right-icon close-icon" ng-click="delFile($index)" src="./static/image/public-img/closeicon.svg" alt="">
+                                    </li>
+                                 </ul>
+                            </div>
+                        </div>
+                        <div class="erp-mc-text">
+                            <p class="erp-text-p">{{'Text'}}:</p>
+                            <!--<div id="wang"></div>-->
+                            <ul>
+                                <li class="clearfix" ng-repeat="(index,item) in stepList" style="position: relative;">
+                                    <textarea ng-model="item.content"></textarea>
+                                    <img ng-click="delstep(index)" class="closeimg" src="erp_otweb/images/close.png" alt="">
+                                    <img ng-click="addimg(index)" class="addimg" src="erp_otweb/images/addimg.png" alt="">
+                                    <img ng-click="addstep(index)" class="add" src="erp_otweb/images/add.png" alt="">
+                                    <input type="file" name="file" id="upload_file" class="enclosure-file" multiple onchange="angular.element(this).scope().fileChange(this.files)" title="">
+                                    <p style="margin-top: 10px;">
+                                    <span style="position: relative;display: inline-block;width: 90px;height: 90px;margin-right: 15px;" ng-repeat="(idx,item1) in item.img">
+                                        <img style="width: 90px;height: 90px;cursor: initial;" ng-src="{{'https://'+item1.src}}" alt="">
+                                        <i ng-click="delimg(index,idx)" style="width: 24px;height: 24px;position: absolute;right: -9px;top: -14px;"><img src="erp_otweb/images/del.png" alt=""></i>
+                                    </span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="erp-mes-btns">
+                        <a href="#/erpservice/document" class="cancel-btn">{{'Cancel'}}</a>
+                        <a href="javascript:void(0)" ng-click="submitDocu()">{{'Confirm'}}</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+    <!-- </html>

@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>积分商城</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="erp_otweb/css/erp_financing_income.css"
+    />
+  </head>
+
+  <body>
+    <div class="ea-content">
+      <div class="right-bar-wrap ea-right-content">
+        <!-- 顶部tab -->
+        <div
+          id="top-tab"
+          class="top-tab"
+          ng-if="expenditureType==1 || expenditureType==2 || expenditureType==3 || expenditureType==4"
+        >
+          <!-- tab -->
+          <div class="top-tab-nav d-flex" style="padding-bottom: 20px;">
+            <span
+              ng-click="changeIncomeType(expenditureTypeModel.cost.val)"
+              ng-class='{"tab-active": expenditureType === expenditureTypeModel.cost.val }'
+              class="tab-span tab-border-bt cursor-pointer"
+              >待核对（{{ titleNum1 }}）</span
+            >
+            <span
+              ng-click="changeIncomeType(expenditureTypeModel.dispute.val)"
+              ng-class='{"tab-active": expenditureType === expenditureTypeModel.dispute.val }'
+              class="tab-span tab-border-bt cursor-pointer"
+              >待处理（{{ titleNum2 }}）</span
+            >
+            <span
+              ng-click="changeIncomeType(expenditureTypeModel.sellComposite.val)"
+              ng-class='{"tab-active": expenditureType === expenditureTypeModel.sellComposite.val }'
+              class="tab-span tab-border-bt cursor-pointer"
+              >待回访（{{ titleNum3 }}）</span
+            >
+            <span
+              ng-click="changeIncomeType(expenditureTypeModel.completeds.val)"
+              ng-class='{"tab-active": expenditureType === expenditureTypeModel.completeds.val }'
+              class="tab-span tab-border-bt cursor-pointer"
+              >已完成（{{ titleNum4 }}）</span
+            >
+          </div>
+          <!-- 搜索区域 & 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px"
+          >
+            <!-- 表头 -->
+            <!-- 待核对 -->
+            <div
+              class="tb-thead d-flex tb-thead-border"
+              ng-if="expenditureType === expenditureTypeModel.cost.val"
+            >
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户ID
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户联系方式
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                业务员
+              </div>
+
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                状态
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                操作
+              </div>
+            </div>
+            <!-- 待处理 -->
+            <div
+              class="tb-thead d-flex tb-thead-border"
+              ng-if="expenditureType === expenditureTypeModel.dispute.val"
+            >
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户ID
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户联系方式
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                业务员
+              </div>
+
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+              
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                状态
+              </div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center">
+                操作
+              </div>
+            </div>
+            <!-- 待回访 -->
+            <div
+              class="tb-thead d-flex tb-thead-border"
+              ng-if="expenditureType === expenditureTypeModel.sellComposite.val"
+            >
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户ID
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户联系方式
+              </div>
+              <div
+              style="width: 10%"
+              class="tb-thead-th d-flex-center border-r-coffie"
+            >
+              业务员
+            </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+             
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                状态
+              </div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center">
+                操作
+              </div>
+            </div>
+            <!-- 已完成 -->
+            <div
+              class="tb-thead d-flex tb-thead-border"
+              ng-if="expenditureType === expenditureTypeModel.completeds.val"
+            >
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户ID
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户联系方式
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                业务员
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+              
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换时间
+              </div>
+              <div
+                style="width: 10%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                状态
+              </div>
+              <div style="width: 10%" class="tb-thead-th d-flex-center">
+                操作
+              </div>
+            </div>
+          </div>
+
+          <!-- 内容区 -->
+          <div
+            id="content-wrap"
+            class="content-wrap bg-white padding-lr-20px"
+            style="min-height: 600px; "
+          >
+            <!-- 表格 -->
+
+            <!-- 待核对 -->
+            <div
+              class="tb-tbody"
+              ng-if="expenditureType === expenditureTypeModel.cost.val"
+              style="min-width: 946px"
+            >
+              <div class="tb-tbody-tr" ng-repeat="cost in orderList">
+                <!-- <div class="tb-tbody-tr"> -->
+                <!-- {{cost}} -->
+                <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customerNum }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_name }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_email }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_phone }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_agent }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_time.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_no }}</span>
+                </div>
+                
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.update_date.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span ng-if="cost.status==1">待核对</span>
+                  <span ng-if="cost.status==2">待处理</span>
+                  <span ng-if="cost.status==3">待回访</span>
+                  <span ng-if="cost.status==4">已完成</span>
+                </div>
+                <div
+                  style="width: 10%"
+                  class="tb-tbody-td border-r-td d-flex-center"
+                  ng-click="costcheck(cost)"
+                >
+                  <span style="color: blue;cursor:pointer">核对</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 待处理 -->
+            <div
+              class="tb-tbody"
+              ng-if="expenditureType === expenditureTypeModel.dispute.val"
+            >
+              <!-- {{expenditureTypeModel.dispute.val}} -->
+              <div class="tb-tbody-tr" ng-repeat="cost in orderList">
+                <!-- <div class="tb-tbody-tr"> -->
+                <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div> -->
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customerNum }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_name }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_email }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_phone }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_agent }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_time.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_no }}</span>
+                </div>
+               
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.update_date.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span ng-if="cost.status==1">待核对</span>
+                  <span ng-if="cost.status==2">待处理</span>
+                  <span ng-if="cost.status==3">待回访</span>
+                  <span ng-if="cost.status==4">已完成</span>
+                </div>
+                <div
+                  style="width: 10%;color: blue;cursor: pointer;"
+                  class="tb-tbody-td border-r-td d-flex-center"
+                  ng-click="contentInfo(cost)"
+                >
+                  <span>填写预定信息</span>
+                </div>
+              </div>
+            </div>
+            <!-- 待回访 -->
+            <div
+              class="tb-tbody"
+              ng-if="expenditureType === expenditureTypeModel.sellComposite.val"
+            >
+              <div class="tb-tbody-tr" ng-repeat="cost in orderList">
+                <!-- <div class="tb-tbody-tr"> -->
+                <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customerNum }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_name }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_email }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_phone }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_agent }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_time.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_no }}</span>
+                </div>
+               
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.update_date.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span ng-if="cost.status==1">待核对</span>
+                  <span ng-if="cost.status==2">待处理</span>
+                  <span ng-if="cost.status==3">待回访</span>
+                  <span ng-if="cost.status==4">已完成</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span
+                    ng-click="completedInfo(cost,cost.id)"
+                    style="color: blue;cursor:pointer"
+                    >确认完成</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- 已完成 -->
+            <div
+              class="tb-tbody"
+              ng-if="expenditureType === expenditureTypeModel.completeds.val"
+            >
+              <div class="tb-tbody-tr" ng-repeat="cost in orderList">
+              <!-- <div class="tb-tbody-tr"> -->
+                <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customerNum }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_name }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_email }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_phone }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.customer_agent }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_time.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.flight_no }}</span>
+                </div>
+               
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span>{{ cost.update_date.time }}</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span ng-if="cost.status==1">待核对</span>
+                  <span ng-if="cost.status==2">待处理</span>
+                  <span ng-if="cost.status==3">待回访</span>
+                  <span ng-if="cost.status==4">已完成</span>
+                </div>
+                <div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+                  <span
+                    style="color: blue; cursor:pointer"
+                    ng-click="toption(cost)"
+                    >查看</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 待核对信息页面 -->
+        <div
+          id="content-wrap1"
+          class="content-wrap bg-white padding-lr-20px"
+          style="min-height: 600px; padding: 40px"
+          ng-if="expenditureType === expenditureTypeModel.costInfo.val"
+        >
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px;margin-bottom: 30px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户姓名
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户电话
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                业务员
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 20%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+            </div>
+            <!-- <div class="tb-tbody-tr" ng-repeat="cost in itemList"> -->
+              <div class="tb-tbody-tr">
+              <!-- {{cost}} -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_name }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_phone }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_email }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_agent }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_time.time }}</span>
+              </div>
+              <div style="width: 20%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_no }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 兑换信息表单（数组遍历  根据第几位 定义id属性 完成数据获取） -->
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换列表
+              </div>
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                积分
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                备注
+              </div>
+            </div>
+            <div class="tb-tbody-tr" ng-repeat="cost in checkList">
+              <!-- <div class="tb-tbody-tr"> -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.server_name_cn }}</span>
+                <!-- {{$index}} -->
+                <span>{{ cost.server_info }}</span>
+              </div>
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <!-- <span>56465</span> -->
+                <span>{{ cost.integral }}</span>
+              </div>
+              <div style="width: 34%" class="tb-tbody-td border-r-td">
+                <textarea
+                  type="text"
+                  placeholder="必填"
+                  style="padding: 5px 8px;width: 240px;height: 100px;display: block;margin: 0 auto"
+                  class="idW"
+                  id="ids{{ cost.id }}"
+                  note="note{{ cost.remark }}"
+                ></textarea>
+              </div>
+            </div>
+            <!-- 按钮 -->
+            <div class="search-group d-flex align-items-center">
+              <button
+                class="asj-btn-s asj-btn-s2 search-btn"
+                style="margin: 20px auto 0; padding:0 10px"
+                ng-click="surecost()"
+              >
+                已全部核对，提交
+              </button>
+              
+            </div>
+          </div>
+          <!-- ng-model="Data[n].key" -->
+        </div>
+
+        <!-- 待处理信息页面 -->
+        <div
+          id="content-wrap2"
+          class="content-wrap bg-white padding-lr-20px"
+          style="min-height: 600px; padding: 40px"
+          ng-if="expenditureType == expenditureTypeModel.disputeInfo.val"
+        >
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px;margin-bottom: 30px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户姓名
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户电话
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                业务员
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 20%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+            </div>
+            <!-- <div class="tb-tbody-tr" ng-repeat="cost in itemList"> -->
+              <div class="tb-tbody-tr">
+              <!-- {{cost}} -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_name }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_phone }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_email }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_agent }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_time.time }}</span>
+              </div>
+              <div style="width: 20%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_no }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- 兑换信息表单 -->
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换列表
+              </div>
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                积分
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                核对备注
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                联系人
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie "
+              >
+                联系电话
+              </div>
+            </div>
+            <div class="tb-tbody-tr" ng-repeat="cost in checkList">
+              <!-- <div class="tb-tbody-tr"> -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.server_name_cn }}</span>
+              </div>
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.integral }}</span>
+              </div>
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.remark }}</span>
+              </div>
+              <div style="width: 34%" class="tb-tbody-td border-r-td">
+                <input
+                  type="textarea"
+                  placeholder="请输入联系人(必填)"
+                  class="idCr"
+                  ids = "ids{{ cost.id }}"
+                  style="display:block;height: 40px;line-height:40px;margin: 0 auto"
+                />
+              </div>
+              <div style="width: 34%" class="tb-tbody-td border-r-td">
+                <input
+                  type="textarea"
+                  placeholder="请输入联系电话（必填）"
+                  class="idCp"
+                  style="display:block;height: 40px;line-height:40px; margin: 0 auto"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- 按钮 -->
+          <div class="search-group d-flex align-items-center">
+            <button
+              class="asj-btn-s asj-btn-s2 search-btn"
+              style="margin: 20px auto 0; padding:0 10px"
+              ng-click="suredispute(items)"
+            >
+              已全部核对，提交
+            </button>
+            <button
+            class="asj-btn-s search-btn"
+            style="margin: 20px auto 0; padding:0 10px"
+            ng-click="checkcancel()"
+          >
+            返回
+          </button>
+        
+          </div>
+        </div>
+
+        <!-- 待回访信息页面 -->
+        <div
+          id="content-wrap3"
+          class="content-wrap bg-white padding-lr-20px"
+          style="min-height: 600px; padding: 40px"
+          ng-if="expenditureType == expenditureTypeModel.sellCompositeInfo.val"
+        >
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px;margin-bottom: 30px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户姓名
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户电话
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                业务员
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 20%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+            </div>
+            <!-- <div class="tb-tbody-tr" ng-repeat="cost in itemList"> -->
+            <div class="tb-tbody-tr">
+              <!-- {{cost}} -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_name }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_phone }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_email }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_agent }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_time.time }}</span>
+              </div>
+              <div style="width: 20%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_no }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- 兑换信息表单 -->
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换列表
+              </div>
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                积分
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                核对备注
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                联系人
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                联系电话
+              </div>
+            </div>
+            <div class="tb-tbody-tr" ng-repeat="cost in checkList">
+            <!-- <div class="tb-tbody-tr"> -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.server_name_cn}}</span>
+              </div>
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.integral }}</span>
+              </div>
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.remark }}</span>
+              </div>
+              <div style="width: 34%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.contact_user}}</span>
+              </div>
+              <div style="width: 34%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.contact_phone}}</span>
+              </div>
+            </div>
+          </div>
+          <!-- 按钮 -->
+          <div class="search-group d-flex align-items-center">
+            <button
+              class="asj-btn-s asj-btn-s2 search-btn"
+              style="margin: 20px auto 0; padding:0 10px"
+              ng-click="surecompleted(items)"
+            >
+              客户已使用完服务
+            </button>
+           
+          </div>
+        </div>
+
+        <!-- 已完成信息页面 -->
+        <div
+          id="content-wrap4"
+          class="content-wrap bg-white padding-lr-20px"
+          style="min-height: 600px; padding: 40px"
+          ng-if="expenditureType == expenditureTypeModel.completedInfo.val"
+        >
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px;margin-bottom: 30px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户姓名
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户电话
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                客户邮箱
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                业务员
+              </div>
+              <div
+                style="width: 16%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                起飞时间
+              </div>
+              <div
+                style="width: 20%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                航班号
+              </div>
+            </div>
+            <!-- <div class="tb-tbody-tr" ng-repeat="cost in itemList"> -->
+            <div class="tb-tbody-tr">
+              <!-- {{cost}} -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_name }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_phone }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_email }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.customer_agent }}</span>
+              </div>
+              <div style="width: 16%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_time.time }}</span>
+              </div>
+              <div style="width: 20%" class="tb-tbody-td border-r-td">
+                <span>{{ itemList.flight_no }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- 兑换信息表单 -->
+          <!-- 表头 -->
+          <div
+            class="top-tab-bottom bg-white padding-lr-20px mt-0"
+            style="margin-top: 20px;padding: 0;background: #fff"
+          >
+            <div class="tb-thead d-flex tb-thead-border">
+              <div
+                style="width: 100%;text-align:left"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换信息
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="tb-tbody" style="min-width: 946px">
+            <div class="tb-tbody-tr">
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                兑换列表
+              </div>
+              <div
+                style="width: 33%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                积分
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                核对备注
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                联系人
+              </div>
+              <div
+                style="width: 34%"
+                class="tb-thead-th d-flex-center border-r-coffie"
+              >
+                联系电话
+              </div>
+            </div>
+            <div class="tb-tbody-tr" ng-repeat="cost in checkList">
+            <!-- <div class="tb-tbody-tr"> -->
+              <!-- <div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span>子订单号</div> -->
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.server_name_cn}}</span>
+              </div>
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.integral }}</span>
+              </div>
+              <div style="width: 33%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.remark }}</span>
+              </div>
+              <div style="width: 34%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.contact_user}}</span>
+              </div>
+              <div style="width: 34%" class="tb-tbody-td border-r-td">
+                <span>{{ cost.contact_phone}}</span>
+              </div>
+            </div>
+          </div>
+          <!-- 按钮 -->
+          <div class="search-group d-flex align-items-center">
+            <button
+              class="asj-btn-s asj-btn-s2 search-btn"
+              style="margin: 20px auto 0; padding:0 10px"
+              ng-click="tocancel()"
+            >
+              返回
+            </button>
+          </div>
+        </div>
+
+        <!-- 待核对信息确认弹窗 -->
+        <div class="erp-common-tan-v2-wrap" ng-show="iscost">
+          <div
+            class="erp-common-tan-v2 erp-common-tan-confirm"
+            style="height: 717px; width: 982px"
+          >
+            <div
+              id="content-wrap2"
+              class="content-wrap content-wrap bg-white padding-lr-20px"
+              style="margin-top: 80px;height: 700px;"
+            >
+              <div
+                class="right-bar-wrap ea-right-content right-bar-wrap2"
+                style="height: 700px; width: 940px; min-width: 0;min-height: 0; padding: 20px 10px 20px 20px"
+              >
+                <!-- 表头 -->
+                <div class="tb-thead d-flex tb-thead-border">
+                  <div
+                    style="width: 100%"
+                    class="tb-thead-th d-flex-center border-r-coffie"
+                  >
+                   客户：{{username}}
+                  </div>
+                </div>
+                <!-- 表格内容 -->
+                <div class="tb-tbody" style="background: #fff">
+                  <!-- <div class="tb-tbody-tr" ng-repeat="cost in chongdata"> -->
+                  <div class="tb-tbody-tr">
+                    <div
+                      style="width: 33%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      兑换列表
+                    </div>
+
+                    <div
+                      style="width: 33%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      积分
+                    </div>
+                    <div
+                      style="width: 34%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      备注
+                    </div>
+                  </div>
+                  <!-- <div class="tb-tbody-tr"> -->
+                  <div class="tb-tbody-tr" ng-repeat="cost in checkList">
+                    <!-- <div style="width: 12.5%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div> -->
+                    <div style="width: 33%" class="tb-tbody-td border-r-td">
+                      <span>{{ cost.server_name_cn }}</span>
+                    </div>
+                    <div style="width: 33%" class="tb-tbody-td border-r-td">
+                      <span>{{ cost.integral }}</span>
+                    </div>
+                    <div style="width: 34%" class="tb-tbody-td border-r-td">
+                      <span>{{ cost.remark }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tan-v2-bot" style="margin-top: 20px">
+                  <a
+                    href="javascript:void(0)"
+                    class="qu-xiao-btn"
+                    ng-click="iscost=false"
+                    >取消</a
+                  >
+                  <a
+                    href="javascript:void(0)"
+                    class="que-ding-btn"
+                    ng-click="sureConfirm1(cost)"
+                    >确定</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 待处理信息确认弹窗 -->
+        <div class="erp-common-tan-v2-wrap" ng-show="isdispute">
+          <div
+            class="erp-common-tan-v2 erp-common-tan-confirm"
+            style="height: 717px; width: 982px"
+          >
+            <div
+              id="content-wrap3"
+              class="content-wrap content-wrap bg-white padding-lr-20px"
+              style="margin-top: 80px;height: 700px;"
+            >
+              <div
+                class="right-bar-wrap ea-right-content right-bar-wrap2"
+                style="height: 700px; width: 940px; min-width: 0;min-height: 0; padding: 20px 10px 20px 20px"
+              >
+                <!-- 表头 -->
+                <div class="tb-thead d-flex tb-thead-border">
+                  <div
+                    style="width: 100%"
+                    class="tb-thead-th d-flex-center border-r-coffie"
+                  >
+                    客户：{{username}}
+                  </div>
+                </div>
+                <!-- 表格内容 -->
+                <div class="tb-tbody" style="background: #fff">
+                 
+                  <div class="tb-tbody-tr">
+                    <div
+                      style="width: 20%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      兑换列表
+                    </div>
+                    <div
+                      style="width: 20%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      积分
+                    </div>
+                    <div
+                      style="width: 20%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      备注
+                    </div>
+                    <div
+                      style="width: 20%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      联系人
+                    </div>
+                    <div
+                      style="width: 20%"
+                      class="tb-thead-th d-flex-center border-r-coffie"
+                    >
+                      联系号码
+                    </div>
+                  </div>
+                  <div class="tb-tbody-tr" ng-repeat="cost in checkList">
+                  <!-- <div class="tb-tbody-tr"> -->
+                    <!-- <div style="width: 12.5%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div> -->
+                    <div style="width: 20%" class="tb-tbody-td border-r-td">
+                      <span>{{ cost.server_name_cn }}</span>
+                    </div>
+                    <div style="width: 20%" class="tb-tbody-td border-r-td">
+                      <span>{{ cost.integral }}</span>
+                    </div>
+                    <div style="width: 20%" class="tb-tbody-td border-r-td">
+                      <span>{{cost.remark}}</span>
+                    </div>
+                    <div style="width: 20%" class="tb-tbody-td border-r-td">
+                      <span>{{cost.contact_user}}</span>
+                    </div>
+                    <div style="width: 20%" class="tb-tbody-td border-r-td">
+                      <span>{{cost.contact_phone}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tan-v2-bot" style="margin-top: 20px">
+                  <a
+                    href="javascript:void(0)"
+                    class="qu-xiao-btn"
+                    ng-click="cancel2()"
+                    >取消</a
+                  >
+                  <a
+                    href="javascript:void(0)"
+                    class="que-ding-btn"
+                    ng-click="sureConfirm2($index+1,item2)"
+                    >确定</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 待回访信息确认弹窗 -->
+        <div class="erp-common-tan-v2-wrap" ng-show="iscompleted">
+          <div
+            class="erp-common-tan-v2 erp-common-tan-confirm"
+            style="height: auto"
+          >
+            <p>是否确定已经兑换所有的积分</p>
+            <div class="tan-v2-bot" style="margin-top: 20px">
+              <a
+                href="javascript:void(0)"
+                class="qu-xiao-btn"
+                ng-click="completecancel()"
+                >取消</a
+              >
+              <a
+                href="javascript:void(0)"
+                class="que-ding-btn"
+                ng-click="sureConfirm3($index+1,item2)"
+                >确定</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<style>
+  .right-bar-wrap2 {
+    padding: 0 !important;
+  }
+  .tb-tbody-td{
+    white-space:pre-line;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+</style>

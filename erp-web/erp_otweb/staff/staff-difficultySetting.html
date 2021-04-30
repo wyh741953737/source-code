@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .firstNav{
+            border: 1px solid #F3F3F3;
+            width: 212px;
+        }
+        .firstNav li{
+            display: flex;
+            height: 44px;
+            line-height: 44px;
+            border-bottom: 1px solid #F3F3F3;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            color: #666;
+            font-size:14px;
+            font-family:PingFangSC-Medium;
+            font-weight:500;
+            cursor: pointer;
+            background: #fff;
+        }
+        .firstNav li:last-child{
+            border-bottom: none;
+        }
+        .firstNav>li.act{
+            background: #FFB900;
+            color: #fff;
+        }
+        .firstNav li>b{
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: url("static/image/staff/next.png") no-repeat;
+        }
+        .firstNav>li.act>b{
+            background: url("static/image/staff/chevron.png") no-repeat;
+        }
+        .secondNav{
+            position: absolute;
+            width: 240px;
+            border: 1px solid #F3F3F3;
+            left: 210px;
+            top: 0;
+            display: none;
+        }
+        .firstNav>li.act>.secondNav{
+            display: block;
+        }
+        .firstNav li:nth-child(9)>.secondNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(10)>.secondNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(11)>.secondNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(12)>.secondNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(13)>.secondNav{
+            top: -132px;
+        }
+        .secondNav>li{
+            position: relative;
+        }
+        .secondNav>li.act{
+            background: #FCF4D9;
+            color: #FF9900;
+        }
+        .thirdNav{
+            position: absolute;
+            width: 650px;
+            border: 1px solid #f3f3f3;
+            left: 238px;
+            top:0;
+            display: none;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(6)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -220px;
+        }
+
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(7)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -176px;
+        }
+
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -264px;
+        }
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(8)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -176px;
+        }
+
+        .firstNav li:nth-child(9)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -308px;
+        }
+        .firstNav li:nth-child(9)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -220px;
+        }
+        .firstNav li:nth-child(9)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -308px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(10)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -220px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -44px;
+        }
+        .firstNav li:nth-child(11)>.secondNav>li:nth-child(7)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(5)>.thirdNav{
+            top: -132px;
+        }
+        .firstNav li:nth-child(12)>.secondNav>li:nth-child(6)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(1)>.thirdNav{
+            top: -88px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(2)>.thirdNav{
+            top: -484px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(3)>.thirdNav{
+            top: -176px;
+        }
+        .firstNav li:nth-child(13)>.secondNav>li:nth-child(4)>.thirdNav{
+            top: -220px;
+        }
+
+        .secondNav>li.act>.thirdNav{
+            display: block;
+        }
+        .thirdNav>li{
+            justify-content: flex-start;
+        }
+        .pname{
+            margin-right: 15px;
+        }
+        .difficulty{
+            margin-right: 15px;
+        }
+        .difficulty>input{
+            display: none;
+            width: 28px;
+            height: 28px;
+        }
+        .difficulty>.fenshu{
+            display: inline-block;
+            color: #FF9900;
+        }
+        .difficulty>.diffBtn-2{
+            display: inline-block;
+        }
+        .difficulty>.diffBtn-1{
+             display: none;
+         }
+
+        .difficulty.active>input{
+            display: inline-block;
+        }
+        .difficulty.active>.fenshu{
+            display: none;
+        }
+        .difficulty.active>.diffBtn-2{
+            display: none;
+        }
+        .difficulty.active>.diffBtn-1{
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content asj-service-docu">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding-top: 50px;padding-left: 40px;min-height: 980px;">
+            <ul class="firstNav">
+                <!--<li data-type="1">-->
+                    <!--<span>电脑办公</span>-->
+                    <!--<b></b>-->
+                <!--</li>-->
+                <li class="" data-type="1" ng-repeat="first in FirstList" data-id="{{first.id}}">
+                    <span>{{first.name}}</span>
+                    <b></b>
+                    <ul class="secondNav">
+                        <li class="" data-type="2" ng-repeat="second in first.children" data-id="{{second.id}}">
+                            <span>{{second.name}}</span>
+                            <b></b>
+                            <ul class="thirdNav">
+                                <li data-type="3" ng-repeat="third in second.children" data-id="{{third.ID}}" data-pid="{{third.PID}}">
+                                    <span class="pname">{{third.NAME}}</span>
+                                    <div class="difficulty ">
+                                        <span>基础分:</span>
+                                        <span class="fenshu jichufen">{{third.baseScore}}</span>
+                                        <input type="text" name="jichufen"/>
+                                        <span>分</span>
+                                    </div>
+                                    <div class="difficulty ">
+                                        <span>变体分:每增加</span>
+                                        <span class="fenshu zenjiafen">{{third.variantNum}}</span>
+                                        <input type="text" name="zenjiafen"/>
+                                        <span>个变体增加</span>
+                                        <span class="fenshu zenjiafen2">{{third.variantScore}}</span>
+                                        <input type="text" name="zenjiafen2"/>
+                                        <span>分</span>
+                                    </div>
+                                    <div class="difficulty ">
+                                        <button class="diffBtn-1 setBtn" style="cursor: pointer; background: url('static/image/staff/Group.png') no-repeat;width: 18px;height: 18px;"></button>
+                                        <button class="diffBtn-1 cancelBtn" style="cursor: pointer; background: url('static/image/staff/Group1.png') no-repeat;width: 18px;height: 18px;"></button>
+                                        <button class="diffBtn-2" style="cursor: pointer;background: url('static/image/staff/edit.png') no-repeat;width: 20px;height:21px;"></button>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

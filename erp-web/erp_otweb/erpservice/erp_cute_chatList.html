@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>提现</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_cute_chatList.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab position-absolute" ng-init="init()">
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索区域 -->
+					<div class="top-tab-search">
+						<div class="d-flex align-items-center chat-search-item">
+							<span>聊天时间：</span>
+							<wui-date class="startTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+								placeholder="开始时间" btns="{'ok':'确定','now':'今天'}" ng-model="startTime"></wui-date>
+							<span class="padding-lr-10px">-</span>
+							<wui-date class="endTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}" 1
+								class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="endTime">
+							</wui-date>
+							<span class="margin-left-20px">搜索：</span>
+							<input ng-model="searchName" class="chat-search-input" placeholder="请输入客户姓名/邮箱" type="text">
+						</div>
+						<div class="d-flex align-items-center chat-search-item">
+							<span>查询无果：</span>
+							<select class="search-select" name="" id="" ng-model="isUnmatch">
+								<option value="">全部</option>
+								<option value="1">是</option>
+								<option value="0">否</option>
+							</select>
+							<span class="margin-left-20px">转人工：</span>
+							<select class="search-select" name="" id="" ng-model="isChange">
+								<option value="">全部</option>
+								<option value="1">是</option>
+								<option value="0">否</option>
+							</select>
+							<button class="s-btn asj-btn-s2 margin-left-20px" ng-click="search()">查询</button>
+							<button class="s-btn asj-btn-s2 margin-left-20px" ng-click="openInputPassword(exportFn)">Excel导出</button>
+						</div>
+					</div>
+
+					<!-- 表头 -->
+					<div class="tb-thead d-flex">
+						<div style="width: 5%" class="tb-thead-th">
+							<span>序号</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>聊天开始时间</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>姓名</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>邮箱</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>查询无果</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>转人工</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>客户类型</span>
+						</div>
+						<div style="width: 25%" class="tb-thead-th">
+							<span>转人工消息</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>聊天记录</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" style="margin-top: 216px;" class="content-wrap bg-white padding-lr-20px">
+				<!-- 营外收入 -->
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="customer in customerList">
+						<div style="width: 5%" class="tb-tbody-td border-r-td"><span class="cut-word">{{$index + 1}}</span></div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td"><span
+								class="cut-word">{{customer.startChatTime}}</span></div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td"><span class="cut-word">{{customer.userName}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td"><span class="cut-word">{{customer.email}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td"><span
+								class="cut-word">{{customer.isUnmatch === 0 ? '否' : '是'}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td"><span
+								class="cut-word">{{customer.isChange === 0 ? '否' : '是'}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td"><span
+								class="cut-word">{{customer.customerType}}</span></div>
+						<div style="width: 25%" class="tb-tbody-td border-r-td"><span
+								class="cut-word">{{customer.changeMsg || '--'}}</span></div>
+						<div style="width: 10%" class="tb-tbody-td"><span class="cut-word">
+								<span class="tb-btn-default" ng-click="look(customer)">详情</span>
+							</span></div>
+					</div>
+				</div>
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+					<span>暂无数据</span>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="canShowPage">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="erp-common-tan-v2-wrap" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 900px; height: initial">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>聊天记录</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con padding-20px">
+				<div class="chat-list-wrap">
+					<div class="chat-list-item" ng-repeat="chat in chatList">
+						<div class="chat-list-title d-flex " ng-class='{flexRowReverse: chat.fromProductId === currentName}'>
+							<div>
+								<span>{{chat.fromProductId}}</span>
+								<span class="margin-left-10px">{{chat.createDate}}</span>
+							</div>
+						</div>
+						<div class="d-flex" ng-class='{flexRowReverse: chat.fromProductId === currentName}'>
+							<div ng-show="chat.msgType !== '6' || chat.fromProductId !== 'Cute' || chat.chatType !== '1'" class="chat-list-msg" ng-class="{txtRed: chat.chatType === '0' || chat.chatType === '3'}">
+								{{chat.msgContent}}
+							</div>
+							<div ng-show="chat.msgType === '6' && chat.fromProductId === 'Cute' && chat.chatType === '1'" class="chat-list-msg" ng-class="{txtRed: chat.chatType === '0' || chat.chatType === '3'}">
+								 <div ng-show="chat.msgList">
+									 <div ng-repeat="msg in chat.msgList">Q{{$index + 1}} {{msg.industryQuestion}}</div>
+								 </div>
+								 <div ng-show="!chat.msgList">{{chat.msgContent}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="canShowPage2" style="margin-bottom: 0;">
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ chatTotalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="chatPagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="chatPageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="chatPagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<!-- <a href="javascript:void(0);" ng-click="doSomething()" class="que-ding-btn">确定</a> -->
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,673 @@
+<div class="custom-orders-wrap">
+
+    <div class="c-ord-conall c-m-w tanle" ng-show="!detail">
+        <div class="c-ord-con">
+            <!-- 订单动能 时间等的部分 -->
+            <div class="c-ord-fun">
+                <!-- 特别关注 -->
+                <div class="c-data-time">
+                    <div class="c-fun-right">
+                        <input style="text-indent: 12px;" type="text"></input>
+                        <a class="c-view-ord ord-fun-a" href="javascript:void(0)">客户列表</a>
+                        <a class="c-view-ord ord-fun-a" href="javascript:void(0)">需审核</a>
+                        <a class="c-view-ord ord-fun-a" href="javascript:void(0)">审核未通过</a>
+                        <a class="c-view-ord ord-fun-a" href="javascript:void(0)">黑名单</a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- 订单列表部分 -->
+            <div class="c-ord-list">
+                <!--客户列表-->
+                <table class="c-m-t">
+                    <thead class="c-ord-thead">
+                    <tr>
+                        <th class="ordlist-fir-th" style="width: 135px">
+                            <img src="static/image/order-img/multiple1.png">
+                            <span>客户ID</span>
+                        </th>
+                        <th style="width: 95px">客户名称</th>
+                        <th style="width: 70px">业务员</th>
+                        <th style="width: 90px">营销目标群体</th>
+                        <th style="width: 90px;">
+                            <p>绿色通道</p>
+                            <p>额度</p>
+                        </th>
+                        <th style="width: 120px">积分</th>
+                        <th style="width: 80px">账户余额</th>
+                        <th style="width: 65px">
+                            <p>申请时间</p>
+                            <p>审核时间</p>
+                        </th>
+                        <th style="width: 80px">
+                            <p> 已关联</p>
+                            <p>商品数</p>
+                        </th>
+                        <th style="width: 70px">
+                            <p>Excel</p>
+                            <p>商品数</p>
+                        </th>
+                        <th style="width: 65px">客单价</th>
+                        <th style="width: 80px">总销售额</th>
+
+                        <th style="width: 70px">平均利润率</th>
+                    </tr>
+                    </thead>
+                    <tbody class="c-ord-tbody">
+                    <tr ng-repeat="item in client.list">
+                        <td class="ordlist-fir-td">
+                            <img src="static/image/order-img/multiple1.png">
+                            <p>{{item.id}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td class="ordlist-imgtd">
+                            <p>{{item.NAME}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            A000001
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>孕妇 幼儿</p>
+                            <!--<p>12:00</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>$10000</p>
+                            <!--<p>12:00</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>9000</p>
+                            <!--<p class="star-num-p"><img src="static/image/order-img/iconstar.png"></p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>$90000</p>
+                            <!--<p class="goods-property">-->
+                            <!--<span class="y-pro">液</span>-->
+                            <!--<span class="f-pro">粉</span>-->
+                            <!--<span class="c-pro">磁</span>-->
+                            <!--</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>2017-9-12</p>
+                            <p>2017-9-12</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p style="color: #0d8efb;border-bottom: 1px solid #0d8efb;margin: 0 25px;cursor: pointer;"
+                               ng-click="guanlianshangpin(item)">{{item.number}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p style="color: #0d8efb;border-bottom: 1px solid #0d8efb;margin: 0 25px;cursor: pointer;"
+                               ng-click="excelshangpin(item)">{{item.ExcelNumber}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>$0</p>
+                            <!--<select>-->
+                            <!--<option>e邮宝</option>-->
+                            <!--</select>-->
+                            <!--<p class="change-txt">改</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td class="created-td">
+                            <p>$450804164</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+
+                        <td><p>10%</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--需审核-->
+                <table class="c-m-t">
+                    <thead class="c-ord-thead">
+                    <tr>
+                        <th class="ordlist-fir-th" style="width: 300px">
+                            <img src="static/image/order-img/multiple1.png">
+                            <span>客户ID</span>
+                        </th>
+                        <th style="width: 200px">用户名</th>
+                        <th style="width: 200px">客户姓名</th>
+                        <th style="width: 200px">国家</th>
+                        <th style="width: 300px;">
+                            申请时间
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody class="c-ord-tbody">
+                    <tr ng-repeat="item in client.list">
+                        <td class="ordlist-fir-td">
+                            <img src="static/image/order-img/multiple1.png">
+                            <p>{{item.id}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td class="ordlist-imgtd">
+                            <p>{{item.NAME}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>bbbkkkss</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>bbbkkkss</p>
+                            <!--<p>12:00</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>bbbkkkss</p>
+                            <!--<p>12:00</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--审核未通过-->
+                <table class="c-m-t">
+                    <thead class="c-ord-thead">
+                    <tr>
+                        <th class="ordlist-fir-th" style="width: 160px">
+                            <img src="static/image/order-img/multiple1.png">
+                            <span>客户ID</span>
+                        </th>
+                        <th style="width: 160px">用户名</th>
+                        <th style="width: 160px">客户姓名</th>
+                        <th style="width: 80px">国家</th>
+                        <th style="width: 160px;">
+                            <p>申请时间</p>
+                        </th>
+                        <th style="width: 160px">拒绝理由</th>
+                        <th style="width: 160px">拒绝时间</th>
+                        <th style="width: 160px">
+
+                            <p>审核人</p>
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody class="c-ord-tbody">
+                    <tr ng-repeat="item in client.list">
+                        <td class="ordlist-fir-td">
+                            <img src="static/image/order-img/multiple1.png">
+                            <p>{{item.id}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td class="ordlist-imgtd">
+                            <p>{{item.NAME}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            A000001
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>孕妇 幼儿</p>
+                            <!--<p>12:00</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+
+                        <td>
+                            <p style="color: #0d8efb;border-bottom: 1px solid #0d8efb;margin: 0 25px;cursor: pointer;"
+                               ng-click="guanlianshangpin(item)">9000</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p style="color: #0d8efb;border-bottom: 1px solid #0d8efb;margin: 0 25px;cursor: pointer;"
+                               ng-click="excelshangpin(item)">9000</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>$0</p>
+                            <!--<select>-->
+                            <!--<option>e邮宝</option>-->
+                            <!--</select>-->
+                            <!--<p class="change-txt">改</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td class="created-td">
+                            <p>$450804164</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--黑名单-->
+                <table class="c-m-t">
+                    <thead class="c-ord-thead">
+                    <tr>
+                        <th class="ordlist-fir-th" style="width: 160px">
+                            <img src="static/image/order-img/multiple1.png">
+                            <span>客户ID</span>
+                        </th>
+                        <th style="width: 160px">用户名</th>
+                        <th style="width: 160px">客户姓名</th>
+                        <th style="width: 80px">国家</th>
+                        <th style="width: 160px;">
+                            <p>申请时间</p>
+                        </th>
+                        <th style="width: 160px">理由</th>
+                        <th style="width: 160px">拉黑时间</th>
+                        <th style="width: 160px">
+                            <p>审核人</p>
+
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="c-ord-tbody">
+                    <tr ng-repeat="item in client.list">
+                        <td class="ordlist-fir-td">
+                            <img src="static/image/order-img/multiple1.png">
+                            <p>{{item.id}}</p>
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td class="ordlist-imgtd">
+                            <p>{{item.NAME}}</p>
+
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            A000001
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>孕妇 幼儿</p>
+                            <!--<p>12:00</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>$10000</p>
+                            <!--<p>12:00</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>9000</p>
+                            <!--<p class="star-num-p"><img src="static/image/order-img/iconstar.png"></p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+                        <td>
+                            <p>$90000</p>
+                            <!--<p class="goods-property">-->
+                            <!--<span class="y-pro">液</span>-->
+                            <!--<span class="f-pro">粉</span>-->
+                            <!--<span class="c-pro">磁</span>-->
+                            <!--</p>-->
+                            <!-- td 右边的边框 -->
+                            <span class="border-span"></span>
+                        </td>
+
+
+                        <td><p>10%</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--已关联商品弹窗-->
+        <div class="guanlianshangpin c-ord-con" ng-show="guanlian">
+            <button style="position: absolute;right: 0;top: 0;" ng-click="guanlian=false">取消</button>
+            <span class="guanlianshangpinhead">已关联商品数</span>
+            <table>
+                <thead class="c-ord-thead">
+                <tr>
+                    <th style="width: 40px">
+                        <!--<img src="static/image/order-img/multiple1.png">-->
+                        <span>序号</span>
+                    </th>
+                    <th style="width: 95px;position: relative;"><p class="dropdown-toggle" data-toggle="dropdown">店铺<b
+                            class="caret"></b></p>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <!--<li class="divider"></li>-->
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                        </ul>
+                    </th>
+                    <th style="width: 70px">店铺商品</th>
+                    <th style="width: 70px">CJ商品</th>
+                    <th style="width: 90px;">
+                        SKU
+                    </th>
+                    <th colspan="2" style="width: 135px">产品折扣和价格</th>
+                    <th style="width: 95px">物流方式</th>
+                    <th style="width: 65px">
+                        重量运费折扣率
+                    </th>
+                    <th style="width: 65px">
+                        挂号费折扣率
+                    </th>
+                    <th style="width: 70px">
+                        平均利润率
+                    </th>
+                    <th style="width: 65px">历史销量</th>
+                    <th style="width: 80px">操作</th>
+
+                </tr>
+                </thead>
+                <tbody class="c-ord-tbody">
+                <tr ng-repeat="item in guanlianinfo.list">
+                    <td>
+                        <!--<img src="static/image/order-img/multiple1.png">-->
+                        <p>{{$index+1}}</p>
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        33vcddd
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td class="ordlist-imgtd">
+                        <img class="ordlist-goods-img" src="static/image/order-img/pic6.png">
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td class="ordlist-imgtd">
+                        <img class="ordlist-goods-img" src="static/image/order-img/pic6.png">
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        33vcddd
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <p>公布价:$4.5</p>
+                        <p>折扣价:$3.5</p>
+                        <!--<p>12:00</p>-->
+                        <!-- td 右边的边框 -->
+                        <!--<span class="border-span"></span>-->
+                    </td>
+
+
+                    <td>
+                        <input type="number" class="guanlianinp">% off
+                        <!--<p class="goods-property">-->
+                        <!--<span class="y-pro">液</span>-->
+                        <!--<span class="f-pro">粉</span>-->
+                        <!--<span class="c-pro">磁</span>-->
+                        <!--</p>-->
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <select class="guanliansec"></select>
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <input type="number" class="guanlianinp">% off
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <input type="number" class="guanlianinp">% off
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <p>18%</p>
+                        <!--<select>-->
+                        <!--<option>e邮宝</option>-->
+                        <!--</select>-->
+                        <!--<p class="change-txt">改</p>-->
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td class="created-td">
+                        <p>33333</p>
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+
+                    <td><p style="cursor: pointer;" ng-click="shangpinedit(item)">编辑</p></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!--excle弹窗-->
+        <!--已关联商品弹窗-->
+        <div class="excelshangpin c-ord-con" ng-show="excl">
+            <button style="position: absolute;right: 0;top: 0;" ng-click="excl=false">取消</button>
+            <span class="guanlianshangpinhead">Excel商品数</span>
+            <table>
+                <thead class="c-ord-thead">
+                <tr>
+                    <th style="width: 40px">
+                        <!--<img src="static/image/order-img/multiple1.png">-->
+                        <span>序号</span>
+                    </th>
+                    <th style="width: 70px">CJ商品</th>
+                    <th style="width: 90px;">
+                        SKU
+                    </th>
+                    <th colspan="2" style="width: 135px">产品折扣和价格</th>
+                    <th style="width: 95px">物流方式</th>
+                    <th style="width: 65px">
+                        重量运费折扣率
+                    </th>
+                    <th style="width: 65px">
+                        挂号费折扣率
+                    </th>
+                    <th style="width: 70px">
+                        平均利润率
+                    </th>
+                    <th style="width: 65px">历史销量</th>
+                    <th style="width: 80px">操作</th>
+
+                </tr>
+                </thead>
+                <tbody class="c-ord-tbody">
+                <tr>
+                    <td>
+                        <!--<img src="static/image/order-img/multiple1.png">-->
+                        <p>1</p>
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+
+                    <td class="ordlist-imgtd">
+                        <img class="ordlist-goods-img" src="static/image/order-img/pic6.png">
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        33vcddd
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <p>公布价:$4.5</p>
+                        <p>折扣价:$3.5</p>
+                        <!--<p>12:00</p>-->
+                        <!-- td 右边的边框 -->
+                        <!--<span class="border-span"></span>-->
+                    </td>
+
+
+                    <td>
+                        <input type="number" class="guanlianinp">% off
+                        <!--<p class="goods-property">-->
+                        <!--<span class="y-pro">液</span>-->
+                        <!--<span class="f-pro">粉</span>-->
+                        <!--<span class="c-pro">磁</span>-->
+                        <!--</p>-->
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <select class="guanliansec"></select>
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <input type="number" class="guanlianinp">% off
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <input type="number" class="guanlianinp">% off
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td>
+                        <p>18%</p>
+                        <!--<select>-->
+                        <!--<option>e邮宝</option>-->
+                        <!--</select>-->
+                        <!--<p class="change-txt">改</p>-->
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+                    <td class="created-td">
+                        <p>33333</p>
+                        <!-- td 右边的边框 -->
+                        <span class="border-span"></span>
+                    </td>
+
+                    <td><p style="cursor: pointer;">编辑</p></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <div class="c-ord-conall c-m-w detail" ng-show="detail">
+
+        <ul class="detail-ul">
+            <li class="detail-li" style=" border-top:1px solid rgba(194, 194, 194, 1)">
+                <div class="detail-li-left">申请时间</div>
+                <div class="detail-li-right">2017-9-17</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">客户ID</div>
+                <div class="detail-li-right">161345664</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">客户姓名</div>
+                <div class="detail-li-right">Chompa-rangsey Chan</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">联系电话</div>
+                <div class="detail-li-right">161312345664</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">Email</div>
+                <div class="detail-li-right">aaa@163.com</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">Skype</div>
+                <div class="detail-li-right">aaa@163.com</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">国家</div>
+                <div class="detail-li-right">US</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">地址</div>
+                <div class="detail-li-right"></div>
+            </li>
+            <li class="detail-li" style="position: relative">
+                <div class="detail-li-left" style="position: absolute;top: 0;bottom: 0;left: 0;">店铺链接</div>
+                <div class="detail-li-right" style="margin-left: 147px;">
+                    <p>ssfefefe.com</p>
+                    <p>ssfefefe.com</p>
+                </div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">每日需处理订单量</div>
+                <div class="detail-li-right">6-50</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">店铺所在平台</div>
+                <div class="detail-li-right">wish、shopify</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">主要销售商品类目</div>
+                <div class="detail-li-right">Home & Garden, Furniture</div>
+            </li>
+            <li class="detail-li">
+                <div class="detail-li-left">商品消费人群</div>
+                <div class="detail-li-right">Engineering、Investment banking</div>
+            </li>
+        </ul>
+      <div class="detail-button">
+          <button class="detail-button1">关闭</button>
+          <button class="detail-button2">通过</button>
+          <button class="detail-button3">拒绝</button>
+          <button class="detail-button4">加入黑名单</button>
+      </div>
+        <div class="detail-tanchuang"  style="display: none">
+          <div class="detail-tanchuang1 detail-tanchuang-item" style="display: none">
+                      <p>选派业务员</p>
+                   <div class="detail-tanchuang1-search"><input type="text">搜索</div>
+                 <div  class="detail-tanchuang1-select"><select name=""></select></div>
+              <div class="detail-tanchuang1-button"><button  class="detail-tanchuang1-button1">取消</button><button  class="detail-tanchuang1-button2">确定</button></div>
+          </div>
+            <div class="detail-tanchuang2 detail-tanchuang-item" style="display: none">
+                <p>拒绝原因</p>
+                <div><textarea name="" id="" cols="30" rows="10"></textarea></div>
+                <div class="detail-tanchuang1-button"><button  class="detail-tanchuang1-button1">取消</button><button  class="detail-tanchuang1-button2">确定</button></div>
+            </div>
+            <div class="detail-tanchuang3 detail-tanchuang-item"  style="display: none">
+                <p>加入黑名单后将不再收到该客户注册申请信息,
+                    是否确定将此客户加入黑名单？</p>
+                <p>加入黑名单理由</p>
+
+                <div><textarea name="" id="" cols="30" rows="10"></textarea></div>
+                <div class="detail-tanchuang1-button"><button  class="detail-tanchuang1-button1">取消</button><button  class="detail-tanchuang1-button2">确定</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+</div>
+<!--Excel商品弹窗-->
+<!--<div class="excelshangpin">-->
+<!--Excle商品表-->
+<!--</div>-->

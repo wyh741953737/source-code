@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="static/favicons.png" />
+  <title>临时工录入</title>
+  <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+  <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="static/css/staff.css">
+
+</head>
+
+<body>
+  <div id="readText"></div>
+  <div class="daywoker-main">
+    <div class="daywoker-title">身份证扫描</div>
+    <div class="daywoker-btn-box">
+        <span class="daywoker-btn" onclick="GetIdCardInfo()">读身份证</span>
+        <span class="daywoker-btn" onclick="RecogQrCodeFromCamera()">从摄像头中识别二维码</span>
+        <span class="daywoker-btn" onclick="toOpen()">打开设备</span>
+        <span class="daywoker-select-box">
+            <select class="daywoker-select" name="" id="warehouse">
+                <option value="bc228e33b02a4c03b46b186994eb6eb3">义乌仓</option>
+                <option value="522d3c01c75e4b819ebd31e854841e6c">金华仓</option>
+                <option value="08898c4735bf43068d5d677c1d217ab0">深圳仓</option>
+            </select>
+        </span>
+        
+        <input class="Wdate daywoker-input" id="c-data-time" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请设置打卡时间"></input>
+        <span class="daywoker-btn" onclick="setTime()">设置时间</span>
+    </div>
+    <div class="daywoker-content">
+
+      <div class="opera-box">
+
+        <div id="CameraCtl" class="cameractl"></div>
+        <textarea id="TextInfo" class="info-item-textarea" cols="20" rows="2"></textarea>
+      </div>
+      <div class="info-list">
+        <div class="info-item">
+            <span class="info-item-title">证件照</span>
+          <img id="IdCardPhoto" src="" class="info-item-img" />
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">姓名</span>
+          <input id="CardName" type="text" class="info-item-input" />
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">身份证号码/手机号</span>
+          <input id="CardNum" onblur="inputCard()" type="text" class="info-item-input" />
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">性别</span>
+          <input id="CardSex" type="text" class="info-item-input" />
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">民族</span>
+          <input id="CardNation" type="text" class="info-item-input" />
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">出生</span>
+          <input id="CardBorn" type="text" class="info-item-input" />
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">住址</span>
+          <textarea id="CardAddress" cols="20" rows="3" class="info-item-textarea"></textarea>
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">签发机关</span>
+          <input id="CardIssuedAt" type="text" class="info-item-input" />
+        </div>
+        <div class="info-item">
+          <span class="info-item-title">有效期限</span>
+          <input id="CardEffectDate" type="text" class="info-item-input" />
+        </div>
+        <div class="info-item right">
+          <span class="daywoker-btn" onclick="addStaff()">手动提交</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <audio id="audio-work" src="static/audio/shangban.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+  </audio>
+  <audio id="audio-afterwork" src="static/audio/xiaban.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+  </audio>
+  <audio id="audio-scan" src="static/audio/saoma.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+  </audio>
+  <audio id="audio-time" src="static/audio/dakashijian.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+  </audio>
+</body>
+
+</html>
+<script src="static/js/public/base64.min.js"></script>
+<script src="static/js/public/common.js"></script>
+<script src="static/js/public/gpyhs.js"></script>
+<script src="static/js/public/wui-date.js"></script>
+<script src="static/seldate/WdatePicker.js"></script>
+<script src='static/layer/layer.js'></script>
+<script src="static/js/erp-staff/add-daywoker.js"></script>

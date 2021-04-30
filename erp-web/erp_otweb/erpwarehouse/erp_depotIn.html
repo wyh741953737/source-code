@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>已取消订单金额-财务收入管理-ERP系统</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+		<link rel="stylesheet" href="erp_otweb/css/li_erp.css">
+		<style>
+			.la_depotln01{
+				width: 300px;
+				border: 1px solid #999;
+				box-shadow: #999999 10px 10px 10px 10px;
+				overflow: hidden;
+				display: none;
+			}
+			.la_depotln01 .la_colose{
+				float: right;
+				margin:5px 10px;
+			}
+			.la_depotln01 h4{
+				text-align: center;
+
+				margin: 20px 0;
+			}
+			.la_bbtn{
+				text-align: center;
+			}
+            .la_bbtn button{
+				color: white;
+				border: none;
+				border-radius: 20px;
+				padding:5px 10px;
+				font-size: 16px;
+				line-height: 1.6;
+				margin: 20px 2px;
+			}
+			.la_blue{
+				background: #359DD4;
+			}
+			.la_yell{	background: #F0B915;}
+			.la_blac{	background: #545662;}
+			.la_ainpu{
+               line-height: 2;
+			}
+			.la_ainpu span:first-child{
+				display: inline-block;
+				width: 30%;
+				text-align: right;
+			}
+			.la_ainpu span:last-child{
+				display: inline-block;
+				width: 65%;
+
+			}
+			.la_ainpu span select,.la_ainpu span input{
+				width: 130px;
+				height: 20px;
+				border: 1px solid #dedede;
+			}
+			.la_rela{
+				position: relative;
+			}
+			.la_rkleixing{
+				position: absolute;
+				left: 40px;
+				top: 50px;
+			}
+			.la_rkqubuth{
+				position: absolute;
+				top: 503px;
+				left: 220px;
+						  }
+			.la_rktuquanbu{
+				position: absolute;
+				top: 400px;
+				left: 662px;
+			}
+			.la_rktubufen{
+				position: absolute;
+				top: 50px;
+				left: 340px;
+			}
+			.la_rktuihuo{
+				position: absolute;
+				top: 50px;
+				left: 740px;
+			}
+			.dytxm-btn{
+				background-color: #08aceb;
+				color: #fff;
+				width: 86px;
+				height: 30px;
+				border-radius: 4px;
+			}
+			.rk-btn{
+				color: #fff;
+			    background: #08aceb;
+			    /*width: 56px;*/
+			    height: 30px;
+			    line-height: 30px;
+			    border-radius: 4px;
+			    color: #fff;
+			    padding: 0 15px;
+			    float: right;
+			    /*margin-top: 2px;*/
+			}
+			.txm-wrap,.modefy-wrap{
+			  width: 100%;
+			  height: 100%;
+			  position: fixed;
+			  left: 0;
+			  top: 0;
+			  z-index: 999;
+			  background-color: rgba(0, 0, 0, 0.3);
+			}
+			.txm-con ,.modefy-con,.delete-con,.wldetail-con{
+			  position: absolute;
+			  left: 50%;
+			  top: 50%;
+			  transform: translate(-50%, -46%);
+			  padding: 20px;
+			  background-color: #fff;
+			  border-radius: 4px;
+			  width: 450px;
+			  height: 120px;
+			}
+			.wldetail-con{
+				height: 520px;
+			}
+			.list-div{
+				height: 400px;
+				overflow-y: auto;
+			}
+			.txm-btns{
+				text-align: center;
+				margin-top: 16px;
+			}
+			.txm-btn{
+				color: #6b6b6b;
+    			height: 30px;
+    			width: 56px;
+    			border: 1px solid #cfcfcf;
+    			border-radius: 4px;
+    			font-size: 14px;
+    			background-color: #f6f6f6;
+			}
+			.ywy-con{
+			    height: 520px;
+			    width: 260px;
+			    text-align: center;
+			}
+			.ywy-list{
+			    height: 400px;
+			    overflow-y: auto;
+			}
+			.head-li{
+			    background-color: #F4F8FB;
+			    height: 30px;
+			    line-height: 30px;
+			}
+			.fiexdbottom-btns{
+			    margin-top: 20px;
+			}
+			/*//更多操作*/
+			.cgmorefun-div{
+			    position: relative;   
+			}
+			.cgmore-btn{
+			    color: #333333;
+			    line-height: 23px;
+			}
+			.cgcaret{
+			    display: inline-block !important;
+			    width: 0;
+			    height: 0;
+			    margin-left: 2px;
+			    vertical-align: middle;
+			    border-top: 4px dashed;
+			    border-right: 4px solid transparent;
+			    border-left: 4px solid transparent;
+			}
+			.cgmore-selul{
+			    font-size: 12px;
+			    // width: 80px;
+			    display: none;
+			    position: absolute;
+			    left: 0;
+			    top: 21px;
+			    // float: left;
+			    z-index: 3;
+			    width: 100%;
+			    box-shadow: 0px 8px 20px;
+			}
+			.cgmore-selul li{
+			    font-size: 12px;
+			    cursor: pointer;
+			    background-color: #fff;
+			    display: block;
+			    width: 100%;
+			    line-height: 23px;
+			    // .border;
+			}
+			.cgmore-selul li:hover{
+			    background-color: #e3e3e3;
+			}
+			.cgmorefun-div:hover .cgmore-selul{
+			    display: block;
+			}
+			.label-wid{
+				width: 100px;
+				text-align: right;
+			}
+			.modefy-con{
+				height: 280px;
+			}
+			.modefy-listdiv{
+				margin:20px 0;
+			}
+			.delete-con{
+				width: 300px;
+				height: 120px;
+			}
+			.modefy-listdiv select{
+				width: 180px;
+			}
+			.modefy-listdiv input{
+				width: 180px;
+			}
+			.con-btns{
+				margin-top: 20px;
+				text-align: center;
+			}
+			.con-qxbtn{
+				color: #6b6b6b;
+				height: 30px;
+				width: 76px;
+				border: 1px solid #cfcfcf;
+				border-radius: 4px;
+				font-size: 14px;
+				background-color: #f6f6f6;
+				margin-right: 15px;
+			}
+			.con-qdbtn{
+				color: #fff;
+				height: 30px;
+				width: 76px;
+				border-radius: 4px;
+				font-size: 14px;
+				background-color: #ff8d31;
+			}
+			.lashop_img .blank-b{
+			    position: relative;
+			}
+			.lashop_img .s-img{
+			    cursor: pointer;
+			    width: 50px;
+			    height: 50px;
+			    max-width: inherit;
+			}
+			.lashop_img .hide-bigimg{
+			    width: auto;
+			    height: 360px;
+			    position: absolute;
+			    left: 50px;
+			    top: -10px;
+			    background-color: #fff;
+			    z-index: 9;
+			    cursor: pointer;
+			    /*border: 1px solid red;*/
+			    max-width: none;
+			    display: none;
+			}
+			.rk-btn{
+				margin-left: 15px;
+			}
+			.datatime-screen{
+				margin-top: 0;
+			}
+			.gys-link{
+				width: 100px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				display: block;
+			}
+			.logist-detail{
+				width: 150px;
+			}
+			.logist-detail span{
+				cursor: pointer;
+			}
+			.wl-hreflink{
+				width: 150px;
+			    overflow: hidden;
+			    white-space: nowrap;
+			    text-overflow: ellipsis;
+			    display: block;
+			}
+			#txm-val{
+				border:none;
+			}
+			.copy-btn{
+				background-color: #08aceb;
+				color: #fff;
+				font-size: 12px;
+				border-radius: 4px;
+				padding: 2px;
+			}
+			/*物流详情*/
+			.wltitle-ul li{
+				display: inline-block;
+				width: 48%;
+				background-color: #F4F8FB;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				font-size: 12px;
+			}
+			.wlbody-ul{
+				/*border: 1px solid red;*/
+			}
+			.wlbody-ul li{
+				display: inline-block;
+				width: 48%;
+				font-size: 12px;
+			    text-align: center;
+			    vertical-align: middle;
+			    padding: 10px 0;
+			}
+			.bottom-btns{
+				text-align: center;
+				margin-top: 20px;
+			}
+			.bb-closebtn{
+				color: #6b6b6b;
+				height: 30px;
+				width: 76px;
+				border: 1px solid #cfcfcf;
+				border-radius: 4px;
+				font-size: 14px;
+				background-color: #f6f6f6;
+			}
+			.fir-ordnum{
+				cursor: pointer;
+			}
+			.fir-ordnum:hover{
+				color: #f60;
+			}
+			/*表格样式*/
+			#ea-list-table td span{
+				font-size: 12px;
+			}
+			#ea-list-table td p{
+				font-size: 12px;
+			}
+			.datatime-screen .data-inp{
+				width: 133px;
+				height: 30px;
+				padding: 0;
+			}
+			.datatime-screen .drk-seachInp{
+				background-color: #fff;
+				height: 30px;
+				padding: 0 10px;
+				vertical-align: top;
+				border-left: none;
+			}
+			.drkgreen{
+				color: #449d44;
+			}
+			.drkred{
+				color: #c7254e;
+			}
+		</style>
+	</head>
+	<body>
+		
+		
+		<!-- content -->
+		<div class="ea-content">
+			<!-- <div class="ea-content-box"> -->
+				
+				<!-- <div class="ea-content-con"> -->
+					<!-- left nav -->
+					<div class="left-bar">
+	            <ul>
+	                <!-- <li class="active"><a href="#/erpwarehouse/erpdepotIn">义务仓</a></li> -->
+	                <!-- <li><a href="#/erpwarehouse/privatekucun">私有仓库</a></li> -->
+	                <li><a href="#/erpwarehouse/warestock">{{'100622' | translate}}</a></li>
+	                <li class="active"><a href="#/erpwarehouse/erpdepotIn">{{'100623' | translate}}</a></li>
+	                <li><a href="#/erpwarehouse/warelist">{{'100624' | translate}}</a></li>
+	                <!-- <li><a href="#/erpwarehouse/warelinkcate">{{'100625' | translate}}</a></li> -->
+					<li><a href="#/erpwarehouse/SchedulingTask">调度任务</a></li>
+					<li><a href="#/erpwarehouse/Parcel">包裹管理</a></li>
+	            </ul>
+	        </div>
+
+
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content li_ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+							<div class="datatime-screen">
+								<a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time">{{'100296' | translate}}</a>
+								<a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time">{{'100646' | translate}}</a>
+								<a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time">{{'100647' | translate}}</a>
+								<a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time">{{'100648' | translate}}</a>
+								<a href="javascript:void(0)" ng-click="timeStuFun($event)" class="drk-time">{{'100649' | translate}}</a>
+								<!-- <input type="text" id="txtBeginDate" placeholder="选取开始日期" /><input type="text" id="txtEndDate" placeholder="选取结束日期" /><input type="button" value="点击筛选"> -->
+								<input class="Wdate data-inp" style="text-indent: 12px;" id="left-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></input><input id="right-time" placeholder="Now" class="Wdate data-inp" style="text-indent: 12px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/><input ng-click="timeSFun()" class="drk-seachInp" type="button" value="{{'100025' | translate}}"></input>
+								<!-- <a target="_blank" href="https://erp.cjdropshipping.com/barcode.html" class="rk-btn">{{'100638' | translate}}</a> -->
+								<a target="_blank" href="receive-instock.html" class="rk-btn">{{'100638' | translate}}</a>
+								<a target="_blank" href="receive.html" class="rk-btn">{{'签收'}}</a>
+								<a target="_blank" href="print-code.html" class="rk-btn">{{'打印条形码'}}</a>
+							</div>
+							<div class="input-group search-box">
+                  <input type="text" class="form-control top-search-inp" placeholder="{{'100650' | translate}}" ng-model="searchTj">
+                  <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="searchFun()">{{'100025' | translate}}</a>
+              </div>
+							
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs" id="ea-list-table">
+							<thead>
+							<tr>
+								<!-- <th><span><input type="checkbox"></span></th> -->
+								<th><span>{{'100225' | translate}}</span></th>
+								<th><span>{{'100382' | translate}}</span></th>
+								<th><span>{{'100106' | translate}}</span></th>
+								<th><span>{{'100114' | translate}}</span></th>
+								<th><span>{{'100558' | translate}}</span></th>
+								<!-- <th><span>订单号</span></th> -->
+								<th><span>{{'100651' | translate}}</span></th>
+								<th>
+									<span>{{'100109' | translate}}</span>
+									<span>{{'100584' | translate}}</span>
+								</th>
+								<th><span>{{'100652' | translate}}</span></th>
+								<th><span>{{'100653' | translate}}</span></th>
+								<th><span>{{'100654' | translate}}</span></th>
+								<th><span>{{'100043' | translate}}</span></th>
+
+							</tr>
+							</thead>
+							<tbody class="erp-load-tbody" style="display: none;">
+										<tr>
+											<td colspan="11" height="200" style="border-bottom: 0;">
+												<div class="erp-load-box"></div>
+											</td>
+										</tr>
+							</tbody>
+							<tbody>
+							<tr class="la_tr la_tr01 ckList" ng-repeat="item in daohuodanliebiao">
+								<!-- <td><span> <input name="need_inv" type="checkbox" value="1"></span></td> -->
+								<td><span>{{item.SENDDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</span></td>
+								<td><span class="lashop_img">
+									<!-- <img src={{item.img}} alt="" > -->
+									<b class="blank-b">
+									    <img class="s-img" ng-src={{item.img}} alt="" >
+									    <img class="hide-bigimg" ng-src="{{item.img}}">
+									</b>
+								</span></td>
+								<!--<td><span>{{item.sku}}</span></td>-->
+								<td><div style="position: relative; padding-right: 22px;">{{item.sku}}
+						          <span ng-if="item.remark" class="glyphicon glyphicon-duplicate" style="color:#00CD00" ng-click="aaa(item)"  aria-hidden="true"></span>
+						          <a href="javascript:void(0)" style="width: 18px;
+    height: 18px;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    line-height: 18px;" title="复制SKU" ng-click="copySku(item.sku)"><img style="height: 18px;" src="./static/image/public-img/copy.png" alt="">
+						        </div></td>
+								<td><span>
+									<p class="fir-ordnum" ng-click="ordnumList(item)">{{item.orderSet[0]}}</p>
+									<p class="fir-ordnum" ng-click="viewFun(item)">{{item.empSet[0]}}</p>
+								</span></td>
+								<td><span><a class="gys-link" target="_blank" title="{{item.SUPPLIER}}" ng-href="{{item.SUPPLIER}}">{{item.SUPPLIER}}</a></span></td>
+								<!-- <td><span>{{item.BUYORDER}}</span></td> -->
+								<td><span>{{item.LOGISTIC}}</span></td>
+								<td>
+									<span class="ck-zzh">
+										{{item.WAYBILL}}
+									</span>
+									<span>
+										{{item.procurementOrderId}}
+									</span>
+								</td>
+								<td><span>
+									<p class="logist-detail">
+										<span ng-class="{drkgreen:item.signing=='1',drkred:item.signing=='2'}" ng-if="item.LOGISTICMESSAGENEW.indexOf('http')<0"  ng-click="wlDetailFun(item)">{{item.LOGISTICMESSAGENEW}}</span>
+										<a ng-class="{drkgreen:item.signing=='1',drkred:item.signing=='2'}" class="wl-hreflink" ng-if="item.LOGISTICMESSAGENEW.indexOf('http')>=0" ng-href="{{item.LOGISTICMESSAGENEW}}" target="_blank">{{item.LOGISTICMESSAGENEW}}</a>
+										<i ng-click="refreshFun(item)" class="glyphicon glyphicon-repeat"></i>
+									</p>
+								</span></td>
+								<td><span class="ck-count">
+									{{item.COUNT}}
+								</span></td>
+								<td><span>{{item.STORAGENAME}}</span></td>
+								<td class="active"><span>
+									<!-- <a href="####" class="active la_ruku">
+									  入库
+								  </a> -->
+									<!-- <button ng-click="dytxmFun(item)" class="dytxm-btn">打印条形码</button> -->
+									<!-- <button class="rk-btn">入库</button> -->
+									<div style="width: 92px;" class="cgmorefun-div" ng-click="stopFun($event)">
+									    <a href="javascript:void(0);" class="cgmore-btn">{{'100094' | translate}}</a><span class="cgcaret"></span>
+									    <ul class="cgmore-selul">
+									        <li ng-click="dytxmFun(item)">{{'100655' | translate}}</li>
+									        <li ng-click="cgModifyFun(item)">{{'100546' | translate}}</li>
+									        <li ng-click="deletFun(item)">{{'100227' | translate}}</li>
+									    </ul>
+									</div>
+								</span></td>
+							</tr>
+							</tbody>
+						</table>
+						<!-- 分页 -->
+						<div class="page-box" ng-show="daohuodanliebiao.length > 0">
+						    <div class="select-page-num">
+						        <select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+						            <option value="20">20</option>
+						            <option value="30">30</option>
+						            <option value="50">50</option>
+						        </select>
+						        <span>每页</span>
+						    </div>
+						    <div class="total-num">
+						        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+						    </div>
+						    <div class="page-index">
+						        <div id="pagination1" class="pagination2">
+						            <a href="#">&lt;&lt;</a>
+						            <a href="#">&lt;</a>
+						            <a class="current" href="#">1</a>
+						            <a href="#">2</a>
+						            <a href="#">3</a>
+						            <a href="#">4</a>
+						            <a href="#">5</a>
+						            <a href="#">6</a>
+						            <a href="#">···</a>
+						            <a href="#">&gt;</a>
+						            <a href="#">&gt;&gt;</a>
+						        </div>
+						    </div>
+						    <div class="to-go">
+						        <span>跳转：</span>
+						        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+						        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+						    </div>
+						</div>
+						</div>
+					</div>
+					<!--以下是弹框-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rkleixing">
+							<p class="la_colose">X</p>
+                           <h4>{{'100656' | translate}}</h4>
+							<p class="la_bbtn">
+								<button value="全部入库" class="la_blue la_lxqb">{{'100657' | translate}}</button>
+								<button value="部分入库" class="la_yell la_lxbf">{{'100658' | translate}}</button>
+								<button value="全部退货" class="la_blac la_lxth">{{'100659' | translate}}</button>
+							</p>
+						</div>
+					</div>
+					<!--以下是是否需要退货-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rktuihuo">
+							<p class="la_colose">X</p>
+							<h4>{{'100660' | translate}}</h4>
+							<p class="la_bbtn">
+								<button value="不需要退货" class="la_blue la_bxy">{{'100661' | translate}}</button>
+								<button value="需要退货" class="la_blac la_xyth">{{'100662' | translate}}</button>
+							</p>
+						</div>
+					</div>
+					<!--以下是是否部分入库-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rktubufen">
+							<h4>{{'100658' | translate}}</h4>
+							<p class="la_ainpu">
+								<span>SKU：</span>
+								<span>
+									abddkfffff
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100663' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100664' | translate}}：</span>
+								<span>
+									<select name="" id="">
+										<option value="达标">{{'100664' | translate}}</option>
+										<option value="不达标">{{'100665' | translate}}</option>
+									</select>
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100666' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100667' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100667' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100667' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100668' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100669' | translate}}：</span>
+								<span>
+									<select name="" id="">
+										<option value="颜色">{{'100541' | translate}}</option>
+										<option value="不达标">{{'100665' | translate}}</option>
+									</select>
+								</span>
+							</p>
+							<div class="la_sub">
+								<button value="取消" class="la_btn01">{{'100051' | translate}}</button>
+								<button value="确定" class="la_btn02">{{'100050' | translate}}</button>
+							</div>
+						</div>
+					</div>
+					<!--以下是全部入库-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rktuquanbu">
+							<h4>{{'100657' | translate}}</h4>
+							<p class="la_ainpu">
+								<span>SKU：</span>
+								<span>
+									abddkfffff
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100663' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+
+							<p class="la_ainpu">
+								<span>{{'100669' | translate}}：</span>
+								<span>
+									<select name="" id="">
+										<option value="颜色">{{'100541' | translate}}</option>
+										<option value="不达标">{{'100665' | translate}}</option>
+									</select>
+								</span>
+							</p>
+							<div class="la_sub">
+								<button value="取消" class="la_btn01">{{'100051' | translate}}</button>
+								<button value="确定" class="la_btn02">{{'100050' | translate}}</button>
+							</div>
+						</div>
+					</div>
+					<!--以下是全部退货-->
+					<div class="la_rela">
+						<div class="la_depotln01 la_rkqubuth">
+							<h4>{{'100659' | translate}}</h4>
+							<p class="la_ainpu">
+								<span>SKU：</span>
+								<span>
+									abddkfffff
+								</span>
+							</p>
+							<p class="la_ainpu">
+								<span>{{'100663' | translate}}：</span>
+								<span>
+									<input type="text">
+								</span>
+							</p>
+
+							<p class="la_ainpu">
+								<span>{{'100669' | translate}}：</span>
+								<span>
+									<select name="" id="">
+										<option value="颜色">{{'100541' | translate}}</option>
+										<option value="不达标">{{'100665' | translate}}</option>
+									</select>
+								</span>
+							</p>
+							<div class="la_sub">
+								<button value="取消" class="la_btn01">{{'100051' | translate}}</button>
+								<button value="确定" class="la_btn02">{{'100050' | translate}}</button>
+							</div>
+						</div>
+						</div>
+					</div>
+				<!-- </div> -->
+			<!-- </div> -->
+		</div>
+		<div class="modefy-wrap" ng-show="cjMFlag">
+			<div class="modefy-con">
+				<div class="modefy-listdiv">
+					<label class="label-wid">{{'100109' | translate}}:</label>
+					<input ng-model="zzhVal"></input>
+				</div>
+				<div class="modefy-listdiv">
+					<label class="label-wid">{{'100670' | translate}}:</label>
+					<input ng-model="dhcountVal"></input>
+				</div>
+				
+				<div class="modefy-listdiv">
+					<label class="label-wid">{{'100006' | translate}}:</label>
+					<select class="sel-wlname" ng-model="addWlSel">
+					    <option value="">{{'100581' | translate}}</option>
+					    <option value="{{item.NAMECN+'#'+item.ID}}" ng-repeat="item in logistArr">{{item.NAMECN}}</option>
+					</select>
+				</div>
+				<div class="modefy-listdiv">
+					<label class="label-wid">{{'100005' | translate}}:</label>
+					<select class="sel-ckname" ng-model="addCkSel">
+					    <option value="">{{'100572' | translate}}</option>
+					    <option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+					</select>
+				</div>
+				<div class="con-btns">
+					<button class="con-qxbtn" ng-click="qxMFun()">{{'100051' | translate}}</button>
+					<button class="con-qdbtn" ng-click="sureMFun()">{{'100050' | translate}}</button>
+				</div>
+			</div>
+		</div>
+		<!-- 删除 -->
+		<div class="modefy-wrap" ng-show="deletFlag">
+			<div class="delete-con">
+				<p>{{'100671' | translate}}?</p>
+				<div class="con-btns">
+					<button class="con-qxbtn" ng-click="qxDeletFun()">{{'100051' | translate}}</button>
+					<button class="con-qdbtn" ng-click="sureDelFun()">{{'100050' | translate}}</button>
+				</div>
+			</div>
+		</div>
+		<div class="txm-wrap" ng-show="txmFlag">
+			<div class="txm-con">
+				<!-- <a target="_blank" href="{{'https://'+imghref}}">{{'https://'+imghref}}</a> -->
+				<!-- <p>{{imghref}}</p> -->
+				<input id="txm-val" value="{{imghref}}" readonly="readonly"></input>
+				<button class="copy-btn" ng-click="copyFun()">{{'100164' | translate}}</button>
+				<div class="txm-btns">
+					<button ng-click="txmcloseFun()" class="txm-btn">{{'100066' | translate}}</button>
+				</div>
+			</div>
+		</div>
+		<!-- 查看物流详情 -->
+		<div class="txm-wrap" ng-show="wlDetailFlag">
+			<div class="wldetail-con">
+				<!-- <span ng-click="wlDetailCloseFun()" id="close-btn" class="glyphicon glyphicon-remove-circle"></span> -->
+				<ul class="wltitle-ul">
+					<li>{{'100265' | translate}}</li>
+					<li>{{'100672' | translate}}</li>
+				</ul>
+				<div class="list-div">
+					<ul class="wlbody-ul" ng-repeat="list in wlListArr">
+						<li>
+							{{list.AcceptTime}}
+						</li>
+						<li>
+							{{list.AcceptStation}}
+						</li>
+					</ul>
+				</div>
+				<div class="bottom-btns" ng-click="wlDetailCloseFun()">
+					<button class="bb-closebtn">{{'100066' | translate}}</button>
+				</div>
+			</div>
+		</div>
+		<!-- 查看业务员 -->
+		<div class="modefy-wrap" ng-show="viewFlag">
+		    <div class="wldetail-con ywy-con">
+		        <p class="head-li">{{'100573' | translate}}</p>
+		        <ul class="ywy-list">
+		            <li ng-repeat="item in ywyListArr">
+		                {{item}}
+		            </li>
+		        </ul>
+		        <div class="fiexdbottom-btns">
+		            <button ng-click="viewCloseFun()" class="bb-closebtn">{{'100066' | translate}}</button>
+		        </div>
+		    </div>
+		</div>
+		<!-- 查看订单号 -->
+		<div class="modefy-wrap" ng-show="ordNumFlag">
+		    <div class="wldetail-con ywy-con">
+		        <p class="head-li">{{'100027' | translate}}</p>
+		        <ul class="ywy-list">
+		            <li ng-repeat="item in ordNumArr">
+		                {{item}}
+		            </li>
+		        </ul>
+		        <div class="fiexdbottom-btns">
+		            <button ng-click="closeOrdNum()" class="bb-closebtn">{{'100066' | translate}}</button>
+		        </div>
+		    </div>
+		</div>
+
+		<!-- 为采购添加备注消息 -->
+		<div class="modefy-wrap" ng-show="messageFlag">
+			<div class="delete-con">
+            <textarea id="messageArea" ng-model="messageArea" readonly="true" ></textarea>
+				<div class="con-btns">
+					<button class="con-qdbtn" ng-click="messageCloseFun()">{{'100066' | translate}}</button>
+				</div>
+			</div>
+		</div>
+		<!-- 选取两段时间之间插件 -->
+		<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+		<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+            //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+//    以下是弹框
+			$('.la_ruku').click(function () {
+                $('.la_rkleixing').show()
+            })
+//			以下是全部入库
+			$('.la_lxqb').click(function () {
+				$('.la_rktuquanbu').show()
+            });
+    //			以下是部分入库
+			$('.la_lxbf').click(function () {
+                $('.la_rktubufen').show()
+            });
+    //			以下是是否需要退货
+    $('.la_lxth').click(function () {
+        $('.la_rktuihuo').show()
+    });
+    //			以下是需要退货
+    $('.la_xyth').click(function () {
+        $(this).parent().parent().hide();
+        $('.la_rkqubuth').show()
+    });
+    //	以下是不需要退货
+    $('.la_bxy').click(function () {
+        $(this).parent().parent().hide();
+    })
+    $('.la_btn01').click(function () {
+		$(this).parent().parent().hide();
+    })
+//			以下是关闭
+		$('.la_colose').click(function () {
+			$(this).parent().hide();
+        })
+</script>
+		
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>query package</title>
+  <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+  <link rel="shortcut icon" href="static/favicons.png" />
+  <link rel="stylesheet" href="static\css\init.css">
+  <link rel="stylesheet" href="static\css\y.css">
+  <style>
+    .main {padding: 20px 20px 60px; min-height: 100vh;}
+    .header {padding: 0 20px; height: 60px;}
+    input {border: 1px solid #ddd; line-height: 25px; text-indent: 5px;}
+    .table-body>li:nth-last-of-type(1) .hover-img {top: auto; bottom: 0px;}
+    .table-body>li:nth-last-of-type(2) .hover-img {top: auto; bottom: 0px;}
+    .table-body>li:nth-last-of-type(3) .hover-img {top: auto; bottom: 0px;}
+    .table-body>li:nth-of-type(1) .hover-img {top: 0; bottom: auto;}
+    .table-body>li:nth-of-type(2) .hover-img {top: 0; bottom: auto;}
+    .table-body>li:nth-of-type(3) .hover-img {top: 0; bottom: auto;}
+
+    .info-box {min-width: 400px; min-height: 280px; background-color: #fff;}
+    .info-box h3 {line-height: 30px; text-align: center;}
+    .wrap button {min-height: 30px; padding: 0 10px; border-radius: 4px; color: #fff; cursor: pointer;}
+
+    /* table 加 线条 */
+    .table-subitem>dl {border-right: 1px solid #eee; height: 58px;}
+    .table-subitem>dl:last-child {border-right: 0;}
+    .table-item>dl {border-right: 1px solid #eee; height: 58px;}
+    .table-item>dl:last-child {border-right: 0;}
+    .table-head>li {border-right: 1px solid #eee; height: 48px;}
+    .table-head>li:last-child {border-right: 0;}
+  </style>
+</head>
+<body ng-app="app" ng-cloak ng-controller="queryPackageCtrl">
+  <main class="main" id="main">
+    <div class="title-area mb-30" style="padding-bottom: 20px;">
+      <h3 class="tx-c" style="font-size: 48px; color: rgb(32, 178, 170);">查询包裹</h3>
+    </div>
+    <section class="container">
+      <header class="header flex fyc fxc bd-1e mb-20">
+        <div class="mr-20 br-4">
+          <input type="text" placeholder="请扫描条形码" ng-model="query" ng-keyup="handleSearch($event)" id="query">
+        </div>
+      </header>
+      <section class="table">
+        <ul class="table-head flex fyc fs-14 bd-1e c-th">
+          <li style="width: 10%;" class="flex fyc fxl">订单序号</li>
+          <li style="width: 20%;">采购订单号</li>
+          <li style="width: 10%;">创建时间</li>
+          <li style="width: 10%;">创建人</li>
+          <li style="width: 10%;">付款时间</li>
+          <li style="width: 10%;">付款人</li>
+          <li style="width: 20%;">供货公司</li>
+          <li style="width: 10%;">总价</li>
+          <li style="width: 10%;">实际支付</li>
+          <li style="width: 20%;">物流追踪号/入仓编号</li>
+          <li style="width: 10%;">excel上传时间</li>
+          <li style="width: 10%;">excel上传人</li>
+          <li style="width: 10%;">签收时间</li>
+          <li style="width: 10%;">签收人</li>
+          <!-- <li style="width: 10%;">状态</li> -->
+          <li style="width: 10%;">操作</li>
+        </ul>
+        <div class="overflow" style="height: 660px; overflow-y: auto;">
+          <ul class="table-body fs-14">
+            <li ng-repeat="item in list" ng-mouseenter="item.hover=true" ng-mouseleave="item.hover=false">
+              <div class="table-item flex fyc bd-1e">
+                <dl style="width: 10%;">{{item.id}}</dl>
+                <dl style="width: 20%;">{{item.orderId}}</dl>
+                <dl style="width: 10%;">{{retTime(item.createDate)}}</dl>
+                <dl style="width: 10%;">{{item.caigouRen}}</dl>
+                <dl style="width: 10%;">{{retTime(item.fuKuanDate)}}</dl>
+                <dl style="width: 10%;">{{item.fuKuanRen}}</dl>
+                <dl style="width: 20%;">{{item.gongHuoGongSi}}</dl>
+                <dl style="width: 10%;">{{item.huoWuZongJia}}</dl>
+                <dl style="width: 10%;">{{item.zhiFu}}</dl>
+                <dl style="width: 20%;">{{item.Logistics ? item.Logistics + ' : ' : ''}}  {{item.waybillNo}}</dl>
+                <dl style="width: 10%;">{{retTime(item.excelDate)}}</dl>
+                <dl style="width: 10%;">{{item.excelShangChuanRen}}</dl>
+                <dl style="width: 10%;">{{item.skuQueRenDate}}</dl>
+                <dl style="width: 10%;">{{item.skuQueRenRen}}</dl>
+                <!-- <dl style="width: 10%;">{{retStatusText(item.status)}}</dl> -->
+                <dl style="width: 10%;">
+                  <button class="bg-b1" ng-click="showOrderNoBox(item.orderId)">修改订单号</button>
+                </dl>
+              </div>
+              <div class="table-subitem flex fyc fxsb bd-1e" ng-repeat="subItem in item.cgsps" ng-show="item.hover">
+                <dl style="width: 10%;" >
+                  <div class="prel" ng-mouseenter="subItem.hoverImg=true" ng-mouseleave="subItem.hoverImg=false">
+                    <img ng-src="{{subItem.cjImg}}" alt="" height="40">
+                    <img ng-src="{{subItem.cjImg}}" alt="" height="300" ng-show="subItem.hoverImg" class="hover-img">
+                  </div>
+                </dl>
+                <dl style="width: 20%;">
+                  SKU: {{subItem.cjSku || '--'}}
+                </dl>
+                <dl style="width: 30%;" class="url-wrap fdc">
+                  <span>采购链接: </span>
+                  <a ng-if="subItem.caiGouLianJie" ng-href="{{subItem.caiGouLianJie}}" ng-show="subItem.caiGouLianJie" target="_blank">{{subItem.caiGouLianJie}}</a> 
+                  <span ng-if="!subItem.caiGouLianJie">--</span> 
+                </dl>
+                <dl style="width: 30%;">
+                  {{subItem.huoWuBiaoTi}}
+                </dl>
+                <dl style="width: 10%;">
+                  单价: {{subItem.danJia || 0}} ¥
+                </dl>
+                <dl style="width: 10%;">
+                  数量: {{subItem.shuLiang || 0}} 件
+                </dl>
+                <dl style="width: 10%;">
+                  已签收: {{subItem.receiveNun || 0}}
+                </dl>
+                <dl style="width: 10%;">
+                  已质检: {{subItem.receiveNun || 0}}
+                </dl>
+                <dl style="width: 10%;">
+                  正品数量: {{subItem.qualifiedNum || 0}}
+                </dl>
+                <dl style="width: 10%;">
+                  次品数量: {{subItem.defectiveNum || 0}}
+                </dl>
+                <dl style="width: 10%;"> 已退件: {{subItem.returnNun || 0}} </dl>
+                <dl style="width: 10%;"> 少货数量: {{subItem.lackNum || 0}} </dl>
+                <dl style="width: 10%;"> 异常原因: {{subItem.exceptionCode?yichangType(subItem.exceptionCode):''}} </dl>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </section>
+  </main>
+  <section class="wrap" ng-show="orderNoBox.show">
+    <div class="info-box prel br-4" style="padding: 20px;">
+      <h3 class="mb-20">修改订单号</h3>
+      <section style="height: 130px;">
+        <div class="mb-20">订单号: {{orderNoBox.old}}</div>
+        <div>新订单号 <input type="text" class="bd-1e" ng-model="orderNoBox.new"></div>
+      </section>
+      <section>
+        <button class="bd-1e" style="color: #333;" ng-click="orderNoBox.show=false">取消</button>
+        <button class="bg-b1" ng-click="updateOrderNo()">确认</button>
+      </section>
+    </div>
+  </section>
+  <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+  <script src="./static/js/public/base64.min.js"></script>
+  <script src="./static/js/public/common.js"></script>
+  <script src='./static/layer/layer.js'></script>
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+  <script>
+    ;(function() {
+      var app = angular.module('app', ['service']);
+
+      app.controller('queryPackageCtrl', ['$scope', 'erp', '$q', function($scope, erp, $q){
+        const api = {
+          queryUrl_old: 'procurement/order/getPackageList',// {post orderid: ''}
+          queryUrl: 'procurement/order/queryParcel',// post {barCod ''}
+          setOrderNoUrl: 'caigou/procurement/xiuGaiDingDanHao',// {post jiuDingDanHao: '', xinDingDanHao: ''}
+        }
+        let record = '';
+        const queryDom = document.getElementById('query')
+
+
+        init()
+        
+        function init() {
+          $scope.query = '';
+          $scope.list = [];
+          $scope.retStatusText = retStatusText;
+          $scope.handleSearch = handleSearch;
+          $scope.retTime = retTime;
+          initOrderNoModule()
+        }
+
+        
+
+        /* 初始化 设置 订单号 功能 start */
+        function initOrderNoModule() {
+          $scope.orderNoBox = { show: false, old: '', new: '' }
+          $scope.showOrderNoBox = showOrderNoBox;
+          $scope.updateOrderNo = updateOrderNo;
+
+          function showOrderNoBox(old) {
+            $scope.orderNoBox = { show: true, old, new: old }
+          }
+
+          function updateOrderNo(item) {
+            const url = api.setOrderNoUrl;
+            const {old: jiuDingDanHao, new: xinDingDanHao } = $scope.orderNoBox;
+            erp.mypost(url, {jiuDingDanHao, xinDingDanHao}).then(res => {
+              layer.msg('修改成功')
+              record = xinDingDanHao;
+              $scope.orderNoBox.show = false;
+              queryDom.focus()
+              getList()
+            })
+          }
+        }
+        /* 初始化 设置 订单号 功能 end */
+
+
+        /* 获取 列表数据  start */
+        function handleSearch(ev) {
+          if (ev.keyCode !== 13) return;
+          // ev.target.blur()//主动失去焦点
+          record = $scope.query;
+          $scope.query = '';
+          getList()
+        }
+
+        function getList() {
+          const url = api.queryUrl_old;
+          const orderid = record;
+          console.log(orderid)
+          if (!orderid) return layer.msg('请扫描条形码') // 12345678993210  12345678993212
+          erp.mypost(url, {barCod:orderid}).then(res => {
+            console.log("TCL: getList -> res", res)
+            $scope.list = handleResult(res.list)
+          })
+
+          function handleResult(arr) {
+            console.log(arr)
+            return arr.map(item => {
+              console.log(item)
+              let zhuizonghao = JsonPares(item.zhuiZongHao);//此字段 范围可能性 无限大需一步步判断
+              if (zhuizonghao && typeof zhuizonghao === 'object') {
+                const keys = Object.keys(zhuizonghao)
+                if (keys.length > 0) {
+                  const key = keys[0];
+                  const val = zhuizonghao[key];
+                  item.Logistics = val;
+                  item.waybillNo = key;
+                }
+              }
+              return item;
+            });
+          }
+        }
+        /* 获取 列表数据  end */
+
+
+        /* 公共方法  */
+        function retTime(time) {
+          if (!time || typeof time === 'object') return '';
+          const t = new Date(time);
+          const timeArr = t.toString().split(' ');
+          return `${timeArr[3]}-${t.getMonth() + 1}-${timeArr[2]}`;// '2020-1-19'
+          // return `${timeArr[3]}-${t.getMonth() + 1}-${timeArr[2]} ${timeArr[4]}`;// '2020-1-19 11:25:00'
+        }
+
+        function JsonPares(val) {//基于 全局 JSON parse重写 基础上 
+          const newVal = JSON.parse(val);
+          if (val === null) return val;
+          if (typeof newVal !== 'object') return val;
+          if (newVal.error) return val;
+          return newVal;
+        }
+
+        function retStatusText(status) {
+          const text = {0: '删除', 1: '正常', 2: '已经分标', 3: '已经质检' };
+          return text[status];
+        }
+        $scope.yichangType = (val)=>{
+          const type = {
+            1:'未发货',
+            2:'未收到',
+            3:'质量问题',
+            4:'数量问题',
+            5:'颜色问题',
+            6:'尺寸问题',
+            7:'其它',
+          }
+          return type[+val];
+        }
+      }])
+    })();
+  </script>
+</body>
+</html>

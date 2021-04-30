@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .topWrap{
+            display: flex;
+            justify-content: space-between;
+        }
+        .top-con{
+            width: 49%;
+            background: #fff;
+            padding:0 15px;
+        }
+        .tc-top{
+            display: flex;
+            justify-content: space-between;
+            padding: 19px 0;
+            align-items: center;
+            border-bottom: 1px solid #F3F3F3;
+            position: relative;
+        }
+        .tc-top b{
+            font-size: 16px;
+        }
+        .tc-top span{
+            font-size: 12px;
+        }
+        .dateRange>span{
+            cursor: pointer;
+        }
+        .dateRange>span:hover{
+            color: #FF7700;
+        }
+        .dateRange>span.act{
+            color: #F9AE08;
+        }
+        .tc-bottom{
+            padding: 17px 0 30px 0;
+            min-height: 270px;
+        }
+        .moreBtn{
+            cursor: pointer;
+        }
+        .moreBtn:hover{
+            color: #FF7700;
+        }
+        .tc-tr{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 17px;
+        }
+        .tc-tr .tc-th{
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tc-tr .tc-td{
+            font-size: 12px;
+            /*display: flex;*/
+            /*align-items: center;*/
+            /*justify-content: center;*/
+        }
+
+        .tc-td.tc-td-2>span:first-child{
+            background: #4A90E2;
+        }
+        .bottomWrap{
+            /*background: #fff;*/
+            margin-top: 10px;
+            /*padding: 25px;*/
+            display: flex;
+            justify-content: space-between;
+        }
+        .bottom-con{
+            background: #fff;
+            border-radius: 4px;
+            padding: 25px;
+        }
+        .b-search{
+            display: flex;
+            margin-bottom: 22px;
+            align-items: center;
+        }
+        .b-searchGroup input{
+            height: 32px;
+            border: 1px solid #d9d9d9;
+            width: 120px;
+        }
+        #searchName{
+            width: 130px;
+            border-radius: 4px;
+            margin-right: 15px;
+            padding: 0 5px;
+        }
+        #c-data-time{
+            border-radius: 4px 0 0 4px;
+        }
+        #cdatatime2{
+            border-radius: 0 4px 4px 0;
+            position: relative;
+            left: -5px;
+            margin-right: 32px;
+        }
+        .b-searchGroup button{
+            width: 64px;
+            height: 32px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .searchBtn{
+            color: #fff;
+            background: #FFB900;
+            border: 1px solid #FFB900;
+            margin-right: 10px;
+        }
+        .resetBtn{
+            border: 1px solid #E6E6E6;
+            color: #666;
+            background: #fff;
+        }
+        .selectSet{
+            display: flex;
+            align-items: center;
+        }
+        .dateSelect>span{
+            display: inline-block;
+            height: 24px;
+            padding: 0 20px;
+            line-height: 23px;
+            text-align: center;
+            border: 1px solid #E4E4E4;
+            background: #fff;
+            border-radius: 50px;
+            color: #333;
+            font-size: 12px;
+            margin-right: 14px;
+            cursor: pointer;
+            /*font-weight: bold;*/
+        }
+        .dateSelect>span.act{
+            background: #F9AE08;
+            color: #fff;
+            border-color:#F9AE08 ;
+        }
+        .ddzhl{
+            margin-right: 15px;
+        }
+        .ddzhl-1{
+            display: flex;
+            font-size: 14px;
+            align-items: center;
+        }
+        .ddzhl p{
+            font-size: 14px;
+            line-height: 24px;
+            display: inline-block;
+        }
+        .ddzhl-1>span{
+            display: inline-block;
+            width: 20px;
+            height: 21px;
+            background: url("static/image/public-img/edit.png") no-repeat;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        .ddzhl-2{
+            /*display: flex;*/
+            align-items: center;
+            padding: 9px 13px;
+            border: 1px solid #FFB900;
+            border-radius: 2px;
+            background: #FFFDF8;
+            display: none;
+        }
+        .ddzhl-2 input{
+            width: 28px;
+            margin-right: 5px;
+        }
+        .ddzhl-2 button{
+            border-radius: 2px;
+            padding: 3px 10px;
+            font-size: 12px;
+        }
+        .confirmBtn{
+            background: #FFB900;
+            color: #fff;
+            border:1px solid #FFB900;
+            margin-right: 5px;
+        }
+        .cancelBtn{
+            color: #FFB900;
+            border: 1px solid #FFB900;
+            background: #fff;
+        }
+        .table-tr{
+            display: flex;
+            align-items: center;
+            background: #FCF4D9;
+            border: 1px solid #FCF4D9;
+            color: #8B572A;
+            padding: 12px 0;
+            font-weight: bold;
+        }
+        .table-tbody{
+            display: flex;
+            /*align-items: center;*/
+            border: 1px solid #F3F3F3;
+            border-top: none;
+            padding: 12px 0;
+            font-size: 12px;
+        }
+        .table-tbody:hover{
+            background: #FFFDF8;
+        }
+        .table-th,.table-td{
+            width: 12.5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 5px;
+        }
+        .stateSpan{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .stateSpan>b{
+            display: inline-block;
+            margin-right: 5px;
+            font-size: 18px;
+        }
+        .excellent{
+            color: #73BE3F;
+        }
+        .abnormal{
+            color: #F5222D;
+        }
+        .table-td>span{
+            display: inline-block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+        select[name='selectState']{
+            width: 84px;
+            height: 24px;
+            border-radius: 4px;
+        }
+        select[name='selectShop']{
+            width: 90%;
+            height: 24px;
+            border-radius: 4px;
+        }
+        .table-tr{
+            cursor: pointer;
+        }
+        #selectkhpj,#selectSellMan{
+            height: 32px;
+            border-radius: 4px;
+            /*margin-left: 35px;*/
+            width: 100px;
+            margin-right: 15px;
+            /*border-color: #8B572A;*/
+            /*background:#FCF4D9;*/
+        }
+        .dlxz-sel{
+            height: 32px;
+            border-radius: 4px;
+            width: 60px;
+            margin-right: 15px;
+        }
+        .up{
+            display: inline-block;
+            border: 5px solid transparent;
+            border-bottom-color:#F3512A ;
+            position: relative;
+            top: -3px;
+            margin-left: 5px;
+        }
+        .down{
+            display: inline-block;
+            border: 5px solid transparent;
+            border-top-color:#3FA95F ;
+            position: relative;
+            top: 2px;
+            margin-left: 5px;
+        }
+        .showTitle{
+            cursor: default;
+            position: relative;
+        }
+        .titleWrap{
+            font-size: 12px;
+            background: #fff;
+            box-shadow:0px 0px 4px 1px rgba(181,179,179,0.48);
+            border-radius: 4px;
+            padding: 11px;
+            position: absolute;
+            top: 20px;
+            width: 150px;
+        }
+        .titleWrap p{
+            font-size: 12px;
+        }
+        .tc-top>b{
+            position: relative;
+            cursor: pointer;
+        }
+        .noticeWrap{
+            box-shadow:0px 0px 11px 1px rgba(181,179,179,0.48);
+            background: #fff;
+            border-radius: 4px;
+            padding: 11px;
+            position: absolute;
+            top: 30px;
+            font-size: 12px;
+            width: 280px;
+            font-weight: normal;
+            display: none;
+        }
+        .tc-top>b:hover .noticeWrap{
+            display: block;
+        }
+        .noticeWrap span{
+            /*display: inline-block;*/
+            border: 8px solid transparent;
+            border-bottom-color: #fff;
+            /*box-shadow:0px 0px 4px 1px rgba(181,179,179,0.48);*/
+            position: absolute;
+            top: -13px;
+            left: 24px;
+        }
+        .tc-td p{
+            font-size: 12px;
+            white-space: nowrap;
+            margin-bottom: 20px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .red{
+            color: red;
+        }
+        .w1{
+            width: 40%;
+        }
+        .w2{
+            width: 30%;
+            text-align: center;
+        }
+        .w3{
+            width: 33%;
+            text-align: center;
+        }
+        .w4{
+            width: 20%;
+            text-align: center;
+        }
+        /*.tc-td.tc-td-f>span:first-child{*/
+            /*color: #fff;*/
+            /*background: #FF7700;*/
+            /*display: inline-block;*/
+            /*width: 23px;*/
+            /*height: 20px;*/
+            /*border-radius: 50%;*/
+            /*text-align: center;*/
+            /*line-height: 20px;*/
+        /*}*/
+        .tc-td>span.td-con{
+            display: block;
+            width: 100%;
+            /*padding: 0 10px;*/
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .page-box .page-index a{
+            width: 25px;
+        }
+        .page-box .page-index.page-f{
+            width: 70%;
+        }
+        .page-box .page-index.page-f .pagegroup-f a{
+            width: 32px;
+        }
+        .btop{
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f3f3f3;
+            align-items: center;
+        }
+        .btop>span:first-child{
+            font-size: 16px;
+        }
+        .btop>span:last-child{
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .btop>span:last-child:hover{
+            color: #FF7700;
+        }
+        .bb-tr{
+            display: flex;
+            margin-bottom: 23px;
+        }
+        .bb-th{
+            font-weight: 600;
+        }
+        .bb-td>span{
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 12px;
+        }
+        .regWrap{
+            background: #fff;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+        .regSearch{
+            display: flex;
+            align-items: center;
+        }
+        .regSearch input{
+            width: 120px;
+            height: 30px;
+            border: 1px solid #d9d9d9;
+        }
+        .regSearch button{
+            padding: 5px 15px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+        .regBottom{
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #f3f3f3;
+            padding-top: 15px;
+        }
+        .reg-f-t{
+            height: 120px;
+            padding-top:30px;
+        }
+        .reg-f-t p{
+            color: #FFB900;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+        }
+        .reg-head{
+            display: flex;
+            background: #FCF4D9;
+            color: #8B572A;
+            font-size: 14px;
+        }
+        .reg-th{
+            padding: 10px 0;
+            text-align: center;
+        }
+        .reg-tr{
+            display: flex;
+            border-left: 1px solid #f3f3f3;
+            border-bottom: 1px solid #f3f3f3;
+        }
+        .reg-td{
+            border-right: 1px solid #f3f3f3;
+            padding: 9px 0;
+            text-align: center;
+        }
+        .reg-td>span{
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+        #selectDataType{
+            height: 30px;
+            position: relative;
+            left: 5px;
+            top: 2px;
+        }
+        .page-box{
+            margin-bottom: 0;
+        }
+        .uruguayWrap{
+            background: #fff;
+            border-right: 4px;
+            /*margin-top: 15px;*/
+            /*padding:0 10px 20px 10px;*/
+        }
+        .ulgTitle{
+            padding: 10px 5px 20px;
+            border-bottom: 1px solid #f3f3f3;
+        }
+        .wlgSearchWrap{
+            padding: 20px 0px;
+        }
+        .wlgSearchWrap input{
+            height: 32px;
+            width: 120px;
+            border-color: #d9d9d9;
+        }
+        #c-data-time3{
+            border-radius: 4px 0 0 4px;
+        }
+        #cdatatime4{
+            border-radius: 0 4px 4px 0;
+        }
+        .wlgSearchWrap button{
+            height: 32px;
+            width: 60px;
+            border-radius: 4px;
+        }
+        .wlg-thead{
+            display: flex;
+            align-items: center;
+            background: #FCF4D9;
+            border: 1px solid #FCF4D9;
+            color: #8B572A;
+            font-weight: 600;
+        }
+        .wlg-th{
+            width: 20%;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .wlg-tr{
+            border-left: 1px solid #d9d9d9;
+            border-bottom: 1px solid #d9d9d9;
+            display: flex;
+            align-items: center;
+        }
+        .wlg-td{
+            border-right: 1px solid #d9d9d9;
+            width: 20%;
+        }
+        .wlg-td>span{
+            display: block;
+            width: 100%;
+            padding:10px 5px ;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        b.down{
+            display: inline-block;
+            border: 4px solid transparent;
+            border-top-color: #8B572A;
+            cursor: pointer;
+            top: 5px;
+            margin-left: 0;
+        }
+        b.down2{
+            display: inline-block;
+            /* border: 6px solid transparent; */
+            /* border-top-color: #8B572A; */
+            position: relative;
+            width: 16px;
+            height: 16px;
+            background: url('static/image/public-img/jiangxu.svg') no-repeat;
+            cursor: pointer;
+            left: 3px;
+            margin-left: 0;
+        }
+        b.up{
+            display: inline-block;
+            border: 4px solid transparent;
+            border-bottom-color: #8B572A;
+            position: relative;
+            top: -6px;
+            left: -8px;
+            margin-left: 0;
+        }
+        b.up2{
+            display: inline-block;
+
+            width: 16px;
+            height: 16px;
+            background: url('static/image/public-img/shengxu.svg') no-repeat;
+            position: relative;
+            /* top: -6px; */
+            left: 3px;
+            margin-left: 0;
+        }
+        b.defaultSort{
+            display: inline-block;
+
+            width: 16px;
+            height: 16px;
+            background: url('static/image/public-img/defaultSort.svg') no-repeat;
+            position: relative;
+            /* top: -6px; */
+            left: 3px;
+            margin-left: 0;
+        }
+        .sort1,.sort2{
+            cursor: pointer;
+        }
+        .wlg-tongji{
+            display: flex;
+            padding: 20px 0;
+        }
+        .ttRed{
+            color: red;
+        }
+        .tab{
+            position: fixed;
+            background: #fff;
+            width: calc(100% - 290px);;
+            top: 0;
+            margin-left: 10px;
+            z-index: 9999;
+            /*padding: 10px;*/
+            padding: 0 10px;
+        }
+        .tab ul{
+            display: flex;
+        }
+        .tab ul>li>a{
+            display: block;
+            padding: 10px 15px;
+            border-bottom: 2px solid transparent;
+        }
+        .tab ul>li>a.act{
+            border-bottom-color: rgba(255,162,0,1);
+            color: rgba(255,162,0,1);
+        }
+        .tab ul>li>a:hover{
+            color: rgba(255,162,0,1);
+        }
+        .page-box .page-index{
+            margin-right: 0;
+        }
+        .bb-tr-lost{
+            margin-bottom: 17px;
+        }
+        .bottomWrap{
+            background: #fff;
+            border-radius: 5px;
+        }
+        .searchTab{
+            padding: 20px 20px 10px 20px;
+        }
+        .searchTab>span{
+            display: inline-block;
+            padding: 5px 15px;
+            background: #fff;
+            border-radius: 20px;
+            color: #333;
+            border: 1px solid #f0f0f0;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .searchTab>span.act{
+            background: #FFB900;
+            color: #fff;
+        }
+        .selectTab{
+            margin-left: 30px;
+        }
+        .selectTab span{
+            position: relative;
+            top :2px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .selectTab span.act{
+            color: #FFB900;
+        }
+        .newUser>p{
+            position: relative;
+            top: 2px;
+            font-size: 14px;
+        }
+        .classCustomerWrap{background: #fff; padding: 20px 15px;}
+        .classCustomerTab{ border-bottom: 1px solid #e1e1e1;display: flex; padding: 0 20px;}
+        .classCustomerTab>span{padding: 8px 15px; border-radius: 4px 4px 0 0; border: 1px solid #fff; border-bottom-color: #e1e1e1; position: relative; top: 1px; font-size: 12px; cursor: pointer;}
+        .classCustomerTab>span.active{border-color: #e1e1e1; border-bottom-color: #fff; color: #FFB900;}
+        .classCustomerSearchWrap{display: flex; padding: 15px; align-items: center;}
+        .classCustomerSearchWrap>span{display: inline-block; padding: 5px 15px; border-radius: 50px; border: 1px solid #e1e1e1; font-size: 12px; margin-right: 15px; cursor: pointer;}
+        .classCustomerSearchWrap>span.active{border-color: #FFB900; background: #FFB900; color: #fff;}
+        #selectCustomerBySales{height: 30px; width: 100px;}
+        .upCustomerWrap{display: flex; border: 1px solid #e1e1e1;}
+        .upCustomerLeft{width: 30%; border-right: 1px solid #e1e1e1; height: 720px;}
+        .upCustomerRight{width: 70%; height: 720px; padding: 15px;}
+        .upCustomerThead,.rateCustomerThead{display: flex; background: #FCF4D9;color: #8B572A; padding: 5px;}
+        .upCustomerTh,.rateCustomerTh{width: 20%; font-size: 12px; text-align: center;}
+        .upCustomerTh>p{font-size: 12px; }
+        .upCustomerTr,.rateCustomerTr{display: flex; background: #fff; font-size: 12px; cursor: pointer; }
+        .upCustomerTd,.rateCustomerTd{width: 20%;padding: 8px 0; border-bottom: 1px solid #e1e1e1;}
+        .upCustomerTd>span,.rateCustomerTd>span{display: block;padding: 0 5px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;  }
+        .upCustomerTr:hover,.rateCustomerTr:hover{background: #e1e1e1;}
+        .upCustomerTr.active,.rateCustomerTr.active{background: #e1e1e1;}
+        .upCustomerTbody,.rateCustomerTbody{height: 675px; overflow-y: auto; }
+        .ttRed{color: red;}
+        .rightMenu>p{font-size: 12px;}
+        .rateCustomerWrap{display: flex; border: 1px solid #e1e1e1; }
+        .rateCustomerLeft{width: 30%; border-right: 1px solid #e1e1e1; height: 720px;}
+        .rateCustomerRight{width: 70%; height: 720px;}
+        .rateCustomerTh{padding: 8px 0;}
+        .rateCustomerRight{padding: 15px 20px;}
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="tab">
+            <ul>
+                    <li><a ng-class="{act:step==2}" href="2">客户查询</a></li>
+                <li><a ng-class="{act:step==3}" href="3">客户拉新</a></li>
+                <li><a class="firstA" ng-class="{act:step==1}" href="1">客户类型</a></li>
+                
+            </ul>
+        </div>
+        <div ng-show="step==1" class="right-bar" style="padding:8px 10px;background: #F2F7FA;min-width: 1020px;margin-top: 55px">
+            <div class="classCustomerWrap">
+                <div class="classCustomerTab">
+                    <span ng-click="changeClassCustomer('1')" ng-class="{active: classCustomerType == '1'}">订单上升客户</span>
+                    <span ng-click="changeClassCustomer('2')" ng-class="{active: classCustomerType == '2'}">客户评级(近90天)</span>
+                </div>
+                <div ng-show="classCustomerType == '1'" class="classCustomerCon">
+                    <div class="classCustomerSearchWrap">
+                        <span ng-click="changeUpCustomerType('1')" ng-class="{active: dayType5 == '1'}">近三天</span>
+                        <span ng-click="changeUpCustomerType('2')" ng-class="{active: dayType5 == '2'}">上周</span>
+                        <span ng-click="changeUpCustomerType('3')" ng-class="{active: dayType5 == '3'}">上月</span>
+                        <label>业务员：</label>
+                        <select name="" id="selectCustomerBySales">
+                            <option value="">全部</option>
+                            <option value="{{sales.LOGIN_NAME}}" ng-repeat="sales in sellManList">{{sales.LOGIN_NAME}}</option>
+                        </select>
+                    </div>
+                    <div class="upCustomerWrap">
+                        <div class="upCustomerLeft">
+                            <div class="upCustomerThead">
+                                <div class="upCustomerTh">姓名</div>
+                                <div class="upCustomerTh">业务员</div>
+                                <div class="upCustomerTh">
+                                    <p>CJ订单量</p>
+                                    <p>(本期/环比)</p>
+                                </div>
+                                <div class="upCustomerTh">
+                                        <p>总订单量</p>
+                                        <p>(本期/环比)</p>
+                                </div>
+                                <div class="upCustomerTh">CJ订单占比</div>
+                            </div>
+                            <div class="upCustomerTbody">
+                                <div class="upCustomerTr" ng-repeat="up in upList" ng-class="{ttRed:up.orderRatio>100 || up.comcun==0}" render-finish data-id="{{up.paymentId}}">
+                                    <div class="upCustomerTd"><span ng-click="gotoDetail($event,up.paymentId)">{{up.paymentName}}</span></div>
+                                    <div class="upCustomerTd"><span>{{up.salesmanName}}</span></div>
+                                    <div class="upCustomerTd"><span>{{up.cun}}/{{up.ocun}}</span></div>
+                                    <div class="upCustomerTd"><span>{{up.comcun}}/{{up.comocun}}</span></div>
+                                    <div class="upCustomerTd"><span>{{up.orderRatio | number : 2}}%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="upCustomerRight">
+                            <div class="tongjitu" id="main8" style="width: 100%;height: 300px"></div>
+                            <div style="margin-top: 20px;display: flex">
+                                <div class="tongjitu" id="main9" style="width: 70%;height: 300px"></div>
+                                <div class="rightMenu">
+                                    <p style="color: #F9AE08;font-size: 20px;margin-bottom: 10px;">{{customerInfo.name}}</p>
+                                    <p>店铺数量：<span>{{customerInfo.length}}</span></p>
+                                    <p style="margin-bottom: 10px">总订单：{{customerInfo.total}}</p>
+                                        <!--<p>采购失败：500</p>-->
+                                    <p ng-repeat="ca in cakeList">
+                                        <span style="font-weight: 600">{{ca.store_name}}</span>: <span>{{ca.ocun}} ( {{classRate(ca.ocun)}}% )</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="classCustomerType == '2'" class="classCustomerCon">
+                    <div class="classCustomerSearchWrap">
+                        <span ng-click="changeRateTypeFun('1')" ng-class="{active: customerRateType == '1'}">潜在客户</span>
+                        <span ng-click="changeRateTypeFun('2')" ng-class="{active: customerRateType == '2'}">优质客户</span>
+                        <span ng-click="changeRateTypeFun('3')" ng-class="{active: customerRateType == '3'}">普通客户</span>
+                    </div>
+                    <div class="rateCustomerWrap">
+                        <div class="rateCustomerLeft">
+                            <div class="rateCustomerThead">
+                                <div class="rateCustomerTh">姓名</div>
+                                <div class="rateCustomerTh">业务员</div>
+                                <div class="rateCustomerTh">CJ订单量</div>
+                                <div class="rateCustomerTh">
+                                    总订单量
+                                    <span class="cursor-pointer" ng-click="rateSortFun(2)" ng-show="rateSort === 1"><img src="../../static/image/public-img/jiangxu.svg" alt=""></span>
+                                    <span class="cursor-pointer" ng-click="rateSortFun(1)" ng-show="rateSort === 2"><img src="../../static/image/public-img/shengxu.svg" alt=""></span>
+                                </div>
+                                <div class="rateCustomerTh">CJ订单占比</div>
+                            </div>
+                            <div class="rateCustomerTbody">
+                                <div class="rateCustomerTr" ng-repeat="rate in RateCustomerList"  data-id="{{rate.paymentId}}" render-finish>
+                                    <div class="rateCustomerTd"><span ng-click="gotoDetail($event,rate.paymentId)">{{rate.paymentName}}</span></div>
+                                    <div class="rateCustomerTd"><span>{{rate.salesmanName}}</span></div>
+                                    <div class="rateCustomerTd"><span>{{rate.cjocun}}</span></div>
+                                    <div class="rateCustomerTd"><span>{{rate.ocun}}</span></div>
+                                    <div class="rateCustomerTd"><span>{{rate.rate}}%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rateCustomerRight">
+                            <div class="timeWrap">
+                                <select name="" id="selectYearGroup" style="width: 100px;height: 30px;border-radius: 4px;">
+                                    <option ng-repeat="year in yearList" value="{{year.year}}">{{year.year}}</option>
+                                </select>
+                            </div>
+                            <div class="tongjitu" id="mainA" style="width: 100%;height: 300px"></div>
+                            <div class="tongjitu" id="mainB" style="width: 100%;height: 300px;margin-top: 20px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="topWrap">
+                <div class="top-con">
+                    <div class="tc-top">
+                        <b>订单上升客户
+                            <div class="noticeWrap">
+                                <span></span>
+                                客户最近一定周期内CJ订单与之前的订单出现增加行为。与流失行为相反。
+                            </div>
+                        </b>
+                        <div class="dateRange" id="upRange">
+                            <span data-value="1" class="act">近三日</span>
+                            <span data-value="2">上周</span>
+                            <span data-value="3">上月</span>
+                        </div>
+                        <span class="moreBtn" ng-click="moreListFun('2')">More&gt;</span>
+                    </div>
+                    <div class="tc-bottom">
+                        <div class="tc-tr">
+                            <div class="tc-th w4">姓名</div>
+                            <div class="tc-th w4">业务员</div>
+                            <div class="tc-th w4">CJ订单量
+                                <p style="font-size: 10px">(本期/环比)</p>
+                            </div>
+                            <div class="tc-th w4">总订单量
+                                <p style="font-size: 10px">(本期/环比)</p>
+                            </div>
+                            <div class="tc-th w4">CJ订单占比</div>
+                        </div>
+                        <div class="tc-tr" ng-repeat="up in upList" ng-class="{ttRed:up.orderRatio>100 || up.comcun==0}">
+                            <div class="tc-td tc-td-f w4">
+                                <span style="cursor:pointer;" ng-click="openToUserInfo(up.paymentId)" class="td-con">{{up.paymentName}}</span>
+                            </div>
+                            <div class="tc-td w4">{{up.salesmanName}}</div>
+                            <div class="tc-td w4">
+                                <span class="td-con">{{up.cun}}/{{up.ocun}}</span>
+                            </div>
+                            <div class="tc-td w4">
+                                <span class="td-con">{{up.comcun}}/{{up.comocun}}</span>
+                            </div>
+                            <div class="tc-td w4">
+                                <span class="td-con">{{classFix(up)}}</span>
+                            </div>
+                        </div>
+                        <div class="page-box">
+                            <div class="total-num">
+                            共&nbsp;&nbsp;{{ upTotal }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index page-f">
+                                <div class="pagegroup-f pagegroup-1 pagegroup-x2">
+                                    <a href="#">&lt;&lt;</a>
+                                    <a href="#">&lt;</a>
+                                    <a href="#">1</a>
+                                    <a href="#">2</a>
+                                    <a class="current" href="#">3</a>
+                                    <a href="#">4</a>
+                                    <a href="#">···</a>
+                                    <a href="#">&gt;</a>
+                                    <a href="#">&gt;&gt;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-con">
+                    <div class="tc-top">
+                        <b>客户评级（近90天）</b>
+                        <span class="moreBtn" ng-click="morepjList()">More&gt;</span>
+                    </div>
+                    <div class="tc-bottom">
+                        <div class="tc-tr">
+                            <div class="tc-th w3" style="">优质客户</div>
+                            
+                            <div class="tc-th w3" style="">普通客户</div>
+                            
+                            <div class="tc-th w3" style="">潜在客户</div>
+                            
+                        </div>
+                        <div class="tc-tr" style="margin-bottom: 0px">
+                            <div class="tc-td w3" style="flex-direction:column;justify-content: center;">
+                                <p style="cursor:pointer;" ng-click="openToUserInfo(a.paymentId)" ng-repeat="a in gradList.youzhi">{{a.paymentName}}</p>
+                            </div>
+                            
+                            <div class="tc-td w3">
+                                <p style="cursor:pointer;" ng-click="openToUserInfo(b.paymentId)" ng-repeat="b in gradList.putong">{{b.paymentName}}</p>
+                            </div>
+                            
+                            <div class="tc-td w3">
+                                <p style="cursor:pointer;" ng-click="openToUserInfo(c.paymentId)" ng-repeat="c in gradList.qianli">{{c.paymentName}}</p>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="topWrap" style="margin-top: 15px">
+                <div class="top-con">
+                    <div class="tc-top">
+                        <b>
+                            可能流失的客户
+                            <div class="noticeWrap">
+                                <span></span>
+                                客户最近一定周期内CJ订单与之前的订单出现减少行为。 减少的比例越大，流失可能性越大。
+                            </div>
+                        </b>
+                        <div id="downRange" class="dateRange">
+                            <span data-value="1" class="act">近三日</span>
+                            <span data-value="2">上周</span>
+                            <span data-value="3">上月</span>
+                        </div>
+                        <span class="moreBtn" ng-click="moreListFun('1')">More&gt;</span>
+
+                    </div>
+                    <div class="tc-bottom">
+                        <div class="tc-tr">
+                            <div class="tc-th w4">姓名</div>
+                            <div class="tc-th w4">业务员</div>
+                            <div class="tc-th w4">CJ订单量
+                                <p style="font-size: 10px">(本期/环比)</p>
+                            </div>
+                            <div class="tc-th w4">总订单量
+                                <p style="font-size: 10px">(本期/环比)</p>
+                            </div>
+                            <div class="tc-th w4">CJ订单占比</div>
+                        </div>
+                        <div class="tc-tr" ng-repeat="liushi in liushiList" ng-class="{ttRed:liushi.orderRatio>100 || liushi.comcun==0}">
+                            <div class="tc-td tc-td-f w4">
+                                <span class="td-con" style="cursor:pointer;" ng-click="openToUserInfo(liushi.paymentId)">{{liushi.paymentName}}</span>
+                            </div>
+                            <div class="tc-td w4"><span>{{liushi.salesmanName}}</span></div>
+                            <div class="tc-td w4">
+                                <span class="td-con">{{liushi.cun}}/{{liushi.ocun}}</span>
+                            </div>
+                            <div class="tc-td w4">
+                                <span class="td-con">{{liushi.comcun}}/{{liushi.comocun}}</span>
+                            </div>
+                            <div class="tc-td w4">
+                                <span class="td-con">{{classFix(liushi)}}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="page-box">
+                            
+                            <div class="total-num">
+                            共&nbsp;&nbsp;{{ liushiTotal }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index page-f">
+                                <div class="pagegroup-f pagegroup-1 pagegroup-x1">
+                                    <a href="#">&lt;&lt;</a>
+                                    <a href="#">&lt;</a>
+                                    <a href="#">1</a>
+                                    <a href="#">2</a>
+                                    <a class="current" href="#">3</a>
+                                    <a href="#">4</a>
+                                    <a href="#">···</a>
+                                    <a href="#">&gt;</a>
+                                    <a href="#">&gt;&gt;</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="top-con">
+                    <div class="tc-top">
+                        <b>已流失的用户</b>
+                        <div id="lostRange" class="dateRange">
+                            <span data-value="1" class="act">近三日</span>
+                            <span data-value="2">上周</span>
+                            <span data-value="3">上月</span>
+                        </div>
+                        <span class="moreBtn" ng-click="morelost()">More&gt;</span>
+                    </div>
+                    <div class="tc-bottom">
+                        <div class="tc-tr">
+                            <div class="tc-th w4" style="height: 37px;">姓名</div>
+                            <div class="tc-th w4">业务员</div>
+                            <div class="tc-th w4" style="height: 37px;">最后消费日期</div>
+                            <div class="tc-th w4" style="height: 37px;">CJ订单数量</div>
+                            <div class="tc-th w4" style="height: 37px;">CJ订单金额</div>
+                        </div>
+                        <div class="bb-tr bb-tr-lost" ng-repeat="lost in lostList">
+                            <div class="bb-td w4" style="display:flex;">
+                                <span style="cursor: pointer;" ng-click="openDetail(lost.id,lost.login_name)">{{lost.login_name}}</span>
+                                <img style="cursor:pointer;" ng-click="openToUserInfo(lost.id)" src="static/image/public-img/record.svg" alt="">
+                            </div>
+                            <div class="bb-td w4"><span>{{lost.salesmanName}}</span></div>
+                            <div class="bb-td w4">
+                                <span>{{classEmpty(lost.createDate)}}</span>
+                            </div>
+                            <div class="bb-td w4">
+                                <span>{{classEmpty(lost.cjCun)}}</span>
+                            </div>
+                            <div class="bb-td w4">
+                                <span>{{classEmpty(lost.sumMoney)}}</span>
+                            </div>
+                        </div>
+                        <div class="page-box">
+                            <div class="total-num">
+                                共&nbsp;&nbsp;{{ totalCounts2 }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index page-f">
+                                <div class="pagegroup-f pagegroup-1 pagegroup-loss">
+                                    <a href="#">&lt;&lt;</a>
+                                    <a href="#">&lt;</a>
+                                    <a href="#">1</a>
+                                    <a href="#">2</a>
+                                    <a class="current" href="#">3</a>
+                                    <a href="#">4</a>
+                                    <a href="#">···</a>
+                                    <a href="#">&gt;</a>
+                                    <a href="#">&gt;&gt;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div ng-show="step==2" class="right-bar" style="padding:8px 10px;background: #F2F7FA;min-width: 1020px;margin-top: 55px">
+            <div class="bottomWrap" style="display: block">
+                <div class="searchTab">
+					<span 
+						ng-click="changeSearchType(searchModel.kehuList.val)"  
+						ng-class="{act: searchWrapFlag === searchModel.kehuList.val}">客户列表</span>
+					<span 
+						ng-click="changeSearchType(searchModel.uruguay.val)"  
+						ng-class="{act: searchWrapFlag === searchModel.uruguay.val}">乌拉圭</span>
+					<span 
+						ng-click="changeSearchType(searchModel.shopify.val)"  
+						ng-class="{act: searchWrapFlag === searchModel.shopify.val}">Shopify</span>
+                    <span
+                        ng-click="changeSearchType(searchModel.shopmaster.val)"
+                        ng-class="{act: searchWrapFlag === searchModel.shopmaster.val}">ShopMaster</span>
+                </div>
+				<div 
+				ng-show="searchWrapFlag === searchModel.kehuList.val || searchWrapFlag === searchModel.shopify.val || searchWrapFlag=== searchModel.shopmaster.val"
+				class="bottom-con" 
+				style="width: 100%">
+                    <div class="b-search">
+                        <div class="b-searchGroup">
+                            <input autocomplete="off" class="Wdate data-inp" style="position:relative;top: 0px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                            <input autocomplete="off" id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" style="position:relative;top: 0px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                        </div>
+                        <div class="dateSelect" style="margin-left: 30px">
+                            <span ng-click="changeDateSelect('1')" ng-class="{'act': dateType3 === '1'}" >上周</span>
+                            <span ng-click="changeDateSelect('2')" ng-class="{'act': dateType3 === '2'}" >上月</span>
+                            <span ng-click="changeDateSelect('3')" ng-class="{'act': dateType3 === '3'}">本年</span>
+                            <span ng-show="searchWrapFlag === searchModel.shopmaster.val" ng-click="daoChuFun()" ng-class="{'act': true}" >导出shopmaster</span>
+                        </div>
+                    </div>
+                    <div class="b-search">
+                        <div class="b-searchGroup">
+                            <label>客户姓名：</label>
+                            <input ng-model="paymentName" id="searchName" type="text"/>
+                        </div>
+                        <div class="b-searchGroup">
+                            <span>客户评级：</span>
+                            <select name="" id="selectkhpj">
+                                <option value="1">客户评级</option>
+                                <option value="3">优质客户</option>
+                                <option value="4">普通客户</option>
+                                <option value="5">潜在客户</option>
+                            </select>
+                        </div>
+                        <div class="b-searchGroup">
+                            <span>业务员：</span>
+                            <select style="margin-left: 0px;" name="" id="selectSellMan">
+                                <option value="">全部</option>
+                                <option ng-repeat="sell in sellManList" value="{{sell.LOGIN_NAME}}">{{sell.LOGIN_NAME}}</option>
+                            </select>
+                        </div>
+                        <div class="b-searchGroup">
+                            <span>单量限制：</span>
+                            <select style="margin-left: 0px;" ng-change="dlxzFun()" ng-model="dlxzVal" class="dlxz-sel">
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                        <div class="b-searchGroup">
+                            <button class="searchBtn" ng-click="searchFun()">查询</button>
+                            <!-- <button class="resetBtn" ng-click="resetSearchFun2()">清除</button> -->
+                        </div>
+                    </div>
+                    <div class="menuTable" style="margin-top: 25px">
+                        <div class="table-tr">
+                            <div class="table-th">客户姓名</div>
+                            <div class="table-th">业务员</div>
+                            <div class="table-th">店铺数量</div>
+                            <div class="table-th">总订单量
+                                <b ng-click="sortChangeFun('7')" ng-if="sortFlag=='6'" class="down2"></b>
+                                <b ng-click="sortChangeFun('6')" ng-if="sortFlag=='7'" class="up2"></b>
+                                <b ng-click="sortChangeFun('6')" ng-if="sortFlag!='6' && sortFlag!='7'" class="defaultSort"></b>
+                            </div>
+                            <div class="table-th">CJ订单量
+                                <b ng-click="sortChangeFun('2')" ng-if="sortFlag=='1'" class="down2"></b>
+                                <b ng-click="sortChangeFun('1')" ng-if="sortFlag=='2'" class="up2"></b>
+                                <b ng-click="sortChangeFun('1')" ng-if="sortFlag!='1' && sortFlag!='2'" class="defaultSort"></b></div>
+                            <div class="table-th">CJ销售额</div>
+                            <div class="table-th">CJ订单占比</div>
+                            <!--<div class="table-th">CJ订单额占比</div>-->
+                            <div class="table-th">
+                                客户评级
+                            </div>
+                        </div>
+                        <div class="table-tbody" ng-repeat="order in orderList" ng-class="{red:order.zhanbi>100}">
+                            <div class="table-td"  >
+                                <span style="cursor: pointer;" ng-click="openDetail(order.ACCOUNTID,order.paymentName)">{{order.paymentName}}</span>
+                                <img ng-click="openToUserInfo(order.ACCOUNTID)" style="cursor:pointer;" src="static/image/public-img/record.svg" width="14" height="14" alt="">
+                            </div>
+                            <div class="table-td"><span>{{order.salesmanName}}</span></div>
+                            <div class="table-td"><span>{{order.shopcun}}</span></div>
+                            <div class="table-td showTitle"><span>{{order.ocun}}</span></div>
+                            <div class="table-td"><span>{{order.cjocun}}</span></div>
+                            <div class="table-td"><span>{{order.allmoney}}</span></div>
+                            <div class="table-td showTitle"><span>{{order.zhanbi}}%</span></div>
+                            <!--<div class="table-td showTitle"><span>60%</span></div>-->
+                            <div class="table-td">
+                                <span ng-if="order.zhanbi>50 && order.zhanbi<=100">优质客户</span>
+                                <span ng-if="order.zhanbi>30 && order.zhanbi<=50">普通客户</span>
+                                <span ng-if="order.zhanbi>=0 && order.zhanbi<=30">潜在客户</span>
+                            </div>
+                            <!--<div class="table-td" style="width: 14%;"><span>查看</span></div>-->
+                        </div>
+                        <div class="page-box">
+                            <div class="select-page-num" style="margin-right: 0">
+                                <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <span>每页</span>
+                            </div>
+                            <div class="total-num" style="margin-right: 5px">
+                                共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index" style="margin-right: 5px;width: 260px">
+                                <div class="pagegroup">
+                                    <a href="#">&lt;&lt;</a>
+                                    <a href="#">&lt;</a>
+                                    <a href="#">1</a>
+                                    <a href="#">2</a>
+                                    <a class="current" href="#">3</a>
+                                    <a href="#">4</a>
+                                    <a href="#">5</a>
+                                    <a href="#">···</a>
+                                    <a href="#">&gt;</a>
+                                    <a href="#">&gt;&gt;</a>
+                                </div>
+                            </div>
+                            <!--<div class="to-go">-->
+                            <!--<span>跳转：</span>-->
+                            <!--<input type="text" class="form-control" placeholder="" ng-model="pageNum">-->
+                            <!--<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="searchWrapFlag === searchModel.uruguay.val" class="bottom-con" style="padding-top: 10px">
+                    <div class="uruguayWrap">
+                        <!--<div class="ulgTitle">-->
+                            <!--<b>乌拉圭客户实时数据统计报表</b>-->
+                        <!--</div>-->
+                        <div class="wlgSearchWrap">
+                            <input  class="Wdate data-inp" style="position:relative;top: 0px;" id="c-data-time3" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                            <input  id="cdatatime4" placeholder="结束日期" class="Wdate data-inp" style="position:relative;top: 0px;left: -5px" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                            <button style="margin-left: 30px" class="searchBtn" ng-click="searchFun3()">查询</button>
+                            <!-- <button class="resetBtn" ng-click="resetSearchFun5()">清除</button> -->
+                            <!--<button style="float: right" class="searchBtn">导出</button>-->
+                        </div>
+                        <div class="wlgTableWrap">
+                            <div class="wlg-thead">
+                                <div class="wlg-th">日期</div>
+                                <div class="wlg-th sort1 sort">同步订单量 <b class="down" ></b><b class="up"></b></div>
+                                <div class="wlg-th sort2 sort">CJ订单量 <b class="down" ></b><b class="up"></b></div>
+                                <div class="wlg-th">CJ订单转化率</div>
+                                <div class="wlg-th">CJ订单金额</div>
+                            </div>
+                            <div class="wlg-tr" ng-repeat="wlg in wlgList">
+                                <div class="wlg-td"><span>{{wlg.time}}</span></div>
+                                <div class="wlg-td"><span>{{wlg.cun}}</span></div>
+                                <div class="wlg-td"><span>{{wlg.ocun}}</span></div>
+                                <div class="wlg-td"><span>{{wlg.rate}}%</span></div>
+                                <div class="wlg-td"><span>{{wlg.money}}</span></div>
+                            </div>
+                        </div>
+                        <div class="totalWrap" style="text-align: right;margin-top: 10px;">
+                            <p>查询周期为{{zhouqi}}天，共同步{{totalcun}}单，CJ订单{{totalcj}}单，CJ订单总转化率为{{totalRate}}%</p>
+                        </div>
+                        <div class="wlg-tongji">
+                            <div class="wlgtongjitu" id="main3" style="width: 50%;height: 300px">1</div>
+                            <div class="wlgtongjitu" id="main4" style="width: 50%;height: 300px">2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="step==3" class="right-bar" style="padding:8px 10px;background: #F2F7FA;min-width: 1020px;margin-top: 55px">
+            <div class="regWrap">
+                <div class="regSearch">
+                    <!--<select name="" id="selectDataType">-->
+                        <!--<option value="1">近一周</option>-->
+                        <!--<option value="2">近一个月</option>-->
+                        <!--<option value="3">自定义周期</option>-->
+                    <!--</select>-->
+                    <div class="searchGG" style="position: relative;top: 2px;left: 4px;">
+                        <input  class="Wdate data-inp" style="position:relative;top: 0px;" id="c-data-time2" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                        <input  id="cdatatime3" placeholder="结束日期" class="Wdate data-inp" style="position:relative;top: 0px;left: -5px" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                        <button class="searchBtn" ng-click="searchFun2()">查询</button>
+                        <!--<button class="resetBtn" ng-click="resetSearchFun()">清除</button>-->
+                    </div>
+                    <div class="selectTab">
+                        <span class="act">近一周</span>
+                        <span>近一个月</span>
+                    </div>
+                    <div class="newUser" style="margin-left: 30px">
+                        <p>新注册用户: {{totalPerson}} 人</p>
+                    </div>
+
+                </div>
+                <div class="regBottom">
+                    <div class="reg-left" style="width: 40%">
+                        <!--<div class="reg-f-t">-->
+                            <!--<p>新注册用户</p>-->
+                            <!--<p style="font-size: 20px">{{totalPerson}} 人</p>-->
+                        <!--</div>-->
+                        <div class="reg-f-b" style="margin-top: 20px">
+                            <div class="reg-head">
+                                <div class="reg-th" style="width: 11%">序号</div>
+                                <div class="reg-th" style="width: 39%">用户</div>
+                                <div class="reg-th" style="width: 30%">注册日期</div>
+                                <div class="reg-th" style="width: 20%">客户类型</div>
+                            </div>
+                            <div class="reg-tr" ng-repeat="acc in accountLiat">
+                                <div class="reg-td" style="width: 11%">{{$index+1}}</div>
+                                <div class="reg-td" style="width: 39%">
+                                    <span ng-click="openToUserInfo(acc.id)" style="cursor:pointer;">{{acc.uName}}</span>
+                                </div>
+                                <div class="reg-td" style="width: 30%">
+                                    <span>{{acc.CREATE_DATE}}</span>
+                                </div>
+                                <div class="reg-td" style="width: 20%">
+                                    <span>{{classTypeACC(acc.utype)}}</span>
+                                </div>
+                            </div>
+
+                            <div class="page-box">
+                                <!--<div class="select-page-num">-->
+                                <!--<select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">-->
+                                <!--<option value="20">20</option>-->
+                                <!--<option value="30">30</option>-->
+                                <!--<option value="50">50</option>-->
+                                <!--</select>-->
+                                <!--<span>每页</span>-->
+                                <!--</div>-->
+                                <div class="total-num" style="margin-right: 10px">
+                                    共&nbsp;&nbsp;{{ accountTotal }}&nbsp;&nbsp;条
+                                </div>
+                                <div class="page-index page-f" style="width: 290px;margin-right: 0;">
+                                    <div class="pagegroup-f pagegroup-1 pagegroup-z">
+                                        <a href="#">&lt;&lt;</a>
+                                        <a href="#">&lt;</a>
+                                        <a href="#">1</a>
+                                        <a href="#">2</a>
+                                        <a class="current" href="#">3</a>
+                                        <a href="#">4</a>
+                                        <a href="#">···</a>
+                                        <a href="#">&gt;</a>
+                                        <a href="#">&gt;&gt;</a>
+                                    </div>
+                                </div>
+                                <!--<div class="to-go">-->
+                                <!--<span>跳转：</span>-->
+                                <!--<input type="text" class="form-control" placeholder="" ng-model="pageNum">-->
+                                <!--<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>-->
+                                <!--</div>-->
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="reg-right" style="width: 58%;padding-top: 20px">
+                        <div class="tongjitu" id="main1" style="width: 100%;height: 250px">
+
+                        </div>
+                        <div class="tongjitu" id="main2" style="width: 100%;height: 250px">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+</body>
+</html>

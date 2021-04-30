@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>客服工单-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <style>
+        .ea-list-table .gray td{
+            color: #CFCFCF;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(1,1,1,0.4);
+            z-index: 99999;
+            display: none;
+        }
+        .zzcWrap{
+            width: 1000px;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 150px auto;
+            background: #fff;
+        }
+        .tabNav{
+            background: #fff;
+            padding:0 20px;
+            /*border-radius: 4px;*/
+            /*margin-bottom: 15px;*/
+            display: flex;
+        }
+        .tabNav>a{
+            display: block;
+            padding: 20px 15px;
+            margin-right: 10px;
+            border-bottom: 2px solid transparent;
+        }
+        .tabNav>a:hover{
+            color: rgba(255,162,0,1);
+        }
+        .tabNav>a.act{
+            color: rgba(255,162,0,1);
+            border-bottom-color: rgba(255,162,0,1);
+        }
+        .moreAction{
+            position: relative;
+        }
+        .moreAction span{
+            display: block;
+            position: relative;
+            cursor: pointer;
+        }
+        .moreAction b{
+            display: inline-block;
+            border: 5px solid transparent;
+            border-top-color: #4A4A4A;
+            position: relative;
+            top: 5px;
+        }
+        .moreDropWrap{
+            position: absolute;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow:0px 2px 4px 2px rgba(227,226,226,0.5);
+            z-index: 9999;
+            width: 100px;
+            left: 0;
+            display: none;
+        }
+        .moreDropWrap li{
+            font-size: 12px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .moreDropWrap li:hover{
+            background: #e4e4e4;
+        }
+        .moreAction span:hover .moreDropWrap{
+            display: block;
+        }
+        .tab{
+            position: fixed;
+            width: calc(100% - 270px);
+            /*margin-left: 220px;*/
+            z-index: 999;
+            box-shadow: 2px 2px 14px 2px rgba(232, 244, 251, 1);
+        }
+        .mt{
+            margin-top: 75px;
+        }
+        .ea-list-table td span.noticeOut{
+            display: none;
+            position: absolute;
+            padding: 10px 15px;
+            background: rgba(0,0,0,0.8);
+            border-radius: 6px;
+            color: #fff;
+            z-index: 9999;
+            width: 250px;
+            top: 25px;
+        }
+        .ea-list-table td span.noticeOut b{
+            display: inline-block;
+            border: 4px solid transparent;
+            border-bottom-color: rgba(0,0,0,0.8);
+            position: absolute;
+            top: -8px;
+            left: 84px;
+
+        }
+        .ea-list-table td .noticeCon:hover span.noticeOut{
+            display: block;
+        }
+        .clickEmail {
+            cursor: pointer;
+        }
+
+        .clickEmail:hover {
+            color: #F8A636
+        }
+        .recordMsg-evaluate{
+            padding: 10px 10px;
+            overflow: hidden;
+        }
+        .evaluate-left{
+            float: left;
+            word-wrap: break-word;word-break: break-all;overflow: hidden;
+        }
+        .evaluate-right{
+            float: right;
+            font-size: 12px;
+            padding-right: 10px;
+        }
+        .evaluate-content{
+            margin-top: 10px;
+            font-size: 14px;
+            
+        }
+        .reply-box {
+            margin-bottom: 15px;
+        }
+        .file .img ul .imgList {
+            width: 110px;
+            height: 110px;
+            margin-right: 20px;
+            padding: 5px !important;
+            box-sizing: border-box;
+            border: 2.5px dashed #ccc;
+        }
+        .upload-div {
+            width: 110px;
+            height: 110px;
+            border: 2.5px dashed #ccc;
+            box-sizing: border-box;
+            border-radius: 5px;
+            background-color: #F5F5F5;
+        }
+        .plus {
+            text-align: center;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 42px;
+        }
+        .uploadText {
+            display:inline-block;
+            text-align: center;
+            width: 100%;
+        }
+        #file {
+            display:inline-block; 
+            margin: 0;
+            padding: 0;
+            width: 110px;
+            opacity: 0;
+            height: 110px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+        .file .imgBox {
+            display:inline-block;
+            width:721px;
+            position: absolute;
+            left: 130px;
+            top: 0;
+        }
+        .dowmload-list-title {
+            margin-bottom: 15px;
+        }
+        .dowmload-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .recordMsg-content .dowmload-list .dowmload-item {
+            width: 75px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .dowmload-list .dowmload-item .download-url {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dowmload-list .dowmload-item .download-url .download-icon {
+            font-size: 24px;
+        }
+        .dowmload-list .dowmload-item .download-title {
+            font-size: 14px;
+            width: 100%;
+            padding: 0 5px;
+            text-align: center;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap
+        }
+    </style>
+</head>
+
+<body>
+    <!-- content -->
+    <div class="ea-content" style="width: 100%;">
+        <div class="left-bar">
+            <ul>
+                <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+                <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+                <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+                <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+                <li class="active"><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+                <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+                <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+            </ul>
+        </div>
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content">
+            <!-- right nav -->
+            <!--<div ng-show="!chuliFlag" class="asj-h10"></div>-->
+            <div ng-show="chuliFlag" class="tab">
+                <div  class="tabNav tabNav1">
+                    <a class="act" href="0">待解决</a>
+                    <a href="1">已解决</a>
+                    <a href="2">处理中</a>
+                    <a href="">全部</a>
+                    <a href="3">已删除</a>
+                    <a href="4">黑名单</a>
+
+                </div>
+            </div>
+            <div ng-show="!chuliFlag" class="tab">
+                <div  class="tabNav tabNav2">
+                    <a class="act" href="1">等待CJ回复</a>
+                    <a href="2">等待客户回复</a>
+                    <a href="3">已完成</a>
+                    <a href="4">已挂起</a>
+                    <a href="0">已删除</a>
+                    <a href="5">自动失效</a>
+
+                </div>
+            </div>
+
+            <!--<div class="top-taps clearfix">-->
+                <!--<ul>-->
+                    <!--<li class="active"><a href="#/erpservice/gdcjreply">{{'100250' | translate}}</a></li>-->
+                    <!--<li><a href="#/erpservice/gdaccountreply">{{'100205' | translate}}</a></li>-->
+                    <!--<li><a href="#/erpservice/gdsuccess">{{'100209' | translate}}</a></li>-->
+                    <!--<li><a href="#/erpservice/gdhangup">{{'100251' | translate}}</a></li>-->
+                    <!--<li><a href="#/erpservice/gdcancel">{{'100252' | translate}}</a></li>-->
+                    <!--<li><a href="#/erpservice/gdautocancel">{{'100253' | translate}}</a></li>-->
+                    <!--<li><a href="#/erpservice/cusemailcancel">{{'100694' | translate}}</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!-- right search -->
+            <div class="right-bar" style="margin-top: 75px">
+                <div class="ea-right-search">
+                    <div class="input-group search-box">
+                        <input ng-show="emailStu"  id="groupMain" style="margin-right: 20px" placeholder="群主" ng-model="groupMain"   type="text"/>
+                        <input type="text" class="form-control top-search-inp" style="width: 320px" placeholder="请输入编号或者标题或客户id或客户名称" ng-model="userinfo">
+                        <a role="button" id="search" class="btn btn-default top-search-btn" type="button" ng-click="wllserch()">{{'100025' | translate}}</a>
+                    </div>
+
+                    <p ng-show="chuliFlag && cFlag">
+                        <select style="padding: 5px 10px" class="search-select" name="" id="selectOperator">
+                            <option value="">请选择处理人</option>
+                            <option ng-repeat="chuli in chulirenList" value="{{chuli.OPERATORID}}" repeat-finish>{{chuli.OPERATOR}}</option>
+                        </select>
+                    </p>
+
+                    <p ng-if="emailStu">
+                        <select class="search-select" ng-model="issuetype" ng-change="typechange(issuetype)">
+                            <option value="">All Type</option>
+                            <option value="App Issue">App Issue</option>
+                            <option value="Order Issue">Order Issue</option>
+                            <option value="Payment Issue">Payment Issue</option>
+                            <option value="Products Issue">Products Issue</option>
+                        </select>
+                        <select class="search-select" ng-model="evaluateVal" ng-change="evaluateChange(evaluateVal)" ng-show="status=='3' || status=='5' || status=='0'">
+                            <option value="">全部</option>
+                            <option value="非常好">非常好</option>
+                            <option value="一般">一般</option>
+                            <option value="不好">不好</option>
+                            <option value="未评价">未评价</option>
+                        </select>
+                    </p>
+                    <!-- <a class="dc-btn" href="#">{{'100068' | translate}}</a> -->
+                </div>
+                <!-- right list -->
+                <!-- <div class="ea-list-manipulation"><a href="#">导出</a></div> -->
+                <div class="table-con-box">
+                    <table class="ea-list-table ea-erp-cs" id="gd-table">
+                        <tr>
+                            <!--<th><span class="chek-span"><input type="checkbox"></span></th>-->
+                            <th><span>{{'100225' | translate}}</span></th>
+                            <th><span>{{'100254' | translate}}</span></th>
+                            <th ng-if="emailStu"><span>客户ID</span></th>
+                            <th ng-if="!emailStu"><span>客户编号</span></th>
+                            <th ng-if="!emailStu"><span>收件邮箱</span></th>
+                            <th ng-if="emailStu"><span>{{'100108' | translate}}</span></th>
+                            <th ng-if="!emailStu"><span>发件邮箱</span></th>
+                            <th><span>{{'100255' | translate}}</span></th>
+                            <th><span>{{'100256' | translate}}</span></th>
+                            <th><span>{{'100202' | translate}}</span></th>
+                            <th ng-if="!emailStu"><span>异常情况</span></th>
+                            <th><span>{{'100257' | translate}}</span></th>
+                            <th ng-if="emailStu"><span>{{'101318' | translate}}</span></th>
+                            <th ng-show="chuliFlag && bFlag"><span>处理结果</span></th>
+                            <th ng-show="chuliFlag && cFlag"><span>处理人</span></th>
+                            <th ng-show="status=='3' || status=='5' || status=='0'"><span>客户评价</span></th>
+                            <th><span>{{'100043' | translate}}</span></th>
+                        </tr>
+                        <tr ng-repeat="item in waitcjreplylist" ng-class="{gray:(item.DISPOSESTATUS=='1' && chuliFlag)}">
+                            <!--<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>-->
+                            <td><span>{{ item.FIRSTISSUEDATE.time | date:"yyyy-MM-dd"}}</span></td>
+                            <td>{{item.SERIAL}}</td>
+                            <td ng-if='!emailStu'><span>{{item.num}}</span></td>
+                            <td ng-if="emailStu"><span>{{item.ACCOUNTNUM || ''}}</span></td>
+                            <td ng-if="!emailStu"><span>{{item.FROMEMAIL}}</span></td>
+                            <td ng-if="emailStu" style="position: relative;" class="accounttd cus-lvtd">
+                                <span>{{item.ACCOUNTNAME}}</span>
+                                <!-- <ul class="hnj-tip">
+                                    <li>
+                                        <i class="ea-gard-star ea-gard2"></i>
+                                    </li>
+                                    <li style="font-size: 10px">{{item.ACCOUNTNUM}}</li>
+                                </ul> -->
+                                <b ng-if="item.userLevel==3" class="yzkehu-flag">优</b>
+                                <b ng-if="item.userLevel==2" class="ptkehu-flag">普</b>
+                                <b ng-if="item.userLevel==1" class="qzkehu-flag">潜</b>
+                                <img src="static/image/public-img/order.png">
+                                <b class="cus-dengji">LV{{item.cunLevel}}</b>
+                                <img src="static/image/public-img/money.png">
+                                <b class="cus-dengji">LV{{item.moneyLevel}}</b>
+                            </td>
+                            <td ng-if="!emailStu && !isAdminLogin"><span class="clickEmail" ng-click="openEmailGd(item.ACCOUNTEMAIL, item.ID)">{{'*'.repeat((item.ACCOUNTEMAIL && item.ACCOUNTEMAIL.length) || 0)}}</span></td>
+                            <td ng-if="!emailStu && isAdminLogin"><span class="clickEmail" ng-click="openEmailGd(item.ACCOUNTEMAIL, item.ID)">{{item.ACCOUNTEMAIL}}</span></td>
+                            <td><span>{{item.TYPE}}</span></td>
+                            <td><span>
+                                <p class="erpgd-title">{{item.SUBJECT}}</p>
+                            </span></td>
+                            <td style="position: relative;">
+                                <span>
+                                    <p>
+                                        {{item.STATUS=="1"?"100250" :item.STATUS=="2"?"100205":item.STATUS=="3"?"100209":item.STATUS=="4"?"100251":item.STATUS=="5"?"100253":item.STATUS=="0"?"100252":"default" | translate}}
+                                        <span style="display: inline;position: relative;" ng-show="item.issueTimeout" class="noticeCon">
+                                            <img class="noticeImg" style="cursor: pointer"  src="static/image/public-img/fause.svg" alt=""/>
+                                            <span class="noticeOut">将会在 {{item.issueTimeout.time | date:"yyyy-MM-dd HH:mm:ss"}} 自动关闭</span>
+                                        </span>
+
+                                    </p>
+                                </span>
+                            </td>
+                            <td ng-if='!emailStu'><span>{{item.errorMessage}}</span></td>
+                            <td><span>{{item.ISSUEDATE.time | date:"yyyy-MM-dd"}}</span></td>
+                            <td ng-if="emailStu" title="{{item.ownerName ? '群主' : '没有群主时显示'}}">
+                              {{item.ownerName || (item.OPERATOR == null?"--":item.OPERATOR)}}
+                              <div ng-show="!item.ownerName" style="font-size:10px;color:#ccc;transform:scale(.8)">{{'101316' | translate}}</div>
+                            </td>
+                            <td ng-show="status=='3' || status=='5' || status=='0'"><span>{{item.ESTIMATE}}</span></td>
+                            <td ng-show="chuliFlag && bFlag">{{classResult(item.DISPOSESTATUS)}}</td>
+                            <td ng-show="chuliFlag && cFlag">{{classPerson(item.OPERATOR)}}</td>
+                            <td>
+                                <span ng-show="!chuliFlag"><!-- <button ng-click="replyMsg($index)" type="button" class="ea-to-opea">回复</button> --><!-- <button type="button" class="ea-to-opea" ng-click="hangupMsg($index)">挂起</button> -->
+                                    <button type="button" class="ea-to-opea" ng-click="recordMsgFun($index,item)">{{'100259' | translate}}</button>
+                                </span>
+                                <div class="moreAction" ng-show="chuliFlag">
+                                    <span>更多操作 <b></b>
+                                        <div class="moreDropWrap">
+                                            <ul>
+                                                <li ng-click="recordMsgFun($index,item)">查看详情</li>
+                                                <li ng-show="orderFlag=='0' && (item.DISPOSESTATUS=='0' || item.DISPOSESTATUS=='1' || item.DISPOSESTATUS=='2')" ng-click="joinBlack(item)">加入黑名单</li>
+                                                <li ng-show="orderFlag=='0' && (item.DISPOSESTATUS=='0' || item.DISPOSESTATUS=='1' || item.DISPOSESTATUS=='2')" ng-click="delFun(item)">删除</li>
+                                                <li ng-show="orderFlag=='1'" ng-click="huifuDel(item)">恢复原状态</li>
+                                                <li ng-show="orderFlag=='2'" ng-click="huifuJoin(item)">恢复原状态</li>
+                                            </ul>
+                                        </div>
+                                    </span>
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="totalNum<1" style="text-align: center;">暂无数据</div>
+                <!-- 分页 -->
+                <div class="page-box" ng-show="totalNum>0">
+                    <div class="select-page-num">
+                        <select style="width: 65px;height: 31px;" class="form-control" ng-model="pagesize" ng-change="pagesizechange(pagesize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <!-- <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a> -->
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+                <!--分页结束-->
+                <!-- 消息记录的弹框 -->
+                <div class="recordMsg" style="height: 560px;">
+                    <div class="recordMsg-title">
+                        <div class="recordMsg-word pull-left">
+                            {{'100212' | translate}}
+                        </div>
+                        <div class="recordMsg-close pull-right" ng-click="closRrecordMsgFun()">
+                            <span>&times;</span>
+                        </div>
+                    </div>
+                    <div class="recordMsg-content" ng-class="{h467:!emailStu}">
+                        <div class="head">
+                            <table class="" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>Type:</td>
+                                        <td>{{nowType}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>Date:</td>
+                                        <td>{{tdetailDate | date:"yyyy-MM-dd"}}</td>
+                                        <td>Status:</td>
+                                        <td>
+                                            {{nowStatus=="1"?"100250":nowStatus=="2"?"100205":nowStatus=="3"?"100209":nowStatus=="4"?"100251":nowStatus=="5"?"100253":nowStatus=="0"?"100216":"default" |translate}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul>
+                            <li ng-repeat="recordMsg in recordMsgArr">
+                                <div class="left">
+                                    <img ng-src="{{'https://'+recordMsg.AVATAR.replace('https://','')}}" ng-if="recordMsg.AVATAR" style="border-radius: 50%;width: 80px;height:80px;border:solid 1px #ececec;" class="pull-right">
+                                    <p ng-if="recordMsg.STATUS=='0'&&emailStu" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-show="!recordMsg.AVATAR" ng-bind="imgName"></p>
+                                    <p ng-if="recordMsg.STATUS=='1'&&emailStu" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-show="!recordMsg.AVATAR" ng-bind="ywyName"></p>
+
+                                    <p ng-if="!emailStu" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-bind="firNameWord"></p>
+                                </div>
+                                <div class="right">
+                                    <div class="user-msg">
+                                        <h4 ng-show="recordMsg.STATUS=='0'">{{recordMsg.OPERATOREN}}</h4>
+                                        <p class="pull-right" ng-show="recordMsg.STATUS=='1'" style="font-size: 14px;color:#ccc;">{{ recordMsg.MESSAGEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+                                        <p ng-show="recordMsg.STATUS=='0'" style="margin-top: 10px;font-size: 14px;"><span style="color: #A3A2A2;">{{nowStatus=="1"?"100250":nowStatus=="2"?"100205":nowStatus=="3"?"100209":nowStatus=="4"?"100251":nowStatus=="5"?"100253":nowStatus=="0"?"100216":"default" | translate}}</span> &nbsp;&nbsp; || &nbsp;&nbsp; <span style="color: #ccc;">{{'100254' | translate}}：{{recordMsg.SERIAL}}</span></p>
+                                        <p ng-show="recordMsg.STATUS=='1'" style="font-size: 16px;color:#A3A2A2;"><span>{{recordMsg.OPERATOREN}}</span></p>
+                                        <a href="" id="staff-btn" class="btn btn-primary btn-sm" style="margin-left: 15px;cursor: default;" ng-show="recordMsg.STATUS=='1'">Staff</a>
+                                        <span style="color: #A3A2A2;font-size: 12px;" ng-show="recordMsg.STATUS=='1'">{{recordMsg.NUMBER}}</span>
+                                        <p class="pull-right" ng-show="recordMsg.STATUS=='0'" style="font-size: 14px;color:#ccc;">{{ recordMsg.MESSAGEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+                                    </div>
+                                    <div ng-if="nowType!='email Issue'" class="user-content" style="word-wrap: break-word;">
+                                        <div ng-bind-html="recordMsg.MESSAGE"></div>
+                                        <div class="img-box" ng-show="recordMsg.ATTACHMENT!=''">
+                                             <!-- ng-if="recordMsg.STATUS=='0'" -->
+                                            <p ng-repeat="imgs in recordMsg.ATTACHMENT" style="display: inline-block;margin-right: 10px;">
+                                                <img ng-src="{{imgs}}" style="height: 70px;width:70px;" ng-click="dpreviewImg($event)">
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- 如果是Email -->
+                                    <div ng-if="nowType=='email Issue'" class="user-content" style="word-wrap: break-word;">
+                                        <a target="_blank" style="color: #0d47a1" ng-href="{{'https://'+recordMsg.MESSAGE.replace('https://','')}}">{{'https://'+recordMsg.MESSAGE.replace('https://','')}}</a>
+                                    </div>
+                                    <!-- <p  ng-bind-html="{{'https://'+recordMsg.MESSAGE | to_trusted:'https://'+recordMsg.MESSAGE}}"></p> -->
+                                    <div ng-if="nowType=='email Issue'">
+                                        <iframe align="center" width="100%" height="240" src="{{trustSrc('https://'+recordMsg.MESSAGE)}}"  frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+                                    </div>
+                                </div>
+                            </li>
+                            <li style="display: block;border: none;" ng-if="(status=='1' || status=='2' || status=='4') && isAdminFlag && emailStu">
+                                <label>{{'100211' | translate}}</label>
+                                <!-- <textarea style="margin-bottom: 15px;" name="message" id="replyworld" cols="30" rows="5" class="form-control"></textarea> -->
+                                <div class="reply-box">
+                                    <div id="replyworld" name="message"></div>
+                                </div>
+
+                                <!-- 添加上传附件的功能 -->
+                                <div class="form-group file" style="margin-bottom: 0;">
+                                    <!-- <label style="margin-bottom: 10px;font-weight: bold;" for="exampleInputFile">Attachments</label><br> -->
+                                        <div style="width: 100%;position: relative;">
+                                            <!-- <img src="./static/image/public-img/upload.png" > -->
+                                            <div  class="upload-div">
+                                                <div class="plus">+</div>
+                                                <span class="uploadText">上传</span>
+                                            </div>
+                                            <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                                            <input type="file" name="file" ng-model="documentupload2" id="file" accept=".png, .jpg, .jpeg, .gif" 
+                                                multiple onchange="angular.element(this).scope().upLoadImg4(this.files)" 
+                                                ng-click="df($event)">
+                                            <input type="hidden">
+                                            </form>
+
+                                            <div class="img imgBox">
+                                                <ul>
+                                                    <li ng-repeat="imge in imgArr track by $index" class="imgList">
+                                                        <img ng-src="{{imge}}" style="width:100%;height:100%;">
+                                                        <div class="img-shade">
+                                                            <span class="pull-left" ng-click="previewImg($event)" style="margin-top: 72px;">Preview</span>
+                                                            <span class="pull-right" ng-click="deleteImg($index)" style="margin-top: 72px;">Delete</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    <!-- </div> -->
+                                      <!-- <div class="form-group">
+
+                                          <p>(Allowed File Extensions: .jpg, .gif, .jpeg, .png)</p>
+                                      </div> -->
+                                 </div>
+
+                            </li>
+                            <!-- 客户邮件工单回复 显示下载附件 -->
+                            <li style="display: block;border: none;" ng-if="status=='1'">
+                                <p class="dowmload-list-title" ng-if="downloadArr && downloadArr.length > 0">附件内容:</p>
+                                <ul class="dowmload-list">
+                                    <li class="dowmload-item" ng-repeat="do in downloadArr">
+                                        <a class="download-url" download="" href="{{'https://'+do.downUrl}}">
+                                            <i class="iconfont download-icon">&#xe6a4;</i>
+                                        </a>
+                                        <p class="download-title" title="{{do.downTxt}}">{{do.downTxt}}</p>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--<div class="recordMsg-action center-block" ng-if="emailStu&&isAdminFlag">-->
+                            <!--<button ng-if="status=='1' || status=='2' || status=='4'" ng-click="replyMsg()" type="button" class="ea-to-opea">{{'100211' | translate}}</button>-->
+                            <!--<button ng-if="status=='1' || status=='2'" type="button" class="ea-to-opea" ng-click="hangupMsg()">{{'100260' | translate}}</button>-->
+                        <!--</div>-->
+                        <div class="recordMsg-evaluate" ng-show="status=='3' || status=='5' || status=='0'">
+                            <div class="evaluate-left">
+                                客户评价：<span>{{ESTIMATE}}</span>
+                                <p class="evaluate-content">{{ESTIMATEEXPLAIN}}</p>
+                            </div>
+                            <div class="evaluate-right">
+                                <span>{{estimateDate | date:"yyyy-MM-dd hh:mm:ss"}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recordMsg-bottom" style="text-align: center;margin-top: 15px">
+                        <!--<button class=""style="padding: 5px 15px;border-radius: 4px;background:#FFA200;color: #fff;margin-right: 15px;" ng-click="">回复</button>-->
+                        <button ng-show="emailStu&&isAdminFlag&&!chuliFlag &&(status=='1' || status=='2' || status=='4')" ng-click="replyMsg()" type="button" class="ea-to-opea">{{'100211' | translate}}</button>
+                        <button ng-show="emailStu&&isAdminFlag&&!chuliFlag && (status=='1' || status=='2')" type="button" class="ea-to-opea" ng-click="hangupMsg()">{{'100260' | translate}}</button>
+                        <button class="" ng-show="chuliFlag && DISPOSESTATUS=='0'" style="padding: 5px 15px;border-radius: 4px;background:#FFA200;color: #fff;margin-right: 15px;" ng-click="changeStatusFun('2')">处理中</button>
+                        <button ng-show="chuliFlag && (DISPOSESTATUS=='0' || DISPOSESTATUS=='2')" style="padding: 5px 15px;border-radius: 4px;background:#FFA200;color: #fff;margin-right: 15px;" ng-click="changeStatusFun('1')">已解决</button>
+                        <button ng-show="chuliFlag && DISPOSESTATUS=='0'" class=""style="padding: 5px 15px;border-radius: 4px;background:#FFA200;color: #fff;margin-right: 15px;" ng-click="openEmailGd(ACCOUNTEMAIL, updateId)">回复</button>
+                    </div>
+                    
+                </div>
+                <!-- 图片预览 -->
+                <div class="img-preview-wrap" style="z-index: 999999;" ng-click="previewWrapFun()">
+                    <div style="max-height:800px;overflow-y: auto;width: 920px;margin-top: 5%;margin-left: auto;margin-right: auto;">
+                        <img ng-src="{{previewSrc}}" style="width: 900px;margin-top: 0;" class="center-block">
+                    </div>
+
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+        <!-- 上传的文件不是图片的提示框 -->
+        <div class="gderr-loadsrc" style="width: 100%;height: 100%;position: fixed;left: 0;top: 0;z-index: 999;background-color: rgba(0,0,0,0.5)" ng-show="isphoto">
+            <div class="errlsrc-con">
+                <p>
+                    Incorrect File Extension, Please Upload Valid One.
+                </p>
+                <button ng-click="isimgcloFun()">Confirm</button>
+            </div>
+        </div>
+    </div>
+<!--回复弹窗-->
+<div class="zzc">
+    <div class="zzcWrap">
+        <div id="wang"></div>
+    </div>
+</div>
+  <!--发送邮件-->
+  <erpservice-Send-Email ng-if="isSendMail" no="ctrl.no" gd_id="ctrl.gdId"></erpservice-Send-Email>
+</body>
+
+</html>

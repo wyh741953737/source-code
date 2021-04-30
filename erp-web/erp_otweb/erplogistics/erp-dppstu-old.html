@@ -1,0 +1,636 @@
+<style type="text/css">
+	.clearfix:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+	.list-li{
+		padding-bottom: 20px;
+		/*border: 1px solid blue;*/
+	}
+	.wbf80{
+		width: 78%;
+		height: 120px;
+		font-size: 50px;
+		border: 1px solid #ececec;
+		text-indent: 12px;
+  }
+    .spanwbf80{
+        width: 78%;
+        display: inline-block;
+        height: 120px;
+        line-height: 120px;
+        font-size: 50px;
+        border: 1px solid #ececec;
+        text-indent: 12px;
+        position: relative;
+    }
+    .spanwbf40{
+        width: 38.5%;
+    }
+	.index-num{
+		width: 18%;
+		display: inline-block;
+		line-height: 120px;
+		font-size: 50px;
+		vertical-align: top;
+		border: 1px solid #ececec;
+		text-align: center;
+  }
+  .wbf40 {
+    width: 38.5%;
+  }
+	.sel-hdlist{
+		margin: 20px;
+		height: 30px;
+	}
+	.serState{
+		height: 30px;
+		width: 200px;
+	}
+    .mar-l30{
+        margin-left: 30px;
+    }
+	.sub-track-num,.hd-lrbtn,.clo-tra-btn{
+		height: 30px;
+		background-color: #87CEFA;
+		color: #fff;
+		border-radius: 4px;
+        margin-left: 20px;
+        padding: 0 10px;
+	}
+	.hdlr-div{
+		height: 30px;
+		margin: 10px 0;
+	}
+	.clo-tra-btn{
+		background-color: #ececec;
+		color: #333;
+		margin-left: 30px;
+	}
+	.hd-lrbtn{
+		float: right;
+	}
+	.tc-bgwrap{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 999;
+		background-color: rgba(0,0,0,0.3);
+	}
+	.hd-conlist{
+		margin-left: 260px;
+		min-width: 1100px;
+		width: 80%;
+		height: 840px;
+		padding: 20px;
+		background-color: #fff;
+		position: absolute;
+		/*left: 50%;*/
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.wpphd-tab{
+		width: 100%;
+	}
+    .dele-btn{
+        width: 80px;
+        height: 30px;
+        background-color: #87CEFA;
+        color: #fff;
+        border-radius: 4px;
+    }
+    .upload-form{
+        display: inline-block;
+        border: 1px solid #87CEFA;
+        border-radius: 4px;
+        position: relative;
+        color: #87CEFA;
+        vertical-align: top;
+    }
+    .up-hdexcel{
+        height: 30px;
+        border-radius: 4px;
+        background-color: #fff;
+        width: 100px;
+        text-align: center;
+    }
+    .dpp-stu{
+        vertical-align: top;
+        margin-left: 20px;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        cursor: pointer;
+    }
+    .dpp-stu:hover{
+        color: #F9962E;
+    }
+    .dpp-stuactive{
+        color: #F9962E;
+    }
+    .up-hdcon{
+        position: absolute;
+        width: 500px;
+        height: 160px;
+        padding: 20px;
+        background-color: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .bot-btns{
+        text-align: center;
+        margin-top: 20px;
+    }
+    .bot-btns .bot-qx{
+        background-color: #666;
+        color: #fff;
+        width: 60px;
+        height: 30px;
+        border-radius: 4px;
+        /*margin-right: 50px;*/
+    }
+    .bot-qx:hover{
+        background-color: #999;
+    }
+    .bot-btns .bot-sure{
+        background-color: #f88f29;
+        color: #fff;
+        width: 60px;
+        height: 30px;
+    }
+    .sel-up{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .sel-up select{
+        width: 200px;
+        height: 30px;
+    }
+    .up-hd-top{
+        height: 80px;
+    }
+	.ea-right-search{
+		padding: initial;
+		position: initial;
+		overflow: initial;
+	}
+	.datatime-screen{
+		margin-top: initial;
+	}
+	.datatime-screen input{
+		height: 30px;
+        padding: 0 10px;
+        width: 110px;
+	}
+	.datatime-screen a.active {
+		color: #08ACE9;
+	}
+	.asj-common-tanwrap {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.1);
+		top: 0;
+		left: 0;
+		z-index: 100003;
+	}
+	.tan-add-ware {
+		width: 360px;
+		min-height: 180px;
+		height: initial;
+		background: rgba(255, 255, 255, 1);
+		border-radius: 4px;
+	}
+	.asj-common-tan a {
+		font-size: 14px;
+		font-family: PingFangSC-Medium;
+		color: rgba(102, 102, 102, 1);
+		line-height: 20px;
+		margin: 10px 0;
+		text-align: left;
+		text-decoration: #0d47a1;
+	}
+	.asj-common-tan .tan-btns {
+		height: 30px;
+		text-align: center;
+		position: absolute;
+		width: 100%;
+		z-index: 1;
+		bottom: 15px;
+		left: 0;
+	}
+	.asj-common-tan .tan-btns .tan-btn0 {
+		width: 80px;
+		height: 30px;
+		border-radius: 2px;
+		border: 1px solid rgba(247, 157, 45, 1);
+		margin: 0 20px;
+		color: #F9AE08;
+		background-color: #fff;
+	}
+    .list-ul{
+        height: 600px;
+        overflow-y: auto;
+    }
+    .redborder{
+        border: 1px solid #c9302c;
+    }
+    .time-span{
+        position: absolute;
+        right: 10px;
+        top: -40px;
+        font-size: 26px;
+        color:#d44950;
+    }
+    /*.time-span-desc{
+       position: absolute;
+       right: 10px;
+       top: -40px;
+       font-size: 22px;
+       color:#d44950; 
+    }*/
+    .time-span-lanzi{
+       position: absolute;
+       left: 10px;
+       top: -40px;
+       font-size: 22px;
+       color:#d44950; 
+    }
+    .time-span-hdname{
+        position: absolute;
+        left: 30px;
+        top: -40px;
+        font-size: 22px;
+        color:#d44950; 
+    }
+    .two-ck-btn{
+        height: 25px;
+        padding: 0 10px;
+        color: #5dbdf2;
+        border: 1px solid #5dbdf2;
+        background-color: #fff;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+    .two-ck-activebtn{
+        background-color: #5dbdf2;
+        color: #fff;
+    }
+    .dbr-name-inp{
+        height: 120px;
+        width: 96%;
+        border: 1px solid #999999;
+        text-align: center;
+        color: #e55264;
+        font-size: 90px;
+        margin-bottom: 20px;
+    }
+    .lanjie-val{
+        border: 1px solid #ececec;
+        width: 100%;
+        height: 110px;
+        font-size: 12px;
+    }
+    .quxiao-btn{
+        color: #6b6b6b;
+        height: 30px;
+        width: 76px;
+        border: 1px solid #cfcfcf;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #f6f6f6;
+        margin-right: 15px;
+    }
+    .queding-btn{
+        color: #fff;
+        height: 30px;
+        width: 76px;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #ff8d31;
+    }
+</style>
+<div class="right-bar-wrap ea-right-content" style="min-width: 1230px;">
+    <div class="asj-h10"></div>
+	<div class="right-bar">
+		<div class="ea-right-search clearfix">
+			<div class="datatime-screen">
+				<a href="javascript:void(0)" ng-click="timeStuFun($event,'0')" class="drk-time">{{'100296' | translate}}</a>
+				<a href="javascript:void(0)" ng-click="timeStuFun($event,'2')" class="drk-time">{{'100646' | translate}}</a>
+				<a href="javascript:void(0)" ng-click="timeStuFun($event,'6')" class="drk-time">一周</a>
+				<input class="Wdate data-inp" style="width:120px;" id="left-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="开始日期">
+				<input id="right-time" placeholder="结束日期" class="Wdate data-inp" style="width:120px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                <input class="seach-inp" style="width:230px;" ng-model="trackCode" placeholder="请输入追踪号,如果多个用逗号隔开"></input>
+                <input class="seach-inp" ng-model="packageUser" placeholder="请输入打包人">
+                <input class="seach-inp" ng-model="weight" ng-change="inputNumber('weight')" placeholder="请输入超重范围">
+                <input ng-click="inpSeaFun()" class="drk-seachInp" type="button" value="{{'100025' | translate}}">
+                <button ng-click="storeFun($event,'0')" class="two-ck-btn">义乌仓</button>
+                <button ng-click="storeFun($event,'1')" class="two-ck-btn">深圳仓</button>
+                <button ng-click="storeFun($event,'2')" class="two-ck-btn">美国仓</button>
+                <button ng-click="storeFun($event,'4')" class="two-ck-btn">泰国仓</button>
+			</div>
+		</div>
+		<div class="hdlr-div">
+    		<label class="clearfix">
+    		    <span>{{'100651' | translate}}：</span>
+    		    <select class="serState" ng-model="selHdName" ng-change="hdNameSeaFun()" ng-options="item.companyName for item in names">
+    		        <option value="">{{'100693' | translate}}</option>
+    		    </select>
+    		</label>
+            <!-- <button ng-if="(dppStu==0||dppStu==1)&&selStore=='2'" ng-click="qxLanJieFun()" class="hd-lrbtn">取消拦截</button>
+            <button ng-if="(dppStu==0||dppStu==1)&&selStore=='2'" ng-click="lanJieFun()" class="hd-lrbtn">拦截</button> -->
+            <button ng-click="uploadHdFlag=true" class="hd-lrbtn">匹配货代</button>
+			<button ng-click="pphdFlag=true" class="hd-lrbtn">录入</button>
+            <button ng-click="Export()" class="hd-lrbtn">导出</button>
+            <!--<button ng-if="dppStu == 4" ng-click="batchList()" class="hd-lrbtn">批量生成清单</button>-->
+            <!-- <div class="upload-form">
+                <button class="up-hdexcel">上传货代excel</button>
+                <form class="pull-left" id="upload" action="" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" id="uploadInp" multiple onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display:inline-block; margin: 0;font-size: 0;cursor: pointer;height: 30px;width:100px;position: absolute;top: 0;left: 0;opacity: 0;">
+                    <input type="hidden">
+                </form>
+            </div> -->
+            <span ng-click="selfun(0)" class="dpp-stu">erp未匹配</span>
+            <span ng-click="selfun(1)" class="dpp-stu">erp已匹配</span>
+            <span ng-click="selfun(2)" class="dpp-stu">货代未匹配</span>
+            <span ng-click="selfun(3)" class="dpp-stu">货代已匹配</span>
+            <span ng-click="selfun(4)" class="dpp-stu">DHL小包未生成清单</span>
+		</div>
+		<div class="table-list">
+    		<table class="ea-list-table wpphd-tab">
+    			<thead>
+    				<tr>
+    					<th>
+                            <img ng-show="!isAllAct && dppStu == 4" ng-click="allChecked()" class="c-mu-chekbox" src="static/image/order-img/multiple1.png">
+                            <img ng-show="isAllAct && dppStu == 4" ng-click="allChecked()" class="c-mu-chekbox" src="static/image/order-img/multiple2.png">
+                            序号
+                        </th>
+						<th>日期</th>
+						<th>货代名称</th>
+    					<th>追踪号</th>
+                        <th ng-if="dppStu==0||dppStu==1">打包人</th>
+                        <th ng-if="dppStu==0||dppStu==1">数量</th>
+                        <th ng-if="dppStu==0||dppStu==1">拦截状态</th>
+                        <th ng-if="dppStu==0||dppStu==1">称重重量</th>
+                        <th ng-if="dppStu==0||dppStu==1">订单重量</th>
+                        <th>清单ID</th>
+                        <th>操作</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<tr ng-repeat="item in stafflist">
+						<td>
+                            <img ng-show="!item.isAct && dppStu == 4" ng-click="cldChecked(item)" class="c-mu-chekbox" src="static/image/order-img/multiple1.png">
+                            <img ng-show="item.isAct && dppStu == 4" ng-click="cldChecked(item)" class="c-mu-chekbox" src="static/image/order-img/multiple2.png">
+                            {{$index+1}}
+                        </td>
+						<td>{{item.createDate}}</td>
+    					<td>{{item.freightName}}</td>
+    					<td style="word-break: break-all;">{{item.trackingNumCode}}</td>
+                        <td ng-if="dppStu==0||dppStu==1">{{item.packageUser}}</td>
+                        <td ng-if="dppStu==0||dppStu==1">{{item.quantity}}</td>
+                        <td ng-if="dppStu==0||dppStu==1">
+                            <p style="color:#d9534f;" ng-if="item.freightStatus=='9'">拦截</p>
+                            <p style="color:#449d44;" ng-if="item.freightStatus=='10'">拦截成功</p>
+                        </td>
+                        <td ng-if="dppStu==0||dppStu==1">{{item.weight}}</td>
+                        <td ng-if="dppStu==0||dppStu==1">{{item.freightWeight}}</td>
+                        <td><a style="color: #0d47a1;" target="_blank" ng-show="item.maniFestUrl" ng-href="{{item.maniFestUrl}}">{{item.maniFestID}}</a></td>
+                        <td>
+                            <button class="dele-btn" ng-click="delWppFun(item,$index)">删除</button>
+                        </td>
+    				</tr>
+    			</tbody>
+    		</table>
+
+    		<div class="no-data" ng-show="totalNum == 0" style="text-align: center;line-height: 60px;">没有数据</div>
+    		<div class="page-box" ng-show="totalNum > 0">
+    		    <div class="select-page-num">
+    		        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+    		                style="width: 65px;height: 31px;">
+    		            <option value="100">100</option>
+    		            <option value="200">200</option>
+    		            <option value="300">300</option>
+    		            <option value="500">500</option>
+    		        </select>
+    		        <span>每页</span>
+    		    </div>
+    		    <div class="total-num">
+    		        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+    		    </div>
+    		    <div class="page-index">
+    		        <div class="pagegroup">
+    		        </div>
+    		    </div>
+    		    <div class="to-go">
+    		        <span>跳转：</span>
+    		        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum" ng-change="inputNumber('pagenum')">
+    		        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+    		    </div>
+    		</div>
+    	</div>
+    	<audio class="audio-dom" src="static/audio/cf.mp3" preload="auto">
+    		浏览器不支持audio标签,请升级
+    	</audio>
+        <audio class="audio-succ" src="static/audio/cg.mp3" preload="auto">
+            浏览器不支持audio标签,请升级成功
+        </audio>
+        <audio class="audio-hdcw" src="http://boscdn.bpc.baidu.com/v1/developer/8225f27f-987c-426f-863a-9c4439dd2b2b.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-wfcz" src="http://boscdn.bpc.baidu.com/v1/developer/43e94e16-9762-4fbc-9589-44d7462a8b87.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-dabaoren" src="static/audio/daBaoRen.mp3" preload="auto">
+            浏览器不支持audio标签,打包人请升级
+        </audio>
+        <audio class="audio-lrmzcg" src="static/audio/lrmzcg.mp3" preload="auto">
+            浏览器不支持audio标签,请升级录入名字
+        </audio>
+        <audio class="audio-hrcg" src="static/audio/hrcg.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 换人成功
+        </audio>
+
+        <audio class="audio-hd1" src="static/audio/1.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd2" src="static/audio/2.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd3" src="static/audio/3.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd4" src="static/audio/4.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd5" src="static/audio/5.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd6" src="static/audio/6.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd7" src="static/audio/7.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd8" src="static/audio/8.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-hd9" src="static/audio/9.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-myhd" src="static/audio/myhd.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 没有货代
+        </audio>
+        <audio class="audio-ckhd" src="static/audio/ckhd.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+
+        <audio class="audio-en-cg" src="static/audio/en-cg.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-en-cf" src="static/audio/en-cf.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-en-lanjie" src="static/audio/en-lanjie.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-en-notfound" src="static/audio/en-notfound.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-ord-cf" src="static/audio/ord-cf.mp3" preload="auto">
+            浏览器不支持audio标签,请升级
+        </audio>
+        <audio class="audio-lanjie-bfj" src="static/audio/lanjie-bfj.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 拦截订单 不发件
+        </audio>
+        <audio class="audio-gqmd" src="static/audio/guoqimiandan.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 过期面单
+        </audio>
+        <audio class="audio-shibai" src="static/audio/shibai.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 失败
+        </audio>
+        <audio class="audio-meiDong" src="static/audio/meiDong.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 美东
+        </audio>
+        <audio class="audio-meiXi" src="static/audio/meiXi.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 美西
+        </audio>
+        <audio class="audio-cn-lanjie" src="static/audio/cn-lanjie.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 中文 拦截
+        </audio>
+        <audio class="audio-cn-wtdputdaz" src="static/audio/wtdputdaz.mp3" preload="auto">
+            浏览器不支持audio标签,请升级 中文 E邮宝问题单
+        </audio>
+    	<div class="tc-bgwrap" ng-show="pphdFlag">
+    		<div class="hd-conlist">
+                <input ng-model="dbrName" class="dbr-name-inp" ng-blur="isGetWeight()"></input>
+    			<ul class="list-ul">
+    				<li class="list-li" ng-repeat="item in list track by $index">
+    					<!-- <span class="index-num" ng-cloak>{{item.erp-dppstu}}</span> -->
+    					<span class="index-num" ng-cloak>{{$index+1}}</span>
+    					<!-- <input class="wbf80 redborder" ng-model="item"></input> -->
+                        <span class="spanwbf80 spanwbf40" ng-class='{redborder:item.flag}'>{{item.trackNum}} 
+                            <span class="time-span" ng-if="item.date">{{ item.date.year+1900}}-{{item.date.month+1}}-{{item.date.date}} {{item.date.hours}}:{{item.date.minutes}}:{{item.date.seconds}}</span>
+                            <span class="time-span" ng-if="item.desc">{{item.desc}}</span>
+                            <span class="time-span-hdname">{{item.hdName}}</span>
+                            <span class="time-span-lanzi">{{item.lanZi}}</span>
+                        </span>
+                        <span class="spanwbf80 spanwbf40" ng-class='{redborder:item.flag}'>{{item.weight}}</span>
+    				</li>
+    				<li>
+    					<span class="index-num" ng-cloak>{{indexNum}}</span>
+    					<input class="wbf80 wbf40" id="incur-inp" ng-model="inpVal"></input>
+    					<input class="wbf80 wbf40" id="incur-inp-Weight" ng-model="inpValWeight"></input>
+    				</li>
+    			</ul>
+    			<div class="sel-hdlist">
+                    <select class="serState" ng-model='selStore'>
+                        <option value="0">义乌</option>
+                        <option value="1">深圳</option>
+                        <option value="2">美国</option>
+                    </select>
+    				<!-- <select class="serState" ng-model="selectedName" ng-options="item.companyName for item in names">
+    				    <option value="">{{'100693' | translate}}</option>
+    				</select> -->
+    				<!-- <button class="mar-l30 sub-track-num" ng-click="submitZzhFun()">提交</button> -->
+    				<button ng-click="closeLrFun()" class="mar-l30 clo-tra-btn">关闭</button>
+                    <!-- <div class="upload-form mar-l30">
+                        <button class="up-hdexcel">上传货代excel</button>
+                        <form id="upload" class="pull-left" action="" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" id="uploadInp" style="display:inline-block; margin: 0;font-size: 0;cursor: pointer;height: 30px;width:100px;position: absolute;top: 0;left: 0;opacity: 0;">
+                            <input type="hidden">
+                        </form>
+                    </div> -->
+                    <!-- <div class="upload-form mar-l30">
+                        <button class="up-hdexcel">上传货代excel</button>
+                        <form class="pull-left" id="upload" action="" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" id="uploadInp" multiple onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display:inline-block; margin: 0;font-size: 0;cursor: pointer;height: 30px;width:100px;position: absolute;top: 0;left: 0;opacity: 0;">
+                            <input type="hidden">
+                        </form>
+                    </div>
+                    <span class="subexc-tit"></span> -->
+                    <!-- <input type="button" style="width: 100px;" value="确定上传excel" class="sub-track-num sub-btn mar-l30" /> -->
+    			</div>
+    		</div>
+    	</div>
+    	<!-- 上传货代excel -->
+        <div class="tc-bgwrap" ng-show="uploadHdFlag">
+            <div class="up-hdcon">
+                <div class="up-hd-top">
+                    <div class="sel-up">
+                        <select ng-model="uphdSelhdName" ng-options="item.companyName for item in names">
+                            <option value="">{{'100693' | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="upload-form mar-l30">
+                        <button class="up-hdexcel">上传货代excel</button>
+                        <form class="pull-left" id="upload" action="" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" id="uploadInp" multiple onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display:inline-block; margin: 0;font-size: 0;cursor: pointer;height: 30px;width:100px;position: absolute;top: 0;left: 0;opacity: 0;">
+                            <input type="hidden">
+                        </form>
+                    </div>
+                    <span class="subexc-tit"></span>
+                </div>
+                <div class="bot-btns">
+                    <button ng-click="closeUpHdFun()" class="bot-qx">关闭</button>
+                    <!-- <button ng-click="sureUploadHdFun()" class="bot-sure">确定</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!---->
+<div class="asj-common-tanwrap ng-scope" ng-show="isExp">
+	<div class="asj-common-tan tan-add-ware">
+		<a ng-href="{{ExpURl}}" target="_blank">{{ExpURl}}</a>
+
+		<div class="tan-btns">
+			<a class="tan-btn0" ng-click="closeExp()">关闭</a>
+		</div>
+	</div>
+</div>
+<!-- 拦截 -->
+<div class="asj-common-tanwrap ng-scope" ng-show="lanJieFlag">
+    <div class="asj-common-tan tan-add-ware">
+        <textarea ng-model="ljTrackVal" class="lanjie-val"></textarea>
+        <div class="tan-btns">
+            <button class="quxiao-btn" ng-click="lanJieFlag = false;">取消</button>
+            <button class="queding-btn" ng-click="sureLanJieFun()">确定</button>
+        </div>
+    </div>
+</div>
+<!-- 取消拦截 -->
+<div class="asj-common-tanwrap ng-scope" ng-show="qxLanJieFlag">
+    <div class="asj-common-tan tan-add-ware">
+        <textarea ng-model="qxljTrackVal" class="lanjie-val"></textarea>
+        <div class="tan-btns">
+            <button class="quxiao-btn" ng-click="qxLanJieFlag = false;">取消</button>
+            <button class="queding-btn" ng-click="sureQxLanJieFun()">确定</button>
+        </div>
+    </div>
+</div>

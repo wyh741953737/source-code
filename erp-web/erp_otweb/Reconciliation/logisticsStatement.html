@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+  <meta charset="UTF-8">
+  <title>物流对账单</title>
+	<link rel="stylesheet" href="erp_otweb/css/reconciliation.css">
+</head>
+<body>
+<div class="content">
+	<div class="filter-box">
+		<div class="item">
+	    <input id="date1" class="Wdate data-inp" ng-focus="dateFocus($event,'startTime')"
+	           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="" ng-model="startTime">
+			<span class="line">-</span>
+      <input id="date2" class="Wdate data-inp" ng-focus="dateFocus($event,'endTime')"
+             onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="" ng-model="endTime">
+		</div>
+		<div class="item">
+			<input type="text" ng-model="operatorName" placeholder="操作人">
+		</div>
+		<div class="item">
+			<button ng-click="hadelSearch()">查询</button>
+		</div>
+	</div>
+  <table>
+    <thead>
+    <tr>
+      <th>序号</th>
+      <th>对账单名称</th>
+      <th>合计金额</th>
+      <th>操作人</th>
+      <th>操作时间</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in tableData" ng-show="tableData.length>0">
+	    <td>{{$index+1}}</td>
+	    <td>{{item.statementAccountName}}</td>
+	    <td>{{item.totalAmount ? '¥'+item.totalAmount : ''}}</td>
+	    <td>{{item.operatorName}}</td>
+	    <td>{{item.operatorTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+	    <td>
+		    <span ng-show="item.status === '1'">草稿</span>
+		    <span ng-show="item.status === '2'">已对账</span>
+	    </td>
+	    <td>
+		    <a ng-click="handleOpt(item)">查看详情</a>
+	    </td>
+    </tr>
+    <tr ng-show="tableData.length == 0">
+      <td colspan="12" style="font-size: 14px;">暂无数据。</td>
+    </tr>
+    </tbody>
+    </table>
+	<page ng-show="tableData.length > 0"></page>
+</div>
+</body>
+</html>

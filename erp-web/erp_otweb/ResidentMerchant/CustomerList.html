@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>新品</title>
+  <!--业务员管理-->
+  <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+  <script src="erp_otweb/js/video.min.js"></script>
+</head>
+<style>
+  .filter {
+    line-height: 30px !important;
+    /* display: flex; */
+  }
+
+  .filter .datetab {
+    margin-left: 15px;
+  }
+
+  .filter .dateact {
+    color: #0d8efb;
+  }
+
+  .chartsbox .dateact {
+    color: #0d8efb;
+  }
+
+  .search-by-con {
+    height: 30px;
+    position: relative;
+    float: left;
+  }
+
+  .default-con {
+    width: 240px;
+    height: 30px;
+    padding-left: 10px;
+    line-height: 30px;
+    border: 1px solid #e5e5e5;
+    position: relative;
+  }
+
+  .has-list-cate {
+    float: left;
+    margin-right: 15px;
+  }
+
+  .serch-by-name {
+    height: 30px;
+    line-height: 30px;
+    float: left;
+  }
+
+  input,
+  select {
+    height: 30px !important;
+  }
+
+  .three-grade-list {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    margin-top: 0;
+    padding-left: 0;
+    background: #fff;
+    z-index: 99;
+    display: none;
+  }
+
+  .caret {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+  }
+
+  .filter .search {
+    height: 30px;
+  }
+
+  .samlimg {
+    position: absolute;
+    /* top: -160px; */
+    /* left: 72px; */
+  }
+
+  .samlimg:hover {
+    transform: scale(15);
+  }
+
+  .lookProduct {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    z-index: 10000;
+  }
+
+  .lookProduct .content {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+    width: 523px;
+    min-height: 330px;
+    max-height: 600px;
+    margin: initial;
+    border-radius: 4px;
+    padding: initial;
+  }
+
+  .lookProduct .content h3 {
+    padding: 15px;
+    margin: initial;
+    text-align: left;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  .lookProduct .content h3 .close {
+    font-size: 25px;
+    font-weight: initial;
+    opacity: .4;
+  }
+
+  .my-video-dimensions {
+    width: 100%;
+    height: 273px;
+  }
+
+  .lookProduct .content {
+    top: 35%;
+  }
+
+  .filter input {
+    margin: 0 5px;
+    width: auto;
+  }
+
+  .page-box .to-idx {
+    float: left;
+  }
+
+  .page-box .to-idx input {
+    text-align: center;
+    width: 50px;
+    height: 25px !important;
+    margin: 0 5px;
+  }
+
+  .page-box .to-idx button {
+    border: 1px solid #dddee1;
+    height: 25px;
+    line-height: 25px;
+    width: 50px;
+    border-radius: 3px;
+  }
+
+  .chartsbox {
+    /* margin-bottom: 20px; */
+  }
+
+  .tableTs tr td {
+    /* white-space:pre-line; */
+    word-wrap: break-word;
+    word-break: break-all;
+    /* width:11%; */
+    border: 1px solid rgb(241, 237, 237);
+  }
+
+  .textsbox {
+    border: 1px solide #ccc !important;
+    background: red;
+  }
+
+  .textsbox .edittextarea {
+    display: block;
+    border: 1px solide #ccc !important;
+
+  }
+
+  .item-group textarea {
+    width: 348px;
+    height: 138px;
+    padding: 10px;
+    resize: none;
+  }
+
+  .filter select {
+    float: none;
+  }
+
+  .filter input {
+    /* float:none; */
+  }
+
+  .editpointer {
+    color: blue;
+    cursor: pointer;
+  }
+
+  .bordertext {
+    border: 1px solid #ccc;
+    margin-bottom: 25px;
+    /* height: 140px; */
+    width: 320px;
+  }
+
+  .textstyle {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    height: 178px;
+  }
+
+  .tanbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .fontsizeformt {
+    font-size: 14px;
+  }
+
+  .textareapailie {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .searchfubox {
+    display: flex;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 20px;
+  }
+  .supplierWalletContent input[type="checkbox"]:checked::after {
+    content: '\2714';
+    background-color: #fff;
+  }
+</style>
+
+<body>
+
+  <div style="height: 10px;"></div>
+  <div class="content" style="background:none;padding:0;">
+    <div class="top-taps clearfix">
+      <ul>
+        <li><a href="#/erpfinance/walletcuslistdel">CJ钱包</a></li>
+        <li><a href="#/erpfinance/walletcuslistdel/2">COD钱包</a></li>
+        <li class="active"><a href="javascript:void(0)">供应商钱包</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="content supplierWalletContent" style="overflow: hidden;">
+    <div class="left">
+      <div class="filter clearfix">
+        <input class="seach-inp" ng-model="searchInput" style="border-radius: 0;float: none;" placeholder="客户名称">
+        <button class="search" style="float: none;border-radius: 0;" ng-click="search()">查询</button>
+        <button class="search" style="float: none;border-radius: 0; width: auto; padding-left: 10px; padding-right: 10px;" ng-click="setUp()">设置供应商结算比例</button>
+      </div>
+      <div class="parent-order">
+        <table class="tableTs">
+          <thead>
+            <tr>
+              <th><input type="checkbox" ng-click="selectAll($event)" ng-checked="isSelectedAll()"/></th>
+              <th>序号</th>
+              <th>日期</th>
+              <th>客户</th>
+              <th>首期结算比例</th>
+              <th>余额</th>
+              <th>冻结金额</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in list">
+              <!-- <tr> -->
+              <td><input type="checkbox" name="selected" ng-checked="isSelected(item.supplierAccountId)" ng-click="updateSelection($event,item.supplierAccountId)"/></td>
+              <td>{{item.index + 1}}</td>
+              <td>{{item.createAt | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+              <td>{{item.customerName}}</td>
+              <td>{{item.chargeRate}}<span ng-show="item.chargeRate">%</span></td>
+              <td>
+                {{item.presentAmount | currency }}
+              </td>
+              <td>
+                {{item.freezeAmount | currency }}
+              </td>
+              <td>
+                <img ng-click="handlePop(item,'log2')" title="查看结算比例设置记录" class="log-img" style="margin-right: 6px;cursor: pointer;" src="static/image/public-img/ord-log.png">
+                <img ng-click="handlePop(item,'log')" title="查看冻结记录" class="log-img" style="margin-right: 6px;cursor: pointer;" src="static/image/public-img/ord-log.png">
+                <span ng-click="handlePop(item,'freeze')" class="editpointer" style="margin-right: 12px;">冻结</span>
+                <span ng-click="handlePop(item,'unfreeze')" class="editpointer">解冻</span>
+              </td>
+            </tr>
+            <tr ng-show="list.length == 0">
+              <td colspan="9">暂无数据。</td>
+            </tr>
+          </tbody>
+        </table>
+        <!--分页-->
+        <page></page>
+      </div>
+    </div>
+  </div>
+
+  <!-- tan -->
+
+  <!-- 冻结 -->
+  <div class="lookProduct ng-scope" ng-show="isFreeze" style="border:1px #bbb solid">
+    <div class="content">
+      <h3 style="font-size: 16px;text-align: center;">冻结金额<span class="close" ng-click="closeAllPop()">×</span></h3>
+      <div style="padding: 30px;overflow: hidden;" class="ng-binding">
+        <div class="searchfubox">
+          <span class="fontsizeformt">冻结金额：</span>
+          <input type="number" placeholder="请输入" style="border-radius: 0;" ng-model="money">
+          <select class="font-size-14px" value="productFee">
+            <option value="productFee">$</option>
+          </select>
+        </div>
+
+        <div style="overflow: hidden;" class="textareapailie">
+          <p class="fontsizeformt" style="float: left;">冻结原因：</p>
+          <div class="bordertext" style="float: right;height:180px">
+            <textarea type="text" class="rote ng-pristine ng-untouched ng-valid ng-not-empty textstyle" ng-model="remarks" placeholder="请输入至少五个字"></textarea>
+          </div>
+        </div>
+
+        <div class="search-group d-flex align-items-center tanbutton">
+          <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="handleFreeze()">确定</button>
+          <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="closeAllPop()">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 解冻 -->
+  <div class="lookProduct ng-scope" ng-show="isUnfreeze" style="border:1px #bbb solid">
+    <div class="content">
+
+      <div style="padding: 30px;overflow: hidden;" class="ng-binding">
+        <div class="searchfubox">
+          <span class="fontsizeformt">解冻金额：</span>
+          <input type="number" placeholder="请输入" style="border-radius: 0;" ng-model="money">
+          <select class="font-size-14px" value="productFee">
+            <option value="productFee">$</option>
+          </select>
+        </div>
+
+        <div style="overflow: hidden;" class="textareapailie">
+          <p class="fontsizeformt" style="float: left;">解冻原因：</p>
+          <div class="bordertext" style="float: right;height:180px">
+            <textarea type="text" class="rote ng-pristine ng-untouched ng-valid ng-not-empty textstyle" ng-model="remarks" placeholder="请输入至少五个字"></textarea>
+          </div>
+        </div>
+
+        <div class="search-group d-flex align-items-center tanbutton">
+          <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="handleUnfreeze(remarks)">确定</button>
+          <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="closeAllPop()">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 操作日志 -->
+  <div class="lookProduct ng-scope" ng-show="operationLog" style="border:1px #bbb solid">
+    <div class="content" style="width: 700px;padding: 12px;">
+      <h3 style="font-size: 16px;text-align: center;">操作日志<span class="close" ng-click="closeAllPop()">×</span></h3>
+      <div style="overflow-y: auto;max-height: 400px;overflow-x: hidden;">
+        <Table class="tableTs">
+          <thead>
+            <tr>
+              <th>操作人员</th>
+              <th>操作类型</th>
+              <th>操作金额</th>
+              <th>操作时间</th>
+              <th>原因</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="log in logList">
+              <!-- <tr> -->
+              <td>{{log.userName}}</td>
+              <td>
+                <span ng-show="log.tradeType==3">冻结</span>
+                <span ng-show="log.tradeType==4">解冻</span>
+              </td>
+              <td>
+                {{log.tradeAmount}}
+              </td>
+              <td>{{log.createAt | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+              <td style="width: 220px;">
+                {{log.remarks }}
+              </td>
+            <tr ng-show="logList.length == 0">
+              <td colspan="9">暂无数据。</td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+      
+      <!-- 分页 -->
+      <div class="page-box" style="margin-left: 24px;">
+        <div class="select-page-num" ng-cloak>
+          <span>每页</span>
+          <span>{{logPage.pageSize}}条</span>  
+        </div>
+        <div class="total-num">
+            共 <span ng-cloak >{{logPage.total}}</span> 条
+        </div>
+        <div class="logPage-index">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 操作日志 -->
+  <div class="lookProduct ng-scope" ng-show="operationLog2" style="border:1px #bbb solid">
+    <div class="content" style="width: 700px;padding: 12px;">
+      <h3 style="font-size: 16px;text-align: center;">操作日志<span class="close" ng-click="operationLog2 = false">×</span></h3>
+      <div style="overflow-y: auto;max-height: 400px;overflow-x: hidden;">
+        <Table class="tableTs">
+          <thead>
+            <tr>
+              <th>操作人员</th>
+              <th>操作类型</th>
+              <th>比例（%）</th>
+              <th>时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="log in logList">
+              <!-- <tr> -->
+              <td>{{log.userName}}</td>
+              <td>
+                变更结算比例
+              </td>
+              <td>{{log.chargeRate}}</td>
+              <td>{{log.createAt | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+            <tr ng-show="logList.length == 0">
+              <td colspan="9">暂无数据。</td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+      
+      <!-- 分页 -->
+      <div class="page-box" style="margin-left: 24px;">
+        <div class="select-page-num" ng-cloak>
+          <span>每页</span>
+          <span>{{logPage.pageSize}}条</span>  
+        </div>
+        <div class="total-num">
+            共 <span ng-cloak >{{logPage.total}}</span> 条
+        </div>
+        <div class="logPage-index">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="id" style="display: none; padding: 20px;">
+    首期结算比例&nbsp;<input type="number" ng-keyup="clearNum(sacle)" ng-model="scale">%
+    <div style="margin-top: 8px;">
+      注解：首期结算比例为订单已出库状态，按照以上比例对供应商订单总金额进行第一次结算，剩余金额订单已完成状态结算
+    </div>
+  </div>
+  
+</body>
+
+</html>

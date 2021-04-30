@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>客户-kehuliebiao-ERP系统</title>
+	<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+	<style>
+		body {
+			position: relative;
+		}
+		body .guanlianshangpin {
+			width: 1140px;
+			height: 725px;
+			transform: translateX(0px);
+			transform: translateZ(0px);
+			background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+			background-blend-mode: normal,
+			normal;
+			box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+			border: solid 1px #efefef;
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			padding: 0;
+		}
+		body .guanlianshangpin .guanlianshangpinhead {
+			font-family: ﻿MicrosoftYaHei;
+			font-size: 16px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			line-height: 56px;
+			letter-spacing: 0px;
+			color: #030303;
+			font-weight: 700;
+			padding: 20px 0;
+			text-align: center;
+			margin-left: 45%;
+		}
+		body .guanlianshangpin table {
+			margin: 0 auto;
+		}
+		body .guanlianshangpin table tbody .guanlianinp {
+			width: 30px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		body .guanlianshangpin table tbody .guanliansec {
+			width: 90px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		body .excelshangpin {
+			width: 1011px;
+			height: 725px;
+			z-index: 100;
+			background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+			background-blend-mode: normal,
+			normal;
+			box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+			border: solid 1px #efefef;
+			position: absolute;
+		}
+		body .listshangpin {
+			 margin: 0 auto;
+			 width: 1011px;
+			 height: 725px;
+			 z-index: 100;
+			 background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+			 background-blend-mode: normal,
+			 normal;
+			 box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+			 border: solid 1px #efefef;
+			 position: absolute;
+		 }
+		body .privateshangpin {
+			margin: 0 auto;
+			width: 1011px;
+			height: 725px;
+			z-index: 100;
+			background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+			background-blend-mode: normal,
+			normal;
+			box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+			border: solid 1px #efefef;
+			position: absolute;
+		}
+		body .excelshangpin .guanlianshangpinhead {
+			font-family: ﻿MicrosoftYaHei;
+			font-size: 16px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			line-height: 40px;
+			letter-spacing: 0px;
+			color: #030303;
+			font-weight: 700;
+			text-align: center;
+			width: 100%;
+			display: block;
+		}
+		body .excelshangpin table {
+			margin: 0 auto;
+		}
+		body .excelshangpin table tbody .guanlianinp {
+			width: 30px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		body .excelshangpin table tbody .guanliansec {
+			width: 90px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		body .privateshangpin .guanlianshangpinhead {
+			font-family: ﻿MicrosoftYaHei;
+			font-size: 16px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			line-height: 40px;
+			letter-spacing: 0px;
+			color: #030303;
+			font-weight: 700;
+			text-align: center;
+			width: 100%;
+			display: block;
+		}
+		body .privateshangpin table {
+			margin: 0 auto;
+		}
+		body .privateshangpin table tbody .guanlianinp {
+			width: 30px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		body .privateshangpin table tbody .guanliansec {
+			width: 90px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		body .listshangpin .guanlianshangpinhead {
+			font-family: ﻿MicrosoftYaHei;
+			font-size: 16px;
+			font-weight: normal;
+			font-style: normal;
+			font-stretch: normal;
+			line-height: 40px;
+			letter-spacing: 0px;
+			color: #030303;
+			font-weight: 700;
+			text-align: center;
+			width: 100%;
+			display: block;
+		}
+		body .listshangpin table {
+			margin: 0 auto;
+		}
+		body .listshangpin table tbody .guanlianinp {
+			width: 30px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		body .listshangpin table tbody .guanliansec {
+			width: 90px;
+			display: inline;
+			border-radius: 2px 2px 2px 2px;
+			border: solid 1px #d3d3d3;
+		}
+		.ea-right-search{
+			padding-top: 10px;
+		}
+		.ea-right-search .search-text-box{
+			height: 30px;
+		}
+		.ea-right-search .search-button{
+			height: 32px;
+		}
+		.search-time{
+			margin-top: 10px;
+		}
+		.Wdate{
+			border: solid #ccc 1px;
+			vertical-align: middle;
+		}
+		/*.search-time>span{
+			vertical-align: middle;
+		}*/
+		.search-time-btn{
+			width: 100px;
+			height: 20px;
+			background: #f99429;
+			color: #fff;
+			border-radius: 3px;
+		}
+		.table-con-box{
+			margin-top: 10px;
+		}
+		.search-time>span{
+			color: #000;
+			font-size: 16px;
+			vertical-align: middle;
+			float: right;
+		}
+		.sumSale{
+			margin-right: 15px;
+		}
+		.sumprofit{
+			margin-right: 15px;
+		}
+		.summoney{
+			margin-right: 15px;
+		}
+	</style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="ea-content">
+	<!-- <div class="ea-content-box"> -->
+
+		<!-- <div class="ea-content-con"> -->
+			<!-- left nav -->
+			<div class="left-bar">
+	        <ul class="left-bar-tabs">
+	            <li><a href="#/mycj">Home</a></li>
+	            <li class="active"><a href="#/mycj/mycjperformance">{{'100997' | translate}}</a></li>
+				<li><a href="#/mycj/mycjLuntan">{{'100998' | translate}}</a></li>
+			</ul>
+	    </div>
+			<div class="bg-geduan"></div>
+			<!-- right con -->
+
+			<div class="right-bar-wrap ea-right-content">
+				<div class="asj-h10"></div>
+    		<div class="right-bar">
+				<!-- right search -->
+				<div class="ea-right-search">
+					<!-- <p style="width: 100%;"><input type="text" value="" ng-model="searchinfo"  class="search-text-box" /><input type="button" value="搜索" class="search-button" ng-click="searchcustomer()" /></p> -->
+					<div class="input-group search-box">
+            <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+              <option value="SKU">SKU</option>
+              <option value="CH">中文</option>
+              <option value="EN">英文</option>
+            </select> -->
+            <input type="text" class="form-control top-search-inp" placeholder="" ng-model="topSearchVal">
+            <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="getSearchList()">{{'100025' | translate}}</a>
+          </div>
+					<div class="search-time">
+						<input type="text" id="" value="" class="Wdate"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>--<input type="text" id="" value=""  class="Wdate"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+						<input class="search-time-btn" type="button" value="{{'101010' | translate}}"/>
+						<span class="summoney">{{'101011' | translate}}:&nbsp;14586</span>
+						<span class="sumprofit">{{'101012' | translate}}:&nbsp;54551</span>
+						<span class="sumSale">{{'100289' | translate}}:&nbsp;15852</span>
+					</div>
+				</div>
+
+				<!-- right list -->
+				<div class="table-con-box">
+					<table class="ea-list-table ea-erp-cs">
+						<tr>
+							<th><span>{{'100899' | translate}}</span></th>
+							<!--<th style="position: relative;"><span style="width: 90%;">注册日期</span><span class="wllSort1" ng-click="wllSort1()"></span><span class="wllSort2" ng-click="wllSort2()"></span></th>-->
+							<th><span>{{'100304' | translate}}</span></th>
+							<th><span>{{'100108' | translate}}</span></th>
+							<!--<th><span>业务员</span></th>-->
+							<!--<th><span>绿色<br>通道<br>额度</span></th>
+							<th><span>积分</span></th>-->
+							<th><span>{{'100901' | translate}}</span></th>
+							<th><span>{{'101013' | translate}}</span></th>
+							<th style="width: 90px"><span>{{'100903' | translate}}</span></th>
+							<th><span>SKU<span>List</span></span></th>
+							<th style="width: 80px"><span>{{'100904' | translate}}</span></th>
+							<th><span>{{'100905' | translate}}</span></th>
+							<th><span>{{'100906' | translate}}</span></th>
+							<th><span>{{'101014' | translate}}</span></th>
+							<th><span>{{'100907' | translate}}</span></th>
+							<th><span>{{'101015' | translate}}</span></th>
+							<!--<th><span>邮箱</span></th>-->
+						</tr>
+						<!--<tr ng-repeat="item in customerList1.list">-->
+						<tr>
+							<!--客户编号-->
+							<td><span> {{item.num}}11</span></td>
+							<!--注册日期-->
+							<!--<td><span>{{item.createdate1}} <br> {{item.createdate2}}</span></td>-->
+							<!--用户名-->
+							<td><span ng-click="shenhe(item)" style="cursor: pointer">{{item.LOGIN_NAME}}22</span></td>
+							<!--客户名称-->
+							<td><span><p>{{item.NAME}}33</p><p><i class="ea-gard-star ea-gard1"></i></p></span></td>
+							<!--账户余额-->
+							<td><span>${{item.memberBalance}}44</span></td>
+							<!--母订单数-->
+							<td><span class="wa-SpColor">{{item.orderCount}}55</span></td>
+							<!--已关联商品数-->
+							<td><span class="wa-SpColor" ng-click="guanlianshangpin(item)">{{item.accnum}}66</span></td>
+							<!--SKU LIST-->
+							<td><span class="wa-SpColor" ng-click="excelshangpin(item)">{{item.skunum}}77</span></td>
+							<!--指定可见商品-->
+							<td><span class="wa-SpColor" ng-click="privatecom(item)">{{item.autanum}}88</span></td>
+							<!--刊登商品-->
+							<td><span class="wa-SpColor" ng-click="listcom(item)">{{item.listednum}}99</span></td>
+							<!--客单价-->
+							<td><span>$5</span></td>
+							<!--总销售额-->
+							<td><span>${{item.totalReturns}}10</span></td>
+							<!--平均利润率-->
+							<td><a class="wa-SpColor" ng-click="shopget(item)" >{{item.shopNum}}12</a></td>
+							<!--利润-->
+							<td><span> {{item.num}}13</span></td>
+						</tr>
+
+					</table>
+					<!-- 分页 -->
+					<div class="page-box">
+              <div class="select-page-num">
+                  <select class="form-control" ng-model="pageSize" ng-change="getPageSize()">
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                  </select>
+                  <span>每页</span>
+              </div>
+              <div class="total-num">
+                  共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+              </div>
+              <div class="page-index">
+                  <div id="pagination1" class="pagination2"></div>
+              </div>
+              <div class="to-go">
+                  <span>跳转：</span>
+                  <input type="text" class="form-control" placeholder="" ng-model="specifiedPage">
+                  <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="getSpecifiedPage()">go</a>
+              </div>
+          </div>
+
+				</div>
+			</div>
+		</div>
+		<!-- </div> -->
+	<!-- </div> -->
+</div>
+<!--已关联商品弹窗-->
+<div class="guanlianshangpin c-ord-con" ng-show="guanlian">
+	<button style="position: absolute;right: 5px;top: 5px;width: 50px;height: 20px;background: #f99429;color: #FFFEFE;font-size: 12px;border-radius: 4px;" ng-click="guanlian=false">{{'100066' | translate}}</button>
+	<span class="guanlianshangpinhead">{{'100903' | translate}}</span>
+	<div style="max-height: 588px;overflow: auto"><table id="asj-connected-pro">
+		<thead class="c-ord-thead">
+		<tr>
+			<th style="width: 40px">
+				<!--<img src="static/image/order-img/multiple1.png">-->
+				<span>{{'100174' | translate}}</span>
+			</th>
+			<th style="width: 95px;position: relative;"><p class="dropdown-toggle" data-toggle="dropdown">{{'100055' | translate}}<b
+					class="caret"></b></p>
+				<ul class="dropdown-menu">
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<!--<li class="divider"></li>-->
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+				</ul>
+			</th>
+			<th style="width: 70px">{{'100908' | translate}}</th>
+			<th style="width: 70px">{{'100909' | translate}}</th>
+			<th style="width: 90px;">
+				SKU
+			</th>
+			<th style="width: 65px">{{'100350' | translate}}</th>
+			<th style="width: 65px">{{'100910' | translate}}</th>
+			<th style="width: 65px">{{'100380' | translate}}</th>
+			<th style="width: 95px">{{'100718' | translate}}</th>
+			
+			<th style="width: 65px">
+				{{'100911' | translate}}
+			</th>
+
+			<th style="width: 115px">{{'100698' | translate}}</th>
+
+			<th style="width: 70px">
+				{{'100907' | translate}}
+			</th>
+			<th style="width: 65px">{{'100411' | translate}}</th>
+			<th style="width: 80px">{{'100043' | translate}}</th>
+
+		</tr>
+		</thead>
+		<tbody class="c-ord-tbody" ng-repeat="(index1,item) in excellist">
+		<tr >
+			<td>
+				<p>{{$index+1}}</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.shopname}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td class="ordlist-imgtd">
+				<img class="ordlist-goods-img" ng-src="{{item.accimgurl}}" alt="商品">
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td class="ordlist-imgtd">
+				<img class="ordlist-goods-img" ng-src="{{item.imgurl}}"  alt="商品">
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.SKU}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p>{{'100912' | translate}}:${{item.SELLPRICE}}</p>
+				<p class="show-dis-price">{{'100076' | translate}}:${{item.discountPrice}}</p>
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<span ng-show="!item.flag">{{item.SELLDISCOUNT}}</span>
+				<input type="number" ng-model="sendData.discount" class="guanlianinp" ng-show="item.flag">% off
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p class="pro-weight">{{item.WEIGHT}}</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p class="ship-method" ng-show="!item.flag" index="{{item.flag}}">{{item.LOGISTICS}}</p>
+				<select class="guanliansec ex1" ng-show="item.flag">
+					<option value="{{item3.enName}}" ng-repeat="item3 in wuliulist">{{item3.enName}}</option>
+				</select>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			
+			<td>
+				<span class="span-ship-dis" ng-show="!item.flag">{{item.FREIGHTDISCOUNT}}</span>
+				<input type="number" ng-model="sendData.freightdiscount" class="guanlianinp inp-ship-dis" ng-show="item.flag">% off
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<select class="asj-sele-country" style="width: 80px; color:#333;" costprice="{{item.COSTPRICE}}" ng-model="item.shipCountry">
+					<option value="">{{'100916' | translate}}</option>
+					<option value="{{coun.id}}" ng-repeat="coun in countryList">{{coun.nameEn}}</option>
+				</select>
+				<p class="show-ship-cost">{{'100722' | translate}}：{{item.shipCostDiscount || 0}} ({{'100077' | translate}}：{{item.shipCost || 0}})</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p class="show-profit-rate">{{item.profitRate}}</p>
+				<span class="border-span"></span>
+			</td>
+			
+			<td class="created-td">
+				<p>{{item.SALECOUNT}}</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+
+			<td style="position: relative"><p style="cursor: pointer;" ng-click="item.flag=true;shangpinedit(item,$index,$event)" ng-show="!item.flag">{{'100120' | translate}}</p>
+				<p style="cursor: pointer;" ng-click="item.flag=false;baocunedit(item,index1,$event)" ng-show="item.flag">{{'100133' | translate}}</p>
+				<p style="cursor: pointer;" ng-click="item.flag=false;canceledit()" ng-show="item.flag">{{'100051' | translate}}</p>
+				<span><i class="icon-caret-down  icon-2x" style="bottom: 0px;left: 30px;z-index: 4;cursor: pointer" ng-show="!item.down" ng-click="item.down=true;getguanlianva(item,index1)"></i></span>
+				<span><i class="icon-caret-up  icon-2x" style="bottom: 0px;left: 30px;z-index: 4;cursor: pointer" ng-show="item.down" ng-click="item.down=false"></i></span></td>
+
+		</tr>
+		<tr ng-repeat="(index2,item2) in item.vlist" ng-show="item.down">
+			<td>
+				<!--<p>{{$index+1}}</p>-->
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item2.shopname}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td class="ordlist-imgtd">
+				<img class="ordlist-goods-img" ng-src="{{item2.accimgurl}}" alt="商品">
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td class="ordlist-imgtd">
+				<img class="ordlist-goods-img" ng-src="{{item2.imgurl}}"  alt="商品">
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item2.SKU}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p>{{'100912' | translate}}:${{item2.SELLPRICE}}</p>
+				<p>{{'100076' | translate}}:${{item2.discountPrice}}</p>
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p ng-show="!item2.flag">{{item2.SELLDISCOUNT}}</p>
+				<input type="number"  class="guanlianinp p1" ng-show="item2.flag">% off
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p class="pro-weight">{{item.WEIGHT}}</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p class="ship-method" ng-show="!item2.flag">{{item2.LOGISTICS}}</p>
+				<select class="guanliansec ex1" ng-show="item2.flag">
+					<option value="{{item3.enName}}" ng-repeat="item3 in wuliulist">{{item3.enName}}</option>
+				</select>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p class="span-ship-dis" ng-show="!item2.flag">{{item2.FREIGHTDISCOUNT}}</p>
+				<input type="number"  class="guanlianinp p2 inp-ship-dis" ng-show="item2.flag">% off
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<select class="asj-sele-country" style="width: 80px; color:#333;" costprice="{{item.COSTPRICE}}">
+					<option value="">{{'100916' | translate}}</option>
+					<option value="{{coun.id}}" ng-repeat="coun in countryList">{{coun.nameEn}}</option>
+				</select>
+				<p class="show-ship-cost">{{'100722' | translate}}：{{item2.shipCostDiscount || 0}} ({{'100077' | translate}}：{{item2.shipCost || 0}})</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				<p>{{item2.profitRate}}</p>
+				<!--<select>-->
+				<!--<option>e邮宝</option>-->
+				<!--</select>-->
+				<!--<p class="change-txt">改</p>-->
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td class="created-td">
+				<p>{{item2.SALECOUNT}}</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+
+			<td style="position: relative"><p style="cursor: pointer;" ng-click="item2.flag=true;shangpinedit(item2,index2,$event);" ng-show="!item2.flag">{{'100120' | translate}}</p>
+				<p style="cursor: pointer;" ng-click="item2.flag=false;baocunedit2(item2,index2,$event,index1)" ng-show="item2.flag">{{'100133' | translate}}</p>
+				<p style="cursor: pointer;" ng-click="item2.flag=false;canceledit();" ng-show="item2.flag">{{'100051' | translate}}</p>
+
+		</tr>
+		</tbody>
+	</table>
+	</div>
+
+	<div class="page-box" style="position: absolute;bottom: 0;" >
+		<div class="total-items">{{guanliantotalpage}} records found</div>
+		<div class="page-index" id="page2">
+
+		</div>
+	</div>
+</div>
+<!--SKU List弹框-->
+<div style="left: 0;right: 0;top: 0;bottom: 0;margin: auto;" class="excelshangpin c-ord-con" ng-show="excl">
+	<button style="position: absolute;right: 5px;top: 5px;width: 50px;height: 20px;background: #f99429;color: #FFFEFE;font-size: 12px;border-radius: 4px;" ng-click="excl=false">{{'100051' | translate}}</button>
+	<span class="guanlianshangpinhead">SKU List</span>
+	<div style="max-height: 588px;overflow: auto">
+		<table >
+			<thead class="c-ord-thead">
+			<tr>
+				<th style="width: 40px">
+					<!--<img src="static/image/order-img/multiple1.png">-->
+					<span>{{'100174' | translate}}</span>
+				</th>
+				<th style="width: 70px">{{'100909' | translate}}</th>
+				<th style="width: 90px;">
+					SKU
+				</th>
+				<th colspan="2" style="width: 135px">{{'101016' | translate}}</th>
+				<th style="width: 95px">{{'100718' | translate}}</th>
+				<th style="width: 65px">
+					{{'101017' | translate}}
+				</th>
+
+				<th style="width: 70px">
+					{{'100907' | translate}}
+				</th>
+				<th style="width: 65px">{{'100411' | translate}}</th>
+				<th style="width: 80px">{{'100043' | translate}}</th>
+
+			</tr>
+			</thead>
+			<tbody class="c-ord-tbody"  ng-repeat="(index1,item) in excellist" style="overflow: hidden;max-height: 540px;">
+			<tr>
+				<td>
+					<!--<img src="static/image/order-img/multiple1.png">-->
+					<p>{{$index+1}}</p>
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+
+				<td class="ordlist-imgtd">
+					<img class="ordlist-goods-img" src="{{item.img}}">
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					{{item.sku}}
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					<p>{{'100912' | translate}}:${{item.PRICE}}</p>
+					<p>{{'100076' | translate}}:${{item.discountPrice}}</p>
+					<!--<p>12:00</p>-->
+					<!-- td 右边的边框 -->
+					<!--<span class="border-span"></span>-->
+				</td>
+
+
+				<td>
+					<p ng-show="!item.flag">{{item.discountPriceRate}}</p>
+					<input type="number" ng-model="exlData.discount" class="guanlianinp p1" ng-show="item.flag">% off
+					<!--<p class="goods-property">-->
+					<!--<span class="y-pro">液</span>-->
+					<!--<span class="f-pro">粉</span>-->
+					<!--<span class="c-pro">磁</span>-->
+					<!--</p>-->
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					<p ng-show="!item.flag">{{item.shopMethod}}</p>
+					<select class="guanliansec ex1" ng-show="item.flag">
+						<option value="{{item3.enName}}" ng-repeat="item3 in wuliulist">{{item3.enName}}</option>
+					</select>
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+
+					<p ng-show="!item.flag">{{item.discountShopRate}}</p>
+					<input type="number" ng-model="exlData.freightdiscount" class="guanlianinp p2" ng-show="item.flag">% off
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					<p>18%</p>
+					<!--<select>-->
+					<!--<option>e邮宝</option>-->
+					<!--</select>-->
+					<!--<p class="change-txt">改</p>-->
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td class="created-td">
+					<p>33333</p>
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+
+				<td>
+					<p style="cursor: pointer;" ng-show="!item.flag" ng-click="excedit(item,index1)">{{'100120' | translate}}</p>
+					<p style="cursor: pointer;" ng-show="item.flag" ng-click="excbaocun(item,index1,$event)">{{'100133' | translate}}</p>
+					<p style="cursor: pointer;" ng-show="item.flag" ng-click="item.flag=false">{{'100051' | translate}}</p>
+					<span><i class="icon-caret-down  icon-2x" style="position: absolute;bottom: 0px;left: 30px;z-index: 4;cursor: pointer" ng-show="!item.down" ng-click="item.down=true;getvari(item,index1)"></i></span>
+					<span><i class="icon-caret-up  icon-2x" style="position: absolute;bottom: 0px;left: 30px;z-index: 4;cursor: pointer" ng-show="item.down" ng-click="item.down=false"></i></span>
+				</td>
+
+			</tr>
+			<tr ng-show="item.down" ng-repeat="(index2,item2) in item.vlist">
+				<td>
+					<!--<img src="static/image/order-img/multiple1.png">-->
+					<!--<p>{{$index+1}}</p>-->
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+
+				<td class="ordlist-imgtd">
+					<img class="ordlist-goods-img" src="static/image/order-img/pic6.png">
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					{{item2.sku}}
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					<p>{{'100912' | translate}}:${{item2.PRICE}}</p>
+					<p>{{'100076' | translate}}:${{item2.discountPrice}}</p>
+					<!--<p>12:00</p>-->
+					<!-- td 右边的边框 -->
+					<!--<span class="border-span"></span>-->
+				</td>
+
+
+				<td>
+					<p ng-show="!item2.flag">{{item2.discountPriceRate}}</p>
+					<input type="number"  class="guanlianinp p1" ng-show="item2.flag">% off
+					<!--<p class="goods-property">-->
+					<!--<span class="y-pro">液</span>-->
+					<!--<span class="f-pro">粉</span>-->
+					<!--<span class="c-pro">磁</span>-->
+					<!--</p>-->
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					<p ng-show="!item2.flag">{{item2.shopMethod}}</p>
+					<select class="guanliansec ex2" ng-show="item2.flag"><option value="{{item3.enName}}" ng-repeat="item3 in wuliulist">{{item3.enName}}</option></select>
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+
+					<p ng-show="!item2.flag">{{item2.discountShopRate}}</p>
+					<input type="number" class="guanlianinp p2" ng-show="item2.flag">% off
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td>
+					<p>18%</p>
+					<!--<select>-->
+					<!--<option>e邮宝</option>-->
+					<!--</select>-->
+					<!--<p class="change-txt">改</p>-->
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+				<td class="created-td">
+					<p>33333</p>
+					<!-- td 右边的边框 -->
+					<span class="border-span"></span>
+				</td>
+
+				<td>
+					<p style="cursor: pointer;" ng-show="!item2.flag" ng-click="item2.flag=true;excedit2(item2,index2)">{{'100120' | translate}}</p>
+					<p style="cursor: pointer;" ng-show="item2.flag" ng-click="item2.flag=false;excbaocun2(item2,index2,$event,index1)">{{'100133' | translate}}</p>
+					<p style="cursor: pointer;" ng-show="item2.flag" ng-click="item2.flag=false">{{'100051' | translate}}</p>
+				</td>
+
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="page-box" style="position: absolute;bottom: 0;" >
+		<div class="total-items">{{totalpage2(ext2.count,9)}} records found</div>
+		<div class="page-index">
+
+		</div>
+	</div>
+</div>
+<!--指定可见商品数弹框-->
+<div class="privateshangpin c-ord-con" style="margin: auto;right: 0;top: 0;bottom: 0;left: 0;" ng-show="private">
+	<button style="position: absolute;right: 5px;top: 5px;width: 50px;height: 20px;background: #f99429;color: #FFFEFE;font-size: 12px;border-radius: 4px;" ng-click="private=false">{{'100051' | translate}}</button>
+	<span class="guanlianshangpinhead">{{'100922' | translate}}</span>
+	<table>
+		<thead class="c-ord-thead">
+		<tr>
+			<th style="width: 40px">
+				<!--<img src="static/image/order-img/multiple1.png">-->
+				<span>{{'100174' | translate}}</span>
+			</th>
+			<th style="width: 70px">{{'100382' | translate}}</th>
+			<th style="width: 90px;">
+				SKU
+			</th>
+
+			<!--<th colspan="2" style="width: 135px">产品折扣和价格</th>-->
+			<!--<th style="width: 95px">物流方式</th>-->
+			<th style="width: 65px">
+				{{'100107' | translate}}
+			</th>
+			<th style="width: 65px">
+				{{'100924' | translate}}
+			</th>
+			<th style="width: 65px">
+				{{'100387' | translate}}
+			</th>
+			<th style="width: 65px">
+				{{'100380' | translate}}
+			</th>
+			<!--<th style="width: 70px">-->
+				<!--平均利润率-->
+			<!--</th>-->
+			<!--<th style="width: 65px">历史销量</th>-->
+			<!--<th style="width: 80px">操作</th>-->
+		</tr>
+		</thead>
+		<tbody class="c-ord-tbody" >
+		<tr ng-repeat="item in excellist">
+			<td>
+				<!--<img src="static/image/order-img/multiple1.png">-->
+				<p>{{$index+1}}</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+
+			<td class="ordlist-imgtd">
+				<img class="ordlist-goods-img" ng-src="{{item.BIGIMG}}">
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.SKU}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td ng-click="privatedetal(item)" style="cursor: pointer" >
+				{{item.NAMEEN}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td><span>{{item.CREATEDATE.year+1900}}-{{item.CREATEDATE.month+1}}-{{item.CREATEDATE.date}}</span></td>
+			<td>
+				{{item.SELLPRICE}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.WEIGHT}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<!--<td>-->
+				<!--<p>公布价:${{item.PRICE}}</p>-->
+				<!--<p>折扣价:${{item.discountPrice}}</p>-->
+				<!--&lt;!&ndash;<p>12:00</p>&ndash;&gt;-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="border-span"></span>&ndash;&gt;-->
+			<!--</td>-->
+
+
+			<!--<td>-->
+				<!--<p ng-show="!item.flag">{{item.discountPriceRate}}</p>-->
+				<!--<input type="number" ng-model="exlData.discount" class="guanlianinp" ng-show="item.flag">% off-->
+				<!--&lt;!&ndash;<p class="goods-property">&ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="y-pro">液</span>&ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="f-pro">粉</span>&ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="c-pro">磁</span>&ndash;&gt;-->
+				<!--&lt;!&ndash;</p>&ndash;&gt;-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td>-->
+				<!--<select class="guanliansec"></select>-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td>-->
+
+				<!--<p ng-show="!item.flag">{{item.discountShopRate}}</p>-->
+				<!--<input type="number" ng-model="exlData.freightdiscount" class="guanlianinp" ng-show="item.flag">% off-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td>-->
+				<!--<p>18%</p>-->
+				<!--&lt;!&ndash;<select>&ndash;&gt;-->
+				<!--&lt;!&ndash;<option>e邮宝</option>&ndash;&gt;-->
+				<!--&lt;!&ndash;</select>&ndash;&gt;-->
+				<!--&lt;!&ndash;<p class="change-txt">改</p>&ndash;&gt;-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td class="created-td">-->
+				<!--<p>33333</p>-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+
+			<!--<td>-->
+				<!--&lt;!&ndash;<p style="cursor: pointer;" ng-show="!item.flag" ng-click="excedit(item,$index)">编辑</p>&ndash;&gt;-->
+				<!--<p style="cursor: pointer;"  ng-click="privatedel(item,$index)">删除</p></td>-->
+		</tr>
+		</tbody>
+	</table>
+	<div class="page-box" style="position: absolute;bottom: 0;" >
+		<div class="total-items">{{totalpage2(ext3.count,9)}} records found</div>
+		<div class="page-index" >
+
+		</div>
+	</div>
+</div>
+<!--刊登-->
+<div class="listshangpin c-ord-con" style="margin: auto;right: 0;top: 0;left: 0;bottom: 0;" ng-show="list">
+	<button style="position: absolute;right: 5px;top: 5px;width: 50px;height: 20px;background: #f99429;color: #FFFEFE;font-size: 12px;border-radius: 4px;" ng-click="list=false">{{'100051' | translate}}</button>
+	<span class="guanlianshangpinhead">{{'100923' | translate}}</span>
+	<table>
+		<thead class="c-ord-thead">
+		<tr>
+			<th style="width: 40px">
+				<!--<img src="static/image/order-img/multiple1.png">-->
+				<span>{{'100174' | translate}}</span>
+			</th>
+			<th style="width: 70px">{{'100003' | translate}}</th>
+			<th style="width: 90px;">
+				SKU
+			</th>
+			<th style="width: 90px;">
+				{{'100107' | translate}}
+			</th>
+			<th style="width: 90px;">
+				{{'100877' | translate}}
+			</th>
+			<th style="width: 90px;">
+				{{'100926' | translate}}
+			</th>
+			<th style="width: 90px;">
+				{{'100585' | translate}}
+			</th>
+			<th style="width: 90px;">
+				{{'100924' | translate}}
+			</th>
+			<!--<th colspan="2" style="width: 135px">产品折扣和价格</th>-->
+			<!--<th style="width: 95px">物流方式</th>-->
+			<!--<th style="width: 65px">-->
+				<!--重量运费折扣率-->
+			<!--</th>-->
+
+			<!--<th style="width: 70px">-->
+				<!--平均利润率-->
+			<!--</th>-->
+			<!--<th style="width: 65px">历史销量</th>-->
+			<!--<th style="width: 80px">操作</th>-->
+
+		</tr>
+		</thead>
+		<tbody class="c-ord-tbody" >
+		<tr ng-repeat="item in excellist">
+			<td>
+				<!--<img src="static/image/order-img/multiple1.png">-->
+				<p>{{$index+1}}</p>
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+
+			<td class="ordlist-imgtd">
+				<img class="ordlist-goods-img" ng-src="{{item.BIGIMG}}">
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.pSku}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.NAMEEN}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.SHOPNAME}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.SHOPTYPE}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td>
+				{{item.SELLPRICE}}
+				<!-- td 右边的边框 -->
+				<span class="border-span"></span>
+			</td>
+			<td><span>{{item.LISTINGDATE.year+1900}}-{{item.LISTINGDATE.month+1}}-{{item.LISTINGDATE.date}}</span></td>
+			<!--<td>-->
+				<!--<p>公布价:${{item.PRICE}}</p>-->
+				<!--<p>折扣价:${{item.discountPrice}}</p>-->
+				<!--&lt;!&ndash;<p>12:00</p>&ndash;&gt;-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="border-span"></span>&ndash;&gt;-->
+			<!--</td>-->
+
+
+			<!--<td>-->
+				<!--<p ng-show="!item.flag">{{item.discountPriceRate}}</p>-->
+				<!--<input type="number" ng-model="exlData.discount" class="guanlianinp" ng-show="item.flag">% off-->
+				<!--&lt;!&ndash;<p class="goods-property">&ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="y-pro">液</span>&ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="f-pro">粉</span>&ndash;&gt;-->
+				<!--&lt;!&ndash;<span class="c-pro">磁</span>&ndash;&gt;-->
+				<!--&lt;!&ndash;</p>&ndash;&gt;-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td>-->
+				<!--<select class="guanliansec"></select>-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td>-->
+
+				<!--<p ng-show="!item.flag">{{item.discountShopRate}}</p>-->
+				<!--<input type="number" ng-model="exlData.freightdiscount" class="guanlianinp" ng-show="item.flag">% off-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td>-->
+				<!--<p>18%</p>-->
+				<!--&lt;!&ndash;<select>&ndash;&gt;-->
+				<!--&lt;!&ndash;<option>e邮宝</option>&ndash;&gt;-->
+				<!--&lt;!&ndash;</select>&ndash;&gt;-->
+				<!--&lt;!&ndash;<p class="change-txt">改</p>&ndash;&gt;-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+			<!--<td class="created-td">-->
+				<!--<p>33333</p>-->
+				<!--&lt;!&ndash; td 右边的边框 &ndash;&gt;-->
+				<!--<span class="border-span"></span>-->
+			<!--</td>-->
+
+			<!--<td><p style="cursor: pointer;" ng-show="!item.flag" ng-click="excedit(item,$index)">编辑</p>-->
+				<!--<p style="cursor: pointer;" ng-show="item.flag" ng-click="excbaocun(item,$index)">保存</p></td>-->
+		</tr>
+		</tbody>
+	</table>
+	<div class="page-box" style="position: absolute;bottom: 0;" >
+		<div class="total-items">{{totalpage2(ext4.count,9)}} records found</div>
+		<div class="page-index" >
+
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

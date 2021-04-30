@@ -1,0 +1,150 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>后台通用框架</title>
+</head>
+<meta charset="utf-8">
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="static/bootstrap-table-master/src/bootstrap-table.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/export/bootstrap-table-export.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/angular/bootstrap-table-angular.js"></script>
+<link href="static/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet" />
+<link href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="static/bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+<script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="static/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="static/angular-1.5.8/angular-cookies.min.js"></script>
+<script src="static/layer/layer.js"></script> 
+<link rel="stylesheet" href="static/css/index.css">
+<body>
+<div class="pageBox container" ng-app="myApp" ng-controller="tableCtrl">
+	<!-- 修改弹框 -->
+	<div class="modal fade" id="Modal-exdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                    &times;
+	                </button>
+	                <h4 class="modal-title" id="myModalLabel">
+	                    编辑
+	                </h4>
+	            </div>
+	            <div class="modal-body">
+				  	<div class="form-group has-error">
+			            <p class="help-block"><a>{{fileName}}</a></p>
+				  	</div>
+				  	<div class="form-group">
+					    <label for="exampleInputFile">文件描述</label>
+					    <input type="text" class="form-control" placeholder="请输入" ng-model="memo"  maxlength="50">
+					    <input type="hidden" class="form-control" placeholder="请输入" ng-model="id">
+				  	</div>
+				  	<div class="form-group has-error">
+					    <div class="help-block">文件描述最多50字符</div>
+				  	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="submit" class="btn btn-primary" ng-click="addBtnEditarClick()">确认</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+	<!-- 新增弹框 -->
+	<div class="modal fade" id="Modal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                    &times;
+	                </button>
+	                <h4 class="modal-title" id="myModalLabel">
+	                    上传文件
+	                </h4>
+	            </div>
+	            <div class="modal-body">
+                    <div class="form-group">
+					    <div class="up">
+					    	<iframe id="file_upload_return" hidden="true" name="file_upload_return"></iframe>                
+			                <form id= "uploadFile" enctype="multipart/form-data" method="post"  target="file_upload_return" action="app/att/upload">
+			                    <input class="J_export file" name="file" type="file" onchange="angular.element(this).scope().upFile(this.files)" ng-model="file" style="opacity: 0;" />
+			                    <input type="hidden" name="userId" value="{{userId}}">               
+                    			<input type="hidden" name="token" value="{{token}}">
+                    			<input type="hidden" name="data" value="{'memo':'{{memo}}'}">
+			                </form>
+			                <button id="btn_export" type="button" class="btn  btn-default">
+			                    <span class="glyphicon glyphicon-open" aria-hidden="true"></span>选择文件
+			                </button>
+			            </div>
+				  	</div>
+				  	<div class="form-group" ng-show="proShow">
+				  		<div class="progress">
+						  	<div class="progress-bar progress-bar-info J_prgress" role="progressbar" aria-valuenow="{{progreNum}}" aria-valuemin="0" aria-valuemax="100"  ng-style="{'width':'{{progreNum}}%'}">
+						    	{{progreNum}}%
+						  	</div>
+						</div>
+				  	</div>
+				  	<div class="form-group has-error">
+			            <p class="help-block"><a>{{fileName}}</a></p>
+				  		<p class="help-block">文件大小不超过40M</p>
+				  	</div>
+				  	<div class="form-group">
+				    	<label for="exampleInputFile">文件描述</label>
+				    	<input type="text" name="memo" class="form-control"  placeholder="请输入" ng-model="memo" maxlength="50">
+				  	</div>
+				  	<div class="form-group has-error">
+					    <div class="help-block">文件描述最多50字符</div>
+				  	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="submit" class="btn btn-primary" ng-click="upExcel()">
+	                    提交
+	                </button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+	<!-- 操作成功 -->
+	<div class="alert alert-success ng-hide" role="alert" ng-hide="isFalse" style="margin-top: 15px;">操作成功</div>
+	<!-- 警告弹框 -->
+	<div class="alert alert-danger ng-hide" role="alert" ng-hide="isHttp" style="margin-top: 15px;">操作失败</div>
+	<!-- 未选择 -->
+	<div class="alert alert-danger ng-hide" role="alert" ng-hide="isDel" style="margin-top: 15px;">请选择数据</div>
+	<div id="toolbar" class="btn-group">
+		<button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#Modal-add" ng-click="fileClear()">
+            <span class="glyphicon glyphicon-open" aria-hidden="true"></span>上传
+        </button>
+        <form id="exportFile" action="app/att/batch/download" method="post" style="display: none;"> 
+            <input type="hidden" name="userId" value="{{userId}}">               
+            <input type="hidden" name="token" value="{{token}}">               
+            <input type="hidden" name="data" ng-model="fileId" value="{{fileId}}" class="fileId"> 
+        </form>
+        <button id="btn_delete" type="button" class="btn  btn-default" ng-click="downExcel()">
+            <span class="glyphicon glyphicon-save" aria-hidden="true"></span>下载
+        </button>
+        <button id="btn_delete" type="button" class="btn  btn-danger" ng-click="btnRemoveClick('')">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+        </button>
+		<label class="control-label pull-left">操作时间</label>
+		<div class="pull-left" style="width: 480px;">	
+	        <div class="input-group date start_date" id="startDate" style="float: left;width: 235px">
+	            <input class="form-control" size="16" type="text" readonly="" data-date-format="dd-mm-yyyy" ng-change="timeSelect()" data-bv-trigger="change" ng-model="startDate" name="startDate"  required>
+	           	<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+				<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	        </div>
+	        <span class="control-label text-center" style="float: left;width: 10px">-</span>
+	        <div class="input-group date end_date" id="endDate" style="float: left;width: 235px">
+	            <input class="form-control" size="16" type="text" readonly="" data-date-format="dd-mm-yyyy" data-bv-trigger="change" ng-change="timeSelect()" ng-model="endDate" name="endDate"  required>
+	            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+				<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+	        </div>
+		</div>
+        <label class="control-label" style="margin-right: 10px;">文件名称</label>
+    </div>    
+	<table id="table" init-table="options"></table>
+</div>
+<script src="static/js/page/file.js"></script>
+</body>
+</html>

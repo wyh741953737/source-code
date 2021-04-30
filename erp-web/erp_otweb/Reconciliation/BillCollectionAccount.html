@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>代收费用明细</title>
+  <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+  <script src="erp_otweb/js/video.min.js"></script>
+</head>
+<style>
+  .filter {
+    line-height: 30px !important;
+    /* display: flex; */
+  }
+
+  .filter .datetab {
+    margin-left: 15px;
+  }
+
+  .filter .dateact {
+    color: #0d8efb;
+  }
+
+  .filter a {    
+    padding: 6px 8px;
+    font-size: 14px;
+    background-color: #F9AE08;
+    color: #fff;
+    border-radius: 4px;
+    height: 32px;
+    margin: 0 5px;
+  }
+
+  .chartsbox .dateact {
+    color: #0d8efb;
+  }
+
+  .search-by-con {
+    height: 30px;
+    position: relative;
+    float: left;
+  }
+
+  .default-con {
+    width: 240px;
+    height: 30px;
+    padding-left: 10px;
+    line-height: 30px;
+    border: 1px solid #e5e5e5;
+    position: relative;
+  }
+
+  .has-list-cate {
+    float: left;
+    margin-right: 15px;
+  }
+
+  .serch-by-name {
+    height: 30px;
+    line-height: 30px;
+    float: left;
+  }
+
+  input,
+  select {
+    height: 30px !important;
+  }
+
+  .three-grade-list {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    margin-top: 0;
+    padding-left: 0;
+    background: #fff;
+    z-index: 99;
+    display: none;
+  }
+
+  .caret {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+  }
+
+  .samlimg {
+    position: absolute;
+    /* top: -160px; */
+    /* left: 72px; */
+  }
+
+  .samlimg:hover {
+    transform: scale(15);
+  }
+
+  .lookProduct {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    z-index: 10000;
+  }
+
+  .lookProduct .content {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+    width: 523px;
+    min-height: 330px;
+    margin: initial;
+    border-radius: 4px;
+    padding: initial;
+  }
+
+  .lookProduct .content h3 {
+    padding: 15px;
+    margin: initial;
+    text-align: left;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  .lookProduct .content h3 .close {
+    font-size: 25px;
+    font-weight: initial;
+    opacity: .4;
+  }
+
+  .my-video-dimensions {
+    width: 100%;
+    height: 273px;
+  }
+
+  .lookProduct .content {
+    top: 35%;
+  }
+
+  .filter input {
+    margin: 0 5px;
+    width: auto;
+  }
+
+  .page-box .to-idx {
+    float: left;
+  }
+
+  .page-box .to-idx input {
+    text-align: center;
+    width: 50px;
+    height: 25px !important;
+    margin: 0 5px;
+  }
+
+  .page-box .to-idx button {
+    border: 1px solid #dddee1;
+    height: 25px;
+    line-height: 25px;
+    width: 50px;
+    border-radius: 3px;
+  }
+
+  .chartsbox {
+    /* margin-bottom: 20px; */
+  }
+
+  table tr td {
+    /* white-space:pre-line; */
+    word-wrap: break-word;
+    word-break: break-all;
+    max-width: 12.5%;
+    border: 1px solid rgb(241, 237, 237);
+  }
+
+  .textsbox {
+    border: 1px solide #ccc !important;
+    background: red;
+  }
+
+  .textsbox .edittextarea {
+    display: block;
+    border: 1px solide #ccc !important;
+
+  }
+
+  .item-group textarea {
+    width: 348px;
+    height: 138px;
+    padding: 10px;
+    resize: none;
+  }
+
+  .noneborder {
+    border-radius: 0 !important;
+  }
+
+  .btn-box {
+    margin: 40px auto;
+    text-align: center;
+  }
+
+  .confirm-btn-save {
+    height: 40px;
+    background: inherit;
+    background-color: rgba(249, 174, 8, 1);
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    padding: 5px 12px;
+    width: 140px;
+    margin: 0 10px;
+  }
+
+  .showdetail {
+    color: blue;
+    cursor: pointer;
+  }
+
+  .backPrew {}
+
+  .backPrew:hover {
+    color: red;
+    cursor: pointer;
+  }
+
+  .duizhang {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .duizhangName {
+    width: 340px;
+    margin-bottom: 20px;
+  }
+
+  .alert_bg {
+    height: auto;
+  }
+</style>
+
+<body>
+  <div class="tab">
+    
+  </div> 
+  <div style="height: 68px;">
+  </div>
+  <div class="content" style="overflow: hidden;">
+    <div class="left">
+      <div class="filter clearfix">
+        <select class="font-size-14px" ng-model="selectVal">
+          <option value="logisticsCompanyName">物流公司</option>
+          <option value="channelName">渠道名称</option>
+          <option value="codCustomerName">商家名称</option>
+        </select>
+        <input class="seach-inp" ng-model="searVal" style="border-radius: 0;" placeholder="物流公司/渠道名称/商家名称">
+        <span style="float: left;">付款日期：</span>
+        <input id="date1" class="Wdate data-inp noneborder" ng-focus="dateFocus()" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="" ng-model="startTime">
+        <span class="line" style="float: left;">-</span>
+        <input id="date2" class="Wdate data-inp noneborder" ng-focus="dateFocus()" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="" ng-model="endTime">
+
+        <select class="font-size-14px" ng-model="status">
+          <option value="1">待对账</option>
+          <option value="2">已对账</option>
+        </select>
+        <a ng-click="searchInput()">查询</a>
+      </div>
+      <div class="parent-order">
+        <table>
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>对账单名称</th>
+              <th>合计金额</th>
+              <th>操作人</th>
+              <th>操作时间</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in dataList">
+              <td>{{$index+1}}</td>
+              <td>{{item.statementAccountName}}</td>
+              <td>{{item.totalAmount}}</td>
+              <td>{{item.operatorName}}</td>
+              <td>{{item.operatorTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>{{item.status=='1'?"待对账":"已对账"}}</td>
+              <td>
+                <span ng-click="showDetail(item.batchNumber)" class="showdetail">查看详情</span>
+              </td>
+            </tr>
+            <tr ng-show="dataList.length == 0">
+              <td colspan="30">暂无数据。</td>
+            </tr>
+          </tbody>
+        </table>
+        <!--分页-->
+        <page></page>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

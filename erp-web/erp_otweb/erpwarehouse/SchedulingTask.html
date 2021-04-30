@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>调度任务</title>
+</head>
+<body>
+<div class="ea-content asj-ware-box">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpwarehouse/warestock">商品库存</a></li>
+            <li><a href="#/erpwarehouse/erpdepotIn">待入库商品</a></li>
+            <li><a href="#/erpwarehouse/warelist">仓库设置</a></li>
+            <li><a href="#/erpwarehouse/warelinkcate">类目管理</a></li>
+            <li class="active"><a href="#/erpwarehouse/SchedulingTask">调度任务</a></li>
+            <li><a href="#/erpwarehouse/Parcel">包裹管理</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <!-- right search -->
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input type="text" class="form-control top-search-inp" placeholder="请输入用户名查询" ng-model="search"
+                           ng-keyup="enterSearch($event)">
+                    <a role="button" class="btn btn-default top-search-btn" type="button"
+                       ng-click="search()">搜索</a>
+                </div>
+                <div class="add-merch">
+                    <a href="javascript:void(0);" class="add-merch-btn" ng-click="addWareFlag=true;">新增调度任务</a>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+                    <thead>
+                    <tr>
+                        <th><span>序号</span></th>
+                        <th><span>原始仓</span></th>
+                        <th><span>到达仓</span></th>
+                        <th><span>名称</span></th>
+                        <th><span>追踪号</span></th>
+                        <th><span>条形码</span></th>
+                        <th><span>内含包裹</span></th>
+                        <th><span>备注</span></th>
+                        <th><span>操作</span></th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="(index1,item) in wareList">
+                        <tr class="la_tr la_tr01">
+                        <td><span>{{item.storageName}}</span></td>
+                        <td><span>{{item.storageNo2Name}}</span></td>
+                        <td><span>{{item.remark}}</span></td>
+                        <td><span>{{item.principalName}}</span></td>
+                        <td><span>{{item.principalPhone}}</span></td>
+                        <td><span>{{item.addresses}}</span></td>
+                        <td><span>{{item.addresses}}</span></td>
+                        <td><span>{{item.addresses}}</span></td>
+                        <td class="relative active">
+                            <div>
+                                <a role="button" class="asj-btn-s asj-btn-s1"
+                                   href="javascript: void(0);">分配包裹</a>
+                                <a role="button" class="asj-btn-s asj-btn-s3" ng-click="deleteOneWare(item)">删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="page-box" ng-show="kucunliebiao.length > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="getPageSize()">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div id="pagination1" class="pagination2">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="specifiedPage">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button"
+                           ng-click="getSpecifiedPage()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增调度任务-->
+<div class="asj-common-tanwrap" ng-show="addWareFlag">
+    <div class="asj-common-tan tan-add-ware">
+        <div class="tan-title">新增调度任务</div>
+        <div class="input-item clearfix">
+            <label class=""><span class="asj-must-require"></span>原始仓:</label>
+            <div class="right-con">
+                <input type="text" placeholder="" ng-model="wareName">
+            </div>
+        </div>
+        <div class="input-item clearfix">
+            <label class=""><span class="asj-must-require"></span>到达仓:</label>
+            <div class="right-con">
+                <input type="text" placeholder="" ng-model="wareNameEn">
+            </div>
+        </div>
+        <div class="input-item clearfix">
+            <label class="">名称:</label>
+            <div class="right-con">
+                <input type="text" placeholder="" ng-model="chargeMan">
+            </div>
+        </div>
+        <div class="input-item clearfix">
+            <label class="">追踪号:</label>
+            <div class="right-con">
+                <input type="text" placeholder="" ng-model="phoneNum">
+            </div>
+        </div>
+        <div class="input-item clearfix">
+            <label class="">条形码:</label>
+            <div class="right-con">
+                <input type="text" placeholder="" ng-model="wareAddress">
+            </div>
+        </div>
+        <div class="input-item clearfix">
+            <label class="">件数:</label>
+            <div class="right-con">
+                <input type="text" placeholder="" ng-model="wareRemark">
+            </div>
+        </div>
+        <div class="tan-btns">
+            <a class="tan-btn0" ng-click="cancelAddWare()">取消</a>
+            <a class="tan-btn1" ng-click="goAddOneWare()">确认</a>
+        </div>
+    </div>
+</div>
+
+<div class="asj-common-tanwrap" ng-show="deleteWareFlag">
+    <div class="asj-common-tan tan-delete-ware">
+        <div class="tan-title">确认删除仓库？</div>
+        <div class="tan-btns"><a class="tan-btn0" ng-click="deleteWareFlag=false">取消</a><a class="tan-btn1"
+                                                                                           ng-click="goDeleteWare()">确认</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

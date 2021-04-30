@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>已取消订单金额-财务收入管理-ERP系统</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+		<link rel="stylesheet" href="erp_otweb/css/li_erp.css">
+	</head>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content">
+			<!-- <div class="ea-content-box"> -->
+				
+				<!-- <div class="ea-content-con"> -->
+					<!-- left nav -->
+					<div class="left-bar">
+	            <ul>
+	                <!-- <li class="active"><a href="#/erpwarehouse/erpdepotIn">义务仓</a></li> -->
+	                <li><a href="#/erpwarehouse/privatekucun">私有仓库</a></li>
+	                <li class="active"><a href="#/erpwarehouse/erpdepotkucun">公有仓库</a></li>
+	                <li><a href="#/erpwarehouse/warelist">仓库设置</a></li>
+	                <li><a href="#/erpwarehouse/warestock">商品库存</a></li>
+	                <li><a href="#/erpwarehouse/warelinkcate">类目管理</a></li>
+					<li><a href="#/erpwarehouse/SchedulingTask">调度任务</a></li>
+					<li><a href="#/erpwarehouse/Parcel">包裹管理</a></li>
+	            </ul>
+	        </div>
+
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content li_ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+	          <div class="top-taps clearfix">
+	            	<ul>
+	            		<li><a href="#/erpwarehouse/erpdepotkucun">库存</a></li>
+	                  <li><a href="#/erpwarehouse/erpdepotIn">入库</a></li>
+	                  <li class="active"><a href="#/erpwarehouse/erpdepotOut">出库</a></li>
+	              </ul>
+			    	</div>
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+							<div class="datatime-screen"><a href="#" class="active">今日</a><a href="#">最近一周</a><a href="#">一个月</a><a href="#">三个月</a><input type="text" id="txtBeginDate" placeholder="选取开始日期" /><input type="text" id="txtEndDate" placeholder="选取结束日期" /><input type="button" value="点击筛选">
+</div>
+							
+							<div class="input-group search-box">
+                  <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+                    <option value="SKU">SKU</option>
+                    <option value="CH">中文</option>
+                    <option value="EN">英文</option>
+                  </select> -->
+                  <input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+                  <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">搜索</a>
+              </div>
+							
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs" id="ea-list-table">
+							<tr>
+								<!-- <th><span><input type="checkbox"></span></th> -->
+								<th><span>日期</span></th>
+								<th><span>图片</span></th>
+								<th><span>商品SKU</span></th>
+								<th><span>供应商</span></th>
+								<th><span>库存数量</span></th>
+								<th><span>即将出库</span></th>
+								<th><span>操作</span></th>
+							</tr>
+							<tr class="la_tr" ng-repeat="item in chukuliebiao">
+								<!-- <td><span> <input name="need_inv" type="checkbox" value="1"></span></td> -->
+								<td><span>{{item.ti}}</span></td>
+								<td><span class="lashop_img">
+									<img src={{item.IMG}} alt="" >
+								</span></td>
+								<td><span>{{item.SKU}}</span></td>
+								<td><span>查询供应商</span></td>
+								<td><span>{{item.inv1}}</span></td>
+								<td><span>{{item.inv}}</span></td><span>
+								<td class="relative">
+									<span>
+									<poplink class="active">
+									 出库
+								 </poplink>
+								  <section id="show-img">
+										<h3>出库</h3>
+										<ul class="state-modify-list">
+											<li><span class="list-tit" style="padding-top: 0;">库存数量</span><span class="list-con">500</span></li>
+											<li><span class="list-tit" style="padding-top: 0;">出库数量</span><span class="list-con"><input type="text" value="" class="input-helf"></span></li>
+										</ul>
+									<closetext class="btn-cancel">取消</closetext><closetextt class="btn-determine">确定</closetextt>
+									</section>
+								</span></td>
+							</tr>
+						</table>
+
+						
+						
+						</div>
+						</div>
+					</div>
+					
+				<!-- </div> -->
+			<!-- </div> -->
+		</div>
+		
+		
+		<!-- 选取两段时间之间插件 -->
+		<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+		<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+            //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+
+
+
+<!-- 弹框js -->
+<script>
+	
+	function clickshow(btn,box,close,close1){
+	var eaListTable=document.getElementById('ea-list-table');
+	var showImgBtn=eaListTable.getElementsByTagName(btn);
+	var showImg=eaListTable.getElementsByTagName(box);
+	var closeShowImg=eaListTable.getElementsByTagName(close);
+	var closeShowImgt=eaListTable.getElementsByTagName(close1);
+	for(var i=0; i<showImgBtn.length; i++){
+		showImgBtn[i].index=i;
+		showImgBtn[i].onclick=function(){
+				showImg[this.index].style.display='block';
+		}
+		}
+	for(var i=0; i<closeShowImg.length; i++){
+		closeShowImg[i].index=i;
+		closeShowImg[i].onclick=function(){
+			showImg[this.index].style.display='none';
+		}
+	}
+	for(var i=0; i<closeShowImgt.length; i++){
+		closeShowImgt[i].index=i;
+		closeShowImgt[i].onclick=function(){
+			showImg[this.index].style.display='none';
+		}
+	}
+	}
+	clickshow('poplink','section','closetext','closetextt');
+</script>
+
+
+		
+	</body>
+</html>

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>已添加调度任务</title>
+</head>
+<style>
+
+    .ea-content {
+        overflow: hidden;
+    }
+
+    .ea-right-search {
+        padding-top: initial;
+	      overflow: initial;
+	      display: flex;
+	      justify-content: space-between;
+    }
+
+    .search-box {
+        width: auto;
+    }
+
+    .ea-right-search .input-group input {
+        width: 400px;
+        height: 40px;
+        border-color: #F9AE08;
+    }
+
+    .ea-right-search .input-group a {
+        width: 90px;
+        height: 40px;
+        line-height: 40px;
+        background: rgba(249, 174, 8, 1);
+    }
+
+    .ea-right-search .add-merch a {
+        width: 110px;
+        height: 36px;
+        border: none;
+        line-height: 36px;
+        background: rgba(252, 244, 217, 1);
+        border-radius: 2px;
+        color: #B0570A;
+	      display: inline-block;
+    }
+
+    .ea-list-table th {
+        height: 40px;
+        background: rgba(252, 244, 217, 1);
+        /*line-height: 40px;*/
+        padding: initial;
+        font-size: 14px;
+        color: rgba(176, 86, 9, 1);
+        /*border-right: none;*/
+    }
+
+    .ea-list-table td {
+        /*border-right: none;*/
+    }
+
+    .ea-list-table .tr:hover {
+        background: #faa5383b;
+    }
+
+    .relative a {
+        min-width: 66px;
+        height: 28px;
+        border-radius: 4px;
+        border: 1px solid rgba(238, 238, 238, 1);
+        display: inline-block;
+    }
+
+    .tan-add-ware {
+        width: 360px;
+        min-height: 180px;
+        height: initial;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 4px;
+    }
+
+    .asj-common-tan h3 {
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        color: rgba(102, 102, 102, 1);
+        line-height: 20px;
+        margin: 10px 0;
+        text-align: left;
+    }
+
+    .tan-add-ware ul {
+        min-height: 80px;
+    }
+
+    .tan-add-ware li {
+        display: inline-block;
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        color: rgba(153, 153, 153, 1);
+        line-height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .tan-add-ware li:hover {
+        color: rgba(176, 86, 9, 1);
+    }
+
+    .zhuan-flag{
+        display: inline-block;
+        padding: 0 3px;
+        border-radius: 20px;
+        font-size: 6px;
+        color: #fff;
+        background-color: #0200ff;
+        margin-top: 1px;
+    }
+
+    .asj-common-tan .tan-btns {
+        text-align: right;
+        position: initial;
+    }
+
+    .asj-common-tan .tan-btns a {
+        margin: initial;
+    }
+
+    .asj-common-tan .tan-btns .tan-btn1 {
+        width: 80px;
+        height: 30px;
+        background: rgba(249, 174, 8, 1);
+        border-radius: 2px;
+        color: #fff;
+    }
+
+    .asj-common-tan .tan-btns .tan-btn0 {
+        width: 80px;
+        height: 30px;
+        border-radius: 2px;
+        border: 1px solid rgba(247, 157, 45, 1);
+        margin: 0 20px;
+        color: #F9AE08;
+        background-color: #fff;
+    }
+
+    .tan-delete-ware {
+        border-radius: 4px;
+    }
+
+    .addschFlag .tan-add-ware {
+        width: 540px;
+        /*height: 600px;*/
+    }
+
+    .addschFlag .tan-add-ware ul {
+        padding: 0 50px;
+    }
+
+    .addschFlag .tan-add-ware li {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        color: rgba(176, 86, 9, 1);
+        line-height: 20px;
+    }
+
+    .addschFlag .tan-add-ware li span {
+        width: 90px;
+        display: inline-block;
+    }
+
+    .addschFlag .tan-add-ware li input, select {
+        width: 297px;
+        height: 40px;
+        border: 1px solid rgba(238, 238, 238, 1);
+        padding: 0 8px;
+    }
+
+    .typeSelect {
+        width: initial;
+        height: 40px;
+        border: 1px solid #F9AE08;
+        padding: 0 8px;
+        float: left;
+    }
+
+    .ea-list-table td {
+        font-size: 12px;
+        color: #000
+    }
+
+    .ea-list-table .focus {
+        background: #fcf4d982;
+    }
+
+    .page-box {
+        margin-left: initial !important;
+        margin-top: 15px;
+        margin-bottom: 120px;
+    }
+
+    .page-box .total-num, .page-box .page-index, .page-box .to-go {
+        width: initial;
+    }
+
+    .asj-common-tanwrap {
+        z-index: 100001;
+    }
+
+    .ea-list-table td {
+        font-size: 12px;
+        color: #000;
+        max-width: 200px;
+    }
+
+    .ea-list-table td span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin: initial;
+        text-align: center;
+        display: block;
+        height: 20px;
+        line-height: 20px;
+    }
+
+    .ea-right-search input {
+        float: left;
+        width: initial !important;
+        padding: 0 8px;
+    }
+
+    .actc {
+        background-color: #faa5383b !important;
+    }
+
+    .RowTD {
+        padding: 0 !important;
+    }
+
+    .RowTD .RowSpan {
+        border-bottom: solid #e1e1e1 1px;
+        line-height: 25px;
+    }
+
+    .RowTD .RowSpan:last-child {
+        border-bottom: none;
+    }
+
+    .ea-right-search .search-box {
+        width: 100%;
+    }
+
+    .ea-right-search .search-box .Print {
+        float: right;
+        text-align: center;
+        color: #fff;
+        min-width: 90px;
+        padding: 0 8px;
+        width: auto;
+    }
+
+    .table-con-box {
+        overflow-x: auto;
+    }
+
+    .ea-list-table {
+        /*width: 2500px;*/
+        /*margin-bottom: 100px;*/
+    }
+
+    .MroeActin {
+        position: relative;
+    }
+
+    .MroeActin a {
+        color: #333333;
+        line-height: 23px;
+        font-size: 12px;
+    }
+
+    .MroeActin span {
+        display: inline-block !important;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+
+    .MroeActin ul {
+        font-size: 12px;
+        position: absolute;
+        left: -30px;
+        top: 21px;
+        width: 175px;
+        box-shadow: 0px 8px 20px;
+        z-index: 10;
+        background-color: #fff;
+        border-radius: 4px;
+    }
+
+    .MroeActin ul li {
+        font-size: 12px;
+        line-height: 23px;
+    }
+
+    .MroeActin ul li:hover {
+        background-color: #e3e3e3;
+        cursor: pointer;
+    }
+
+    .tbody:hover {
+        background: #fcf4d982 !important;
+    }
+
+    .b {
+        display: block;
+        height: 1px;
+        border-bottom: 1px dashed #ccc;
+    }
+
+    .qs-link {
+        margin-right: 30px;
+        padding: 0 5px 5px;
+        /*text-decoration: underline;*/
+    }
+
+    .qs-link:hover {
+        color: #F9962E;
+        border-bottom: 2px solid #F9962E;
+    }
+
+    .qs-act {
+        color: #F9962E;
+        border-bottom: 2px solid #F9962E;
+    }
+
+    .qs-nav {
+        margin-bottom: 15px;
+        margin-left: 5px;
+    }
+
+    .addschFlag .tan-add-ware li span {
+        cursor: default;
+    }
+    .ea-content{
+        overflow: initial;
+    }
+    .checked-box i {
+	    width: 16px;
+	    height: 16px;
+	    display: inline-block;
+	    cursor: pointer;
+	    background: url(static/image/order-img/multiple1.png) no-repeat center;
+	    margin: 0 8px;
+    }
+    .checked-box i.checked {
+	    background: url(static/image/order-img/multiple2.png) no-repeat center;
+    }
+
+    .export-btns,.print-btn {
+	    min-width: 110px;
+        padding: 0 10px;
+	    height: 36px;
+	    border: none;
+	    line-height: 36px;
+	    background: rgba(252, 244, 217, 1);
+	    border-radius: 2px;
+	    color: #B0570A;
+	    display: inline-block;
+	    position: relative;
+	    text-align: center;
+	    margin-left: 15px;
+    }
+
+    .export-btns:hover .btns {
+	    display: block;
+    }
+
+    .export-btns .btns {
+	    position: absolute;
+	    display: none;
+        left: 0;
+        width: 100%;
+    }
+
+    .export-btns .btns a {
+	    background-color: #ccc;
+	    color: #fff;
+        width: 100%;
+    }
+
+    .export-btns .btns a:hover{
+	    background-color: #999;
+    }
+		.add-merch{
+			display: flex;
+		}
+</style>
+<body>
+<div class="ea-content asj-ware-box">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <!-- right search -->
+        <div class="right-bar">
+            <!-- <div class="qs-nav">
+                <a class="qs-link" href="#/erpwarehouse/InDelivery">待签收</a>
+                <a class="qs-link" href="#/erplogistics/qswpp">已签收</a>
+            </div> -->
+            <div class="flex aic" style="align-items: center;">
+                <span>原始仓：</span><storageTab callback="storageCallback"></storageTab>
+            </div>
+            <div class="ea-right-search clearfix">
+                <div class="input-group search-box">
+                    <select class="typeSelect" ng-model="SelectType" ng-change="SelectChanges()">
+                        <option value="estimatedDeliveryTime">{{'101282' | translate}}</option>
+                        <option value="originalWarehouse">{{'101261' | translate}}</option>
+                        <option value="arrivedWarehouse">{{'101262' | translate}}</option>
+                        <option value="dispatcherTaskName">{{'100254' | translate}}</option>
+                        <option value="forwarderName">{{'101264' | translate}}</option>
+                        <option value="parcelUse">{{'101265' | translate}}</option>
+                        <option value="trackingNumber">{{'101310' | translate}}</option>
+                        <option value="transferNumber">{{'101267' | translate}}</option>
+                        <option value="estimatedArrivalTime">{{'101283' | translate}}</option>
+                        <!--<option>包裹件数</option>-->
+                        <option value="skuOrOrderId">{{'101311' | translate}}</option>
+                    </select>
+                    <input ng-show="SelectType == 'estimatedDeliveryTime'" placeholder="{{'101284' | translate}}"
+                           id="cateDedate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    <input ng-show="SelectType == 'estimatedDeliveryTime'" id="endDadate"
+                           placeholder="{{'101285' | translate}}" type="text"
+                           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    <input ng-show="SelectType == 'estimatedArrivalTime'" placeholder="{{'101286' | translate}}"
+                           id="cateArDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                    <input ng-show="SelectType == 'estimatedArrivalTime'" id="endArdate"
+                           placeholder="{{'101287' | translate}}" type="text"
+                           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                    <input style="width: 290px!important;" type="text" class="form-control top-search-inp"
+                           placeholder="{{places}}" ng-model="inputTxt"
+                           ng-keyup="enterSearch($event)">
+                    <a role="button" class="btn btn-default top-search-btn" type="button"
+                       ng-click="Search()">{{'100025' | translate}}</a>
+                </div>
+	            <div class="add-merch">
+                    <div class="export-btns" style="width:135px">
+                        导出货代交接清单
+                        <div class="btns">
+                            <a href="javascript:void(0);" ng-click="handleExportForwarder(1)">DHL渠道</a>
+                            <a href="javascript:void(0);" ng-click="handleExportForwarder(2)">韩国UPS</a>
+                            <a href="javascript:void(0);" ng-click="handleExportForwarder(3)">空派</a>
+                            <a href="javascript:void(0);" ng-click="handleExportForwarder(4)">南风空派海运</a> 
+                        </div>
+                    </div>
+                    <div class="export-btns">
+                        导出报关清单
+                        <div class="btns">
+                            <a href="javascript:void(0);" ng-click="handleExportList('1')">导出杭州模板</a>
+                            <a href="javascript:void(0);" ng-click="handleExportList('2')">导出上海模板</a>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);" class="add-merch-btn" ng-click="handleExportCusList()">导出清关文件</a>
+                    <a class="print-btn" target="_blank" href="PrintPackingList.html">{{101301 | translate}}</a>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" style="min-width: 1600px;">
+                    <thead>
+                    <tr>
+	                    <th rowspan="0" class="checked-box">
+                        <i ng-click="handleCheckAll()" ng-class="{'checked':checkedAll}"></i>
+                      </th>
+                    </tr>
+                    <tr>
+                        <th colspan="8">{{'101308' | translate}}</th>
+                        <th colspan="6">{{'101309' | translate}}</th>
+                    </tr>
+                    <tr>
+                        <th>{{'100174' | translate}}</th>
+                        <th>
+                            {{'101282' | translate}}
+                            <b class="b"></b>
+                            {{'101283' | translate}}
+                        </th>
+                        <th>
+                            {{'101261' | translate}}
+                            <b class="b"></b>
+                            {{'101262' | translate}}
+                        </th>
+                        <th>
+                            {{'101273' | translate}}
+                            <b class="b"></b>
+                            {{'100824' | translate}}
+                        </th>
+                        <th>
+                            {{'100109' | translate}}
+                            <b class="b"></b>
+                            {{'101267' | translate}}
+                        </th>
+                        <th>{{'100340' | translate}}</th>
+                        <th>{{'100202' | translate}}</th>
+                        <th>{{'100043' | translate}}</th>
+
+
+                        <th>{{'101271' | translate}}</th>
+
+                        <th>
+                            {{'101312' | translate}}
+                            <b class="b"></b>
+                            {{'101265' | translate}}
+                        </th>
+                        <th>
+                            {{'101266' | translate}}
+                            <b class="b"></b>
+                            {{'101267' | translate}}
+                        </th>
+                        <th>{{'100340' | translate}}</th>
+                        <th>{{'100202' | translate}}</th>
+                        <th>{{'100043' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody class="tbody" ng-repeat="(index,item) in datalist" ng-click="TRclick($index,item)"
+                           ng-class='{focus: $index == focus || item.isChild}'>
+                    <tr>
+	                      <td class="checked-box" rowspan="{{item.rowsNum}}">
+													<i ng-click="handleCheckDispatch(item)" ng-class="{'checked':item.checked}"></i>
+												</td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{index+1}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.estimatedDeliveryTime}}</span>
+                            <b class="b"></b>
+                            <span>{{item.estimatedArrivalTime}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.originalWarehouseName}}</span>
+                            <b class="b"></b>
+                            <span>{{item.arrivedWarehouseName}}</span>
+
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.dispatcherTaskName}}</span>
+                            <b class="b"></b>
+                            <span>{{item.forwarderName}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.trackingNumber}}</span>
+                            <b class="b"></b>
+                            <span>{{item.transferNumber}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.remark}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.receivingCount}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <div class="MroeActin" ng-mouseenter="isOver = true;" ng-mouseleave="isOver = false;">
+                                <a>{{'100094' | translate}}</a>
+                                <span style="height: initial;"></span>
+                                <ul ng-show="isOver">
+                                    <li ng-click="editbg(item)">{{'100120' | translate}}</li>
+                                    <li ng-click="deleteWare(item,'DD')">{{'100227' | translate}}</li>
+                                    <li ng-click="FPWare(item,'all')">{{'101288' | translate}}</li>
+                                    <li ng-click="exportProduct(item,'dispatchTask')">导出报关信息</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="tr" ng-class="{actc:itemc.checked == 1}"
+                        ng-repeat="(index1,itemc) in item.disparcherParcelList" style="height: 52px;">
+	                      <td class="checked-box">
+	                        <div style="display: flex;align-items: center;">
+		                        <i ng-click="handleCheckPackage(item,itemc)"
+		                           ng-class="{'checked':itemc.packageChecked}"></i>
+		                        <div>
+			                        <span>{{itemc.parcelName}}
+                                        <img ng-click="LookLog(itemc.id)" class="log-img" src="static/image/public-img/ord-log.png" />
+                                    </span>
+                              <a target="_blank" download="" href="{{itemc.fileUrl}}">{{itemc.fileUrl}}</a>
+		                        </div>
+	                        </div>
+                        </td>
+                        <td>
+                            <span ng-show="itemc.property == '1'">普货</span>
+                            <span ng-show="itemc.property == '0'">非普货</span>
+                            <span ng-show="itemc.property == '2'">未知属性</span>
+                            <span ng-show="!itemc.property"></span>
+                            <b class="b"></b>
+                            <span>{{itemc.parcelUse}}</span>
+                        </td>
+                        <td>
+                            <span>{{itemc.trackingNumber}}</span>
+                            <b class="b"></b>
+                            <span>{{itemc.transferNumber}}</span>
+                        </td>
+                        <td>
+                            <span>{{itemc.remark}}</span>
+                        </td>
+                        <td>
+                            <span style="color: green;"
+                                  ng-show="itemc.receivingStatus == '11'">{{'101220' | translate}}</span>
+                            <span style="color: red;"
+                                  ng-show="itemc.receivingStatus == '9'">{{'101289' | translate}}</span>
+                        </td>
+                        <td style="width: 145px;">
+                            <div class="MroeActin" ng-mouseenter="isOver2 = true;" ng-mouseleave="isOver2 = false;">
+                                <a>{{'100094' | translate}}</a>
+                                <span style="height: initial;"></span>
+                                <ul ng-show="isOver2">
+                                    <li ng-click="LookDetail(itemc,index,index1)">{{'100259' | translate}}</li>
+                                    <li ng-click="editperIem(item.id,item.dispatcherTaskName,itemc.id)">{{'100120' |
+                                        translate}}
+                                    </li>
+                                    <li ng-click="deleteWare(itemc,'BG',index)">{{'100227' | translate}}</li>
+                                    <li ng-show="itemc.receivingStatus == '9'"
+                                        ng-click="FPWare(itemc,'cld',index,item)">{{'101288' | translate}}
+                                    </li>
+                                    <li ng-click="ExportEXcel(itemc)">{{'100068' | translate}}Excel</li>
+                                    <li ng-click="printBg(itemc)">打印包裹编号</li>
+                                    <li ng-click="exportProduct(itemc,'parcel')">导出报关信息</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="item.disparcherParcelList.length == 0">
+                        <td colspan="7" style="height: 52px;">{{'100980' | translate}}。</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="page-box" ng-show="datalist.length > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize1" ng-change="pagechange1(pagesize1)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum1 }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum1">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button"
+                           ng-click="pagenumchange1()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!---->
+<a id="Excel" ng-href="{{ExcelUrl}}"></a>
+<!--编辑调度-->
+<div class="asj-common-tanwrap addschFlag" ng-show="addschFlag">
+    <div class="asj-common-tan tan-add-ware">
+        <ul>
+            <li>
+                <span>{{'101273' | translate}}:</span>
+                <span>{{dispatcherTaskName}}</span>
+                <!--<input type="text" ng-model="dispatcherTaskName">*-->
+            </li>
+            <li>
+                <span>{{'101261' | translate}}:</span>
+                <select ng-options="v.ID as v.STORAGE for v in cangweilist" ng-model="originalWarehouseId"
+                        ng-change="selectChange('1');">
+                    <!--<option value="">请选择</option>-->
+                </select>*
+                <!--<input type="text" ng-model="originalWarehouseId">-->
+            </li>
+            <li>
+                <span>{{'101262' | translate}}:</span>
+                <select ng-options="v.ID as v.STORAGE for v in cangweilist" ng-model="arrivedWarehouseId"
+                        ng-change="selectChange('2');">
+                    <!--<option value="">请选择</option>-->
+                </select>*
+                <!--<input type="text" ng-model="arrivedWarehouseId">-->
+            </li>
+            <li>
+                <span>{{'101264' | translate}}:</span>
+                <select ng-options="v.name as v.name for v in forwardData" ng-model="forwarderName"
+                        ng-change="forwardChange()">
+                    <option value="">{{'100693' | translate}}</option>
+                </select>
+            </li>
+            <li>
+                <span>{{'101266' | translate}}:</span>
+                <input type="text" ng-model="trackingNumber">*
+            </li>
+            <li>
+                <span>{{'101267' | translate}}:</span>
+                <input type="text" ng-model="transferNumber">
+            </li>
+
+            <!--<li>
+                <span>条形码:</span>
+                <input type="text" ng-model="barCode">
+            </li>
+            <li>
+                <span>件数:</span>
+                <input type="number" ng-model="numberCases">
+            </li>-->
+            <!-- <li>
+                 <span>发货状态:</span>
+                 <input type="text" ng-model="shippingStatus">
+             </li>-->
+            <!--        <li>
+                        <span>预计发货时间:</span>
+                        <input type="text" name="" class="boxwidth-helf" placeholder="点击选择时间"
+                               onClick="WdatePicker({onpicked: function(){$(this).trigger('change')},dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{\'%y-%M-%d %H-%m-%s\'}'})"
+                               ng-model="estimatedDeliveryTime">
+                    </li>-->
+            <li>
+                <span>{{'101274' | translate}}:</span>
+                <input type="text" ng-model="remark">
+            </li>
+            <div class="tan-btns">
+                <a class="tan-btn1" ng-click="editClick()">{{'101275' | translate}}</a>
+                <a class="tan-btn0" ng-click="addschFlag = false;">{{'100051' | translate}}</a>
+            </div>
+        </ul>
+    </div>
+</div>
+<!--修改包裹-->
+<div class="asj-common-tanwrap addschFlag" ng-show="upPercel">
+    <div class="asj-common-tan tan-add-ware">
+        <ul>
+            <li>
+                <span>{{'101280' | translate}}:</span>
+                <input type="text" ng-model="parcelName" ng-blur="isname(parcelName)">*
+            </li>
+            <li>
+                <span>{{'101265' | translate}}:</span>
+                <select ng-options="v.name as v.name for v in Percellist" ng-model="parcelUse"></select>
+            </li>
+            <li>
+                <span>{{'101266' | translate}}:</span>
+                <input type="text" ng-model="trackingNumber">
+            </li>
+            <li>
+                <span>{{'101267' | translate}}:</span>
+                <input type="text" ng-model="transferNumber">
+            </li>
+            <li>
+                <span>{{'101281' | translate}}:</span>
+                <input type="text" ng-model="remark">
+            </li>
+            <div class="tan-btns">
+                <a class="tan-btn1" ng-click="confUPper()">{{'101275' | translate}}</a>
+                <a class="tan-btn0" ng-click="upPercel = false;">{{'100051' | translate}}</a>
+            </div>
+        </ul>
+    </div>
+</div>
+<!--删除-->
+<div class="asj-common-tanwrap" ng-show="deleteWareFlag">
+    <div class="asj-common-tan tan-delete-ware">
+        <h3>{{'101278' | translate}}？</h3>
+        <div class="tan-btns">
+            <a class="tan-btn1" ng-click="goDelete()">{{'101275' | translate}}</a>
+            <a class="tan-btn0" ng-click="deleteWareFlag = false">{{'100051' | translate}}</a>
+        </div>
+    </div>
+</div>
+<!--确认收货-->
+<div class="asj-common-tanwrap" ng-show="shouhuolag">
+    <div class="asj-common-tan tan-delete-ware">
+        <h3>{{'101279' | translate}}？</h3>
+        <div class="tan-btns">
+            <a class="tan-btn1" ng-click="confshou()">{{'101275' | translate}}</a>
+            <a class="tan-btn0" ng-click="shouhuolag = false">{{'100051' | translate}}</a>
+        </div>
+    </div>
+</div>
+
+<!--查看订单操作记录-->
+<div class="lookOperationRecord" ng-show="isLookLog">
+    <div class="content">
+        <h3>操作日志<span class="close" ng-click="isLookLog = false;">×</span></h3>
+        <ul ng-click="stopProgFun($event)" style="min-height: 300px;overflow-y:auto;">
+            <li class="clearfix"  style="padding-block-end: 18px;" ng-repeat="item in logList">
+                <b></b>
+                <span class="name">{{item.operatingUserName}}</span>
+                <p>{{item.operatingDetails}}</p>
+                <p style="margin: 0 10px;">{{item.track}}</p>
+                <span class="date">{{item.createDate.time | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--查看详情-->
+<div class="asj-common-tanwrap" ng-show="isLook">
+    <div class="asj-common-tan tan-delete-ware" style="height: initial;width: 600px;">
+        <h3>{{'100259' | translate}}<span class="close" ng-click="isLook = false;">×</span></h3>
+        <div style="max-height: 400px;overflow-y: auto;">
+            <table style="margin-bottom: initial;" class="ea-list-table ea-erp-cs" cellspacing="0" cellpadding="0">
+                <thead>
+                <tr>
+                    <th>{{'101311' | translate}}</th>
+                    <th>{{'101295' | translate}}</th>
+                    <th>{{'101294' | translate}}</th>
+                    <th>{{'101293' | translate}}</th>
+                    <th>{{'100308' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="tr" ng-repeat="(index,item) in SkuList">
+                    <td>
+                        <span><b ng-if="item.conversionSheet == 11" class="zhuan-flag">转</b>
+                            {{item.skuOrOrderId}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.productName}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.actual_gross_weight}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.estimated_total_weight}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.quantity}}</span>
+                    </td>
+                </tr>
+                <tr ng-show="item.SkuList.length == 0">
+                    <td colspan="5" style="height: 52px;">{{'100980' | translate}}。</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

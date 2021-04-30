@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .input-group{
+            display: flex;
+            height: 35px;
+        }
+        .searchBtn{
+            height: 35px;
+            padding: 0 15px;
+            background: #F8A636;
+            color: #fff;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left:0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99999;
+            display: none;
+        }
+        .zzc-wrap{
+            background: #fff;
+            border-radius: 5px;
+            width: 650px;
+            margin: 120px auto;
+            padding: 15px 20px;
+        }
+        .zzc-wrap>h3{
+            margin: 15px 0 ;
+        }
+        .tab{
+            display: flex;
+            border-bottom: 1px solid #e1e1e1;
+        }
+        .tab>span{
+            padding: 5px 15px;
+            border: 1px solid transparent;
+            position: relative;
+            top: 1px;
+            cursor: pointer;
+        }
+        .tab>span:hover{
+            color: #F8A636;
+        }
+        .tab>span.active{
+            border-color: #e1e1e1;
+            border-bottom-color: #fff;
+        }
+        .selfContent{
+            padding: 15px 10px;
+        }
+        .self-group{
+            display: flex;
+            margin-bottom: 15px;
+            line-height: 35px;
+        }
+        .self-group>label{
+            width: 100px;
+        }
+        .checkbox{
+            display: flex;
+            margin: 0;
+            margin-left: 20px;
+        }
+        .check-detail{
+            display: flex;
+        }
+        .check-content{
+            min-width: 80px;
+        }
+        .self-group>input[type='text']{
+            width: 400px;
+            height: 35px;
+            padding: 0 5px;
+        }
+        .self-group input[type='checkbox']{
+            position: relative;
+            top: -2px;
+            margin-right: 5px;
+        }
+        .canshubtn{
+            padding: 0 10px;
+            border: 1px solid #F8A636;
+            color: #F8A636;
+            background: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+            position: relative;
+            top: 5px;
+            margin-right: 10px;
+        }
+        .canshubtn:hover{
+            background: #F8A636;
+            color: #fff;
+        }
+        #mailContent{
+            border-radius: 5px;
+            border: 1px solid #e1e1e1;
+            width: 400px;
+            height: 100px;
+        }
+        .zidingyi{
+            display: none;
+        }
+        .zhidingInput{
+            display: none;
+        }
+        .model-content{
+            margin-top: 15px;
+        }
+        .actiontd{
+            width: 120px;
+        }
+        .actiontd>span{
+            cursor: pointer;
+            position: relative;
+        }
+        .actiontd>span>b{
+            display: inline-block;
+            border: 5px solid transparent;
+            border-top-color: #9e9e9e;
+        }
+        .actiontd>span>ul{
+            background: #fff;
+            width: 100px;
+            position: absolute;
+            z-index: 99999;
+            box-shadow: 0px 8px 20px;
+            left: 10px;
+            display: none;
+        }
+        .actiontd>span:hover>ul{
+            display: block;
+        }
+        .actiontd>span>ul span{
+            display: inline-block;
+            padding: 5px 0 ;
+            width: 100%;
+        }
+        .actiontd>span>ul span:hover{
+            background: #ececf0;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input style="height: 35px" class="search-text-box" type="text" placeholder="请输入模板名称或邮件标题搜索" ng-model="searchinfo"/>
+                    <button class="searchBtn" ng-click="SearchBtn()">搜索</button>
+                </div>
+                <div class="input-group" style="float: right">
+                    <button class="searchBtn" style="border-radius: 5px" ng-click="openAdd()">新增模板</button>
+                </div>
+            </div>
+            <div class="model-content">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>模板名称</th>
+                        <th>模板类型</th>
+                        <th>邮件标题</th>
+                        <th>创建日期</th>
+                        <th>创建人</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="model in modelList">
+                        <td>{{model.modeName}}</td>
+                        <td>{{classModelType(model.modelType)}}</td>
+                        <td>{{model.msgName}}</td>
+                        <td>{{model.createDate}}</td>
+                        <td>{{model.creatorName}}</td>
+                        <td class="actiontd">
+                            <span>更多操作 <b></b>
+                                <ul>
+                                    <li><span ng-click="updateFun(model)">编辑</span></li>
+                                    <li><span ng-click="deleteFun(model.id)">删除</span></li>
+                                    <li><span ng-click="sendFun(model.id)">发送</span></li>
+                                </ul>
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--新增模板弹窗-->
+<div class="zzc">
+    <div class="zzc-wrap">
+        <h3>新增模板</h3>
+        <div class="tab">
+            <span class="active">指定客户</span>
+            <span>自定义</span>
+        </div>
+        <div class="selfContent">
+            <div class="self-group">
+                <label>模板类型：</label>
+                <span class="modelType">指定客户</span>
+            </div>
+            <div class="self-group zhiding">
+                <label>客户状态：</label>
+                <div class="checkbox">
+                    <div class="check-content">
+                        <input type="checkbox" ng-click="checkAll()" class="checkAll"/><span>全部</span>
+                    </div>
+                    <div class="check-detail">
+                        <div class="check-content">
+                            <input type="checkbox"/><span>未通过</span>
+                        </div>
+                        <div class="check-content">
+                            <input type="checkbox"/><span>正常</span>
+                        </div>
+                        <div class="check-content">
+                            <input type="checkbox"/><span>黑名单</span>
+                        </div>
+                        <div class="check-content">
+                            <input type="checkbox"/><span>待审核</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="self-group zhiding">
+                <label>客户名称：</label>
+                <div class="checkbox" id="radioBox" style="margin: 0">
+                    <div class="check-content" style="min-width: 100px">
+                        <input style="margin-top: 0;margin-right: 5px" name="customerName" type="radio" checked class="moren"/><span>默认(不填)</span>
+                    </div>
+                    <div class="check-content" >
+                        <input style="margin-top: 0;margin-right: 5px" name="customerName" type="radio"/><span>包含</span>
+                    </div>
+                    <div class="check-content">
+                        <input style="margin-top: 0;margin-right: 5px" name="customerName" type="radio"/><span>不包含</span>
+                    </div>
+                </div>
+            </div>
+            <div class="self-group zhidingInput">
+                <label></label>
+                <input type="text" id="customerName" style="position: relative;left: -5px;" />
+                <p style="text-indent: 100px">注：客户名称请用英文，多个客户之间用英文逗号隔开</p>
+            </div>
+            <div class="self-group">
+                <label>模板名称：</label>
+                <input type="text" id="modelName"/>
+            </div>
+            <div class="self-group">
+                <label>邮件标题：</label>
+                <input type="text" id="mailTitle"/>
+            </div>
+            <div class="self-group canshu">
+                <label>邮件参数：</label>
+                <div class="canshuGroup" style="display: flex">
+                    <span class="canshubtn" data-value="country">国家</span>
+                    <span class="canshubtn" data-value="email">邮箱</span>
+                    <span class="canshubtn" data-value="loginName">登录名</span>
+                    <span class="canshubtn" data-value="name">姓名</span>
+                    <span class="canshubtn" data-value="phone">电话</span>
+                    <span class="canshubtn" data-value="num">客户编号</span>
+                </div>
+            </div>
+            <div class="self-group canshu">
+                <p>注：你可以选择参数把它加入到你的邮件内容中去！</p>
+            </div>
+            <div class="self-group">
+                <label>邮件类型：</label>
+                <select name="" id="selectEmailType" style="width: 120px;">
+                    <option value="Products">Products</option>
+                </select>
+            </div>
+            <div class="self-group">
+                <label>邮件内容：</label>
+                <textarea id="mailContent"></textarea>
+            </div>
+            <div class="self-group zidingyi">
+                <label>邮件地址：</label>
+                <input type="text" id="mailAddres" style="position: relative;left: -5px;" />
+                <p style="text-indent: 100px">注：多个地址之间用英文逗号隔开</p>
+            </div>
+            <div class="self-group" style="justify-content: center;margin-bottom: 0">
+                <button id="" class="searchBtn" style="border-radius: 5px; margin-right: 20px" ng-click="sendFunWin()">发送</button>
+                <button id="addBtn" class="searchBtn" style="border-radius: 5px; margin-right: 20px" ng-click="addModel()">确定</button>
+                <button id="SaveBtn" class="searchBtn" style="border-radius: 5px; margin-right: 20px" ng-click="saveModel()">保存</button>
+                <button class="searchBtn" style="border-radius: 5px; " ng-click="closeAdd()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>cod</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_cute_chatFAQ.css" />
+	<style>
+		.erp-common-tan-confirm{
+			width:400px;
+			height:200px;
+			padding:40px 20px;
+		}
+		.erp-common-tan-confirm p{
+			margin-top: 10px;
+			text-align: left;
+			padding-left: 32px;
+		}
+		.erp-common-tan-confirm img{
+			width:22px;
+			height:22px;
+			margin-right: 10px;
+		}
+		.erp-common-tan-confirm .tan-v2-bot{
+			margin-top: 20px;
+		}
+		.model-item label{
+			float: left;
+			width:8%;
+		}
+		.model-item P{
+			float: left;
+			width:92%;
+			padding-bottom: 10px;
+		}
+		.model-item input,.model-item select{
+			width:100%;
+			height:30px;
+			border-radius: 3px;
+			padding:0 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="ea-content yzy-cute-content">
+		<div class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab position-absolute" ng-init="init()" style="min-width: 1100px;">
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索区域 -->
+					<div class="top-tab-search d-flex justify-content-between align-items-center">
+						<div class="d-flex-center">
+							<input ng-model="searchInput" placeholder="请输入标题查询" class="search-input"
+								type="text">
+							<button class="asj-btn-s1 search-btn search-input-btn margin-left-20px" ng-click="search()">搜索</button>
+							<button class="asj-btn-s1 search-btn margin-left-20px" ng-click="addFn()">添加</button>
+						</div>
+					</div>
+
+					<!-- 表头 -->
+					<div class="tb-thead d-flex">
+						<div style="width: 10%" class="tb-thead-th">
+							<span>序号</span>
+						</div>
+						<div style="width: 40%" class="tb-thead-th">
+							<span>标题</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>类型</span>
+						</div>
+						<div style="width: 10%;" class="tb-thead-th">
+							<span>排序</span>
+						</div>
+						<div style="width: 30%" class="tb-thead-th">
+							<span>操作</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" style="margin-top: 142px;" class="content-wrap bg-white padding-lr-20px">
+				<!-- 营外收入 -->
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="question in questionList">
+						<div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+							<span class="cut-word">{{$index + 1}}</span>
+						</div>
+						<div style="width: 40%" class="tb-tbody-td border-r-td d-flex-center">
+							<span class="hidden-three">{{question.title}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+							<span class="cut-word">{{changeType(question.type)}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+							<span class="cut-word">{{question.orderNumber}}</span>
+						</div>
+						<div style="width: 30%" class="tb-tbody-td d-flex-center">
+							<button class="asj-btn-s2 search-btn search-input-btn" ng-click="addFn(question)">编辑</button>
+							<button class="search-btn search-input-btn margin-left-20px" ng-click="showInfo(question)">查看</button>
+							<button class="search-btn search-input-btn margin-left-20px" ng-click="confirmFn(question.strId)">删除</button>
+						</div>
+					</div>
+				</div>
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="questionList.length==0">
+					<span>暂无数据</span>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="questionList.length>0">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 新增问题弹窗 -->
+	<div class="erp-common-tan-v2-wrap yzy-cute-modal" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 800px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;">
+				<img src="static/image/public-img/close-img.png">
+			</a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>{{editTag? "编辑" : '添加'}}FAQ</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con padding-20px">
+				<div class="model-item">
+					<label>问题：</label>
+					<p><input ng-model="modelItem.title"/></p>
+				</div>
+				<div class="model-item">
+					<label>类型：</label>
+					<p><select ng-model="modelItem.type">
+						<option value="">请选择</option>
+						<option value="{{intl.key}}" ng-repeat="intl in witchType">{{intl.name}}</option>
+					</select></p>
+				</div>
+				<div class="model-item">
+					<label>排序：</label>
+					<p><input ng-model="modelItem.orderNumber" oninput="this.value=this.value.replace(/[^\d]/g,'').replace(/^0/g,'')" /></p>
+				</div>
+				<div>
+					<label>回答：</label>
+					<div id="wang" style="width: 100%;margin-top: 10px;"></div>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" ng-click="sureAdd()" class="asj-btn-s1">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- 查看FAQ -->
+	<div class="erp-common-tan-v2-wrap yzy-cute-modal" ng-show="showFlag2">
+		<div class="erp-common-tan-v2" style="width: 800px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag2=false;">
+				<img src="static/image/public-img/close-img.png">
+			</a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>查看FAQ</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con padding-20px">
+				<div class="model-item">					
+					<label>问题：</label>
+					<p>{{modelItem.title}}</p>					
+				</div>
+				<div class="model-item">					
+					<label>类型：</label>
+					<p>{{changeType(modelItem.type)}}</p>					
+				</div>
+				<div class="model-item">
+					<label>排序：</label>
+					<p>{{modelItem.orderNumber}}</p>
+				</div>
+				<div class="model-item">
+					<label>回答：</label>
+					<p class="context"></p>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag2=false;" class="qu-xiao-btn">关闭</a>
+			</div>
+		</div>
+	</div>
+	<!-- confirm 弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="confirmFlag">
+		<div class="erp-common-tan-v2 erp-common-tan-confirm">
+			<h4><img src="static/image/order-img/iconwarn.png" />删除后前台将无法显示该FAQ内容</h4>
+			<p>你确定要删除吗？</p>
+			<div class="tan-v2-bot">
+				<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="confirmFlag = false">取消</a>
+				<a href="javascript:void(0)" class="asj-btn-s1" ng-click="deleteFn()">确定</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

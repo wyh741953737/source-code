@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/>
+    <style type="text/css">
+        .shanchu {
+            width: 300px;
+            height: 180px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            background: #fff;
+            box-shadow: 0 0 10px gray;
+        }
+
+        .shanchu-p1 {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .shanchu-p2 {
+            width: 80%;
+            margin: 50px auto;
+
+        }
+
+        .shanchu-p2 span {
+            display: inline-block;
+            width: 100px;
+            height: 30px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 30px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .shanchu-p2 span:nth-of-type(1) {
+            background: #F8A636;
+        }
+
+        .shanchu-p2 span:nth-of-type(2) {
+            background: gray;
+            margin-left: 30px;
+        }
+
+        .ea-list-table th {
+            font-size: 14px;
+        }
+
+        .ea-list-table tr td span {
+            font-size: 13px;
+        }
+
+        .FilterSelect {
+            height: 30px;
+            width: 80px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- content -->
+<div class="ea-content">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <!-- right search -->
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box" style="width: initial;">
+                    <input type="text" class="form-control top-search-inp" placeholder="物流公司名称查询" ng-model="userinfo">
+                    <a class="btn btn-default top-search-btn" ng-click="usersearch()">{{'100025' | translate}}</a>
+                </div>
+          <!--      <div id="ea-list-table" style="float: left;">
+                    <div class="poplink-active" ng-click="xinzeng()" style="">{{'100736' | translate}}</div>
+                    <select class="FilterSelect" ng-change="FilterChange()" ng-model="isSwitch">
+                        <option value="">全部</option>
+                        <option value="1">正常</option>
+                        <option value="0">停用</option>
+                    </select>
+                </div>-->
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <th>{{'100770' | translate}}</th>
+                        <th>{{'100771' | translate}}</th>
+                        <th>{{'100718' | translate}}</th>
+                        <th><span>{{'100043' | translate}}</span></th>
+                    </tr>
+                    <tr class="wl-detail-tr" ng-repeat="item in channelList">
+                        <td><span>{{item.namecn}}</span></td>
+                        <td><span>{{item.nameen}}</span></td>
+                        <td><span>{{item.mode}}</span></td>
+                        <td>
+                            <span ng-show="item.flag == '1'" style="color: red;">已停用</span>
+                            <button class="btn tybtn" ng-show="item.flag != '1'"
+                                    style="padding: 2px 15px;margin: 0 5px 0 0;outline: none;"
+                                    ng-click="tingyong(item,$index,$event)">{{'100744' | translate}}
+                            </button>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<div class="shanchu" ng-show="isTingyong">
+    <p class="shanchu-p1">是否停用?</p>
+    <p class="shanchu-p2">
+        <span ng-click="queding()">{{'100050' | translate}}</span>
+        <span ng-click="isTingyong = false;">{{'100051' | translate}}</span>
+    </p>
+</div>
+
+<!--管理弹出框-->
+<!--<div class="log-man-win" ng-show="win" ng-cloak style="z-index: 22;height: 500px;">-->
+    <!--<table>-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th></th>-->
+            <!--<th>{{'100718' | translate}}</th>-->
+            <!--<th>{{'100749' | translate}}</th>-->
+            <!--<th>{{'100741' | translate}}</th>-->
+            <!--<th>{{'100750' | translate}}</th>-->
+            <!--<th>{{'100751' | translate}}</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr>-->
+            <!--<td>普货易邮宝</td>-->
+            <!--<td>普货易邮宝</td>-->
+            <!--<td>普货易邮宝</td>-->
+            <!--<td>普货易邮宝</td>-->
+            <!--<td>普货易邮宝</td>-->
+            <!--<td>普货易邮宝</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td><input type="text" ng-model="companyName"></td>-->
+            <!--<td><input type="text" ng-model="logisticsway"></td>-->
+            <!--<td><input type="text" ng-model="logisticscode"></td>-->
+            <!--<td><input type="text" ng-model="logisticsweight"></td>-->
+            <!--<td><input type="text" ng-model="logisticschannel"></td>-->
+            <!--<td><input type="text" ng-model="logisticsdefault"></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td colspan="6" style="text-align: left">-->
+                <!--<div class="btngroup">-->
+                    <!--<button type="button" class="btn btn-default" ng-click="win=false"-->
+                            <!--style="padding: 2px 15px;margin: 0 20px 0 0;outline: none;">{{'100051' | translate}}-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-primary" ng-click="addinfo()"-->
+                            <!--style="padding: 2px 15px;margin: 0;outline: none;">{{'100050' | translate}}-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+
+<!--</div>-->
+
+</body>
+</html>

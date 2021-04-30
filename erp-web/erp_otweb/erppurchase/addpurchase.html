@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加采购单</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+		<link rel="stylesheet" href="erp_otweb/css/li_erp.css">
+		<style type="text/css">
+			.bulk-cgcon{
+			    position: absolute;
+			    left: 50%;
+			    top: 50%;
+			    transform: translate(-50%, -50%);
+			    width: 80%;
+			    background-color: #fff;
+			    padding: 20px;
+			    border-radius: 4px;
+			    text-align: center;
+			    min-width: 1200px;
+			    font-size: 12px;
+			}
+			.bulkcg-conlist{
+				height: 500px;
+				overflow: auto;
+			}
+			.bulkcg-tit{
+			    font-size: 22px;
+			    text-align: center;
+			    margin-left: 120px;
+			}
+			.bulkcg-inp{
+			    height: 30px;
+			    width: 140px;
+			    text-indent: 12px;
+			    vertical-align: top;
+			    /*// border-radius: 4px;*/
+			}
+			.bulkcg-sel{
+			    height: 30px;
+			    width: 120px;
+			    margin: 0 20px; 
+			}
+			.sel-ywyname{
+				width: 120px;
+				height: 30px;
+			}
+			.check-p{
+				position: relative;
+				display: inline-block;
+			}
+			.check-p input{
+				width: 17px;
+				height: 16px;
+				position: absolute;
+				top: 0;
+				left: 1px;
+				opacity: 0;
+				margin: 0;
+				z-index: 99;
+			}
+			.check-p input:checked + label {
+			    background-image: url(static/image/public-img/multiple2.png);
+			    background-size: 17px 16px;
+			}
+			.check-p input + label {
+			    display: block;
+			    width: 100%;
+			    padding-left: 21px;
+			    height: 16px;
+			    line-height: 16px;
+			    text-align: left;
+			    background: url(static/image/public-img/multiple1.png) left center no-repeat;
+			    background-size: 17px 16px;
+			}
+			.la_cont>.ea-list-table>li>span:first-child{
+				width: 185px;
+			}
+		</style>
+	</head>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content">
+			<div class="ea-content-box k-new-box">
+				
+				<div class="ea-content-con">
+					<!-- left nav -->
+					<div class="ea-left-nav">
+						<ul>
+							<li class="active"><a href="#/erppurchase/needbuy">{{'100549' | translate}}</a></li>
+							<li><a href="#">{{'100550' | translate}}</a></li>
+						</ul>
+					</div>
+
+					<!-- right con -->
+					<div class="ea-right-content li_ea-right-content la_meaus clearfix">
+						<!-- right nav -->
+						<!-- <div class="ea-right-nav">
+							<ul>
+								<li><a href="#/erppurchase/needbuy">出单采购</a></li>
+								<li class="active"><a href="#/erppurchase/purchaseinventory">采购库存</a></li>
+								<li><a href="#/erppurchase/arrivalabnormal">到货异常（2）</a></li>
+							</ul>
+						</div> -->
+			            <!-- <div class="top-taps clearfix">
+			            	<ul>
+			                  <li><a href="#/erppurchase/needbuy">出单采购</a></li>
+			                  <li><a href="#/erppurchase/cgdlist">采购单列表</a></li>
+			                  <li class="active"><a href="#/erppurchase/addpurchase">添加采购单</a></li>
+			                  <li><a href="#/erppurchase/arrivalabnormal">到货异常（2）</a></li>
+			              </ul>
+					    </div> -->
+					    <div class="asj-h10" style="background-color: rgb(241,243,242)"></div>
+		                <!--<div class="top-taps clearfix" style="background-color: rgb(241,243,242)">-->
+		                	<!--<ul>-->
+								<!--<li><a href="#/erppurchase/needbuy">{{'100551' | translate}}</a></li>-->
+								<!--&lt;!&ndash; <li><a href="#/erppurchase/purchaseinventory">采购库存</a></li> &ndash;&gt;-->
+								<!--<li><a href="#/erppurchase/cgdlist">{{'100552' | translate}}</a></li>-->
+								<!--<li class="active"><a href="#/erppurchase/addpurchase">{{'100553' | translate}}</a></li>-->
+								<!--<li><a href="#/erppurchase/arrivalabnormal">{{'100554' | translate}}（2）</a></li>-->
+								<!--<li><a href="#/erppurchase/financial">{{'100555' | translate}}</a></li>-->
+							<!--</ul>-->
+		    		    <!--</div>-->
+						<!-- right search -->
+						<!-- <div class="ea-right-search clearfix">
+							<div class="datatime-screen la_div"><a href="#" class="active">今日</a><a href="#">最近一周</a><a href="#">一个月</a><a href="#">三个月</a><input type="text" id="txtBeginDate" placeholder="选取开始日期" /><input type="text" id="txtEndDate" placeholder="选取结束日期" /><input type="button" value="点击筛选">
+							</div>
+							<div class="la_menu la_div" style="margin-left: 39px">
+								<ul class="clearfix">
+									<li class="active">
+										<a href="#/erppurchase/addpurchase">
+											添加采购单
+										</a>
+									</li>
+									<li>
+										<a href="#/erppurchase/purchaseover">
+											采购已完成
+										</a>
+									</li>
+									<li>
+										<a href="#/erppurchase/purchasebed">
+											采购失败
+										</a>
+									</li>
+									<li>
+										<a href="#/erppurchase/backmoney">
+											退货/退款
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="clear"></div>
+						</div> -->
+						<!-- right list -->
+						<form action="">
+							<div class="table-con-box la_cont la_addcont">
+							 <ul class="ea-list-table ea-right-search la_search">
+									<li>
+								   <span>
+									   	SKU：
+								   </span>
+								   <span>
+									   <input ng-model="sku" type="text" value={{stan.sku}}  class="search-text-box"><input type="button" ng-click="searchsku()" value="{{'100025' | translate}}" class="search-button" />
+								   </span>
+									 <button type="button" ng-click="bulkCgBtnFun()" class="bulk-cgbtn">{{'100582' | translate}}</button>
+									 <button type="button" ng-click="navToInside()" class="bulk-cgbtn" style="margin-left:20px;">增加内部采购单</button>
+							   </li>
+									<li class="la_addimg">
+										<span>
+											&nbsp;
+										</span>
+										<span><img id="skuid" ng-src={{stan.img}} alt=""/></span>
+									</li>
+									<li>
+										<span>
+											属性：
+										</span>
+										<span style="display: inline-block;">
+												<div ng-repeat="(key,val) in variantKeyMap" style="display: block;font-size: 12px;">
+													{{key}}：{{val}}
+												</div>
+										</span>
+										
+									</li>
+								 <!-- <li>
+								   <span>
+									   	{{'100558' | translate}}：
+								   </span>
+									 <span>
+									  <select ng-model="supplierid" class="la_select" id="checksupplier">
+										<option value="">--{{'100526' | translate}}--</option>
+									</select>
+								   </span>
+								 </li>
+								  <li>
+								    <span>
+								 	   	{{'100583' | translate}}：
+								    </span>
+								 	 <span>
+								 	  <select ng-model="selYwyName" class="la_select" id="checksupplier">
+								 		<option value="">{{'100583' | translate}}</option>
+								 		<option ng-repeat="item in ywyList" value="{{item.NAME+'#'+item.ID}}">{{item.NAME}}</option>
+								 	</select>
+								    </span>
+								  </li>
+								 <li>
+								   <span>
+									   	{{'100584' | translate}}：
+								   </span>
+									 <span>
+									   <input type="text" ng-model="order" class="search-text-box la_else">
+								   </span>
+								 </li> -->
+								 <li>
+								   <span>
+									   	{{'100044' | translate}}：
+								   </span>
+									 <span>
+									   <input type="number" ng-model="count" class="search-text-box la_else">
+								   </span>
+								 </li>
+								 <!-- <li>
+								   <span>
+									   	{{'100585' | translate}}：
+								   </span>
+									 <span>
+									   <input id="single-price" type="number" step="0.01" ng-model="costprice"  class="search-text-box la_else">
+								   </span>
+								 </li> -->
+								 <!-- <li>
+								   <span>
+									   	优惠金额：
+								   </span>
+									 <span>
+									   <input type="text" ng-model="discount" class="search-text-box la_else">
+								   </span>
+								 </li>
+								 <li>
+								   <span>
+									   	到货天数：
+								   </span>
+									 <span>
+									   <input type="text" ng-model="transday" class="search-text-box la_else">
+								   </span>
+								 </li>
+								 <li>
+								   <span>
+									   	物流费用：
+								   </span>
+									 <span>
+									   <input type="text" ng-model="transfee"  class="search-text-box la_else">
+								   </span>
+								 </li> -->
+								 <!-- <li>
+								   <span>
+									   	金额：
+								   </span>
+									 <span>
+									   <input type="text" ng-model="costall" class="search-text-box la_else">
+								   </span>
+								 </li> -->
+								 <!-- <li class="la_moresec">
+								   <span>
+									   	追踪号：
+								   </span>
+									 <span>
+									   <input type="text" ng-model="waybill" class="search-text-box la_inp01">
+								   </span>
+									 <span>
+									   	发货数量：
+								   </span>
+									 <span>
+									   <input type="text" ng-model="waybillcount" class="search-text-box la_else la_else02">
+
+								      </span>
+								 </li> -->
+								 	<!-- <li>
+								   <span>
+									   &nbsp;
+								   </span>
+										<span>
+									   <input type="button" class="search-text-box la_else la_shop" value="添加供应商">
+								   </span>
+									</li> -->
+									<li>
+									   <span>
+										   	{{'100031' | translate}}：
+									   </span>
+											<span>
+										   <input type="text" ng-model="detail" class="search-text-box">
+									   </span>
+									</li>
+									<li>
+									   <span>
+										   	{{'101318' | translate}}：
+									   </span>
+											<span>
+										   <input type="text" ng-model="addywyName" class="search-text-box">
+									   </span>
+									</li>
+									<li>
+									   <span>
+										   	{{'100005' | translate}}：
+									   </span>
+									   <select class="sel-ckname" ng-model="selCk">
+									       <option value="">{{'100572' | translate}}</option>
+									       <option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+									   </select>
+										<!-- <span>
+										   <input type="text" ng-model="detail" class="search-text-box">
+									   </span> -->
+									</li>
+						  <!-- </ul>
+								<ul class="ea-list-table ea-right-search la_search">
+									<li class="la_moresec">
+								   <span>
+									   	发往仓库：
+								   </span>
+										<span>
+										 <select name="" ng-model="storageid" id="checkstorage">
+											 <option>--选择到货仓库--</option>
+										 </select>
+								   </span>
+									</li>
+									<li>
+								   <span>
+									   	留言：
+								   </span>
+										<span>
+									   <input type="text" ng-model="detail" class="search-text-box">
+								   </span>
+									</li>
+								</ul> -->
+								<!--以下是按钮-->
+								<div class="la_sub">
+									<button type="button" value="取消" ng-click="qxSubmitFun()" class="la_btn01">{{'100051' | translate}}</button>
+									<button type="button" value="确定" ng-click="addbuyproduct()" class="la_btn02">{{'100050' | translate}}</button>
+								</div>
+                        <!--以下是分页-->
+						<!--	<div class="fenPage">
+							<span><select>
+								<option>30</option>
+								<option>50</option>
+								<option>100</option>
+								<option>200</option>
+								<option>300</option>
+							</select>
+							条每页
+							</span>
+								<span>共145页</span>
+								<a href="#">首页</a>
+								<a href="#">上一页</a>
+								<a class="bga" href="#">1</a>
+								<a href="#">2</a>
+								<a href="#">3</a>
+								<a href="#">4</a>
+								<a href="#">5</a>
+								<a href="#">6</a>
+								<a href="#">7</a>
+								<a href="#">8</a>
+								<a href="#">9</a>
+								<a href="#">下一页</a>
+								<a href="#">尾页</a>
+
+								<span>跳转 <input type="text" placeholder=""> 页 <input type="button" value="GO"></span>
+
+							</div>-->
+						
+						
+						</div>
+						</form>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<!-- 批量添加采购单 -->
+		<!-- <div class="bulk-cgwrap" ng-show="bulkCgFlag">
+			<div class="bulk-cgcon">
+				<div>
+					<p class="bulkcg-tit">批量添加采购单</p>
+				</div>
+				<div class="bulkcg-tfun">
+					<input ng-model="bulkInpVal" class="bulkcg-inp" placeholder="sku/变体sku"></input><button ng-click="bulkSeaFun()" class="bulk-searchbtn">搜索</button>
+					<select class="bulkcg-sel" class="gys-sel" ng-model="bSelGys">
+						<option value="">请选择供应商</option>
+						<option ng-repeat="item in gysArr">{{item.name}}</option>
+					</select>
+					<input class="bulkcg-inp" placeholder="采购订单号" ng-model="bCgOrdNum"></input>
+					<select class="bulkcg-sel" class="gys-sel" ng-model="bSelCk">
+						<option value="">请选择仓库</option>
+						<option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+					</select>
+				</div>
+				<div class="bulkcg-midtab">
+					<table class="bulk-tab">
+						<thead>
+							<tr>
+								<th class="bulkcg-check-th">
+									<p class="check-p">
+										<input type="checkbox" name="" id="" ng-model="checkAllMark" ng-click="checkAll(checkAllMark, $event)">
+										<label for=""></label>
+									</p>
+								</th>
+								<th>图片</th>
+								<th>SKU</th>
+								<th>单价</th>
+								<th>数量</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in skusArr">
+								<td class="bulkcg-check-th">
+									<p class="check-p">
+										<input type="checkbox" name="" id="" ng-model="item.checked" ng-click="isCheckFun(item, $index, $event)">
+										<label for=""></label>
+									</p>
+								</td>
+								<td class="bulk-img-td">
+									<img class="bulk-sp-img" ng-src="{{item.img}}">
+								</td>
+								<td>
+									<p>{{item.sku}}</p>
+								</td>
+								<td>
+									<input ng-blur="keyPriceFun(item,$index,$event)" class="b-tab-inp" ng-model="item.costprice" type="number">
+								</td>
+								<td>
+									<input ng-blur="keyNumFun(item,$index,$event)" class="b-tab-inp" ng-model="item.count" value="{{item.count}}" type="number">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="bulkcg-botbtns">
+					<input ng-model="bulkDjVal" type="number" class="bulkcg-inp" placeholder="为选中的商品批量填写采购单价"></input><button ng-click="bulkAddPrice()" class="bulk-searchbtn">确定</button>
+					<input ng-model="bulkCountVal" type="number" class="bulkcg-inp mar-left20" placeholder="为选中的商品批量填写采购数量"></input><button ng-click="bulkAddCount()" class="bulk-searchbtn">确定</button>
+					<button class="close-btn" ng-click="bCloseFun()">取消</button>
+					<button class="sure-btn" ng-click="sureBFun()">确定</button>
+				</div>
+			</div>
+		</div> -->
+		<!-- 批量添加采购单 ng-show="bulkCgFlag"-->
+		<div class="bulk-cgwrap" ng-show="bulkCgFlag">
+			<div class="bulk-cgcon">
+				<div>
+					<textarea style="width: 220px;height: 30px;border: 1px solid #ececec;line-height: 28px;" ng-model="bulkInpVal" class="bulkcg-inp" placeholder="sku/变体sku"></textarea><button ng-click="bulkSeaFun()" class="bulk-searchbtn">{{'100025' | translate}}</button>
+					<input class="bulkcg-inp cg-inp-ordnum" placeholder="{{'101318' | translate}}" ng-model="tcAddYwyName"></input>
+					<span class="bulkcg-tit">{{'100582' | translate}}</span>
+					<!-- <select class="bulkcg-sel gys-sel cg-selck" ng-change="outBulkChangeFun()" ng-model="outbSelCk">
+						<option value="">{{'100572' | translate}}</option>
+						<option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+					</select> -->
+				</div>
+				<div class="bulkcg-conlist">
+					<div ng-repeat="oneList in bulkResArr track by $index">
+						<div class="bulkcg-tfun" style="text-align: right;">
+							<!-- <select class="bulkcg-sel gys-sel gys-selval" ng-model="bSelGys">
+								<option value="">{{'100526' | translate}}</option>
+								<option value="{{item.name}}" ng-repeat="item in oneList.supplierLink">{{item.name}}</option>
+							</select>
+							<select class="bulkcg-sel gys-sel ywy-selval" ng-change="bulkselYwyFun(oneList,$index,$event)" ng-model="bulksalmanName">
+								<option value="">{{'100583' | translate}}</option>
+								<option ng-repeat="item in ywyList" value="{{item.NAME+'#'+item.ID}}">{{item.NAME}}</option>
+							</select> -->
+							
+							<select class="bulkcg-sel gys-sel cg-selck" ng-model="bSelCk">
+								<option value="">{{'100572' | translate}}</option>
+								<option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+							</select>
+							<!-- <input ng-model="bulkDjVal" type="number" class="bulkcg-inp cg-unit-price" placeholder="{{'100586' | translate}}"></input><button ng-click="bulkAddPrice(oneList,$index,$event)" class="bulk-searchbtn">{{'100050' | translate}}</button>
+							<input ng-model="bulkCountVal" type="number" class="bulkcg-inp mar-left20 cg-count-bulk" placeholder="{{'100587' | translate}}"></input><button ng-click="bulkAddCount(oneList,$index,$event)" class="bulk-searchbtn">{{'100050' | translate}}</button> -->
+							<button style="margin-left: 20px;vertical-align: top;" class="sure-btn" ng-click="sureBFun(oneList,$index,$event)">{{'100050' | translate}}</button>
+						</div>
+						<div class="bulkcg-midtab">
+							<table class="bulk-tab">
+								<thead>
+									<tr>
+										<th class="bulkcg-check-th" style="width: 2%;">
+											<p class="check-p">
+												<input class="cjd-chek-all" type="checkbox" name="" id="" ng-model="item.checkedAll" ng-click="checkAll(item.checkedAll, $index)">
+												<label for=""></label>
+											</p>
+										</th>
+										<th>{{'100382' | translate}}</th>
+										<th>SKU</th>
+										<!-- <th>{{'100588' | translate}}</th>
+										<th>{{'100585' | translate}}</th> -->
+										<th>{{'100308' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in oneList.skus">
+										<td class="bulkcg-check-th">
+											<p class="check-p">
+												<input type="checkbox" name="" id="" ng-model="item.checked" ng-click="isCheckFun(item, $parent.$index, $event)">
+												<label for=""></label>
+											</p>
+										</td>
+										<td class="bulk-img-td">
+											<img class="bulk-sp-img" ng-src="{{item.img}}">
+										</td>
+										<td>
+											<p>{{item.sku}}</p>
+										</td>
+										<!-- <td>
+											<select class="sel-ywyname" ng-change="selYwyFun(item)" ng-model="item.salmanName">
+												<option value="">{{'100583' | translate}}</option>
+												<option ng-repeat="item in ywyList" value="{{item.NAME+'#'+item.ID}}">{{item.NAME}}</option>
+											</select>
+										</td>
+										<td>
+											<input ng-blur="keyPriceFun(item,$parent.$index,$event,$index)" class="b-tab-inp" ng-model="item.costprice" type="number">
+										</td> -->
+										<td>
+											<input ng-blur="keyNumFun(item,$parent.$index,$event,$index)" class="b-tab-inp" ng-model="item.count" value="{{item.count}}" type="number">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="bulkcg-botbtns">
+					<button class="close-btn" ng-click="bCloseFun()">{{'100066' | translate}}</button>
+					<!-- <button class="close-btn" ng-click="bCloseFun()">取消</button> -->
+					<!-- <button class="sure-btn" ng-click="sureBFun()">确定</button> -->
+				</div>
+			</div>
+		</div>
+		<!-- 选取两段时间之间插件 -->
+		<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+		<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+            //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+
+		
+	</body>
+</html>

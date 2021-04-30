@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>仓库</title>
+	</head>
+	<style>
+	
+</style>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content asj-ware-box">
+					<div class="left-bar">
+	            <ul>
+	                <li><a href="#/erpwarehouse/warestock">{{'100622' | translate}}</a></li>
+	                <li><a href="#/erpwarehouse/erpdepotIn">{{'100623' | translate}}</a></li>
+	                <li class="active"><a href="#/erpwarehouse/warelist">{{'100624' | translate}}</a></li>
+					<li><a href="#/erpwarehouse/SchedulingTask">调度任务</a></li>
+					<li><a href="#/erpwarehouse/Parcel">包裹管理</a></li>
+	            </ul>
+	        </div>
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content li_ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+						<!-- right search -->
+						<div class="right-bar">
+						<div>
+							<div class="ea-right-search">
+								
+								<div class="search-line clearfix">
+									<div class="input-group search-box">
+									</div>
+									<div class="add-merch"><a href="javascript:void(0);" class="add-merch-btn" ng-click="addBrunch()">{{'100682' | translate}}</a></div>
+									<div class="add-merch"><a href="javascript:void(0);" class="add-merch-btn" ng-click="editPositionType()">修改库位类型</a></div>
+									<div class="add-merch" ng-show="brunchItem.childrens.length <= 0"><a href="javascript:void(0);" class="add-merch-btn" ng-click="onekeyStorageFlag = true">一键建仓</a></div>
+								</div>
+
+								
+							</div>
+							
+							<div class="ware-cate-box">
+
+								<div class="asj-tree-wrap">
+									<div class="tree-title">
+										{{'100628' | translate}}
+									</div>
+									<div class="asj-tree-box">
+										<ware-tree current-folder="folder" my-index="index1" point-one="pointOne(item,event,posi)" switch-list="switchList(item,flag)"></ware-tree>
+									</div>
+								</div>
+
+								<!-- right list -->
+								<div class="table-con-box tab-ware-brunch">
+								<table class="ea-list-table ea-erp-cs" id="ea-list-table">
+									<thead>
+									<tr>
+										<th width="10%"><span>{{'100683' | translate}}</span></th>
+										<th width="10%"><span>{{'位置编码'}}</span></th>
+										<th width="10%"><span>{{'100340' | translate}}</span></th>
+										<!-- <th width="15%"><span>地址</span></th> -->
+										<th width="15%"><span>{{'100043' | translate}}</span></th>
+									</tr>
+									</thead>
+									<tbody class="erp-load-tbody" style="display: none;">
+										<tr>
+											<td colspan="4" height="200" style="border-bottom: 0;">
+												<div class="erp-load-box"></div>
+											</td>
+										</tr>
+									</tbody>
+									<tbody ng-repeat="(index1,item) in brunchList">
+									<tr class="la_tr la_tr01">
+										<td><span>{{item.codeName}}</span></td>
+										<td><span>{{item.horizontalFlag}}</span></td>
+										<td><span>{{item.remark}}</span></td>
+										<td class="relative active">
+											<div>
+												<a role="button" class="asj-btn-s asj-btn-s1" ng-click="editOneBrunch(item, index1)" href="javascript: void(0);">{{'100120' | translate}}</a>
+										  	<a role="button" class="asj-btn-s asj-btn-s2" ng-click="deleteOneBrunch(item, index1)">{{'100227' | translate}}</a>
+											</div>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+								  <page ng-show="brunchList.length > 0"></page>
+								
+								</div>
+
+								
+							</div>
+							
+							
+							
+							
+						</div>
+						</div>
+					</div>
+		</div>
+
+		<div class="asj-common-tanwrap" ng-show="addBrunchFlag || editBrunchFlag">
+		<div class="asj-common-tan tan-add-brunch">
+			<div class="tan-title">{{opeBrunchType}}</div>
+      <div class="input-item clearfix">
+          <label class=""><span class="asj-must-require" ng-show="!brunchType">* </span>{{'100684' | translate}}:</label>
+          <div class="right-con">
+              <!-- <input type="text" placeholder="" ng-model="brunchType"> -->
+              <input type="text" placeholder="" ng-show="!brunchType" ng-model="brunchTypeInp">
+              <div style="line-height: 40px;">{{brunchType}}</div>
+          </div>
+      </div>
+			<div class="input-item clearfix">
+          <label class=""><span class="asj-must-require">* </span>{{'100683' | translate}}:</label>
+          <div class="right-con">
+              <input type="text" placeholder="" ng-model="brunchName">
+          </div>
+      </div>
+      <div class="input-item clearfix">
+          <label class="">{{'位置编码'}}:</label>
+          <div class="right-con">
+              <input type="text" placeholder="" ng-model="brunchAddress">
+          </div>
+      </div>
+      
+      <div class="input-item clearfix">
+          <label class="">{{'100340' | translate}}:</label>
+          <div class="right-con">
+              <input type="text" placeholder="" ng-model="remarkInfo">
+          </div>
+      </div> 
+			<div class="tan-btns"><a class="tan-btn0" ng-click="cancelAddBrunch()">{{'100051' | translate}}</a><a class="tan-btn1" ng-click="goAddOneBrunch()">{{'100050' | translate}}</a></div>
+
+		</div>
+	</div>
+
+	<div class="asj-common-tanwrap" ng-show="deleteBrunchFlag">
+		<div class="asj-common-tan tan-delete-ware">
+			<div class="tan-title">{{'100685' | translate}}？</div>
+			<div class="tan-btns"><a class="tan-btn0" ng-click="deleteBrunchFlag=false">{{'100051' | translate}}</a><a class="tan-btn1" ng-click="goDeleteBrunch()">{{'100050' | translate}}</a></div>
+		</div>
+	</div>
+
+	<div class="asj-common-tanwrap" ng-show="onekeyStorageFlag">
+		<div class="asj-common-tan tan-add-brunch">
+			<div class="tan-title">一键建仓</div>
+      <div class="input-item clearfix">
+          <label class=""><span class="asj-must-require">* </span>分区数:</label>
+          <div class="right-con">
+              <input type="text" placeholder="" ng-model="wareDetailData.areaNum">
+          </div>
+      </div>
+			<div class="input-item clearfix">
+          <label class=""><span class="asj-must-require">* </span>每个区域排数:</label>
+          <div class="right-con">
+              <input type="text" placeholder="" ng-model="wareDetailData.rowNum">
+          </div>
+      </div>
+      <div class="input-item clearfix">
+          <label class=""><span class="asj-must-require">* </span>每排层数:</label>
+          <div class="right-con">
+              <input type="text" placeholder="" ng-model="wareDetailData.tierNum">
+          </div>
+      </div>
+      
+      <div class="input-item clearfix">
+          <label class=""><span class="asj-must-require">* </span>每层框数:</label>
+          <div class="right-con">
+              <input type="text" placeholder="" ng-model="wareDetailData.boxNum">
+          </div>
+      </div> 
+			<div class="tan-btns"><a class="tan-btn0" ng-click="onekeyStorageFlag = false">{{'100051' | translate}}</a><a class="tan-btn1" ng-click="addDetailWare()">{{'100050' | translate}}</a></div>
+
+		</div>
+	</div>
+
+	<div class="asj-common-tanwrap" ng-show="positionTypeShow">
+		<div class="asj-common-tan tan-add-brunch">
+			<div class="tan-title">修改库位类型</div>
+      <div class="input-item clearfix">
+          <label class=""><span class="asj-must-require">* </span>库位类型:</label>
+          <div class="right-con">
+              <select ng-model="positionType">
+								<option value="" ng-show="!positionType">请选择库位类型</option>
+								<option value="公">公有库位</option>
+								<option value="私">私有库位</option>
+								<option value="服">服务商品库位</option>
+								<option value="直">直发商品库位</option>
+							</select>
+          </div>
+      </div>
+			<div class="tan-btns">
+				<a class="tan-btn0" ng-click="cancelPositionType()">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="goPositionType()">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

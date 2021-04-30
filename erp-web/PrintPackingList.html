@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>打印装箱单</title>
+</head>
+<style>
+    *{
+        font-size: 13px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        font-weight: 600;
+        font-family: "微软雅黑", "黑体", "宋体", Arial;
+    }
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .title{
+        font-size: 30px;
+        display: block;
+        margin: 20px auto;
+        color: #000;
+        text-align: center;
+    }
+    .yundanhao{
+        width: 250px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 4px;
+        padding: 0 8px;
+        border: 1px solid #4A4A4A;
+        display: block;
+        margin: 0 auto;
+    }
+    .PrintCont{
+        width: 1200px;
+        margin: 20px auto;
+    }
+    .form{
+        width: 100%;
+        /*margin-bottom: 20px;*/
+    }
+    .form li{
+        /*line-height: 20px;*/
+        list-style: none;
+        display: inline-block;
+        width: 100%;
+    }
+    .form li p{
+        display: inline-block;
+    }
+    .form li p:last-child{
+        /*float: right;*/
+    }
+    .form li span{
+        display: inline-block;
+        width: 600px;
+        float: left;
+        font-size: 50px;
+    }
+    .form li span:first-child{
+        text-align: right;
+    }
+    .form li span:last-child{
+        width: 560px;
+        padding-left: 5px;
+    }
+    .tep1{
+        /*width: 600px;*/
+        border: 2px solid #e9e7e7;
+        padding: 10px;
+        height: 1720px;
+        margin:10px auto;
+        font-size: 30px;
+    }
+    table{
+        width: 100%;
+        font-size: 13px!important;
+    }
+    table th{
+        width: 20%;
+        height: 200px;
+        font-size: 60px!important;
+    }
+    table td {
+        text-align: center;
+    }
+    table td span{
+        text-align: center;
+        max-height: 355px;
+        font-size: 45px!important;
+        line-height: 45px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 8;
+        -webkit-box-orient: vertical;
+    }
+    .tep1 h3{
+        font-size: 80px;
+        display: block;
+        margin: 80px auto 10px auto;
+        color: #000;
+        text-align: center;
+    }
+    .NoNum{
+        float: right;
+        font-size: 50px;
+    }
+    .layui-layer-msg{
+        width: auto!important;
+    }
+    .layui-layer-content{
+        width: auto;
+        color: #fff!important;
+        font-size: 30px!important;
+    }
+</style>
+<body ng-app="PrintPackingList" ng-controller="PrintPackingListCtrl" id="titBody">
+    <h3 class="title">打印装箱单/Print pack list</h3>
+    <input class="yundanhao" type="text" placeholder="扫描运单号/Scan shipping pabel" ng-keypress="saomiao($event)">
+    <div class="PrintCont" ng-show="isHttp" ng-cloak>
+        <!--startprint-->
+        <div class="tep1">
+            <span class="NoNum" ng-cloak>No:{{form.No}}</span>
+            <h3>CJ Packing List</h3>
+            <ul class="form">
+                <li>
+                    <p>
+                        <span>Original Warehouse:</span>
+                        <span ng-cloak>{{form.OriginalWarehouse}}</span>
+                    </p>
+                    <p class="clearfix">
+                        <span>Destinaton Warehouse:</span>
+                        <span ng-cloak>{{form.DestinatonWarehouse}}</span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span>Ship Date:</span>
+                        <span ng-cloak>{{form.ShipDate}}</span>
+                    </p>
+                    <p class="clearfix">
+                        <span>Shipping Company:</span>
+                        <span ng-cloak>{{form.ShippingCompany}}</span>
+                    </p>
+                </li>
+                <li>
+                    <p class="clearfix" style="float: left;">
+                        <span>Quantity:</span>
+                        <span ng-cloak>{{form.Quantity}}</span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span>Tracking Number:</span>
+                        <span ng-cloak>{{form.TrackingNumber}}</span>
+                    </p>
+                    <p class="clearfix">
+                        <span>Transfer Number:</span>
+                        <span ng-cloak>{{form.TransferNumber}}</span>
+                    </p>
+                </li>
+            </ul>
+            <table style="margin-top: 10px;" border="1" cellspacing="0" frame="box">
+                <thead>
+                <tr>
+                    <th style="width: 40%;">ProductName</th>
+                    <th style="width: 15%;">QTY</th>
+                    <th style="width: 60%;">SKU</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height: 355px;" ng-repeat="item in tepArr1" repeat-finish="renderFinish()">
+                    <td>
+                        <span ng-cloak>{{item.productName}}</span>
+                    </td>
+                    <td>
+                        <span ng-cloak>{{item.quantity}}</span>
+                    </td>
+                    <td style="overflow: hidden;font-size: 0;">
+                        <span style="height: 355px;">
+                          <img style="width: 210%;height: 275px;margin:40px 0 0 -55%;" ng-src="https://{{item.barcode}}" alt="" ng-cloak>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tep1" ng-repeat="item in tepArr2">
+            <span class="NoNum" ng-cloak style='margin-bottom: 10px;'>No:{{form.No}}</span>
+            <table border="1" cellspacing="0" frame="box">
+                <thead>
+                <tr>
+                    <th style="width: 40%;">ProductName</th>
+                    <th style="width: 15%;">QTY</th>
+                    <th style="width: 60%;">SKU</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height: 355px;" ng-repeat="itemc in item" repeat-finish="renderFinish()">
+                    <td>
+                        <span ng-cloak>{{itemc.productName}}</span>
+                    </td>
+                    <td>
+                        <span ng-cloak>{{itemc.quantity}}</span>
+                    </td>
+                    <td style="overflow: hidden;font-size: 0;">
+                        <span style="height: 355px;">
+                          <img style="width: 210%;height: 275px;margin:40px 0 0 -55%;" ng-src="https://{{itemc.barcode}}" alt="" ng-cloak>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--endprint-->
+    </div>
+</body>
+
+</html>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/layer/layer.js"></script>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src="./static/js/PrintPackingList/Download.js"></script>
+<script src="./static/js/PrintPackingList/printPackingList.js"></script>

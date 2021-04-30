@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .listTop{
+            display: flex;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f3f3f3;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .listTop span{
+            display: block;
+            width: 14px;
+            height: 12px;
+            background: url("static/image/public-img/Back.png") no-repeat;
+            cursor: pointer;
+        }
+        .listTop p{
+            color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            margin-left: 20px;
+        }
+        .selectWrap{
+            padding: 17px 14px;
+        }
+        .selectWrap span{
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            border: 1px solid #e4e4e4;
+            font-size: 12px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .selectWrap span.act{
+            background: #F9AE08;
+            border-color: #F9AE08;
+            color: #fff;
+        }
+        .mainWrap{
+            display: flex;
+            border: 1px solid #e4e4e4;
+            border-radius: 2px;
+            margin-top: 15px;
+        }
+        .leftWrap{
+            width: 30%;
+            border-right: 1px solid #e4e4e4;
+        }
+        .rightWrap{
+            width: 70%;
+            padding: 15px;
+        }
+        .leftWrap li{
+            cursor: pointer;
+        }
+        .leftWrap li.act{
+            background: #e4e4e4;
+        }
+        .leftWrap li>span{
+            display: inline-block;
+            font-size: 14px;
+            line-height: 30px;
+            text-align: center;
+        }
+        .topTitle{
+            display: flex;
+            background:#FCF4D9;
+            color: #8B572A;
+            padding: 5px;
+        }
+        .top-td{
+            text-align: center;
+        }
+        .list-tr{
+            cursor: pointer;
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #e4e4e4;
+            background: #fff;
+        }
+        .list-tr.act{
+            background: #e4e4e4;
+        }
+        .list-td{
+            text-align: center;
+            padding: 0 5px;
+        }
+        .rightMenu{
+            position: relative;
+            left: -30px;
+        }
+        .rightMenu>p{
+            font-size: 13px;
+        }
+        .rightMenu>p:first-child{
+            color: #F9AE08;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .nameListWrap{
+            max-height: 679px;
+            overflow: auto;
+        }
+        .list-td>span{
+            font-size: 10px;
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .ttRed{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:20px;min-width: 1020px;">
+            <div class="listTop">
+                <span ng-click="goBackFun()"></span>
+                <p>可能流失客户数据分析</p>
+                <b></b>
+            </div>
+            <div class="selectWrap">
+                <span data-type="1" class="act">近三天</span>
+                <span data-type="2">上周</span>
+                <span data-type="3">上月</span>
+                <label>业务员：</label>
+                <select name="" id="selectSellMan">
+                    <option value="">全部</option>
+                    <option ng-repeat="sell in sellManList" value="{{sell.relate_salesman}}">{{sell.relate_salesman}}</option>
+                </select>
+            </div>
+            <div class="mainWrap">
+                <div class="leftWrap">
+                    <div class="topTitle">
+                        <div class="top-td" style="width:20%;font-size: 10px;">姓名</div>
+                        <div class="top-td" style="width:20%;font-size: 10px;">业务员</div>
+                        <div class="top-td" style="width:20%;font-size: 10px;">CJ订单量
+                            <p style="font-size: 10px">(本期/环比)</p>
+                        </div>
+                        <div class="top-td" style="width:20%;font-size: 10px;">总订单量
+                            <p style="font-size: 10px">(本期/环比)</p>
+                        </div>
+                        <div class="top-td" style="width:20%;font-size: 10px;">CJ订单占比</div>
+                    </div>
+                    <div class="nameListWrap">
+                        <div class="list-tr" ng-repeat="cus in customerList" ng-class="{ttRed:cus.orderRatio>100 || cus.comcun==0}" render-finish data-id="{{cus.paymentId}}">
+                            <div class="list-td" style="width: 20%">
+                                <span title="{{cus.paymentName}}">{{cus.paymentName}}</span>
+                            </div>
+                            <div class="list-td" style="width: 20%">
+                                <span title="{{cus.salesmanName}}">{{cus.salesmanName}}</span>
+                             </div>
+                            <div class="list-td" style="width: 20%">
+                                <span title="{{cus.cun}}/{{cus.ocun}}">{{cus.cun}}/{{cus.ocun}}</span>
+                            </div>
+                            <div class="list-td" style="width: 20%">
+                                <span title="{{cus.comcun}}/{{cus.comocun}}">{{cus.comcun}}/{{cus.comocun}}</span>
+                            </div>
+                            <div class="list-td" style="width: 20%">
+                                <span title="{{classFix(cus)}}">{{classFix(cus)}}</span>
+                            </div>
+                        </div>
+                        <!--<div class="list-tr" ng-repeat="cus in customerList" render-finish data-id="{{cus.paymentId}}">-->
+                            <!--<div class="list-td" style="width: 38%;">{{cus.paymentName}}</div>-->
+                            <!--<div class="list-td" style="width: 30%;">{{cus.cun}}</div>-->
+                            <!--<div class="list-td" style="width: 32%;">{{cus.money}}</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="rightWrap">
+                    <div class="tongjitu" id="main1" style="width: 100%;height: 300px">
+
+                    </div>
+                    <div style="margin-top: 20px;display: flex">
+                        <div class="tongjitu" id="main2" style="width: 70%;height: 300px"></div>
+                        <div class="rightMenu">
+                            <p>{{customerInfo.name}}</p>
+                            <p>店铺数量：<span>{{customerInfo.length}}</span></p>
+                            <p style="margin-bottom: 10px">总订单：{{customerInfo.total}}</p>
+                            <!--<p>采购失败：500</p>-->
+                            <p ng-repeat="ca in cakeList">
+                                <span style="font-weight: 600">{{ca.store_name}}</span>: <span>{{ca.ocun}} ( {{classRate(ca.ocun)}}% )</span>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--D:\svn-project\svn-p3\webapp\static\js\echarts\echarts.min.js-->
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+</body>
+</html>

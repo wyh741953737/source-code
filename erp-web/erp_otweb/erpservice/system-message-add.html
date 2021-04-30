@@ -1,0 +1,135 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>message-list</title>
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/wangEditor.min.css">
+	<link rel="stylesheet" type="text/css" href="../../css/system-message.css">
+</head>
+
+<body> -->
+<!-- 富文本编辑器 -->
+<link rel="stylesheet" href="static/assets/design/css/trumbowyg.css">
+<script src="static/assets/trumbowyg.js"></script>
+<script src="static/assets/plugins/base64/trumbowyg.base64.js"></script>
+<div class="cj-am-wrap">
+    <!-- <div class="cj-am-cen"> -->
+        <!-- <div class="blank"></div> -->
+        <div class="left-bar">
+          <ul>
+              <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+              <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+              <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+              <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+              <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+              <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+              <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+          </ul>
+        </div>
+        <div class="right-bar-wrap cj-am-main">
+            <div class="asj-h10"></div>
+            <div class="right-bar">
+            <div class="erp-main-top">
+                <p ng-if="type==0">{{'100228' | translate}}</p>
+                <p ng-if="type==1">{{'100233' | translate}}</p>
+            </div>
+            <div class="erp-main-content">
+                <div class="erp-mes-num">
+                    <p class="erp-num-p">
+                        <!--<span class="erp-mum-span1">通知编号:</span>-->
+                        <!--<span class="erp-mum-span2">23456</span>-->
+                    </p>
+                </div>
+                <div class="erp-mes-stu">
+                    <p class="erp-stu-p">
+                        <span class="erp-stu-span">{{'100226' | translate}}:</span>
+                        <select class="erp-stu-sel" ng-model="title" ng-change="gettype()" >
+                            <option value="">{{'100234' | translate}}</option>
+                            <option value="Notification of Products">{{'100235' | translate}}</option>
+                            <option value="Notification of Shipping">{{'100236' | translate}}</option>
+                            <option value="Notification of Finance">{{'100237' | translate}}</option>
+                            <option value="Notification of Working">{{'100238' | translate}}</option>
+                            <option value="Notification of APP Feature">{{'100239' | translate}}</option>
+                            <option value="Notification of Policy">{{'100240' | translate}}</option>
+                            <option value="Other Notification">{{'100241' | translate}}</option>
+                        </select>
+                        <!--<select class="erp-stu-sel" ng-model="typename" ng-options="item as item.TemplateName for item in typearr" ng-change="typenameget(typename)" ng-show="typearr.length>1">-->
+                        </select>
+                        <!-- <input class="erp-stu-sel" type="text" readonly="true" ng-model="title2"> -->
+                    </p>
+                </div>
+                <div class="erp-mes-stu">
+                    <p class="erp-stu-p">
+                        <span class="erp-stu-span">{{'100242' | translate}}:</span>
+                        <input class="erp-stu-sel" type="text" ng-model="tzname">
+                    </p>
+                </div>
+                <div class="erp-mid-con">
+                    <div class="erp-mc-left">
+                        <!--<div class="erp-mcl-sjr">-->
+                            <!--<p>-->
+                                <!--<span>收件人:</span>-->
+                            <!--<p class="erp-sjr-inp"  ng-model="userstr"></p>-->
+                            <!--</p>-->
+                        <!--</div>-->
+                        <div class="erp-jianlue">
+                            <p>
+                                <span>{{'100243' | translate}}:</span>
+                                <!-- <input class="erp-jl-text"></input> -->
+                                <textarea class="erp-jl-text" ng-model="templatetitle"></textarea>
+                            </p>
+                        </div>
+                        <div class="erp-mc-text">
+                            <p class="erp-text-p">{{'100244' | translate}}:</p>
+                            <div id="wang"></div>
+                            <!--<div id="odiv" style="display:none;position:absolute;z-index:100;">-->
+                            <!--<img src="static/assets/pic/sx.png" title="缩小" border="0" alt="缩小" onclick="sub(-1);"/>-->
+                            <!--<img src="static/assets/pic/fd.png" title="放大" border="0" alt="放大" onclick="sub(1)"/>-->
+                            <!--<img src="static/assets/pic/cz.png" title="重置" border="0" alt="重置" onclick="sub(0)"/>-->
+                            <!--<img src="static/assets/pic/sc.png" title="删除" border="0" alt="删除" onclick="del();odiv.style.display='none';"/>-->
+                            <!--</div>-->
+                            <!--<div  onmousedown="show_element(event)" style="clear:both" id="customized-buttonpane" class="editor"></div>-->
+
+                        </div>
+                    </div>
+                    <!--<div class="erp-mc-right">-->
+                        <!--<p class="erp-mr-p">-->
+                            <!--<span>查找:</span>-->
+                            <!--<input class="erp-s-inp" ng-model="username" ng-change="userget()"></input>-->
+                        <!--</p>-->
+                        <!--<div class="erp-mr-list">-->
+                            <!--<p class="erp-s-jgp">查找到:</p>-->
+                            <!--<ul class="erp-list-ul">-->
+                                <!--<li ng-click="getalluser()">-->
+                                    <!--<p class="erp-list-p1">所有人</p>-->
+                                    <!--<p class="erp-list-p2">all</p>-->
+                                <!--</li>-->
+                                <!--<li ng-repeat="item in userlist" ng-click="getuser(item)">-->
+                                    <!--<p class="erp-list-p1">{{item.name}}</p>-->
+                                    <!--<p class="erp-list-p2">{{item.email}}</p>-->
+                                <!--</li>-->
+
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="erp-mes-btns">
+                        <a href="javascript:void(0)" ng-click="gethtml()">{{'100245' | translate}}</a>
+                        <!--<a class="sel-time-btn" href="javascript:void(0)">定时发送</a>-->
+                        <!--<a href="javascript:void(0)">存草稿</a>-->
+                        <a href="javascript:void(0)" ng-click="close()">{{'100066' | translate}}</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+<!-- </body>
+<script type="text/javascript" src="../../js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="../../js/public/wangEditor.min.js"></script>
+<script type="text/javascript" src="../../js/erp-orders/system-message.js"></script>
+</html>

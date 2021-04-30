@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>提现</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_financing_income.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab">
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px mt-0">
+					<!-- 搜索区域 -->
+					<!-- 销售成本 -->
+					<div class="top-tab-search d-flex align-items-center">
+						<div class="search-group d-flex align-items-center">
+							<button class="asj-btn-s asj-btn-s2 search-btn" style="margin-right: 20px;"
+								ng-click="openInputPassword(export)">Excel导出</button>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>币种展示：</span>
+							<select style="width: 90px" name="" id="" ng-model="currentCurrency">
+								<option value="2">USD</option>
+								<option value="1">RMB</option>
+							</select>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>总计：</span>
+							<select style="width: 110px" name="" id="">
+								<option value="">${{sumMoneyUSD}}</option>
+								<option value="">￥{{sumMoneyRMB}}</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- 表头 -->
+					<!-- 销售成本 -->
+					<div class="tb-thead d-flex">
+						<div style="width: 20%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">月份</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">采购成本</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">物流成本</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">总计</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" class="content-wrap bg-white padding-lr-20px"
+				style="min-height: 600px; margin-top: 144px;">
+				<!-- 表格 -->
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="cost in costList">
+						<div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div>
+						<div style="width: 20%" class="tb-tbody-td border-r-td"><span>{{cost.statistics_date}}</span>
+						</div>
+						<div style="width: 20%" class="tb-tbody-td border-r-td">
+							<span>{{changeCurrency(cost.purchaseCost, 2)}}</span></div>
+						<div style="width: 20%" class="tb-tbody-td border-r-td">
+							<span>{{changeCurrency(cost.d_logistics_cost, 2)}}</span></div>
+						<div style="width: 20%" class="tb-tbody-td"><span>{{changeCurrency(cost.totalMoney, 2)}}</span>
+						</div>
+					</div>
+				</div>
+				<!-- 分页 -->
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+					<span>暂无数据</span>
+				</div>
+				<div class="page-box" ng-show="canShowPage">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button"
+							ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

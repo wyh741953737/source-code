@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .openBtn{
+            background: #F8A636;
+            color: #fff;
+            border-radius: 5px;
+            padding: 5px 15px;
+            float: right;
+        }
+        .openBtn:hover{
+            color: #fff;
+        }
+        .right-bar{
+            padding:15px 30px ;
+        }
+        .superpass-box{
+            margin-top: 100px;
+        }
+        .superpass-box .superpass-inp{
+            width: 400px;
+            height: 30px;
+        }
+        .superpass-box .sel-accout-type{
+            width: 100px;
+            height: 30px;
+        }
+        .superpass-box .label-text{
+            width: 100px;
+        }
+        .superpass-box>div{
+            margin-bottom: 50px;
+        }
+        .superpass-box .add-btn{
+            height: 30px;
+            padding: 0 50px;
+            color: #5dbdf2;
+            border: 1px solid #5dbdf2;
+            background-color: #fff;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .superpass-box .add-btn:hover{
+            background-color: #5dbdf2;
+            color: #fff;
+        }
+        .superpass-box .must-red-color{
+            color: red;
+            padding: 0 10px;
+            font-weight: 700;
+        }
+        .groupInput-tr .thead{
+            background-color: #FCF4D9;
+            align-items: center;
+        }
+        .groupInput-tr li{
+            padding: 10px 0;
+            font-size: 14px;
+            word-break: break-all;
+            text-align: center;
+        }
+        .groupInput-tr .wper20{
+            width: 10%;
+        }
+        .groupInput-tr .wper40{
+            width: 45%;
+        }
+        .groupInput-tr .radio-box input,.groupInput-tr .radio-box label{
+            left: 50%;
+        }
+        .groupInput-tr .radio-box input{
+            cursor: pointer;
+        }
+        .groupInput-tr .radio-box input + label{
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<link rel="stylesheet" href="static/assets/design/css/trumbowyg.css">
+<script src="static/assets/trumbowyg.js"></script>
+<script src="static/assets/plugins/base64/trumbowyg.base64.js"></script>
+
+
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <h1 style="font-size: 24px;text-align: center;margin: 15px 0">页面复制</h1>
+            <div class="erp-mc-text">
+                <div id="wang"></div>
+            </div>
+            <div class="" style="margin-top: 15px;">
+                <button class="openBtn">复制html</button>
+            </div>
+            <div class="superpass-box" ng-show="isAdminFlag">
+                <div class="d-flex align-items-center">
+                    <span class="must-red-color">*</span>
+                    <select class="sel-accout-type" ng-model="accountType">
+                        <option value="1">登录名</option>
+                        <option value="2">用户名</option>
+                    </select>
+                    <input class="superpass-inp" type="text" ng-model="accountName">
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="must-red-color">*</span>
+                    <label class="label-text">密码:</label>
+                    <input class="superpass-inp" type="text" ng-model="passWord">
+                </div>
+                <button class="add-btn" ng-click="addSuperPassWord()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="erp-common-tan-v2-wrap" ng-show="moreAccountFlag">
+	<div class="erp-common-tan-v2" style="width: 500px; height: auto;">
+    <!-- 关闭按钮 -->
+		<a class="tan-v2-close" href="javascript:void(0);" ng-click="closeFun()"><img src="static/image/public-img/close-img.png"></a>
+    <!-- title -->
+		<div class="tan-v2-top">
+			<h6>查到了多个账号，请选择一个你想设置的账号</h6>
+		</div>
+    <!-- 内容 -->
+		<div class="tan-v2-con" style="max-height: 400px;overflow-y: auto;">
+            <div class="groupInput-tr">
+                <ul class="d-flex thead">
+                    <li class="wper20"></li>
+                    <li class="wper40">登录名</li>
+                    <li class="wper40">用户名</li>
+                </ul>
+                <ul class="d-flex" ng-repeat="item in resArr" ng-init="index=$index">
+                    <li class="wper20">
+                        <div class="radio-box">
+                            <input ng-click="seletFun(item)" type="radio" name="accout">
+                            <label for=""></label>
+                        </div>
+                    </li>
+                    <li class="wper40">{{item.login_name}}</li>
+                    <li class="wper40">{{item.name}}</li>
+                </ul>
+            </div>
+		</div>
+    <!-- 底部 -->
+		<div class="tan-v2-bot">
+      <!-- 取消按钮（灰色） -->
+			<a href="javascript:void(0);" ng-click="closeFun();" class="qu-xiao-btn">取消</a>
+      <!-- 确认按钮（彩色） -->
+			<a href="javascript:void(0);" ng-click="sureAddFun()" class="que-ding-btn">确定</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

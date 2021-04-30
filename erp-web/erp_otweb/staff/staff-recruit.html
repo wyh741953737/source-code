@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<style type="text/css">
+  .erp-mid-con .erp-mc-left .erp-mcl-sjr .erp-writetit {
+    margin-left: 38px;
+    overflow: visible;
+    height: 28px;
+  }
+
+  .erp-mid-con .erp-mc-left .erp-zt-inp {
+    margin-left: 24px;
+    width: 660px;
+    height: 28px;
+    border: 1px solid #e9e9e9;
+    text-indent: 12px;
+    float: left;
+    overflow: visible;
+  }
+
+  .erp-mid-con .erp-mc-left .erp-jianlue p {
+    margin-left: 24px;
+  }
+
+  .erp-mid-con .erp-mc-left .erp-jianlue p .erp-jl-text {
+    margin-left: 17px;
+  }
+
+  .erp-mid-con .erp-mc-left .erp-mc-text {
+    margin-left: 25px;
+  }
+
+  .erp-mid-con .erp-mc-left .erp-mc-text .erp-text-p {
+    vertical-align: top;
+  }
+
+  .erp-mid-con .erp-mc-left .erp-wrzwtext {
+    margin-left: 14px;
+    width: 660px;
+    height: 300px;
+    border: 1px solid #ececec;
+  }
+
+  .background {
+    background: #fff;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+
+  .fl {
+    float: left;
+  }
+
+  .fr {
+    float: right;
+  }
+
+  .table-div {
+    margin-top: 20px;
+  }
+
+  .function {
+    width: 100%;
+    margin: 0 auto
+  }
+
+  .function > div {
+    /*margin-top: 20px;*/
+  }
+
+  #search {
+    width: 350px;
+    height: 30px;
+    border: 1px solid #078ceb;
+    text-indent: 8px;
+  }
+
+  #screen {
+    width: 140px;
+    text-align: center;;
+    line-height: 30px;
+    height: 30px;
+    color: #fff;
+    background: #333;
+  }
+
+  #addPeople {
+    width: 140px;
+    text-align: center;;
+    line-height: 30px;
+    height: 30px;
+    color: #fff;
+    background: orange;
+    border-radius: 3px;
+  }
+
+  .searchVal {
+    background: #078ceb;
+    color: #fff;
+    width: 140px;
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+    border-radius: 3px;
+  }
+
+  .modal {
+    /*top: 10%;*/
+    left: 10%;
+  }
+
+  .btn {
+    border-radius: 0;
+    width: 60px;
+  }
+
+  label {
+    display: inline-block;
+    width: 178px;
+    text-align: center;
+  }
+
+  label ~ label {
+    margin-top: 10px;
+  }
+
+  .Unrelated {
+    color: red
+  }
+
+  .related {
+    color: green;
+  }
+
+  .Already {
+    color: green
+  }
+
+  label:last-child {
+    vertical-align: top
+  }
+
+  textarea {
+    border: 1px solid #e0e0e0;
+    text-indent: 8px;
+    height: 80px;
+    vertical-align: top;
+    margin-top: 10px;
+    width: 210px;
+  }
+
+  select {
+    width: 180px;
+  }
+
+  .modal input[type='text'] {
+    text-indent: 8px;
+    width: 180px;
+    line-height: 28px;
+    height: 28px;
+  }
+
+  .table-hover > tbody > tr:hover {
+    background-color: #e8f4ff;
+  }
+
+  .means {
+    margin-bottom: 10px;
+  }
+
+  .selectActive {
+    background: #e8f4ff;
+  }
+
+  input[type=radio] {
+    margin: 0;
+    width: 20px
+  }
+
+  .modal-header .close {
+    margin-top: 4px;
+  }
+
+  .model-title {
+    margin-top: 10px;
+  }
+
+  .Wdate {
+    height: 30px;
+  }
+
+  .Wdate:first-child {
+    margin-left: 20px;
+  }
+
+  .hint, .tel {
+    display: none
+  }
+
+  .erp-seachInp {
+    height: 34px;
+    line-height: 34px;
+    background: #078ceb;
+    color: #fff;
+    width: 60px;
+    text-align: center
+  }
+
+  .screen {
+    width: 80px;
+    height: 80px;
+    color: #333;
+    font-size: 14px;
+    text-align: center;;
+    line-height: 80px;
+    border: 1px solid #ddd;
+  }
+
+  .drop-search-btn {
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 25px;
+    color: #8f8f8f;
+    border-color: #e1e1e1;
+    background: #f3f3f3;
+    display: inline-block;
+    border-radius: 5px;
+  }
+
+  .dropsearch {
+    border: 1px solid #e1e1e1;
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .dropsearch label {
+    width: 180px;
+    text-align: right;
+  }
+
+  .dropsearch input, select {
+    border-radius: 3px;
+    padding: 0 5px;
+    height: 28px;
+    line-height: 28px;
+    width: 180px;
+    font-size: 14px;
+  }
+  .layui-layer-shade{
+    opacity: 0.2;
+  }
+  .table-bordered>thead>tr>td{
+    border: none;
+    border-right: 1px solid #ddd;
+  }
+  .btn{
+    margin-right: 0;
+    border-radius: 3px;
+  }
+  .right-bar-wrap{
+    padding: 10px 10px 0 225px;
+  }
+  #Savebtn{
+    width: 80px;
+    line-height: 30px;
+    height: 30px;
+  }
+  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    font-size: 13px;
+  }
+  .removeimg{
+    width: 15px;
+    height: 15px;
+    background-color: #ccc;
+    display: block;
+    text-align: center;
+    line-height: 15px;
+    position: absolute;
+    right: -3px;
+    top: -3px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .imgmodel{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    z-index: 100003
+  }
+  .colseimg{
+    font-size: 50px;
+    position: absolute;
+    right: 100px;
+    top: 100px;
+    cursor: pointer;
+    color: #ffff;
+  }
+  .imglist{
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    height: 135px;
+  }
+  .imglist img{
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+    border: 2px solid #fff ;
+    cursor: pointer;
+    padding: 2px;
+  }
+  .boract{
+    border: 2px solid orange !important;
+  }
+  .autoImg{
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  /*.shows{display: inline-block}*/
+</style>
+<body>
+<div class="cj-am-wrap">
+  <div class="left-bar">
+    <ul>
+      <li><a href="#/staff/KPIAssessment">{{'101018' | translate}}</a></li>
+      <li><a href="#/staff/setkpiassess">{{'101019' | translate}}</a></li>
+      <li><a href="#/staff/stafffiles">{{'101020' | translate}}</a></li>
+      <li><a href="#/staff/stafftable">{{'101021' | translate}}</a></li>
+      <li><a href="#/staff/nbtz">{{'101022' | translate}}</a></li>
+      <li class="active"><a href="#/staff/recruit">{{'101023' | translate}}</a></li>
+    </ul>
+  </div>
+  <div class="right-bar-wrap cj-am-main">
+    <div class="background">
+      <div class="clearfix function">
+        <div class="fl">
+          <input type="text" name="" id="search" placeholder="{{'101146' | translate}}" ng-keyup="enterSearch($event)"
+                               ng-model="textVal">
+          <button class="searchVal" ng-click="searchq()">{{'100025' | translate}}</button>
+          <button class="searchVal" ng-click="clearClick()">{{'100768' | translate}}</button>
+        </div>
+        <div class="fl" style="margin-left: 20px">
+          <a role="button" type="button" class="btn-default drop-search-btn" ng-click="showHideSerch($event)"><span
+            class="text">{{'100369' | translate}}</span>&nbsp;<span class="caret"></span></a>
+        </div>
+        <div class="fr">
+          <button id="addPeople" ng-click="showModal('add')">{{'101147' | translate}}</button>
+        </div>
+      </div>
+      <!--筛选-->
+      <div class="dropsearch" style="display:none;">
+        <form action="">
+          <label>{{'101148' | translate}}</label>
+          <select ng-model="serregion" ng-options="m.value as m.roleName  for m in Adress"
+                  ng-change="changeAdress(serregion)">
+            <option value="">-- {{'100693' | translate}} --</option>
+          </select>
+          <label>{{'101149' | translate}}</label>
+          <select ng-model="serquarters" ng-options="m.roleName for m in a">
+            <option value="">-- {{'100693' | translate}} --</option>
+          </select>
+          <label>{{'101150' | translate}}</label>
+          <select ng-model="serjobPlatforms" ng-options="m.text for m in jobPlatform">
+            <option value="">-- {{'100693' | translate}} --</option>
+          </select>
+          <label>{{'101151' | translate}}</label>
+          <select ng-model="serwhetherRelation">
+            <option value="">--{{'100693' | translate}}--</option>
+            <option value="未联系">{{'101152' | translate}}</option>
+            <option value="已联系">{{'101153' | translate}}</option>
+          </select>
+          <br/>
+          <label>{{'101154' | translate}}</label>
+          <input type="text" name="" class="boxwidth-helf"
+                 onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                 ng-model="serappointmentBeginDate">
+          <label>{{'101155' | translate}}</label>
+          <input type="text" name="" class="boxwidth-helf"
+                 onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                 ng-model="serappointmentEndDate">
+          <label>{{'101156' | translate}}</label>
+          <input type="text" name="" class="boxwidth-helf"
+                 onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                 ng-model="sercreateBeginDate">
+          <label>{{'101157' | translate}}</label>
+          <input type="text" name="" class="boxwidth-helf"
+                 onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                 ng-model="sercreateEndDate">
+          <br>
+          <label>{{'101158' | translate}}</label>
+          <input type="text" name="" placeholder="" ng-model="serinputPerson">
+          <label>{{'101159' | translate}}</label>
+          <select ng-model="serappointmentInfo">
+            <option value="">--{{'100693' | translate}}--</option>
+            <option value="未确定">{{'101160' | translate}}</option>
+            <option value="已来过">{{'101161' | translate}}</option>
+            <option value="确定不来">{{'101162' | translate}}</option>
+            <option value="待上岗">{{'101163' | translate}}</option>
+          </select>
+        </form>
+      </div>
+      <!--table表格-->
+      <div class="table-div">
+        <table class="table table-bordered text-center table-hover">
+          <thead>
+          <tr>
+            <td>{{'100174' | translate}}</td>
+            <td>{{'100992' | translate}}</td>
+            <td>{{'101047' | translate}}</td>
+            <td>{{'101051' | translate}}</td>
+            <td>{{'101164' | translate}}</td>
+            <td>{{'101054' | translate}}</td>
+            <td width="50">{{'101165' | translate}}</td>
+            <td>{{'101116' | translate}}</td>
+            <td>{{'101166' | translate}}</td>
+            <td>{{'101151' | translate}}</td>
+            <td width="70">{{'101150' | translate}}</td>
+            <!-- <td>简历链接</td> -->
+            <td width="90">{{'101167' | translate}}</td>
+            <td>{{'101159' | translate}}</td>
+            <td width="8%">{{'101168' | translate}}</td>
+            <td width="8%">{{'100340' | translate}}</td>
+            <td>{{'101158' | translate}}</td>
+            <td width="90">{{'101169' | translate}}</td>
+            <td>{{'100043' | translate}}</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in List" id="{{item.id}}"
+              ng-click="TrClick($index)" ng-class='{selectActive: $index == focus}'
+          >
+            <td>{{$index+1}}</td>
+            <td style="cursor: pointer;" ng-click="nameClick(item)">{{item.rname}}</td>
+            <td>{{item.sex}}</td>
+            <td>{{item.age}}</td>
+            <td>{{item.birthDate}}</td>
+            <td>{{item.education}}</td>
+            <td>{{item.region}}</td>
+            <td>{{item.quarters}}</td>
+            <td>{{item.phone}}</td>
+            <td ng-class="{'related':item.whetherRelation=='已联系','Unrelated':item.whetherRelation=='未联系'}">
+              {{item.whetherRelation}}
+            </td>
+            <td>
+              <span>{{item.jobPlatform}}</span>
+              <br>
+              <a href="{{item.resumeLink}}" target="_blank" style="text-decoration: underline;">简历链接</a>
+            </td>
+            <!-- <td><a href="{{item.resumeLink}}" target="_blank">{{item.resumeLink}}</a></td> -->
+            <td>{{item.appointmentDate}}</td>
+            <td>{{item.appointmentInfo}}</td>
+            <td>{{item.interviewResult}}</td>
+            <td style="width: 300px;">{{item.remark}}</td>
+            <td>{{item.inputPerson}}</td>
+            <td>{{item.createDate}}</td>
+            <td>
+              <button class="btn btn-success edit" ng-click="showModal('edit',item)">
+                {{'101170' | translate}}
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--弹窗-->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style="width: 645px;">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title titleName" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+              <!--新增人才库-->
+              <div ng-show="showType == 'add'" style="margin-bottom: 15px;">
+                <label>{{'100992' | translate}}*</label>
+                <input type="text" name="" placeholder="{{'101046' | translate}}" ng-blur="searchName(name)" ng-model="name">
+                <!--<a style="color:red"  target="_blank" href="/erp/manage.html#/staff/recruit">已有此人</a>-->
+                <span ng-show="isnameSate" style="color: red;font-size: 12px;cursor: pointer;text-decoration: underline;" ng-click="nameRepeat()">{{'101171' | translate}}！</span>
+                <span ng-show="isname" style="color: red;font-size: 12px;">{{'101046' | translate}}！</span>
+                <br/>
+                <label>{{'101166' | translate}}*</label>
+                <input type="text" name="" placeholder="{{'101046' | translate}}" ng-blur="searchTel(tel)" ng-model="tel">
+                <!--<a style="color:red" class="tel" target="_blank" href="/erp/manage.html#/staff/recruit">已有此号</a>-->
+                <span ng-show="istelSate" style="color: red;font-size: 12px;cursor: pointer;text-decoration: underline;" ng-click="PhoneRepeat()">{{'101172' | translate}}！</span>
+                <span ng-show="istel" style="color: red;font-size: 12px;">{{'101046' | translate}}！</span>
+                </br>
+                <label>{{'101173' | translate}}</label>
+                <input type="text" value="" ng-model="message" id="messageVal" ng-blur="showMessage()">
+                <br/>
+                <label>{{'101174' | translate}}</label>
+                <input type="text" value="" ng-model="resumeLink">
+                <br/>
+                <label>{{'101051' | translate}}</label>
+                <input type="text" name="" ng-model="ageVal">
+                </br>
+                <label>{{'101054' | translate}}</label>
+                <select ng-model="educations" ng-options="m.value as m.text for m in education"
+                        id='test1'>
+                  <option value="">--{{'100693' | translate}}--</option>
+                </select>
+                </br>
+                <label>{{'101158' | translate}}*</label>
+                <input type="text" name="" placeholder="{{'101046' | translate}}" ng-model="inputPerson">
+                <span ng-show="isinputPerson" style="color: red;font-size: 12px;">{{'101046' | translate}}！</span>
+                </br>
+                <label>出生日期</label>
+                <!--<input type="text" name="" ng-model="birthDate">-->
+                <input type="text" name="" class="boxwidth-helf" placeholder="{{'101102' | translate}}"
+                       onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                       ng-model="birthDate">
+                </br>
+                <label>{{'101047' | translate}}</label>
+                <input type="radio" value="男" name="sex" ng-model="sex">{{'101048' | translate}}
+                <input type="radio" value="女" name="sex" ng-model="sex">{{'101049' | translate}}
+                </br>
+                <label>{{'101141' | translate}}*</label>
+                <select ng-model="region" ng-options="m.value as m.roleName  for m in Adress"
+                        ng-change="changeAdress(region)" id="regions">
+                  <option value="">-- {{'100693' | translate}} --</option>
+                </select>
+                <span ng-show="isregion" style="color: red;font-size: 12px;">{{'101046' | translate}}！</span>
+                <br/>
+                <label>{{'101116' | translate}}*</label>
+                <select ng-model="quarters" ng-options="m.roleName for m in a" id="quarters">
+                  <option value="">-- {{'100693' | translate}} --</option>
+                </select>
+                <span ng-show="isquarters" style="color: red;font-size: 12px;">{{'101046' | translate}}！</span>
+                <br/>
+                <label>{{'101150' | translate}}*</label>
+                <select ng-model="jobPlatforms" ng-options="m.text for m in jobPlatform" id="job">
+                  <option value="">-- {{'100693' | translate}} --</option>
+                </select>
+                <span ng-show="isjobPlatforms" style="color: red;font-size: 12px;">{{'101046' | translate}}！</span>
+                </br>
+                <label>{{'101167' | translate}}</label>
+                <input type="text" name="" class="boxwidth-helf" placeholder="{{'101175' | translate}}"
+                       onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked: function(){$(this).trigger('change')}})"
+                       ng-model="appointmentDate">
+                <br/>
+                <label>{{'101151' | translate}}</label>
+                <input type="radio" value="未联系" name="whetherRelation" ng-model="whetherRelations">{{'101152' | translate}}
+                <input type="radio" value="已联系" name="whetherRelation" ng-model="whetherRelations">{{'101153' | translate}}
+                </br>
+                <label>{{'101159' | translate}}</label>
+                <input type="radio" value="未确定" name="appointmentInfo" ng-model="appointmentInfos">{{'101160' | translate}}
+                <input type="radio" value="已来过" name="appointmentInfo" ng-model="appointmentInfos">{{'101161' | translate}}
+                <input type="radio" value="确定不来" name="appointmentInfo" ng-model="appointmentInfos">{{'101162' | translate}}
+                <input type="radio" value="待上岗" name="appointmentInfo" ng-model="appointmentInfos">{{'101163' | translate}}
+                </br>
+                <label>{{'101176' | translate}}</label>
+                <select ng-options="m.text as m.text for m in reasion" ng-change='showReasion(Reasion)'
+                        ng-model="Reasion">
+                  <option value="">{{'101177' | translate}}</option>
+                </select>
+                </br>
+                <label>{{'100340' | translate}}</label>
+                <textarea ng-model="Reasion" placeholder="{{'101177' | translate}}"></textarea>
+                </br>
+                <label>简历截图</label>
+                <button style="width: 80px;height: 30px;color: #fff;background-color: orange;" ng-click="addImg()">上传</button>
+                <input multiple="multiple" type="file" onchange="angular.element(this).scope().upLoadImg(this.files)" id="upload-img" style="display: none;">
+                </br>
+                <label></label>
+                <div style="display: inline-block;width: 430px;">
+                  <div ng-repeat="item in imgList" style="display: inline-block;position: relative;">
+                    <img ng-src="{{item.src}}" alt="" width="100" style="margin:15px 15px 0 0;">
+                    <span class="removeimg" ng-click="removeImg($index)">×</span>
+                  </div>
+                </div>
+              </div>
+              <!--更新-->
+              <div ng-show="showType == 'edit'" style="margin-bottom: 15px;">
+                <label>{{'101167' | translate}}</label>
+                <input type="text" name="" class="boxwidth-helf"
+                       onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked: function(){$(this).trigger('change')}})"
+                       ng-model="showtime">
+                <br/>
+                <label>{{'101151' | translate}}</label>
+                <input type="radio" value="未联系" name="UPwhetherRelation" ng-model="UPwhetherRelation">{{'101152' | translate}}
+                <input type="radio" value="已联系" name="UPwhetherRelation" ng-model="UPwhetherRelation">{{'101153' | translate}}
+                </br>
+                <label>{{'101159' | translate}}</label>
+                <input type="radio" value="未确定" name="UPappointmentInfo" ng-model="UPappointmentInfo">{{'101160' | translate}}
+                <input type="radio" value="已来过" name="UPappointmentInfo" ng-model="UPappointmentInfo">{{'101161' | translate}}
+                <input type="radio" value="确定不来" name="UPappointmentInfo" ng-model="UPappointmentInfo">{{'101162' | translate}}
+                <input type="radio" value="待上岗" name="UPappointmentInfo" ng-model="UPappointmentInfo">{{'101163' | translate}}
+                </br>
+                <label>{{'101176' | translate}}</label>
+                <select ng-options="m.text as m.text for m in reasion" ng-model="UPremark">
+                  <option value="">{{'101177' | translate}}</option>
+                </select>
+                </br>
+                <label>{{'100340' | translate}}</label>
+                <textarea id="updatedText" ng-model="UPremark"></textarea>
+                </br>
+                <label>{{'101168' | translate}}</label>
+                <textarea id="resultText" ng-model="UPinterviewResult"></textarea>
+              </div>
+              <div class="modal-footer">
+                <button id="Savebtn" type="button" class="btn btn-primary" ng-click="savePeople()">
+                  {{'100133' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 分页 -->
+      <div class="no-data" ng-show="totalNum == 0" style="text-align: center;">{{'100980' | translate}}</div>
+      <div class="page-box" ng-show="totalNum > 0">
+        <div class="select-page-num">
+          <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                  style="width: 65px;height: 31px;">
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+          <span>每页</span>
+        </div>
+        <div class="total-num">
+          共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+        </div>
+        <div class="page-index">
+          <div class="pagegroup">
+            <a href="#">&lt;&lt;</a>
+            <a href="#">&lt;</a>
+            <a href="#">1</a>
+            <a href="#">2</a>
+            <a class="current" href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">···</a>
+            <a href="#">&gt;</a>
+            <a href="#">&gt;&gt;</a>
+          </div>
+        </div>
+        <div class="to-go">
+          <span>跳转：</span>
+          <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+          <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+        </div>
+      </div>
+      <!--img弹窗-->
+      <div class="imgmodel" ng-show="isShoImg">
+        <span class="colseimg" ng-click="isShoImg = false;">×</span>
+        <img ng-src="{{autoSrc}}" alt="" class="autoImg">
+        <div class="imglist" ng-mouseleave="isover = false;" ng-mouseenter="isover = true;">
+          <img ng-show="isover" ng-class="{boract:item.isboract}" ng-src="{{item.src}}" alt="" ng-repeat="item in imgarr" width="100" ng-click="imgClick($index)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+  function sam () {
+    layer.msg("请刷新页面！")
+  }
+</script>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      .search-box {
+        width: auto;
+      }
+      .search-box input{
+          width: 300px;
+          height: 35px;
+          padding: 0 10px;
+      }
+      .search-box button{
+          height: 35px;
+          background: #F8A636;
+          color: #fff;
+          padding: 0 10px;
+          cursor: pointer;
+          position: relative;
+          top: 1px;
+      }
+      .tableBtn{
+          padding: 5px 10px;
+          border-radius: 5px;
+          background: #F8A636;
+          color: #fff;
+          margin-right: 15px;
+      }
+      .zzc{
+          position: fixed;
+          top: 0;
+          left: 0;
+          right:0;
+          bottom: 0;
+          background: rgba(0,0,0,0.4);
+          z-index: 999999;
+          display: none;
+      }
+      .zzcWrap{
+          background: #ffffff;
+          width: 900px;
+          border-radius: 5px;
+          margin: 150px auto;
+          padding: 10px 15px;
+      }
+      .zzcWrap h1{
+          font-size: 20px;
+          text-align: center;
+          margin-bottom: 15px;
+      }
+      .xqWrap{
+          height: 440px;
+          overflow-y: auto;
+      }
+      .table1 tbody>tr>td:nth-child(3){
+          width: 509px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 0 10px;
+          cursor: pointer;
+      }
+      .table1 tbody>tr>td:nth-child(2){
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 0 5px;
+      }
+      .infoWrap{
+          width: 870px;
+          height: 477px;
+          background: #fff;
+          position: absolute;
+          top: 10px;
+          left:15px;
+          padding: 10px ;
+          display: none;
+      }
+      .info-top>span.backBtn{
+          padding: 2px 10px;
+          cursor: pointer;
+          border: 1px solid #e0e0e0;
+          border-radius: 5px;
+          font-size: 18px;
+      }
+      .info-top>span.backBtn:hover{
+          background: #F8A636;
+          color: #fff;
+      }
+      .info-top{
+          display: flex;
+          justify-content: space-between;
+      }
+      .info-content{
+          border: 1px solid #e0e0e0;
+          border-radius: 5px;
+          height: 400px;
+          margin-top: 15px;
+          padding: 10px;
+      }
+      .date-box {
+        float: left;
+        margin-left: 5px;
+      }
+      .date-box .data-inp {
+        height: 35px;
+        border: 1px solid #e5e5e5;
+        vertical-align: top;
+        font-size: 12px;
+      }
+      .date-box .erp-seachInp {
+        height: 35px;
+        background-color: #fff;
+        width: 50px;
+        vertical-align: top;
+        border: 1px solid #e5e5e5;
+        font-size: 12px;
+      }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 20px 30px">
+            <div class="ea-right-search">
+              <div class="date-box">
+                <input class="Wdate data-inp" placeholder="" style="text-indent: 12px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" readonly="">
+                <input id="cdatatime2" placeholder="Now" class="Wdate data-inp" style="text-indent: 12px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})">
+            </div>
+            <div class="input-group search-box">
+                <input placeholder="请输入业务员姓名" id="searchInput" ng-model="searchInfo" type="text"/>
+                <button ng-click="search()">{{'100025' | translate}}</button>
+            </div>
+          </div>
+            <div class="fast-bottom" style="margin-top: 15px">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>业务员姓名</th>
+                        <th>建议数量</th>
+                        <th>投诉数量</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="suggest in suggestList">
+                        <td>{{suggest.nameen}}</td>
+                        <td>{{suggest.suggestion}}</td>
+                        <td>{{suggest.complain}}</td>
+                        <td>
+                            <button class="tableBtn" ng-click="openZzc('1',suggest.nameen)">查看建议详情</button>
+                            <button class="tableBtn" ng-click="openZzc('2',suggest.nameen)">查看投诉详情</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup pagegroup1">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹框-->
+<div class="zzc">
+    <div class="zzcWrap" style="position: relative">
+        <div class="zzcContent">
+            <h1>建议详情</h1>
+            <div class="xqWrap">
+                <table class="ea-list-table ea-erp-cs table1" style="width: 870px; table-layout: fixed">
+                    <thead>
+                    <tr>
+                        <th style="width: 160px;">时间</th>
+                        <th style="width: 160px">业务员姓名</th>
+                        <th style="width: 160px">客户编号</th>
+                        <th style="width: 200px">客户名称</th>
+                        <th class="jynr">建议内容</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="info in infoList">
+                        <td>{{info.createDate}}</td>
+                        <td>{{info.nameen}}</td>
+                        <td>{{info.num || '--'}}</td>
+                        <td title="{{info.account}}">{{info.account}}</td>
+                        <td ng-click="openInfo(info)">{{info.message}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box page-box2">
+                    <div class="select-page-num" style="margin-right: 20px;">
+                        <select class="form-control" ng-model="pageSize2" ng-change="pagesizechange2(pageSize2)">
+                            <option value="10">10</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num" style="margin-right: 20px;">
+                        共&nbsp;&nbsp;{{ totalCounts2 }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup pagegroup2" >
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum2">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange2()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="infoWrap" >
+            <div class="info-top">
+                <span>客户账号：<span class="customerName"></span></span>
+                <span class="backBtn" ng-click="closeInfo()">back</span>
+            </div>
+            <div class="info-content"></div>
+        </div>
+        <div style="text-align: center;margin: 10px 0">
+            <button style="border: 1px solid #e9e9e9; border-radius: 5px;padding: 5px 10px" ng-click="closeZzc()">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

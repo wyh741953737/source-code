@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>已取消订单金额-财务收入管理-ERP系统</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/>
+    <link rel="stylesheet" href="erp_otweb/css/li_erp.css">
+    <style type="text/css">
+        .datatime-screen{
+            float: none;
+        }
+    	.datatime-screen input{
+    		width: 150px;
+    		height: 30px;
+    	}
+        .ea-list-table th {
+            font-size: 14px;
+        }
+        .ea-list-table tr td span {
+            font-size: 13px;
+        }
+        .ea-right-search .search-box{
+            width: 350px;
+            margin-left: 30px;
+            float: none;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .time-btn{
+            background-color: #fff;
+            width: 50px;
+            height: 24px;
+            border-radius: 15px;
+            border: 1px solid #E4E4E4;
+            color: #666666;
+            text-align: center;
+            font-size: 12px;
+            line-height: 22px;
+            margin-right: 10px;
+        }
+        .act-btn{
+            color: #fff;
+            background-color: #F9AE08;
+            border: none;
+            line-height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="ea-content">
+            	<div class="right-bar-wrap ea-right-content">
+                <!-- right nav -->
+                <div class="asj-h10"></div>
+                <!--<div class="top-taps clearfix">-->
+                    <!--<ul>-->
+	                    <!--<li class="active"><a href="#/erplogistics/trackstatistics">{{'100796' | translate}}</a></li>-->
+	                    <!--<li><a href="#/erplogistics/logististylel">{{'100797' | translate}}</a></li>-->
+	                    <!--<li><a href="#/erplogistics/cslogisti">{{'100798' | translate}}</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!-- right search -->
+                <div class="right-bar">
+                <div class="ea-right-search">
+                    <div class="datatime-screen">
+                        <button ng-click="timeSeaFun(0)" class="time-btn" ng-class="{'act-btn':day==0}">今日</button>
+                        <button ng-click="timeSeaFun(-7)" class="time-btn" ng-class="{'act-btn':day==-7}">近一周</button>
+                        <button ng-click="timeSeaFun(-30)" class="time-btn" ng-class="{'act-btn':day==-30}">近一月</button>
+                    	<input type="text" id="b-time" value="" placeholder="{{'100799' | translate}}"  class="Wdate time-inp"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>--<input type="text" id="e-time" value="" placeholder="{{'100799' | translate}}"  class="Wdate time-inp"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+                        <div class="input-group search-box">
+                           <input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+                           <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100801' | translate}}</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- right list -->
+                <div class="table-con-box">
+                    <table class="ea-list-table ea-erp-cs">
+                        <tr class="la_title">
+                            <th><span>序列</span></th>
+                            <th><span>物流名称</span></th>
+                            <th><span>渠道名称</span></th>
+                            <th><span>总票数</span></th>
+                            <th><span>总重量(KG)</span></th>
+                            <th><span>总运费</span></th>
+                            <th><span>平均投递时效</span></th>
+                            <th><span>已投递百分比</span></th>
+                            <th><span>运输中百分比</span></th>
+                            <th><span>未投递百分比</span></th>
+                            <th><span>纠纷百分比</span></th>
+                            <th><span>销毁百分比</span></th>
+                            <th><span>赔偿百分比</span></th>
+                            <th><span>退回率</span></th>
+                            
+
+                            <!-- <th>
+                                <th><span>序号</span></th>
+                                <span>{{'100651' | translate}}</span>
+                            </th>
+                            <th>
+                                <span>{{'100737' | translate}}</span>
+                            </th>
+                            <th><span>{{'100802' | translate}}</span></th>
+                            <th><span>{{'101394' | translate}}</span></th>
+                            <th><span>{{'100803' | translate}} (g)</span></th>
+                            <th><span>{{'100791' | translate}} ($)</span></th>
+                            <th><span>{{'100804' | translate}} ($)</span></th>
+                            <th><span>妥投率</span></th>
+                            <th><span>{{'100808' | translate}}</span></th>
+                            <th><span>{{'100809' | translate}}</span></th>
+                            <th><span>{{'100810' | translate}}</span></th>
+                            <th><span>{{'101395' | translate}}</span></th>
+                            <th><span>{{'101396' | translate}}</span></th>
+                            <th><span>{{'101397' | translate}}</span></th> -->
+                        </tr>
+                        <tr class="la_wl" ng-repeat="item in wlCompanyList">
+                            <td><span>{{$index+1}}</span></td>
+                            <td><span>{{item.logisticsName}}</span></td>
+                            <td><span>{{item.logisticsModel}}</span></td>
+                            <td><span>{{item.totalCount}}</span></td>
+                            <td><span>{{item.totalDeliveryDay/item.totalCount | number : 0}}</span></td>
+                            <td><span>{{item.totalWeight|number:0}}</span></td>
+                            <td><span>{{item.totalPostage | number : 2}}</span></td>
+                            <td><span>{{item.totalPostage/item.totalCount | number : 2}}</span></td>
+                            <td><span>{{(item.deliveryCount/item.totalCount*100 | number : 2) + '%'}}</span></td>
+                            <td><span>{{(item.intransitCount/item.totalCount*100 | number : 2) + '%'}}</span></td>
+                            <td><span>{{(item.sendBackCount/item.totalCount*100 | number : 2) + '%'}}</span></td>
+                            <td><span>{{(item.notDeliveryCount/item.totalCount*100 | number : 2) + '%'}}</span></td>
+                            <td><span>{{(item.destructionCount/item.totalCount*100 | number : 2) + '%'}}</span></td>
+                            <td><span>{{(item.disputeCount/item.totalCount*100 | number : 2) + '%'}}</span></td>
+                            <td><span>{{(item.compensationCount/item.totalCount*100 | number : 2) + '%'}}</span></td>
+                        </tr>
+                    </table>
+            </div>
+            <div ng-show="wlCompanyList.length<1" style="text-align: center;">暂无数据</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

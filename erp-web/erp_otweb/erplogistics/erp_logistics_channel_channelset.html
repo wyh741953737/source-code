@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>物流渠道设置-渠道管理-ERP系统</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+		<style type="text/css">
+			.shanchu{
+				width: 300px;
+				height: 180px;
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: auto;
+				background: #fff;
+				box-shadow: 0 0 10px gray;
+			}
+			.shanchu-p1{
+				font-size: 16px;
+				text-align: center;
+				margin-top: 50px;
+				text-align: center;
+			}
+			.shanchu-p2{
+				width: 80%;
+				margin:50px auto;
+				
+			}
+			.shanchu-p2 span{
+				display: inline-block;
+				width: 100px; 
+				height: 30px;
+				border-radius: 5px;
+				text-align:center;
+				line-height: 30px;	
+				color: #fff;	
+				font-size: 14px;
+				cursor: pointer;		
+			}
+			.shanchu-p2 span:nth-of-type(1){
+				background: #F8A636;
+			}
+			.shanchu-p2 span:nth-of-type(2){
+				background: gray;
+				margin-left: 30px;
+			}
+			.ea-list-table th {
+				font-size: 14px;
+			}
+			.ea-list-table tr td span {
+				font-size: 13px;
+			}
+			.FilterSelect{
+				height: 30px;
+				width: 80px;
+				margin-left: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- content -->
+		<div class="ea-content">
+					<!-- left nav -->
+					<div class="left-bar">
+				            <ul>
+				                <li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+								<li class="active"><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+								<li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+								<li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+								<li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+								<li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+								<li><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+							</ul>
+				       </div>
+					
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+				         <!--<div class="top-taps clearfix">-->
+				            <!--<ul>-->
+				                <!--<li class="active"><a href="#/erplogistics/channelset">{{'100733' | translate}}</a></li>-->
+								<!--<li><a href="#/erplogistics/coopcompany">{{'100734' | translate}}</a></li>-->
+								<!--<li><a href="#/erplogistics/channelsetStyle">{{'100735' | translate}}</a></li>-->
+				            <!--</ul>-->
+			    		<!--</div>-->
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+							<div class="input-group search-box" style="width: initial;">
+			                  <input type="text" class="form-control top-search-inp" placeholder="物流公司名称查询" ng-model="userinfo">
+								<a class="btn btn-default top-search-btn" ng-click="usersearch()">{{'100025' | translate}}</a>
+			                </div>
+							<div id="ea-list-table" style="float: left;">
+								<div ng-show="isAdminFlag" class="poplink-active" ng-click="xinzeng()">{{'100736' | translate}}</div>
+								<div ng-show="isAdminFlag" class="poplink-active" ng-click="refreshFun()">刷新缓存</div>
+								<div ng-show="isAdminFlag" class="poplink-active" ng-click="resetFun()">重置</div>
+								<select class="FilterSelect" ng-change="FilterChange()" ng-model="isSwitch">
+									<option value="">全部</option>
+									<option value="1">正常</option>
+									<option value="0">停用</option>
+								</select>
+								  <div ng-show="addwin" id="show-img" style="text-align: center; left: 0; top: 0;right: 0;bottom: 0;height: 330px;margin: auto;overflow: auto;z-index: 22;">
+										<h3>{{'100736' | translate}}</h3>
+										<ul class="state-modify-list">
+											<li><span class="list-tit">{{'100737' | translate}}</span><span class="list-con">
+												<!--input type="text" value="" class="input-full" ng-model="addurl"-->
+												<!-- <select style="width: 120px;" ng-change="discountnum1(num1)" ng-model="num1">
+													<option value="">请选择</option>
+													<option value="{{item.companyName}}" ng-repeat="item in companyList">{{item.companyName}}</option>
+												</select> -->	
+												<select style="width: 160px;" id="wuliucompany" ng-change="discountnum1(num1)" ng-model="num1" 
+												>
+												<!-- ng-options="item.companyCode as item.companyName for item in companyList" -->
+													<option value="">{{'100693' | translate}}</option>
+													<option value="{{item.id}}" ng-repeat="item in companyList">{{item.companyName}}</option>
+												</select>
+											</span></li>
+											<!--<li><span class="list-tit">物流公司</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addcompanyName"></span></li>-->
+											<li><span class="list-tit">{{'100718' | translate}}</span><span class="list-con">
+												<!--input type="text" value="" class="input-full" ng-model="addurl"-->
+												<select style="width: 160px;" id="wlfstext" ng-change="discountnum2(num2)" ng-model="num2" id="selecttext">
+													<option value="">{{'100693' | translate}}</option>
+													<option value="{{item.id}}" ng-repeat="item in modeList">{{item.namecn}}</option>
+												</select>	
+											</span></li>
+											<!--<li><span class="list-tit">物流方式</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addurl"></span></li>-->
+											<!--<li><span class="list-tit">时效</span><span class="list-con"><input type="number" value="" class="datatime" ng-model="addshixiao1">-<input type="number" value="" class="datatime" ng-model="addshixiao2">天</span></li>-->
+											<!--<li><span class="list-tit">限重</span><span class="list-con"><input type="number" value="" class="input-full" ng-model="addxianzhong" style="width: 85%;">&nbsp;kg</span></li>-->
+											<li><span class="list-tit">{{'100738' | translate}}</span><span class="list-con">
+												<!--input type="text" value="" class="input-full" ng-model="addurl"-->
+												<select style="width: 80px;" ng-change="discountnum(num)" ng-model="num">
+													<!--<option value="">100%</option>-->
+													<option value="{{item.nummy}}" ng-repeat="item in discount">{{item.num}}</option>
+												</select>	
+											</span></li>
+											<li><span class="list-tit">{{'100739' | translate}}</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addaccount"></span></li>
+											<li><span class="list-tit">平均妥投天数</span><span class="list-con"><input class="input-full" ng-keyup="isNumFun(appropriateDay)" ng-model="appropriateDay"></span></li>
+											<li><span class="list-tit">CJ折扣</span><span class="list-con"><input class="input-full" ng-keyup="isNumFun(cjDiscount)" ng-model="cjDiscount"></span></li>
+											
+											<!--<h3 style="text-align: left; font-size: 14px; font-weight: normal; color: #ccc; height: 30px; line-height: 30px; border-bottom: solid #e1e1e1 1px;">联系方式</h3>
+											<li><span class="list-tit">联系人</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addlinkman"></span></li>
+											<li><span class="list-tit">电话</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addtel"></span></li>
+											<li><span class="list-tit">QQ</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addqq"></span></li>
+											<li><span class="list-tit">微信</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addwechat"></span></li>
+											<li><span class="list-tit">公司地址</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addadress"></span></li>
+											<li><span class="list-tit">支付方式</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addpayway"></span></li>-->
+										</ul>								
+										<closetext class="btn-cancel" ng-click="addwin=false">{{'100051' | translate}}</closetext><closetextt class="btn-determine" ng-click="addwin=false;sure()">{{'100050' | translate}}</closetextt>
+									</div>
+							</div>
+							
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr>
+								<!--<th><span>序号</span></th>-->
+								<!--<th><span>日期</span></th>-->
+								<th><span>{{'100651' | translate}}</span></th>
+								<th><span>{{'100718' | translate}}</span></th>
+								<th><span>{{'100740' | translate}}</span></th>
+								<th><span>{{'100741' | translate}}(kg)</span></th>
+								<th><span>{{'100738' | translate}}</span></th>
+								<th><span>{{'100739' | translate}}</span></th>
+								<th><span>{{'100202' | translate}}</span></th>
+								<!--<th><span>账号</span></th>-->
+								<!--<th><span>API密钥</span></th>-->
+								<!-- <th><span>渠道名称</span></th>
+								<th><span>限重</span></th>
+								<th><span>特性</span></th> -->
+								<th><span>{{'100742' | translate}}</span></th>
+								<th><span>平均妥投天数</span></th>
+								<th><span>CJ折扣</span></th>
+								<th ng-show="isAdminFlag"><span>{{'100043' | translate}}</span></th>
+							</tr>
+							<tr class="wl-detail-tr" ng-repeat="item in channelList">
+								<!--<td><span>1</span></td>
+								<td><span>2017-10-26</span></td>-->
+								<td><span>{{item.company}}</span></td>
+								<td><span>{{item.modecn}}</span></td>
+								<td><span>{{item.beginAging}}-{{item.endAging}}{{'100539' | translate}}</span></td>
+								<td><span>{{item.weightlimit}}</span></td>
+								<td><span>{{item.discountRate}}%</span></td>
+								<td><span>{{item.code}}</span></td>
+								<td class="status" ng-show="item.status==1"><span>{{'100743' | translate}}</span></td>
+								<td class="status" ng-show="item.status==0"><span>{{'100744' | translate}}</span></td>
+								<!--<td><span>ndvksjn</span></td>-->
+								<!--<td><span>26596</span></td>-->
+								
+								<!--<td><span><p>333333eeee</p><p>sdfhskjdf</p></span></td>
+								<td><span>南京E邮宝</span></td>
+								<td><span>2KG</span></td>
+								<td><span>A</span></td>-->
+								<td><span>{{item.buttJoint==0?('100745' | translate):('100746' | translate)}}</span></td>
+								<td><span>{{item.appropriateDay}}</span></td>
+								<td><span>{{item.cjDiscount}}%</span></td>
+								<td ng-show="isAdminFlag">
+									<button ng-click="shezhi(item)" class="btn" style="padding: 2px 15px;margin: 0 5px 0 0;outline: none;">{{'100747' | translate}}</button>
+									<button class="btn tybtn" ng-show="item.status==1" style="padding: 2px 15px;margin: 0 5px 0 0;outline: none;" ng-click="zhuangtait(item,$index,$event)">{{'100744' | translate}}</button>
+									<button class="btn qybtn" ng-show="item.status==0" style="padding: 2px 15px;margin: 0 5px 0 0;outline: none;" ng-click="zhuangtaiq(item,$index,$event)">{{'100748' | translate}}</button>
+									<button ng-click="shanchu($event,item)" class="btn" style="padding: 2px 15px;margin: 0;outline: none;">{{'100227' | translate}}</button>
+								</td>
+							</tr>
+							
+						</table>
+						
+						
+						<!--<div class="fenPage">
+							<span>
+								<select>
+									<option>30</option>
+									<option>50</option>
+									<option>100</option>
+									<option>200</option>
+									<option>300</option>
+								</select>
+							条每页
+							</span>
+							<span>共145页</span>
+						<a href="#">首页</a>
+						<a href="#">上一页</a>
+						<a class="bga" href="#">1</a>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">7</a>
+						<a href="#">8</a>
+						<a href="#">9</a>
+						<a href="#">下一页</a>
+						<a href="#">尾页</a>
+						
+						<span>跳转 <input type="text" placeholder=""> 页 <input type="button" value="GO"></span>
+						
+					</div>-->
+						
+						
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="shanchu" ng-show="sfshanchu">
+			<p class="shanchu-p1">{{'100270' | translate}}?</p>
+			<p class="shanchu-p2">
+				<span ng-click="queding()">{{'100050' | translate}}</span>
+				<span ng-click="quxiao()">{{'100051' | translate}}</span>
+			</p>
+		</div>
+
+		<!--管理弹出框-->
+		<div class="log-man-win" ng-show="win" ng-cloak style="z-index: 22;height: 500px;">
+			<table>
+				<thead>
+				<tr>
+					<th></th>
+					<th>{{'100718' | translate}}</th>
+					<th>{{'100749' | translate}}</th>
+					<th>{{'100741' | translate}}</th>
+					<th>{{'100750' | translate}}</th>
+					<th>{{'100751' | translate}}</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+				</tr>
+				<tr>
+					<td><input type="text" ng-model="companyName" ></td>
+					<td><input type="text" ng-model="logisticsway"></td>
+					<td><input type="text" ng-model="logisticscode"></td>
+					<td><input type="text" ng-model="logisticsweight"></td>
+					<td><input type="text" ng-model="logisticschannel"></td>
+					<td><input type="text" ng-model="logisticsdefault"></td>
+				</tr>
+				<tr>
+					<td colspan="6" style="text-align: left">
+						<div class="btngroup">
+							<button type="button" class="btn btn-default" ng-click="win=false" style="padding: 2px 15px;margin: 0 20px 0 0;outline: none;">{{'100051' | translate}}</button>
+							<button type="button" class="btn btn-primary" ng-click="addinfo()" style="padding: 2px 15px;margin: 0;outline: none;">{{'100050' | translate}}</button>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+
+		</div>
+		
+		
+		<!-- 弹框js -->
+<script>
+	
+//	var poplink=document.getElementsByTagName('poplink')[0];
+//	var showImg=document.getElementById('show-img');
+//	var closetext=document.getElementsByTagName('closetext')[0];
+//	var closetextt=document.getElementsByTagName('closetextt')[0];
+//	poplink.onclick=function(){
+//		showImg.style.display='block';
+//	}
+//	closetext.onclick=function(){
+//		showImg.style.display='none';
+//	}
+//	closetextt.onclick=function(){
+//		showImg.style.display='none';
+//	}
+</script>
+		
+	</body>
+</html>

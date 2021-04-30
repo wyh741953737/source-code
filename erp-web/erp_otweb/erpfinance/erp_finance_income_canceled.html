@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>已取消订单金额-财务收入管理-ERP系统</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+</head>
+
+<body>
+    <!-- content -->
+    <div class="ea-content">
+        <!-- <div class="ea-content-box"> -->
+            <!-- <div class="ea-content-con"> -->
+                <!-- left nav -->
+                <div class="left-bar">
+				            <ul>
+                                <li class="active"><a href="#/allmony">{{'100286' | translate}}</a></li>
+                                <li><a href="#/erpfinance/walletcuslistdel">{{'100287' | translate}}</a></li>
+                                <li><a href="#/erpfinance/accountquery">{{'100288' | translate}}</a></li>
+				            </ul>
+				        </div>
+                <!-- right con -->
+                <div class="right-bar-wrap ea-right-content">
+                	<div class="asj-h10"></div>
+                    <!-- right nav -->
+                    <!--<div class="top-taps clearfix">-->
+					            	<!--<ul>-->
+                                        <!--<li><a href="#/allmony">{{'100289' | translate}}</a></li>-->
+                                        <!--<li><a href="#/erpfinance/incomeshould">{{'100290' | translate}}</a></li>-->
+                                        <!--<li><a href="#/erpfinance/receivables">{{'100291' | translate}}</a><em></em></li>-->
+                                        <!--<li class="active"><a style="margin-right: 10px" href="#/erpfinance/canceled">{{'100292' | translate}}</a>{{'$'+money}}</li>-->
+                                        <!--<li><a href="#/erpfinance/refund">{{'100293' | translate}}</a></li>-->
+                                        <!--<li><a href="#/erpfinance/incomeVIP">{{'100294' | translate}}</a></li>-->
+                                        <!--<li><a href="#/erpfinance/remit">{{'100295' | translate}}</a></li>-->
+                        <!--</ul>-->
+							    	<!--</div>-->
+                    <!-- right search -->
+                    <div class="right-bar">
+                    <div class="ea-right-search">
+                        <div class="datatime-screen-wrap clearfix">
+                            <div class="datatime-screen"><a href="javaScript:void(0)" ng-click="lastWeek(0)">{{'100296' | translate}}</a><a href="javaScript:void(0)" ng-click="lastWeek(7)">{{'100297' | translate}}</a><a class="active" href="javaScript:void(0)" ng-click="lastWeek(30)">{{'100298' | translate}}</a><a href="javaScript:void(0)" ng-click="lastWeek(93)">{{'100299' | translate}}</a>
+                                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtBeginDate" placeholder="{{'100300' | translate}}" />
+                                <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtEndDate" placeholder="{{'100301' | translate}}" />
+                                <input type="button" value="{{'100302' | translate}}" style="line-height: 20px;">
+                            </div>
+	                    	</div> 
+                        <div class="search-box-wrap">
+                        	<div class="input-group search-box">
+						                  <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+						                    <option value="SKU">SKU</option>
+						                    <option value="CH">中文</option>
+						                    <option value="EN">英文</option>
+						                  </select> -->
+							              	<input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+							              	<a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100025' | translate}}</a>
+					            		</div>
+                        </div>
+                    </div>
+                    <!-- right list -->
+                    <div class="table-con-box">
+                        <table class="ea-list-table ea-erp-cs">
+                            <tr>
+                                <th><span><input type="checkbox"></span></th>
+                                <th><span>{{'100225' | translate}}</span></th>
+                                <th><span>{{'100108' | translate}}</span></th>
+                                <!-- <th><span>客户ID</span></th> -->
+                                <th><span>{{'101318' | translate}}</span></th>
+                                <th><span>{{'100027' | translate}}</span></th>
+                                <th><span>{{'100303' | translate}}</span></th>
+                                <th><span>{{'100034' | translate}}</span></th>
+                                <th><span>{{'100064' | translate}}</span></th>
+                            </tr>
+                            <tr>
+                                <td><span> <input name="need_inv" type="checkbox" value="1"></span></td>
+                                <td><span>09-12 12:30</span></td>
+                                <td><span><p>aaa Chen</p><p></p></span></td>
+                                <!-- <td><span>112233333</span></td> -->
+                                <td><span>王力</span></td>
+                                <td><span>3543536</span></td>
+                                <td><span>$10000</span></td>
+                                <td><span>未付款</span></td>
+                                <td><span>已取消</span></td>
+                            </tr>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="page-box">
+                            <div class="select-page-num">
+                                <select class="form-control" ng-model="pageSize" ng-change="getPageSize()">
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <span>每页</span>
+                            </div>
+                            <div class="total-num">
+                                共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index">
+                                <div class="pagination1">
+                                </div>
+                            </div>
+                            <div class="to-go">
+                                <span>跳转：</span>
+                                <input type="text" class="form-control" placeholder="" ng-model="specifiedPage">
+                                <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="getSpecifiedPage()">go</a>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+    <!-- 选取两段时间之间插件 -->
+    <!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+    <script>
+    $(function() {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate", // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200, // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true, // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true, // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(), // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"), // 日期下限，默认：NaN(不限制)
+            callback: function() { // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>临时工</title>
+    <style type="text/css">
+        .fun-div{
+            padding: 0 10px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .fun-div .sku-inp{
+            width: 230px;
+            height: 30px;
+            text-indent: 12px;
+            vertical-align: top;
+        }
+        .fun-div .skusea-btn{
+            height: 30px;
+            padding: 0 10px;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            vertical-align: top;
+            border-left: none;
+            margin-right: 50px;
+        }
+        .fun-div .skusea-btn:hover{
+            color: #f99429;
+        }
+        .ea-list-table td span{
+            font-size: 12px;
+        }
+        .ea-list-table td p{
+            font-size: 12px;
+        }
+        .pici-btn{
+            height: 30px;
+            padding: 0 15px;
+            background-color: #87CEFA;
+            color: #fff;
+            vertical-align: top;
+        }
+        .lightseagreen{
+            background-color: lightseagreen;
+        }
+        .second-tr{
+            display: none;
+        }
+        .fun-div .data-inp{
+            width: 133px;
+            height: 30px;
+            padding: 0;
+            border: solid #e1e1e1 1px
+        }
+        .fun-div .drk-seachInp{
+            background-color: #fff;
+            height: 30px;
+            padding: 0 10px;
+            vertical-align: top;
+            border-left: none;
+        }
+        .fun-div .drk-seachInp:hover{
+            color: #f99429;
+        }
+        .active-color{
+            color: #08ACE9;
+        }
+        .time-span{
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        .last-timespan{
+            margin-right: 50px;
+        }
+        .ord-list{
+            color: #08ACE9;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .ordnum-con{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #fff;
+            border-radius: 4px;
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #EEEEEE;
+            box-shadow:0px 12px 24px 0px rgba(0,0,0,0.1);
+        }
+        .error-close{
+            position: absolute;
+            top: -11px;
+            right: -11px;
+            cursor: pointer;
+        }
+        .ordnum-con p{
+            text-align: center;
+            color: #e55264;
+            margin-bottom: 10px;
+        }
+        .ordncon-list{
+            height: 400px;
+            overflow-y: auto;
+        }
+        .ordncon-list li{
+            height: 30px;
+            text-align: center;
+        }
+
+        .add-lsg-con{
+            width: 450px;
+            height: 290px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform:translate(-50%,-50%);
+            padding: 20px 20px;
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #ececec;
+            box-shadow: 0 5px 24px rgba(0,0,0,0.1);
+        }
+        .add-lsg-con li{
+            margin: 10px 0;
+        }
+        .add-lsg-con .add-gys-label{
+            display: inline-block;
+            width: 97px;
+            text-align: right;
+        }
+        .add-lsg-con .add-gys-inp{
+            width: 290px;
+            height: 30px;
+        }
+        .add-lsg-con .td-star{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .add-lsg-con .sel-leimu{
+            height: 30px;
+            width: 290px;
+        }
+        .gys-tk-btns{
+            text-align: center;
+            margin-top: 20px;
+        }
+        .gys-tk-btns button{
+            height: 30px;
+            padding: 0 15px;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        .gys-tk-btns .ispc-can-btn{
+            color: #6b6b6b;
+            border: 1px solid #cfcfcf;
+            background-color: #f6f6f6;
+            margin-right: 15px;
+        }
+        .gys-tk-btns .ispc-con-btn{
+            color: #fff;
+            height: 30px;
+            border-radius: 4px;
+            background-color: #ff8d31;
+        }
+        .lrlsg-btn{
+            height: 30px;
+            padding: 0 10px;
+            border: 1px solid #5dbdf2;
+            color: #5dbdf2;
+            border-radius: 4px;
+            background-color: #fff;
+            float: right;
+            margin-left: 50px;
+        }
+        .lrlsg-btn:hover{
+            background-color: #5dbdf2;
+            color: #fff;
+        }
+        .lsgdaka-link{
+            height: 30px;
+            line-height: 28px;
+            padding: 0 10px;
+            border: 1px solid #5dbdf2;
+            color: #5dbdf2;
+            border-radius: 4px;
+            background-color: #fff;
+            float: right;
+            margin-left: 50px;
+            display: inline-block;
+        }
+        .lsgdaka-link:hover{
+            background-color: #5dbdf2;
+            color: #fff;
+        }
+        .del-lsgBtn{
+            height: 30px;
+            line-height: 28px;
+            padding: 0 10px;
+            border: 1px solid #5dbdf2;
+            color: #5dbdf2;
+            border-radius: 4px;
+            background-color: #fff;
+            display: inline-block;
+        }
+        .del-lsgBtn:hover{
+            background-color: #5dbdf2;
+            color: #fff;
+        }
+        .del-lsg-wrap{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .daywoker-select{
+            height: 30px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ea-content">
+        <div class="left-bar">
+            <ul>
+                <li class="active"><a href="#/erppurchase/needbuy">{{'100549' | translate}}</a></li>
+                <li><a href="#/supplier-manage">{{'100550' | translate}}</a></li>
+            </ul>
+        </div>
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content li_ea-right-content">
+            <!-- right nav -->
+            <div class="asj-h10"></div>
+            <div class="right-bar">
+            <!-- right list -->
+            <div class="fun-div">
+                <div class="search-left">
+                    <input class="sku-inp" placeholder="请输入名字/编号" ng-model="searchDdh"></input><button class="skusea-btn" ng-click="searchFun()">{{'100025' | translate}}</button>
+                    <select class="daywoker-select" ng-change="searchFun()" ng-model="store" name="" id="warehouse">
+                        <option value="bc228e33b02a4c03b46b186994eb6eb3">义乌仓</option>
+                        <option value="522d3c01c75e4b819ebd31e854841e6c">金华仓</option>
+                        <option value="08898c4735bf43068d5d677c1d217ab0">深圳仓</option>
+                    </select>
+                </div>
+                <div class="search-right">
+                    <a href="lsg-daka.html" target="_blank" class="lsgdaka-link">临时工打卡</a>
+                    <button ng-click="lrlsgFun()" class="lrlsg-btn">录入临时工</button>
+                </div>
+            </div>
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+                    <tr>
+                        <!-- <th><span>批次号</span></th> -->
+                        <th><span>编号</span></th>
+                        <th><span>名字</span></th>
+                        <th><span>付款类型</span></th>
+                        <th><span>账户</span></th>
+                        <th><span>小时工资</span></th>
+                        <th><span>备注</span></th>
+                        <th ng-if="adminFlag"><span>操作</span></th>
+                    </tr>
+                <tbody>
+                    <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                        <td>
+                            <span>
+                                {{item.id}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{item.name}}
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="item.leiXing=='0'">支付宝</span>
+                            <span ng-if="item.leiXing=='1'">微信</span>
+                            <span ng-if="item.leiXing=='2'">银行卡</span>
+                            <span ng-if="item.leiXing=='2'&&(item.yinHangMing||item.zhiHangMing)">
+                                银行: {{item.yinHangMing}} {{item.zhiHangMing}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>{{item.zhangHu}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="adminFlag">{{item.jinE}}</span>
+                            <span ng-if="!adminFlag">0</span>
+                        </td>
+                        <td>
+                            <span ng-if="adminFlag">{{item.beiZhu}}</span>
+                        </td>
+                        <td ng-if="adminFlag">
+                            <button ng-click="delLsgFun(item)" class="del-lsgBtn">删除</button>
+                            <button ng-click="modefyLsgFun(item)" class="del-lsgBtn">编辑</button>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+                <div style="text-align: center;" ng-cloak ng-show="totalNum<1">暂无数据</div>
+                <!--以下是分页-->
+                <!-- 分页 -->
+                 <!-- ng-show="hasMerch" -->
+                <div class="page-box" ng-show="totalNum>0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="changePageSize()">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div id="pagination1" class="pagination2">
+                            
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- 录入 -->
+    <div class="add-lsg-con" id="lr-lsg-tk" ng-show="addLsgFlag" style="height: 370px;">
+        <ul>
+            <li>
+                <span class="add-gys-label">名字:</span>
+                <input ng-model="lsgName" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">编号:</span>
+                <input ng-model="lsgBianHao" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">每小时工资:</span>
+                <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" ng-model="gzVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">付款方式:</span>
+                <select ng-model="fkfsType" class="sel-leimu" ng-change="selfkfsFun()">
+                    <option value="0">支付宝</option>
+                    <option value="1">微信</option>
+                    <option value="2">银行卡</option>
+                </select>
+            </li>
+            <li ng-show="fkfsType==2">
+                <span class="add-gys-label">银行名称:</span>
+                <input ng-model="YhVal" class="add-gys-inp"></input>
+            </li>
+            <li ng-show="fkfsType==2">
+                <span class="add-gys-label">支行名称:</span>
+                <input ng-model="YhZhVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">收款账户:</span>
+                <input ng-model="zhVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">仓库:</span>
+                <storagetab is-select="true" has-all="false" callback="storageCallback" is-id="true"></storagetab>
+            </li>
+            <li>
+                <span class="add-gys-label">备注:</span>
+                <input ng-model="bzVal" class="add-gys-inp"></input>
+            </li>
+        </ul>
+        <div class="gys-tk-btns">
+            <button ng-click="addLsgFlag=false" class="ispc-can-btn">取消</button>
+            <button ng-click="sureAddFun()" class="ispc-con-btn">确定</button>
+        </div>
+    </div>
+    <!-- 删除 -->
+    <div class="del-lsg-wrap" ng-show="isDelLsgFlag">
+        <div class="add-lsg-con" style="height: 125px;width: 350px;">
+            <p>是否删除该临时工?</p>
+            <div class="gys-tk-btns">
+                <button ng-click="isDelLsgFlag=false" class="ispc-can-btn">取消</button>
+                <button ng-click="sureDelLsgFun()" class="ispc-con-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑 -->
+    <div class="add-lsg-con" id="mod-lsg-tk" ng-show="modefyLsgFlag" style="height: 340px;">
+        <ul>
+            <li>
+                <span class="add-gys-label">名字:</span>
+                <input ng-model="modLsgName" class="add-gys-inp"></input>
+            </li>
+            <!-- <li>
+                <span class="add-gys-label">编号:</span>
+                <input ng-model="modLsgBianHao" class="add-gys-inp"></input>
+            </li> -->
+            <li>
+                <span class="add-gys-label">每小时工资:</span>
+                <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" ng-model="modGzVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">付款方式:</span>
+                <select ng-model="modFkfsType" class="sel-leimu" ng-change="modefySelfkfsFun()">
+                    <option value="0">支付宝</option>
+                    <option value="1">微信</option>
+                    <option value="2">银行卡</option>
+                </select>
+            </li>
+            <li ng-show="modFkfsType==2">
+                <span class="add-gys-label">银行名称:</span>
+                <input ng-model="modYhVal" class="add-gys-inp"></input>
+            </li>
+            <li ng-show="modFkfsType==2">
+                <span class="add-gys-label">支行名称:</span>
+                <input ng-model="modYhZhVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">收款账户:</span>
+                <input ng-model="modZhVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">仓库:</span>
+                <storagetab is-select="true" has-all="false" callback="storageCallback" is-id="true"></storagetab>
+            </li>
+            <li>
+                <span class="add-gys-label">备注:</span>
+                <input ng-model="modBzVal" class="add-gys-inp"></input>
+            </li>
+        </ul>
+        <div class="gys-tk-btns">
+            <button ng-click="modefyLsgFlag=false" class="ispc-can-btn">取消</button>
+            <button ng-click="sureModefyFun()" class="ispc-con-btn">确定</button>
+        </div>
+    </div>
+</body>
+
+</html>

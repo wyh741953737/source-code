@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>称重出库语音播报列表</title>
+    <link rel="stylesheet" href="erp_otweb/css/erp_ware_house.css">
+    <link rel="stylesheet" href="static/layer/skin/default/layer.css">
+</head>
+<body>
+<div class="content">
+    <div class="filter-box">
+        <div class="item">
+            <span>创建日期:</span>
+            <input id="startTime" class="Wdate data-inp" ng-focus="dateFocus($event,'startTime')"
+                   onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly=""
+                   ng-model="startTime">
+            <span class="line">-</span>
+            <input id="endTime" class="Wdate data-inp" ng-focus="dateFocus($event,'endTime')"
+                   onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly=""
+                   ng-model="endTime">
+        </div>
+        <div class="item">
+            <span>文件名:</span>
+            <input type="text" ng-model="fileName" id="fileName" class="filename" placeholder="请输入文件名">
+        </div>
+
+        <div class="item">
+            <span>
+                <button ng-click="getList()">搜索</button>
+            </span>
+        </div>
+        <div class="item">
+            <span>
+                <button class="item" style="background-color:#0d8efb" ng-click="uploadAudioFile()">文件上传</button>
+            </span>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>创建日期</th>
+                <th>文件名</th>
+                <th>url</th>
+                <th>名称标识</th>
+                <th>操作人</th>
+                <th>更新日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in tableData">
+                <td>{{$index+1}}</td>
+                <td>{{item.createAt}}</td>
+                <td>{{item.audioName}}</td>
+                <td>{{item.audioUrl}}</td>
+                <td>{{item.marker}}</td>
+                <td>{{item.operator}}</td>
+                <td>{{item.updateAt.split(" ")[0]}}</td>
+                <td ng-if="item.audioUrl">
+                    <a href="{{item.audioUrl}}"><input style="color: #fff;background-color: #2e8ded" class="btn_download"
+                                                       type="button" value="下载"></a>
+                </td>
+                <td ng-if="item.audioUrl==''">
+                    <input class="btn_download" type="button" disabled="false" value="下载">
+                </td>
+            </tr>
+            <tr ng-show="tableData.length == 0">
+                <td colspan="12" style="font-size: 14px;">暂无数据。</td>
+            </tr>
+            </tbody>
+        </table>
+        <page></page>
+    </div>
+
+    <!-- 文件上传弹窗 -->
+    <div class="logistic-modal-warp" ng-show="showFlag" ng-cloak>
+        <div class="content-warp">
+            <h3 STYLE="font-size: 20px">文件上传</h3>
+            <div class="content bot-box">
+                <span>名称标识：</span>
+                <input name="marker" id="marker" type="text" maxlength="20" ng-model="marker" value="" placeholder="请输入音频名称标识"/><br/>
+                <div class="upload-btn" style="margin-top: 10px">
+                    <span>上传音频文件</span>
+                    <input type="file" class="upload-file" onchange="angular.element(this).scope().checkOutFile(this.files)" accept=".mp3,.wma">
+                </div>
+                <span class="item" style="color: #00a2ff" ng-show="hintFlag">{{hint}}</span>
+                <span class="item" style="color: #00a2ff">{{fileName}}</span>
+                <br><br>
+                <span class="item" style="color: #f70505ee;font-size: 24px">{{msg}}</span>
+            </div>
+            <div class="operating-box">
+                <button ng-click="cancel()">
+                    取消
+                </button>
+                <button ng-click="uploadAudioFileTwo(audioFile)">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

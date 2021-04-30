@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>批次处理</title>
+  <style type="text/css">
+    .fun-div {
+      padding: 0 10px;
+      height: 30px;
+    }
+
+    .fun-div .sku-inp {
+      width: 280px;
+      height: 30px;
+      text-indent: 12px;
+      vertical-align: top;
+    }
+
+    .fun-div .skusea-btn {
+      height: 30px;
+      padding: 0 10px;
+      background-color: #fff;
+      border: 1px solid #E0E0E0;
+      vertical-align: top;
+      /*border-left: none;*/
+      margin-right: 50px;
+    }
+
+    .fun-div .skusea-btn:hover {
+      color: #f99429;
+    }
+
+    .ea-list-table td span {
+      font-size: 12px;
+    }
+
+    .ea-list-table td p {
+      font-size: 12px;
+    }
+
+    .pici-btn {
+      height: 30px;
+      padding: 0 15px;
+      background-color: #87CEFA;
+      color: #fff;
+      vertical-align: top;
+    }
+
+    .lightseagreen {
+      background-color: lightseagreen;
+    }
+
+    .second-tr {
+      display: none;
+    }
+
+    .fun-div .data-inp {
+      width: 133px;
+      height: 30px;
+      padding: 0;
+      border: solid #e1e1e1 1px;
+      text-indent: .7em;
+    }
+
+    .fun-div .drk-seachInp {
+      background-color: #fff;
+      height: 30px;
+      padding: 0 10px;
+      vertical-align: top;
+      /*border-left: none;*/
+    }
+
+    .fun-div .drk-seachInp:hover {
+      color: #f99429;
+    }
+
+    .time-span {
+      margin-right: 20px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .time-span.active {
+      color: #08ACE9;
+    }
+
+    .sea-select {
+      height: 30px;
+      width: 160px;
+    }
+
+    .flex-th {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .sort-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .ea-list-table .detail-link{
+        color: #08ACE9;
+        cursor: pointer;
+    }
+    .sort-act{
+      color: #08ACE9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ea-content">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+      <!-- right nav -->
+      <div class="asj-h10"></div>
+      <div class="right-bar">
+        <!-- right list -->
+        <storageTab is-id="true" kind-id="'performance'" callback="storageCallback"></storageTab>
+        <div class="fun-div">
+          <span class="time-span" ng-repeat="item in date_option_list" ng-click="getListByClick(item)" ng-class="{active: item.activeColor}">{{item.txt}}</span>
+
+          <input id="start-time" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="开始" />
+          <input id="end-time" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="结束" />
+          <input ng-click="timeSFun()" class="drk-seachInp" type="button" value="{{'100025' | translate}}" />
+          <button style="float: right;color: #f99429;background: none;" ng-click="openInputPassword(exportExcel)">导出Excel</button>
+          <span>请选择组:</span>
+          <select class="sea-select" ng-model="khType" ng-change="khTypeFun(khType)">
+            <option value="1">签收</option>
+            <option value="3">分标</option>
+            <option value="4">入库</option>
+            <option value="5">拣货</option>
+            <option value="8">称重出库</option>
+            <!-- <option value="2">称重</option>
+            <option value="6">验单</option>
+            <option value="7">打包</option>
+             -->
+             <option value="11">质检</option>
+             <option value="12">分拣</option>
+          </select>
+        </div>
+        <div class="table-con-box">
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='1'">
+            <tr>
+              <th class="flex-th">
+                <span>排名</span>
+                <div class="sort-box">
+                  <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                  <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>包裹数量(个)</span></th>
+              <th><span>SKU数量(个)</span></th>
+              <th><span>SKU变体数量(个)</span></th>
+              <th><span>对应的采购单数量</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>
+                    {{$index + 1}}
+                </td>
+                <td>{{item.employeeName}}</td>
+                <td>{{item.packageCount}}</td>
+                <td>{{item.skuCount}}</td>
+                <td>{{item.stanCount}}</td>
+                <td>{{item.orderCount}}</td>
+                <td>{{item.averageHour}}</td>
+                <td>{{item.score}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='2'">
+            <tr>
+              <th class="flex-th">
+                <span>排名</span>
+                <div class="sort-box">
+                  <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                  <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>批次号</span></th>
+              <th><span>称重次数</span></th>
+              <th><span>修改重量次数</span></th>
+              <th><span>修改体积次数</span></th>
+              <th><span>商品属性修改次数</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>
+                  <span>
+                    {{(pageNum-1)*pageSize + $index + 1}}
+                  </span>
+                </td>
+                <td>{{item.userName}}</td>
+                <td>
+                  <span>{{item.wzNum}}</span>
+                </td>
+                <td>{{item.weighCount}}</td>
+                <td>{{item.weighChangeCount}}</td>
+                <td>{{item.volumeChangeCount}}</td>
+                <td>{{item.attributeChangeCount}}</td>
+                <td>{{item.avgPoints}}</td>
+                <td>{{item.points}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='3'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                  <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>扫描包裹数量</span></th>
+              <th><span>分标批次号</span></th>
+              <th><span>SKU分标数量</span></th>
+              <th><span>SKU变体数量</span></th>
+              <th><span>到货数量</span></th>
+              <th><span>合格数量</span></th>
+              <th><span>次品数量</span></th>
+              <th><span>少货数量</span></th>
+              <th><span>多货数量</span></th>
+              <th><span>称重数量</span></th>
+              <th><span>修改重量次数</span></th>
+              <th><span>修改体积次数</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>{{$index + 1}}</td>
+                <td>{{item.employeeName}}</td>
+                <td>{{item.packageCount}}</td>
+                <td>{{item.batchNumberCount}}</td>
+                <td>{{item.skuCount}}</td>
+                <td>{{item.stanCount}}</td>
+                <td>{{item.arrivalCount}}</td>
+                <td>{{item.qualifiedCount}}</td>
+                <td>{{item.defectiveCount}}</td>
+                <td>{{item.understockCount}}</td>
+                <td>{{item.overstockCount}}</td>
+                <td>{{item.weighingCount}}</td>
+                <td>{{item.modifyWeightCount}}</td>
+                <td>{{item.modifyVolumeCount}}</td>
+                <td>{{item.averageHour}}</td>
+                <td>{{item.score}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='4'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                    <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>入库商品总数</span></th>
+              <th><span>批次号数量</span></th>
+              <th><span>入库库位数</span></th>
+              <th><span>入库sku数量</span></th>
+              <th><span>入库sku变体数量</span></th>
+              <th><span>入库总距离(m)</span></th>
+              <th><span>入库总重量(kg)</span></th>
+              <th><span>入库总体积(m³)</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>{{(pageNum - 1) * pageSize + $index +1}}</td>
+                <td>{{item.employeeName}}</td>
+                <td>{{item.productNum}}</td>
+                <td>{{item.batchNumber}}</td>
+                <td>{{item.locationNum}}</td>
+                <td>{{item.skuNum}}</td>
+                <td>{{item.skuStanNum}}</td>
+                <td>{{item.allDistance}}</td>
+                <td>{{item.allWeight}}</td>
+                <td>{{item.allVolume}}</td>
+                <td>{{item.averageHour}}</td>
+                <td>{{item.score}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='5'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                    <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>单品商品数</span></th>
+              <th><span>单品波次数</span></th>
+              <th><span>单品库位数</span></th>
+              <th><span>单品sku数</span></th>
+              <th><span>单品sku变体数</span></th>
+              <th><span>多品商品数</span></th>
+              <th><span>多品波次数</span></th>
+              <th><span>多品库位数</span></th>
+              <th><span>多品sku数</span></th>
+              <th><span>多品sku变体数</span></th>
+              <th><span>总距离(米)</span></th>
+              <th><span>总重量(kg)</span></th>
+              <th><span>总体积(m)</span></th>
+              <th><span>验单不成功数</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>{{$index +1}}</td>
+                <td>{{item.employeeName}}</td>
+                <td>{{item.danpinProductNum}}</td>
+                <td>{{item.danpinBatchNum}}</td>
+                <td>{{item.danpinLocationNum}}</td>
+                <td>{{item.danpinSkuNum}}</td>
+                <td>{{item.danpinStanNum}}</td>
+                <td>{{item.duopinProductNum}}</td>
+                <td>{{item.duopinBatchNum}}</td>
+                <td>{{item.duopinLocationNum}}</td>
+                <td>{{item.duopinSkuNum}}</td>
+                <td>{{item.duopinStanNum}}</td>
+                <td>{{item.allDistance}}</td>
+                <td>{{item.allWeight}}</td>
+                <td>{{item.allVolume}}</td>
+                <td>{{item.checklistUnsuccessfulNum}}</td>
+                <td>{{item.averageHour}}</td>
+                <td>{{item.score}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='6'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                    <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>多品批次号</span></th>
+              <th><span>多品面单数量</span></th>
+              <th><span>商品数量</span></th>
+              <th><span>指定包装数量</span></th>
+              <th><span>单品批次号</span></th>
+              <th><span>单品面单数量</span></th>
+              <th><span>商品数量</span></th>
+              <th><span>指定包装数量</span></th>
+              <th><span>验单错误数量</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>{{(pageNum - 1)*pageSize + $index +1}}</td>
+                <td>{{item.caoZuoRen}}</td>
+                <td>{{item.duoPiCiHaoNum}}</td>
+                <td>{{item.duoZhuiZongHaoNum}}</td>
+                <td>{{item.duoShangpinShuLiang}}</td>
+                <td>{{item.duoPackNum}}</td>
+                <td>{{item.piCiHaoNum}}</td>
+                <td>{{item.zhuiZongHaoNum}}</td>
+                <td>{{item.shangpinShuLiang}}</td>
+                <td>{{item.packNum}}</td>
+                <td>{{item.checkOrderError}}</td>
+                <td>{{item.integral}}</td>
+                <td>{{item.sumIntegral}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='7'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                    <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>打包批次号</span></th>
+              <th><span>打包订单数</span></th>
+              <th><span>打包数量</span></th>
+              <th><span>体积(立方米)</span></th>
+              <th><span>重量(千克)</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>{{item.ranking}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.packageCount}}</td>
+                <td>{{item.batchCount}}</td>
+                <td>{{item.skuCount}}</td>
+                <td>{{item.variationCount}}</td>
+                <td>{{item.receiveNun}}</td>
+                <td>{{item.qualifiedNum}}</td>
+                <td>{{item.defectiveNum}}</td>
+                <td>{{item.lackNum}}</td>
+                <td>{{item.moreNum}}</td>
+                <td>{{item.weighCount}}</td>
+                <td>{{item.weighChangeCount}}</td>
+                <td>{{item.volumeChangeCount}}</td>
+                <td>{{item.avgPoints}}</td>
+                <td>{{item.points}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='8'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                    <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>操作人</span></th>
+              <th><span>物流商</span></th>
+              <th><span>包裹批次号</span></th>
+              <th><span>包裹总数量</span></th>
+              <th><span>包裹净重(千克)</span></th>
+              <th><span>包裹毛重(千克)</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>{{$index + 1}}</td>
+                <td>{{item.employeeName}}</td>
+                <td>{{storageName}}</td>
+                <td>{{item.packageBatchNumberCount}}</td>
+                <td>{{item.packageAllCount}}</td>
+                <td>{{item.packageWeightCount}}</td>
+                <td>{{item.packageGrossWeightCount}}</td>
+                <td>{{item.averageHour}}</td>
+                <td>{{item.score}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='11'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                    <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>操作人编号</span></th>
+              <th><span>操作人</span></th>
+              <th><span>商品总数量</span></th>
+              <th><span>领批次数量</span></th>
+              <th><span>sku总数量</span></th>
+              <th><span>sku变体数量</span></th>
+              <th><span>称重次数</span></th>
+              <th><span>修改合格次数</span></th>
+              <th><span>修改重量次数</span></th>
+              <th><span>总体积(立方米)</span></th>
+              <th><span>日平均每小时积分</span></th>
+              <th><span>总积分</span></th>
+              <th><span>更多</span></th>
+            </tr>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                <td>{{$index + 1}}</td>
+                <td>{{item.employeeId}}</td>
+                <td>{{item.employeeName}}</td>
+                <td>{{item.productAllCount}}</td>
+                <td>{{item.collarBatchCount}}</td>
+                <td>{{item.skuAllCount}}</td>
+                <td>{{item.skuStanCount}}</td>
+                <td>{{item.weighingCount}}</td>
+                <td>{{item.modifyQualifiedCount}}</td>
+                <td>{{item.modifyWeightCount}}</td>
+                <td>{{item.allVolume}}</td>
+                <td>{{item.averageHour}}</td>
+                <td>{{item.score}}</td>
+                <td>
+                  <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table" ng-show="khType=='12'">
+            <tr>
+              <th>
+                <div class="flex-th">
+                  <span>排名</span>
+                  <div class="sort-box">
+                    <span ng-class="{'sort-act':sortType=='asc'}" ng-click="sortFun('asc')" class="glyphicon glyphicon-triangle-top"></span>
+                    <span ng-class="{'sort-act':sortType=='desc'}" ng-click="sortFun('desc')" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </div>
+              </th>
+              <th><span>分拣人</span></th>
+              <th><span>分拣商品总数量（个）</span></th>
+              <th><span>批次号数量（个）</span></th>
+              <th><span>单品批次商品数量（个）</span></th>
+              <th><span>多品批次商品数量（个）</span></th>
+              <th><span>包装多品批次商品数量（个）</span></th>
+              <th><span>积分</span></th>
+              <th><span>更多</span></th>
+              <tbody>
+                <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                  <td>{{$index + 1}}</td>
+                  <td>{{item.employeeName}}</td>
+                  <td>{{item.sortingGoodsCount}}</td>
+                  <td>{{item.batchNumberCount}}</td>
+                  <td>{{item.singleBatchGoodsCount}}</td>
+                  <td>{{item.multiBatchGoodsCount}}</td>
+                  <td>{{item.packMultiBatchGoodsCount}}</td>
+                  <td>{{item.score}}</td>
+                  <td>
+                    <a class="detail-link" href="{{'#/staff/detail?id='+ item.employeeId + '&timeFlag=' + date_type}}">查看</a>
+                  </td>
+                </tr>
+              </tbody>
+            </tr>
+          </table>
+          <!-- <div style="text-align: center;" ng-cloak ng-show="totalNum<1">暂无数据</div> -->
+          <!--以下是分页-->
+          <!-- 分页 -->
+          <!-- ng-show="hasMerch" -->
+          <!-- <div class="page-box" ng-show="totalNum>0">
+            <div class="select-page-num">
+              <select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <span>每页</span>
+            </div>
+            <div class="total-num">
+              共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+            </div>
+            <div class="page-index">
+              <div id="pagination1" class="pagination2">
+
+              </div>
+            </div>
+            <div class="to-go">
+              <span>跳转：</span>
+              <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+              <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

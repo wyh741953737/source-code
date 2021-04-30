@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>直发商品折扣</title>
+  <link rel="shortcut icon" href="static/favicons.png"/>
+  <link rel="stylesheet" type="text/css" href="static/css/manage.css">
+  <style>
+    * {
+      margin: 0;
+    }
+
+    button, input {
+      border: none;
+      outline: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    table {
+      width: 100%;
+      text-align: center; /*文本居中*/
+      border-collapse: collapse; /*表格的边框合并，如果相邻，则共用一个边框*/
+      border-spacing: 0; /*设置行与单元格边框的间距。当表格边框独立（即border-collapse:separate;）此属性才起作用*/
+    }
+
+    table td {
+      word-break: break-all; /*允许在字内换行,即单词可分*/
+      word-wrap: break-word; /*允许长单词或URL地址换行*/
+      border-right: 1px solid #e1e1e1;
+      border-bottom: 1px solid #e1e1e1;
+      font: 500 14px Arial;
+    }
+
+    .content-box {
+      width: 1200px;
+      margin: 50px auto;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: flex;
+    }
+
+    .search-box input {
+      width: 170px;
+      height: 28px;
+      padding: 0 8px;
+      border: 1px solid #e1e1e1;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .top button {
+      padding: 0 8px;
+      background-color: #ff9d06;
+      color: #fff;
+      cursor: pointer;
+      width: 70px;
+      border-radius: 3px;
+    }
+
+    .dis-table {
+      width: 100%;
+      border: solid #eee 1px;
+      border-bottom: none;
+      margin-top: 20px;
+    }
+
+    .dis-table th {
+      background: #F4F8FB;
+      text-align: center;
+      border-bottom: solid #e1e1e1 1px;
+      border-right: solid #e1e1e1 1px;
+      padding: 10px 0;
+      font-size: 16px;
+    }
+
+    .dis-table td {
+      padding: 10px 0;
+    }
+
+    .operating {
+      width: 20%;
+    }
+
+    .operating button {
+      padding: 0 8px;
+      background-color: #ff9d06;
+      color: #fff;
+      cursor: pointer;
+      width: 70px;
+      border-radius: 3px;
+      height: 30px;
+    }
+
+    .page-box .to-go a {
+      color: #9d9d9d;
+      text-align: center;
+      border: 1px solid #e5e1da;
+      border-radius: 4px;
+    }
+
+    .page-box .to-go input {
+      border: 1px solid #e5e1da;
+      line-height: 30px;
+      border-radius: 4px;
+      padding: 0 8px;
+    }
+
+    .dialog-box {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      top: 0;
+      left: 0;
+      z-index: 100003;
+    }
+
+    .dialog-box .content {
+      transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      padding: 15px;
+      background: #fff;
+      box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      width: 500px;
+      min-height: 200px;
+    }
+
+    .dialog-box .content h3 {
+      font-size: 18px;
+      font-family: PingFangSC-Medium;
+      color: rgba(102, 102, 102, 1);
+      line-height: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .dialog-box .content .btns {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .dialog-box .content button {
+      width: 80px;
+      height: 30px;
+      background: rgba(249, 174, 8, 1);
+      border-radius: 2px;
+      color: #fff;
+    }
+
+    .dialog-box .content .btn0 {
+      border: 1px solid rgba(249, 174, 8, 1);
+      background-color: #fff;
+      color: rgba(249, 174, 8, 1);
+      margin-left: 30px;
+    }
+
+    .dialog-box .content .item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .dialog-box .content .item span {
+      margin-right: 8px;
+      width: 60px;
+      text-align: right;
+    }
+
+    .dialog-box .content .item input {
+      border: 1px solid #e5e1da;
+      line-height: 30px;
+      border-radius: 4px;
+      padding: 0 8px;
+      width: 80%;
+    }
+
+    .dialog-box .content .tips {
+      font-size: 16px;
+      font-family: PingFangSC-Medium;
+      color: rgba(102, 102, 102, 1);
+      line-height: 23px;
+      padding: 5px 20px;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body ng-app="discountApp" ng-controller="discountCtrl">
+<div class="content-box">
+  <h3 class="title">直发商品折扣</h3>
+  <div class="top">
+    <div class="search-box">
+      <input type="text" ng-model="skuName" placeholder="请输入sku">
+      <button ng-click="searchBtn()">查询</button>
+    </div>
+    <button ng-click="addItem()">新增</button>
+  </div>
+  <table class="dis-table" ng-cloak>
+    <thead>
+    <tr>
+      <th>sku</th>
+      <th>价格</th>
+      <th>折扣</th>
+      <th>折扣价</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-show="dataList.length > 0" ng-repeat="(index,item) in dataList">
+      <td>{{item.skuName}}</td>
+      <td>{{'$'+item.yjg}}</td>
+      <td>{{item.zk+'%'}}</td>
+      <td>{{'$'+item.zkj}}</td>
+      <td class="operating">
+        <button ng-click="editItem(item)">编辑</button>
+        <button ng-click="removeItem(item)">删除</button>
+      </td>
+    </tr>
+    <tr ng-show="dataList.length == 0">
+      <td colspan="5" style="text-align: center">暂无数据。</td>
+    </tr>
+    </tbody>
+  </table>
+  <!-- 分页 -->
+  <div class="page-box" ng-show="dataList.length > 0" ng-cloak>
+    <div class="select-page-num">
+      <select class="form-control" ng-model="pageSize" ng-change="pageChange(pageSize)"
+              style="width: 65px;height: 31px;">
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
+      <span>每页</span>
+    </div>
+    <div class="total-num">
+      共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+    </div>
+    <div class="page-index">
+      <div class="pagegroup">
+        <a href="#">&lt;&lt;</a>
+        <a href="#">&lt;</a>
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a class="current" href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">···</a>
+        <a href="#">&gt;</a>
+        <a href="#">&gt;&gt;</a>
+      </div>
+    </div>
+    <div class="to-go">
+      <span>跳转：</span>
+      <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+      <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pageNumChange()">go</a>
+    </div>
+  </div>
+</div>
+<!--dialog-->
+<div class="dialog-box" ng-show="dialog" ng-cloak>
+  <div class="content">
+    <h3 ng-cloak>{{title}}</h3>
+    <div ng-show="title == '新增' || title == '编辑'">
+      <div class="item">
+        <span>sku:</span>
+        <input type="text" ng-model="sku">
+      </div>
+      <div class="item">
+        <span>折扣:</span>
+        <input type="text" style="width: 150px;" maxlength="2" ng-model="discount" ng-keyup="verifyDiscount()"> %
+      </div>
+    </div>
+    <div ng-show="title == '删除'">
+      <p class="tips">是否删除该条数据？</p>
+    </div>
+    <div class="btns">
+      <button class="btn1" ng-click="confirm()">确认</button>
+      <button class="btn0" ng-click="dialog = false">取消</button>
+    </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="erp_otweb/js/media.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="static/js/public/base64.min.js"></script>
+<script type="text/javascript" src="static/js/public/common.js"></script>
+<script type="text/javascript" src='static/layer/layer.js'></script>
+<script src="static/jqPaginator-master/jqPaginator.js"></script>
+<script type="text/javascript">
+
+  (function (angular) {
+    var app = angular.module('discountApp', ['service']);
+    app.controller('discountCtrl', ['$scope', "erp", function ($scope, erp) {
+      $scope.pageNum = 1;
+      $scope.pageSize = '20';
+      $scope.totalNum = null;
+      $scope.dataList = [];
+      $scope.dialog = false;
+      $scope.title = '';
+
+      //获取数据
+      function getData() {
+        let parms = {
+          pageNo: $scope.pageNum.toString(),
+          pageSize: $scope.pageSize,
+          skuName: $scope.skuName,
+        };
+        erp.postFun('erp/zfzk/queryByErpzfzkListPage', parms, res => {
+          if (res.data.statusCode == '200') {
+            $scope.dataList = res.data.result.data;
+            console.log($scope.dataList)
+            $scope.totalNum = res.data.result.totle;
+            $scope.totalpage = function () {
+              return Math.ceil(res.data.result.totle / $scope.pageSize)
+            };
+            pageFun()
+          } else {
+            layer.msg(res.data.message || '获取数据失败')
+          }
+        }, err => {
+
+        }, {layer: true});
+      }
+
+      getData();
+
+      //查询
+      $scope.searchBtn = function () {
+        $scope.pageNum = 1;
+        getData();
+      };
+
+      //新增
+      $scope.addItem = function () {
+        $scope.dialog = true;
+        $scope.title = '新增';
+        $scope.sku = '';
+        $scope.discount = '';
+      };
+      //删除
+      $scope.removeItem = function (item) {
+        $scope.dialog = true;
+        $scope.title = '删除';
+        $scope.itemId = item.id;
+      };
+      //编辑
+      $scope.editItem = function (item) {
+        $scope.title = '编辑';
+        $scope.dialog = true;
+        $scope.sku = item.skuName;
+        $scope.discount = item.zk;
+        $scope.itemId = item.id;
+      };
+      //确定
+      $scope.confirm = function () {
+        let url;
+        let parms;
+        switch ($scope.title) {
+          case '新增':
+            url = 'erp/zfzk/addzfzk';
+            parms = {
+              skuName: $scope.sku,
+              zk: $scope.discount
+            };
+            break;
+          case '编辑':
+            url = 'erp/zfzk/updatezfzk';
+            parms = {
+              id: $scope.itemId,
+              skuName: $scope.sku,
+              zk: $scope.discount
+            };
+            break;
+          case '删除':
+            url = 'erp/zfzk/delete';
+            parms = {
+              ids: $scope.itemId,
+            };
+            break;
+        }
+        erp.postFun(url, parms, res => {
+          if (res.data.statusCode == '200') {
+            layer.msg('操作成功')
+            $scope.dialog = false;
+            getData();
+          } else {
+            layer.msg(res.data.message || '操作失败')
+          }
+        }, err => {
+          console.log(err)
+        }, {layer: true});
+      }
+      // 折扣率验证
+      $scope.verifyDiscount = function () {
+        if ($scope.discount.length == 1) {
+          $scope.discount = $scope.discount.replace(/[^1-9]/g, '')
+        } else {
+          $scope.discount = $scope.discount.replace(/\D/g, '')
+        }
+      }
+
+      //分页1
+      function pageFun() {
+        $(".pagegroup").jqPaginator({
+          totalCounts: $scope.totalNum || 1,
+          pageSize: $scope.pageSize * 1,
+          visiblePages: 5,
+          currentPage: $scope.pageNum * 1,
+          activeClass: 'current',
+          first: '<a class="prev" href="javascript:void(0);">&lt;&lt;<\/a>',
+          prev: '<a class="prev" href="javascript:void(0);">&lt;<\/a>',
+          next: '<a class="next" href="javascript:void(0);">&gt;<\/a>',
+          last: '<a class="next" href="javascript:void(0);">&gt;&gt;<\/a>',
+          page: '<a href="javascript:void(0);">{{page}}<\/a>',
+          onPageChange: function (n, type) {
+            if (type == 'init') {
+              return;
+            }
+            $scope.pageNum = n;
+            getData();
+          }
+        });
+      }
+
+      $scope.pageChange = function (pagesize) {
+        console.log(pagesize)
+        $scope.pageNum = 1;
+        getData();
+      }
+      $scope.pageNumChange = function () {
+        console.log($scope.pageNum % 1)
+        $scope.pageNum = $(".goyema").val() - 0;
+        if ($scope.pageNum < 1 || $scope.pageNum > $scope.totalpage()) {
+          layer.msg('错误页码');
+          $(".goyema").val(1)
+        } else {
+          getData();
+        }
+      }
+    }]);
+  })(angular)
+</script>
+</html>

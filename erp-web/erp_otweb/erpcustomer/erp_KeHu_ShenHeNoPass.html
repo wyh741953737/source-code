@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>客户-审核未通过-ERP系统</title>
+	<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+	<style type="text/css">
+		.wllSort1{
+			width: 0;
+		    height: 0;
+		    border-left: 5px solid transparent;
+		    border-right: 5px solid transparent;
+		    border-top: 7px solid lightslategray;
+		    position: absolute;
+		    right: 30px;
+		    top: 23px;
+		    cursor: pointer;
+		}
+		.wllSort2{
+			width: 0;
+		    height: 0;
+		    border-left: 5px solid transparent;
+		    border-right: 5px solid transparent;
+		    border-bottom: 7px solid lightslategray;
+		    position: absolute;
+		    right: 30px;
+		    bottom: 23px;
+		    margin: auto;
+		    cursor: pointer;
+		}
+		.reasonsfalse{
+			width: 500px;
+			height: 300px;
+			padding:10px 25px;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			margin: auto;
+			background: #fff;
+			border: 1px solid lightgray;
+			box-shadow: 0 0 30px lightgray;
+		}
+		.reasonsname{
+			width: 98%;
+			height: 30px;
+			color: #000;
+			margin: auto;
+			margin-top: 10px;
+		}
+		.reasonsText{
+			width: 100%;
+			height: 160px;
+			border: 1px solid lightgrey;
+			color: gray;
+			margin-top: 5px;
+		}
+		.reasonsText>p{
+			width: 100%;
+			height: 100%;
+			padding: 10px;
+			overflow: auto;
+			font-size: 14px;
+		}
+		.reasonsclose{
+			width: 80px;
+			height: 30px;
+			color: #fff;
+			background: #a3a1a1;
+			margin: auto;
+			margin-top: 20px;
+			border-radius: 5px;
+			text-align: center;
+			line-height: 30px;
+			font-size: 14px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="ea-content">
+	<!-- <div class="ea-content-box"> -->
+
+		<!-- <div class="ea-content-con"> -->
+			<!-- left nav -->
+			<div class="left-bar">
+          <ul>
+			  <li><a href="#/erpcustomer/KeHuLieBiao">{{'100890' | translate}}（{{customerdata.normal}}）</a></li>
+			  <li><a href="#/erpcustomer/xushenhe">{{'100891' | translate}}（{{customerdata.needaudit}}）</a></li>
+			  <li ng-click="refresh()" class="active"><a href="#/erpcustomer/shenhenopass">{{'100892' | translate}}（{{customerdata.nopass}}）</a></li>
+			  <li><a href="#/erpcustomer/heimingdan">{{'100608' | translate}}（{{customerdata.black}}）</a></li>
+			  <li><a href="#/erpcustomer/shoplist">{{'100893' | translate}}（{{customerdata.shop}}）</a></li>
+			  <li><a href="#/erpcustomer/exhibition">{{'100894' | translate}}（{{customerdata.exhibition}}）</a></li>
+			  <li><a href="#/erpcustomer/Affiliate">{{'100895' | translate}}（{{customerdata.affUserNum}}）</a></li>
+			  <li><a href="#/erpcustomer/GH">{{'100896' | translate}}（{{customerdata.customerResourceNum}}）</a></li>
+		  </ul>
+      </div>
+
+			<!-- right con -->
+			<div class="right-bar-wrap ea-right-content">
+				<div class="bg-geduan"></div>
+				<!-- right search -->
+				<div class="right-bar">
+				<div class="ea-right-search">
+					<div class="input-group search-box">
+              <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+                <option value="SKU">SKU</option>
+                <option value="CH">中文</option>
+                <option value="EN">英文</option>
+              </select> -->
+              <input type="text" class="form-control top-search-inp" placeholder="" ng-model="searchinfo" ng-keyup="enterSearch($event)">
+              <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="searchcustomer()">{{'100025' | translate}}</a>
+          </div>
+					<!-- <p><input type="text" value="" ng-model="searchinfo"  class="search-text-box" /><input type="button" value="搜索" class="search-button" ng-click="searchcustomer()" /></p> -->
+
+				</div>
+
+				<!-- right list -->
+				<div class="table-con-box">
+					<table class="ea-list-table ea-erp-cs">
+						<tr>
+							<th><span>{{'100899' | translate}}</span></th>
+							<th><span>{{'100304' | translate}}</span></th>
+							<th><span>{{'100927' | translate}}</span></th>
+							<th><span>{{'100724' | translate}}</span></th>
+							<th style="position: relative;"><span style="width: 80%;">{{'100929' | translate}}</span><span class="wllSort1" ng-click="wllSort1()"></span><span class="wllSort2" ng-click="wllSort2()"></span></th>
+							<th><span>{{'100949' | translate}}</span></th>
+							<th><span>{{'100950' | translate}}</span></th>
+							<th><span>{{'100951' | translate}}</span></th>
+							<th><span>{{'100176' | translate}}</span></th>
+						</tr>
+						<tr  ng-repeat="item in customerList.list">
+							<td><span> {{item.num}}</span></td>
+							<td style="cursor: pointer;" ng-click="shenhe(item)"><span><p>{{item.LOGIN_NAME}}</p></span></td>
+							<td style="cursor: pointer;" ng-click="shenhe(item)"><span>{{item.NAME}}</span></td>
+							<td><span>{{item.COUNTRY}}</span></td>
+							<td><span>{{item.createdate1}} <br> {{item.createdate2}}</span></td>
+							<!--拒绝理由-->
+							<td style="cursor: pointer;" ng-click="refusal(item)"><span>{{item.remarks2}}</span></td>
+							<td><span>{{item.encDate1}}<br> {{item.encDate2}}</span></td>
+							<td><span>{{item.auditingName}}</span></td>
+							<td><span>{{item.email}}</span></td>
+						</tr>
+
+					</table>
+
+					<!-- 分页 -->
+					<div class="no-data" ng-show="customerList.list.length == 0">没有数据</div>
+          <!-- ng-show="hasMerch" -->
+          <div class="page-box" ng-show="customerList.list.length > 0">
+              <div class="select-page-num">
+                  <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)" style="width: 65px;height: 31px;">
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                  </select>
+                  <span>每页</span>
+              </div>
+              <div class="total-num">
+                  共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+              </div>
+              <div class="page-index">
+                  <div class="pagegroup">
+                  	<a href="#">&lt;&lt;</a>
+				            <a href="#">&lt;</a>
+				            <a href="#">1</a>
+				            <a href="#">2</a>
+				            <a class="current" href="#">3</a>
+				            <a href="#">4</a>
+				            <a href="#">5</a>
+				            <a href="#">6</a>
+				            <a href="#">···</a>
+				            <a href="#">&gt;</a>
+				            <a href="#">&gt;&gt;</a>
+                  </div>
+              </div>
+              <div class="to-go">
+                  <span>跳转：</span>
+                  <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                  <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+              </div>
+          </div>
+					<!-- <div class="fenPage">
+							<span><select ng-model="pagesize" ng-change="pagechange(pagesize)" ng-options="item as item for item in pagenumarr">
+							</select>
+							条每页
+							</span>
+						<span>共{{totalpage()}}页</span>
+						<span class="pagegroup">
+							</span>
+						<span>跳转 <input class="goyema" type="number" style=" padding: 0;" step="1"  placeholder="" ng-model="pagenum"> 页 <input type="button" value="GO" ng-click="pagenumchange()"></span>
+
+					</div> -->
+				
+				</div>
+			</div>
+			<!--拒绝理由弹框-->
+			<div class="reasonsfalse" ng-show="reasons">
+				<p class="reasonsname"></p>
+					<div class="reasonsText">
+						<p></p>
+					</div>
+				<p class="reasonsclose" ng-click="reasonsclose()">{{'100066' | translate}}</p>
+			</div>
+			</div>
+		<!-- </div> -->
+	<!-- </div> -->
+</div>
+
+
+<!-- 选取两段时间之间插件 -->
+<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+
+
+</body>
+</html>

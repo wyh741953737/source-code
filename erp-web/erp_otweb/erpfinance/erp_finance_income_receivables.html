@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>总销售额-财务收入管理-ERP系统</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/>
+</head>
+<style>
+    .ea-right-search {
+        margin: 0 10px;
+        padding-top: initial;
+        position: relative;
+        overflow: hidden;
+        padding-left: 30px;
+    }
+    .datatime-screen{
+        margin-top: initial;
+    }
+    .search-box{
+        line-height: 30px;
+        width: initial;
+    }
+</style>
+<body>
+<!-- content -->
+<div class="ea-content">
+    <!-- <div class="ea-content-box"> -->
+    <!-- <div class="ea-content-con"> -->
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li class="active"><a href="#/allmony">{{'100286' | translate}}</a></li>
+            <li><a href="#/erpfinance/walletcuslistdel">{{'100287' | translate}}</a></li>
+            <li><a href="#/erpfinance/accountquery">{{'100288' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- <div class="ea-left-nav">
+        <ul>
+            <li class="active"><a href="#/allmony">收入管理</a></li>
+            <li><a href="#/erpfinance/walletcuslistdel">客户钱包管理</a></li>
+            <li><a href="#/erpfinance/accountquery">对账查询</a></li>
+        </ul>
+    </div> -->
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <!-- right nav -->
+        <!--<div class="top-taps clearfix">-->
+        <!--<ul>-->
+        <!--<li class="active"><a style="margin-right: 10px" href="#/allmony">{{'100289' | translate}}</a><em ng-cloak>{{'$'+money}}</em></li>-->
+        <!--<li><a href="#/erpfinance/incomeshould">{{'100290' | translate}}</a></li>-->
+        <!--<li><a href="#/erpfinance/receivables">{{'100291' | translate}}</a></li>-->
+        <!--<li><a href="#/erpfinance/canceled">{{'100292' | translate}}</a></li>-->
+        <!--<li><a href="#/erpfinance/refund">{{'100293' | translate}}</a></li>-->
+        <!--<li><a href="#/erpfinance/incomeVIP">{{'100294' | translate}}</a></li>-->
+        <!--<li><a href="#/erpfinance/remit">{{'100295' | translate}}</a></li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!-- <div class="ea-right-nav small">
+            <ul>
+                <li class="active"><a href="#/allmony">总销售额</a><em ng-cloak>{{'$'+money}}</em></li>
+                <li><a href="#/erpfinance/incomeshould">待收款项</a></li>
+                <li><a href="#/erpfinance/receivables">已收款项</a></li>
+                <li><a href="#/erpfinance/canceled">已取消订单金额</a></li>
+                <li><a href="#/erpfinance/refund">退款金额</a></li>
+                <li><a href="#/erpfinance/incomeVIP">VIP通道额度管理</a></li>
+                <li><a href="#/erpfinance/remit">汇款管理</a></li>
+            </ul>
+        </div> -->
+        <div class="right-bar">
+            <!-- right search -->
+            <div class="ea-right-search">
+                <div class="datatime-screen-wrap clearfix">
+                    <div class="datatime-screen">
+                        <a class="active" href="javaScript:void(0)" ng-click="lastWeek(0)">{{'100296' | translate}}</a>
+                        <a href="javaScript:void(0)" ng-click="lastWeek(6)">{{'100297' | translate}}</a>
+                        <a href="javaScript:void(0)" ng-click="lastWeek(30)">{{'100298' | translate}}</a>
+                        <a href="javaScript:void(0)" ng-click="lastWeek(92)">{{'100299' | translate}}</a>
+                        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtBeginDate"
+                               placeholder="{{'100300' | translate}}"/>
+                        <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtEndDate"
+                               placeholder="{{'100301' | translate}}"/>
+                        <input type="button" value="{{'100302' | translate}}" ng-click="usersearch()" style="line-height: 20px;">
+                    </div>
+                </div>
+                <div class="search-box-wrap">
+                    <div class="input-group search-box">
+                        <input type="text" class="form-control top-search-inp" placeholder=""
+                               ng-keyup="enterSearch($event)" ng-model="userinfo">
+                        <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100025'
+                            | translate}}</a>
+                        <span style="margin-left: 40px;">
+                            金额：{{realSales | currency}}
+                        </span>
+                        <span style="margin-left: 40px;">
+                            总金额：{{totalSales | currency}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <th><span>序号</span></th>
+                        <th><span ng-click="clientClick(clientState)">{{'100108' | translate}}
+                                <img ng-show="!clientState" class="all-checkbtn"
+                                     src="static/image/order-img/multiple1.png">
+                                <img ng-show="clientState" class="all-checkbtn"
+                                     src="static/image/order-img/multiple2.png">
+                                </span></th>
+                        <th><span ng-click="customClick(customState)">{{'101318' | translate}}
+                                <img ng-show="!customState" class="all-checkbtn"
+                                     src="static/image/order-img/multiple1.png">
+                                <img ng-show="customState" class="all-checkbtn"
+                                     src="static/image/order-img/multiple2.png">
+                                </span></th>
+                        <!--<th><span>{{'100027' | translate}}</span></th>-->
+                        <th><span>金额</span></th>
+                        <!--<th><span>未收金额</span></th>-->
+                        <!--<th><span>{{'100064' | translate}}</span></th>-->
+                    </tr>
+                    <tr ng-repeat='item in dataList'>
+                        <td><span>{{$index+1}}</span></td>
+                        <td class="cus-lvtd">
+                            <span>{{item.MERCHANT_NAME}}</span>
+                            <b ng-if="item.userLevel==3" class="yzkehu-flag">优</b>
+                            <b ng-if="item.userLevel==2" class="ptkehu-flag">普</b>
+                            <b ng-if="item.userLevel==1" class="qzkehu-flag">潜</b>
+                            <img src="static/image/public-img/order.png">
+                            <b class="cus-dengji">LV{{item.cunLevel}}</b>
+                            <img src="static/image/public-img/money.png">
+                            <b class="cus-dengji">LV{{item.moneyLevel}}</b>
+                        </td>
+                        <td><span>{{item.ACCOUNT_NAME}}</span></td>
+                        <!--<td><span><p></p><p><i class="ea-gard-star ea-gard4"></i></p></span></td>-->
+                        <!--<td><span>{{item.ACCOUNT_NAME}}</span></td>-->
+                        <td><span>{{item.money | currency}}</span></td>
+                        <!--<td class="countMoney"><span>{{item.weishou | currency}}</span></td>-->
+                        <!--<td><span>{{status[item.STATUS-1]}}</span></td>-->
+                        <!--<td><span>{{'100216' | translate}}</span></td>-->
+                    </tr>
+                </table>
+                <!-- 分页 -->
+                <div class="no-data" ng-show="totalNum == 0" style="text-align: center;">暂无数据。</div>
+                <div class="page-box" ng-show="totalNum > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+</div>
+<!-- 选取两段时间之间插件 -->
+<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+<script>
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate", // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200, // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true, // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true, // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(), // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"), // 日期下限，默认：NaN(不限制)
+            callback: function () { // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+</body>
+
+</html>

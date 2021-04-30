@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>客户-kehuliebiao-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+    <style>
+        body {
+            position: relative;
+        }
+        body .guanlianshangpin {
+            width: 1111px;
+            height: 725px;
+            transform: translateX(0px);
+            transform: translateZ(0px);
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+            normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            left: 10%;
+            top: 10%;
+        }
+        body .guanlianshangpin .guanlianshangpinhead {
+            font-family: ﻿MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+            margin-left: 50%;
+        }
+        body .guanlianshangpin table {
+            margin: 0 auto;
+        }
+        body .guanlianshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+        body .guanlianshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+        body .excelshangpin {
+            margin: 0 auto;
+            width: 1011px;
+            height: 725px;
+            z-index: 100;
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+            normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            right: 1%;
+            bottom: -600px;
+        }
+        body .excelshangpin .guanlianshangpinhead {
+            font-family: ﻿MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            width: 1000px;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+        }
+        body .excelshangpin table {
+            margin: 0 auto;
+        }
+        body .excelshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+        body .excelshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+        body .go-back:hover{
+          color: #f60;
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="ea-content">
+    <div class="ea-content-box" style="background: none">
+
+        <div class="ea-content-con">
+            <!-- right con -->
+            <div class="ea-right-content" style="min-width: 1000px;">
+                <div class="bg-geduan"></div>
+                <!-- right search -->
+                <div class="ea-right-search">
+
+
+                </div>
+
+                <!-- right list -->
+                <div class="table-con-box">
+                    <p style="position:absolute; left: 10px;top: 30px;font-weight: 700"><span ng-click="goBack()" class="go-back">&lt;{{'100173' | translate}}</span></p>
+                    <table class="ea-list-table ea-erp-cs" style="margin-top: 25px">
+                        <tr>
+                        	<th><span>{{'100899' | translate}}</span></th>
+
+                            <th><span>{{'100927' | translate}}</span></th>
+                            <th><span>{{'100928' | translate}}</span></th>
+                            <th><span>{{'100929' | translate}}</span></th>
+                            <th><span>{{'100930' | translate}}</span></th>
+
+                            <th><span>{{'101318' | translate}}</span></th>
+                            <th><span>{{'100877' | translate}}</span></th>
+                            <th><span>{{'100926' | translate}}</span></th>
+                            <th><span>{{'100931' | translate}}</span></th>
+                            <th><span>{{'100932' | translate}}</span></th>
+                        </tr>
+                        <tr ng-repeat="item in shoplist">
+                            <td><span> {{item.num}}</span></td>
+                            <!--<td><span ng-click="shenhe(item)" style="cursor: pointer">{{item.LOGIN_NAME--><!--}}</span></td>-->  
+                            <td style="cursor: pointer;" ng-click="shenhe(item)"><span> {{item.username}}</span></td>
+                            <td style="cursor: pointer;" ng-click="shenhe(item)"><span> {{item.login_name}}</span></td>
+                            <td><span>{{item.createdate1}} <br> {{item.createdate2}}</span></td>
+                            <td><span>{{item.updatedate1}}<br> {{item.updatedate2}}</span></td>
+                            <td><span> {{item.relate_salesman}}</span></td>
+                            <td style="cursor: pointer;"><span>
+								<a target="_blank" href="{{changeShopAddress(item)}}">{{item.NAME}}</a>
+								<img ng-click="lookTransfer(item)" src="static\image\public-img\remarks-gray.svg" alt="">
+                            </span></td>
+                            <td><span>{{item.TYPE}}</span></td>
+                            <td>
+                                <span  ng-show="item.STATUS==1">{{'100933' | translate}}</span>
+                                <span  ng-show="item.STATUS==2">{{'100933' | translate}}</span>
+                                <span  ng-show="item.STATUS==3">{{'100934' | translate}}</span>
+                                <span  ng-show="item.STATUS==4">{{'100934' | translate}}</span>
+                                <span  ng-show="item.STATUS==5">{{'100933' | translate}}</span>
+                            </td>
+                            <td>
+                                <span ng-show="item.STATUS==1">{{'100935' | translate}}</span>
+                                <span  ng-show="item.STATUS==2">{{'100936' | translate}}</span>
+                                <span  ng-show="item.STATUS==3">{{'100936' | translate}}</span>
+                                <span  ng-show="item.STATUS==4">{{'100936' | translate}}</span>
+                                <span  ng-show="item.STATUS==5">转移中</span>
+                            </td>
+
+
+                        </tr>
+
+                    </table>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<transfer-model props="transferPros" ></transfer-model>
+</body>
+</html>

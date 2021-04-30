@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .searchGroup input{ 
+            height: 30px;
+            border-radius: 4px 0 0 4px;
+            padding: 0 10px;
+        }
+        .searchBtn{
+            height: 30px;
+            width: 80px;
+            padding: 0 15px;
+            background: rgba(255,162,0,1);
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+            left: -5px;
+        }
+        .daochu{
+            height: 30px;
+            width: 80px;
+            padding: 0 15px;
+            background:dodgerblue;
+            color: #fff;
+            border-radius: 4px 4px 4px 4px;
+            position: relative;
+            left: -5px;
+        } 
+        .data-inp{
+				height: 30px;
+				border: 1px solid #e5e5e5;
+				vertical-align: top;
+				font-size: 12px;
+            }
+            .amount-count{
+                float: right;
+                display: flex;
+            }
+            .sales-account{
+               
+            }
+            .sales-mount{
+                margin-right: 30px;
+            }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:50px;min-width: 1020px;">
+            <h1 style="font-size: 20px;font-weight: 700;margin-bottom: 20px">输入sku查询对应sku每日销量(时间范围和sku为必填项,且sku支持模糊搜索)</h1>
+            <div class="searchGroup">
+                <label>请选择时间：</label>
+                <input class="data-inp" style="text-indent: 12px;" type="text" id="beginTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></input>
+				<input class="data-inp" style="text-indent: 12px;" id="endTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                <input type="text" ng-model="sku" placeholder="请输入sku"/>
+                <button class="searchBtn" ng-click="searchFun()">查询</button>
+                <button class="daochu" ng-click="openInputPassword(dcFun)">导出</button>
+            </div>
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <th><span>序号</span></th>
+                        <th><span>日期</span></th>
+                        <th><span>sku</span></th>
+                        <th><span>销量</span></th>
+                        <th><span>单价</span></th>
+                    </tr>
+                    <tr ng-repeat='item in dataList'>
+                        <td><span>{{$index+1}}</span></td>
+                        <td><span>{{item.saleDate}}</span></td>
+                        <td><span>{{item.SKU}}</span></td>
+                        <td><span>{{item.QUANTITY}}</span></td>
+                        <td><span>{{item.PRICE}}</span></td>
+                    </tr>
+                </table> 
+            </div>
+            <div class="amount-count" ng-show="dataList.length>0">
+                <div class="sales-mount">
+                    销售总计：{{salesMount}}
+                </div>
+                <div class="sales-account">
+                    销售金额总计：{{salesAmount}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="dcflag" class="dcexcel-wrap">
+        <div class="dcexcel-con">
+            <a ng-click="closeatc()" ng-href="{{(hrefsrc.indexOf('http') == -1 ? ('http://' + hrefsrc) : hrefsrc)}}">{{(hrefsrc.indexOf('http') == -1 ? ('http://' + hrefsrc) : hrefsrc)}}</a>
+            <div class="dc-conbtns">
+                <button ng-click="closeatc()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

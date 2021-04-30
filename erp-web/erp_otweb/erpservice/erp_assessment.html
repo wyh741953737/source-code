@@ -1,0 +1,405 @@
+<!-- <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>通知-已发送-ERP系统</title> -->
+<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+<style>
+    .tab{
+        background: #fff;
+        padding: 20px;
+        position: fixed;
+        top: 0;
+        width:  calc(100% - 271px);
+        min-width: 1005px;
+        z-index: 8888;
+    }
+    .tabTop a{
+        display: inline-block;
+        padding: 5px 15px;
+        font-size: 14px;
+        border-bottom: 2px solid transparent;
+    }
+    .tabTop a.act{
+        border-bottom-color: #f0ad4e;
+        color: #f0ad4e;
+    }
+    .tabTop a:hover{
+        color: #f0ad4e;
+    }
+    .tabBottom{
+        margin-top: 30px;
+    }
+    .searchGroup button{
+        background:#f0ad4e;
+        color: #fff;
+        height: 30px;
+        padding: 0 15px;
+        border-radius: 4px 
+    }
+    .tabBottom{
+        display: flex;
+        align-items: center;
+    }
+    .searchGroup a{
+        padding: 5px 10px;
+    }
+    .searchGroup a.act{
+        color: #f0ad4e;
+    }
+    .searchGroup a:hover{
+        color: #f0ad4e;
+    }
+    .ea-list-tr span{
+        padding: 5px 10px;
+    }
+    .ea-list-tr span>b.isOnlineFlag{
+        display:inline-block;
+        font-size: 13px;
+        font-weight: normal;
+        color:rgb(64, 194, 24);
+        border: 1px solid rgb(64, 194, 24);
+        border-radius: 4px;
+        padding: 2px 8px;
+        margin-right: 10px;
+    }
+    .setGrade{
+        cursor: pointer;
+        position: relative;
+    }
+    .setGrade>b{
+        display:inline-block !important;
+        border: 4px solid transparent;
+        border-top-color: #333;
+        position: relative;
+        left: 5px;
+    }
+    .setGrade ul{
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0px 8px 20px;
+        position: absolute;
+        top: 20px;
+        left: calc(50% - 60px);
+        width: 120px;
+        z-index: 999;
+        display: none;
+    }
+    .setGrade:hover ul{
+        display: block;
+    }
+    .setGrade ul>li>span{
+        display: block;
+        padding: 5px;
+    }
+    .setGrade ul>li>span:hover{
+        background: #e1e1e1;
+    }
+    .click-set img{
+        margin-left: 10px;
+    }
+</style>
+
+<!-- content -->
+<div class="ea-content">
+    <!-- <div class="ea-content-box"> -->
+    <!-- <div class="ea-content-con"> -->
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- <div class="buchong"></div> -->
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="tab">
+            <div class="tabTop">
+                <a href="#/erpservice/khbz" >业务员</a>
+                <a class="act"  href="javascript:void(0);">客服</a>
+                <a href="#/erpservice/nigthShift">夜班</a>
+            </div>
+            <div class="tabBottom">
+                <div class="searchGroup" style="margin-right:30px;">
+                        <input class="Wdate data-inp"
+                        style="text-indent: 12px;position:relative;top: 0px;height: 30px;border: 1px solid #e1e1e1;width: 120px;"
+                        id="c-data-time2" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                        placeholder="起始日期">
+                    <input id="cdatatime3" placeholder="结束日期" class="Wdate data-inp"
+                        style="text-indent: 12px;position:relative;top: 0px;height: 30px; border: 1px solid #e1e1e1;width: 120px;left:-5px;"
+                        type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                        <button ng-click="searchFun()">查询</button>
+                </div>
+                <div class="searchGroup searchByDay">
+                    <a ng-click="searchList(0)" class="act" href="">近三天</a>
+                    <a ng-click="searchList(1)" href="">本周</a>
+                    <a ng-click="searchList(2)" href="">本月</a>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="asj-h10"></div> -->
+        <div class="right-bar" style="margin-top:150px;">
+            
+            <!--<div class="ea-list-manipulation" style="padding: 0 0 20px 0;"><li  class="active"><a ng-click="uplaodeVideo();uplaode=true" href="">上传新视频</a></li></div>-->
+            <table class="ea-list-table ea-erp-cs">
+                <thead>
+                    <tr>
+                        <!--<th><span><input type="checkbox"></span></th>-->
+                        <th><span>序号</span></th>
+                        <th><span>姓名</span></th>
+                        <th>临时客户数量</th>
+                        <th>注册客户数量</th>
+                        <th>综合评分</th>
+                        <th>等级</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="ea-list-tr overTR "  ng-repeat="item in salesList">
+                        <td>{{$index+1}}</td>
+                        <td><span><b class="isOnlineFlag" ng-show="item.onlineStatus=='1'">在线</b>{{item.name}}</span></td>
+                        <td><span>{{item.temCount}}</span></td>
+                        <td><span>{{item.resCount}}</span></td>
+                        <td><span>{{item.scoremun || 0}}</span></td>
+                        <td><span class="d-flex-center click-set">
+                            LV {{item.grade}}
+                            <img ng-click="empClick(item, 'insert')" ng-show="!item.gid" class="cursor-pointer" width="15" src="../../static/image/public-img/multiple1.png" alt="">
+                            <img ng-click="empClick(item, 'delete')" ng-show="item.gid" class="cursor-pointer" width="15" src="../../static/image/public-img/multiple2.png" alt="">
+                        </span></td>
+                        <td>
+                            <!-- <span >--</span> -->
+                            <div class="setGrade">设置等级<b></b>
+                                <ul>
+                                    <li ng-click="changeGradeFun('0',item.id)" ng-if="item.grade!=0"><span>LV 0</span></li>
+                                    <li ng-click="changeGradeFun('1',item.id)" ng-if="item.grade!=1"><span>LV 1</span></li>
+                                    <li ng-click="changeGradeFun('2',item.id)" ng-if="item.grade!=2"><span>LV 2</span></li>
+                                    <li ng-click="changeGradeFun('3',item.id)" ng-if="item.grade!=3"><span>LV 3</span></li>
+                                    <li ng-click="changeGradeFun('4',item.id)" ng-if="item.grade!=4"><span>LV 4</span></li>
+                                    <li ng-click="changeGradeFun('5',item.id)" ng-if="item.grade!=5"><span>LV 5</span></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <!-- 分页 -->
+            <!-- ng-show="hasMerch" -->
+            <div class="page-box">
+                <div class="select-page-num">
+                    <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                        <!-- <option value="5">5</option> -->
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>每页</span>
+                </div>
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ totalCount }}&nbsp;&nbsp;条
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup">
+                        <a href="#">&lt;&lt;</a>
+                        <a href="#">&lt;</a>
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a class="current" href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">···</a>
+                        <a href="#">&gt;</a>
+                        <a href="#">&gt;&gt;</a>
+                    </div>
+                </div>
+                <div class="to-go">
+                    <span>跳转：</span>
+                    <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                    <a class="btn btn-default" href="javascript: void(0);" role="button"
+                        ng-click="pagenumchange()">go</a>
+                </div>
+            </div>
+            <!-- -->
+            <!--弹框好评率-->
+            <div class="asj-common-tanwrap" ng-show="clickSatisfacrion">
+                <div id="scoregrademunView"
+                    ng-class="{'asj-common-tan': true, 'common-tan-sty1': true, 'tan-turn-private': true}">
+                    <h3 style="text-align: center;padding: 20px 0;margin: 0"><b>{{'100278' | translate}}</b></h3>
+                    <div class="wa-GuestsDetails">
+
+                        <table class="ea-list-table ea-erp-cs">
+                            <thead>
+                                <tr>
+                                    <th><span>{{'101318' | translate}}</span></th>
+                                    <th><span>{{'100108' | translate}}</span></th>
+                                    <th><span>{{'100279' | translate}}</span></th>
+                                    <th><span>{{'100280' | translate}}</span></th>
+                                    <th><span>{{'100281' | translate}}</span></th>
+                                    <th><span>{{'100282' | translate}}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody class="guest-info-tbody">
+                                <tr class="la_tr la_tr01" ng-repeat="i in detailList">
+                                    <td ng-attr-title="{{i.employee}}"><span>{{i.employee}}</span></td>
+                                    <td ng-attr-title="{{i.account}}"><span>{{i.account}}</span></td>
+                                    <td ng-attr-title="{{i.grade}}"><span>{{i.grade}}</span></td>
+                                    <td ng-attr-title="{{i.score}}"><span>{{isstatus(i.status,i.score)}}</span></td>
+                                    <td ng-attr-title="{{i.createat}}"><span>{{i.createat}}</span></td>
+                                    <td ng-attr-title="{{i.leaves}}"><span>{{i.leaves}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="page-box">
+                        <div class="select-page-num">
+                            <select class="form-control" ng-model="detailpageSize"
+                                ng-change="detailpagechange(detailpageSize)">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>每页</span>
+                        </div>
+                        <div class="total-num">
+                            共&nbsp;&nbsp;{{ detailtotalCounts }}&nbsp;&nbsp;条
+                        </div>
+                        <div class="page-index" id="guest-page">
+                            <div class="detailpagegroup">
+                                <a href="#">&lt;&lt;</a>
+                                <a href="#">&lt;</a>
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a class="current" href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+                                <a href="#">6</a>
+                                <a href="#">···</a>
+                                <a href="#">&gt;</a>
+                                <a href="#">&gt;&gt;</a>
+                            </div>
+                        </div>
+                        <div class="to-go">
+                            <span>跳转：</span>
+                            <input type="text" class="form-control" placeholder="" ng-model="detailpageNum">
+                            <a class="btn btn-default" href="javascript: void(0);" role="button"
+                                ng-click="detailpagenumchange()">go</a>
+                        </div>
+                    </div>
+                    <div class="tan-btns">
+                        <a class="tan-btn0" ng-click="closeModal()">{{'100051' | translate}}</a>
+                        <a class="tan-btn1" ng-click="closeModal()">{{'100050' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="asj-common-tanwrap" ng-show="clickScorefacrion">
+                <div id="comprehensiveView"
+                    ng-class="{'asj-common-tan': true, 'common-tan-sty1': true, 'tan-turn-private': true}">
+                    <h3 style="text-align: center;padding: 20px 0;margin: 0">{{'100283' | translate}}</h3>
+
+                    <div class="wa-GuestsDetails">
+                        <table class="ea-list-table ea-erp-cs">
+                            <thead>
+                                <tr>
+                                    <th><span>{{'100265' | translate}}</span></th>
+                                    <th><span>{{'101318' | translate}}</span></th>
+                                    <th><span>{{'100274' | translate}}</span></th>
+                                    <th><span>{{'100275' | translate}}</span></th>
+                                    <th><span>{{'100276' | translate}}</span></th>
+                                    <th><span>{{'100277' | translate}}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody class="guest-info-tbody">
+                                <tr class="la_tr la_tr01" ng-repeat="i in zhpfList">
+                                    <td ng-attr-title="{{i.createat.time}}"><span>{{formatDate(i.createat.time)}}</span>
+                                    </td>
+                                    <td ng-attr-title="{{i.nameen}}"><span>{{i.nameen}}</span></td>
+                                    <td ng-attr-title="{{i.scoremessage}}"><span>{{i.scoremessage}}</span></td>
+                                    <td ng-attr-title="{{i.scoregrade}}"><span>{{i.scoregrade}}</span></td>
+                                    <td ng-attr-title="{{i.scoretime}}"><span>{{i.scoretime}}</span></td>
+                                    <td ng-attr-title="{{i.score}}"><span>{{i.score}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <p style="padding-top: 20px;padding-left: 10px;">{{'100284' | translate}}：<span>{{zhpfCount}}</span>
+                    </p>
+                    <div class="page-box">
+                        <div class="select-page-num">
+                            <select class="form-control" ng-model="zhpfpageSize"
+                                ng-change="zhpfpagechange(zhpfpageSize)">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>每页</span>
+                        </div>
+                        <div class="total-num">
+                            共&nbsp;&nbsp;{{ zhpftotalCounts }}&nbsp;&nbsp;条
+                        </div>
+                        <div class="page-index" id="zhpf-page">
+                            <div class="zhpfpagegroup">
+                                <a href="#">&lt;&lt;</a>
+                                <a href="#">&lt;</a>
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a class="current" href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+                                <a href="#">6</a>
+                                <a href="#">···</a>
+                                <a href="#">&gt;</a>
+                                <a href="#">&gt;&gt;</a>
+                            </div>
+                        </div>
+                        <div class="to-go">
+                            <span>跳转：</span>
+                            <input type="text" class="form-control" placeholder="" ng-model="zhpfpageNum">
+                            <a class="btn btn-default" href="javascript: void(0);" role="button"
+                                ng-click="zhpfpagenumchange()">go</a>
+                        </div>
+                    </div>
+                    <div class="tan-btns">
+                        <a class="tan-btn0" ng-click="closeModal2()">{{'100051' | translate}}</a>
+                        <a class="tan-btn1" ng-click="closeModal2()">{{'100050' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="video-text" ng-show="uplaode">
+							<div class="video-text2">
+								&nbsp;&nbsp;&nbsp;主题:&nbsp;&nbsp;<textarea name="" rows="" cols=""></textarea>
+							</div>
+							<div class="video-text3">
+								&nbsp;&nbsp;&nbsp;链接:&nbsp;&nbsp;<textarea name="" rows="" cols=""></textarea>
+							</div>
+							<div class="video-but">
+								<p ng-click="uplaode=false">取消</p>
+								<p ng-click="videoUplaode()">上传</p>
+							</div>
+						</div>-->
+            <!--删除弹框-->
+            <!--<div class="videoremove" ng-show="videoremovet">
+					<p>确定要删除吗?</p>
+					<div>
+						<span class="videoremoveFalse" ng-click="videoremoveFalse()">取消</span>
+						<span class="videoremoveSure" ng-click="videoremoveSure()">确定</span>
+					</div>
+				</div>-->
+        </div>
+
+        <!-- </div> -->
+    </div>
+
+    </body>

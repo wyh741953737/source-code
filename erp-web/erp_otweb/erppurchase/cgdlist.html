@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>已取消订单金额-财务收入管理-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <!-- <link rel="stylesheet" href="erp_otweb/css/li_erp.css"> -->
+    <style type="text/css">
+        .add-ydhwrap,.bulktxyd-wrap,.modefy-wrap{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 10003;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .addydh-con,.bulktxyd-con,.bulkxgydh-con,.ywy-con{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            height: 280px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .ywy-con{
+            height: 520px;
+            width: 260px;
+            text-align: center;
+        }
+        .ywy-list{
+            height: 400px;
+            overflow-y: auto;
+        }
+        .fiexdbottom-btns{
+            margin-top: 20px;
+        }
+        .bb-closebtn{
+            color: #6b6b6b;
+            height: 30px;
+            width: 76px;
+            border: 1px solid #cfcfcf;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f6f6f6;
+        }
+        .bulktxyd-con,.bulkxgydh-con{
+            height: 120px;
+        }
+        .bulk-ydinp{
+            width: 350px;
+            height: 30px;
+        }
+        .addydh-div{
+            /*border: 1px solid red;*/
+            margin-top: 20px;
+        }
+        .addydh-div .addydh-inp{
+            width: 200px;
+            text-indent: 12px;
+        }
+        .addydh-div select{
+            width: 200px;
+        }
+        .bottom-btns .enter-btn{
+            width: 76px;
+            height: 30px;
+            background: #08aceb;
+            color: #fff;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 20px;
+            left: 60%;
+            transform: translateX(-50%);
+        }
+        .bottom-btns .cancel-btn{
+            width: 76px;
+            height: 30px;
+            background: #f6f6f6;
+            border: 1px solid #cfcfcf;
+            color: #6b6b6b;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 20px;
+            left: 40%;
+            transform: translateX(-50%);
+        }
+        /*添加运单号*/
+        .add-ydhbtn{
+            width: 74px;
+            height: 30px;
+            background-color: #08aceb;
+            color: #fff;
+            font-size: 12px;
+            line-height: 30px;
+            margin:0 2px;
+            border-radius: 4px;
+        }
+        .lashop_img .blank-b{
+            position: relative;
+        }
+        .lashop_img .s-img{
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            max-width: inherit;
+        }
+        .lashop_img .hide-bigimg{
+            width: auto;
+            height: 360px;
+            position: absolute;
+            left: 50px;
+            top: -10px;
+            background-color: #fff;
+            z-index: 9;
+            cursor: pointer;
+            /*border: 1px solid red;*/
+            max-width: none;
+            max-height: none;
+            display: none;
+        }
+        .lashop_img .hide-bigimg-active{
+            top: -220px;
+        }
+        .cg-top-fun{
+            padding: 0 10px 10px 10px;
+            height: 30px;
+        }
+        .gys-link{
+            width: 100px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: block;
+            margin: 0 auto;
+        }
+        /*复制*/
+        .ea-list-table td .ord-val{
+            /*display: none;*/
+            width: 135px;
+            border: none;
+        }
+        .copy-btn{
+            background-color: #08aceb;
+            color: #fff;
+            font-size: 12px;
+            border-radius: 4px;
+            padding: 2px;
+        }
+        .xgydh-inp{
+            width: 200px;
+            height: 30px;
+            text-indent: 12px;
+        }
+        .search-inp{
+           height: 30px;
+           text-indent: 12px;
+           width: 280px;
+        }
+        .search-btn{
+            height: 30px;
+            vertical-align: top;
+            padding: 0 10px;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            border-left: none;
+        }
+        .search-btn:hover{
+            color: #f99429;
+        }
+        .fir-ordnum{
+            cursor: pointer;
+        }
+        .fir-ordnum:hover{
+            color: #f60;
+        }
+        /*表格*/
+        .ea-list-table td .splist-sku{
+            width: 70px;
+            display: block;
+            word-break: break-all;
+            margin: 0 auto;
+        }
+        .ea-list-table td span{
+            font-size: 12px;
+        }
+        .ea-list-table td .cg-checkbox{
+            margin: 0 8px;
+        }
+        /*.cgd-ord-num{
+            width: 120px;
+        }*/
+    </style>
+</head>
+
+<body>
+    <!-- content -->
+    <div class="ea-content">
+        <!-- <div class="ea-content-box"> -->
+        <!-- <div class="ea-content-con"> -->
+        <!-- left nav -->
+        <div class="left-bar">
+            <ul>
+                <li class="active"><a href="#/erppurchase/needbuy">{{'100549' | translate}}</a></li>
+                <li><a href="#/supplier-manage">{{'100550' | translate}}</a></li>
+            </ul>
+        </div>
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content li_ea-right-content">
+            <!-- right nav -->
+            <div class="asj-h10"></div>
+            <!--<div class="top-taps clearfix">-->
+            	<!--<ul>-->
+                    <!--<li><a href="#/erppurchase/needbuy">{{'100551' | translate}}</a></li>-->
+                    <!--&lt;!&ndash; <li><a href="#/erppurchase/purchaseinventory">采购库存</a></li> &ndash;&gt;-->
+                    <!--<li class="active"><a href="#/erppurchase/cgdlist">{{'100552' | translate}}</a></li>-->
+                    <!--<li><a href="#/erppurchase/addpurchase">{{'100553' | translate}}</a></li>-->
+                    <!--<li><a href="#/erppurchase/arrivalabnormal">{{'100554' | translate}}（2）</a></li>-->
+                    <!--<li><a href="#/erppurchase/financial">{{'100555' | translate}}</a></li>-->
+                <!--</ul>-->
+		    <!--</div>-->
+            <!-- right search -->
+            <div class="right-bar">
+            <!-- <div class="ea-right-search la_meaus clearfix">
+                <div class="datatime-screen la_div"><a href="#" class="active">今日</a><a href="#">最近一周</a><a href="#">一个月</a><a href="#">三个月</a>
+                    <input type="text" id="txtBeginDate" placeholder="选取开始日期" />
+                    <input type="text" id="txtEndDate" placeholder="选取结束日期" />
+                    <input type="button" value="点击筛选">
+                </div>
+                <div class="la_menu la_div" style="margin-left: 39px">
+                    <ul class="clearfix">
+                        <li class="active">
+                            <a href="javascript:void(0);">
+											需采购
+										</a>
+                        </li>
+                        <li>
+                            <a href="#/erppurchase/purchaseover">
+											采购已完成
+										</a>
+                        </li>
+                        <li>
+                            <a href="#/erppurchase/purchasebed">
+											采购失败
+										</a>
+                        </li>
+                        <li>
+                            <a href="#/erppurchase/backmoney">
+											退货/退款
+										</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div> -->
+            <!-- right list -->
+            <div class="cg-top-fun">
+                <input ng-model="searchVal" class="search-inp" placeholder="{{'100556' | translate}}"></input><button ng-click="SearchFun()" class="search-btn">{{'100025' | translate}}</button>
+                <button ng-click="bulkTxFun()" class="bulk-txyd-btn">{{'100576' | translate}}</button>
+                <button ng-click="zdydFun()" class="bulk-txyd-btn">{{'100577' | translate}}</button>
+                <button ng-click="xgydhFun()" class="bulk-txyd-btn">{{'100578' | translate}}</button>
+            </div>
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+                    <tr>
+                        <th><span>
+                            <img class="cg-checkall" src="static/image/order-img/multiple1.png">
+                        </span></th>
+                        <th><span>{{'100487' | translate}}</span></th>
+                        <th><span>{{'100382' | translate}}</span></th>
+                        <th><span>{{'100106' | translate}}</span></th>
+                        <th><span>{{'101318' | translate}}</span></th>
+                        <th><span>{{'100558' | translate}}</span></th>
+                        <th><span>{{'100564' | translate}}</span></th>
+                        <th><span>{{'100579' | translate}}</span></th>
+                        <th><span>{{'100561' | translate}}</span></th>
+                        <th><span>{{'100033' | translate}}</span></th>
+                        <th><span>{{'100027' | translate}}</span></th>
+                        <th><span>{{'100043' | translate}}</span></th>
+                    </tr>
+                    <tr class="la_tr la_tr01" ng-repeat="item in cgList">
+                        <td><span>
+                            <img class="cg-checkbox" src="static/image/order-img/multiple1.png">
+                            <p style="display: none;" class="cg-list-id">{{item.ID}}</p>
+                            <p style="display: none;" class="cg-ord-id">{{item.PROCUREMENTORDERID}}</p>
+                        </span></td>
+                        <td><span>{{item.SUPPLIERDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</span></td>
+                        <td><span class="lashop_img">
+                            <b class="blank-b">
+                                <img class="s-img" ng-src={{item.img}} alt="" >
+                                <img class="hide-bigimg" ng-class="{'hide-bigimg-active':$index>9}" ng-src="{{item.img}}">
+                            </b>
+                        </span></td>
+                        <!--<td><span class="splist-sku">{{item.sku}}</span></td>-->
+						<td><span>{{item.sku}}
+						           <!-- <span ng-if="!item.remark" class="glyphicon glyphicon-comment"   ng-click="aaa(item)"  aria-hidden="true"></span> --> 
+						          <span ng-if="item.remark" class="glyphicon glyphicon-duplicate" style="color:#00CD00"  ng-click="aaa(item)"  aria-hidden="true"></span>
+						</span></td>
+                        <td><span ng-click="ordnumList(item)" class="fir-ordnum">{{item.empSet[0]}}</span></td>
+                        <td><span>
+                            <a class="gys-link" target="_blank" title="{{item.SUPPLIERLINK}}" href="{{item.SUPPLIERLINK}}">{{item.SUPPLIERLINK}}</a>
+                        </span></td>
+                        <td><span>{{item.COUNT}}个</span></td>
+                        <td><span>{{item.waitRecCount}}个</span></td>
+                        <td><span>¥{{item.costPrice}}</span></td>
+                        <td><span>¥{{item.COUNT*item.costPrice | number:2}}</span></td>
+                        <td>
+                            <span class="cgd-ord-num">
+                                <!-- <p>{{item.PROCUREMENTORDERID}}</p> -->
+                                <input class="ord-val" value="{{item.PROCUREMENTORDERID}}"  readonly="readonly"></input>
+                                <button ng-click="copyFun($event)" class="copy-btn">{{'100164' | translate}}</button>
+                            </span>
+                        </td>
+                        <td><span>
+                            <button ng-click="addydFun(item)" class="add-ydhbtn">{{'100580' | translate}}</button>
+                        </span></td>
+                    </tr>
+                </table>
+                <!--以下是分页-->
+                <!-- 分页 -->
+                 <!-- ng-show="hasMerch" -->
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div id="pagination1" class="pagination2">
+                            
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+                        <span class="count-money">总金额:</span>
+                        <span class="count-mnum">{{countMoney}}</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+    </div>
+    <!-- 添加运单号 -->
+    <div class="add-ydhwrap" ng-show="isaddFlag">
+        <div class="addydh-con">
+            <div class="addydh-div">
+                <span style="margin-left: -15px;">{{'100063' | translate}}:</span>
+                <input class="addydh-inp" ng-model="ydhNum"></input>
+            </div>
+            <div class="addydh-div">
+                <span>{{'100308' | translate}}:</span>
+                <input class="addydh-inp" ng-model="countNum"></input>
+            </div>
+            <div class="addydh-div">
+                <span>{{'100062' | translate}}:</span>
+                 <!-- ng-change="logistSelFun(logistName)" -->
+                <select class="sel-wlname" ng-model="addWlSel">
+                    <option value="">{{'100581' | translate}}</option>
+                    <option value="{{item.NAMECN+'#'+item.ID}}" ng-repeat="item in logistArr">{{item.NAMECN}}</option>
+                </select>
+            </div>
+            <!-- <div class="addydh-div">
+                <span>仓库:</span>
+                <select class="sel-ckname" ng-model="addCkSel">
+                    <option value="">请选择仓库</option>
+                    <option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+                </select>
+            </div> -->
+            <div class="bottom-btns">
+                <button class="cancel-btn" ng-click="closeaddydFun()">{{'100066' | translate}}</button>
+                <button class="enter-btn" ng-click="sureAddFun()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <!-- 批量填写运单号 -->
+    <div class="add-ydhwrap" ng-show="bulkTxFlag">
+        <div class="addydh-con">
+            <div class="addydh-div">
+                <span style="margin-left: -15px;">{{'100063' | translate}}:</span>
+                <input class="addydh-inp" ng-model="ydhNum"></input>
+            </div>
+            <!-- <div class="addydh-div">
+                <span>数量:</span>
+                <input class="addydh-inp" ng-model="countNum"></input>
+            </div> -->
+            <div class="addydh-div">
+                <span>{{'100062' | translate}}:</span>
+                 <!-- ng-change="logistSelFun(logistName)" -->
+                <select class="sel-wlname" id="bulksel-wl" ng-model="addWlSel">
+                    <option value="">{{'100581' | translate}}</option>
+                    <option value="{{item.NAMECN+'#'+item.ID}}" ng-repeat="item in logistArr">{{item.NAMECN}}</option>
+                </select>
+                <!-- <input class="addydh-inp" ng-model></input> -->
+            </div>
+            <!-- <div class="addydh-div">
+                <span>仓库:</span>
+                <select class="sel-ckname" ng-model="addCkSel">
+                    <option value="">请选择仓库</option>
+                    <option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+                </select>
+            </div> -->
+            <div class="bottom-btns">
+                <button class="cancel-btn" ng-click="bulkTxQxFun()">{{'100066' | translate}}</button>
+                <button class="enter-btn" ng-click="bulkTxSureFun()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <!-- 为订单号指定运单号 -->
+    <div class="add-ydhwrap" ng-show="bulkydhTjFlag">
+        <div class="addydh-con">
+            <div class="addydh-div">
+                <span style="margin-left: -15px;">{{'100027' | translate}}:</span>
+                <input class="addydh-inp" ng-model="tjydhOrdNum"></input>
+            </div>
+            <div class="addydh-div">
+                <span style="margin-left: -15px;">{{'100063' | translate}}:</span>
+                <input class="addydh-inp" ng-model="tjydhYdhNum"></input>
+            </div>
+            <!-- <div class="addydh-div">
+                <span>数量:</span>
+                <input class="addydh-inp" ng-model="countNum"></input>
+            </div> -->
+            <div class="addydh-div">
+                <span>{{'100062' | translate}}:</span>
+                 <!-- ng-change="logistSelFun(logistName)" -->
+                <select class="ordsel-wlname" ng-model="selWlfsName">
+                    <option value="">{{'100581' | translate}}</option>
+                    <option value="{{item.NAMECN+'#'+item.ID}}" ng-repeat="item in logistArr">{{item.NAMECN}}</option>
+                </select>
+                <!-- <input class="addydh-inp" ng-model></input> -->
+            </div>
+            <!-- <div class="ordaddydh-div addydh-div">
+                <span>仓库:</span>
+                <select class="sel-ckname" ng-model="selckName">
+                    <option value="">请选择仓库</option>
+                    <option value="{{item.storage+'#'+item.id}}" ng-repeat="item in ckArr">{{item.storage}}</option>
+                </select>
+            </div> -->
+            <div class="bottom-btns">
+                <button class="cancel-btn" ng-click="bulkydhTjQxFlag()">{{'100066' | translate}}</button>
+                <button class="enter-btn" ng-click="bulkydhTjSureFlag()">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <!-- 批量修改运单号 -->
+     <div class="add-ydhwrap" ng-show="xgydhFlag">
+         <div class="bulkxgydh-con">
+             <div class="xgydhcon-top">
+                 <label>{{'100027' | translate}}:</label>
+                 <input class="xgydh-inp"></input>
+             </div>
+             <div class="bottom-btns">
+                 <button class="cancel-btn" ng-click="xgydhQxFun()">{{'100066' | translate}}</button>
+                 <button class="enter-btn" ng-click="xgydhSureFun()">{{'100050' | translate}}</button>
+             </div>
+         </div>
+     </div>
+     <!-- 查看业务员 -->
+     <div class="modefy-wrap" ng-show="ordNumFlag">
+         <div class="wldetail-con ywy-con">
+             <p class="head-li">{{'100573' | translate}}</p>
+             <ul class="ywy-list">
+                 <li ng-repeat="item in ordNumArr">
+                     {{item}}
+                 </li>
+             </ul>
+             <div class="fiexdbottom-btns">
+                 <button ng-click="closeOrdNum()" class="bb-closebtn">{{'100066' | translate}}</button>
+             </div>
+         </div>
+     </div>
+	 <!-- 采购消息 -->
+	 <div class="add-ydhwrap" ng-show="messageFlag">
+         <div class="bulkxgydh-con" style="height: 280px;">
+             <div class="xgydhcon-top">
+                 <textarea style="width: 410px;height: 200px;" id="messageArea"  readonly="true" ng-model="messageArea"  ></textarea>
+             </div>
+             <div class="bottom-btns">
+                 <button class="cancel-btn" style="left:50%;" ng-click="messageCloseFun()">{{'100066' | translate}}</button>
+             </div>
+         </div>
+     </div>
+    <!-- <div class="bulktxyd-wrap" ng-show="bulkTxFlag">
+        <div class="bulktxyd-con">
+            <input class="bulk-ydinp"></input>
+            <div class="bottom-btns">
+                <button ng-click="bulkTxQxFun()" class="cancel-btn">关闭</button>
+                <button ng-click="bulkTxSureFun()" class="enter-btn">确定</button>
+            </div>
+        </div>
+    </div> -->
+	
+    <!-- 选取两段时间之间插件 -->
+    <!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+
+    <script>
+    $(function() {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate", // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200, // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true, // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true, // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(), // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"), // 日期下限，默认：NaN(不限制)
+            callback: function() { // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+    </script>
+</body>
+
+</html>

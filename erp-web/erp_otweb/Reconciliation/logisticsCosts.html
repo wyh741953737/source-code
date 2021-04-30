@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+  <meta charset="UTF-8">
+  <title>物流费用</title>
+	<link rel="stylesheet" href="erp_otweb/css/reconciliation.css">
+</head>
+<body>
+<div class="content">
+	<div class="filter-box">
+		<div class="item">
+			<select ng-model="logisticsCompanyName" ng-options="item for item in logisticsCompanyArr">
+				<option value="">全部</option>
+			</select>
+			<input type="text" ng-model="logisticName" placeholder="渠道名称">
+		</div>
+		<div class="item">
+			<span>CJ子订单号</span>
+			<input type="text" ng-model="cjorderId">
+		</div>
+		<div class="item">
+			<span>物流运单号</span>
+			<input type="text" ng-model="logisticsWaybillNo">
+		</div>
+    <div class="item">
+			<span>转单号</span>
+			<input type="text" ng-model="split">
+		</div>
+		<div class="item">
+			<span class="label">付款日期：</span>
+	    <input id="date1" class="Wdate data-inp" ng-focus="dateFocus($event,'startTime')"
+	           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="" ng-model="startTime">
+			<span class="line">-</span>
+      <input id="date2" class="Wdate data-inp" ng-focus="dateFocus($event,'endTime')"
+             onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="" ng-model="endTime">
+		</div>
+		<div class="item">
+			<select ng-model="status">
+				<option value="">全部</option>
+				<option value="1">未对账</option>
+				<option value="2">已对账</option>
+			</select>
+		</div>
+		<div class="item">
+			<button ng-click="hadelSearch()">查询</button>
+			<input type="file" id="upload-file" onchange="angular.element(this).scope().upLoadExcel(this.files)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+			<button ng-click="handleUpload()">导入物流账单</button>
+			<a ng-click="downTemplete()" href="javascript:void(0)">下载模版</a>
+			<button ng-click="openInputPassword(handleExport)">导出</button>
+			<span>提示: 超过五万条的数据按两万导出，请分时间段进行多次导出</span>
+		</div>
+	</div>
+  <table>
+    <thead>
+    <tr>
+      <th>序号</th>
+      <th>物流公司</th>
+      <th>渠道名称</th>
+      <th>CJ子订单号</th>
+      <th>物流商运单号</th>
+      <th>转单号</th>
+      <th>出库时间</th>
+      <th>物流商入库时间</th>
+      <th>CJ订单参考重量</th>
+      <th>CJ出库重量</th>
+      <th>物流商重量</th>
+		  <th>出库与物流商重量误差</th>
+	    <th>是否抛货</th>
+	    <th>抛货重量</th>
+		  <th>cj参考运费</th>
+		  <th>物流折扣</th>
+      <th>CJ应付运费</th>
+      <th>物流商运费</th>
+      <th>实付运费</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in tableData" ng-show="tableData.length>0">
+	    <td>{{$index+1}}</td>
+	    <td>{{item.logisticsCompanyName}}</td>
+	    <td>{{item.logisticName}}</td>
+	    <td>{{item.cjorderId}}</td>
+	    <td>{{item.logisticsWaybillNo}}</td>
+      <td>{{item.split}}</td>
+      <td>{{item.deliveryTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+      <td>{{item.referenceDeliveryTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+      <td>{{item.referenceWeight ? item.referenceWeight+'g' : ''}}</td>
+	    <td>{{item.orderweight ? item.orderweight+'g' : ''}}</td>
+	    <td>{{item.logisticsCompanyWeight ? item.logisticsCompanyWeight+'g' : ''}}</td>
+			<td>{{item.errorWeight ? item.errorWeight+'g' : ''}}</td>
+	    <td>{{item.dump ? '是' : '否'}}</td>
+	    <td>{{item.volumeWeight ? item.volumeWeight+'g' : ''}}</td>
+			<td>{{item.referencePayFreight ? '¥'+item.referencePayFreight : ''}}</td>
+	    <td>{{item.logisticsDiscountRate}}</td>
+	    <td>{{item.cjPayFreight ? '¥'+item.cjPayFreight : ''}}</td>
+	    <td>{{item.logisticsPayFreight ? '¥'+item.logisticsPayFreight : ''}}</td>
+	    <td>{{item.realPayFreight ? '¥'+item.realPayFreight : ''}}</td>
+    </tr>
+    <tr ng-show="tableData.length == 0">
+      <td colspan="20" style="font-size: 14px;">暂无数据。</td>
+    </tr>
+    </tbody>
+    </table>
+	<page ng-show="tableData.length > 0"></page>
+</div>
+<div class="logistic-modal-warp" ng-show="isShowInfo" ng-cloak>
+		<div class="content-warp">
+			<div class="content">
+				<p class="content-text">{{contentInfo}}</p>
+			</div>
+			<div class="operating-box">
+				<button ng-click="handleOpt()">确定</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

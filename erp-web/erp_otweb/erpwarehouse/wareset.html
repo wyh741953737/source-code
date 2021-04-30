@@ -1,0 +1,101 @@
+<div class="ea-content asj-ware-box">
+  <!-- right con -->
+  <div class="right-bar-wrap ea-right-content li_ea-right-content">
+    <!-- right nav -->
+    <div class="asj-h10"></div>
+    <!-- right search -->
+    <div class="right-bar">
+      <div class="ea-right-search">
+        <div class="add-merch" style="display: flex;">
+          <span class="add-merch-btn" ng-click="addNewFun()">增加</span>
+        </div>
+      </div>
+      <div class="table-con-box">
+        <table class="ea-list-table">
+          <thead>
+            <tr>
+              <!-- <th><input type="checkbox"></th> -->
+              <th>{{'100674' | translate}}</th>
+              <th>{{'100675' | translate}}</th>
+              <th>{{'关联仓库'}}</th>
+              <th>{{'100043' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="la_tr" ng-repeat="item in wareSetList track by $index">
+              <td>{{item.name}}</td>
+              <td>{{item.name_en}}</td>
+              <td>{{item.relevance_storage_name}}</td>
+              <td>
+                  <a role="button" class="asj-btn-s asj-btn-s1" ng-click="editOneWare(item)" href="javascript: void(0);">{{'100120' | translate}}</a>
+                  <a role="button" class="asj-btn-s asj-btn-s3" ng-if="item.status==0" ng-click="freezeOneWare(item,'1')">{{'100744' | translate}}</a>
+                  <a role="button" class="asj-btn-s asj-btn-s4" ng-if="item.status==1" ng-click="freezeOneWare(item,'0')">{{'100748' | translate}}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="asj-common-tanwrap" id="addWarp" ng-show="addWareFlag">
+		<div class="asj-common-tan tan-add-ware">
+			<div class="tan-title">新增</div>
+			
+      <div class="input-item clearfix">
+        <label class=""><span class="asj-must-require">* </span>{{'100679' | translate}}:</label>
+        <div class="right-con">
+          <input type="text" placeholder="" ng-model="addObj.name" ng-change="nameChange()">
+        </div>
+      </div>
+      <div class="input-item clearfix">
+        <label class=""><span class="asj-must-require">* </span>{{'100680' | translate}}:</label>
+        <div class="right-con">
+          <input type="text" placeholder="" ng-model="addObj.name_en" ng-change="nameEnChange()">
+        </div>
+      </div>
+      <div class="input-item clearfix">
+        <label class=""><span class="asj-must-require">* </span>归属国家:</label>
+        <div class="right-con">
+          <div class="right-con-select" id="selectCountryList" ng-click="toggleCountryFun($event)">
+            <span ng-show="!addObj.affiliation_state" class="right-con-select-nodata">{{'100705' | translate}}</span>
+            <span class="right-con-name-box" ng-show="addObj.affiliation_state">{{addObj.affiliation_state}}<span class="right-con-select-name"></span><span class="close" ng-click="removeCountryFun($event)"></span></span>
+            <div class="right-con-list-box" id="countryList" ng-show="showCountryList">
+              <div class="right-con-list">
+                <div class="right-con-item" ng-repeat = "item in countryList track by $index" ng-class="{'selected':item.check}" ng-click="chooseCountryFun(item)">
+                  {{item.val}}-{{item.name}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-item clearfix">
+        <label class=""><span class="asj-must-require">* </span>关联仓库:</label>
+        <div class="right-con">
+          <div class="right-con-select" id="selectList" ng-click="toggleWareListFun($event)">
+            <span ng-show="checkWarelist.length==0" class="right-con-select-nodata">{{'100572' | translate}}</span>
+            <span class="right-con-name-box" ng-repeat="item in checkWarelist track by $index">{{item.storageName}}<span class="right-con-select-name"></span><span class="close" ng-click="removeCheckFun($index,$event)"></span></span>
+            <div class="right-con-list-box" id="wareList" ng-show="showWareList">
+              <div class="right-con-list">
+                <div class="right-con-item" ng-repeat = "item in wareList track by $index" ng-class="{'selected':item.check}" ng-click="chooseWareFun(item)">
+                  {{item.storageName}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tan-btns" ng-show="editWareId">
+        <a class="tan-btn0" ng-click="cancelAddWare()">{{'100051' | translate}}</a>
+        <a class="tan-btn1" ng-click="goAddOneWare()">{{'100050' | translate}}</a>
+      </div>
+      <div class="tan-btns">
+        <a class="tan-btn0" ng-click="cancelAddFun()">取消</a>
+        <a class="tan-btn1" ng-click="confirmAddFun()">保存</a>
+      </div>
+		</div>
+	</div>
+
+
+  

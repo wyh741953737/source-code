@@ -1,0 +1,210 @@
+<!--<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>客户-黑名单-ERP系统</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+		<style type="text/css">
+			.staffwindow{
+				position: fixed;
+				left:0;
+				right: 0;
+				top:0;
+				bottom: 0;
+				background: rgba(0,0,0,0.3);
+			}
+			.windowcontent{
+				position: absolute;
+				left:0;
+				right: 0;
+				top:0;
+				bottom: 0;
+				margin: auto;
+				width: 600px;
+				height: 400px;
+				background: #fff;
+			}
+			.windowcontent div{
+				width: 100%;
+
+				/*line-height: 200px;*/
+				margin-top: 80px;
+				position: relative;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.windowcontent div input{
+				width: 180px;
+
+				/*line-height: 200px;*/
+				/*margin-top: 80px;*/
+				border:1px solid #e5e5e5;
+			}
+			.emplist{
+				position: absolute;
+				width: 180px;
+				max-height: 180px;
+				overflow: auto;
+				border-bottom: 1px solid #e5e5e5;
+				border-left: 1px solid #e5e5e5;
+				border-right: 1px solid #e5e5e5;
+				top: 24px;
+				right: 192px;
+				background: #fff;
+				z-index: 99;
+			}
+			.emplist li:hover{
+				background: #e5e5e5;
+				cursor: pointer;
+			}
+			/*.windowcontent div:first-child{*/
+				/*font-size: 24px;*/
+				/*text-align: center;*/
+			/*}*/
+			/*.windowcontent div:first-child img{*/
+				/*margin-right: 30px;*/
+			/*}*/
+			.windowcontent div:last-child{
+				text-align: right;
+				box-sizing: border-box;
+				padding-right: 30px;
+			}
+			.windowcontent div:last-child button{
+				width: 190px;
+				height: 44px;
+				color: #FFFFFF;
+				background: #f99429;
+				border-radius: 5px;
+			}
+			/*.windowcontent div:nth-child(2){*/
+				/*box-sizing: border-box;*/
+				/*padding-left: 30px;*/
+				/*text-align: center;*/
+			/*}*/
+			.zwj-smallp{
+				color: #999999;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+	<body>
+
+		
+		<!-- content -->
+		<!--<div class="ea-content">
+			<div class="ea-content-box">
+				
+				<div class="ea-content-con">
+					<!-- left nav -->
+					<!--<div class="ea-left-nav">
+						<ul>
+							<li><a href="#/erpcustomer/KeHuLieBiao"  >客户列表（{{customerdata.normal}}）</a></li>
+							<li><a href="#/erpcustomer/xushenhe" >需审核（{{customerdata.needaudit}}）</a></li>
+							<li><a href="#/erpcustomer/shenhenopass" >审核未通过（{{customerdata.nopass}}）</a></li>
+							<li><a href="#/erpcustomer/heimingdan" >黑名单（{{customerdata.black}}）</a></li>
+							<li><a href="#/erpcustomer/shoplist">店铺列表({{customerdata.shop}})</a></li>
+							<li class="active"><a href="#/staff/client">客户分配</a></li> 
+						</ul>
+					</div>
+					-->
+					<!-- right con -->
+					<!--<div class="ea-right-content">
+						<div class="bg-geduan"></div>
+						<!-- right search -->
+						<!--<div class="ea-right-search">
+
+							<p ><input type="text" value=""  class="search-text-box" ng-model="searchinfo" /><input type="button" value="搜索" class="search-button" ng-click="searchstaff()" /></p>
+							<a style="float: right;width:74px;height:30px;display:inline-block;line-height:30px;text-align:center;background:#f99429;border-radius: 4px;color: #fff;" ng-click="add=true">分配客户</a>
+						</div>-->
+
+						<!-- right list -->
+						<!--<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr>
+								<th><span>序号</span></th>
+								<th><span>客户名称</span></th>
+								<th><span>email</span></th>
+								<th><span>登录名</span></th>
+								<th><span>业务员名称</span></th>
+							</tr>
+							<tr ng-repeat="item in list" style="cursor: pointer">
+								<td><span>{{$index+1}}</span></td>
+								<td><span>{{item.NAME}}</span></td>
+								<td><span><p><a>{{item.EMAIL}}</a></p></span></td>
+								<td><span>{{item.LOGIN_NAME}}</span></td>
+								<td><span>{{item.RELATE_SALESMAN}}</span></td>
+							</tr>
+							
+						</table>-->
+
+
+							<!--<div class="fenPage">
+							<span><select ng-model="pagesize" ng-change="pagechange(pagesize)" ng-options="item as item for item in pagenumarr">
+							</select>
+							条每页
+							</span>
+								<span>共{{totalpage()}}页</span>
+								<span class="pagegroup">
+							</span>
+								<span>跳转 <input type="number" style=" padding: 0;" step="1" min="1" placeholder="" ng-model="pagenum"> 页 <input type="button" value="GO" ng-click="pagenumchange()"></span>
+
+							</div>
+						
+						
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>-->
+		
+		<!--弹出框-->
+		<!--<div class="staffwindow" ng-show="add">
+			<div class="windowcontent">
+				<!--<div><img src="./static/image/login/iconsuccess.png" alt=""><span>修改成功</span></div>-->
+				<!--<div><p>新增员工账号为:</p>-->
+				   <!--<p>{{windowname}}</p>-->
+				<!--</div>-->
+				<!--<div><span>员工: </span>
+				<input type="text" ng-model="empname" ng-change="empchange()" ng-blur="embul=false" ng-focus="empchange()" >
+				        <ul class="emplist" ng-show="embul">
+							<li ng-repeat="item in emblist" ng-mousedown="getemp(item)">{{item.NAME}}</li>
+						</ul>
+				</div>
+				<div><span>客户: </span><input type="text" ng-model="clientname" ng-change="clientchange()" ng-blur="clientul=false" ng-focus="clientchange()">
+					<ul class="emplist" ng-show="clientul">
+						<li ng-repeat="item in clientlist" ng-mousedown="getclient(item)">
+							<p>{{item.LOGIN_NAME}}</p>
+							<p class="zwj-smallp">{{item.NAME}}</p>
+						</li>
+					</ul></div>
+				<div><button ng-click="add=false" style="background: #e5e5e5;color: #fff;" >取消</button><button ng-click="submit()">确定</button></div>
+			</div>
+		</div>-->
+		<!-- 选取两段时间之间插件 -->
+		<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+		<!--<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+            //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>-->
+
+		
+	<!--</body>
+</html>-->

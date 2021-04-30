@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据统计</title>
+    <!--业务员管理-->
+    <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+</head>
+<body>
+<div class="tab">
+    <ul class="clearfix">
+        <li class="Act"><a href="#/SalesmanManagement/DataStatistics">数据统计</a></li>
+        <!--<li><a href="#/SalesmanManagement/OrderTracking">订单查询</a></li>-->
+        <!-- <li><a href="#/SalesmanManagement/SalesmanSetting">业务员设置</a></li> -->
+    </ul>
+</div>
+<div style="height: 68px;"></div>
+<div class="content">
+    <div class="dataFilter">
+        <select ng-show="level == 'admin'" ng-model="salesmanName" ng-options="item.salesmanID as item.salesmanName for item in salesmanData"  ng-change="salesmanChange()">
+            <option value="">总和</option>
+        </select>
+        <select ng-model="dateType" ng-change="dateChange()">
+            <option value="日">日</option>
+            <option value="月">月</option>
+            <option value="年">年</option>
+        </select>
+    </div>
+    <div id="main1" style="width: 100%;height:350px"></div>
+    <div id="main2" style="width: 100%;height:350px"></div>
+    <div id="main3" style="width: 100%;height:350px"></div>
+    <div id="main4" style="width: 100%;height:350px"></div>
+    <div id="main5" style="width: 100%;height:350px"></div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>

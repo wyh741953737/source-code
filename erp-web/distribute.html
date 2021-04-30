@@ -1,0 +1,368 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="static/favicons.png" />
+  <title>质检</title>
+  <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+  <link rel="stylesheet" href="static/css/init.css">
+  <link rel="stylesheet" href="static/css/y.css">
+  <link rel="stylesheet" href="static/css/distribute.css">
+  <link rel="stylesheet" href="static/css/receiving.css">
+  <style>
+    .zhifaWrap{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 240px;
+      background: #fff;
+      height: 150px;
+      overflow: auto;
+      color: red;
+    }
+    .zhifaWrap li {
+      padding: 5px 0;
+    }
+
+  </style>
+</head>
+
+<body ng-app="receiving" ng-controller="receivingCtrl">
+  <main class="main" id="main" ng-click="selectListShow=false">
+    <div class="tab-container flex fxc mb-20">
+      <ul class="tab flex fyc fs-16 my-tab">
+        <li ng-repeat="tab in tabList" ng-click="switchTab(tab, $index)" ng-class="{'tab-active': currentIndex === $index}">
+          <div ng-bind="tab.title"></div>
+        </li>
+      </ul>
+    </div>
+    <div class="inspect-container" ng-show="currentIndex === 0">
+      <header class="header flex fyc bd-1e mb-20">
+          <div class="tab-status" ng-cloak>
+
+            <div class="tab-status-item">
+                <span class="tab-status-name">目标仓库:</span>
+                <select class="tab-status-select" ng-change="filterGetData()" ng-model="filterObj.store">
+                    <option value="">全部</option>
+                    <option ng-repeat="item in storeList" value="{{item.type}}">{{item.dataName}}</option>
+                </select>
+            </div>
+            <!-- <div class="tab-status-item">
+                <span class="tab-status-name">库区:</span>
+                <select class="tab-status-select" ng-change="filterGetData()" ng-model="filterObj.storeType">
+                    <option ng-repeat="item in storeTypeList" value="{{item.val}}">{{item.name}}</option>
+                </select>
+            </div> -->
+            <div class="tab-status-item">
+                <span class="tab-status-name">采购方式:</span>
+                <select class="tab-status-select" ng-change="filterGetData()" ng-model="filterObj.procurementType">
+                    <option ng-repeat="item in purchaseList" value="{{item.val}}">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="tab-status-item">
+              <span class="tab-status-name">采购单号：</span>
+              {{inspectTableList[0]?inspectTableList[0].orderId:'--'}}
+          </div>
+          <div class="tab-status-item">
+            <span class="tab-status-name">采购人：</span>
+            {{inspectTableList[0]?inspectTableList[0].caigouRen:'--'}}
+          </div>
+        </div>
+        <ul class="option flex fyc fxc fg-1 fs-14">
+          <li>
+            <span class="fs-16 mr-5">批次号: </span>
+            <input id="iptWayBillNum" type="text" placeholder="请扫描批次号" ng-model="params.waybillNumber" ng-keyup="handleSearch($event)" id="waybillNumber">
+          </li>
+        </ul>
+      </header>
+      <main class="table-area">
+        <section class="title"></section>
+        <section class="table">
+          <ul class="table-head flex fyc fs-14 bd-1e c-th">
+            <li style="width: 10%;">图片</li>
+            <li style="width: 20%;" class="flex fyc fxl">SKU</li>
+            <li style="width: 10%;">属性</li>
+            <li style="width: 8%;">批次数量</li>
+            <!-- <li style="width: 8%;">到货数量</li> -->
+            <li style="width: 8%;">合格数量</li>
+            <li style="width: 8%;">次品数量 (C)</li>
+            <li style="width: 10%;">目标仓库</li>
+            <!-- <li style="width: 10%;">库区</li> -->
+            <li style="width: 8%;">采购方式</li>
+            <li style="width: 8%;">少货数量 (S)</li>
+            <li style="width: 8%;">多货数量 (D)</li>
+            <li style="width: 8%;">系统重量 (g)</li>
+            <li style="width: 8%;">系统包装重量 (g)</li>
+            <li style="width: 10%;">实际重量 (g)</li>
+            <li style="width: 8%;">长 (cm)</li>
+            <li style="width: 8%;">宽 (cm)</li>
+            <li style="width: 8%;">高 (cm)</li>
+            <li style="width: 8%;">是否抛货</li>
+            <li style="width: 10%;">异常类型</li>
+            <li style="width: 10%;">SKU条码打印</li>
+            <li style="width: 10%;">上传凭证</li>
+            <li style="width: 10%;">检验操作</li>
+            <li style="width: 10%;">预计到货数量</li>
+            <li style="width: 10%;">分标人</li>
+          </ul>
+          <ul class="table-body fs-14 mb-20">
+            <li ng-repeat="(index,item) in inspectTableList">
+              <div class="table-item flex fyc bd-1e">
+                <dl class="" style="width: 10%;" ng-mouseenter="imgHover=true" ng-mouseleave="imgHover=false">
+                  <div class="prel">
+                    <img ng-src="{{item.cjImg}}" alt="" height="60">
+                    <img class="hover-img" ng-src="{{item.cjImg}}" alt="" height="300" ng-show="imgHover">
+                  </div>
+                </dl>
+                <dl style="width: 20%;" class="fyc fdc lh-20">
+                  <a ng-href="{{'/manage.html#/merchandise/show-detail/'+item.cjProductId+'/0/3/'+item.productType}}" target="_blank"><p class="mb-5">{{item.cjSku}}</p></a>
+                  <p>短码: {{item.cjShortSku}} <span class="copy-btn cp br-4" style="padding: 0px 6px;" ng-click="handleCopy(item.cjSku)">复制</span></p>
+                  <span class="cut-word" title="供应商商品"><b ng-if="item.sourceType==1" class="qzkehu-flag" style="background: #f2002d;color: white;cursor: pointer;">供</b></span>
+                </dl>
+                <dl style="width: 10%;">
+                  <div style="display: flex; flex-direction: column;">
+                    <div ng-repeat="(key,val) in item.variantKeyMap" style="display: block;font-size: 12px;">
+                      {{key}}：{{val}}
+                    </div>
+                  </div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.receiveNun" ng-change="handleInputReceivedNum(item)"></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.qualifiedNum" ng-disabled="item.procurementType==20?true:false" ng-change="handleInputQualifiedNum(item)"></div>
+                </dl>
+                <!-- <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.qualifiedNum" ng-change="handleInputQualifiedNum(item)"></div>
+                </dl> -->
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.defectiveNum" ng-class="{'c-err': item.defectiveNum > 0}" disabled></div>
+                </dl>
+                <dl style="width: 10%;">
+                  <div class="edit-area">{{item.store | storeFilter}}</div>
+                </dl>
+                <!-- <dl style="width: 10%;">
+                  <div class="edit-area">库区</div>
+                </dl> -->
+                <dl style="width: 8%;">
+                  <div class="edit-area">{{item.procurementType | procurementFilter}}</div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.lackNum" ng-class="{'c-err': item.lackNum > 0}" disabled></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.moreNum" ng-class="{'c-err': item.moreNum > 0}" disabled></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.weight" disabled></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.packWeight" disabled></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input id="weightInput" type="number" maxlength="8" ng-model="item.realWeight" ng-change="handleActualWeight(item)"></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.productL"></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.productW"></div>
+                </dl>
+                <dl style="width: 8%;">
+                  <div class="edit-area"><input type="number" maxlength="8" ng-model="item.productH"></div>
+                </dl>
+                <dl style="width: 5%;">
+                  {{item.overSizeFlag?'是':'否'}}
+                </dl> 
+                <dl style="width: 10%;">
+                  <button class="print-btn bg-r1" ng-class="{'disable-btn': item.status === 3 || item.procurementType === 20}" ng-click="showErrorBox(item,index)">异常</button>
+                </dl>
+                <dl style="width: 10%;">
+                  <button class="print-btn bg-y1" ng-click="handlePrint(item, 7)">打印</button>
+                </dl>
+                <dl style="width: 10%;" ng-mouseenter="uploadHover=true" ng-mouseleave="uploadHover=false" class="upload-area">
+                  <button class="print-btn bg-y1" ng-show="!item.proof" ng-click="handleUpload(item)">上传</button>
+                  <div class="prel" ng-show="item.proof">
+                    <img ng-src="{{item.proof}}" alt="" height="60">
+                    <img class="hover-img" ng-src="{{item.proof}}" alt="" height="300" ng-show="uploadHover">
+                  </div>
+                </dl>
+                <dl style="width: 10%;">
+                  <button class="confirm-btn bg-b1" ng-class="{'disable-btn': item.status === 3}" ng-click="handleConfirm(item,index)">确认</button>
+                </dl>
+                <dl style="width: 10%; color: red" class="fs-16">{{item.shuLiang}}</dl>
+                <dl style="width: 10%; color: red" class="fs-16">{{item.skuQueRenRen || '--'}}</dl>
+              </div>
+            </li>
+          </ul>
+          <div ng-if="inspectTableList.length > 0">
+            <h3 class="tx-c lh-15e">变体信息: <span class="c-err">{{inspectTableList[0].cjSku}}</span></h3>
+            <h3 class="tx-c lh-15e">预计到货数量: <span class="c-err">{{inspectTableList[0].shuLiang || 0}}</span></h3class="tx-c lh-15e">
+            <div class="flex fxc">
+              <img ng-src="{{inspectTableList[0].cjImg}}" alt="" height="500">
+            </div>
+          </div>
+          <div class="no-data flex fyc fxc" ng-show="inspectTableList.length === 0">暂无数据</div>
+        </section>
+      </main>
+      <div class="zhifaWrap" ng-show="zhifaWrap">
+        <ul class="zhifa">
+            <li class="WaringTxt" style="margin-top: 20px;">直发订单</li>
+            <li class="WaringTxt" ng-repeat="item in zhifaList">缺货商品的SKU是{{item.sku}}需要{{item.quantity}}个!</li>
+        </ul>
+      </div>
+    </div>
+    <div class="distribute-container" ng-show="currentIndex === 1">
+      <header class="header flex fxc fyc bd-1e mb-20 prel">
+        <div class="batch-number">
+          <span class="fs-16 mr-5">批次号: </span>
+          <input type="text" placeholder="请扫描批次号" ng-model="batchNumber" ng-keyup="handleSearch($event)" id="batchNumber">
+        </div>
+        <div class="flex fyc pabs" style="right: 20px;">
+          <span class="mr-10">姓名: </span>
+          <div class="multiple-select prel mr-10" ng-class="{active: selectListShow}" ng-click="toggleMutipleSelect($event)">
+            <p class="bd-1e br-4 flex fyc cp fs-14">
+              {{getSelectedText()}}
+              <i class="multiple-select-arrow"></i>
+            </p>
+            <ul class="multiple-select-list pabs bd-1e br-4 fs-14" ng-show="selectListShow" style="padding: 4px 0;">
+              <li ng-repeat="name in nameList" class="flex fyc cp" ng-class="{active: name.checked}"
+                ng-click="selectName($event,name)">
+                <span class="checkbox mr-10" ng-class="{active: name.checked}"></span>
+                <h4 ng-style="{color: name.checked ? '#F9AE08' : ''}"> {{name.label}} </h4>
+              </li>
+            </ul>
+          </div>
+          <button class="common-btn" ng-click="showDistributeBox()">分配</button>
+        </div>
+      </header>
+      <main class="table-area">
+        <section class="title"></section>
+        <section class="table">
+          <ul class="table-head flex fyc fs-14 bd-1e c-th">
+            <li style="width: 20%;" class="flex fyc fxl">
+              <span>包裹号</span>
+            </li>
+            <li style="width: 20%;" class="flex fyc fxl">
+              <span>批次号</span>
+            </li>
+            <li style="width: 20%;">图片</li>
+            <li style="width: 20%;">SKU</li>
+            <li style="width: 20%;">到货数量</li>
+            <li style="width: 20%;">分批数量</li>
+            <li style="width: 20%;">分配人员</li>
+          </ul>
+          <ul class="table-body fs-14">
+            <li ng-repeat="item in tableList" ng-mouseenter="item.hover=true" ng-mouseleave="item.hover=false">
+              <div class="table-item flex fyc bd-1e">
+                <dl style="width: 20%;">
+                  <span>{{item.batchNum}}</span>
+                </dl>
+                <dl style="width: 20%;">
+                  <span>包裹号{{item.batchNum}}</span>
+                </dl>
+                <dl style="width: 20%;">
+                  <div class="prel" ng-mouseenter="item.imgHover=true" ng-mouseleave="item.imgHover=false">
+                    <img ng-src="{{item.cjImg}}" alt="" height="60">
+                    <img class="hover-img" ng-src="{{item.cjImg}}" alt="" height="300" ng-show="item.imgHover">
+                  </div>
+                </dl>
+                <dl style="width: 20%;" class="fyc fdc lh-20">
+                  <p class="mb-5">{{item.cjSku}}</p>
+                  <p>短码: {{item.cjShortSku}} <span class="copy-btn cp br-4" style="padding: 0px 6px;" ng-click="handleCopy(item.cjSku)">复制</span></p>
+                </dl>
+                <dl style="width: 20%;">{{item.shuLiang}}</dl>
+                <dl style="width: 20%;">分批数量{{item.shuLiang}}</dl>
+                <dl style="width: 20%;" class="fdc">
+                  <div ng-repeat="info in recordName" class="flex fyc">
+                    <span style="width: 60px; line-height: 22px;">{{info.label}}:</span>
+                    <span>{{info.workload}}</span>
+                  </div>
+                  <div ng-show="recordName.length === 0">--</div>
+                </dl>
+              </div>
+            </li>
+          </ul>
+          <div class="no-data flex fyc fxc" ng-show="tableList.length === 0">暂无数据</div>
+        </section>
+      </main>
+    </div>
+    
+  </main>
+  <section class="wrap" ng-show="errBoxShow">
+    <div class="err-box">
+      <h2 class="mb-20 tx-c lh-15e">次品异常说明</h2>
+      
+      <div class="mb-10 fs-14">
+        <span>次品数量</span> <span class="c-err">{{errParams.shuLiang}}</span>
+      </div>
+      <div class="mb-10">
+        <span>异常原因</span>
+        <select ng-model="errParams.leiXing" style="width: 100px; height: 24px;">
+          <option value="{{option.value}}" ng-repeat="option in errOptions">{{option.label}}</option>
+        </select>
+      </div>
+      <textarea cols="30" rows="10" style="width: 100%; height: 200px; line-height: 1.5em;" class="fs-14 mb-20" ng-model="errParams.yuanYin"></textarea>
+      <div class="btn-area">
+        <button ng-click="errBoxShow=false">取消</button>
+        <button ng-click="submitError()">确认</button>
+      </div>
+    </div>
+    
+  </section>
+  <section class="wrap" ng-show="distributeBox">
+    <div class="distribute-area">
+      <h3 class="mb-20">批次分配</h3>
+      <h4 class="mb-20">商品数量: {{getCount() || 0}}</h4 class="mb-20">
+      <ul class="mb-20 selected-name">
+        <li class="mb-10" ng-repeat="name in selectedNames">
+          <span class="mr-10">{{name.label}}: </span>
+          <input type="number" class="indent" ng-model="name.workload">
+        </li>
+      </ul>
+      <div class="btn-area">
+        <button ng-click="distributeBox=false">取消</button ng-click="errBoxShow=false">
+        <button ng-click="hadnleDistribute()">确认</button>
+      </div>
+    </div>
+  </section>
+  
+  <section class="wrap" ng-show="recordWeightParams.show">
+    <div class="confirm-box br-4">
+      <h2 class="mb-20">该商品已经被称过重量，确认提交至销售审核 ?</h2>
+      <div class="confirm-content fs-14">该商品已经被称过重量，确认提交至销售审核 ?</div>
+      <div>
+        <button class="br-4 c-w1 cp bg-y1 mr-5" ng-click="cancelRecordWeight()">取消</button>
+        <button class="br-4 c-w1 cp bg-b1" ng-click="submitRecordWeight()">确认</button>
+      </div>
+    </div>
+  </section>
+  <section class="wrap" ng-show="packageWeightParams.show">
+    <div class="confirm-box br-4">
+      <h2 class="mb-20">修改包装重量</h2>
+      <div class="confirm-content fs-14">
+        <p class="mb-10">
+          商品重量不得大于包装重量 现在包装重量为 <span class="c-err">{{packageWeightParams.oldWeight || 0}}</span class="c-err"> 
+          实际重量为 <span class="c-err">{{packageWeightParams.realWeight || 0}}</span>
+        </p>
+        <div>包装重量: <input type="number" ng-model="packageWeightParams.newWeight" class="" maxlength="9"></div>
+      </div>
+      <div>
+        <button class="br-4 c-w1 cp bg-y1 mr-5" ng-click="packageWeightParams.show=false">取消</button>
+        <button class="br-4 c-w1 cp bg-b1" ng-click="submitPackageWeight()">确认</button>
+      </div>
+    </div>
+  </section>
+  <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+  <script src="./static/js/public/base64.min.js"></script>
+  <script src="./static/js/public/common.js"></script>
+  <script src='./static/layer/layer.js'></script>
+  <script src="static/providers/filter/filter.js"></script>
+  <script src='static/js/erp-purchase/distribute.js'></script>
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+
+</body>
+
+</html>

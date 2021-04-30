@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新品</title>
+    <!--业务员管理-->
+    <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+    <script src="erp_otweb/js/video.min.js"></script>
+</head>
+<style>
+    .filter {
+        line-height: 30px !important;
+        /* display: flex; */
+    }
+
+    .filter .datetab {
+        margin-left: 15px;
+    }
+
+    .filter .dateact {
+        color: #0d8efb;
+    }
+    .chartsbox .dateact {
+        color: #0d8efb;
+    }
+
+    .search-by-con {
+        height: 30px;
+        position: relative;
+        float: left;
+    }
+
+    .default-con {
+        width: 240px;
+        height: 30px;
+        padding-left: 10px;
+        line-height: 30px;
+        border: 1px solid #e5e5e5;
+        position: relative;
+    }
+
+    .has-list-cate {
+        float: left;
+        margin-right: 15px;
+    }
+
+    .serch-by-name {
+        height: 30px;
+        line-height: 30px;
+        float: left;
+    }
+
+    input, select {
+        height: 30px !important;
+    }
+
+    .three-grade-list {
+        position: absolute;
+        left: 0;
+        top: 0px;
+        margin-top: 0;
+        padding-left: 0;
+        background: #fff;
+        z-index: 99;
+        display: none;
+    }
+
+    .caret {
+        position: absolute;
+        right: 10px;
+        top: 13px;
+    }
+
+    .filter .search {
+        height: 30px;
+    }
+
+    .samlimg {
+        position: absolute;
+        /* top: -160px; */
+        /* left: 72px; */
+    }
+    .samlimg:hover{
+        transform: scale(15);
+    }
+
+    .lookProduct {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        top: 0;
+        left: 0;
+        z-index: 10000;
+    }
+
+    .lookProduct .content {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: #fff;
+        box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+        width: 523px;
+        min-height: 330px;
+        margin: initial;
+        border-radius: 4px;
+        padding: initial;
+    }
+
+    .lookProduct .content h3 {
+        padding: 15px;
+        margin: initial;
+        text-align: left;
+        border-bottom: 1px solid #F0F0F0;
+    }
+
+    .lookProduct .content h3 .close {
+        font-size: 25px;
+        font-weight: initial;
+        opacity: .4;
+    }
+
+    .my-video-dimensions {
+        width: 100%;
+        height: 273px;
+    }
+
+    .lookProduct .content {
+        top: 35%;
+    }
+
+    .filter input {
+        margin: 0 5px;
+        width: auto;
+    }
+    .page-box .to-idx{
+        float: left;
+    }
+    .page-box .to-idx input{
+        text-align: center;
+        width: 50px;
+        height: 25px!important;
+        margin: 0 5px;
+    }
+    .page-box .to-idx button{
+        border: 1px solid #dddee1;
+        height: 25px;
+        line-height: 25px;
+        width: 50px;
+        border-radius: 3px;
+    }
+    .chartsbox{
+        /* margin-bottom: 20px; */
+    }
+    .tableTs tr td{
+        /* white-space:pre-line; */
+        word-wrap: break-word;
+        word-break: break-all;
+        /* width:11%; */
+        border: 1px solid rgb(241, 237, 237);
+    }
+    .textsbox{
+        border: 1px solide #ccc !important;
+        background: red;
+    }
+    .textsbox .edittextarea{
+        display:block;
+        border: 1px solide #ccc !important;
+        
+    }
+    .item-group textarea {
+        width: 348px;
+        height: 138px;
+        padding: 10px;
+        resize: none;
+    }
+    .filter select{
+        float:none;
+    }
+    .filter input{
+        /* float:none; */
+    }
+    .editpointer{
+        color:blue;
+        cursor: pointer;
+    }
+    .bordertext{
+        border: 1px solid #ccc;
+        margin-bottom: 25px;
+        height: 180px;
+    }
+    .textstyle{
+        display: block;
+        width: 100%;
+        padding: 20px;
+        height: 178px;
+    }
+    .tanbutton{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<body>
+<div class="tab">
+    <ul class="clearfix" style="cursor: pointer;">
+        <!-- {{tabArr}} -->
+            <li class="datetab" ng-click="checkTab(item)"  ng-repeat = "item in tabArr" ng-class="{'Act':item.isActive}">{{item.name}}</li>
+            <!-- <a class="datetab margin-left-10px" ng-class="{dateact:item.flag,'margin-left-30px':$index==0}" href="javascript:void(0)" ng-repeat="item in dateArr"
+            ng-click="dateClick(item)">{{item.name}}</a> -->
+        <!-- <li class="Act" ng-click="checkTab()"><a href="#/CommodityAnalysis/LinkageAndPublication">佣金设置</a></li> -->
+        <!-- <li style="float: right;">
+            <span>币种展示：</span>
+            <select class="font-size-14px" ng-model="moneyType">
+                <option value="USD">USD</option> -->
+                <!-- <option value="SKU">SKU</option> -->
+            <!-- </select> -->
+        <!-- </li> -->
+    </ul>
+</div>
+<div style="height: 68px;"></div>
+<div class="content" style="overflow: hidden;">
+    <div class="left">
+        <div class="filter clearfix">
+        <span style="float: left;">选择日期：</span>
+        <input id="date1" class="Wdate data-inp" ng-focus="dateFocus()" style="border-radius: 0;"
+               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="">
+        <span class="line" style="float: left;">-</span>
+        <input id="date2" class="Wdate data-inp" ng-focus="dateFocus()" style="border-radius: 0;"
+               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="">
+    
+            <!-- <span class="font-size-14px" style="margin-left: 15px;">费用类型：</!-->
+            <!-- <select class="font-size-14px" ng-model="seaType" ng-change="checkSelect()">
+                <option value="productFee">供应商佣金</option>
+                <option value="payFee">运费</option>
+            </select> --> 
+           
+       
+       <input class="seach-inp" ng-model="searVal" style="border-radius: 0;float: none;" placeholder="客户名称/客户编号"> 
+       <button class="search" style="float: none;border-radius: 0;" ng-click="searchInput()">查询</button>
+        </div>
+        <div class="parent-order">
+            <table class="tableTs">
+                <thead>
+                <tr>
+                    <th>充值日期</th>
+                    <th>客户</th>
+                    <th style="width: 12%;">群主/业务员</th>
+                    <th>金额</th>
+                    <th>来源平台</th>
+                    <th>支付凭证</th>
+                    <th>支付流水</th>
+                    <th ng-show="val=='1'">状态</th>
+                    <th ng-show="val=='1'">备注</th>
+                    <th ng-show= "val=='1'">操作</th>
+                    <th ng-show= "val=='2'">状态</th>
+                    <th ng-show= "val=='2'">备注</th>
+                    <th ng-show= "val=='2'">操作</th>
+                    <th ng-show= "val=='3'">备注</th>
+                    <th ng-show= "val=='3'">异常原因</th>
+                    <th ng-show= "val=='3'">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                   <!-- <td>{{$index+1}}</td> -->
+                    <td>{{item.date}}充值日期</td>
+                    <td style="width: 12%;">{{item.name}}客户</td>
+                    <td>{{item.sellPrice | currency}}群主业务</td>
+                    <td>
+                        {{item.jine | currency }}
+                    </td>
+                    <td>
+                        {{item.laiyuanpintai}}
+                    </td>
+                    <td>
+                        {{item.zhifupingzheng}}
+                    </td>
+                    <td>
+                        {{item.zhifuliushui}}支付流水
+                    </td>
+                    <td ng-show="val=='1'">{{item.zhangtai}}</td>
+                    <td ng-show="val=='1'">{{item.beizhu}}</td>
+                    <td ng-show= "val=='1'">
+                        <span ng-click="confirmTixian(item)" class="editpointer">确认收款</span>
+                        <span ng-click="refuseTixian(item)" class="editpointer">收款有误</span>
+                        <span ng-click="refuseTixian1(item)" class="editpointer">编辑</span>
+                    </td>
+                   
+                    <td ng-show= "val=='2'">{{item.sellPrice}}状态</td>
+                    <td ng-show= "val=='2'">
+                        {{item.remarks}}备注
+                    </td>
+                    <td ng-show= "val=='2'"> </td>
+                    <td ng-show= "val=='3'">{{item.beizhu}}备注</td>
+                    <td ng-show= "val=='3'">
+                        {{item.yichangyuanying}}
+                    </td>
+                    <!-- <td ng-show= "val=='3'">{{item.sellPrice | currency}}备注</td> -->
+                    <td ng-show= "val=='3'">{{item.sellPrice | currency}} </td>
+                </tr>
+                <tr ng-show="dataList.length == 0">
+                    <td colspan="9">暂无数据。</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--分页-->
+            <div class="page-box">
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="total-num">
+                        <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="pageSize" ng-change="pagechange(pageSize)" style="width: 65px;height: 31px;">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                        </select>
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup1"></div>
+                </div>
+                <div class="to-idx">
+                    到第<input type="number" ng-model="pageNum">页
+                    <button ng-click="toPage1()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- tan -->
+
+    <div class="lookProduct ng-scope" ng-show="isConfirm1" style="border:1px #bbb solid">
+            <div class="content">
+                <h3 style="font-size: 16px;text-align: center;">提现同意<span class="close" ng-click="closeAlltan()">×</span></h3>
+                     <div style="padding: 30px;" class="ng-binding">
+                    <div class="search-group d-flex align-items-center hangnei" style="margin-bottom: 20px;">      
+                            <form action="" method="post" enctype="multipart/form-data" id="uploadimg2" style="display: inline" >
+                              <label for="document2" class="asj-btn-s asj-btn-s2  mu-sczzh" style="display:inline-block;padding: 1px 12px;border-radius: 0;">上传文件</label>
+                              <input name="file" type="file" multiple ng-model="documentupload2" id="document2"  onchange="angular.element(this).scope().upLoadExcelFun(this.files)" style="display: none;font-size: 0;cursor: pointer;" >
+                            </form>
+                    </div>
+                    <div class="bordertext">
+                        <textarea type="text" class="rote ng-pristine ng-untouched ng-valid ng-not-empty textstyle" ng-model="remarks"></textarea>
+                    </div>
+                    <div class="search-group d-flex align-items-center tanbutton">
+                        <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="sureConfirm(remarks)">确定</button>
+                        <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="cancelTixian()">取消</button>
+                    </div>
+                </div>
+                <!-- <span ng-show="ProDetail.length == 0" style="font-size: 12px;text-align: center;display: block;line-height: 40px;">暂无数据。</span> -->
+            </div>
+    </div>
+
+    <!-- 确认收款 -->
+    <div class="return-tk-wrap ng-scope" ng-show="isConfirm">
+            <div class="return-tk-con">
+                <div class="rt-con-text">
+                    <p class="ng-binding" style="margin: 30px;">确认收款吗?</p>
+                </div>
+                <div class="rt-con-btns">
+                    <button ng-click="cancelTixian()" class="rt-no-btn ng-binding">取消</button>
+                    <button class="rt-yes-btn ng-binding" ng-click="sureConfirm()">确定</button>
+                </div>
+            </div>
+        </div>
+
+
+    <!-- 拒绝弹窗 -->
+    <div class="lookProduct ng-scope" ng-show="isRefuse" style="border:1px #bbb solid">
+            <div class="content">
+                <h3 style="font-size: 16px;text-align: center;">备注原因<span class="close" ng-click="closeAlltan()">×</span></h3>
+                     <div style="padding: 30px;" class="ng-binding">
+                    <div class="bordertext" style="height: 240px;">
+                        <textarea type="text" class="rote ng-pristine ng-untouched ng-valid ng-not-empty textstyle" ng-model="remarks" placeholder="请输入至少五个字符"></textarea>
+                    </div>
+                    <div class="search-group d-flex align-items-center tanbutton">
+                        <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="sureConfirm1(remarks)">确定</button>
+                        <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="cancelTixian1()">取消</button>
+                    </div>
+                </div>
+                <!-- <span ng-show="ProDetail.length == 0" style="font-size: 12px;text-align: center;display: block;line-height: 40px;">暂无数据。</span> -->
+            </div>
+    </div>
+</body>
+</html>

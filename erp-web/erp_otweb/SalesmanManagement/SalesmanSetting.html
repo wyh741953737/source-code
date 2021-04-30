@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>业务员设置</title>
+    <!--业务员管理-->
+    <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+</head>
+<body>
+<div class="tab">
+    <ul class="clearfix">
+        <!-- <li><a href="#/SalesmanManagement/DataStatistics">数据统计</a></li> -->
+        <!--<li><a href="#/SalesmanManagement/OrderTracking">订单查询</a></li>-->
+        <li class="Act"><a href="#/SalesmanManagement/SalesmanSetting">业务员设置</a></li>
+    </ul>
+</div>
+<div style="height: 68px;"></div>
+<div class="content">
+    <div class="filter clearfix">
+        <input type="text" placeholder="请输入业务员姓名" ng-model="salesmanName">
+        <div class="clearfix" style="display: inline-block;float: left;">
+            <span style="float: left;">组长</span>
+            <select ng-model="searchLeader">
+                <option value="">全部</option>
+                <option ng-repeat="item in leaderArr" value="{{item}}" >{{item.headmanName}}</option>
+            </select>
+        </div>
+        <button class="search" ng-click="searchInput()">查询</button>
+        <button ng-show="isPermission" class="addSalesman" ng-click="addSalesman()">新增业务员</button>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>职位</th>
+            <th>组长</th>
+            <th>最后更新时间</th>
+            <th ng-show="isPermission">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in dataList">
+            <td>{{$index+1}}</td>
+            <td>{{item.salesmanName}}</td>
+            <td>{{item.positionName}}</td>
+            <td>{{item.headmanName}}</td>
+            <td>{{item.updateDate | date:'yyyy-MM-dd HH:mm'}}</td>
+            <td ng-show="isPermission">
+                <a href="javascript:void(0);" ng-click="edit(item)">编辑</a>
+                <a href="javascript:void(0);" ng-click="remove(item)">删除</a>
+            </td>
+        </tr>
+        <tr ng-show="dataList.length == 0">
+            <td colspan="6" style="text-align: center;">暂无数据。</td>
+        </tr>
+        </tbody>
+    </table>
+    <!--分页-->
+    <div class="page-box" ng-show="TotalNum > 0">
+        <div class="total-num">
+            共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+        </div>
+        <div class="page-index">
+            <div class="pagegroup"></div>
+        </div>
+    </div>
+</div>
+</body>
+<!--新增业务员-->
+<div class="dialog" ng-show="isAddOrEdit">
+    <div class="content">
+        <h3>{{dialogTxt}}<span class="close" ng-click="isAddOrEdit = false;">×</span></h3>
+        <ul>
+            <li>
+                <span>职位:</span>
+                <select ng-model="level" ng-change="levelChange()">
+                    <option value="1">组长</option>
+                    <option value="0">组员</option>
+                    <option value="2">个体</option>
+                </select>
+            </li>
+            <li>
+                <span>业务员:</span>
+                <select ng-model="salesman" ng-hide="flag == '1'">
+                  <option value="">全部</option>
+                    <option ng-repeat="item in salesmanArr" value="{{item}}" >{{item.NAME}}</option>
+                </select>
+                <span ng-show="flag == '1'" style="width: 170px;text-align: left;">{{salesman}}</span>
+            </li>
+            <li ng-show="level == '0'">
+                <span>组长:</span>
+                <select ng-model="leader">
+                    <option value="">全部</option>
+                    <option ng-repeat="item in leaderArr" value="{{item}}" >{{item.headmanName}}</option>
+                </select>
+            </li>
+        </ul>
+        <div class="btns">
+            <button ng-click="confirm()">确认</button>
+            <button ng-click="isAddOrEdit = false;">取消</button>
+        </div>
+    </div>
+</div>
+<!--删除-->
+<div class="dialog" ng-show="isRemove">
+    <div class="content" style="height: 110px;min-height: initial;width: 400px;">
+        <h3>是否确定删除?</h3>
+        <div class="btns">
+            <button ng-click="removeConfirm()">确认</button>
+            <button ng-click="isRemove = false;">取消</button>
+        </div>
+    </div>
+</div>
+</html>

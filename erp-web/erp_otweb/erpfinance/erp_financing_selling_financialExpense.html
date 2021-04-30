@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>提现</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_financing_income.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div id="right-bar-wrap" class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab" style="z-index: 9;">
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px mt-0">
+					<!-- 搜索区域 -->
+					<!-- 财务费用 -->
+					<div class="top-tab-search d-flex align-items-center justify-content-between">
+						<div class="d-flex-center">
+							<div class="search-group d-flex align-items-center">
+								<span>支出时间：</span>
+								<wui-date class="startTime searchDay" format="yyyy-mm-dd"
+									ng-class="{'disable-opacity': disable.select}" placeholder="开始时间"
+									btns="{'ok':'确定','now':'今天'}" ng-model="startDate"></wui-date>
+								<wui-date class="endTime searchDay" format="yyyy-mm-dd"
+									ng-class="{'disable-opacity': disable.select}" class="margin-left-small"
+									placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="endDate">
+								</wui-date>
+							</div>
+							<div class="search-group d-flex align-items-center search-group-selling">
+								<span>账户类型：</span>
+								<select style="width: 74px" name="" id="" ng-model="searchCardName">
+									<option value="">全部</option>
+									<option value="{{searchCard}}" ng-repeat="searchCard in searchAccountList">
+										{{searchCard}}</option>
+								</select>
+								<button ng-click="searchFun()" class="asj-btn-s asj-btn-s2 search-btn"
+									style="width: 60px;margin-left: 10px;">查询</button>
+							</div>
+							<div class="search-group d-flex align-items-center search-group-selling">
+								<span>手续费：</span>
+								<select style="width: 75px" name="" id="">
+									<option value="">${{sumMoneyUSD}}</option>
+									<option value="">￥{{sumMoneyRMB}}</option>
+								</select>
+							</div>
+							<div class="search-group d-flex align-items-center search-group-selling">
+								<span>币种：</span>
+								<select style="width: 52px" name="" id="" ng-model="currentCurrency">
+									<option value="">全部</option>
+									<option value="1">RMB</option>
+									<option value="2">USD</option>
+								</select>
+							</div>
+						</div>
+						<div class="d-flex-center">
+							<div class="search-group d-flex align-items-center search-group-drawback">
+								<button ng-click="openFinancing('add')" class="asj-btn-s asj-btn-s2 search-btn"
+									style="width: 80px; margin-right: 10px;">新增</button>
+								<button ng-click="openInputPassword(export)" class="asj-btn-s asj-btn-s2 search-btn"
+									style="width: 80px;">Excel导出</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- 表头 -->
+					<div class="tb-thead d-flex">
+						<div style="width: 5%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 12%" class="tb-thead-th d-flex-center">支出时间</div>
+						<div style="width: 15%" class="tb-thead-th d-flex-center">账户类型</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">账号</div>
+						<div style="width: 12%" class="tb-thead-th d-flex-center">手续费</div>
+						<div style="width: 34%" class="tb-thead-th d-flex-center">摘要</div>
+						<div style="width: 15%" class="tb-thead-th d-flex-center">操作</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" class="content-wrap bg-white padding-lr-20px" style="min-height: 600px;">
+				<!-- 表格 -->
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="financing in financingList">
+						<div style="width: 5%" class="tb-tbody-td border-r-td d-flex-center"><span>{{$index + 1}}</span>
+						</div>
+						<div style="width: 12%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{financing.moneyDate}}</span>
+						</div>
+						<div style="width: 15%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{financing.cardName}}</span>
+						</div>
+						<div style="width: 20%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{financing.cardNumber}}</span></div>
+						<div style="width: 12%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{changeCurrency(financing.money, financing.rateType)}}</span></div>
+						<div style="width: 34%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="hidden-three">{{financing.remark}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td d-flex-center">
+							<span class="tb-btn-default" ng-click="openFinancing('edit', financing)">编辑</span>
+							<b class="tb-btn-long"></b>
+							<span class="tb-btn-default" ng-click="sureReceipt(financing)">删除</span>
+						</div>
+					</div>
+				</div>
+				<!-- 分页 -->
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+					<span>暂无数据</span>
+				</div>
+				<div class="page-box" ng-show="canShowPage">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button"
+							ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 新增弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFLag">
+		<div class="erp-common-tan-v2" style="width: 404px; height: initial;">
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6 class="text-align-center">{{windowType.txt}}</h6>
+			</div>
+			<!-- content -->
+			<div class="tan-v2-con">
+				<div class="item-group d-flex align-items-center">
+					<label>支出时间：</label>
+					<div class="right-con">
+						<wui-date class="" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+							placeholder="支出时间" btns="{'ok':'确定','now':'今天'}" ng-model="windowType.item.moneyDate">
+						</wui-date>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>账户类型：</label>
+					<div class="right-con">
+						<select name="" id="" ng-model='windowType.item.cardName' ng-change="changeeCardName()">
+							<option value="">请选择账户类型</option>
+							<option ng-repeat="accountName in addAccountList" value="{{accountName}}">{{accountName}}
+							</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+					<div class="right-con">
+						<select name="" id="" ng-model='windowType.item.cardNumber'>
+							<option value="">请选择账号</option>
+							<option ng-if="windowType.item.cardName === card.cardName"
+								value="{{card.cardNumber}}#{{card.id}}" ng-repeat="card in startAccountList">
+								{{card.cardNumber}}
+							</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</label>
+					<div class="right-con">
+						<select name="" id="" ng-model='windowType.item.rateType'>
+							<option value="2">USD</option>
+							<option value="1">RMB</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：</label>
+					<div class="right-con">
+						<input type="number" ng-model='windowType.item.money'
+							onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<textarea ng-model='windowType.item.remark' name="" id="" placeholder="请填写金额摘要(非必填)"></textarea>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFLag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" class="que-ding-btn" ng-click="sureAddAccount()">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- 确认弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFLag2">
+		<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: initial;">
+			<p style="margin-top: 25px; margin-bottom: 38px;">确认删除本条记录？</p>
+			<div class="tan-v2-bot">
+				<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="showFLag2=false">取消</a>
+				<a href="javascript:void(0)" class="que-ding-btn" ng-click="sureConfirm()">确定</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

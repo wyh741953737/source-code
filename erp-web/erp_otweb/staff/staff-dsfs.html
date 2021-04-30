@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>员工-内部通知</title>
+</head>
+<body>
+<div class="ea-content">
+	<div class="left-bar">
+		<ul>
+			<li><a href="#/staff/KPIAssessment">绩效考核KPI</a></li>
+			<li><a href="#/staff/setkpiassess">KPI考核标准</a></li>
+			<li><a href="#/staff/stafffiles">员工档案</a></li>
+			<li><a href="#/staff/stafftable">员工账号管理</a></li>
+			<li class="active"><a href="#/staff/nbtz">内部通知</a></li>
+			 <li ><a href="#/staff/recruit">招聘</a></li>
+			<!-- <li><a href="#/staff/client">员工客户管理</a></li> -->
+		</ul>
+	</div>
+	<div class="right-bar-wrap ea-right-content">
+		<!-- <div class="bg-geduan"></div> -->
+		<div class="asj-h10"></div>
+		<div class="top-taps clearfix">
+        	<ul>
+              <li><a href="#/staff/nbtz">已发送</a></li>
+              <li><a href="#/staff/cgx">草稿箱</a></li>
+              <li class="active"><a href="#/staff/dsfs">定时发送</a></li>
+          </ul>
+	    </div>
+		<div class="right-bar">
+			<div class="ea-right-search">
+				<div class="input-group search-box">
+					<div class="input-group search-box">
+						<input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+						<a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">搜索</a>
+					</div>
+				</div>
+				<a class="dc-btn" href="#/staff/write">写通知</a>
+			</div>
+
+
+			<div class="table-con-box">
+				<table class="ea-list-table ea-erp-cs">
+					<tr>
+						<th><span class="chek-span"></span></th>
+						<th><span>已发送通知</span></th>
+						<th>通知</th>
+						<th>日期</th>
+						<th>操作</th>
+					</tr>
+					<tr ng-repeat="item in list">
+						<td><span style="padding: 0 6px;"> <input name="need_inv" type="checkbox" value="1"></span></td>
+						<td>{{item.relationType==1?'部分人':'所有人'}}</td>
+						<td>{{item.notificationType}}....{{item.info}}</td>
+						<td>{{item.sendDate.year+1900}}-{{item.sendDate.month+1}}-{{item.sendDate.date}}</td>
+						<td><span><button type="button" class="ea-to-opea" ng-click="look(item)">查看</button></span></td>
+					</tr>
+				</table>
+									
+				<!-- 分页 -->
+			    <div class="page-box">
+	                <div class="select-page-num">
+	                    <select class="form-control" ng-model="pagesize" ng-change="pagesizechange(pagesize)">
+	                        <option value="20">20</option>
+	                        <option value="30">30</option>
+	                        <option value="50">50</option>
+	                    </select>
+	                    <span>每页</span>
+	                </div>
+	                <div class="total-num">
+	                    共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+	                </div>
+	                <div class="page-index">
+	                    <div class="pagegroup">
+	                    	<a href="#">&lt;&lt;</a>
+						            <a href="#">&lt;</a>
+						            <a href="#">1</a>
+						            <a href="#">2</a>
+						            <a class="current" href="#">3</a>
+						            <a href="#">4</a>
+						            <a href="#">5</a>
+						            <a href="#">6</a>
+						            <a href="#">···</a>
+						            <a href="#">&gt;</a>
+						            <a href="#">&gt;&gt;</a>
+	                    </div>
+	                </div>
+	                <div class="to-go">
+	                    <span>跳转：</span>
+	                    <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+	                    <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+	                </div>
+			    </div>
+
+
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

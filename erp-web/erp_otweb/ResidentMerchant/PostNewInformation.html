@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+<body>
+<div class="topbox"></div>
+<div class="content">
+    <div class="titlebox">
+        <div class="title">标题</div>
+            <input type="text" class="titleinput" id="title"  >       
+            <!-- maxlength="20" -->
+    </div>
+    <div class="editbox">
+        <div class="title">内容</div>
+        <div class="parent-order">
+            <div id="pushEditor" style="float: right;width: 94%;">
+                <p></p>
+            </div>
+            <textarea id="text1" style="width:100%; height:200px;"></textarea>
+        </div>
+    </div>
+    <div class="filter">
+        <button class="search" style="border-radius: 0;font-size: 14px;" ng-click="pushNewConsult()" id="publicConsult">确认发布</button>
+        <button class="search" style="border-radius: 0;font-size: 14px;" ng-click="clearNewConsult()">清除内容</button>
+    </div>
+</div>
+</body>
+</html>
+<style>
+    .content{
+        background-color: #fff;
+        padding: 20px;
+        position: relative;
+        margin-left: 220px;
+    }
+    .title{
+        float: left;
+        width: 60px; 
+        text-align: right;
+        height: 40px;
+        line-height: 40px;
+    }
+    .w-e-text-container{
+        height: 500px !important;
+    }
+    .filter {
+        line-height: 30px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 220px;
+    }
+    .topbox{
+        height: 60px;
+        background: #fff;
+        margin-left: 220px;
+        margin-top: 20px;
+    }
+    .titleinput{
+        display:block;
+        border:1px solid #ccc;
+        height: 40px;
+        line-height: 40px;
+        float: right;
+        width: 94%;
+        border-radius: 0;
+    }
+    .titlebox{
+        margin-bottom: 20px;
+        overflow: hidden;
+        margin-right: 100px;
+    }
+    .editbox{
+        overflow: hidden;
+        margin-right: 100px;
+        margin-bottom: 20px;
+    }
+    .parent-order{
+        position: relative;
+    }
+    #pushEditor{
+        z-index: 20;
+    }
+    #text1{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -12;
+    }
+</style>

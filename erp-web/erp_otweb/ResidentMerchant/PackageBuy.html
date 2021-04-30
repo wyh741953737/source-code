@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>新品</title>
+    <!--业务员管理-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="static/css/SalesmanManagement.css"
+    />
+  </head>
+  <style>
+    .filter {
+      line-height: 30px !important;
+      /* display: flex; */
+    }
+
+    .filter .datetab {
+      margin-left: 15px;
+    }
+
+    .filter .dateact {
+      color: #0d8efb;
+    }
+    .chartsbox .dateact {
+      color: #0d8efb;
+    }
+
+    .search-by-con {
+      height: 30px;
+      position: relative;
+      float: left;
+    }
+
+    .default-con {
+      width: 240px;
+      height: 30px;
+      padding-left: 10px;
+      line-height: 30px;
+      border: 1px solid #e5e5e5;
+      position: relative;
+    }
+
+    .has-list-cate {
+      float: left;
+      margin-right: 15px;
+    }
+
+    .serch-by-name {
+      height: 30px;
+      line-height: 30px;
+      float: left;
+    }
+
+    input,
+    select {
+      height: 30px !important;
+    }
+
+    .three-grade-list {
+      position: absolute;
+      left: 0;
+      top: 0px;
+      margin-top: 0;
+      padding-left: 0;
+      background: #fff;
+      z-index: 99;
+      display: none;
+    }
+
+    .caret {
+      position: absolute;
+      right: 10px;
+      top: 13px;
+    }
+
+    .filter .search {
+      height: 30px;
+    }
+    .control {
+      padding: 10px 0;
+    }
+
+    .control .add {
+      width: 90px;
+      height: 30px;
+      background: rgba(249, 174, 8, 1);
+      background-size: 30px 30px;
+      color: #fff;
+    }
+
+    .samlimg {
+      position: absolute;
+      /* top: -160px; */
+      /* left: 72px; */
+    }
+    .samlimg:hover {
+      transform: scale(15);
+    }
+
+    .lookProduct {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      top: 0;
+      left: 0;
+      z-index: 10000;
+    }
+
+    .lookProduct .content {
+      transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: #fff;
+      box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+      width: 523px;
+      min-height: 330px;
+      margin: initial;
+      border-radius: 4px;
+      padding: initial;
+    }
+
+    .lookProduct .content h3 {
+      padding: 15px;
+      margin: initial;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .lookProduct .content h3 .close {
+      font-size: 25px;
+      font-weight: initial;
+      opacity: 0.4;
+    }
+
+    .my-video-dimensions {
+      width: 100%;
+      height: 273px;
+    }
+
+    .lookProduct .content {
+      top: 35%;
+    }
+
+    .filter input {
+      margin: 0 5px;
+      width: 140px;
+      /* width: auto; */
+    }
+    .page-box .to-idx {
+      float: left;
+    }
+    .page-box .to-idx input {
+      text-align: center;
+      width: 50px;
+      height: 25px !important;
+      margin: 0 5px;
+    }
+    .page-box .to-idx button {
+      border: 1px solid #dddee1;
+      height: 25px;
+      line-height: 25px;
+      width: 50px;
+      border-radius: 3px;
+    }
+    .chartsbox {
+      /* margin-bottom: 20px; */
+    }
+    .tableTs tr td {
+      /* white-space:pre-line; */
+      word-wrap: break-word;
+      word-break: break-all;
+      /* width:11%; */
+      border: 1px solid rgb(241, 237, 237);
+    }
+    .textsbox {
+      border: 1px solide #ccc !important;
+      background: red;
+    }
+    .textsbox .edittextarea {
+      display: block;
+      border: 1px solide #ccc !important;
+    }
+    .item-group textarea {
+      width: 348px;
+      height: 138px;
+      padding: 10px;
+      resize: none;
+    }
+    .filter select {
+      float: none;
+      width: auto;
+    }
+    .filter input {
+      /* float:none; */
+    }
+    .editpointer {
+      cursor: pointer;
+      padding: 0 5px;
+      height: 30px;
+      line-height: 30px;
+      /* background: #0d8efb; */
+      background: rgba(249, 174, 8, 1);
+      color: #fff;
+      border-radius: 5px;
+    }
+    .bordertext {
+      border: 1px solid #ccc;
+      margin-bottom: 25px;
+      /* height: 140px; */
+      width: 320px;
+    }
+    .textstyle {
+      display: block;
+      width: 100%;
+      padding: 20px;
+      height: 178px;
+    }
+    .tanbutton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .fontsizeformt {
+      font-size: 14px;
+    }
+    .textareapailie {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    .searchfubox {
+      display: flex;
+      height: 30px;
+      line-height: 30px;
+      margin-bottom: 20px;
+    }
+    .seach-inp {
+      width: 80px;
+    }
+    .main-content {
+      padding: 16px;
+      width: 800px;
+      margin: 0 auto;
+      position: absolute;
+      top: 50%;
+      left: calc(50% - 250px);
+      transform: translateY(-50%);
+      background: #fff;
+      color: #000;
+    }
+    .main-content div {
+      color: #000;
+    }
+    .main-content .title {
+      padding: 10px 0;
+    }
+    .main-content .item-wrap {
+      text-align: left;
+      padding: 16px 10px;
+    }
+    .main-content .item {
+      width: 350px;
+      display: inline-block;
+      text-align: left;
+      vertical-align: top;
+    }
+    .main-content .item .label {
+      margin-right: 6px;
+      display: inline-block;
+    }
+
+    .main-content .item .item-content {
+      display: inline-block;
+      padding: 0.2em 0.6em 0.3em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .main-content .item img:hover {
+      position: relative;
+      z-index: 100;
+      transform: scale(8) translateX(20px);
+      transition: transform .5s;
+    }
+
+
+
+    .main-content .item .item-content .radio-box {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  </style>
+  <body>
+    <div class="tab"></div>
+    <div style="height: 68px;"></div>
+    <div class="content" style="overflow: hidden;">
+      <div class="left">
+        <div class="filter clearfix">
+          <!-- <button class="font-size-14px" style="margin-left: 15px;">费用类型：</!-->
+          账号类型：
+          <select class="font-size-14px" ng-model="accountType">
+            <option value="">请选择</option>
+            <option value="1">个体</option>
+            <option value="0">企业</option>
+          </select>
+          &nbsp;&nbsp;&nbsp;&nbsp; 公司名称：
+          <input
+            class="seach-inp"
+            ng-model="companyName"
+            style="border-radius: 0;float: none;"
+            placeholder=""
+          />
+          &nbsp;&nbsp;&nbsp;&nbsp; 状态：
+          <select class="font-size-14px" ng-model="status">
+            <option value="">请选择</option>
+            <option value="0">待审核</option>
+            <option value="1">审核通过</option>
+            <option value="9">审核不通过</option>
+          </select>
+          <button
+            class="search"
+            style="float: none;border-radius: 0;"
+            ng-click="searchInput()"
+          >
+            查询
+          </button>
+
+          <button
+            class="search"
+            style="float: none;border-radius: 0;"
+            ng-click="clearSearch()"
+          >
+            重置
+          </button>
+        </div>
+        <!-- <div class="control">
+          <button class="add" ng-click="addPackage()">新建套餐</button>
+        </div> -->
+        <div class="parent-order">
+          <table class="tableTs">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>账号类型</th>
+                <th>供应商编号</th>
+                <th>公司名称</th>
+                <th>用户名</th>
+                <th>套餐名称</th>
+                <th>金额</th>
+                <th>支付方式</th>
+                <th>费用类型</th>
+                <th>状态</th>
+                <th>购买时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                <td>{{$index+1}}</td>
+                <td>{{item.accountType | accoutType}}</td>
+                <td>{{item.supplierId }}</td>
+                <td>{{item.companyName}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.planName}}</td>
+                <td>{{item.planFee | currency}}</td>
+                <td>{{item.payType | payMethodTrans}}</td>
+                <td>{{item.tradeType | tradeTypeTrans}}</td>
+                <td>{{item.status | suppliersPlanStatus}}</td>
+                <td>{{item.payTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                <td>
+                  <button
+                    ng-if="item.status === 0"
+                    ng-click="editPackage(item.id, 1)"
+                    class="editpointer"
+                  >
+                    审核
+                  </button>
+                  <button
+                    ng-click="editPackage(item.id, 0)"
+                    class="editpointer"
+                  >
+                    查看
+                  </button>
+                </td>
+              </tr>
+              <tr ng-show="dataList.length == 0">
+                <td colspan="9">暂无数据。</td>
+              </tr>
+            </tbody>
+          </table>
+          <!--分页-->
+          <div class="page-box">
+            <div class="total-num">
+              共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+            </div>
+            <div class="total-num">
+              <select
+                class="form-control ng-pristine ng-valid ng-not-empty ng-touched"
+                ng-model="pageSize"
+                ng-change="pagechange(pageSize)"
+                style="width: 65px;height: 31px;"
+              >
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div class="page-index">
+              <div class="pagegroup1"></div>
+            </div>
+            <div class="to-idx">
+              到第<input type="number" ng-model="pageNum" />页
+              <button ng-click="toPage1()">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- tan -->
+    <div class="return-tk-wrap" ng-if="isShow">
+      <div class="main-content">
+        <div>{{isCheck ? "审核" : "查看"}}</div>
+        <div>
+          <div class="item-wrap">
+            <div class="item">
+              <div class="label">账户类型：</div>
+              <div class="item-content">
+                {{packageInfo.accountType | accoutType}}
+              </div>
+            </div>
+            <div class="item">
+              <div class="label">供应商编号：</div>
+              <div class="item-content">{{packageInfo.supplierId}}</div>
+            </div>
+          </div>
+          <div class="item-wrap">
+            <div class="item">
+              <div class="label">公司名称：</div>
+              <div class="item-content">{{packageInfo.companyName}}</div>
+            </div>
+            <div class="item">
+              <div class="label">用户名：</div>
+              <div class="item-content">{{packageInfo.userName}}</div>
+            </div>
+          </div>
+          <div class="item-wrap">
+            <div class="item">
+              <div class="label">套餐名称：</div>
+              <div class="item-content">{{packageInfo.planName}}</div>
+            </div>
+            <div class="item">
+              <div class="label">金额：</div>
+              <div class="item-content">$&nbsp;{{packageInfo.planFeeMonth || packageInfo.planFeeYear || packageInfo.planFee}}</div>
+            </div>
+          </div>
+          <div class="item-wrap">
+            <div class="item">
+              <div class="label">支付方式：</div>
+              <div class="item-content">
+                {{packageInfo.payType | payMethodTrans}}
+              </div>
+            </div>
+          </div>
+          <div class="item-wrap">
+            <div class="item">
+              <div class="label">购买时间：</div>
+              <div class="item-content">
+                {{packageInfo.payTime | date:"yyyy-MM-dd HH:mm:ss"}}
+              </div>
+            </div>
+          </div>
+          <div class="item-wrap" ng-if="packageInfo.payType === 3">
+            <div class="item">
+              <div class="label">汇款凭证：</div>
+
+              <img
+                ng-src="{{packageInfo.proofImgUrl}}"
+                style="width: 60px;"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="item-wrap" ng-if="isCheck">
+            <div class="item">
+              <div class="label">审核状态：</div>
+              <div class="item-content">
+                <div class="radio-box">
+                  <!-- ng-class="{'forbid-use': addSourceId}" -->
+                  <input
+                    type="radio"
+                    name="checkStatus"
+                    ng-model="$parent.checkStatus"
+                    value="1"
+                  />
+                  <label for="">通过</label>
+                </div>
+                <div class="radio-box">
+                  <!-- ng-class="{'forbid-use': addSourceId}" -->
+                  <input
+                    type="radio"
+                    name="checkStatus"
+                    ng-model="$parent.checkStatus"
+                    value="2"
+                  />
+                  <label for="">不通过</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item-wrap" ng-if="isCheck">
+            <div class="item" style="width: 100%;">
+              <div class="label">备注：</div>
+              <div class="item-content">
+                <textarea
+                ng-model="$parent.remark"
+                  rows="3"
+                  cols="20"
+                  style="border: 1px solid #eee; width: 300px; height: 60px;"
+                >
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rt-con-btns">
+          <button
+            ng-click="close()"
+            class="rt-no-btn ng-binding"
+            ng-if="isCheck"
+          >
+            取消
+          </button>
+          <button
+            class="rt-yes-btn ng-binding"
+            ng-click="check()"
+            ng-if="isCheck"
+          >
+            确定
+          </button>
+          <button
+            class="rt-yes-btn ng-binding"
+            ng-click="close()"
+            ng-if="!isCheck"
+          >
+            确定
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

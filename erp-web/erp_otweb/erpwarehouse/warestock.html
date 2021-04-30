@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>已取消订单金额-财务收入管理-ERP系统</title>
+</head>
+<style>
+	.ruku-repeat-alert {
+		width: 600px;
+		height: 200px;
+		text-align: center;
+	}
+
+	.ruku-repeat-alert .tan-con {
+		margin-top: 40px;
+	}
+
+	.sku-item .check-box {
+		margin-right: 0;
+		float: none;
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.sku-item .ruku-label {
+		margin-right: 30px;
+	}
+
+	.sku-item .check-box input {
+		padding: 0;
+		width: 17px;
+	}
+
+	.sku-item .check-box label {
+		background-image: url(../static/image/public-img/radiobutton1.png);
+	}
+
+	.sku-item .check-box .act {
+		background-image: url(../static/image/public-img/radiobutton2.png);
+	}
+
+	.sku-item .check-box label {
+		background-image: url(../static/image/public-img/radiobutton1.png);
+	}
+
+	.sku-item .check-box input:checked+label {
+		background-image: url(../static/image/public-img/radiobutton2.png);
+	}
+
+	.tab-con-wrap .sku-li .tips-fwspact {
+		display: inline-block;
+	}
+
+	.cj-table-box {
+		max-height: 500px;
+		margin-bottom: 40px;
+		padding: 0 5px 5px 0;
+	}
+
+	.owner-order {
+		color: #f99429;
+		cursor: pointer;
+	}
+
+	.confirm-search-box {
+		display: flex;
+		align-items: center;
+		padding: 0 10px;
+	}
+
+	.confirm-search-box .Wdate {
+		width: 110px;
+		height: 25px;
+		margin-right: 10px;
+	}
+
+	.confirm-search-box .ui-select {
+		border-radius: 4px;
+		margin-right: 10px;
+	}
+	.asj-btn-s3{
+		cursor: pointer;
+	}
+</style>
+
+<body>
+
+
+	<!-- content -->
+	<div class="ea-content asj-ware-box">
+		<div class="left-bar">
+			<ul>
+				<li class="active"><a href="#/erpwarehouse/warestock">{{'100622' | translate}}</a></li>
+				<li><a href="#/erpwarehouse/erpdepotIn">{{'100623' | translate}}</a></li>
+				<li><a href="#/erpwarehouse/warelist">{{'100624' | translate}}</a></li>
+				<li><a href="#/erpwarehouse/SchedulingTask">调度任务</a></li>
+				<li><a href="#/erpwarehouse/Parcel">包裹管理</a></li>
+			</ul>
+		</div>
+		<!-- right con -->
+		<div class="right-bar-wrap ea-right-content li_ea-right-content">
+			<!-- right nav -->
+			<div class="asj-h10"></div>
+			<!-- right search -->
+			<div class="right-bar">
+				<div>
+					<div class="ea-right-search clearfix">
+						<div class="search-line">
+							<div class="input-group search-box">
+								<input type="text" class="form-control top-search-inp" placeholder="请输入SKU"
+									ng-model="searchStr" ng-keydown="enterSearch($event)">
+								<a role="button" class="btn btn-default top-search-btn" type="button"
+									ng-click="search()">{{'100025' | translate}}</a>
+							</div>
+
+						</div>
+						<div class="add-merch"><a href="javascript:void(0);" class="add-merch-btn"
+								ng-click="openInputPassword(exportZeroStorehouse)">导出0库存库位SKU</a></div>
+						<div class="add-merch"><a href="javascript:void(0);" class="add-merch-btn"
+								ng-click="stockByCode()">{{'扫码入库'}}</a></div>
+						<div class="add-merch"><a href="javascript:void(0);" class="add-merch-btn"
+								style="margin-right: 10px;" ng-click="openInputPassword(exportMultiStorehouse)">导出多库位SKU</a></div>
+					</div>
+				</div>
+				<div class="ware-stock-box">
+
+					<div class="ware-stock-left">
+						<div class="asj-tree-wrap asj-ware-tree">
+							<div class="tree-title">
+								{{'100628' | translate}}
+							</div>
+							<div class="asj-tree-box" style="height: 820px;">
+								<div class="folder-wrap">
+									<ware-tree current-folder="folder" my-index="index1" point-one="pointOne(item)"
+										switch-list="switchList(item,flag)"></ware-tree>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- right list -->
+					<div class="table-con-box tab-ware-brunch">
+						<div class="tab-title">
+							<ul ng-class="{'clearfix':true,'show-brunchware':!onTheRoot}">
+								<li class="img-li"><span>{{'100382' | translate}}</span></li>
+								<li class="name-li"><span>{{'100107' | translate}}</span></li>
+								<li class="sku-li"><span>SKU</span></li>
+								<li class="num-li"><span>{{'100629' | translate}}</span></li>
+								<li class="oper-li"><span>{{'100630' | translate}}</span></li>
+							</ul>
+						</div>
+						<div class="tab-con-wrap">
+							<div class="no-data" ng-if="!productList" style="line-height: 100px; text-align: center;">
+								请点击具体框位，或者输入SKU查询。</div>
+							<div class="tab-con" ng-repeat="(index1,item) in productList">
+								<ul
+									ng-class="{'tab-con-ul':true,'clearfix':true, 'show-brunchware':!onTheRoot, 'show-var': !item.down}">
+									<li class="img-li">
+										<span class="asj-listimg-span"><img ng-src="{{ item.img | IMG_SIZE: 40}}" alt=""
+												class="small-img"><img src="{{ item.img | IMG_SIZE: 280}}" alt=""
+												ng-class="{'hidden-bigimg': true, top: index1 < 6, 'bottom': index1 >= 6}"></span>
+									</li>
+									<li class="name-li"><span class="cut-word">{{item.productName}}</span></li>
+									<li class="sku-li" ng-class="{'line-height20px':item.PRODUCTTYPE=='1'}">
+										<span class="cut-word">
+											{{item.sku}}
+											<span class="tips-fwspact" title="服务商品"
+												ng-if="item.productType=='1'">服</span>
+										</span>
+									</li>
+									<li class="num-li">
+										<a href="javascript:void(0);" style="display: block;">
+											{{item.totalInventory}}
+											<!-- 请下拉查看 -->
+										</a>
+									</li>
+									<li class="oper-li" class="relative active">
+										<a href="javascript:void(0);" class="show-variant-btn"
+											title="{{'100631' | translate}}" ng-show="!item.detailFlag"
+											ng-click="showVariant(item, index1)"><img
+												src="./static/image/public-img/to-down.png" alt=""></a>
+										<a href="javascript:void(0);" class="show-variant-btn"
+											title="{{'100632' | translate}}" ng-show="item.detailFlag"
+											ng-click="showVariant(item, index1)"><img
+												src="./static/image/public-img/to-up.png" alt=""></a>
+									</li>
+								</ul>
+								<div class="tab-con-var" style="background: #fcddb945;" ng-show="item.detailFlag">
+									<ul class="tab-tit-ul clearfix">
+										<li class="sku-li"><span>SKU</span></li>
+										<li class="posi-li"><span>{{'100633' | translate}}</span></li>
+										<li style="width: 8.3%;" class="num-li"><span>{{'100308' | translate}}</span>
+										</li>
+										<li style="width: 8.3%;" class="num-li"><span>{{'订单占用数量' | translate}}</span>
+										</li>
+										<li style="width: 8.3%;" class="num-li"><span>{{'可销库存数量' | translate}}</span>
+										</li>
+										<li style="width: 8.3%;" class="num-li"><span>{{'100202' | translate}}</span>
+										</li>
+										<li class="num-li"><span>{{'100108' | translate}}</span></li>
+										<li class="oper-li"><span>{{'100043' | translate}}</span></li>
+									</ul>
+									<ul class="tab-con-ul sjb clearfix"
+										ng-class="{'sjb-ishide': !itemV.isHidden || !itemV.isHiddenFlag}"
+										ng-repeat="(index2,itemV) in item.variantInventoryInfo" ckbt-finish>
+										<div class="img-box">
+											<span class="asj-listimg-span">
+												<img ng-src="{{ itemV.img }}" alt="" class="small-img">
+												<img ng-src="{{ itemV.img }}" alt=""
+													ng-class="{'hidden-bigimg': true, top: index1 + index2 < 6, 'bottom': index1 + index2 >= 6}">
+											</span>
+											<span class="sku">{{itemV.sku}}</span>
+											<span ng-repeat="(key,val) in itemV.variantKeyMap" style="display: block;font-size: 12px;">
+												{{key}}：{{val}}
+											</span>
+										</div>
+										<div class="cangwei"
+											ng-class="{'isHidden': !itemV.isHidden || !itemV.isHiddenFlag}">
+											<div class="list clearfix" ng-repeat="(index3,item3) in itemV.arr">
+												<p>
+													<span>{{item3.type}}</span>
+													<span style="width: 10%;">{{item3.totalInventory}}</span>
+													<span style="width: 8.9%;">{{item3.occupiedInventory}}</span>
+													<span style="width: 10%;">{{item3.goodsNum}}</span>
+												</p>
+												<ul>
+													<li class="clearfix" ng-repeat="(index4,item4) in item3.arr">
+														<span class="span">
+															{{item4.pathName}}
+															<br>
+															{{item4.horizontalFlag}}
+															<span class="sku"
+																ng-show="item4.podSkuCode">({{item4.podSkuCode}})</span>
+														</span>
+														<span style="width: 10%;"
+															class="span">{{item4.totalInventory}}</span>
+														<span class="owner-order span" style="width: 10%;"
+															title="点击查询占用库存的订单"
+															ng-click="getOwnerOrderList(item4)">{{item4.occupiedInventory}}</span>
+														<span style="width: 10%;" class="span">{{item4.goodsNum}}</span>
+														<!--公有or私有-->
+														<span style="width: 10%;" class="span"
+															style="color: #f99429;width: 10%;"
+															ng-if="item.PRODUCTTYPE=='1'">{{'101191' | translate}}</span>
+														<span style="width: 10%;" class="span" style="color: green;"
+															ng-class="{'wper10':item.PRODUCTTYPE=='1'}"
+															ng-if="item4.ownerFlag=='public'">{{'100634' | translate}}</span>
+														<span style="width: 10%;" class="span" style="color: red;"
+															ng-class="{'wper10':item.PRODUCTTYPE=='1'}"
+															ng-if="item4.ownerFlag=='private'">{{'100635' | translate}}</span>
+
+														<span class="span">{{item4.ownerName || '--'}}</span>
+														<div class="oper-li span" class="relative active"
+															style="width: 19%;">
+															<a role="button" class="asj-btn-s asj-btn-s3"
+																ng-if="isPermitPrivOpe && item4.ownerFlag=='private' && item4.goodsNum > 0 && job=='管理'"
+																ng-click="turnToPub(item4, item)">{{'100636' | translate}}</a>
+															<span
+																ng-if="item4.goodsNum == 0 && itemV.ownerFlag=='public'">&#45;&#45;</span>
+															<div class="more-operate" ng-click="stopPropagation($event)"
+																ng-if="item4.ownerFlag=='private' && isWw">
+																<a href="javascript:void(0);"
+																	class="more-btn">{{'100637' | translate}}</a><span
+																	class="caret" style="display: inline-block;"></span>
+																<ol class="drop-down">
+																	<li ng-show="loginName === 'admin' || loginName === '金仙娟'"
+																		ng-click="inStock(item4, index2, index1, item,index3,index4)">
+																		{{'100638' | translate}}</li>
+																	<li
+																		ng-click="outStock(item4, index2, index1, item,index3,index4)">
+																		{{'100639' | translate}}</li>
+																	<li ng-click="delete(item4)">删除</li>
+																</ol>
+															</div>
+															<a role="button" class="asj-btn-s asj-btn-s3"
+																ng-if="isPermitPrivOpe && item4.ownerFlag=='public' && item4.goodsNum > 0"
+																ng-click="turnToPriv(item4, item)">{{'100640' | translate}}</a>	
+															<a role="button" class="asj-btn-s asj-btn-s3"
+																ng-if="isPermitPrivOpe && item4.ownerFlag=='private' && !item4.ownerId && item4.storageDoId=='522d3c01c75e4b819ebd31e854841e6c' && item4.goodsNum > 0"
+																ng-click="turnToPriv(item4, item)">转至客户私有</a>
+															<div class="more-operate" ng-click="stopPropagation($event)"
+																ng-if="item4.ownerFlag=='public' && isWw">
+																<a href="javascript:void(0);"
+																	class="more-btn">{{'100637' | translate}}</a><span
+																	class="caret" style="display: inline-block;"></span>
+																<ol class="drop-down">
+																	<li
+																		ng-click="outStock(item4, index2, index1, item,index3,index4)">
+																		{{'100639' | translate}}</li>
+																	<li ng-click="delete(item4)">删除</li>
+																</ol>
+															</div>
+															<div class="asj-btn-s asj-btn-s3"
+																ng-click="searchOut(item4)">订单抵扣出库查询</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div ng-show="itemV.isHidden"
+											class="d-flex-center position-absolute yzy-load-more">
+											<span ng-click="loadMoreFn(itemV)"
+												class="cursor-pointer">{{itemV.isHiddenFlag ? '加载更多' : '收起'}}</span>
+										</div>
+
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="tab-con-wrap" style="display: none;">
+							<table class="ea-list-table ea-erp-cs">
+								<tbody ng-repeat="(index1,item) in productList1">
+									<tr class="la_tr la_tr01">
+										<td width="10%"><span><img ng-src="{{item.img}}" alt=""></span></td>
+										<td width="10%"><span>{{item.enName}}</span></td>
+										<td width="10%"><span>{{item.sku}}</span></td>
+										<td width="10%"><span>{{item.categoryEnName}}</span></td>
+										<td width="10%"><span>{{item.totalNum}}</span></td>
+										<td width="10%"><a href="javascript:void(0);"
+												ng-click="showPriv()">{{'100641' | translate}}</a></span></td>
+										<td width="15%" class="relative active">
+											<a href="javascript:void(0);" class="show-variant-btn"
+												title="{{'100631' | translate}}" ng-show="item.down"
+												ng-click="showVariant(item, index1)"><img
+													src="./static/image/public-img/to-down.png" alt=""></a>
+											<a href="javascript:void(0);" class="show-variant-btn"
+												title="{{'100632' | translate}}" ng-show="!item.down"
+												ng-click="hideVariant(item, index1)"><img
+													src="./static/image/public-img/to-up.png" alt=""></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="page-box" ng-show="productList.length > 0">
+							<div class="total-num">
+								共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+							</div>
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+	<!-- 私有客户弹框 -->
+	<div class="asj-common-tanwrap" ng-show="showPrivFlag">
+		<div class="asj-common-tan wa-GuestsDetails ware-show-priv">
+			<h4>{{'100642' | translate}}</h4>
+			<div class="ea-list-table-wrap">
+				<table class="ea-list-table ea-erp-cs">
+					<thead>
+						<tr>
+							<!-- <th><span>用户名</span></th> -->
+							<th><span>{{'100108' | translate}}</span></th>
+							<!-- <th><span>添加日期</span></th> -->
+							<th><span>{{'101318' | translate}}</span></th>
+							<th><span>{{'100643' | translate}}</span></th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+					<tr class="la_tr la_tr01">
+						<td><span>
+								<p>aaa Chen</p>
+								<p><i class="ea-gard-star ea-gard4"></i></p>
+							</span></td>
+						<td><span>aaa</span></td>
+						<td><span>200</span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0" ng-click="showPrivFlag=false;cancelTurnPriv()">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="goActTurnPriv()">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+	<!-- 仓位弹框 -->
+	<div class="asj-common-tanwrap" ng-show="showPosiFlag">
+		<div class="asj-common-tan wa-GuestsDetails ware-show-priv">
+			<h4>{{'100644' | translate}}</h4>
+			<div class="ea-list-table-wrap">
+				<table class="ea-list-table ea-erp-cs">
+					<thead>
+						<tr>
+							<th><span>SKU</span></th>
+							<th><span>{{'100626' | translate}}</span></th>
+							<th><span>{{'100308' | translate}}</span></th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+					<tr class="la_tr la_tr01" ng-repeat="item in varientPosiList">
+						<td><span>
+								<p>{{item.sku}}</p>
+								<p><i class="ea-gard-star ea-gard4"></i></p>
+							</span></td>
+						<td><span>{{item.regCodeName}}</span></td>
+						<td><span>{{item.goodsNum}}</span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0" ng-click="showPosiFlag=false;cancelTurnPriv()">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="goActTurnPriv()">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+	<!-- 转至私有库存弹框 -->
+	<div class="asj-common-tanwrap" ng-show="chanVarToPrivFlag || chanVarToPubFlag">
+		<div id="offline-assign"
+			ng-class="{'asj-common-tan': true, 'common-tan-sty1': true, 'tan-turn-private': chanVarToPrivFlag, 'tan-turn-public': chanVarToPubFlag}">
+			<h5>{{chanVarStatusType}}</h5>
+			<dl class="pro-info clearfix">
+				<dt><img ng-src="{{nowOpeVariant.vimg}}" alt="" id="offline-assign-img"></dt>
+				<dd>
+					<p class="clearfix">
+						<span class="left-span">{{'100107' | translate}}：</span><span
+							class="right-span pro-name">{{productName}}</span>
+					</p>
+					<p class="clearfix"><span class="left-span">SKU:</span><span
+							class="right-span pro-sku">{{nowOpeVariant.sku}}</span></p>
+				</dd>
+			</dl>
+			<div class="assign-to clearfix" ng-show="chanVarToPrivFlag">
+				<label for="">{{'100645' | translate}}：</label>
+				<div class="right-con right-more">
+					<!-- ng-focus="getCustList()" -->
+					<input type="text" id="assign-cust-inp" name="" ng-blur="customerBlur()" ng-change="getCustList()"
+						ng-model="customerName" autocomplete="off">
+					<!-- <span class="remove-assign" ng-show="customerName.length > 0" id="remove-assign" ng-click="removeCustName()">x</span> -->
+					<div class="search-res-wrap" ng-show="customerList.length>0">
+						<ul class="search-res-ul">
+							<li ng-repeat="item in customerList" ng-click="assignOneCust(item)">
+								{{item.num + '-' + item.name}}</li>
+						</ul>
+						<div class="search-res-box" ng-show="customerList.length == 0">{{'100415' | translate}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="assign-to clearfix">
+				<label for="">{{'100308' | translate}}：</label>
+				<div class="right-con">
+					<input type="text" id="assign-num-inp" name="" ng-model="chanVarNum">
+				</div>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0" ng-click="cancelChanVarStatus()">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="goActChanVarStatus()">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+	<!-- 出库／入库 弹框 -->
+	<div class="asj-common-tanwrap" ng-show="outStockFlag || inStockFlag">
+		<div id="offline-assign" ng-class="{'asj-common-tan': true, 'common-tan-sty1': true, 'tan-turn-private': true}">
+			<h5>{{opeStockType}}</h5>
+			<dl class="pro-info clearfix">
+				<dt><img ng-src="{{nowOpeVariant.vimg}}" alt=""></dt>
+				<dd>
+					<p class="clearfix">
+						<span class="left-span">{{'100107' | translate}}：</span><span
+							class="right-span pro-name">{{productName}}</span>
+					</p>
+					<p class="clearfix"><span class="left-span">SKU:</span><span
+							class="right-span pro-sku">{{nowOpeVariant.sku}}</span></p>
+				</dd>
+			</dl>
+			<div class="assign-to clearfix">
+				<label for="">{{'100308' | translate}}：</label>
+				<div class="right-con">
+					<input type="text" name="" ng-model="opeStockNum">
+				</div>
+			</div>
+			<div class="assign-to clearfix">
+				<label for="">{{'100340' | translate}}：</label>
+				<div class="right-con">
+					<textarea ng-model="opeStockRemark"
+						style="border: 1px solid #eee; width: 240px; height: 60px;"></textarea>
+				</div>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0"
+					ng-click="outStockFlag=false;inStockFlag=false;nowOpePro=null;nowOpePro=null;opeStockRemark='';opeStockNum='';">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="goOpeStock()">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+	<!-- 扫码入库弹框 -->
+	<div class="asj-common-tanwrap" ng-show="codeStockFlag">
+		<div ng-class="{'asj-common-tan': true, 'asj-code-instock': true}">
+			<div class="tan-title">扫码入库</div>
+			<div class="tan-con">
+				<div class="sku-item">
+					<label>商品SKU：</label>
+					<input type="text" ng-keyup="getCode($event)" id="sku-code" ng-model="code">
+				</div>
+				<div class="position-box">
+					<div class="position-top clearfix">
+						<div class="left-title">入库位置</div>
+						<div class="add-posi-box clearfix">
+							<span class="add-posi-btn" ng-click="addPosi=true;focusPosiInp()">+新增</span>
+							<div class="add-posi-inner" ng-show="addPosi">
+								<input type="text" class="add-posi-inp" ng-keyup="getPosiCode($event)" id="posi-code"
+									ng-model="posiCode">
+								<span class="cancel-btn" ng-click="addPosi=false;posiCode='';">取消</span>
+								<span class="confirm-btn" ng-click="goAddPosi()">确定</span>
+							</div>
+						</div>
+					</div>
+					<div class="posi-list-item posi-list-title">
+						<table>
+							<tr>
+								<td width="20%">编码</td>
+								<td width="20%">名称</td>
+								<td width="20%">位置</td>
+								<td width="20%">当前库存</td>
+								<td width="20%">入库数量</td>
+							</tr>
+						</table>
+					</div>
+					<div class="posi-list-body" style="height: 207px;">
+						<div class="posi-list-item">
+							<p class="no-stock-tip" ng-show="code && posiList.length==0">当前仓库下无库存记录</p>
+							<table>
+								<tr ng-repeat="item in posiList">
+									<td width="20%">{{item.regionBarcode}}</td>
+									<td width="20%">{{item.codeName}}</td>
+									<td width="20%">{{item.pathName}}</td>
+									<td width="20%">{{item.goodsNum || 0}}</td>
+									<td width="20%" class="inp-td"><input class="inp-stock-num" type="text"
+											ng-model="item.optVal" ng-change="checkIsNum($index)" placeholder="0"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0"
+					ng-click="codeStockFlag=false;code='';posiList=[];posiCode='';">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="goOpeStockByCode()">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+	<!-- 扫码入库弹框 -->
+	<div class="asj-common-tanwrap" ng-show="codeStockSucessFlag">
+		<div ng-class="{'asj-common-tan': true, 'asj-code-instock': true}">
+			<div class="tan-title">入库成功</div>
+			<div class="tan-con success-stock">
+				<p>提交成功，后台正在处理，库存信息会在1～2分钟后更新</p>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0"
+					ng-click="codeStockFlag=false;codeStockSucessFlag=false;successList=[];">{{'关闭'}}</a>
+				<a class="tan-btn1" ng-click="codeStockSucessFlag=false;successList=[];continueStock()">{{'继续入库'}}</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- 扫码入库重复弹框 -->
+	<div class="asj-common-tanwrap" ng-show="continueFlag">
+		<div ng-class="{'asj-common-tan': true, 'asj-code-instock': false}" class="ruku-repeat-alert">
+			<div class="tan-title">入库提醒</div>
+			<div class="tan-con">
+				{{rukuAlertText}}
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0" ng-click="rukuAlertHandle(false)">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="rukuAlertHandle(true)">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<!-- 商品数量查询弹框 -->
+	<div class="asj-common-tanwrap" ng-show="quantityFlag">
+		<div ng-class="{'asj-common-tan': true, 'asj-code-instock': true}">
+			<div class="tan-title">商品数量查询</div>
+			<div class="tan-con">
+				<div class="sku-item">
+					<label>商品SKU：</label>
+					<input type="text" ng-keyup="getCode($event)" id="sku-code-1" ng-model="code" style="width: 190px;">
+					<input class="Wdate data-inp" placeholder="" style="text-indent: 12px; width: 130px;" type="text"
+						id="c-start-time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})">
+					<input class="Wdate data-inp" placeholder="Now" style="text-indent: 12px; width: 130px;" type="text"
+						id="c-end-time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})">
+					<input ng-click="query()" class="erp-seachInp" type="button" value="查询" style="width: 50px;">
+				</div>
+				<div class="position-box">
+					<div class="position-top clearfix"
+						style="display: flex; flex-flow: row nowrap; justify-content:space-between;">
+						<span>采购总量：{{caiGouZongShu}}个</span>
+						<span>正常签收总量：{{qianShouZongShu}}个</span>
+						<span>异常签收总量：{{yiChangZongShu}}个</span>
+						<span>入库总量：{{ruKuZongShu}}个</span>
+					</div>
+					<!-- <div class="left-title">操作明细</div> -->
+					<div class="posi-list-item posi-list-title">
+						<table>
+							<tr>
+								<td width="20%">日期</td>
+								<td width="20%">签收数量</td>
+								<td width="20%">异常数量</td>
+								<td width="20%">入库数量</td>
+							</tr>
+						</table>
+					</div>
+					<div class="posi-list-body">
+						<div class="posi-list-item">
+							<p class="no-stock-tip" ng-show="code && articleList.length==0">当前仓库下无库存记录</p>
+							<table>
+								<tr ng-repeat="item in articleList">
+									<td width="20%">{{item.createDate}}</td>
+									<td width="20%">{{item.qianShouShuLiang}}</td>
+									<td width="20%">{{item.yiChangShuLiang}}</td>
+									<td width="20%">{{item.ruKuShuLiang}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0"
+					ng-click="quantityFlag=false;code='';posiList=[];posiCode='';">{{'100051' | translate}}</a>
+				<a class="tan-btn1" ng-click="goOpeStockByCode()">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+	<!-- 占用库存的订单列表显示 -->
+	<div class="asj-common-tanwrap" ng-show="showOwnerOrder">
+		<div class="asj-common-tan">
+			<div class="tan-title">占用库存的订单</div>
+			<div class="tan-con">
+				<span class="cj-btn" ng-click="ownerOrderExport()">导出</span>
+				<div class="cj-table-box">
+					<table class="cj-table">
+						<thead class="cj-table-thead">
+							<tr>
+								<th>订单号</th>
+								<th>sku</th>
+								<th>占用数量</th>
+							</tr>
+						</thead>
+						<tbody class="cj-table-tbody">
+							<tr class="cj-table-tr" ng-repeat="item in ownerOrderList">
+								<td>{{item.orderId}}</td>
+								<td>{{item.sku}}</td>
+								<td>{{item.quantity}}</td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0" ng-click="showOwnerOrder=false">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+	<!-- 订单抵扣出入库查询 -->
+	<div class="asj-common-tanwrap" ng-show="showOutOrder">
+		<div class="asj-common-tan">
+			<div class="tan-title">占用库存的订单</div>
+			<div class="tan-con">
+				<div class="confirm-search-box">
+					<input class="Wdate" type="text" ng-model="outOrderParam.beginDate"
+						onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,onpicked:function(){$(this).trigger('change')}})"
+						ng-change="getOutOrderList()" placeholder="开始日期">
+					<input class="Wdate" type="text" ng-model="outOrderParam.endDate"
+						onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,onpicked:function(){$(this).trigger('change')}})"
+						ng-change="getOutOrderList()" placeholder="开始日期">
+					<select class="ui-select" ng-model="outOrderParam.type" ng-change="getOutOrderList()">
+						<option value="1">未出库</option>
+						<option value="2">已出库</option>
+					</select>
+					<span class="cj-btn" ng-click="outOrderExport()">导出</span>
+				</div>
+				<div class="cj-table-box">
+					<table class="cj-table">
+						<thead class="cj-table-thead">
+							<tr>
+								<th>订单号</th>
+								<th>sku</th>
+								<th>占用数量</th>
+								<th>状态</th>
+							</tr>
+						</thead>
+						<tbody class="cj-table-tbody">
+							<tr class="cj-table-tr" ng-if="outOrderList.length>0" ng-repeat="item in outOrderList">
+								<td>{{item.cjorderid}}</td>
+								<td>{{item.sku}}</td>
+								<td>{{item.quantity}}</td>
+								<td>{{item.flag?'已出库':'未出库'}}</td>
+							</tr>
+							<tr class="cj-table-tr" ng-if="outOrderList.length==0">
+								<td colspan="4">暂无记录</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<page page-data="outOrderPage"></page>
+			</div>
+			<div class="tan-btns">
+				<a class="tan-btn0" ng-click="showOutOrder=false">{{'100050' | translate}}</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

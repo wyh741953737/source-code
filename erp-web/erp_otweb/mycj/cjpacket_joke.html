@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cjpacket-笑话</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+    <style>
+
+        .clearfix:after {
+            content: "";
+            visibility: hidden;
+            display: block;
+            clear: both;
+            height: 0;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        .search-box {
+            width: 100%;
+            line-height: 28px;
+            padding-right: 10px;
+        }
+
+        .search-box label {
+            float: left;
+        }
+
+        .filter-btn {
+            padding: 4px 5px;
+            background-color: #08aceb;
+            color: #fff;
+            font-size: 12px;
+            height: 32px;
+            border-radius: 3px;
+        }
+
+        .subcriber {
+            background-color: #f99429;
+            color: #fff;
+            border-radius: 3px;
+            padding: 5px 8px;
+            font-size: 14px;
+        }
+
+        .dialog {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        .dialog .content {
+            width: 500px;
+            min-height: 180px;
+            height: initial;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 4px;
+            margin: 200px auto;
+            padding: 10px;
+        }
+
+        .dialog .content h3 {
+            font-size: 14px;
+
+        }
+
+        .dialog .content a {
+            padding: 4px 5px;
+            background-color: #08aceb;
+            color: #fff;
+            font-size: 12px;
+            border-radius: 3px;
+            margin-top: 10px;
+            display: block;
+            width: 100px;
+            text-align: center;
+        }
+
+        .img-box {
+            /*margin-top: 10px;*/
+        }
+
+        .img-box a {
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+            position: relative;
+            display: inline-flex !important;
+            align-items: center;
+        }
+
+        .img-box a i {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            right: -7px;
+            top: -7px;
+            text-align: center;
+            line-height: 15px;
+            background-color: #CCCCCC;
+        }
+
+        .img-box a img {
+            width: 100%;
+        }
+
+        .content .btns {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .content .btns button {
+            width: 80px;
+            height: 30px;
+            border-radius: 3px;
+            margin-left: 15px;
+        }
+
+        .content .btns button:nth-child(1) {
+            background-color: #08aceb;
+            color: #fff;
+        }
+
+        .content .btns button:nth-child(2) {
+            background-color: #08aceb;
+            color: #fff;
+        }
+
+        .content textarea {
+            width: 100%;
+            min-width: 200px;
+            border-radius: 3px;
+            border: 1px solid #CCCCCC;
+            margin-top: 10px;
+            padding: 8px;
+            font-size: 14px;
+            resize: auto;
+            min-height: 100px;
+            max-width: 485px;
+        }
+
+        table td a {
+            width: 50px;
+            height: 50px;
+            display: inline-flex !important;
+            align-items: center;
+            margin-right: 3px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        table td a img {
+            width: 100% !important;
+            margin: initial !important;
+        }
+        .guanlianshangpin ul {
+            margin-top: 10px;
+        }
+        .add-btn{
+            width: 55px;
+            background: #08aceb;
+            color: #fff;
+            border: none;
+            border-radius: 0;
+            margin: 0;
+            font-size: 12px;
+            height: 30px;
+            line-height: 30px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="bg-geduan"></div>
+        <div class="right-bar" style="min-height: 850px;">
+            <div class="clearfix" style="padding-left: 10px;">
+                <div class="input-group search-box clearfix">
+                 <!--   <input type="text" class="form-control top-search-inp" placeholder="客户名称/客户编号"
+                           ng-model="search"
+                           ng-keyup="enterSearch($event)">
+                    <a role="button" class="btn btn-default top-search-btn" type="button"
+                       ng-click="searchList()">{{'100025' | translate}}</a>-->
+                    <button class="add-btn" ng-click="addData()">新增</button>
+                </div>
+            </div>
+            <div class="table-con-box" id="c-mu-ord">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th><span>序号</span></th>
+                        <th><span>创建时间</span></th>
+                        <th><span>创建人</span></th>
+                        <th><span>内容</span></th>
+                        <th><span>操作</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in dataList" class="TR" ng-click="TrClick($index)"
+                        ng-class='{focus: $index == focus}'>
+                        <td><span>{{$index+1}}</span></td>
+                        <td><span>{{item.create_Date}}</span></td>
+                        <td><span>{{item.CREATOR}}</span></td>
+                        <td style="width: 900px;"><span>{{item.CONTENT}}</span></td>
+                        <td>
+                            <button class="subcriber" ng-click="editItem(item)">编辑</button>
+                            <button class="subcriber" ng-click="removeItem(item)">删除</button>
+                        </td>
+                    </tr>
+                    <tr ng-show="dataList.length == 0">
+                        <td colspan="5">暂无数据。</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="page-box" ng-show="dataList.length > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pageNumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增-->
+<div class="dialog" ng-show="addFlag">
+    <div class="content clearfix">
+        <h3>新增</h3>
+        <textarea ng-model="addTXt" onkeyup="value=value.replace(/[\u4E00-\u9FA5]/g,'')"
+                  onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+                  oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" placeholder="请输入English"></textarea>
+        <div class="btns">
+            <button ng-click="addY()">确定</button>
+            <button ng-click="addFlag = false;">取消</button>
+        </div>
+    </div>
+</div>
+<!--编辑-->
+<div class="dialog" ng-show="editFlag">
+    <div class="content clearfix">
+        <h3>编辑</h3>
+        <textarea ng-model="editTXt" onkeyup="value=value.replace(/[\u4E00-\u9FA5]/g,'')"
+                  onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+                  oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" placeholder="请输入English"></textarea>
+        <div class="btns">
+            <button ng-click="editY()">确定</button>
+            <button ng-click="editFlag = false;">取消</button>
+        </div>
+    </div>
+</div>
+<!--删除-->
+<div class="dialog" ng-show="removeFlag">
+    <div style="width: 300px;min-height: initial;height: 85px;" class="content clearfix">
+        <h3>是否删除?</h3>
+        <div class="btns">
+            <button ng-click="removeY()">确定</button>
+            <button ng-click="removeFlag = false;">取消</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

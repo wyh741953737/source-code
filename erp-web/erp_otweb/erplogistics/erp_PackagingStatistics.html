@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .input-group{
+            display: flex;
+            justify-content: center;
+        }
+        .input-group>input{
+            height: 35px;
+            width: 250px;
+            padding: 2px 5px;
+        }
+        .input-group>button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -1px;
+            /*top: 1px;*/
+            height: 35px;
+            padding: 0 15px;
+        }
+        .searchGroup{
+            margin-left: 15px;
+        }
+        .searchGroup input{
+            height: 35px;
+            width: 150px;
+            padding: 2px 5px;
+            border: 1px solid #e0e0e0;
+        }
+        .searchGroup input:nth-child(2){
+            position: relative;
+            left: -5px;
+        }
+        .searchGroup button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -10px;
+            /*top: 1px;*/
+            height: 35px;
+            padding: 0 15px;
+        }
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .search-box>input{
+            height: 35px;
+            width: 280px;
+            padding: 2px 5px;
+        }
+        .search-box>button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -1px;
+            top: 1px;
+            height: 35px;
+            padding: 0 15px;
+        }
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .ea-list-table tbody tr>td>span{
+            cursor: pointer;
+            text-decoration: underline;
+            color: #3A5FCD;
+        }
+        .no-data {
+            text-align: center;
+            padding: 10px;
+            color: #999;
+            border: solid #e1e1e1 1px;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px 20px">
+            <div class="ea-right-search">
+                <div class="input-group">
+                    <input placeholder="请输入打包人名称" id="searchInput" ng-model="searchInfo" type="text"/>
+                    <button ng-click="search()">{{'100025' | translate}}</button>
+                    <div class="searchGroup">
+                        <input class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                        <input id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                        <button class="linkBtn" ng-click="searchFun()">查询</button>
+                    </div>
+                </div>
+            </div>
+            <div class="pageWrap" style="margin-top: 15px">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>打包人</th>
+                        <th>订单数量</th>
+                        <th>商品数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="package in packageList">
+                        <td>{{$index+1}}</td>
+                        <td><span ng-click="gotoFun(package.packageUser)">{{package.packageUser}}</span></td>
+                        <td>{{package.count}}</td>
+                        <td>{{package.quantity}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="no-data" ng-show="packageList.length<1">暂无数据。</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>客户-kehuliebiao-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+    <style>
+        body {
+            position: relative;
+        }
+
+        body .guanlianshangpin {
+            width: 1111px;
+            height: 725px;
+            transform: translateX(0px);
+            transform: translateZ(0px);
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+            normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            left: 10%;
+            top: 10%;
+        }
+
+        body .guanlianshangpin .guanlianshangpinhead {
+            font-family: ﻿MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+            margin-left: 50%;
+        }
+
+        body .guanlianshangpin table {
+            margin: 0 auto;
+        }
+
+        body .guanlianshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .guanlianshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin {
+            margin: 0 auto;
+            width: 1011px;
+            height: 725px;
+            z-index: 100;
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+            normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            right: 1%;
+            bottom: -600px;
+        }
+
+        body .excelshangpin .guanlianshangpinhead {
+            font-family: ﻿MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            width: 1000px;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        body .excelshangpin table {
+            margin: 0 auto;
+        }
+
+        body .excelshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        .wllSort1 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            top: 23px;
+            cursor: pointer;
+        }
+
+        .wllSort2 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            bottom: 23px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+        .accreditSelect {
+            width: 200px;
+            border: 1px solid #ccc;
+            height: 35px;
+            text-align: center;
+            padding-left: 10px;
+            outline: none;
+            float: right;
+            margin-right: 20px;
+            margin-top: 8px;
+            color: #000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .table-con-box tr button {
+            background-color: orange;
+            font-size: 12px;
+            color: #fff;
+            padding: 3px 8px;
+            margin: 0;
+            border-radius: 3px;
+        }
+        .zitc-con .c-ord-list{
+            height: 590px;
+        }
+        .page-box{
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .zitc-con .zitc-btns button{
+            margin-top: inherit;
+        }
+    </style>
+</head>
+<body>
+<!-- content -->
+<div class="ea-content">
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpcustomer/KeHuLieBiao">{{'100890' | translate}}（{{customerdata.normal}}）</a></li>
+            <li><a href="#/erpcustomer/xushenhe">{{'100891' | translate}}（{{customerdata.needaudit}}）</a></li>
+            <li><a href="#/erpcustomer/shenhenopass">{{'100892' | translate}}（{{customerdata.nopass}}）</a></li>
+            <li><a href="#/erpcustomer/heimingdan">{{'100608' | translate}}（{{customerdata.black}}）</a></li>
+            <li ng-click="refresh()" class="active"><a href="#/erpcustomer/shoplist">{{'100893' | translate}}（{{customerdata.shop}}）</a></li>
+            <li><a href="#/erpcustomer/exhibition">{{'100894' | translate}}（{{customerdata.exhibition}}）</a></li>
+            <li><a href="#/erpcustomer/Affiliate">{{'100895' | translate}}（{{customerdata.affUserNum}}）</a></li>
+            <li><a href="#/erpcustomer/GH">{{'100896' | translate}}（{{customerdata.customerResourceNum}}）</a></li>
+        </ul>
+    </div>
+
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="bg-geduan"></div>
+        <!-- right search -->
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box" style="margin-right: 10px;">
+                    <span style="float: left;height: 30px;padding-top: 3px;">店铺类型:</span>
+                    <select ng-model="shopType" ng-change="searchcustomer()" style="top: 0px;width: 100px;position: relative;">
+                        <option value="">全部</option>
+                        <option value="shopify">shopify</option>
+                        <option value="ebay">ebay</option>
+                        <option value="Woocommerce">Woocommerce</option>
+                        <option value="Shipstation">Shipstation</option>
+                        <option value="amazon">amazon</option>
+                        <option value="api">api</option>
+                        <option value="Lazada">Lazada</option>
+                        <option value="shopee">shopee</option>
+                    </select>
+                </div>
+                <div class="input-group search-box" style="margin-right: 10px;">
+                    <input class="Wdate data-inp" placeholder="起始时间" style="text-indent: 12px;height: 30px;width: 270px;border-color: #08aceb;border-radius: 0;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"></input> &nbsp;-&nbsp;
+                    <input id="cdatatime2" placeholder="结束时间" class="Wdate data-inp" style="text-indent: 12px;height: 30px;width: 270px;border-color: #08aceb;border-radius: 0;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+                </div>
+                <div class="input-group search-box" style="margin-right: 10px;">
+                    <input type="text" class="form-control top-search-inp" placeholder="" ng-model="searchinfo"
+                    ng-keyup="enterSearch($event)">
+                    <a role="button" class="btn btn-default top-search-btn" type="button"
+                        ng-click="searchcustomer()">{{'100025' | translate}}</a>
+                </div>
+                <!-- <p><input type="text" value="" ng-model="searchinfo"  class="search-text-box" /><input type="button" value="搜索" class="search-button" ng-click="searchcustomer()" /></p> -->
+                <select style="cursor: pointer;" ng-model="accredit" ng-change="typeChange(accredit)"
+                        class="accreditSelect">
+                    <option style="cursor: pointer;" value="授权成功">{{'100933' | translate}}</option>
+                    <option style="cursor: pointer;" value="授权失败">{{'100934' | translate}}</option>
+                </select>
+            </div>
+
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <th><span>{{'100899' | translate}}</span></th>
+                        <th><span>{{'100927' | translate}}</span></th>
+                        <th><span>{{'100928' | translate}}</span></th>
+                        <th style="position: relative;" width="15%"><span style="width: 90%;">{{'100929' | translate}}</span><span
+                                class="wllSort1" ng-click="wllSort1()"></span><span class="wllSort2"
+                                                                                    ng-click="wllSort2()"></span></th>
+                        <th><span>{{'101318' | translate}}</span></th>
+                        <th><span>{{'100877' | translate}}</span></th>
+                        <th><span>{{'100926' | translate}}</span></th>
+                        <th><span>{{'100931' | translate}}</span></th>
+
+                        <th><span>{{'100955' | translate}}</span></th>
+
+                        <th><span>{{'100932' | translate}}</span></th>
+                        <th><span>{{'100930' | translate}}</span></th>
+
+                        <th><span>{{'100956' | translate}}</span></th>
+                    </tr>
+                    <tr ng-repeat="item in shoplist">
+                        <td><span> {{item.num}}</span></td>
+                        <!--<td><span ng-click="shenhe(item)" style="cursor: pointer">{{item.LOGIN_NAME-->
+                        <!--}}</span></td>-->
+                        <td style="cursor: pointer;" ng-click="shenhe(item)"><span> {{item.username}}</span></td>
+                        <td style="cursor: pointer;" ng-click="shenhe(item)"><span> {{item.login_name}}</span></td>
+                        <td><span>{{item.createdate1}} <br> {{item.createdate2}}</span></td>
+
+                        <td><span> {{item.relate_salesman}}</span></td>
+                        <td style="cursor: pointer;"><span>
+                        <a target="_blank" href="{{changeShopAddress(item)}}">{{item.NAME}}</a>
+                        <img ng-click="lookTransfer(item)" src="static\image\public-img\remarks-gray.svg" alt="">
+                        </span>
+                        </td>
+                        <td><span>{{item.TYPE}}</span></td>
+                        <td>
+                            <span ng-show="item.STATUS==1">{{'100933' | translate}}</span>
+                            <span ng-show="item.STATUS==2">{{'100933' | translate}}</span>
+                            <span ng-show="item.STATUS==3">{{'100934' | translate}}</span>
+                            <span ng-show="item.STATUS==4">{{'100934' | translate}}</span>
+                        </td>
+                        <td><span>{{item.tokendate.time  | date:"yyyy-MM-dd"}} <br> {{item.tokendate.time  | date:"HH:mm:ss"}} </span>
+                        </td>
+                        <td>
+                            <span ng-show="item.STATUS==1">{{'100935' | translate}}</span>
+                            <span ng-show="item.STATUS==2">{{'100936' | translate}}</span>
+                            <span ng-show="item.STATUS==3">{{'100936' | translate}}</span>
+                            <span ng-show="item.STATUS==4">{{'100936' | translate}}</span>
+                        </td>
+                        <td><span>{{item.updatedate1}}<br> {{item.updatedate2}}</span></td>
+                        <td><span>
+                                <button ng-click="look(item)">{{'100122' | translate}}</button>
+                            </span></td>
+                    </tr>
+                </table>
+                <!-- 分页 -->
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--查看弹窗-->
+<div class="zitc-wrap ng-scope" ng-show="viewFlag">
+    <div class="zitc-con">
+        <div class="c-ord-list">
+            <table class="orders-table">
+                <thead class="c-ord-thead">
+                <tr>
+                    <th style="width: 80px">{{'100107' | translate}}</th>
+                    <th style="width: 100px">{{'100382' | translate}}</th>
+
+                    <th style="width: 90px">{{'100957' | translate}}</th>
+                    <th style="width: 150px;">{{'100958' | translate}}</th>
+
+                    <th style="width: 90px;">{{'100350' | translate}}</th>
+                    <th style="width: 50px;">{{'100959' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody class="c-ord-tbody ng-scope" ng-repeat="item in dplist" repeat-finish="">
+                <tr class="erporder-detail">
+                    <td><span> {{item.proName}}</span></td>
+                    <td><img width="50" height="50" ng-src="{{item.proImage}}"></td>
+                    <td><span> {{item.proCount}}</span></td>
+                    <td><a target="_blank" href="{{'https://'+shopName +'.myshopify.com/products/'+item.proHandle}}">{{'https://'+shopName +'.myshopify.com/products/'+item.proHandle}}</a></td>
+                    <td><span>{{item.ProPrices}} </span></td>
+                    <td>
+                       <span>
+                            <img style="cursor: pointer;" width="20" ng-if="item.dw" ng-click="isloook(item,$index+1)"
+                                 src="static/image/public-img/down.png" alt="">
+                            <img style="cursor: pointer;" width="20" ng-if="!item.dw" ng-click="isloook(item,$index+1)"
+                                 src="static/image/public-img/up.png" alt="">
+                       </span>
+                    </td>
+                </tr>
+                <tr style="background-color: #ecdcc8;" ng-show="item.dw" class="erporder-detail"  ng-repeat="items in item.prolist">
+                    <td><span> {{items.title}}</span></td>
+                    <td><img width="50" height="50" ng-src="{{items.image}}"></td>
+                    <td><span> {{items.count}}</span></td>
+                    <td><a target="_blank" href="{{'https://'+shopName +'.myshopify.com/products/'+item.proHandle}}">{{'https://'+shopName +'.myshopify.com/products/'+item.proHandle}}</a></td>
+                    <td><span> {{items.price}}</span></td>
+                    <td>--</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 分页 -->
+        <div class="page-box">
+            <div class="select-page-num">
+                <select class="form-control" ng-model="pagesize1" ng-change="pagechange1(pagesize1)"
+                        style="width: 65px;height: 31px;">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                </select>
+                <span>每页</span>
+            </div>
+            <div class="total-num">
+                共&nbsp;&nbsp;{{ totalNum1 }}&nbsp;&nbsp;条
+            </div>
+            <div class="page-index">
+                <div class="pagegroup1">
+                    <a href="#">&lt;&lt;</a>
+                    <a href="#">&lt;</a>
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a class="current" href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">6</a>
+                    <a href="#">···</a>
+                    <a href="#">&gt;</a>
+                    <a href="#">&gt;&gt;</a>
+                </div>
+            </div>
+            <div class="to-go">
+                <span>跳转：</span>
+                <input type="text" class="goyema1 form-control" placeholder="" ng-model="pagenum1">
+                <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange1()">go</a>
+            </div>
+        </div>
+        <div class="zitc-btns">
+            <button ng-click="closechange()">{{'100066' | translate}}</button>
+        </div>
+    </div>
+</div>
+<transfer-model props="transferPros" ></transfer-model>
+</body>
+</html>

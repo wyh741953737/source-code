@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>新品</title>
+    <!--业务员管理-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="static/css/SalesmanManagement.css"
+    />
+    <script src="erp_otweb/js/video.min.js"></script>
+  </head>
+  <style>
+    .filter {
+      line-height: 30px !important;
+      /* display: flex; */
+    }
+    .filter select {
+      width: 96px;
+    }
+
+    .filter .datetab {
+      margin-left: 15px;
+    }
+
+    .filter .dateact {
+      color: #0d8efb;
+    }
+    .chartsbox .dateact {
+      color: #0d8efb;
+    }
+
+    .search-by-con {
+      height: 30px;
+      position: relative;
+      float: left;
+    }
+
+    .default-con {
+      width: 240px;
+      height: 30px;
+      padding-left: 10px;
+      line-height: 30px;
+      border: 1px solid #e5e5e5;
+      position: relative;
+    }
+
+    .has-list-cate {
+      float: left;
+      margin-right: 15px;
+    }
+
+    .serch-by-name {
+      height: 30px;
+      line-height: 30px;
+      float: left;
+    }
+
+    input,
+    select {
+      height: 30px !important;
+    }
+
+    .three-grade-list {
+      position: absolute;
+      left: 0;
+      top: 0px;
+      margin-top: 0;
+      padding-left: 0;
+      background: #fff;
+      z-index: 99;
+      display: none;
+    }
+
+    .caret {
+      position: absolute;
+      right: 10px;
+      top: 13px;
+    }
+
+    .filter .search {
+      height: 30px;
+    }
+
+    .samlimg {
+      position: absolute;
+      /* top: -160px; */
+      /* left: 72px; */
+    }
+    .samlimg:hover {
+      transform: scale(15);
+    }
+
+    .lookProduct {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      top: 0;
+      left: 0;
+      z-index: 10000;
+    }
+
+    .lookProduct .content {
+      transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: #fff;
+      box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+      width: 523px;
+      min-height: 330px;
+      margin: initial;
+      border-radius: 4px;
+      padding: initial;
+    }
+
+    .lookProduct .content h3 {
+      padding: 15px;
+      margin: initial;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .lookProduct .content h3 .close {
+      font-size: 25px;
+      font-weight: initial;
+      opacity: 0.4;
+    }
+
+    .my-video-dimensions {
+      width: 100%;
+      height: 273px;
+    }
+
+    .lookProduct .content {
+      top: 35%;
+    }
+
+    .filter input {
+      margin: 0 5px;
+      width: auto;
+    }
+    .page-box .to-idx {
+      float: left;
+    }
+    .page-box .to-idx input {
+      text-align: center;
+      width: 50px;
+      height: 25px !important;
+      margin: 0 5px;
+    }
+    .page-box .to-idx button {
+      border: 1px solid #dddee1;
+      height: 25px;
+      line-height: 25px;
+      width: 50px;
+      border-radius: 3px;
+    }
+    .chartsbox {
+      /* margin-bottom: 20px; */
+    }
+    .tableTs tr td {
+      /* white-space:pre-line; */
+      word-wrap: break-word;
+      word-break: break-all;
+      width: 11%;
+      border: 1px solid rgb(241, 237, 237);
+    }
+    .textsbox {
+      border: 1px solide #ccc !important;
+      background: red;
+    }
+    .textsbox .edittextarea {
+      display: block;
+      border: 1px solide #ccc !important;
+    }
+    .item-group textarea {
+      width: 348px;
+      height: 138px;
+      padding: 10px;
+      resize: none;
+    }
+    .filter select {
+      float: none;
+    }
+    .filter input {
+      /* float:none; */
+    }
+    .noneborder {
+      border-radius: 0 !important;
+    }
+  </style>
+  <body>
+    <div class="tab">
+      <ul class="clearfix" style="cursor: pointer;">
+        <li
+          class="datetab"
+          ng-click="checkTab(item)"
+          ng-repeat="item in tabArr"
+          ng-class="{'Act':item.isActive}"
+        >
+          {{item.name}}
+        </li>
+        <!-- <a class="datetab margin-left-10px" ng-class="{dateact:item.flag,'margin-left-30px':$index==0}" href="javascript:void(0)" ng-repeat="item in dateArr"
+            ng-click="dateClick(item)">{{item.name}}</a> -->
+        <!-- <li class="Act" ng-click="checkTab()"><a href="#/CommodityAnalysis/LinkageAndPublication">佣金设置</a></li> -->
+        <li style="float: right;">
+          <span>币种展示：</span>
+          <select class="font-size-14px" ng-model="moneyType">
+            <option value="1">USD</option>
+            <!-- <option value="SKU">SKU</option> -->
+          </select>
+        </li>
+      </ul>
+    </div>
+    <div style="height: 68px;"></div>
+    <div class="content" style="overflow: hidden;" ng-show="val==2">
+      <div class="left">
+        <div class="filter clearfix">
+          <span style="float: left;margin-left: 20px;">选择日期：</span>
+          <input
+            id="date1"
+            class="Wdate data-inp noneborder"
+            ng-focus="dateFocus()"
+            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="起始日期"
+            readonly=""
+            ng-model="startTime"
+          />
+          <span class="line" style="float: left;">-</span>
+          <input
+            id="date2"
+            class="Wdate data-inp noneborder"
+            ng-focus="dateFocus()"
+            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="结束日期"
+            readonly=""
+            ng-model="endTime"
+          />
+
+          <span class="font-size-14px" style="margin-left: 15px;"
+            >费用类型：</span
+          >
+          <select
+            class="font-size-14px"
+            ng-model="seaType"
+            ng-change="checkSelect()"
+          >
+            <option value="1">供应商佣金</option>
+            <option value="2">运费</option>
+            <option value="3">套餐费用</option>
+          </select>
+          <input
+            class="seach-inp"
+            ng-model="searVal"
+            style="border-radius: 0;float: none;"
+            placeholder="订单号"
+            ng-show="seaType =='1'"
+          />
+          <input
+            class="seach-inp"
+            ng-model="searVal"
+            style="border-radius: 0;float: none;"
+            placeholder="包裹号"
+            ng-show="seaType =='2'"
+          />
+          <button
+            class="search"
+            style="float: none;border-radius: 0;"
+            ng-click="searchInput()"
+          >
+            查询
+          </button>
+          <a
+            class="search"
+            style="display:inline-block;float: none;border-radius: 0;text-align: center;"
+            ng-click="exportExcel()"
+            >导出报表</a
+          >
+        </div>
+        <div class="parent-order">
+          <p style="margin: 10px 20px;font-weight: 500;" ng-if="seaType =='1'">
+            总金额：<span>{{totalMoney | currency}}</span>
+          </p>
+          <p style="margin: 10px 20px;font-weight: 500;" ng-if="seaType =='3'">
+            总收费：<span>{{amount | currency}}</span>
+          </p>
+          <p style="margin: 10px 20px;font-weight: 500;" ng-if="seaType =='1'">
+            佣金总额：<span>{{totalCommissionAmount | currency}}</span>
+          </p>
+          <p style="margin: 10px 20px;font-weight: 500;" ng-if="seaType =='2'">
+            总运费：<span>{{totleFreight | currency}}</span>
+          </p>
+          <table class="tableTs">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>付款时间</th>
+                <th style="width: 12%;" ng-if="seaType =='2'">包裹号</th>
+                <th style="width: 12%;" ng-if="seaType =='1'">订单号</th>
+                <th >收入类型</th>
+                <th ng-if="seaType =='3'">套餐名称</th>
+                <th>供应商名称</th>
+                <th ng-if="seaType =='1'">订单金额</th>
+                <th ng-if="seaType =='1'">佣金</th>
+                <th ng-if="seaType =='1'">佣金比例</th>
+                <th ng-if="seaType =='2'">实际总重量</th>
+                <th ng-if="seaType =='2'">运费金额</th>
+
+                <th ng-if="seaType =='3'">套餐金额</th>
+                <th ng-if="seaType =='3'">备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                <td>{{$index+1}}</td>
+                <td ng-if="seaType === '1' || seaType === '2'">
+                  {{item.payTime}}
+                </td>
+                <td ng-if="seaType === '3'">{{item.createAt}}</td>
+                <td style="width: 12%;" ng-if="seaType =='2' || seaType == '1'">
+                  {{item.orderNumber}}
+                </td>
+                <td ng-if="seaType =='1' || seaType =='2'">{{item.orderType}}</td>
+                <td ng-if="seaType === '3'">
+                  {{item.incomeType}}
+                </td>
+                <td ng-if="seaType === '3'">
+                  {{item.planName}}
+                </td>
+                <td ng-if="seaType === '1' || seaType === '2'">
+                  {{item.companyName}}
+                </td>
+                <td ng-if="seaType === '3'">
+                  {{item.supplierName}}
+                </td>
+                <td ng-if="seaType === '3'">
+                  {{item.payAmount | currency }}
+                </td>
+                <td ng-if="seaType === '3' && item.tradeType !== 5">
+                  {{tradeTypeTrans(item.tradeType) + item.planName}}
+                </td>
+                <td ng-if="seaType === '3' && item.tradeType === 5">
+                  {{item.prePlanName + tradeTypeTrans(item.tradeType) + item.planName}}
+                </td>
+                <td ng-show="seaType =='1'">{{item.totalAmount | currency}}</td>
+                <td ng-show="seaType =='1'">{{item.commission | currency}}</td>
+                <td ng-show="seaType =='1'">
+                  {{item.commissionNum}}%
+                </td>
+                <td ng-show="seaType =='2'">{{item.realityWeight}}kg</td>
+                <td ng-show="seaType =='2'">
+                  {{item.freight | currency}}
+                </td>
+              </tr>
+              <tr ng-show="dataList.length == 0">
+                <td colspan="9">暂无数据。</td>
+              </tr>
+            </tbody>
+          </table>
+          <!--分页-->
+          <div class="page-box">
+            <div class="total-num">
+              共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+            </div>
+            <div class="total-num">
+              <select
+                class="form-control ng-pristine ng-valid ng-not-empty ng-touched"
+                ng-model="pageSize"
+                ng-change="pagechange(pageSize)"
+                style="width: 65px;height: 31px;"
+              >
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div class="page-index">
+              <div class="pagegroup1"></div>
+            </div>
+            <div class="to-idx">
+              到第<input type="number" ng-model="pageNum" />页
+              <button ng-click="toPage1()">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" style="overflow: hidden;" ng-show="val==1">
+      <div class="left">
+        <div
+          class="filter clearfix"
+          style="display: flex;margin-bottom: 40px;"
+          id="selbox"
+        >
+          <span class="font-size-14px" style="margin-left: 15px;"
+            >费用类型：</span
+          >
+          <select
+            class="font-size-14px"
+            ng-model="seaType"
+            ng-change="checkSelect()"
+          >
+            <option value="1">供应商佣金</option>
+            <option value="2">运费</option>
+            <option value="3">套餐费用</option>
+          </select>
+          <!-- <span style="margin: 10px 15px">总金额：<span>{{totalMoney | currency}}</span></p> -->
+        </div>
+        <div class="parent-order">
+          <p style="margin: 10px 15px" ng-if="seaType =='1'">
+            总金额：<span>{{totalMoney | currency}}</span>
+          </p>
+          <p style="margin: 10px 15px" ng-if="seaType =='1'">
+            佣金总额：<span>{{totalCommissionAmount | currency}}</span>
+          </p>
+          <p style="margin: 10px 15px" ng-if="seaType =='2'">
+            总运费：<span>{{totleFreight | currency}}</span>
+          </p>
+          <p style="margin: 10px 15px" ng-if="seaType =='3'">
+            总收费：<span>{{amount | currency}}</span>
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>月份</th>
+                <th style="width: 12%;" ng-if="seaType =='2'">包裹数量</th>
+                <th style="width: 12%;" ng-if="seaType =='1'">订单数量</th>
+                <th ng-if="seaType =='1'">佣金总额</th>
+                <th ng-if="seaType =='2'">运费金额</th>
+                <th ng-if="seaType =='3'">套餐购买数</th>
+                <th ng-if="seaType =='3'">套餐续费数</th>
+                <th ng-if="seaType =='3'">套餐升级数</th>
+                <th ng-if="seaType =='3'">金额</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                <td>{{$index+1}}</td>
+                <td ng-show="seaType !== '3'">{{item.payTime}}</td>
+                <td ng-show="seaType !== '3'">{{item.orderNumberNum}}</td>
+                <td ng-show="seaType =='1'">{{item.commission | currency}}</td>
+                <td ng-show="seaType =='2'">{{item.freight | currency}}</td>
+                <td ng-show="seaType =='3'">{{item.payTime}}</td>
+
+                <td ng-show="seaType =='3'">{{item.planNum}}</td>
+                <td ng-show="seaType =='3'">{{item.renaewalNum}}</td>
+                <td ng-show="seaType =='3'">{{item.upgradeNum}}</td>
+
+                <td ng-show="seaType =='3'">{{item.planFee | currency}}</td>
+              </tr>
+              <tr ng-show="dataList.length == 0">
+                <td colspan="9">暂无数据。</td>
+              </tr>
+            </tbody>
+          </table>
+          <!--分页-->
+          <div class="page-box">
+            <div class="total-num">
+              共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+            </div>
+            <div class="total-num">
+              <select
+                class="form-control ng-pristine ng-valid ng-not-empty ng-touched"
+                ng-model="pageSize"
+                ng-change="pagechange(pageSize)"
+                style="width: 65px;height: 31px;"
+              >
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div class="page-index">
+              <div class="pagegroup1"></div>
+            </div>
+            <div class="to-idx">
+              到第<input type="number" ng-model="pageNum" />页
+              <button ng-click="toPage1()">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

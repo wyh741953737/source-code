@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>晚班</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_night_shift.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div id="right-bar-wrap" class="right-bar-wrap ea-right-content">
+			<!-- 顶部 -->
+			<div id="top-tab" class="top-tab" style="z-index: 9">
+				<!-- tab -->
+				<div class="top-tab-nav d-flex">
+					<a href="#/erpservice/khbz" class="tab-span tab-border-bt cursor-pointer">业务员</a>
+					<a href="#/erpservice/khbzbykf" class="tab-span tab-border-bt cursor-pointer">客服</a>
+					<a href="javascript:void(0);" class="tab-span tab-border-bt cursor-pointer tab-active">夜班</a>
+				</div>
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索 -->
+					<div class="top-tab-search d-flex align-items-center">
+						<div class="search-group d-flex align-items-center">
+							<!-- <button class="asj-btn-s asj-btn-s2 search-btn">查询</button> -->
+							<button class="asj-btn-s asj-btn-s2 search-btn" ng-click="openAdd('add')">新增记录</button>
+						</div>
+					</div>
+					<!-- 表头 -->
+					<div class="tb-thead d-flex">
+						<div style="width: 20%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">业务员</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">开始时间</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">结束时间</div>
+						<div style="width: 20%" class="tb-thead-th d-flex-center">操作</div>
+					</div>
+				</div>
+			</div>
+			<!-- 内容区 -->
+			<div id="content-wrap" class="content-wrap bg-white padding-lr-20px">
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="record in recordList">
+						<div style="width: 20%" class="tb-tbody-td border-r-td d-flex-center"><span>{{$index + 1}}</span></div>
+						<div style="width: 20%" class="tb-tbody-td border-r-td">
+							<span>{{record.nameen}}</span>
+							<span>{{record.namecn}}</span>
+						</div>
+						<div style="width: 20%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{record.night_shift_start}}</span></div>
+						<div style="width: 20%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{record.night_shift_end}}</span></div>
+						<div style="width: 20%" class="tb-tbody-td  d-flex-center">
+							<button class="asj-btn-s asj-btn-s2 search-btn" ng-click="deleteRecord(record)">删除记录</button>
+							<button class="asj-btn-s asj-btn-s2 search-btn" ng-click="openAdd('edit', record)">编辑</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 新增弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 500px; height: initial">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>{{record.type === 'add' ? '新增' : '编辑'}}</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div class="add-item d-flex align-items-center">
+					<div class="add-item-label">业务员：</div>
+					<div class="add-item-content">
+						<select ng-disabled="!record.canEidt" name="" id="" style="width: 300px;" ng-model="record.id">
+							<option value="">请选择业务员</option>
+							<option ng-repeat="owner in ownerList" value="{{owner.salesmanid}}">{{owner.relate_salesman}}
+							</option>
+						</select>
+					</div>
+				</div>
+				<div class="add-item d-flex align-items-center">
+					<div class="add-item-label">开始时间：</div>
+					<div class="add-item-content">
+						<select style="width: 140px;" ng-model="record.startHour">
+							<!-- <option value="">hour</option> -->
+							<option ng-repeat="hour in hourList" value="{{hour}}">{{hour}}
+							</option>
+						</select>
+						<span class="time-middle">:</span>
+						<select style="width: 140px; margin-right: 10px;" ng-model="record.startMinute">
+							<option ng-repeat="minute in minuteList" value="{{minute}}">{{minute}}
+							</option>
+						</select>
+					</div>
+				</div>
+				<div class="add-item d-flex align-items-center">
+					<div class="add-item-label">结束时间：</div>
+					<div class="add-item-content">
+						<select style="width: 140px;" ng-model="record.endHour">
+							<option ng-repeat="hour in hourList" value="{{hour}}">{{hour}}
+							</option>
+						</select>
+						<span class="time-middle">:</span>
+						<select style="width: 140px; margin-right: 10px;" ng-model="record.endMinute">
+							<option ng-repeat="minute in minuteList" value="{{minute}}">{{minute}}
+							</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" ng-click="addNigthFn()" class="que-ding-btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- 确认删除弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFlag2">
+		<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: initial;">
+			<p>是否确定删除?</p>
+			<div class="tan-v2-bot" style="margin-top: 20px;">
+				<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="showFlag2=false">取消</a>
+				<a href="javascript:void(0)" class="que-ding-btn" ng-click="confirmDelete()">确定</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>汇款管理-财务收入管理-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <style type="text/css">
+        /*执行弹窗*/
+
+        .isequalTc-wrap .isequalTc-con {
+            position: absolute;
+            width: 360px;
+            height: 120px;
+            background-color: #fff;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .isequalTc-con p {
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        .isequalTc-btns {
+            position: fixed;
+            bottom: 20px;
+            right: 50px;
+            /*// border: 1px solid red;
+                    // display: block;*/
+        }
+
+        .isequalTc-btns .isequalTc-cancelbtn {
+            width: 76px;
+            height: 30px;
+            margin-right: 15px;
+            background: #f6f6f6;
+            border: 1px solid #cfcfcf;
+            color: #6b6b6b;
+            border-radius: 4px;
+        }
+
+        .isequalTc-btns .isequalTc-confirmbtn {
+            background-color: #ff8d31;
+            color: #fff;
+            border-radius: 4px;
+            width: 76px;
+            height: 30px;
+            /*// margin-right: 50px;*/
+        }
+
+        /*拒绝弹框*/
+
+        .jjTc-con {
+            position: absolute;
+            width: 360px;
+            height: 120px;
+            background-color: #fff;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .jjTc-con .wskx-btn {
+            width: 96px;
+            height: 30px;
+            margin-right: 15px;
+            margin-top: 20px;
+            background: #fff;
+            border: 1px solid #ff8d31;
+            color: #ff8d31;
+            border-radius: 4px;
+        }
+
+        .jjTc-con .wskx-btn:hover {
+            background: #ff8d31;
+            color: #fff;
+        }
+
+        .jjTc-con .jeqs-btn {
+            width: 76px;
+            height: 30px;
+            margin-top: 20px;
+            margin-right: 15px;
+            background: #fff;
+            border: 1px solid #ff8d31;
+            color: #ff8d31;
+            border-radius: 4px;
+        }
+
+        .jjTc-con .jeqs-btn:hover {
+            background: #ff8d31;
+            color: #fff;
+        }
+
+        .jjTc-con p {
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        .jjTc-btns {
+            position: fixed;
+            bottom: 20px;
+            right: 50px;
+            /*// border: 1px solid red;
+                    // display: block;*/
+        }
+
+        .jjTc-btns .jjTc-cancelbtn {
+            width: 76px;
+            height: 30px;
+            margin-right: 15px;
+            background: #f6f6f6;
+            border: 1px solid #cfcfcf;
+            color: #6b6b6b;
+            border-radius: 4px;
+        }
+
+        .jjTc-btns .jjTc-confirmbtn {
+            background-color: #ff8d31;
+            color: #fff;
+            border-radius: 4px;
+            width: 76px;
+            height: 30px;
+            /*// margin-right: 50px;*/
+        }
+
+        /*金额缺少的弹框*/
+
+        .jeqs-con {
+            position: absolute;
+            width: 300px;
+            height: 120px;
+            background-color: #fff;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .jeqs-con p {
+            margin-top: 23px;
+        }
+
+        .jeqs-con p span {
+            font-size: 12px;
+        }
+
+        .jeqs-con p input {
+            width: 140px;
+            text-indent: 12px;
+        }
+
+        .jeqs-con button {
+            background-color: #ff8d31;
+            color: #fff;
+            border-radius: 4px;
+            width: 76px;
+            height: 30px;
+            margin-top: 20px;
+        }
+
+        .zz-message-text {
+            height: 50px;
+            word-break: break-all;
+            overflow-y: auto;
+            padding: 0 20px;
+            font-size: 12px;
+        }
+        .tan-delete-ware {
+            border-radius: 4px;
+        }
+        .tan-delete-ware {
+            width: initial;
+            height: initial;
+            min-width: 340px !important;
+            min-height: 120px !important;
+            max-width: 800px;
+            max-height: 700px;
+            overflow-y: scroll;
+        }
+        .asj-common-tan h3 {
+            font-size: 14px;
+            font-family: PingFangSC-Medium;
+            color: rgba(102, 102, 102, 1);
+            line-height: 20px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .asj-common-tan .tan-btns {
+            text-align: right;
+            position: initial;
+        }
+
+        .asj-common-tan .tan-btns .tan-btn1 {
+            width: 80px;
+            height: 30px;
+            background: rgba(249, 174, 8, 1);
+            border-radius: 2px;
+            color: #fff;
+            margin: initial;
+        }
+        .asj-common-tan .tan-btns .tan-btn0 {
+            width: 80px;
+            height: 30px;
+            border-radius: 2px;
+            border: 1px solid rgba(247, 157, 45, 1);
+            margin: 0 20px;
+            color: #F9AE08;
+            background-color: #fff;
+        }
+        .datatime-screen .btn {
+            color: #fff !important;
+        }
+        .datatime-screen .Wdate{
+            height: 30px;
+        }
+        .status-tab {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            color: #899;
+            justify-content: space-between;
+        }
+        .status-tab > div {
+            display: flex;
+        }
+        .status-tab .tab-item {
+            margin-right: 6px;
+            padding: 4px 6px;
+            border: 1px solid #899;
+            cursor: pointer;
+        }
+        .status-tab .tab-item.active {
+            color: rgba(255,162,0,1);
+            border: 1px solid rgba(255,162,0,1);
+        }
+    </style>
+</head>
+
+<body>
+<!-- content -->
+<div class="ea-content">
+    <!-- <div class="ea-content-box"> -->
+    <!-- <div class="ea-content-con"> -->
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li class="active"><a href="#/allmony">{{'100286' | translate}}</a></li>
+            <li><a href="#/erpfinance/walletcuslistdel">{{'100287' | translate}}</a></li>
+            <li><a href="#/erpfinance/accountquery">{{'100288' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <!-- right search -->
+            <div class="ea-right-search">
+                <div class="datatime-screen-wrap clearfix">
+                </div>
+                <div class="status-tab">
+                    <div>
+                        <div class="tab-item active" ng-class="{'tab-item' : true, 'active': currentStatus === '0'}" ng-Click="changeStatus('0')">等待到账</div>
+                        <div class="tab-item"  ng-class="{'tab-item' : true, 'active': currentStatus === '1'}" ng-Click="changeStatus('1')">已确认汇款</div>
+                        <div class="tab-item"  ng-class="{'tab-item' : true, 'active': currentStatus === '2'}" ng-Click="changeStatus('2')">未收到汇款</div>
+                    </div>
+                    <button ng-if="currentStatus === '0'" ng-Click="mulConfirmedPaid()">批量确认收款</button>
+                </div>
+                <div class="search-box-wrap">
+                    <div class="input-group search-box" style="width: initial; height: initial;">
+                        <div class="datatime-screen">
+                            <a href="javaScript:void(0)" ng-click="lastWeek(0)">{{'100296' | translate}}</a>
+                            <a href="javaScript:void(0)" ng-click="lastWeek(6)">{{'100297' | translate}}</a>
+                            <a class="active" href="javaScript:void(0)" ng-click="lastWeek(30)">{{'100298' | translate}}</a>
+                            <a href="javaScript:void(0)" ng-click="lastWeek(93)">{{'100299' | translate}}</a>
+                            <input type="text" class="Wdate begin-date-val" id="" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="{{'100300' | translate}}"/>
+                            <input type="text"class="Wdate end-date-val" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="{{'100301' | translate}}"/>
+                            <input style="float: initial;" type="text" class="form-control top-search-inp" placeholder="" ng-model="inputStr" ng-keyup="enterSearch($event)">
+                            <button style="float: initial;" class="btn btn-default top-search-btn" type="button" ng-click="Search()">{{'100025'
+                                | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <th><input type="checkbox" ng-click="selectAll($event)" ng-checked="isSelectedAll()"/></th>
+                        <th><span>{{'100027' | translate}}</span></th>
+                        <th><span>{{'100028' | translate}}</span></th>
+                        <th><span>支付方式</span></th>
+                        <th><span>{{'100030' | translate}}</span></th>
+                        <th><span>{{'101318' | translate}}</span></th>
+                        <th><span>{{'100308' | translate}}</span></th>
+                        <th><span>{{'100033' | translate}}</span></th>
+                        <th><span>{{'100034' | translate}}</span></th>
+                        <th><span>留言</span></th>
+                        <th><span>{{'100043' | translate}}</span></th>
+                    </tr>
+                    <tr ng-repeat='item in accountsReceivableAmount'>
+                        <td><input type="checkbox" name="selected" ng-checked="isSelected(item.ID)" ng-click="updateSelection($event,item.ID)"/></td>
+                        <td><span>{{item.ID}}</span></td>
+                        <td><span><p>{{item.date.time | date:'yyyy-MM-dd HH:mm:ss'}}</p></span></td>
+                        <td>
+                            <span ng-if="item.paymentMethod == 0">快汇</span> <!-- Wire Transfer -->
+                            <span ng-if="item.paymentMethod == 1">西联</span> <!-- Western Union -->
+                            <span ng-if="item.paymentMethod == 2">支付宝</span> <!-- Alipay Transfer -->
+                            <span ng-if="item.paymentMethod == 3">微信</span> <!-- Wechat Transfer -->
+                        </td>
+                        <td class="cus-lvtd">
+                            <span>{{item.MERCHANT_NAME}}</span>
+                            <b ng-if="item.userLevel==3" class="yzkehu-flag">优</b>
+                            <b ng-if="item.userLevel==2" class="ptkehu-flag">普</b>
+                            <b ng-if="item.userLevel==1" class="qzkehu-flag">潜</b>
+                            <img src="static/image/public-img/order.png">
+                            <b class="cus-dengji">LV{{item.cunLevel}}</b>
+                            <img src="static/image/public-img/money.png">
+                            <b class="cus-dengji">LV{{item.moneyLevel}}</b>
+                        </td>
+                        <!-- <td><span>{{item.MERCHANT_NUMBER}}</span></td> -->
+                        <td><span>{{item.ACCOUNT_NAME}}</span></td>
+                        <td><span class="quantity-num">{{item.ORDERNUMBER}}个</span></td>
+                        <!-- 直发单的补发单金额取不同的字段 -->
+                        <td class="countMoney" ng-show="item.ID.substr(0, 2)=='ZF'&&item.ID.charAt(item.ID.length-1)=='D'"><span>${{item.logisticsPrice}}</span></td>
+                        <td class="countMoney" ng-show="!(item.ID.substr(0, 2)=='ZF'&&item.ID.charAt(item.ID.length-1)=='D')"><span>${{item.ORDERMONEY}}</span></td>
+                        <!-- <td class="countMoney"><span ng-show="!['',undefined,null].includes(item.transfer_amount)">￥{{item.transfer_amount}}</span></td> -->
+                        <td><span>{{item.STATUS | statusTrans : item.sourceType}}</span></td>
+                        <td><a ng-click="loookLY(item)" style="color: #0d8efb;text-decoration: underline;">查看留言</a></td>
+                        <td class="relative"><span>
+								<button ng-click="openImgFun(item)" type="button" class="ea-to-refuse" value="">{{'100122' | translate}}</button>
+								<button ng-if="currentStatus === '0'" ng-click="enterFun(item)" type="button" class="ea-to-impl" value="">{{'100309' | translate}}</button>
+								<button ng-if="currentStatus === '0'" ng-click="enterjjFun(item)" type="button" class="ea-to-refuse" value="">{{'100310' | translate}}</button>
+                            <!-- <dl id="show-img" class="left-num">
+                                <img src="https://img.alicdn.com/imgextra/i2/61908958/TB2vcMcb80kpuFjy1zdXXXuUVXa_!!61908958.jpg">
+                                <closeimg>关闭</closeimg>
+                            </dl>
+                            <section id="show-img">
+                                <h3>拒绝理由</h3>
+                                <textarea></textarea>
+                            <closetext class="btn-cancel">取消</closetext><closetextt class="btn-determine">确定</closetextt>
+                            </section> -->
+                        </span></td>
+                    </tr>
+
+                </table>
+
+                <page></page>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+</div>
+<div ng-show="imgflag"
+     style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;"
+     class="img-wrap">
+    <div class="img-con" style="height: 320px;">
+        <a class="img-link" ng-repeat="img in imgArr" href="{{'https://'+img.replace('https://','')}}" target="_blank">
+            <img ng-src="{{'https://'+img.replace('https://','')}}">
+        </a>
+        <p class="zz-message-text">{{zzMessage}}</p>
+        <div class="img-btns">
+            <button ng-click="closeFun()" class="img-cancelbtn">{{'100066' | translate}}</button>
+            <!-- <button class="img-confbtn">确定</button> -->
+        </div>
+    </div>
+</div>
+<!-- 询问是否核对完成的弹框 -->
+<div ng-show="zhixtcFlag"
+     style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;"
+     class="isequalTc-wrap">
+    <div class="isequalTc-con">
+        <p>{{'100311' | translate}}<span>{{customeName}}</span>{{'100312' | translate}}<span>${{amountMoney}}</span>?
+        </p>
+        <div class="isequalTc-btns">
+            <button ng-click="cancelZXFun()" class="isequalTc-cancelbtn">{{'100051' | translate}}</button>
+            <button ng-click="confirmZXFun()" class="isequalTc-confirmbtn">{{'100050' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- 拒绝的弹框 -->
+<!-- <div ng-show="jjFlag" style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;" class="isequalTc-wrap">
+        <div class="jjTc-con">
+            <p>是否与客户沟通过本次转账无效?请谨慎操作!</p>
+            <div class="jjTc-btns">
+                <button ng-click="canceljjFun()" class="jjTc-cancelbtn">取消</button>
+                <button ng-click="confirmjjFun()" class="jjTc-confirmbtn">确定</button>
+            </div>
+        </div>
+    </div> -->
+<!-- 收款异常 -->
+<div ng-show="jjFlag"
+     style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;"
+     class="isequalTc-wrap">
+    <div class="jjTc-con">
+        <!-- <p>是否与客户沟通过本次转账无效?请谨慎操作!</p> -->
+        <!-- <button class="wskx-btn">{{'100313' | translate}}</button>
+        <button ng-click="jeqsBtnFun()" class="jeqs-btn">{{'100314' | translate}}</button> -->
+        <p>是否确定收款异常?</p>
+        <div class="jjTc-btns">
+            <button ng-click="canceljjFun()" class="jjTc-cancelbtn">{{'100051' | translate}}</button>
+            <button ng-click="confirmjjFun()" class="jjTc-confirmbtn">确定</button>
+        </div>
+    </div>
+</div>
+<!-- 金额缺少 -->
+<div ng-show="jeqsflag" class="jeqs-wrap"
+     style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;">
+    <div class="jeqs-con">
+        <p>
+            <span>{{'100315' | translate}}:</span>
+            <input></input>
+        </p>
+        <button ng-click="jeqsconFun()">Confirm</button>
+    </div>
+</div>
+<!-- 选取两段时间之间插件 -->
+<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+<script>
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate", // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200, // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true, // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true, // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(), // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"), // 日期下限，默认：NaN(不限制)
+            callback: function () { // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+<!--查看留言-->
+<!--删除-->
+<div class="asj-common-tanwrap ng-scope" ng-show="isLook">
+    <div class="asj-common-tan tan-delete-ware">
+        <h3>{{LYtxt}}</h3>
+        <div class="tan-btns">
+            <a class="tan-btn1" ng-click="isLook = false;">关闭</a>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

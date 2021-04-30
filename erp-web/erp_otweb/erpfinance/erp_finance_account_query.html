@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>财务对账查询-ERP系统</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+	</head>
+	<style>
+		.ea-content-box{
+			max-width: initial;
+		}
+		.ea-content-box .ea-content-con{
+			margin-left: 220px;
+		}
+	</style>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content">
+			<div class="ea-content-box">
+				<div class="ea-content-con">
+					<!-- right con -->
+					<div class="ea-right-content">
+						<div class="bg-geduan"></div>
+						<div class="ea-single-allbox"><b>{{'100033' | translate}}：$11000</b></div>
+						<!-- right search -->
+						<div class="ea-right-search">
+							<div class="datatime-screen"><a href="javaScript:void(0)" ng-click="lastWeek(0)">{{'100296' | translate}}</a><a href="javaScript:void(0)" ng-click="lastWeek(7)">{{'100297' | translate}}</a><a class="active" href="javaScript:void(0)" ng-click="lastWeek(30)">{{'100298' | translate}}</a><a href="javaScript:void(0)" ng-click="lastWeek(93)">{{'100299' | translate}}</a>
+								<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtBeginDate" placeholder="{{'100300' | translate}}" />
+								<input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtEndDate" placeholder="{{'100301' | translate}}" />
+								<input type="button" value="{{'100302' | translate}}">
+							</div>
+							
+							<p style="position: relative; top: 20px;left: 10px"><input type="text" value=""  class="search-text-box" /><input type="button" value="{{'100025' | translate}}" class="search-button" /></p>
+							
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr>
+								<th><span><input type="checkbox"></span></th>
+								<th><span>{{'100225' | translate}}</span></th>
+								<th><span>{{'100343' | translate}}</span></th>
+								<th><span>{{'100344' | translate}}</span></th>
+								<th><span>{{'100304' | translate}}</span></th>
+								<th><span>{{'100108' | translate}}</span></th>
+								<!-- <th><span>客户ID</span></th> -->
+								<th><span>{{'100338' | translate}}</span></th>
+								<th><span>{{'100319' | translate}}</span></th>
+							</tr>
+							<tr ng-repeat='item in reconciliation'>
+								<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>
+								<td><span>{{item.date}}</span></td>
+								<td><span>{{item.RECHARGE_TYPE}}</span></td>
+								<td><span>{{item.RUNNING_WATER_TYPE}}</span></td>
+								<td><span>{{item.loginName}}</span></td>
+								<td><span>{{item.aname}}</span></td>
+								<!-- <td><span>{{item.aid}}</span></td> -->
+								<td><span>{{item.RUNNING_WATER_AMOUNT}}</span></td>
+								<td><span>{{item.USER_MONEY}}</span></td>
+							</tr>
+						</table>
+						
+						
+						<!-- <div class="fenPage">
+							<span><select>
+								<option>30</option>
+								<option>50</option>
+								<option>100</option>
+								<option>200</option>
+								<option>300</option>
+							</select>
+							条每页
+							</span>
+							<span>共145页</span>
+						<a href="#">首页</a>
+						<a href="#">上一页</a>
+						<a class="bga" href="#">1</a>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">7</a>
+						<a href="#">8</a>
+						<a href="#">9</a>
+						<a href="#">下一页</a>
+						<a href="#">尾页</a>
+						
+						<span>跳转 <input type="text" placeholder=""> 页 <input type="button" value="GO"></span>
+						
+					</div> -->
+							<!-- 分页 -->
+							<div class="pages-fun">
+								<select id="page-sel" class="c-select-page-num">
+									<option value="3">3</option>
+									<option value="5">5</option>
+									<option value="30">30</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+								</select>
+								<span class="every-page">每页</span>
+								<span class="every-page gong">共</span>
+								<span class="c-all-num-line">{{erpordTnum}}</span>
+								<span class="every-page">条</span>
+							    <span id="demo3-text"></span>
+							    <div id="c-pages-fun"></div>
+							    <span class="every-page">跳转:</span>
+							    <input id="inp-num" class="c-inp-num-go"></input>
+							    <span style="cursor: pointer;" ng-click="gopageFun()" class="jump-btn">go</span>
+							</div>
+						
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- 选取两段时间之间插件 -->
+		<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+		<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+            //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+
+		
+	</body>
+</html>

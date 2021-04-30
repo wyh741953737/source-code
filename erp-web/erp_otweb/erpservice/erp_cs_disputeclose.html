@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>纠纷关闭-客服纠纷-ERP系统</title>
+	<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+	<style type="text/css">
+		/*预览图片*/
+		.preview-wrap{
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 999;
+			background-color: rgba(0,0,0,0.3);
+		}
+		.pre-bigImg{
+			height: 350px;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform:translate(-50%,-50%);
+		}
+		/*//更多操作*/
+		.morefun-div{
+			position: relative;
+			margin: 0 auto;
+		}
+		.morefun-div:hover .more-selul{
+			display: block;
+		}
+		.more-btn{
+			color: #899;
+			line-height: 23px;
+		}
+		.morefun-div .caret{
+			display: inline-block;
+			width: 0;
+			height: 0;
+			margin-left: 2px;
+			vertical-align: middle;
+			border-top: 4px dashed;
+			border-right: 4px solid transparent;
+			border-left: 4px solid transparent;
+		}
+		.more-selul{
+			/*font-size: 12px;*/
+			display: none;
+			position: absolute;
+			left: 0;
+			top: 21px;
+			z-index: 3;
+			width: 100%;
+			box-shadow: 0px 8px 20px;
+		}
+		.more-selul li{
+			font-size: 14px;
+			cursor: pointer;
+			background-color: #fff;
+			display: block;
+			width: 100%;
+			line-height: 23px;
+		}
+		.more-selul li:hover{
+			background-color: #e3e3e3;
+		}
+		.how-money{
+			margin-bottom: 10px;
+			display: none;
+		}
+		.howMoney{
+			width: 200px;
+			height: 30px;
+			text-indent: 12px;
+			margin-right: 50px;
+		}
+		.ea-list-table td{
+			font-size: 14px;
+		}
+		.ea-list-table td p{
+			font-size: 14px;
+		}
+		/*客户拒绝退款*/
+		.user-selresult{
+			border: 1px solid #f0ad4e;
+			font-weight: bold;
+			padding: 10px;
+			border-radius: 4px;
+			color: #f0ad4e;
+			margin-top: 10px;
+		}
+		.jfmoney-span{
+			color: #d9534f;
+		}
+		.fontblue{
+			color: #5bc0de;
+		}
+		.fontgreen{
+			color: #449d44;
+		}
+		.fontred{
+			color: #d9534f;
+		}
+		.fontyellow{
+			color: #f0ad4e;
+		}
+		#selectSearchType{
+			float: left;
+			height: 30px;
+			border-color: #08aceb;
+			position: relative;
+			left: 1px;
+		}
+		.yzkehu-flag{
+		    display: inline-block;
+		    padding: 0 3px;
+		    border-radius: 4px;
+		    font-size: 10px;
+		    color: #fff;
+		    background-color: #336699;
+		    margin-top: 4px;
+		}
+		.ptkehu-flag{
+		    display: inline-block;
+		    padding: 0 3px;
+		    border-radius: 4px;
+		    font-size: 10px;
+		    color: #fff;
+		    background-color: #4A90E2;
+		    margin-top: 4px;
+		}
+		.qzkehu-flag{
+		    display: inline-block;
+		    padding: 0 3px;
+		    border-radius: 4px;
+		    font-size: 10px;
+		    color: #666666;
+		    background-color: #F2F3F5;
+		    margin-top: 4px;
+		}
+		.yzkehu-flag{
+		    display: inline-block;
+		    padding: 0 3px;
+		    border-radius: 4px;
+		    font-size: 10px;
+		    color: #fff;
+		    background-color: #336699;
+		    margin-top: 4px;
+		}
+		.ptkehu-flag{
+		    display: inline-block;
+		    padding: 0 3px;
+		    border-radius: 4px;
+		    font-size: 10px;
+		    color: #fff;
+		    background-color: #4A90E2;
+		    margin-top: 4px;
+		}
+		.qzkehu-flag{
+		    display: inline-block;
+		    padding: 0 3px;
+		    border-radius: 4px;
+		    font-size: 10px;
+		    color: #666666;
+		    background-color: #F2F3F5;
+		    margin-top: 4px;
+		}
+		.ea-list-table td .yhq-style{
+			display: inline-block;
+			padding: 0 3px;
+			border-radius: 4px;
+			font-size: 12px;
+			color: #fff;
+			background-color: #f0ad4e;
+			margin-top: 4px;
+			cursor: pointer;
+		}
+		.ea-right-search .filte-cart{
+			border-radius: 6px;
+			border: solid #ccc 1px;
+			margin-left: 40px;
+			width: 120px;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- content -->
+	<div class="ea-content">
+		<!-- <div class="ea-content-box"> -->
+
+		<!-- <div class="ea-content-con"> -->
+		<!-- left nav -->
+		<div class="left-bar">
+			<ul>
+				<li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+				<li><a href="#/erpservice/document">{{'Document'}}</a></li>
+				<li class="active"><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+				<li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+				<li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+				<li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+				<li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+			</ul>
+		</div>
+
+		<!-- right con -->
+		<div class="right-bar-wrap ea-right-content">
+			<!-- right nav -->
+			<div class="asj-h10"></div>
+			<div class="right-bar">
+				<div class="ea-right-search">
+					<div class="input-group search-box dispute-seabox">
+						<input type="text" class="form-control top-search-inp disputeseainp-w130" placeholder="输入CJ订单号" ng-model="searchval">
+						<input type="text" class="form-control top-search-inp disputeseainp-w130" placeholder="输入追踪号" ng-model="trackNumVal">
+						<a role="button" class="btn btn-default top-search-btn" type="button" ng-click="search()">{{'100025' | translate}}</a>
+					</div>
+					<select class="filte-cart" ng-change="selSearch()" ng-model="storeNum">
+						<option value="">请选择仓库</option>
+						<option ng-repeat="item in storeList" value="{{item.storeNum}}">{{item.storeName}}
+						</option>
+					</select>
+					<p><select class="search-select">
+						<option value="All">{{'100187' | translate}}</option>
+						<option value="No Tracking Information Found">{{'100188' | translate}}</option>
+						<option value="Tracking Information Frozen">{{'100189' | translate}}</option>
+						<option value="Tracking Information Error">{{'100190' | translate}}</option>
+						<option value="Order Returned">{{'100191' | translate}}</option>
+						<option value="Products Short">{{'100192' | translate}}</option>
+						<option value="Defective Products">{{'100193' | translate}}</option>
+						<option value="Received Incorrect Products">{{'100194' | translate}}</option>
+						<option value="Order Not Received">{{'100195' | translate}}</option>
+						<option value="Lack Of Inventory">{{'100196' | translate}}</option>
+						<option value="Unfilled Orders Cancellation">{{'100197' | translate}}</option>
+            <option value="It's been a long time and I didn't receive the video yet">时间太久，一直未收到视频</option>
+						<option value="I'm not happy with the shooting effect">拍摄效果不满意</option>
+					</select></p>
+					<select class="filte-cart" ng-change="selSearch()" ng-model="operatorName">
+						<option value="">请选择处理人</option>
+						<option ng-repeat="item in operatorList" value="{{item}}">{{item}}
+						</option>
+					</select>
+					<select class="filte-cart" ng-change="selSearch()" ng-model="logisticName">
+							<option value="">请选择物流</option>
+							<option
+									ng-repeat="item in logisticsListData"
+									value="{{item.namecn}}-{{item.nameen}}"
+							>
+									{{ item.mode }}
+							</option>
+					</select>
+					<button class="search-btn" style="margin-left: 30px;" ng-click="openInputPassword(daochuFun)">导出</button>
+				</div>
+
+				<div class="ea-list-manipulation"></div>
+				<div class="table-con-box">
+					<table class="ea-list-table ea-erp-cs">
+						<tr>
+							<th><span>{{'100052' | translate}}</span></th>
+							<th><span><p>{{'100053' | translate}}</p></span></th>
+							<th><span>追踪号</span></th>
+							<th><span>发件仓库</span></th>
+							<th><span>{{'100198' | translate}}</span></th>
+							<th><span>改变纠纷类型</span></th>
+							<th><span>{{'100199' | translate}}</span></th>
+							<th><span>{{'100108' | translate}}</span></th>
+							<th><span>沟通次数</span></th>
+							<th><span>{{'101318' | translate}}</span></th>
+							<th><span>{{'100200' | translate}}</span></th>
+							<th><span>总金额</span></th>
+							<th><span>{{'100202' | translate}}</span></th>
+							<th><span>处理人</span></th>
+							<th><span>{{'100043' | translate}}</span></th>
+						</tr>
+						<tbody>
+							<tr ng-repeat="item in ordersList">
+								<td>
+									<p>{{item.orderNumber}}</p>
+									<b ng-if="item.couponInfo" class="yhq-style" title="该订单使用了满{{item.couponInfo.fillPrice}},减{{item.couponInfo.minusPrice}}优惠券">券</b>
+								</td>
+								<td ng-click="linkFun(item)" class="link-href-td" ng-cloak>
+									{{item.ID}}
+								</td>
+								<td>{{item.TRACKINGNUMBER}}</td>
+								<td>
+									<p ng-if="item.store == '0'">义乌仓</p>
+									<p ng-if="item.store == '1'">深圳仓</p>
+									<p ng-if="item.store == '2'">美西奇诺仓</p>
+									<p ng-if="item.store == '3'">美东新泽西</p>
+									<p ng-if="item.store == '4'">泰国仓</p>
+									<p ng-if="item.store == '5'">金华仓</p>
+									<p ng-if="item.store == '6'">印尼雅加达仓</p>
+									<p ng-if="item.store == '7'">德国法兰克福仓</p>
+									<p ng-if="item.store == '10'">东莞仓</p>
+									<p ng-if="item.store == '11'">金华-2</p>
+								</td>
+								<td>{{changeChina(item.type)}}</td>
+								<!--<td>{{item.type}}</td>-->
+								<td><p>{{changeChina(item.newType)}}</p>
+<!--
+									<button  ng-click="editTypeFun(item)" class="lr-zzhbtn stop-prop">{{'100120' | translate}}</button>
+-->
+								</td>
+								<td>
+									<p class="fontred" ng-if="item.expectResult=='1'">{{'100203' | translate}}</p>
+									<p class="fontgreen" ng-if="item.expectResult=='2'">{{'100204' | translate}}</p>
+									<p class="fontgreen" ng-if="item.expectResult=='3'">重拍</p>                  
+								</td>
+								<td class="cus-lvtd" ng-cloak>
+									<span>{{item.userName}} <b ng-show="item.vip=='1'" style="font-size: 12px" class="icon-USAvip"></b></span>
+									<b ng-if="item.userLevel==3" class="yzkehu-flag">优</b>
+									<b ng-if="item.userLevel==2" class="ptkehu-flag">普</b>
+									<b ng-if="item.userLevel==1" class="qzkehu-flag">潜</b>
+									<img src="static/image/public-img/order.png">
+									<b class="cus-dengji">LV{{item.cunLevel}}</b>
+									<img src="static/image/public-img/money.png">
+									<b class="cus-dengji">LV{{item.moneyLevel}}</b>
+								</td>
+								<td>
+									<p>客户: {{item.customerCount}}</p>
+									<p>客服: {{item.employeeCount}}</p>
+								</td>
+								<td
+									title="{{item.ownerName ? '群主' : '没有群主时显示'}}"
+									>{{item.ownerName || item.salesmanName}}
+									<div ng-show="!item.ownerName" style="font-size:10px;color:#ccc;transform:scale(.8)">{{'101316' | translate}}</div>
+								</td>
+								<td ng-cloak>
+									{{ item.createDate.year+1900}}-{{item.createDate.month+1}}-{{item.createDate.date}} {{item.createDate.hours}}:{{item.createDate.minutes}}:{{item.createDate.seconds}}
+								</td>
+								<td ng-cloak>
+									{{item.orderMoney}}
+								</td>
+								<td ng-cloak>
+									<p class="fontgreen">{{'100216' | translate}}</p>
+								</td>
+								<td>{{item.operatorName || '-'}}</td>
+								<td><span>
+									<div style="width: 93px;" class="morefun-div">
+										<a href="javascript:void(0);" class="more-btn">{{'100094' | translate}}</a><span class="caret"></span>
+										<ul class="more-selul">
+											<li ng-click="responseMsgFun(item,$index)">{{'100122' | translate}}</li>
+											<li ng-show="job=='管理'" ng-click="continueDispute(item,$index)">重开纠纷</li>
+										</ul>
+									</div>
+								</span></td>
+							</tr>
+						</tbody>
+					</table>
+
+
+					<!-- 分页 -->
+					<!-- ng-show="hasMerch" -->
+					<div class="page-box">
+						<div class="select-page-num">
+							<select class="form-control" ng-model="pageSize" ng-change="changePageSize()">
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>每页</span>
+						</div>
+						<div class="total-num">
+							共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+						</div>
+						<div class="page-index">
+							<div id="pagination1" class="pagination2">
+							</div>
+						</div>
+						<div class="to-go">
+							<span>跳转：</span>
+							<input type="text" class="form-control" placeholder="" ng-model="pageNum">
+							<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="isbf-end-wrap" ng-show="isdcFlag">
+		<div class="isbfend-con">
+			<p>确定导出纠纷列表吗?</p>
+			<div class="isbf-btns">
+				<button ng-click="isdcFlag=false" class="isbf-qxbtn">取消</button>
+				<button ng-click="suredcFun()" class="isbf-qdbtn">确定</button>
+			</div>
+		</div>
+	</div>
+	<div class="isbf-end-wrap" ng-show="excelFlag">
+		<div class="isbfend-con">
+			<!-- <p>确定导出纠纷列表吗?</p> -->
+			<a ng-click="excelFlag=false" ng-href="{{excelLink}}">{{excelLink}}</a>
+			<div class="isbf-btns">
+				<button ng-click="excelFlag=false" class="isbf-qxbtn">取消</button>
+				<!-- <button ng-click="suredcFun()" class="isbf-qdbtn">确定</button> -->
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 编辑纠纷类型 ↓ -->
+	<div ng-show="editTypeFlag" class="erpzi-tc-wrap">
+		<div class="erpzi-tc-con">
+			<div class="erpzi-tc-top">
+				<ul>
+					<li>
+						<p>
+							<span class="red">*</span>
+							<span>原纠纷类型:{{changeChina(editTypeItem.newType)}}</span>
+						</p>
+					</li>
+					<li>
+						<p>
+							<span class="red">*</span>
+							<span>需调整纠纷类型:</span>
+							<select class="search-select-editType" style="margin-left: 20px;">
+								<option value="All">{{'100187' | translate}}</option>
+								<option value="No Tracking Information Found">{{'100188' | translate}}</option>
+								<option value="Tracking Information Frozen">{{'100189' | translate}}</option>
+								<option value="Tracking Information Error">{{'100190' | translate}}</option>
+								<option value="Order Returned">{{'100191' | translate}}</option>
+								<option value="Products Short">{{'100192' | translate}}</option>
+								<option value="Defective Products">{{'100193' | translate}}</option>
+								<option value="Received Incorrect Products">{{'100194' | translate}}</option>
+								<option value="Order Not Received">{{'100195' | translate}}</option>
+								<option value="Lack Of Inventory">{{'100196' | translate}}</option>
+								<option value="Unfilled Orders Cancellation">{{'100197' | translate}}</option>
+								<option value="It's been a long time and I didn't receive the video yet">时间太久，一直未收到视频</option>
+								<option value="I'm not happy with the shooting effect">拍摄效果不满意</option>
+							</select>
+						</p>
+					</li>
+
+				</ul>
+			</div>
+			<div class="erpzi-tc-btns">
+				<button ng-click="editTypeFlag = false" class="erpzi-can-btn">取消</button>
+				<button ng-click="editTypeEditFun(editTypeItem)" class="erpzi-con-btn">确定</button>
+			</div>
+		</div>
+	</div>
+	<!-- 编辑纠纷类型 ↑ -->
+
+
+	<!-- 消息记录的弹框 -->
+	<div class="recordMsg" style="height: 600px;margin-top: -260px;">
+		<div class="recordMsg-title">
+			<div class="recordMsg-word pull-left">
+				{{'100212' | translate}}
+			</div>
+			<div class="recordMsg-close pull-right" ng-click="closRrecordMsgFun()">
+				<span>&times;</span>
+			</div>
+		</div>
+		<div class="recordMsg-content" style="height: 500px;">
+			<div class="head" style="height: 40px;">
+				<table class="" border="1" style="height: 30px;line-height: 30px;">
+					<tbody>
+						<tr>
+							<td>Type:</td>
+							<td><div style="text-overflow:ellipsis;overflow:hidden;width:300px;white-space:nowrap;">{{nowType}}</div></td>
+						</tr>
+		                    <!-- <tr>
+		                        <td>Date:</td>
+		                        <td>{{nowType}}</td>
+		                    </tr> -->
+		                </tbody>
+		            </table>
+		            <table class="" border="1" style="height: 30px;line-height: 30px;">
+		            	<tbody>
+		            		<tr>
+		            			<td>Date:</td>
+		            			<td>
+		            				{{ tdetailDate.year+1900}}-{{tdetailDate.month+1}}-{{tdetailDate.date}} {{tdetailDate.hours}}:{{tdetailDate.minutes}}:{{tdetailDate.seconds}}
+		            			</td>
+		            		</tr>
+		            	</tbody>
+		            </table>
+		        </div>
+		        <ul>
+		        	<li ng-repeat="(index1,recordMsg) in detailData track by index1">
+		        		<div class="left">
+		        			<!-- <img ng-src="{{recordMsg.AVATAR}}" ng-if="recordMsg.AVATAR" style="border-radius: 50%;width: 80px;height:80px;border:solid 1px #ececec;" class="pull-right"> -->
+		        			<!-- <p ng-if="recordMsg.STATUS=='0'" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-show="!recordMsg.AVATAR" ng-bind="imgName"></p> -->
+		        			<p ng-show="recordMsg.userName=='0'" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-bind="cusNameFir"></p>
+		        			<p ng-show="recordMsg.userName=='1'" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-bind="salseNameFir"></p>
+		        		</div>
+		        		<div class="right">
+		        			<div class="user-msg">
+		        				<!-- <h4 ng-show="recordMsg.userName=='0'">{{recordMsg.userName}}</h4> -->
+		        				<span ng-show="recordMsg.userName=='0'" style="font-weight: bold;font-size: 16px;">{{userName}} || {{'100008' | translate}} <b ng-show="vipFlag" class="icon-USAvip"></b></span>
+		        				<span ng-show="recordMsg.userName!='0'" style="font-weight: bold;font-size: 16px;">{{serverName}} || {{'101318' | translate}} </span>
+		        				<span class="pull-right" style="font-size: 14px;color:#ccc;">{{recordMsg.date}}</span>
+
+		                        <span style="margin-left: 15px;" ng-if="userLeveldj==3&&recordMsg.userName=='0'" class="yzkehu-flag">优</span>
+								<span style="margin-left: 15px;" ng-if="userLeveldj==2&&recordMsg.userName=='0'" class="ptkehu-flag">普</span>
+								<span style="margin-left: 15px;" ng-if="userLeveldj==1&&recordMsg.userName=='0'" class="qzkehu-flag">潜</span>
+								<img ng-show="recordMsg.userName=='0'" src="static/image/public-img/order.png">
+								<span ng-show="recordMsg.userName=='0'" class="cus-dengji">LV{{cunLeveldj}}</span>
+								<img ng-show="recordMsg.userName=='0'" src="static/image/public-img/money.png">
+								<span ng-show="recordMsg.userName=='0'" class="cus-dengji">LV{{moneyLeveldj}}</span>
+		                        <!-- <p style="font-size: 16px;color:#A3A2A2;"><span>{{recordMsg.OPERATOREN}}</span></p>
+		                        <a href="" id="staff-btn" class="btn btn-primary btn-sm" style="margin-left: 15px;cursor: default;" ng-show="recordMsg.STATUS=='1'">Staff</a>
+		                        <p class="pull-right" ng-show="recordMsg.STATUS=='0'" style="font-size: 14px;color:#ccc;">{{ recordMsg.MESSAGEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</p> -->
+		                    </div>
+		                    <div class="user-content" style="word-wrap: break-word;">
+		                    	{{recordMsg.remark}}
+		                    	<div class="img-box" ng-show="recordMsg.image.length>0||recordMsg.videoUrl.length>0">
+                            <!-- ng-if="recordMsg.STATUS=='0'" -->
+                            <ul>
+                              <li ng-click="viewBigImg(imgs)" ng-repeat="imgs in recordMsg.image" style="display: inline-block;margin-right: 10px;cursor: pointer;">
+                                <img ng-src="{{imgs}}" style="height: 100px;width:100px;">
+                              </li>
+                              <li ng-repeat="(index2,item) in recordMsg.videoUrl track by index2">
+                                <div class="prism-player"  id="{{'J_prismPlayer' + (index1 + 1) + '_' + (index2 + 1)}}"></div>
+								  <button ng-click="videoDownload(recordMsg.videoUrl,index2)" type="button" class="btn btn-info">视频下载</button>
+							  </li>
+                            </ul>
+		                    		<!-- <p ng-if="$last">1235545</p> -->
+		                    	</div>
+		                    	<p class="user-selresult" ng-if="recordMsg.refuseMoney&&recordMsg.userName!='0'">
+									{{'100213' | translate}}: <span class="jfmoney-span">{{recordMsg.refuseMoney}}</span>USD
+		                    	</p>
+		                    	<p class="user-selresult" ng-if="recordMsg.refuseCause&&recordMsg.refuseMoney">
+									{{'100214' | translate}}: <span class="jfmoney-span">{{recordMsg.refuseMoney}}</span>USD
+		                    	</p>
+                    	    	<!-- 补发 -->
+    	                    	<p class="user-selresult" ng-if="recordMsg.resendMark&&recordMsg.userName!='0'">
+    								业务员发起补发
+    	                    	</p>
+    	                    	<p class="user-selresult" ng-if="recordMsg.refuseCause&&!recordMsg.refuseMoney">
+    								客户拒绝补发
+								</p>
+								<div ng-if="(recordMsg.resendMark&&recordMsg.userName!='0')||(recordMsg.refuseCause&&!recordMsg.refuseMoney)" class="bf-reply-wrap">
+									<div class="bf-group">
+										<label>市:</label>
+										<span class="margin-right10px">{{recoCity}}</span>
+										<label>省:</label>
+										<span class="margin-right10px">{{recoProvin}}</span>
+										<label>国家:</label>
+										<span class="margin-right10px">{{recoCountrycode}}</span>
+									</div>
+									<div class="bf-group">
+										<label>名字:</label>
+										<span class="margin-right10px">{{recoCustomerName}}</span>
+										<label>邮编:</label>
+										<span>{{recoZip}}</span>
+									</div>
+									<div class="bf-group">
+										<label>地址1:</label>
+										<span class="margin-right10px">{{recoShippingAddress}}</span>
+										<label>地址2:</label>
+										<span>{{recoShippingAddress2}}</span>
+									</div>
+									<div class="resend-list">
+										<table>
+											<thead>
+												<tr>
+													<th>
+														Picture
+													</th>
+													<th>Product Name</th>
+													<th>SKU</th>
+													<th>Quantity</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="item in productList">
+													<td class="recom-imgtd">
+														<span class="blank-span">
+															<img class="sp-smallimg" ng-src="{{item.cjImage}}">
+															<img class="hide-bigimg" ng-src="{{item.cjImage}}">
+														</span>
+													</td>
+													<td>
+														<p class="reco-listsku">{{item.cjProductName}}</p>
+													</td>
+													<td>
+														<p class="reco-listsku">{{item.sku}}</p>
+													</td>
+													<td>
+														<p class="reco-listsku">{{item.quantity}}</p>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+		                    </div>
+		                </div>
+		            </li>
+		            </ul>
+		        </div>
+		    </div>
+		    <!-- 图片的预览 -->
+		    <div class="preview-wrap" ng-show="viewImgFlag" ng-click="closePreImg()">
+		    	<img class="pre-bigImg" ng-src="{{bigImgSrc}}">
+		    </div>
+		</body>
+		</html>

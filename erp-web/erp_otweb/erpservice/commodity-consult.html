@@ -1,0 +1,495 @@
+<style>
+  .consult .right-bar {
+    padding-top: 0px;
+    background-color: #F2F7FA;
+  }
+  .zhuan-flag{
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 20px;
+    font-size: 6px;
+    color: #fff;
+    background-color: #06be0c;
+    margin-top: 1px;
+  }
+  .consult .nav {
+    position: fixed;
+    width: calc(100% - 300px);
+    background-color: #fff;
+    padding: 0 74px;
+    margin-bottom: 10px;
+    height: 58px;
+    line-height: 58px;
+    box-shadow: 2px 2px 14px 2px rgba(232,244,251,1);
+    z-index: 100;
+  }
+  .consult .nav li {
+    float: left;
+    width: 48px;
+    height: 58px;
+    line-height: 58px;
+    margin-right: 50px;
+    font-size: 16px;
+    color: #666;
+    cursor: pointer;
+  }
+  .consult .nav li:hover {
+    color: #F9AE08;
+  }
+
+  .consult .nav .active {
+    color: #F9AE08;
+    border-bottom: 4px solid #F9AE08;
+  }
+
+  .consult .main {
+    padding: 30px 20px;
+    background-color: #fff;
+  }
+  .consult .main-form {
+    margin-top: 68px;
+  }
+  .consult .main-form-item {
+    float: left;
+    margin-right: 50px;
+    color: #333;
+  }
+
+  .consult .main-form-item input {
+    width: 264px;
+    height: 32px;
+    line-height: 32px;
+  }
+
+  .consult .main-form-item input::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #C1C1C1;
+  }
+
+  .consult .main-form-item input::-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #C1C1C1;
+  }
+
+  .consult .main-form-item input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #C1C1C1;
+  }
+
+  .consult .main-form-item input::-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #C1C1C1;
+  }
+
+  .consult .main-form-item label {
+    width: 46px;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 6px;
+  }
+
+  .main-form-item_content {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .consult .main-form-item select {
+    width: 100px;
+    height: 32px;
+    line-height: 32px;
+    margin: 0
+  }
+
+  .consult .main-form-item button {
+    width: 70px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #FFB900;
+  }
+
+  .consult .main-content {
+    margin-top: 20px;
+  }
+
+  .consult .main-table {
+    width: 100%;
+  }
+
+  .consult .main-table th,
+  td {
+    text-align: center;
+    border: 1px solid #f3f3f3;
+  }
+
+  .consult .main-table th {
+    color: #8B572A;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .consult .main-table td {
+    height: 72px;
+    font-size: 12px;
+  }
+  /* .consult .main-table .len {
+    max-width: px;
+  } */
+  .consult .main-table .len a{
+    display: inline-block;
+    word-wrap: break-word;
+  }
+  .consult .main-table .color {
+    margin-right: 5px;
+    color: #F48B31;
+    cursor: pointer;
+  }
+
+  .consult .main-table span {
+    cursor: pointer;
+  }
+
+  .consult .main-table thead {
+    height: 48px;
+    line-height: 48px;
+    background-color: #FCF4D9;
+    border-radius: 6px 6px 0px 0px;
+  }
+
+  .consult .main-table tbody {
+    border: 1px solid #F3F3F3;
+  }
+
+  .consult .main-table tbody a,
+  .consult .main-table tbody a:hover {
+    color: #4A90E2;
+  }
+  .consult .main-table .popover-p p {
+    width: 180px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .consult .main-table p:hover {
+    color: #F48B31;
+    cursor: pointer;
+  }
+  .editmesstc-wrap{
+    z-index: 99999 !important;
+  }
+
+  .editmesstc-wrap .consult-model {
+    width: 780px;
+    height: 400px;
+    padding: 20px 24px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    z-index: 1000;
+  }
+
+  .comodity .model-top {
+    height: 40px;
+    text-align: center;
+  }
+
+  .comodity .model-content ul {
+    height: 176px;
+    border-top: 1px solid #EBEBEB;
+    overflow-y: auto;
+  }
+
+  .comodity .model-content {
+    overflow: hidden;
+  }
+
+  .comodity .model-content li {
+    min-height: 44px;
+    margin-top: 15px;
+  }
+  .comodity .model-content li .fl {
+    float: left;
+  }
+  .comodity .model-content li .img {
+    width: 44px;
+  }
+  .comodity .model-content li img {
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+
+  .comodity .model-content .content-item {
+    width: 660px;
+    padding-left: 10px;
+  }
+  .comodity .model-content .top {
+    min-height: 17px;
+    /* line-height: 17px; */
+    margin-top: 5px;
+    font-size: 12px;
+  }
+  .comodity .model-content .bold {
+    float: left;
+    min-width: 60px;
+    max-width: 200px;
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  .comodity .model-content .top .div {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+  }
+
+  .comodity .model-content .active {
+    color: #D9D9D9;
+  }
+  .comodity .model-content .del {
+    font-size: 14px;
+    color: #F48B31;
+    cursor: pointer;
+  }
+  .comodity .model-content .bot span {
+    margin-left: 20px;
+  }
+  .comodity .model-content .del-active .bold,
+  .comodity .model-content .del-active .div {
+    color: #D9D9D9;
+  }
+  .comodity .model-content .form {
+    height: 60px;
+    margin-top: 30px;
+  }
+
+  .comodity .model-content .revert {
+    width: 720px;
+    height: 60px;
+    padding-top: 10px;
+    font-size: 12px;
+    padding-left: 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(238, 238, 238, 1);
+  }
+
+  .comodity .model-bottom {
+    text-align: center;
+    margin-top: 27px;
+  }
+
+  .comodity .model-bottom button {
+    display: inline-block;
+    width: 70px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid rgba(230, 230, 230, 1);
+  }
+
+  .comodity .model-bottom .cancel {
+    background-color: #fff;
+    color: #666;
+  }
+
+  .comodity .model-bottom .reply {
+    background-color: #FFB900;
+    color: #fff;
+  }
+  .comodity .model-content .user-head-img{
+  display: inline-block;
+  border: solid 1px #ececec;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+.comodity .model-content .user-head-firname {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  font-size: 44px;
+  border: 1px solid #ececec;
+  border-radius: 50%;
+  text-align: center;
+}
+</style>
+<div class="ea-content">
+  <div class="right-bar-wrap ea-right-content consult">
+    <div class="right-bar">
+      <div class="nav">
+        <ul class="clearfix">
+          <li ng-click="navTab(1)" ng-class="state == 1 ? 'active' : ''">待回复</li>
+          <li ng-click="navTab(2)" ng-class="state == 2 ? 'active' : ''">已回复</li>
+          <li ng-click="navTab(3)" ng-class="state == 3 ? 'active' : ''">已删除</li>
+        </ul>
+      </div>
+      <div class="main">
+        <div class="main-form clearfix">
+          <div class="main-form-item">
+            <input ng-model="search" type="text" class="search-input" placeholder="请输入商品名称/SKU/用户名">
+          </div>
+          <div class="main-form-item">
+            <label>处理人:</label>
+            <div class="main-form-item_content">
+              <select ng-model="deal_name">
+                <option value="">全部</option>
+                <option ng-if="item" ng-repeat="(key, item) in dealnames" value="{{item}}" >{{item}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="main-form-item">
+            <label>群主:</label>
+            <div class="main-form-item_content">
+              <customer-select
+                show-all='true'
+                data="ownerList"
+                label-key="relate_salesman"
+                value-key="relate_salesman"
+                value="$parent.ownerName"
+                onvalchange="searchByOwner()">
+              </customer-select>
+            </div>
+          </div>
+          <div class="main-form-item" style="display: inline-block;width: 200px;margin-left: 15px;">
+            <label style="width: 70px" >咨询类型：</label>
+            <select name="" ng-model="productType"
+                    style="height: 30px;width: 100px;border: 1px solid #ececec">
+              <option value="">全部咨询</option>
+              <option value="3">包装商品</option>
+            </select>
+          </div>
+
+          <div class="main-form-item">
+            <div class="main-form-item_content">
+              <button ng-click="querey()" type="button">查询</button>
+            </div>
+          </div>
+        </div>
+        <div class="main-content">
+          <table class="main-table">
+            <thead>
+              <tr>
+                <th style="width: 3%">序号</th>
+                <th style="width: 8%">咨询时间</th>
+                <th style="width: 5%">用户名</th>
+                <th style="width: 5%">群主</th>
+                <th style="width: 8%">商品名称</th>
+                <th style="width: 5%">SKU</th>
+                <th style="width: 18%">咨询问题</th>
+                <th>咨询来源</th>
+                <th style="width: 8%">最近回复时间</th>
+                <th style="width: 18%">最近回复内容</th>
+                <th style="width: 5%">处理人</th>
+                <th style="width: 5%" ng-if="state == 3">删除人</th>
+                <th style="width: 7%">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="(key, item) in productList.list">
+                <td>{{key+1}}</td>
+                <td>{{item.craete_time | date : 'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{item.user_name}}</td>
+                <td>{{item.groupName || '-' }}</td>
+                <td>
+                  <a href="#/merchandise/show-detail/{{item.productId}}/0/3/0" target="_blank">{{item.product_name}}</a>
+                </td>
+                <td style="min-width: 70px">{{item.sku}} <span><b ng-if="item.productType == 3" class="zhuan-flag">包</b></span></td>
+                <td class="popover-p len">
+                  <p data-toggle="tooltip" data-placement="bottom" title="{{item.content}}">{{item.content}}</p>
+                </td>
+                <td class="popover-p len">
+                  <p data-toggle="tooltip" ng-show="item.question_type==1">cjapp</p>
+                  <p data-toggle="tooltip" ng-show="item.question_type==0">cjweb</p>
+                </td>
+                <td>{{item.replytime | date : 'yyyy-MM-dd HH:mm'}}</td>
+                <td class="popover-p len">
+                    <p data-toggle="tooltip" data-placement="bottom" title="{{item.replycontent}}">{{item.replycontent}}</p>
+                </td>
+                <td>{{item.deal_name || ''}}</td>
+                <td ng-if="state == 3">{{item.del_name || ''}}</td>
+                <td>
+                  <div>
+                    <span ng-if="item.state == 1" class="color" ng-click="modelShow(item, '待回复')">回复</span>
+                    <span ng-if="item.state == 2" class="color" ng-click="modelShow(item, '再次回复')">再次回复</span>
+                    <span ng-if="item.state != 3" ng-click="del(item)">删除</span>
+                    <span ng-if="item.state == 3" class="color" ng-click="modelShow(item, '咨询详情')">详情</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-show="erpordTnum<1" style="text-align: center;">暂无数据</div>
+        <!-- 分页 -->
+        <div class="pages-fun" ng-show="erpordTnum>0">
+          <select id="page-sel" class="c-select-page-num">
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <span class="every-page">每页</span>
+          <span class="every-page gong">共</span>
+          <span class="c-all-num-line">{{erpordTnum}}</span>
+          <span class="every-page">条</span>
+          <span id="demo3-text"></span>
+          <div id="c-pages-fun"></div>
+          <span class="every-page">跳转:</span>
+          <input id="inp-num" class="c-inp-num-go"></input>
+          <span style="cursor: pointer;" ng-click="gopageFun()" class="jump-btn">go</span>
+          <!-- <span class="count-money">总金额:</span>
+          <span class="count-mnum">{{countMoney}}</span> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 待回复 -->
+  <div class="editmesstc-wrap comodity" ng-show="model">
+    <div class="editmess-con consult-model">
+      <div class="model-top">{{title}}</div>
+      <div class="model-content">
+        <ul class="clearfix">
+          <li ng-repeat="(key, item) in revertList" class="active" ng-class="item.state == 3 ? 'del-active' : ''">
+            <div class="clearfix">
+              <div class="img fl">
+                <img class="user-head-img" ng-if="item.head" ng-src="{{item.head}}">
+								<p class="user-head-firname" ng-if="!item.head">{{item.imageName}}</p>
+              </div>
+              <div class="fl content-item">
+                <div class="top clearfix">
+                  <label class="bold" data-toggle="tooltip" data-placement="bottom" title="{{item.user_name}}">{{item.user_name}}:</label>
+                  <!-- <label class="bold">{{item.user_name}}:</label> -->
+                  <div class="div">{{item.content}}</div>
+                </div>
+                <div class="bot">
+                  <label>{{item.craete_time | date : 'yyyy-MM-dd HH:mm'}}</label>
+                  <span ng-if="item.state == 3 && revertList[0].state != 3" class="reply">{{item.user_name}}已删除</span>
+                  <!-- 无论是否已回复，删除非第一条 -->
+                  <span ng-if="key > 0 && item.state < 3" ng-click="del(item)" class="del">Delete</span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div ng-if="state != 3" class="form">
+          <textarea ng-model="data.revert" class="revert" placeholder="请输入您要回答的问题！"></textarea>
+        </div>
+      </div>
+      <div class="model-bottom">
+        <button ng-click="cancel()" class="cancel">关闭</button>
+        <button ng-if="state != 3" ng-click="reply()" class="reply">回复</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function () { $("[data-toggle='tooltip']").tooltip(); });
+</script>

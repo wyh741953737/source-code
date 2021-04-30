@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>查看聊天</title>
+    <link rel="stylesheet" href="static/assets/design/css/trumbowyg.css">
+</head>
+<style type="text/css">
+    /*分页*/
+    .fenPage {
+        font-size: 14px;
+        padding: 20px 0 0 0;
+        text-align: right;
+    }
+
+    .fenPage a, .fenPage span {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 6px;
+        color: #737373;
+        margin-right: 2px;
+    }
+
+    .fenPage a.bga {
+        color: #ffffff;
+        background-color: rgba(255, 154, 0, 1);
+    }
+
+    .fenPage span {
+        border: none;
+    }
+
+    .fenPage input:nth-child(1) {
+        width: 30px;
+        padding: 2px 10px;
+        border: none;
+        border-bottom: solid #ccc 1px;
+        background: none;
+        text-align: center;
+    }
+
+    .fenPage input:nth-child(2) {
+        width: auto;
+        background-color: #eee;
+        border: solid #ccc 1px;
+        padding: 2px 10px;
+    }
+
+    .video-text {
+        width: 955px;
+        height: 590px;
+        background: #fff;
+        border: 1px solid #E0E0E0;
+        box-shadow: 0 0 20px #939393;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+        padding: 20px;
+        z-index: 10;
+    }
+
+    .video-text2, .video-text3 {
+        width: 90%;
+        height: 50px;
+        color: #000;
+        font-size: 16px;
+        vertical-align: middle;
+        margin: 15px auto;
+        /*margin-bottom: 50px;*/
+    }
+
+    .video-text2 > textarea, .video-text3 > textarea {
+        vertical-align: middle;
+    }
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .video-text2 > textarea, .video-text3 > textarea {
+        width: 80%;
+        height: 40px;
+        border: 1px solid #E0E0E0;
+        color: #000;
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+
+    .video-but {
+        width: 100%;
+        height: 30px;
+        text-align: center;
+        /*margin-top: 50px;*/
+    }
+
+    .video-but > p {
+        width: 100px;
+        height: 30px;
+        font-size: 12px;
+        border-radius: 5px;
+        color: #fff;
+        display: inline-block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .video-but > p:nth-of-type(1) {
+        background: #a3a1a1;
+        margin-right: 40px;
+    }
+
+    .video-but > p:nth-of-type(2) {
+        background: #f99429;
+    }
+
+    .ea-list-tr > td:nth-of-type(3) {
+        max-width: 200px;
+    }
+
+    .ea-list-tr > td:nth-of-type(4) {
+        max-width: 300px;
+    }
+
+    .buchong {
+        width: 100%;
+        height: 20px;
+        background: #F1F3F2;
+    }
+
+    .videoremove {
+        width: 300px;
+        height: 200px;
+        background: #fff;
+        box-shadow: 0 0 30px gainsboro;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        /*display: none;*/
+    }
+
+    .videoremove > p {
+        width: 100%;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .videoremove > div {
+        width: 100%;
+        height: 30px;
+        text-align: center;
+        margin-top: 65px;
+    }
+
+    .videoremove > div > span {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 5px;
+    }
+
+    .videoremoveFalse {
+        border: 1px solid #d2d2d2;
+        background-color: #fff;
+        color: #7f7f7f;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    .videoremoveSure {
+        border: none;
+        background-color: #08aceb;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    /*.right-bar {
+        background-color: inherit;
+    }*/
+
+    .ea-right-search {
+        margin-bottom: 10px;
+        margin-left: 0;
+    }
+
+    .ea-right-search .dc-btn {
+        float: right;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .top-taps {
+        padding-left: 0;
+    }
+
+    .overTR:hover {
+        background: #e8f4ff;
+    }
+
+    /*.act {*/
+        /*background: #e8f4ff;*/
+    /*}*/
+
+    .ea-to-opea {
+        background-color: orange;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 8px;
+        margin: 0;
+    }
+
+    .closebtn {
+        width: 40px;
+        height: 20px;
+        border-radius: 3px;
+        color: #6b6b6b;
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        font-size: 12px;
+    }
+    table tr td,th{
+        font-size: 12px;
+    }
+    .ea-list-table td{
+        max-width: 200px;
+    }
+    .ea-list-table td span{
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+    }
+    .video-text ul{
+        height: 508px;
+        overflow-x: scroll;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 10px;
+    }
+    .video-text li{
+        font-size: 12px;
+        color: #989898;
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
+    .video-text li span{
+        display: block;
+    }
+    .video-text li strong{
+        font-weight: normal;
+        margin-left: 10px;
+    }
+    .video-text li .fr{
+        float: right;
+    }
+    .tr{
+        text-align: right;
+    }
+    .video-text li p{
+        font-size: 14px;
+        max-width: 80%;
+        border: 1px solid #ccc;
+        padding: 3px 5px;
+        border-radius: 5px;
+        margin-top: 5px;
+        color: #000;
+        background-color: #d9f0ff;
+        float: left;
+    }
+    .video-text p span{
+        line-height: 30px;
+        color: #3d3e40;
+        font-size: 14px;
+        margin-right: 30px;
+    }
+    .page-box{
+        margin-top: 10px;
+        margin-bottom:inherit;
+    }
+    .red{
+        color: red;
+    }
+</style>
+<body>
+<!-- content -->
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li class="active"><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input type="text" class="form-control top-search-inp search-text-box" placeholder="{{'100170' | translate}}"
+                           ng-model="searchinfo">
+                    <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="SearchBtn()">{{'100025' | translate}}</a>
+                    <select style="height: 30px; margin-left: 20px;" name="" id="" ng-model="customerType" ng-change="chanType()">
+                        <option value="cj">{{'100171' | translate}}</option>
+                        <option value="fenxiao">分销用户</option>
+                        <option value="temp">{{'100172' | translate}}</option>
+                    </select>
+                    <a class="dc-btn" onclick="window.history.go(-1);" href="">{{'100173' | translate}}</a>
+                </div>
+            </div>
+            <table class="ea-list-table ea-erp-cs">
+                <tr>
+                    <th>{{'100174' | translate}}</th>
+                    <th>{{'100175' | translate}}</th>
+                    <th ng-if="customerType=='temp'">{{'100176' | translate}}</th>
+                    <th ng-if="customerType=='cj'">{{'100177' | translate}}</th>
+                    <th>{{'100178' | translate}}</th>
+                    <th>{{'100179' | translate}}</th>
+                    <th>{{'100180' | translate}}</th>
+                    <th>{{'101318' | translate}}</th>
+                    <th>{{'100181' | translate}}</th>
+                    <th>{{'100182' | translate}}</th>
+                    <th>{{'100043' | translate}}</th>
+                </tr>
+                <tr class="ea-list-tr overTR"
+                    ng-class="{act:item.isact}"
+                    ng-repeat="item in dataList"
+                    ng-click="trClick(item)">
+                    <td>{{$index+1}}</td>
+                    <td ng-attr-title="{{item.acpid}}" ng-if="customerType=='cj'"><span>{{item.acpid}}</span></td>
+                    <td ng-attr-title="{{item.acpid}}" ng-if="customerType=='temp'"><span>{{item.acpid.split('_')[0]}}</span></td>
+                    <td ng-attr-title="{{item.email}}" ng-if="customerType=='temp'"><span>{{item.email}}</span></td>
+                    <td ng-attr-title="{{item.accname}}" ng-if="customerType=='cj'"><span>{{item.accname}}</span></td>
+                    <td ng-attr-title="{{item.accid}}"><span>{{item.accid}}</span></td>
+                    <td ng-attr-title="{{item.acdate}}"><span>{{item.acdate}}</span></td>
+                    <td ng-attr-title="{{item.accontent}}"><span>{{item.accontent}}</span></td>
+                    <td ng-attr-title="{{item.eepid}}"><span ng-class="{red:isred(item.eepid)}">{{isHF(item.eepid)}}</span></td>
+                    <td ng-attr-title="{{item.eedate}}"><span ng-class="{red:CompareDate(item.acdate,item.eedate)}">{{isHF(item.eedate)}}</span></td>
+                    <td ng-attr-title="{{item.eecontent}}"><span ng-class="{red:isred(item.eecontent)}">{{isHF(item.eecontent)}}</span></td>
+                    <td>
+                    <span>
+                        <button type="button" class="ea-to-opea" ng-click="look(item)">{{'100122' | translate}}</button>
+                    </span>
+                    </td>
+                </tr>
+            </table>
+            <!-- 分页 -->
+            <div class="page-box">
+                <div class="select-page-num">
+                    <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)">
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>每页</span>
+                </div>
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup">
+                        <a href="#">&lt;&lt;</a>
+                        <a href="#">&lt;</a>
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a class="current" href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">···</a>
+                        <a href="#">&gt;</a>
+                        <a href="#">&gt;&gt;</a>
+                    </div>
+                </div>
+                <div class="to-go">
+                    <span>跳转：</span>
+                    <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+                    <a class="btn btn-default" href="javascript: void(0);" role="button"
+                       ng-click="pagenumchange()">go</a>
+                </div>
+            </div>
+            <!--弹框-->
+            <div class="video-text" ng-show="ischat">
+                <!--<p><span>客户：aaa</span><span>业务员：aaa</span></p>-->
+                <ul>
+                    <li class="clearfix" ng-repeat="item in msgLsit">
+                        <span  ng-class="{tr:item.isku}">{{item.fromProductId}}<strong>{{item.createdate}}</strong></span>
+                        <p ng-class="{fr:item.isku}" ng-bind-html="linktourl(item.msgContent)"></p>
+                    </li>
+                </ul>
+                <!-- 分页 -->
+                <div class="page-box clearfix">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="msgpagesize" ng-change="msgpagechange(msgpagesize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ msgcount }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="msgpagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="msgpagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button"
+                           ng-click="msgpagenumchange()">go</a>
+                    </div>
+                </div>
+                <button class="closebtn" ng-click="ischat = false;">{{'100066' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="static/assets/trumbowyg.js"></script>
+<script src="static/assets/plugins/base64/trumbowyg.base64.js"></script>

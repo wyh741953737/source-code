@@ -1,0 +1,43 @@
+<div class="right-bar-wrap ea-right-content">
+	<div class="right-bar">
+		<div class="right-bar">
+			<div class="table-con-box">
+				<div class="c-seach-fun">
+					<input class="Wdate data-inp" id="start-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+					<input class="Wdate data-inp" id="end-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="结束日期">
+					<div class="c-seach-div">
+						<select class="c-seach-country" ng-model="searchKey">
+							<option ng-repeat="item in searchList" value="{{item.val}}">{{item.name}}</option>
+						</select> 
+						<input type="text" ng-model="searchVal" class="c-seach-inp" ng-keypress="searchPress($event)">
+						<a class="c-seach-btn" ng-click="searchFun()">搜索</a>
+					</div>
+				</div>
+				<table class="ea-list-table">
+					<thead>
+						<tr>
+							<th>业务员</th>
+							<th>业务员ID</th>
+							<th>商品ID</th>
+							<th>订单ID</th>
+							<th>时间</th>
+							<th>描述</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="(index,item) in dataList">
+							<td>{{item.operatorName}}</td>
+							<td>{{item.operatorId}}</td>
+							<td>{{item.vids}}</td>
+							<td>{{item.orderId}}</td>
+							<td>{{item.operatorTime}}</td>
+							<td>{{item.description}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>	
+			<page></page>
+		</div>
+	</div>
+	
+</div>

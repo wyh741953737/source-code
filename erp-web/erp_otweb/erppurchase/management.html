@@ -1,0 +1,259 @@
+·<div class="my-wrap">
+  <main class="my-main prel">
+    <div class="tab-container flex fxc" style="margin-bottom: 40px;">
+      <ul class="tab flex fyc fs-16 my-tab">
+        <li ng-repeat="tab in tabList" ng-click="switchTab(tab, $index)" ng-class="{'my-tab-active': 1 === $index}">
+          <div ng-bind="tab.title"></div>
+          <div class="bottom-bar-track flex fxc">
+            <p class="bottom-bar"></p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <section class="filter-area">
+      <div class="mr-20 input-arae">
+        <input id="startTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="开始日期"/>
+        <input id="endTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="结束日期"/>
+        <select class="filter-area-select" ng-model="queryType">
+          <option value="{{option.value}}" ng-repeat="option in typeList">{{option.label}}</option>
+        </select>
+        <input type="text" placeholder="请输入" ng-model="searchVal" style="border-radius: 0 4px 4px 0;" ng-keyup="handleSearch($event)">
+        <button ng-click="handleSearch()" class="confirm-btn">搜索</button>
+      </div>
+      <div class="mr-20">
+        <a href="/distribute.html" target="_blank">
+          <button class="confirm-btn" style="line-height: 30px;">质检</button>
+        </a>
+      </div>
+      <div class="mr-20">
+        <a href="/compress.html" target="_blank">
+          <button class="confirm-btn" style="line-height: 30px;">压缩打包</button>
+        </a>
+      </div>
+      <div class="mr-20">
+        <a ng-href="{{href+'/erpmicro/warehouse/freshWait/qualityManage/receive'}}">
+          <button class="confirm-btn" style="line-height: 30px;">领料</button>
+        </a>
+      </div>
+      <div class="mr-20">
+        <a href="{{href+'/erpmicro/warehouse/freshWait/qualityManage/record'}}">
+          <button class="confirm-btn" style="line-height: 30px;">领料记录</button>
+        </a>
+      </div>
+      <div class="mr-20">
+        <a ng-href="{{href+'/erpmicro/warehouse/pod/mark'}}">
+          <button class="confirm-btn" style="line-height: 30px;">pod质检</button>
+        </a>
+      </div>
+    
+    </section>
+    
+    <div class="tab-status">
+      <div class="tab-status-item">
+          <span class="tab-status-name">质检状态:</span>
+          <select class="tab-status-select" ng-change="handleSearch()" ng-model="filterObj.productProcessStatus">
+              <option ng-repeat="item in statusList" value="{{item.val}}">{{item.name}}</option>
+          </select>
+      </div>
+      <div class="tab-status-item">
+          <span class="tab-status-name">采购方式:</span>
+          <select class="tab-status-select" ng-change="handleSearch()" ng-model="filterObj.procurementType">
+              <option ng-repeat="item in purchaseList" value="{{item.val}}">{{item.name}}</option>
+          </select>
+      </div>
+      <div class="tab-status-item">
+          <span class="tab-status-name">目标仓库:</span>
+          <select class="tab-status-select" ng-change="handleSearch()" ng-model="filterObj.store">
+            <option value="">全部</option>
+            <option ng-repeat="item in storeList" value="{{item.type}}">{{item.dataName}}</option>
+          </select>
+      </div>
+    </div>
+    <section class="table" >
+      <ul class="table-head flex fyc bd-1e c-th">
+        <li class="fs-14" style="width: 10%;">批次号</li>
+        <li class="fs-14" style="width: 15%;">质检状态</li>
+        <li class="fs-14" style="width: 10%;">采购方式</li>
+        <li class="fs-14" style="width: 10%;">目标仓库</li>
+        <!-- <li class="fs-14" style="width: 10%;">库区</li> -->
+        <li class="fs-14" style="width: 20%;">采购订单号</li>
+        <li class="fs-14" style="width: 10%;">图片</li>
+        <li class="fs-14" style="width: 20%;">SKU</li>
+        <li class="fs-14" style="width: 10%;">属性</li>
+        <li class="fs-14" style="width: 10%;">采入仓库</li>
+
+        <li class="fs-14" style="width: 10%;">商品单价</li>
+
+        <li class="fs-14" style="width: 10%;">质检数量</li>
+        <li class="fs-14" style="width: 10%;">正品数量</li>
+        <li class="fs-14" style="width: 10%;">次品数量</li>
+        <li class="fs-14" style="width: 10%;">预计到货数量</li>
+      </ul>
+      <ul class="table-body">
+        <li ng-repeat="item in inspectedList">
+          <div class="table-item flex fyc bd-1e">
+            <dl class="fs-14" style="width: 10%;">{{item.zjBatchNum}}</dl>
+            <dl class="fs-14" style="width: 15%;">
+              {{item.status | statusFilter}}<br/>
+              <span class="btn" ng-show="item.status==3" ng-click="showStatusConfirm($event,item,index)">更改</span>
+            </dl>
+            <dl class="fs-14" style="width: 10%;">{{item.procurementType | procurementFilter}}</dl>
+            <dl class="fs-14" style="width: 10%;">{{item.store | storeFilter}}</dl>
+            <!-- <dl class="fs-14" style="width: 10%;">库区</dl> -->
+            <dl class="fs-14" style="width: 20%;">{{item.orderId}}</dl>
+            <dl class="fs-14" style="width: 10%;" ng-mouseenter="item.imgHover=true" ng-mouseleave="item.imgHover=false">
+              <div class="prel">
+                <img ng-src="{{item.cjImg}}" alt="" height="40">
+                <img class="hover-img" ng-src="{{item.cjImg}}" alt="" height="200" ng-show="item.imgHover">
+              </div>
+            </dl>
+            <dl class="fs-14" style="width: 20%;">SKU: {{item.cjSku || '--'}}</dl>
+            <dl style="width: 10%;">
+              <span ng-repeat="(key,val) in item.variantKeyMap" style="display: block;font-size: 12px;">
+                {{key}}：{{val}}
+              </span>
+            </dl>
+            <!-- <dl class="fs-14" style="width: 20%;">{{item.gongHuoGongSi || '--'}}</dl> -->
+            <dl class="fs-14" style="width: 10%;">{{ item.store | storeFilter}}</dl>
+
+            <dl class="fs-14" style="width: 10%;">{{item.danJia || '--'}}</dl>
+
+            <dl class="fs-14" style="width: 10%;">{{item.shuLiang || '--'}}</dl>
+            <dl class="fs-14" style="width: 10%;">{{item.qualifiedNum || '--'}}</dl>
+            <dl class="fs-14" style="width: 10%;">{{item.defectiveNum || '--'}}</dl>
+            <dl class="fs-14" style="width: 10%;">{{item.shuLiang || '--'}}</dl>
+            <!-- <dl class="fs-14" style="width: 10%;">{{item.skuQueRenRen || '--'}}</dl> -->
+            <!-- <dl class="fs-14" style="width: 10%;">{{item.a}}</dl> -->
+          </div>
+        </li>
+      </ul>
+      <div class="no-data flex fyc fxc" ng-show="inspectedList.length === 0">暂无数据</div>
+    </section>
+
+    <page page-data="pageData"></page>
+  </main>
+  
+  <div class="confirm-box" ng-show="statusObj.show">
+    <div class="confirm-main">
+        <div class="confirm-title">
+            操作提示
+        </div>
+        <div class="confirm-content">
+            <div class="sign-status-item">
+                <span class="title">更改当前订单状态为：</span>
+                <select class="sign-status-select">
+                    <option value="3">未质检</option>
+                </select>
+            </div>
+        </div>
+        <div class="confirm-btn-box">
+            <span ng-click="statusObj.show=false" class="no-btn">取消</span>
+            <span ng-click="statusChange()" class="sure-btn">确认</span>
+        </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.my-wrap { padding: 15px 15px 15px 230px; }
+.wrap-1 {position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: #fff; z-index: 10; padding: 20px;}
+.my-main { background: #fff; height: 100%; padding: 15px 15px 30px; min-height: 900px; }
+.cancel-btn { line-height: 28px; padding: 0 15px; border-radius: 4px; background-color: #fff; border: 1px solid #ddd; font-size: 14px;}
+.confirm-btn { cursor: pointer; line-height: 28px; padding: 0 15px; border-radius: 4px; color: #fff; background-color: #4a90e2; font-size: 14px; }
+.error-btn { line-height: 24px; padding: 0 6px; border-radius: 4px; color: #fff; background-color: #a7c8ee; font-size: 14px;}
+.no-data {height: 500px;}
+/* switch button */
+.switch-button>button{line-height: 28px; padding: 0 15px; background-color: #fff; font-size: 14px; border: 1px solid #ddd;}
+.switch-button>button:nth-child(1) {border-radius: 4px 0 0 4px; margin-right: -6px;}
+.switch-button>button:nth-child(2) {border-radius: 0 4px 4px 0;}
+.switch-button>.active-button { color: #fff; background-color: #4a90e2; border-color: #4a90e2;}
+/* tab css */
+.tab { color: #666; }
+.tab>li { line-height: 28px; padding-bottom: 4px; position: relative; text-align: center; cursor: pointer; padding: 0 25px;}
+.tab>li:hover {color: rgb(248, 194, 15);}
+.bottom-bar-track {position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;}
+.bottom-bar {background: #F9AE08; height: 100%; width: 0%; transition: .2s;}
+.my-tab-active .bottom-bar { width: 80%; }
+.my-tab-active { color: #F9AE08;}
+/* table css */
+.table-head {background-color: #FCF4D9; min-height: 50px;}
+.table-head>li, .table-item>dl, .table-subitem>dl {display: flex; justify-content: center; align-items: center; padding: 4px;flex-wrap: wrap;}
+.table .table-item, .table .table-subitem {min-height: 60px; border-top: 0;}
+.table-subitem {background: #FFFDF8;}
+.hover-img {position: absolute; right: -10px; top: 0px; box-shadow: 0 0 10px 5px #eee; transform: translateX(100%);}
+/*common css*/
+*{box-sizing: border-box;}
+.flex {display: flex;}
+.fxl {justify-content: flex-start;}
+.fxc {justify-content: center;}
+.fxr {justify-content: flex-end;}
+.fxsa {justify-content: space-around;}
+.fxsb {justify-content: space-between;}
+.fyc {align-items: center;}
+.fdc {flex-direction: column;}
+.fg-1 {flex-grow: 1;}
+.fwp {flex-wrap: wrap;}
+
+.fs-12 {font-size: 12px;}
+.fs-14 {font-size: 14px;}
+.fs-16 {font-size: 16px;}
+
+.prel {position: relative;}
+.pabs {position: absolute;}
+.pfix {position: fixed;}
+
+.ml-5 {margin-left: 5px;}
+.mr-5 {margin-right: 5px;}
+.mr-10 {margin-right: 10px;}
+.mr-15 {margin-right: 15px;}
+.mr-20 {margin-right: 20px;}
+.mb-5 {margin-bottom: 5px;}
+.mb-10 {margin-bottom: 10px;}
+.mb-20 {margin-bottom: 20px;}
+.pl-10 {padding-left: 10px;}
+
+.etc { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.tx-c {text-align: center;}
+.lh-15e {line-height: 1.5em;}
+.indent {text-indent: 1em;}
+
+.br-4 {border-radius: 4px;}
+.br-half {border-radius: 50%;}
+.bd-1e {border: 1px solid #eee;}
+
+.cp {cursor: pointer; user-select: none;}
+
+.fw-550 {font-weight: 550;}
+
+.c-y1 {color: #F9AE08;}
+.c-b1 {color: #4A90E2;}
+.c-w1 {color: #ffffff;}
+.c-th {color: #8B572A;}
+.c-err {color: red;}
+.bg-y1 {background-color: #F9AE08;}
+.bg-y2 {background-color: #FCF4D9;}
+.bg-b1 {background-color: #4A90E2;}
+.bg-r1 {background-color: red;}
+
+.wrap {position: fixed; left: 0; top: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; background: #1b1b1b4d;}
+.filter-area {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.filter-area-select {
+    width: 160px;
+    height: 30px;
+    font-size: 14px;
+    vertical-align: top;
+    border-radius: 4px 0 0 4px;
+    margin-right: -6px;
+}
+.btn{
+  font-size: 12px;
+    margin: 0 5px;
+    padding: 2px 3px;
+    border-radius: 2px;
+}
+</style>

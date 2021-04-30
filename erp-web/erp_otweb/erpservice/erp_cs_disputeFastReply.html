@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .search-box>input{
+            height: 35px;
+            width: 280px;
+            padding: 2px 5px;
+        }
+        .search-box>button{
+            background: #F8A636;
+            color: #fff;
+            position: relative;
+            left: -1px;
+            top: 1px;
+            height: 35px;
+            padding: 0 15px;
+        }
+        .ea-right-search{
+            display: flex;
+            justify-content: space-between;
+        }
+        .fastBtn{
+            padding: 5px 15px;
+            background: #F8A636;
+            color: #fff;
+            border-radius: 4px;
+            margin: 0 15px;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999999;
+            display: none;
+        }
+        .zzc-content{
+            background: #fff;
+            border-radius: 4px;
+            width: 400px;
+            padding: 15px;
+            margin: 150px auto;
+        }
+        .zzc-content>h3{
+            margin: 15px 0;
+        }
+        .fast-group{
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .fast-group>label{
+            height: 35px;
+            line-height: 32px;
+            width: 100px;
+            text-align: center;
+        }
+        .fast-group>input,.fast-group>select{
+            height: 35px;
+            width: 250px;
+        }
+        .fast-group>textarea{
+            border: 1px solid #e0e0e0;
+            width: 250px;
+            height: 100px;
+        }
+        .action{
+            position: relative;
+        }
+        .action>span{
+            /*padding: 0 10px;*/
+            cursor: pointer;
+            width: 100px;
+            text-align: center;
+            margin: auto;
+        }
+        .action>span>b{
+            display: inline-block;
+            border: 5px solid transparent;
+            border-top-color: #999;
+            position: relative;
+            top: 2px;
+            left: 5px;
+        }
+        .action>span>ul{
+            background: #fff;
+            border: 1px solid #e1e1e1;
+            /*border-radius: 4px;*/
+            /*padding: 10px 0;*/
+            position: absolute;
+            width: 80%;
+            z-index: 99;
+            left: 10%;
+            box-shadow: 0px 8px 20px;
+            display: none;
+        }
+        .action>span:hover>ul{
+            display: block;
+        }
+        .ea-list-table td{
+            padding: 10px 0;
+        }
+        .action>span>ul>li>a{
+            display: inline-block;
+            width: 100%;
+            color: #999;
+        }
+        .action>span>ul>li>a:hover{
+            color: #999;
+            background: #e1e1e1;
+        }
+        .fast-text{
+            max-width: 500px;
+        }
+        .fast-title{
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding: 15px 20px">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <input placeholder="请输入快捷回复名称" id="searchInput" ng-model="searchInfo" type="text"/>
+                    <button ng-click="search()">{{'100025' | translate}}</button>
+                </div>
+                <button class="fastBtn" id="addFastReply">{{'101248' | translate}}</button>
+            </div>
+            <div class="fast-bottom" style="margin-top: 15px">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>回复标题</th>
+                        <!--<th>回复类型</th>-->
+                        <th>回复内容</th>
+                        <th>创建时间</th>
+                        <th>创建人</th>
+                        <th>最新修改人</th>
+                        <th>使用状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="reply in FastReplyList">
+                        <td>{{$index+1}}</td>
+                        <td class="fast-title">{{reply.title}}</td>
+                        <!--<td>{{classType(reply.type)}}</td>-->
+                        <td class="fast-text">{{reply.text}}</td>
+                        <td>{{reply.createat}}</td>
+                        <td>{{reply.createby}}</td>
+                        <td>{{classUpdatePeople(reply.updateby)}}</td>
+                        <td>{{classBlock(reply.block)}}</td>
+                        <td class="action">
+                            <span>更多操作<b></b>
+                                <ul>
+                                    <li><a href="javascript:void(0);" ng-click="updateFun(reply)">修改</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="deleteFun(reply.id)">删除</a></li>
+                                    <li ng-show="reply.block=='1'"><a href="javascript:void(0);" ng-click="qiyong(reply.id,'0')">启用</a></li>
+                                    <li ng-show="reply.block=='0'"><a href="javascript:void(0);" ng-click="qiyong(reply.id,'1')">停用</a></li>
+                                </ul>
+                            </span>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagesizechange(pageSize)">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--回复弹窗-->
+<div class="zzc">
+    <div class="zzc-content">
+        <h3>新增快捷回复</h3>
+        <div class="fast-group">
+            <label for="replyName">回复标题：</label>
+            <input type="text" id="replyName"/>
+        </div>
+        <!--<div class="fast-group">-->
+        <!--<label for="replyType">回复类型：</label>-->
+        <!--<select name="" id="replyType">-->
+        <!--<option value="">请选择回复类型</option>-->
+        <!--<option value="1">文本</option>-->
+        <!--<option value="2">图片</option>-->
+        <!--<option value="3">附件</option>-->
+        <!--</select>-->
+        <!--</div>-->
+        <div class="fast-group">
+            <label for="replyText">回复内容：</label>
+            <textarea id="replyText"></textarea>
+        </div>
+        <div class="fast-group" style="justify-content: center;margin-bottom: 10px">
+            <button class="fastBtn" id="addBtn" ng-click="addFun()">新增</button>
+            <button class="fastBtn" id="saveBtn">保存</button>
+            <button class="fastBtn" id="closeBtn">关闭</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

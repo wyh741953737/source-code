@@ -1,0 +1,3116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品签收</title>
+    <link rel="shortcut icon" href="static/favicons.png" />
+    <style type="text/css">
+        /*@charset "UTF-8";[ng:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng:form{display:block;}*/
+        .tip-div {
+            text-align: center;
+            /*border: 1px solid red;*/
+            /*margin:auto;*/
+        }
+
+        #tx {
+            text-indent: 12px;
+            width: 200px;
+            /*position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 200px;*/
+        }
+
+        .rk-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            /*display: none;*/
+            z-index: 99;
+        }
+
+        .changebz-wrap,
+        .chage-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            z-index: 99;
+        }
+
+        .index-wrap {
+            z-index: 999;
+        }
+
+        .ydh-rk-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            z-index: 99;
+        }
+
+        .rk-con,
+        .changWeight-con {
+            width: 1000px;
+            height: 520px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 4px;
+            border: 1px solid #ececec;
+            background-color: #fff;
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        .changWeight-con {
+            width: 450px;
+            height: 190px;
+        }
+
+        .qs-con {
+            width: 450px;
+            height: 190px;
+        }
+
+        .changWeight-con p {
+            font-size: 18px;
+        }
+
+        .next-change {
+            height: 120px;
+        }
+
+        .next-change p {
+            font-size: 14px;
+        }
+
+        .next-change .btn-primary {
+            margin-left: 50px;
+        }
+
+        .changWeight-con .cwtip-p {
+            font-size: 12px;
+        }
+
+        .changWeight-con label {
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .rk-main {
+            overflow: hidden;
+        }
+
+        .rk-main .rk-left {
+            float: left;
+            width: 50%;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .ydh-rk-left {
+            padding-right: 20px;
+        }
+
+        .rk-main .rk-right {
+            float: left;
+            width: 50%;
+            height: 420px;
+            overflow-y: auto;
+        }
+
+        .rk-sp-img {
+            max-width: 260px;
+            max-height: 300px;
+        }
+
+        .rksp-detailcon ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rksp-detailcon li {
+            padding: 10px 0;
+            height: 40px;
+            /*border: 1px solid blue;*/
+        }
+
+        .rk-num {
+            text-indent: 12px;
+        }
+
+        .rksp-detailcon select {
+            width: 60%;
+            height: 30px;
+            border-radius: 4px;
+        }
+
+        .rkspdetail-left {
+            /*border:1px solid red;*/
+            width: 28%;
+            display: inline-block;
+            vertical-align: top;
+            text-align: right;
+        }
+
+        .rkspdetail-right {
+            /*border:1px solid red;*/
+            width: 70%;
+            display: inline-block;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .selck-div {
+            margin-top: 20px;
+        }
+
+        .rk-btns {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .rk-btns .qs-btn {
+            margin-left: 50px;
+        }
+
+        #sure-rktk {
+            margin-left: 20px;
+        }
+
+        /*树样式*/
+        ul.domtree,
+        ul.domtree ul {
+            margin: 0;
+            /*padding: 0 0 0 2em;*/
+            padding: 0 0 0 2.5em;
+        }
+
+        ul.domtree li {
+            list-style: none;
+            position: relative;
+            color: #B05609;
+            line-height: 2em;
+            font-size: 16px;
+        }
+
+        ul.domtree>li:first-child:before {
+            border-style: none none solid none;
+        }
+
+        ul.domtree li:before {
+            position: absolute;
+            content: '';
+            top: -0.01em;
+            left: -0.7em;
+            width: 0.5em;
+            height: 1em;
+            /* height: 0.615em; */
+            border-style: none none solid solid;
+            /* border-width: 1px; */
+            border-width: 0.05em;
+            border-color: #FFB85F;
+        }
+
+        ul.domtree li:not(:last-child):after {
+            position: absolute;
+            content: '';
+            top: -0.1em;
+            /* top: 0.7em; */
+            left: -0.7em;
+            bottom: 0;
+            border-style: none none none solid;
+            /* border-width: 1px; */
+            border-width: 0.05em;
+            border-color: #FFB85F;
+        }
+
+        .openup-icon,
+        .packup-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            text-align: center;
+            background: #FCF4D9;
+            color: #FFB85F;
+        }
+
+        .name-span {
+            cursor: pointer;
+            display: inline-block;
+            padding: 0 5px;
+            font-size: 14px;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .name-span.active {
+            background: #f7debd;
+        }
+
+        p.top-info {
+            text-align: left;
+            margin: 0;
+        }
+
+        .rk-wight {
+            vertical-align: top;
+        }
+
+        .inp-erractive {
+            border: 1px solid red;
+            color: red;
+        }
+
+        .inp-sucactive {
+            border: 1px solid green;
+            color: green;
+        }
+
+        .selck-div .radio-inp {
+            margin-right: 20px;
+        }
+
+        .ydh-img-box {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            /*height: 120px;*/
+            margin: 0 auto;
+        }
+
+        .ydh-img {
+            max-height: 60px;
+            /*max-width: 120px;*/
+        }
+
+        .ydh-img-box .ydh-big-img {
+            position: absolute;
+            left: 60px;
+            top: 0;
+            display: none;
+            z-index: 9;
+        }
+
+        .ydh-img-box:hover .ydh-big-img {
+            display: block;
+        }
+
+        .ydh-img-box .ydh-big-img-bottom {
+            bottom: 0;
+            top: auto;
+        }
+
+        .ydh-tit {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .bulk-ydhrk {
+            float: right;
+            margin-right: 50px;
+        }
+
+        .ydh-rktit {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .ydhrk-detailcon {
+            height: 390px;
+            overflow-y: auto;
+        }
+
+        /*运单号入库重量的输入框*/
+        .ydh-table th {
+            text-align: center;
+        }
+
+        .ydh-table td {
+            text-align: center;
+        }
+
+        .ydh-weightInp {
+            width: 80px;
+        }
+
+        .qs-res-con textarea {
+            resize: none;
+            width: 100%;
+            height: 100px;
+            border-radius: 4px;
+        }
+
+        .sku-right {
+            font-size: 24px;
+            color: #e55264;
+        }
+
+        .gold-back {
+            background-color: gold;
+        }
+
+        .yjy-sku {
+            font-size: 24px;
+            text-align: center;
+            color: #04a452;
+        }
+
+        .modal-body {
+            height: 700px;
+            overflow: auto;
+        }
+
+        .model-bodyact {
+            width: 50%;
+            display: inline-block;
+        }
+
+        .detail-div {
+            float: right;
+            width: 50%;
+            padding: 15px;
+        }
+
+        .big-img-div img {
+            width: 100%;
+        }
+
+        .WaringTxt {
+            font-size: 16px;
+            color: red;
+            text-align: left;
+            line-height: 2;
+        }
+
+        .putong {
+            width: 45%;
+            float: left;
+        }
+
+        .zhifa {
+            width: 45%;
+            float: right;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        .fuwu-inp {
+            width: 398px;
+            height: 38px;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 2px 0px 0px 2px;
+            border: 1px solid rgba(224, 224, 224, 1);
+            vertical-align: top;
+            text-indent: 12px;
+        }
+
+        .fuwu-btn {
+            width: 97px;
+            height: 38px;
+            border-radius: 0px 2px 2px 0px;
+            border: none;
+            vertical-align: top;
+            background: url(static/image/public-img/btn-back-sea.png) center center no-repeat #F9AE08;
+        }
+
+        .margin-t20px {
+            margin-top: 20px;
+        }
+
+        .fuwu-closebtn {
+            width: 69px;
+            height: 30px;
+            border-radius: 4px;
+            border: 1px solid rgba(193, 193, 193, 1);
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .fuwu-surebtn {
+            width: 69px;
+            height: 28px;
+            background: rgba(249, 174, 8, 1);
+            border-radius: 4px;
+            padding: 0;
+            color: #fff;
+            margin-left: 10px;
+            border: none;
+        }
+
+        .margin-t0b20px {
+            margin: 0 0 20px;
+        }
+
+        .close-icon {
+            font-size: 24px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .img-td {
+            position: relative;
+        }
+
+        .small-img {
+            width: 40px;
+        }
+
+        .show-big-img {
+            width: 200px;
+            position: absolute;
+            left: -200px;
+            top: -50px;
+        }
+
+        .top-150px {
+            top: -150px;
+        }
+
+        .lookProduct {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            top: 0;
+            left: 0;
+            z-index: 99;
+        }
+
+        .lookProduct .content {
+            transform: translate(-50%, -50%);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background: #fff;
+            box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+            width: 523px;
+            min-height: 330px;
+            margin: initial;
+            border-radius: 4px;
+            padding: initial;
+        }
+
+        .tk-top-tit {
+            height: 40px;
+            background-color: #F9F8F8;
+        }
+
+        .tk-mid-con {
+            text-align: center;
+        }
+
+        .tk-top-tit p {
+            line-height: 40px;
+            text-align: center;
+        }
+
+        .jujue-text {
+            display: inline-block;
+            width: 580px;
+            height: 102px;
+            border: 1px solid #EEEEEE;
+            margin: 14px 0 20px;
+        }
+
+        .tk-btns {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .lookProduct .content h3 {
+            padding: 15px;
+            margin: initial;
+            text-align: left;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .lookProduct .content h3 .close {
+            font-size: 25px;
+            font-weight: initial;
+            opacity: .4;
+        }
+
+        .tk-qx-btn {
+            width: 69px;
+            height: 30px;
+            border-radius: 4px;
+            color: #666666;
+            background-color: #fff;
+            border: 1px solid #C1C1C1;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .tk-qd-btn {
+            width: 69px;
+            height: 28px;
+            background: #F9AE08;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .lookProduct .content {
+            top: 35%;
+        }
+
+        .lookProduct .paddinglrt20px {
+            padding: 20px 20px 0;
+        }
+
+        .lookProduct .close-icon {
+            font-size: 24px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .w60px {
+            width: 60px;
+            height: 30px;
+            border-radius: 4px;
+            text-indent: 12px;
+            border: 1px solid rgba(224, 224, 224, 1);
+        }
+
+        .fw-table thead tr th {
+            border: none !important;
+        }
+
+        .fw-table thead tr {
+            background-color: #F0EDE7
+        }
+
+        .fw-table td {
+            border: none !important;
+        }
+
+        .fontweight600 {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .max-width230px {
+            max-width: 230px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .fw-qscon {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fw-qscon .w30ul {
+            width: 30%;
+        }
+
+        .fw-qscon .w10ul {
+            width: 10%;
+        }
+
+        .fw-qscon .w56 {
+            width: 56%;
+        }
+
+        .qs-mesul li {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .qs-mesul li .w30 {
+            width: 30%;
+            text-align: right;
+        }
+
+        .qs-mesul li .w65 {
+            width: 65%;
+            text-align: left;
+        }
+
+        .qianshou-btn {
+            background: rgb(32, 178, 170);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reseive-design-box {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .reseive-design-box .shade {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .reseive-design-main {
+            background: #fff;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+            color: #333;
+            overflow: hidden;
+        }
+
+        .reseive-design-main .close {
+            color: rgb(32, 178, 170);
+            display: inline-block;
+            transform: rotate(45deg);
+            font-size: 40px;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: 4px;
+            text-align: center;
+            top: 0;
+            opacity: 0.6;
+            line-height: 40px;
+        }
+
+        .reseive-design-main .title {
+            border-bottom: 1px solid #ddd;
+            line-height: 40px;
+            padding: 0 15px;
+            font-size: 16px;
+            margin-bottom: 0;
+        }
+
+        .reseive-design-left {
+            float: left;
+            padding: 15px;
+            width: 430px;
+        }
+
+        .reseive-area-list {
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+
+        .reseive-area-item {
+            display: inline-block;
+            margin-right: 5px;
+            line-height: 25px;
+            border-bottom: 2px solid #fff;
+            padding: 0 5px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .reseive-area-item.cur {
+            color: rgb(32, 178, 170);
+            border-color: rgb(32, 178, 170);
+        }
+
+        .reseive-design-left .img {
+            width: 350px;
+            height: 350px;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            object-fit: contain;
+            background: #eee;
+            display: block;
+        }
+
+        .reseive-design-right {
+            float: left;
+            margin: 15px;
+            line-height: 25px;
+            padding-top: 35px;
+            min-width: 200px;
+            max-width: 3200px;
+        }
+
+        .reseive-design-right .info-list {
+            margin: 0;
+            padding: 0;
+        }
+
+        .reseive-design-right .info-item {
+            margin-bottom: 10px;
+        }
+
+        .reseive-design-right .info-item-title {
+            width: 80px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<body ng-app="barcodeApp" ng-controller="barcodeAppCtrl">
+    <!-- <div class="bg-wrap"></div> -->
+    <div class="tip-div">
+        <p>
+            <font size='10' color="lightseagreen">商品签收</font>
+        </p>
+        <input id="tx" type="text" style="text-indent: 5px;" placeholder="请扫描条形码/输入采购订单号" />
+    </div>
+    <div class="clearfix" style="width: 90%;margin: auto;">
+        <ul class="putong" ng-show="ptquehuoArr.length>0">
+            <li class="WaringTxt" style="margin-top: 20px;">普通订单</li>
+            <li class="WaringTxt" ng-repeat="item in ptquehuoArr">
+                <span style="color: #1131ef;" ng-show="item.store == '0'">义乌仓-</span>
+                <span style="color: #1131ef;" ng-show="item.store == '1'">深圳仓-</span>
+                缺货商品的SKU是{{item.sku}}需要{{item.quantity}}个!
+            </li>
+        </ul>
+        <ul class="zhifa" ng-show="zfquehuoArr.length>0">
+            <li class="WaringTxt" style="margin-top: 20px;">直发订单</li>
+            <li class="WaringTxt" ng-repeat="item in zfquehuoArr">缺货商品的SKU是{{item.SKU}}需要{{item.quantity}}个!</li>
+        </ul>
+    </div>
+    <!-- 运单号入库的弹框 -->
+    <!-- class="modal fade" -->
+    <div id="YdhModal" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document" style="width: 90%;">
+            <div class="modal-content"
+                style="box-shadow: 0 0 10px #eee; border: 1px solid #ececec; background: #f8f8f8;padding-bottom: 40px;">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="sp" aria-hidden="true">&times;</span></button> -->
+                    <!-- <h4 class="modal-title" id="exampleModalLabel">sku详情</h4> -->
+                    <span class="ydh-tit">sku详情</span>
+                    <span style="margin-left: 30px;" ng-repeat="(key,val) in ydhList[0].zhuiZongHao" ng-show="condition === 'oldVersion'">{{val}}
+                        {{key}}</span>
+                    <span style="margin-left: 30px;" ng-show="condition === 'latestVersion'" ng-cloak>{{logisticsName}} {{logisticsNumber}}</span>
+                    <!-- <button type="button" ng-click="ydhRkFun()" class="btn btn-primary bulk-ydhrk">批量入库</button> -->
+                    <!-- <button type="button" class="btn btn-primary bulk-ydhrk" ng-click="ydhRkQsFun()" style="margin-right: 0;">签收</button> -->
+
+                    <button type="button" style="margin-right: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="bulkZdPrintOFun()" ng-show="condition === 'oldVersion'">批量自动打印条形码
+                    </button>
+                    <button type="button" style="margin-right: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="bulkPrintOFun()" ng-show="condition === 'oldVersion'">批量手动打印条形码
+                    </button>
+                    <button type="button" style="margin-right: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="zdPrint()" ng-show="condition === 'latestVersion'">批量自动打印条形码
+                    </button>
+                    <button type="button" style="margin-right: 10px;" class="btn btn-primary bulk-ydhrk"
+                        ng-click="print()" ng-show="condition === 'latestVersion'">批量手动打印条形码
+                    </button>
+                    <!-- <button type="button" class="btn btn-primary bulk-ydhrk" ng-click="qsSeaFlag=true" style="margin-right: 50px;">服务商品签收</button> -->
+                </div>
+                <div class="modal-body" ng-class='{"model-bodyact":ydhList.length>0 || list.length > 0}'>
+                    <table class="table table-bordered ydh-table" ng-show="condition === 'oldVersion'">
+                        <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>SKU</th>
+                                <!-- <th>客户订单号</th> -->
+                                <th>采购订单号</th>
+                                <th>预计到货数量</th>
+                                <th>到货仓库</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="qianshou-tr" ng-repeat="item in ydhList">
+                                <td>
+                                    <a href="{{'manage.html#/merchandise/show-detail/' + item.productId + '/0/3/0'}}"
+                                        target="_blank" class="ydh-img-box">
+                                        <img class="ydh-img" ng-src="{{item.img}}">
+                                        <img class="ydh-big-img" ng-class="{'ydh-big-img-bottom':$index>1}"
+                                            ng-src="{{item.img}}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <p style="position: relative; padding-right: 24px;">
+                                        <span>{{item.skuLeft}}</span><span class="sku-right">{{item.skuRight}}</span>
+                                        <a href="javascript:void(0)"
+                                            style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;"
+                                            title="复制SKU" ng-click="copyWord(item.sku)"><img style="height: 18px;"
+                                                src="./static/image/public-img/copy.png" alt=""></a>
+                                    </p>
+                                    <p>短码：{{item.shortSku}}</p>
+                                    <span class="qianshou-btn" ng-show="item.customeDesign && item.customeDesign !== 'null'" ng-click="queryDesign(item)">查看定制信息</span>
+                                    <!-- <p ng-if="item.chekCount==1" class="yjy-sku">已检验</p> -->
+                                </td>
+                                <!-- <td>
+                        <p ng-repeat="itemOrderId in item.orderSet" style="position: relative; padding-right: 24px;">
+                          <span>{{itemOrderId}}</span>
+                          <a href="javascript:void(0)" style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;" title="复制订单号" ng-click="copyWord(itemOrderId)"><img style="height: 18px;" src="./static/image/public-img/copy.png" alt=""></a>
+                        </p>
+                        <p ng-repeat="itemOrderSaleman in item.empSet">{{itemOrderSaleman}}</p>
+                        </td> -->
+                                <td>
+                                    {{item.procurementOrderId}}
+                                    <p>采购人: {{item.caiGouRen}}</p>
+                                    <P>
+                                    状态:<span ng-style="STATUSMAPOBJECT[item.dingDanZhuangtai].style">{{STATUSMAPOBJECT[item.dingDanZhuangtai].text}}</span>
+                                    </P>                          
+                                </td>
+                                <td>
+                                    <!-- {{item.count}} -->
+                                    <input type="number" ng-model="item.count" style="width:80px;">
+                                </td>
+                                <td>{{item.storageName}}</td>
+                                <td>
+                                    <button class="btn btn-primary" ng-click="yiChangFun(item)">异常</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered ydh-table" ng-show="condition === 'latestVersion'">
+                        <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>SKU</th>
+                                <!-- <th>客户订单号</th> -->
+                                <th>入驻供应商名称</th>
+                                <th>预计到货数量</th>
+                                <th>到货仓库</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="qianshou-tr" ng-repeat="item in list">
+                                <td>
+                                    <a href="javasctipt:;" target="_blank" class="ydh-img-box">
+                                        <img class="ydh-img" ng-src="{{item.imageUrl}}">
+                                        <img class="ydh-big-img" ng-class="{'ydh-big-img-bottom':$index>1}"
+                                            ng-src="{{item.imageUrl}}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <p style="position: relative; padding-right: 24px;">
+                                        <span>{{item.skuLeft}}</span><span class="sku-right">{{item.skuRight}}</span>
+                                        <a href="javascript:void(0)"
+                                            style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;"
+                                            title="复制SKU" ng-click="copyWord(item.sku)"><img style="height: 18px;"
+                                                src="./static/image/public-img/copy.png" alt=""></a>
+                                    </p>
+                                    <p>短码：{{item.num}}</p>
+                                </td>
+                                <td>
+                                    {{item.companyName}}
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="item.productNum" style="width:80px;">
+                                </td>
+                                <td>{{item.warehouse}}</td>
+                                <td>
+                                    <button class="btn btn-primary" ng-click="showErrBox(item)">异常</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="detail-div" ng-show="itemObj">
+                    <div class="info-detail-div">
+                        变体信息: <span class="sku-right" style="margin-right: 50px;">{{itemObj.skuRight}}</span>
+                        预计到货数量: <span class="sku-right">{{itemObj.count}}</span>
+                    </div>
+                    <div class="big-img-div">
+                        <img ng-src="{{itemObj.img}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio class="audio-vip" src="static/audio/vip.mp3"></audio>
+    <audio class="audio-shoudan" src="static/audio/shoudan.mp3"></audio>
+    <audio class="audio-zhengchang" src="static/audio/zhengchang.mp3"></audio>
+    <audio class="audio-jiaji" src="static/audio/jiaji.mp3"></audio>
+    <audio class="audio-qingzhuyi" src="static/audio/qingzhuyi.mp3"></audio>
+    <audio class="audio-zhifa" src="static/audio/zhifa.mp3"></audio>
+    <audio class="audio-usazhifa" src="static/audio/usazhifa.mp3"></audio>
+    <audio class="audio-zuzhuang" src="static/audio/zuzhuang.mp3"></audio>
+    <audio class="audio-bufa" src="static/audio/bufa.mp3"></audio>
+    <audio class="audio-buruku" src="static/audio/buruku.mp3"></audio>
+    <audio class="audio-quehuoxuyao" src="static/audio/ssss.mp3"></audio>
+    <audio class="audio-xianxiazu" src="static/audio/xianxiazu.mp3"></audio>
+    <audio class="audio-gaiBiao" src="static/audio/gaiBiao.mp3"></audio>
+      <!-- 新增状态语音 -->
+    <audio class="audio-xiaoDanZhiFa" src="static/audio/xiaoDanZhiFa.mp3"></audio>
+    <audio class="audio-haiWaiCangZhiFa" src="static/audio/haiWaiCangZhiFa.mp3"></audio>
+    <audio class="audio-guiZhongWuPin" src="static/audio/guiZhongWuPin.mp3"></audio>
+
+    <!-- sku/条形码入库弹框 -->
+    <div class="rk-wrap ng-hide" ng-show="skuorTxmFlag">
+        <div class="rk-con">
+            <div class="rk-main">
+
+                <div class="rk-left">
+
+                    <div class="rksp-imgcon">
+                        <img class="rk-sp-img" src="">
+                    </div>
+                    <div class="rksp-detailcon">
+                        <div class="rkspdetail-left">
+                            <ul>
+                                <li><span>sku:</span></li>
+                                <li><span>入库数量:</span></li>
+                                <li><span>商品重量:</span></li>
+                            </ul>
+                        </div>
+                        <div class="rkspdetail-right">
+                            <ul>
+                                <li>
+                                    <span class="sku-text"></span>
+                                </li>
+                                <li>
+                                    <input type="number" class="rk-num"></input>
+                                </li>
+                                <li>
+                                    <input type="number" class="rk-weight"></input>
+                                    <button class="btn btn-primary" ng-click="editWeiFun()">提交</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rk-right">
+                    <div class="selck-div">
+                        请选择仓库:
+                        <p ng-show="moreFlag">
+                            <label>义乌仓:</label>
+                            <input class="radio-inp" ng-click="selCkFun($event)" type="radio" name="ckradio" value="1"
+                                checked></input>
+                            <label>深圳仓:</label>
+                            <input class="radio-inp" ng-click="selCkFun($event)" type="radio" name="ckradio"
+                                value="2"></input>
+                            <label>美国仓:</label>
+                            <input class="radio-inp" ng-click="selCkFun($event)" type="radio" name="ckradio"
+                                value="3"></input>
+                        </p>
+                    </div>
+                    <div class="asj-tree-box">
+                        <folder-tree current-folder="folder" my-index="index1" point-one="pointOne(item,event,posi)"
+                            switch-list="switchList(posi,event,flag)"></folder-tree>
+                    </div>
+                </div>
+            </div>
+            <!-- <p class="bt-idtext"></p>
+        <p class="sp-idtext"></p>
+        <p class="yd-idtext"></p> -->
+            <div class="rk-btns">
+                <button type="button" class="btn btn-default" ng-click="skuOrTxmCloseFun()" id="close-rktk">关闭</button>
+                <button type="button" ng-click="sureRkFun()" class="btn btn-primary" id="sure-rktk">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 运单号入库弹框 -->
+    <div class="ydh-rk-wrap ng-hide stop-pro" ng-show="ydhrkFlag">
+        <div class="rk-con">
+            <p class="ydh-rktit">运单号入库</p>
+            <div class="rk-main">
+                <div class="rksp-detailcon ydhrk-detailcon">
+                    <table class="table table-bordered ydh-table">
+                        <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>SKU</th>
+                                <th>日期</th>
+                                <th>总数量</th>
+                                <th>商品重量</th>
+                                <th>仓库</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ydhList">
+                                <td>
+                                    <img class="ydh-img" ng-src="{{item.img}}">
+                                </td>
+                                <td>{{item.sku}}</td>
+                                <td>{{bulkRkTime}}</td>
+                                <td>{{item.count}}</td>
+                                <td>
+                                    <!-- ng-class="{{item.isChangeWeight=='0'?'inp-erractive':'inp-sucactive'}}" -->
+                                    <!-- <input class="ydh-weightInp" ng-class="{'inp-erractive':item.isChangeWeight!='1','inp-sucactive':item.isChangeWeight=='1'}" type="number" ng-blur="isValidWFun(item,$index,$event)" value="{{item.oldWeight}}"></input> -->
+                                </td>
+                                <td>{{item.storageName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="rk-btns">
+                <button type="button" class="btn btn-default" ng-click="ydhCloseRk()">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="ydhRkSureFun()">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 修改包装重量 -->
+    <div class="changebz-wrap index-wrap ng-hide stop-pro" ng-show="changeWFlag">
+        <div class="changWeight-con">
+            <p>修改包装重量</p>
+            <p class="cwtip-p">
+                商品重量不能大于或则等于包装重量,现在的包装重量是 {{tipWeight}},你可以修改包装重量
+            </p>
+            <div class="cWcon-group">
+                <label>包装重量:</label>
+                <input type="number" ng-model="bzWeight"></input>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="closeCWFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="sureCWFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 运单号修改包装重量 -->
+    <div class="changebz-wrap index-wrap ng-hide stop-pro" ng-show="ydhchangeWFlag">
+        <div class="changWeight-con">
+            <p>修改包装重量</p>
+            <p class="cwtip-p">
+                商品重量不能大于或则等于包装重量,现在的包装重量是 {{ydhtipWeight}},你可以修改包装重量
+            </p>
+            <div class="cWcon-group">
+                <label>包装重量:</label>
+                <input type="number" ng-model="ydhbzWeight"></input>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="ydhcloseCWFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="ydhsureCWFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 已经修改过包装重量 -->
+    <div class="chage-wrap ng-hide stop-pro" ng-show="isNextChangeFlag">
+        <div class="changWeight-con next-change">
+            <p>该商品已经被称过重量,确定要再次修改吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="nextQxFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="nextSureFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 已经修改过包装重量 -->
+    <div class="chage-wrap ng-hide" ng-show="ydhisNextChangeFlag">
+        <div class="changWeight-con next-change">
+            <p>该商品已经被称过重量,确定要再次修改吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="ydhnextQxFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="ydhnextSureFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 是否签收 -->
+    <div class="chage-wrap ng-hide" ng-show="isqianshouFlag">
+        <div class="changWeight-con next-change">
+            <p>确定签收吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="ydhNoQs()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="ycqsFun()" class="btn btn-warning qs-btn">异常签收</button>
+                <button type="button" ng-click="ydhSureQs()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 批量打印条形码 -->
+    <div class="chage-wrap ng-hide" ng-show="txmTkFlag">
+        <div class="changWeight-con next-change">
+            <a target="_blank" ng-href="{{'https://'+txmHref}}">{{'https://'+txmHref}}</a>
+            <div class="rk-btns">
+                <button type="button" ng-click="txmTkFlag=false" class="btn btn-default">关闭</button>
+            </div>
+        </div>
+    </div>
+    <!-- 异常签收 -->
+    <div class="chage-wrap" ng-show="qsycResonFlag" ng-cloak>
+        <div class="changWeight-con qs-con">
+            <div class="qs-res-con">
+                <textarea ng-model="qsycReson"></textarea>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="qsycResonFlag=false" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="qsycSureFun()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 异常的原因 -->
+    <div class="chage-wrap" ng-show="ycYyFlag" ng-cloak>
+        <div class="changWeight-con qs-con" style="height: 300px;">
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">数量:</span>
+                <input type="number" ng-model="ycCount" style="width: 200px;height: 30px;"></input>
+            </div>
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">异常原因:</span>
+                <select ng-model="ycYyVal" style="width: 200px;height: 30px;">
+                    <!-- <option value="0">缺货</option>
+                <option value="1">未发货</option>
+                <option value="2">质量问题</option>
+                <option value="3">退货</option>
+                <option value="4">其它</option> -->
+                    <option value="1">未发货</option>
+                    <option value="2">未收到</option>
+                    <option value="3">质量问题</option>
+                    <option value="4">数量问题</option>
+                    <option value="5">颜色问题</option>
+                    <option value="6">尺寸问题</option>
+                    <option value="7">其它</option>
+                </select>
+            </div>
+            <div class="qs-res-con">
+                <textarea ng-model="newQsYcReson"></textarea>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="ycYyFlag=false" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="sureYcFun()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 异常的原因 -->
+    <div class="chage-wrap" ng-show="errorbox" ng-cloak>
+        <div class="changWeight-con qs-con" style="height: 300px;">
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">数量:</span>
+                <input type="number" ng-model="params.badNum" style="width: 200px;height: 30px;" ng-keyup="handleNumberLimit()" maxlength="5"></input>
+            </div>
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">异常原因:</span>
+                <select ng-model="params.badType" style="width: 200px;height: 30px;">
+                    <option value="1">损坏</option>
+                    <option value="2">缺货</option>
+                    <option value="3">其它</option>
+                </select>
+            </div>
+            <div class="qs-res-con">
+                <textarea ng-model="params.badRemark"></textarea>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="hideErrBox()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="submitError()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 服务商品是否签收 -->
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="isQianSFlag">
+        <div class="changWeight-con next-change">
+            <p ng-if="qsStu==1">确定拒绝签收吗?</p>
+            <p ng-if="qsStu==2">确定签收吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="isQianSFlag = false" class="fuwu-closebtn">取消</button>
+                <button type="button" ng-click="sureQsFwFun()" class="fuwu-surebtn">确定</button>
+            </div>
+        </div>
+    </div>
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="fwPdfFlag">
+        <div class="changWeight-con next-change" style="width: 560px;">
+            <a target="_blank" style="text-decoration: underline;color:#08ACE9;word-wrap: break-word;"
+                href="{{pdfLink}}">{{pdfLink}}</a>
+            <div class="rk-btns">
+                <button type="button" ng-click="fwPdfFlag = false" class="fuwu-closebtn">取消</button>
+            </div>
+        </div>
+    </div>
+    <!-- 确定拒绝签收吗 -->
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="isJuJueFlag">
+        <div class="changWeight-con next-change">
+            <p>确定拒绝签收吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="isJuJueFlag = false" class="fuwu-closebtn">取消</button>
+                <button type="button" ng-click="sureJuJueFwFun()" class="fuwu-surebtn">确定</button>
+            </div>
+        </div>
+    </div>
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="downLoadFlag">
+        <div class="changWeight-con next-change" style="height: 160px;">
+            <p>未检测到自动打印软件，请下载、解压、运行。如果已经下载，请双击启动</p>
+            <a href="http://erp.cjdropshipping.cn/down/cjapp.zip">自动打单软件</a>
+            <div class="rk-btns">
+                <button type="button" ng-click="downLoadFlag = false" class="fuwu-closebtn">关闭</button>
+                <!-- <button type="button" ng-click="sureJuJueFwFun()" class="fuwu-surebtn">确定</button> -->
+            </div>
+        </div>
+    </div>
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="zddyFalseFlag">
+        <div class="changWeight-con next-change" style="width: 560px;height: 160px;">
+            <p>自动打印失败,当前失败链接:</p>
+            <a ng-click='zddyFalseFlag = false;' target="_blank" style="text-decoration: underline;color:#08ACE9;word-wrap: break-word;"
+                href="{{zddyErrorPdfLink}}">{{zddyErrorPdfLink}}</a>
+                <div class="rk-btns">
+                    <button type="button" ng-click="zddyFalseFlag = false" class="fuwu-closebtn">取消</button>
+                </div>
+        </div>
+    </div>
+    <!-- 服务商品签收 -->
+    <!-- <div class="ydh-rk-wrap stop-pro ng-hide" ng-show="qsSeaFlag">
+    <div class="rk-con" style="width: 534px;">
+        <h3 class="margin-t0b20px fontweight600" style="line-height: 24px;">服务商品签收 <span class="close-icon" ng-click="qsSeaFlag=false">×</span></h3>
+        <div>
+            <input class="fuwu-inp" ng-model="fuwuInpVal" placeholder="请输入运单号/批次号"></input><button class="fuwu-btn" ng-click="fuwuFun()"></button>
+        </div>
+        <div class="rk-main margin-t20px" style="overflow-y: auto;">
+            <div class="rksp-detailcon ydhrk-detailcon" style="height: 330px;">
+                <table class="table table-bordered ydh-table fw-table">
+                    <thead>
+                    <tr style="background-color: #F0EDE7">
+                        <th>商品名称</th>
+                        <th>图片</th>
+                        <th>运单号</th>
+                        <th>批次号</th>
+                        <th>数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in listArr">
+                        <td>
+                            <span class="max-width230px">{{item.dbProductName}}</span>
+                        </td>
+                        <td style="position: relative;" ng-mouseenter="item.isOver = true;" ng-mouseleave="item.isOver = false;" class="img-td">
+                            <img class="small-img" 
+                                 ng-src="{{item.dbImages}}" alt="">
+                            <img class="show-big-img" ng-class="{'top-150px':$index>2}" ng-show="item.isOver"
+                                 ng-src="{{item.dbImages}}" alt="">
+                        </td>
+                        <td>{{item.trackingNumber}}</td>
+                        <td>{{item.batchNumber}}</td>
+                        <td>{{item.num}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="rk-btns">
+            <button type="button" class="fuwu-closebtn" ng-click="juJueFun()">拒收</button>
+            <button type="button" class="fuwu-surebtn" ng-click="qianShouFun()">签收</button>
+        </div>
+    </div>
+</div> -->
+    <div class="ydh-rk-wrap stop-pro ng-hide" ng-show="qsSeaFlag">
+        <div class="rk-con" style="width: 900px;height: auto;">
+            <h3 class="margin-t0b20px fontweight600" style="line-height: 24px;">服务商品签收 <span class="close-icon"
+                    ng-click="qsSeaFlag=false">×</span></h3>
+            <div class="rk-main margin-t20px" style="overflow-y: auto;">
+                <div class="rksp-detailcon ydhrk-detailcon fw-qscon" style="height: 460px;">
+                    <ul class="qs-mesul w30ul">
+                        <li>
+                            <span class="w30">名称:</span>
+                            <span class="w65">{{listArr[0].orderName}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">仓库:</span>
+                            <span class="w65">{{listArr[0].storagedoName}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">批次号:</span>
+                            <span class="w65">{{listArr[0].batchNumber}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">运单号:</span>
+                            <span class="w65">{{listArr[0].trackingNumber}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">数量:</span>
+                            <span class="w65">{{listArr[0].num}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">发货时间:</span>
+                            <span class="w65">{{listArr[0].deliveryTime.time | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">客户名称:</span>
+                            <span class="w65">{{listArr[0].createName}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">业务员名称:</span>
+                            <span class="w65">{{listArr[0].salemanName}}</span>
+                        </li>
+                    </ul>
+                    <ul class="qs-mesul w10ul" ng-if="listArr[0].serveMoenyList.length>0">
+                        <li ng-repeat="item in listArr[0].serveMoenyList">
+                            <span class="w65">{{item.item_name}}:</span>
+                            <span class="w30">{{item.status=='1'?'是':'否'}}</span>
+                        </li>
+                    </ul>
+                    <div class="bt-list w56">
+                        <p>商品名称: {{listArr[0].dbProductName}}</p>
+                        <table class="table table-bordered ydh-table fw-table">
+                            <thead>
+                                <tr style="background-color: #F0EDE7">
+                                    <th>SKU</th>
+                                    <th>图片</th>
+                                    <th>实收</th>
+                                    <th>损坏</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in listArr[0].productStanList">
+                                    <td>
+                                        <span class="max-width230px">{{item.SKU}}</span>
+                                    </td>
+                                    <td style="position: relative;" ng-mouseenter="item.isOver = true;"
+                                        ng-mouseleave="item.isOver = false;" class="img-td">
+                                        <img class="small-img" ng-src="{{item.IMG}}" alt="">
+                                        <img class="show-big-img" ng-class="{'top-150px':$index>2}"
+                                            ng-show="item.isOver" ng-src="{{item.IMG}}" alt="">
+                                    </td>
+                                    <td>
+                                        <input class="w60px" ng-keyup="isNumFun(item,'actualNum',item.actualNum)"
+                                            ng-model="item.actualNum"></input>
+                                    </td>
+                                    <td>
+                                        <input class="w60px" ng-keyup="isNumFun(item,'damageNum',item.actualNum)"
+                                            ng-model="item.damageNum"></input>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="rk-btns">
+                <button type="button" class="fuwu-closebtn" ng-click="fwQsFun(1)">拒收</button>
+                <button type="button" class="fuwu-surebtn" ng-click="fwQsFun(2)">签收</button>
+                <button type="button" class="fuwu-surebtn" ng-click="hqFwmdFun()">获取面单</button>
+            </div>
+        </div>
+    </div>
+    <!-- 是否拒收 ng-show="bianJiFlag"-->
+    <div class="lookProduct ng-hide" ng-show="bianJiFlag">
+        <div class="content media-content paddinglrt20px" style="width: 810px;min-height: inherit;">
+            <div class="tk-top-tit" style="background-color: #fff;">
+                <p class="fontweight600">拒绝原因 <span class="close-icon" ng-click="bianJiFlag = false">×</span></p>
+            </div>
+            <div class="tk-mid-con margin-bt20px" style="max-height: 500px;overflow-y: auto;">
+                <table class="table table-bordered ydh-table fw-table">
+                    <thead>
+                        <th>商品名称</th>
+                        <th>图片</th>
+                        <th>运单号</th>
+                        <th>批次号</th>
+                        <th>数量</th>
+                        <th>实收</th>
+                        <th>损坏</th>
+                        <th>可入库</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in listArr">
+                            <td>
+                                <span class="max-width230px">{{item.dbProductName}}</span>
+                            </td>
+                            <td style="position: relative;" ng-mouseenter="item.isShow = true;"
+                                ng-mouseleave="item.isShow = false;" class="img-td">
+                                <img class="small-img" ng-src="{{item.dbImages}}" alt="">
+                                <img class="show-big-img" ng-class="{'top-150px':$index>2}" ng-show="item.isShow"
+                                    ng-src="{{item.dbImages}}" alt="">
+                            </td>
+                            <td>{{item.trackingNumber}}</td>
+                            <td>{{item.batchNumber}}</td>
+                            <td>{{item.num}}</td>
+                            <td>
+                                <input class="w60px" ng-keyup="isNumFun(item,'actualNum',item.actualNum)"
+                                    ng-model="item.actualNum"></input>
+                            </td>
+                            <td>
+                                <input class="w60px" ng-keyup="isNumFun(item,'damageNum',item.actualNum)"
+                                    ng-model="item.damageNum"></input>
+                            </td>
+
+                            <td>{{item.actualNum - item.damageNum}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tk-btns">
+                <button ng-click="isSureJuShouFun()" class="fuwu-surebtn">确定拒收</button>
+            </div>
+        </div>
+    </div>
+    <div class="reseive-design-box" ng-show="showDesign">
+        <div class="shade"></div>
+        <div class="reseive-design-main">
+            <i class="iconfont close" ng-click="showDesign=false">+</i>
+            <h5 class="title">定制包装信息</h5>
+            <div class="reseive-design-left">
+                <div class="reseive-area-list">
+                    <span class="reseive-area-item" ng-repeat="(index,item) in designObj.customeDesign track by $index" ng-click="chooseArea(item,index)" ng-class="{cur:designIndex==index}">
+                        {{item.areaName}}
+                    </span>
+                </div>
+                <img class="img" src="{{designImg}}" src="" alt="">
+            </div>
+            <div class="reseive-design-right">
+                <ul class="info-list">
+                    <li class="info-item">
+                        <span class="info-item-title">商品名称：</span>
+                        {{designObj.name}}
+                    </li>
+                    <li class="info-item">
+                        <span class="info-item-title">商品变量：</span>
+                        {{designObj.sku}}
+                    </li>
+                    {{designImg}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <audio class="audio-shibai" src="static/audio/shibai.mp3" preload="auto">
+        浏览器不支持audio标签,请升级
+    </audio>
+    <audio class="audio-podsp" src="static/audio/podsp.mp3" preload="auto">
+        浏览器不支持audio标签,请升级
+    </audio>
+</body>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src='./static/layer/layer.js'></script>
+<script type="text/javascript">
+    (function (angular) {
+        var app = angular.module('barcodeApp', ['service',]);
+        app.controller('barcodeAppCtrl', ['$scope', "erp", "$timeout", "$http", function ($scope, erp, $timeout,
+            $http) {
+            $scope.condition = 'latestVersion';//  新增泰国仓查询 接口不一致  显示不一样 (oldVersion 3种情况  latestVersion 泰国地区 操作)
+            $scope.list = [];//新增需求 产品列表
+            $scope.errorbox = false;//显示隐藏 异常操作窗口
+            $scope.logisticsName = '';
+            $scope.logisticsNumber = '';
+            $scope.params = {//异常提交所需参数
+                id: '',
+                badNum: 0,//异常数量ba
+                productNum: 0,
+                badType: '',//异常类型
+                badRemark: '' //描述
+            };
+            // 状态映射对象
+            $scope.STATUSMAPOBJECT = erp.STATUS_TEXT;
+            location.href = 'receive-new-0110.html';
+            $scope.showErrBox = function ({id}) {
+                layer.load(2);
+                erp.postFun('supplier/supplierPackageProduct/number/exception/detail', {id}, function({data}) {
+                    layer.closeAll('loading');
+                    const { data: res, code, error } = data;
+                    if (code !== 200) return layer.msg(error || '系统错误 请联系管理员');
+                    console.log('getErrBoxInfoHttp', res)
+                    const { badRemark, badType, badNum, productNum } = res;
+                    $scope.errorbox = true;
+                    $scope.params = {//异常提交所需参数
+                        id,
+                        badNum: +badNum || 0,//异常数量ba
+                        productNum: +productNum || 0, //商品数量 异常数量不能大于 商品数量
+                        badType: badType ? badType + '' : '',//异常类型
+                        badRemark: badRemark || '' //描述
+                    };
+                    console.log('get errboxinfo', $scope.params)
+                }, function(err) {
+                    console.log('err', err);
+                    layer.msg('系统错误 请联系管理员');
+                })
+            }
+            $scope.hideErrBox = function() {//隐藏操作窗口
+                $scope.params = { id: '',  badNum: 0, productNum: 0, badType: '', badRemark: '' };
+                $scope.errorbox = false;
+            }
+            const submitErrorThottle = throttle(submitErrorHttp)
+            $scope.submitError = function() {//提交异常
+                console.log('submitError params', $scope.params)
+                let { id, badType, badRemark, badNum, productNum } = $scope.params;
+                if (!id) return layer.msg('未定位到异常 请重新操作');
+                if (!badType) return layer.msg('请选择异常原因');
+                if (!badRemark) return layer.msg('请填写异常描述');
+                if (badNum == 0) return layer.msg('提交异常数量须大于0');
+                if (badNum > productNum) return layer.msg('异常数量不能大于商品数量');
+                $scope.params.badType = badType + '';
+                submitErrorThottle()
+            }
+            $scope.handleNumberLimit = function() {// 异常数量不能大于 商品数量
+                let { badNum, productNum } = $scope.params;
+                if (+badNum > +productNum) {
+                    $scope.params.badNum = +productNum;
+                }
+            }
+            function submitErrorHttp() {//提交异常 http
+                layer.load(2);
+                erp.postFun('supplier/supplierPackageProduct/number/exception/update', $scope.params, function() {
+                    layer.closeAll('loading');
+                    $scope.errorbox = false;
+                    layer.msg('异常提交成功');
+                }, function(err) {
+                    console.log('err', err);
+                    $scope.errorbox = false;
+                    layer.msg('异常提交失败 请重新操作');
+                })
+            }
+            function throttle(fn, wait=1) {
+                let lastTime = Date.now();
+                return function() {
+                    let currentTime = Date.now();
+                    if (currentTime - lastTime > wait * 1000) {
+                        lastTime = currentTime;
+                        fn.apply(this, arguments)
+                    }
+                }
+            }
+            /*
+                "skuMap": {
+                    "短码": {
+                        "sku": "CJJJJRZS00014-9",
+                        "sum": 5
+                    },
+            */
+            $scope.print = function() {
+                const list = $scope.list;
+                if (!list || list.length === 0) return;
+                const skuMap = {}
+                list.forEach(({num, sku, productNum}) => {
+                    skuMap[num] = {
+                        sku, sum: productNum
+                    }
+                })
+                console.log('skuMap', { skuMap })
+                var printLink;
+                erp.postFun('app/pdfOpt/getBarcode128Batch', JSON.stringify({ skuMap }), function (
+                    data) {
+                    console.log(data,'==============------')
+                    layer.closeAll('loading');
+                    if (data.data.code == '200') {
+                        // $scope.txmTkFlag = true;
+                        // $scope.txmHref = data.data.pdfFillUrl;
+                        // console.log($scope.txmHref)
+                        printLink = data.data.pdfFillUrl;
+                    } else {
+                        // layer.msg('打印错误')
+                        printLink = 'error';
+                    }
+
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                    printLink = 'error';
+                })
+
+                var printTimer = setInterval(function () {
+                    console.log('100')
+                    if (printLink == 'error') {
+                        layer.msg('打印错误')
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('error');
+                    } else if (printLink) {
+                        printLink = 'https://cc-west-usa.oss-accelerate.aliyuncs.com'+printLink.split('.com')[1]
+                        window.open(printLink, '_blank', '');
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('succsee');
+                    }
+                }, 100);
+            }
+            $scope.zdPrint = function() {
+                const list = $scope.list;
+                if (!list || list.length === 0) return;
+                const skuMap = {}
+                list.forEach(({num, sku, productNum}) => {
+                    skuMap[num] = {
+                        sku, sum: productNum
+                    }
+                })
+                console.log('skuMap', { skuMap })
+                var printLink;
+                erp.postFun('app/pdfOpt/getBarcode128Batch', JSON.stringify({ skuMap }), function (
+                    data) {
+                    console.log(data,'==============------')
+                    layer.closeAll('loading');
+                    if (data.data.code == '200') {
+                        // $scope.txmTkFlag = true;
+                        // $scope.txmHref = data.data.pdfFillUrl;
+                        // console.log($scope.txmHref)
+                        printLink = data.data.pdfFillUrl;
+                        
+                    } else {
+                        // layer.msg('打印错误')
+                        printLink = 'error';
+                    }
+
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                    printLink = 'error';
+                })
+
+                var printTimer = setInterval(function () {
+                    console.log('100')
+                    if (printLink == 'error') {
+                        layer.msg('打印错误')
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('error');
+                    } else if (printLink) {
+                        printLink = 'https://cc-west-usa.oss-accelerate.aliyuncs.com'+printLink.split('.com')[1]
+                        PrintCode(printLink)
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('succsee');
+                    }
+                }, 100);
+            }
+            function queryList() {
+                let code = $.trim($("#tx").val());
+                console.log('code', code)
+                layer.load(2);
+                const url = 'supplier/supplierPackageProduct/package/signIn' + '?logisticsNumber=' + code;
+                erp.getFun(url, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                    var arrives = data.data && data.data.data;
+                    console.log("TCL: queryList -> arrives", arrives)
+                    if (!arrives || arrives.length === 0) {
+                        handleOldVersion()
+                        return
+                    }
+                    arrives.forEach(item => {
+                        let sku = item.sku;
+                        item.skuLeft = sku.substring(0, 14)
+                        item.skuRight = sku.substr(14)
+                    })
+                    $scope.list = arrives;
+                    if (arrives && arrives.length > 0) {//追踪号
+                        const {logisticsName, logisticsNumber} = arrives[0]
+                        $scope.logisticsName = logisticsName;
+                        $scope.logisticsNumber = logisticsNumber;
+                    }
+                    $("#tx").val('')
+                }, function(err) {
+                    console.log('err ->> ', err)
+                    handleOldVersion()
+                })
+            }
+            function handleOldVersion() {//新功能接口调用改完后  调用老版本功能 
+                $scope.condition = 'oldVersion';
+                $scope.showSpFun();
+            }
+            
+            var nowDate = timestampToDate(new Date());
+            var bs = new Base64();
+            var erpLoginName = bs.decode(localStorage.getItem('erploginName') == undefined ? '' :
+                localStorage.getItem('erploginName'));
+            var userId = bs.decode(localStorage.getItem('erpuserId') == undefined ? '' : localStorage
+                .getItem('erpuserId'));
+
+            $scope.showDesign = false;
+            $scope.WaringTxt = '';
+            $("#tx").focus();
+            $(document).click(function () {
+                $("#tx").focus();
+            })
+
+            $("#vsku").focus(function () {
+                $("#tx").focus();
+            });
+            $scope.seachKeyFun = function (e) {
+                var keycode = window.event ? e.keyCode : e.which;
+                console.log(keycode)
+                if (keycode == 13) {
+                    $scope.fuwuFun();
+                }
+            }
+            // $scope.fuwuFun = function(){
+            //     if(!$scope.fuwuInpVal){
+            //         layer.msg('运单号/批次号不能为空')
+            //         return
+            //     }
+            //     erp.postFun('erp/serveProduct/getServeOrder',{'searchKey':$scope.fuwuInpVal},function(data){
+            //         console.log(data)
+            //         if(data.data.statusCode==200){
+            //             $scope.listArr = data.data.result;
+            //             console.log($scope.listArr)
+            //         }
+            //     },function(data){
+            //         console.log(data)
+            //     },{layer:true})
+            // }
+            // $scope.juJueFun = function () {
+            //     if($scope.listArr&&$scope.listArr.length>0){
+            //         $scope.bianJiFlag = true;
+            //     }else{
+            //         layer.msg('请先查询批次')
+            //     }
+            // }
+            $scope.fwQsFun = function (stu) {
+                $scope.qsStu = stu;
+                $scope.isQianSFlag = true;
+            }
+            $scope.sureQsFwFun = function () {
+                let csArr = [];
+                for (let i = 0, len = $scope.listArr[0].productStanList.length; i < len; i++) {
+                    let obj = {};
+                    obj.customerId = $scope.listArr[0].createUserId;
+                    obj.customerName = $scope.listArr[0].createName;
+                    obj.dbProductId = $scope.listArr[0].dbProductId;
+                    obj.serverOrderId = $scope.listArr[0].id;
+                    obj.trackingNumber = $scope.listArr[0].trackingNumber;
+                    obj.batchNumber = $scope.listArr[0].batchNumber;
+                    obj.stanId = $scope.listArr[0].productStanList[i].ID;
+                    obj.stanSku = $scope.listArr[0].productStanList[i].SKU;
+                    obj.stanImg = $scope.listArr[0].productStanList[i].IMG;
+                    obj.actualNum = $scope.listArr[0].productStanList[i].actualNum;
+                    obj.damageNum = $scope.listArr[0].productStanList[i].damageNum;
+                    // obj.putNum = $scope.listArr[0].productStanList[i].actualNum-$scope.listArr[0].productStanList[i].damageNum;
+                    obj.id = $scope.listArr[0].productStanList[i].orderStanId;
+                    csArr.push(obj)
+                }
+                if ($scope.qsStu == 1) { //拒绝签收
+                    erp.postFun('erp/serveProduct/refusalStanAndNum', csArr, function (data) {
+                        layer.msg(data.data.message)
+                        if (data.data.statusCode == 200) {
+                            console.log($scope.listArr)
+                            $scope.isQianSFlag = false;
+                            $scope.qsSeaFlag = false;
+                            $scope.listArr = [];
+                            $('#tx').val('')
+                        }
+                    }, function (data) {
+                        console.log(data)
+                    }, {
+                        layer: true
+                    })
+                } else if ($scope.qsStu == 2) { //确定签收
+                    erp.postFun('erp/serveProduct/signforStanAndNum', csArr, function (data) {
+                        console.log(data)
+                        layer.msg(data.data.message)
+                        if (data.data.statusCode == 200) {
+                            console.log($scope.listArr)
+                            $scope.isQianSFlag = false;
+                            $scope.listArr = [];
+                            $scope.qsSeaFlag = false;
+                            $('#tx').val('')
+                        }
+                    }, function (data) {
+                        console.log(data)
+                    }, {
+                        layer: true
+                    })
+                }
+
+            }
+            $scope.hqFwmdFun = function () {
+                let arr = [];
+                arr.push($scope.listArr[0].miandan)
+                layer.load(2)
+                erp.postFun2('createPdfInfo.json', JSON.stringify(arr), function (data) {
+                    console.log(data)
+                    $scope.pdfLink = data.data.url;
+                    $scope.fwPdfFlag = true;
+                    layer.closeAll('loading')
+                }, function (data) {
+                    layer.closeAll('loading')
+                })
+            }
+            $scope.isSureJuShouFun = function () {
+                $scope.isJuJueFlag = true;
+            }
+
+            function ruKuCountFun(arr) {
+                let len = arr.length;
+                for (let i = 0; i < len; i++) {
+                    if (!arr[i].actualNum) {
+                        arr[i].actualNum = 0;
+                    }
+                    if (!arr[i].damageNum) {
+                        arr[i].damageNum = 0;
+                    }
+                    arr[i].validNum = arr[i].actualNum - arr[i].damageNum;
+                }
+                return arr;
+            }
+            $scope.sureJuJueFwFun = function () { //确定拒签
+                erp.postFun('erp/serveProduct/refuseToSign', ruKuCountFun($scope.listArr),
+                    function (data) {
+                        console.log(data)
+                        layer.msg(data.data.message)
+                        if (data.data.statusCode == 200) {
+                            $scope.isJuJueFlag = false;
+                            $scope.bianJiFlag = false;
+                            $scope.listArr = [];
+                            $scope.fuwuInpVal = '';
+                        }
+                    },
+                    function (data) {
+                        console.log(data)
+                    }, {
+                        layer: true
+                    })
+            }
+            // $scope.qianShouFun = function () {
+            //     if($scope.listArr&&$scope.listArr.length>0){
+            //         $scope.isQianSFlag = true;
+            //     }else{
+            //         layer.msg('请先查询批次')
+            //     }
+            // }
+            $scope.isNumFun = function (item, key, shiShouCount) {
+                console.log(item.damageNum, shiShouCount, item.damageNum > shiShouCount)
+                item[key] = item[key].replace(/[^\d]/g, '')
+                if ((item.damageNum - 0) > (shiShouCount - 0)) {
+                    layer.msg('损坏数量不能大于实收')
+                    item.damageNum = 0;
+                    return
+                }
+                if ((shiShouCount - 0) > (item.num - 0)) {
+                    item.damageNum = 0;
+                    item.actualNum = 0;
+                }
+            }
+            var responseObj;
+            var storageId;
+            var menuId;
+            var ydhGlobelNum;
+            //扫码展示商品信息
+            var code;
+            var isCheckEndFlag = false;
+            var timer;
+            $scope.showSpFun = function () {
+                code = $.trim($("#tx").val());
+                if (code == null || code == "") {
+                    return;
+                } else {
+                    console.log($scope.ydhList)
+                    if (!$scope.ydhList || isCheckEndFlag) {
+                        if (timer) {
+                            $timeout.cancel(timer);
+                        }
+                        $scope.itemObj = null;
+                        showProduct()
+                    } else {
+                        // console.log(code)
+                        if (code.length < 8) {
+                            tieBiaoJiLu(code)
+                            for (var i = 0, len = $scope.ydhList.length; i < len; i++) {
+                                if (code == $scope.ydhList[i].shortSku) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.qianshou-tr').eq(i).addClass('gold-back')
+                                    // $scope.ydhList[i].chekCount = 1;
+                                    $scope.itemObj = $scope.ydhList[i];
+                                    // console.log($scope.itemObj)
+                                    $('#tx').val('')
+                                    $scope.$apply()
+                                    console.log($scope.ydhList[i])
+                                    $('.modal-body').animate({
+                                        scrollTop: i * $('.qianshou-tr').eq(0).height()
+                                    }, 1000);
+                                    // $scope.$apply();
+                                    break
+                                }
+                                if (i == len - 1) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.audio-shibai').get(0).play();
+                                }
+                            }
+                        } else if (code.toUpperCase().indexOf('CJ') != -1) {
+                            tieBiaoJiLu(code)
+                            for (var i = 0, len = $scope.ydhList.length; i < len; i++) {
+                                if (code == $scope.ydhList[i].sku) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.qianshou-tr').eq(i).addClass('gold-back')
+                                    // $scope.ydhList[i].chekCount = 1;
+                                    $scope.itemObj = $scope.ydhList[i]
+                                    $('#tx').val('')
+                                    // console.log($scope.itemObj)
+                                    $scope.$apply()
+                                    console.log($scope.ydhList[i])
+                                    console.log($scope.itemObj)
+                                    console.log($scope.itemObj.count)
+                                    console.log($scope.itemObj.skuRight)
+                                    $('.modal-body').animate({
+                                        scrollTop: i * $('.qianshou-tr').eq(0).height()
+                                    }, 1000);
+                                    console.log($('.qianshou-tr').eq(0).height())
+                                    break
+                                }
+                                if (i == len - 1) {
+                                    $('.qianshou-tr').removeClass('gold-back')
+                                    $('.audio-shibai').get(0).play();
+                                }
+                            }
+                        } else {
+                            $('.qianshou-tr').removeClass('gold-back')
+                            $scope.itemObj = null;
+                            showProduct()
+                        }
+                        $("#tx").val('')
+                    }
+                }
+            }
+
+            function tieBiaoJiLu(sku) {
+                if (!userId || !erpLoginName) {
+                    layer.msg('请先登陆')
+                    location.href = "login.html"
+                    return
+                }
+                var upJson = {};
+                upJson.sku = sku;
+                erp.postFun('caigou/procurement/fenBiaoJiLu', JSON.stringify(upJson), function (data) {
+                    console.log(data)
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+
+            function PrintCode(url) {
+                console.log(url)
+                $.ajax({
+                    url: 'http://127.0.0.1:9999/marking?url=' + url,
+                    async: true,
+                    cache: false,
+                    dataType: 'text',
+                    error: function (xhr) {
+                        $scope.downLoadFlag = true;
+                        $scope.$apply()
+                        console.log($scope.downLoadFlag)
+                    },
+                    success: function (data) {
+                        data = data.constructor === Boolean ? data : data === 'true'
+                        if(!data){
+                            $scope.zddyFalseFlag = true;
+                            $scope.zddyErrorPdfLink = url;
+                            $scope.$apply()
+                        }
+                        $('.yundanhao').val('');
+                        $('.yundanhao').focus();
+                    }
+                })
+            }
+
+            function showProduct() {
+                if (!userId || !erpLoginName) {
+                    layer.msg('请先登陆')
+                    location.href = "login.html"
+                    return
+                }
+                $scope.ptquehuoArr = [];
+                $scope.zfquehuoArr = [];
+                var b = true;
+                ydhGlobelNum = $("#tx").val();
+                console.log("---" + code + "---");
+                if (code == null || code == "") {
+                    return;
+                    // layer.msg("请求失效  请刷新页面后重试");
+                } else {
+                    layer.load(2);
+                    // caigou/procurement/qianShou  "inputStr": code --- >  procurement/order/qianShou  {"search":"11122"}
+                    erp.postFun('procurement/order/qianShou', {
+                        "search": code
+                    }, function ({data}) {
+                    console.log("TCL: showProduct -> data", data)
+                        layer.closeAll('loading');
+                        console.log(data)
+                        if (data.data.list == 'pod') {
+                            layer.msg(data.data.list)
+                            $('.audio-podsp').get(0).play()
+                            $("#tx").val('')
+                            return
+                        }
+                        if(data.code != 200){
+                            layer.msg(data.data.message || '服务端错误')
+                        }
+                        if(data.data.serveOrderList&&(
+                            erpLoginName=='黄莉'||
+                            erpLoginName=='admin'||
+                            erpLoginName=='庹章龙'||
+                            erpLoginName=='陈新民'||
+                            erpLoginName=='陈平'||
+                            erpLoginName=='陈真'||
+                            erpLoginName=='Joyi'||
+                            erpLoginName=='陈凯'||
+                            erpLoginName=='Liang Li'||
+                            erpLoginName=='老叶'||
+                            erpLoginName=='WangShanShan'||
+                            erpLoginName=='Scan'||
+                            erpLoginName=='Scan3'||
+                            erpLoginName=='Scan4'||
+                            erpLoginName=='Scan1'||
+                            erpLoginName=='Maria Murillo'||
+                            erpLoginName=='FengJing'||
+                            erpLoginName=='Jennifer Jiang'||
+                            erpLoginName=='郑樟彪'||
+                            erpLoginName=='付单雨'||
+                            erpLoginName=='签收1'||
+                            erpLoginName=='签收2'||
+                            erpLoginName=='许碧霞'||
+                            erpLoginName=='龚莹'
+                            )){
+                            $scope.listArr = data.data.serveOrderList;
+                            console.log($scope.listArr)
+                            $scope.qsSeaFlag = true;
+                            $("#tx").val('')
+                            return
+                        }
+                        var arrives = data.data.list;
+                        console.log(arrives);
+                        var len = arrives.length;
+                        for (var i = 0; i < len; i++) {
+                            arrives[i].count = arrives[i].count - 0;
+                            arrives[i].skuLeft = arrives[i].sku.substring(0, 14)
+                            arrives[i].skuRight = arrives[i].sku.substring(14)
+                            // console.log(arrives[i])
+                        }
+                        $scope.ydhList = arrives.map(item => {
+                            item.zhuiZongHao = JsonPares(item.zhuiZongHao)
+                            return item;
+                        });
+                        console.log($scope.ydhList)
+                        var dingDanZhuangtais = arrives[0].dingDanZhuangtais;
+                        if(data.data.caigouType == 1){
+                            speckText('内部采购')
+                        }else{
+                            if (dingDanZhuangtais.length <= 1) {
+                                if (dingDanZhuangtais[0] == 'zhengChang') {
+                                    $('.audio-zhengchang').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'vip') {
+                                    $('.audio-vip').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'jiaJi') {
+                                    $('.audio-jiaji').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'zhiFa') {
+                                    $('.audio-zhifa').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'usaZhiFa') {
+                                    $('.audio-usazhifa').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'zuZhuang') {
+                                    $('.audio-zuzhuang').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'buFa') {
+                                    $('.audio-bufa').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'buRuKu') {
+                                    $('.audio-buruku').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'xianXiaZu') {
+                                    $('.audio-xianxiazu').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'gaiBiao') {
+                                    $('.audio-gaiBiao').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'xiaoDanZhiFa') {
+                                    $('.audio-xiaoDanZhiFa').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'haiWaiCangZhiFa') {
+                                    $('.audio-haiWaiCangZhiFa').get(0).play()
+                                } else if (dingDanZhuangtais[0] == 'guiZhongWuPin') {
+                                    $('.audio-guiZhongWuPin').get(0).play()
+                                }  else if (dingDanZhuangtais[0] == 'shoudan') {
+                                    $('.audio-shoudan').get(0).play()
+                                } 
+                            } else {
+                                $('.audio-qingzhuyi').get(0).play()
+                            }
+                        }
+                        
+                        console.log(data.data)
+                        
+                        if (data.data.cjProductQueHuoMap.length > 0 || data.data
+                            .payProductQueHuoList.length > 0) {
+                            $scope.ptquehuoArr = data.data.cjProductQueHuoMap;
+                            $scope.zfquehuoArr = data.data.payProductQueHuoList;
+                            //$scope.WaringTxt = '缺货商品的SKU是'+ data.data.cjProductQueHuoMap.sku + '需要'+ data.data.cjProductQueHuoMap.quantity + '个!';
+                            $timeout(function () {
+                                $('.audio-quehuoxuyao').get(0).play();
+                            }, 1000)
+                        }
+                        $scope.totalNum = arrives.totle;
+                        $("#tx").val('')
+                    })
+                }
+            }
+            function speckText(str) {
+                var url = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&text=" + encodeURI(str);
+                var n = new Audio(url);
+                n.src = url;
+                n.play();
+            }
+            //异常
+            $scope.ycYyVal = '3';
+            var itemYcId;
+            $scope.yiChangFun = function (item) {
+                itemYcId = '';
+                $scope.ycCount = 0;
+                console.log(item)
+                $scope.ycYyFlag = true;
+                $scope.ycCount = item.count;
+                itemYcId = item.caiGouShangPinId;// caiGouShangPinId
+            }
+            $scope.sureYcFun = function () {
+                if ($scope.ycCount <= 0 || !$scope.ycCount) {
+                    layer.msg('请输入数量')
+                    return
+                }
+                if ($scope.ycYyVal == '7') {
+                    if (!$scope.newQsYcReson) {
+                        layer.msg('请输入异常原因')
+                        return
+                    }
+                }
+                erp.load()
+                var ycUpJoson = {};
+                ycUpJoson.id = itemYcId;
+                ycUpJoson.yuanYin = $scope.newQsYcReson;
+                ycUpJoson.shuLiang = $scope.ycCount;
+                ycUpJoson.leiXing = $scope.ycYyVal;
+                const url = 'procurement/dealWith/yiChang';//接口更改 
+                erp.mypost(url, ycUpJoson).then(() => {
+                    $scope.ycYyFlag = false;
+                })
+            }
+            //批量打印条形码
+            $scope.bulkPrintOFun = function () {//手动打印
+                if (!$scope.ydhList) return;
+                var printData = {};
+                var printArr = [];
+                for (var i = 0; i < $scope.ydhList.length; i++) {
+                    var shortSKU = $scope.ydhList[i].shortSku || $scope.ydhList[i].sku;
+                    var sku = $scope.ydhList[i].sku;
+                    var count;
+                    if (printData[shortSKU]) {
+                        console.log(printData[shortSKU]);
+                        console.log(printData[shortSKU].sku);
+                        if (printData[shortSKU].sku) {
+                            count = printData[shortSKU].sum;
+                        } else {
+                            count = null;
+                        }
+                    } else {
+                        count = null;
+                    }
+                    if (!count) {
+                        count = $scope.ydhList[i].count;
+                    } else {
+                        count = $scope.ydhList[i].count + count;
+                    }
+                    if (count && count > 0) {
+                        printData[shortSKU] = {
+                            "sku": sku,
+                            "sum": count
+                        };
+                    }
+                    // printData[shortSKU] = JSON.stringify(printData[shortSKU]);
+                }
+                if (JSON.stringify(printData) == "{}") {
+                    layer.msg('打印数量不能为0');
+                    return;
+                }
+                console.log(printData)
+                // return;
+                layer.load(2)
+                var pUpdata = {};
+                // pUpdata.skuMap = JSON.stringify(printData);
+                pUpdata.skuMap = printData;
+                var printLink;
+                console.log(JSON.stringify(pUpdata))
+                erp.postFun('app/pdfOpt/getBarcode128Batch', JSON.stringify(pUpdata), function (
+                    data) {
+                    layer.closeAll('loading');
+                    if (data.data.code == '200') {
+                        printLink = data.data.pdfFillUrl;
+                    } else {
+                        printLink = 'error';
+                    }
+
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                    printLink = 'error';
+                })
+
+                var printTimer = setInterval(function () {
+                    console.log('100')
+                    if (printLink == 'error') {
+                        layer.msg('打印错误')
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('error');
+                    } else if (printLink) {
+                        printLink = 'https://cc-west-usa.oss-accelerate.aliyuncs.com'+printLink.split('.com')[1]
+                        window.open(printLink, '_blank', '');
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('succsee');
+                    }
+                }, 100);
+            }
+            $scope.bulkZdPrintOFun = function () {//自动打印
+                console.log($scope.ydhList)
+                if (!$scope.ydhList) return;
+                var printData = {};
+                var printArr = [];
+                // for(var i = 0;i<$scope.ydhList.length;i++){
+                //     // var sku = $scope.ydhList[i].shortSku;
+                //     var sku = $scope.ydhList[i].sku;
+                //     var count = printData[sku];
+                //     if (count==undefined) {
+                //       count = $scope.ydhList[i].count;
+                //     }else{
+                //       count = $scope.ydhList[i].count + count;
+                //     }
+                //     printData[sku] = count;
+                // }
+                for (var i = 0; i < $scope.ydhList.length; i++) {
+                    // var sku = $scope.ydhList[i].shortSku;
+                    var shortSKU = $scope.ydhList[i].shortSku || $scope.ydhList[i].sku;
+                    var sku = $scope.ydhList[i].sku;
+                    var count;
+                    if (printData[shortSKU]) {
+                        console.log(printData[shortSKU]);
+                        console.log(printData[shortSKU].sku);
+                        if (printData[shortSKU].sku) {
+                            count = printData[shortSKU].sum;
+                        } else {
+                            count = null;
+                        }
+                    } else {
+                        count = null;
+                    }
+                    if (!count) {
+                        count = $scope.ydhList[i].count;
+                    } else {
+                        count = $scope.ydhList[i].count + count;
+                    }
+                    if (count && count > 0) {
+                        printData[shortSKU] = {
+                            "sku": sku,
+                            "sum": count
+                        };
+                    }
+                    // printData[shortSKU] = JSON.stringify(printData[shortSKU]);
+                }
+                if (JSON.stringify(printData) == "{}") {
+                    layer.msg('打印数量不能为0');
+                    return;
+                }
+                console.log(printData)
+                // return;
+                layer.load(2)
+                var pUpdata = {};
+                // pUpdata.skuMap = JSON.stringify(printData);
+                pUpdata.skuMap = printData;
+                var printLink;
+                console.log(JSON.stringify(pUpdata))
+                erp.postFun('app/pdfOpt/getBarcode128Batch', JSON.stringify(pUpdata), function (
+                    data) {
+                    console.log(data,'--------------=====')
+                    layer.closeAll('loading');
+                    if (data.data.code == '200') {
+                        // $scope.txmTkFlag = true;
+                        // $scope.txmHref = data.data.pdfFillUrl;
+                        // console.log($scope.txmHref)
+                        printLink = data.data.pdfFillUrl;
+                    } else {
+                        // layer.msg('打印错误')
+                        printLink = 'error';
+                    }
+
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading');
+                    printLink = 'error';
+                })
+
+                var printTimer = setInterval(function () {
+                    console.log('100')
+                    if (printLink == 'error') {
+                        layer.msg('打印错误')
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('error');
+                    } else if (printLink) {
+                        // window.open('https://' + printLink, '_blank', '');
+                        printLink = 'https://cc-west-usa.oss-accelerate.aliyuncs.com'+printLink.split('.com')[1]
+                        PrintCode(printLink)
+                        clearInterval(printTimer);
+                        printLink = null;
+                        console.log('succsee');
+                    }
+                }, 100);
+            }
+
+            $scope.copyWord = function (word) {
+                var Url1;
+                Url1 = document.createElement('input');
+                Url1.setAttribute('readonly', 'readonly');
+                Url1.setAttribute('value', word);
+                document.body.appendChild(Url1);
+                //console.log(Url1.value);
+                Url1.select(); //选择对象
+                document.execCommand("Copy");
+                var tag = document.execCommand("Copy"); //执行浏览器复制命令
+                if (tag) {
+                    layer.msg('复制成功');
+                }
+                document.body.removeChild(Url1);
+            }
+
+            $('#YdhModal').click(function (e) {
+                e.stopPropagation();
+            })
+            $('.ydh-rk-wrap').click(function (e) {
+                e.stopPropagation();
+            })
+            $('.stop-pro').click(function (e) {
+                e.stopPropagation();
+            })
+            $('.chage-wrap').click(function (e) {
+                e.stopPropagation();
+            })
+            $('.lookProduct').click(function (e) {
+                e.stopPropagation();
+            })
+            //运单号入库 修改重量的函数
+            var targetVal;
+            $scope.thisList;
+            $scope.thisIndex;
+            $scope.isValidWFun = function (item, index, ev) {
+                targetVal = $(ev.target).val();
+                console.log(targetVal)
+                $scope.thisIndex = index;
+                $scope.itemOldWei = item.oldWeight;
+                $scope.thisList = $scope.ydhList[index];
+                if (item.isChangeWeight != '1') { //如果没有修改过 提示修改
+                    if (targetVal > item.packWeight) {
+                        $scope.ydhchangeWFlag = true;
+                        $scope.tipWeight = item.packWeight;
+                        $scope.ydhbzWeight = item.packWeight;
+                    } else if (targetVal == item.oldWeight) {
+                        return;
+                    } else {
+                        if (targetVal <= 0) {
+                            layer.msg('请输入重量')
+                            return;
+                        }
+                        erp.postFun('pojo/procurement/changeWeight', {
+                            productId: item.productId,
+                            variantId: item.variantId,
+                            oldWeight: item.oldWeight,
+                            newWeight: targetVal
+                        }, function (data) {
+                            console.log(data)
+                            if (data.data.statusCode == 200) {
+                                layer.msg('修改成功')
+                                $scope.ydhList[index].isChangeWeight = '1';
+                                $scope.ydhList[index].oldWeight = targetVal;
+                                $scope.ydhisNextChangeFlag = false;
+                            } else {
+                                layer.msg('修改失败')
+                            }
+                        }, function (data) {
+                            console.log(data)
+                        })
+                    }
+                } else { //如果修改过
+                    if (targetVal == item.oldWeight) {
+                        return;
+                    }
+                    $scope.ydhisNextChangeFlag = true;
+                    // $scope.ydhList[$scope.thisIndex].oldWeight = targetVal-0;
+                    // console.log(item)
+                    // console.log($scope.ydhList)
+                }
+
+            }
+            //运单号入库 再次修改商品重量
+            $scope.ydhnextQxFun = function () {
+                $scope.ydhisNextChangeFlag = false;
+                $('.ydh-weightInp').eq($scope.thisIndex).val($scope.itemOldWei);
+                // console.log($scope.itemOldWei)
+                // $scope.ydhList[$scope.thisIndex].oldWeight = $scope.itemOldWei;
+                // console.log($scope.ydhList[$scope.thisIndex])
+                // console.log($scope.ydhList)
+            }
+            //确定再次修改重量
+            $scope.ydhnextSureFun = function () {
+                console.log($scope.thisList)
+                if (targetVal <= 0) {
+                    layer.msg('请输入重量')
+                    return;
+                } else if (targetVal >= $scope.thisList.packWeight) { //净重量大于包装重量
+                    $scope.ydhchangeWFlag = true;
+                    $scope.ydhtipWeight = $scope.thisList.packWeight;
+                    return;
+                }
+                $scope.isNextChangeFlag = false;
+                erp.postFun('pojo/procurement/changeWeight', {
+                    productId: $scope.thisList.productId,
+                    variantId: $scope.thisList.variantId,
+                    oldWeight: $scope.thisList.oldWeight,
+                    newWeight: targetVal
+                }, function (data) {
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        $scope.ydhisNextChangeFlag = false;
+                        layer.msg('修改成功')
+                        $scope.ydhList[$scope.thisIndex].isChangeWeight = '1';
+                        $scope.ydhList[$scope.thisIndex].oldWeight = targetVal;
+                    } else {
+                        layer.msg('修改失败')
+                        isChangeWeight = false;
+                        $('.rk-weight').addClass('inp-erractive')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+            //运单号入库按钮
+            $scope.ydhRkFun = function () {
+                // console.log('00098978')
+                console.log($scope.ydhList)
+                console.log(responseObj)
+                $scope.bulkRkTime = timestampToTime(new Date())
+                console.log(timestampToTime(new Date()))
+                // layer.msg('开发中')
+                $scope.ydhrkFlag = true;
+            }
+            //运单号入库的取消 确定
+            $scope.ydhRkSureFun = function () {
+                console.log($scope.ydhList)
+                //{"list":[{variantId,productId,waybillId,count},....], storageId}
+                var upObj = {}; //存储上传的参数
+                var upListArr = []; //存储list数组
+                var arrOneObj = {}; //存储数组中的一条
+                var itemStoreId;
+                for (var i = 0; i < $scope.ydhList.length; i++) {
+                    if ($scope.ydhList[i].isChangeWeight != '1') {
+                        layer.msg('请修改商品的重量')
+                        return;
+                    } else {
+                        arrOneObj.variantId = $scope.ydhList[i].variantId;
+                        arrOneObj.productId = $scope.ydhList[i].productId;
+                        arrOneObj.wayBillId = $scope.ydhList[i].id;
+                        arrOneObj.count = $scope.ydhList[i].count;
+                        itemStoreId = $scope.ydhList[i].storageId;
+                    }
+                    upListArr.push(arrOneObj);
+                }
+                // upObj.list = JSON.stringify($scope.ydhList)
+                layer.load(2)
+                upObj.list = upListArr;
+                upObj.storageId = itemStoreId;
+                upObj.trackingNumber = code;
+                console.log(upObj)
+                console.log(JSON.stringify(upObj))
+                // return;
+                erp.postFun('pojo/procurement/inStorages', JSON.stringify(upObj), function (data) {
+                    console.log(data)
+                    layer.closeAll('loading')
+                    if (data.data.statusCode == '200') {
+                        layer.msg('批量入库成功')
+                        $scope.ydhrkFlag = false;
+                    } else {
+                        layer.msg('批量入库失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                    layer.closeAll('loading')
+                })
+            }
+            $scope.ydhCloseRk = function () {
+                $scope.ydhrkFlag = false;
+            }
+            $scope.ydhRkQsFun = function () {
+                $scope.isqianshouFlag = true;
+            }
+            //询问是否签收
+            $scope.ydhNoQs = function () {
+                $scope.isqianshouFlag = false;
+            }
+            //签收
+            $scope.ydhSureQs = function () {
+                layer.load(2);
+                erp.getFun('pojo/procurement/sign?wayBill=' + ydhGlobelNum, function (data) {
+                    layer.closeAll('loading');
+                    if (data.data.statusCode == '200') {
+                        $scope.isqianshouFlag = false;
+                        layer.msg('签收成功')
+                        $scope.ydhList = [];
+                        $("#tx").val("");
+                        setTimeout(function () {
+                            $("#tx").blur().focus();
+                        }, 100);
+                    } else {
+                        layer.msg('签收失败')
+                    }
+                }, function (data) {
+                    layer.closeAll('loading');
+                    layer.msg('网络错误');
+                    console.log(data)
+                })
+            }
+            //异常签收
+            $scope.ycqsFun = function () {
+                $scope.qsycResonFlag = true;
+            }
+            $scope.qsycSureFun = function () {
+                if (!$scope.qsycReson) {
+                    layer.msg('请输入异常原因')
+                    return;
+                }
+                var ycqsData = {};
+                ycqsData.wayBillId = code;
+                ycqsData.exceptionResone = $scope.qsycReson;
+                layer.load(2);
+                erp.postFun('pojo/procurement/daoHuoYiChang', JSON.stringify(ycqsData), function (
+                    data) {
+                    layer.closeAll('loading');
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        $scope.qsycResonFlag = false;
+                        $scope.isqianshouFlag = false;
+                        layer.msg('异常签收成功')
+                        $scope.ydhList = [];
+                        $("#tx").val("");
+                        setTimeout(function () {
+                            $("#tx").blur().focus();
+                        }, 100);
+                    } else {
+                        layer.msg('异常签收失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+            //运单号的修改包装重量
+            $scope.ydhcloseCWFun = function () {
+                $scope.ydhchangeWFlag = false;
+            }
+            $scope.ydhsureCWFun = function function_name() {
+                if ($scope.ydhbzWeight <= 0) {
+                    layer.msg('请输入重量')
+                    return;
+                }
+                erp.postFun('pojo/procurement/changePackWeight', {
+                    productId: $scope.thisList.productId,
+                    variantId: $scope.thisList.variantId,
+                    oldWeight: $scope.thisList.oldWeight,
+                    newWeight: $scope.ydhbzWeight
+                }, function (data) {
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        layer.msg('修改成功')
+                        $scope.ydhList[$scope.thisIndex].packWeight = $scope.ydhbzWeight;
+                        $scope.ydhchangeWFlag = false;
+                    } else {
+                        layer.msg('修改失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+
+            $('#tx').keypress(function (e) {
+                if (e.which == 13) {
+                    $scope.condition = 'latestVersion';
+                    queryList()
+                }
+            });
+            $('.rk-wrap').click(function (e) {
+                e.stopPropagation();
+            })
+            $('#weight-con').click(function (e) {
+                e.stopPropagation();
+            })
+            var isChangeWeight = false;
+            //点击入库按钮
+            $scope.rkBtnFun = function (ev) {
+                // $(ev.target).stopPropagation();
+                console.log(responseObj)
+                $scope.skuorTxmFlag = true;
+                if (responseObj.storageId01) { //如果是sku需要选择仓库
+                    $scope.moreFlag = true; //显示入库的单选按钮
+                    $("#tx").blur();
+                    $(".rk-sp-img").attr("src", responseObj.img)
+                    $('.rk-num').val(responseObj.mores); //填入获取到的多品数量
+                    $('.rk-weight').val(responseObj.oldWeight); //填入商品重量
+                    $('.sku-text').text(responseObj.sku); //填入sku
+                    $('.rk-wrap').show();
+                    if (responseObj.isChangeWeight == 0) { //没有修改过重量
+                        isChangeWeight = false;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-erractive')
+                    } else {
+                        isChangeWeight = true;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-sucactive')
+                    }
+                    storageId = responseObj.storageId;
+                    menuId = responseObj.firstCategoryId;
+                    //默认展示义乌仓
+                    renderBrunch();
+                } else {
+                    $scope.moreFlag = false;
+                    $("#tx").blur();
+                    $(".rk-sp-img").attr("src", responseObj.img)
+                    $('.rk-num').val(responseObj.mores); //填入获取到的多品数量
+                    $('.rk-weight').val(responseObj.oldWeight); //填入商品重量
+                    $('.sku-text').text(responseObj.sku); //填入sku
+                    $('.rk-wrap').show();
+                    if (responseObj.isChangeWeight == 0) {
+                        isChangeWeight = false;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-erractive')
+                        // alert('false')
+                    } else {
+                        isChangeWeight = true;
+                        $('.rk-weight').removeClass('inp-sucactive')
+                        $('.rk-weight').addClass('inp-sucactive')
+                        // alert('true')
+                    }
+                    storageId = responseObj.storageId;
+                    menuId = responseObj.firstCategoryId;
+                    console.log(responseObj)
+                    console.log(storageId)
+                    console.log(menuId)
+                    renderBrunch();
+                }
+            }
+            //如果是sku入库 需要选择仓库
+            $scope.selCkFun = function (ev) {
+                console.log($(ev.target).val())
+                var selRadioVal = $(ev.target).val();
+                switch (selRadioVal) {
+                    case '1':
+                        storageId = responseObj.storageId;
+                        erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                            storageId: storageId,
+                            idList: menuId
+                        }), function (data) {
+                            console.log(data);
+                            // var resArr = data.data.list;
+                            $scope.folderData = data.data.root;
+                            $scope.folderData.open = true;
+                            $scope.folderData.active = true;
+                            $scope.folderData.codeType = '仓';
+                            $scope.folder = $scope.folderData
+                            $scope.brunchItem = $scope.folderData;
+                            console.log($scope.brunchItem)
+                        }, err);
+                        break;
+                    case '2':
+                        storageId = responseObj.storageId01;
+                        erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                            storageId: storageId,
+                            idList: menuId
+                        }), function (data) {
+                            console.log(data);
+                            // var resArr = data.data.list;
+                            $scope.folderData = data.data.root;
+                            $scope.folderData.open = true;
+                            $scope.folderData.active = true;
+                            $scope.folderData.codeType = '仓';
+                            $scope.folder = $scope.folderData
+                            $scope.brunchItem = $scope.folderData;
+                            console.log($scope.brunchItem)
+                        }, err);
+                        break;
+                    case '3':
+                        storageId = responseObj.storageId02;
+                        erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                            storageId: storageId,
+                            idList: menuId
+                        }), function (data) {
+                            console.log(data);
+                            // var resArr = data.data.list;
+                            $scope.folderData = data.data.root;
+                            $scope.folderData.open = true;
+                            $scope.folderData.active = true;
+                            $scope.folderData.codeType = '仓';
+                            $scope.folder = $scope.folderData
+                            $scope.brunchItem = $scope.folderData;
+                            console.log($scope.brunchItem)
+                        }, err);
+                        break;
+                }
+
+            }
+            //修改重量
+            $scope.editWeiFun = function () {
+                console.log(responseObj)
+                var newWeightVal = $('.rk-weight').val();
+                if (responseObj.isChangeWeight == 0) {
+                    if (newWeightVal <= 0) {
+                        layer.msg('请输入重量')
+                        return;
+                    } else if (newWeightVal >= responseObj.packWeight) { //净重量大于包装重量
+                        $scope.changeWFlag = true;
+                        $scope.bzWeight = responseObj.packWeight;
+                        $scope.tipWeight = responseObj.packWeight;
+                        return;
+                    }
+                    erp.postFun('pojo/procurement/changeWeight', {
+                        productId: responseObj.productId,
+                        variantId: responseObj.variantId,
+                        oldWeight: responseObj.oldWeight,
+                        newWeight: newWeightVal
+                    }, function (data) {
+                        console.log(data)
+                        if (data.data.statusCode == 200) {
+                            layer.msg('修改成功')
+                            isChangeWeight = true;
+                            $('.rk-weight').addClass('inp-sucactive')
+                        } else {
+                            layer.msg('修改失败')
+                            isChangeWeight = false;
+                            $('.rk-weight').addClass('inp-erractive')
+                        }
+                    }, function (data) {
+                        console.log(data)
+                    })
+                } else {
+                    $scope.isNextChangeFlag = true;
+                }
+                //取消再次修改
+                $scope.nextQxFun = function () {
+                    $scope.isNextChangeFlag = false;
+                }
+                //确定再次修改
+                $scope.nextSureFun = function () {
+                    var newWeightVal = $('.rk-weight').val();
+                    if (newWeightVal <= 0) {
+                        layer.msg('请输入重量')
+                        return;
+                    } else if (newWeightVal >= responseObj.packWeight) { //净重量大于包装重量
+                        $scope.changeWFlag = true;
+                        $scope.bzWeight = responseObj.packWeight;
+                        $scope.tipWeight = responseObj.packWeight;
+                        return;
+                    }
+                    $scope.isNextChangeFlag = false;
+                    erp.postFun('pojo/procurement/changeWeight', {
+                        productId: responseObj.productId,
+                        variantId: responseObj.variantId,
+                        oldWeight: responseObj.oldWeight,
+                        newWeight: newWeightVal
+                    }, function (data) {
+                        console.log(data)
+                        if (data.data.statusCode == 200) {
+                            layer.msg('修改成功')
+                            isChangeWeight = true;
+                            $('.rk-weight').addClass('inp-sucactive')
+                        } else {
+                            layer.msg('修改失败')
+                            isChangeWeight = false;
+                            $('.rk-weight').addClass('inp-erractive')
+                        }
+                    }, function (data) {
+                        console.log(data)
+                    })
+                }
+            }
+            //关闭sku/条形码入库弹框
+            $scope.skuOrTxmCloseFun = function () {
+                $scope.skuorTxmFlag = false;
+            }
+
+            $scope.sureRkFun = function () {
+                // responseObj = JSON.parse(arr)
+                console.log(responseObj)
+                var dpCount = responseObj.count; //多品的总数量
+                var spId = responseObj.productId; //商品id
+                var btId = responseObj.variantId; //变体id
+                var ydId = responseObj.wayBillId; //运单id
+                // var storageId = responseObj.storageId;//仓库id
+                var rkCount = $('.rk-num').val(); //获取入库数量
+                var upckId = $scope.brunchItem.id; //该层级的id
+                var rkData = {};
+                if (!isChangeWeight) {
+                    layer.msg('请修改商品的重量')
+                    return;
+                } else {
+                    rkData.waybillId = ydId;
+                    rkData.storageId = storageId;
+                    rkData.areaId = upckId;
+                    rkData.count = rkCount;
+                    rkData.variantId = btId;
+                    rkData.productId = spId;
+                    console.log(rkCount)
+                    if (!$scope.moreFlag) {
+                        if (rkCount < 0) {
+                            layer.msg('输入的数量不能小于零')
+                            return;
+                        } else {
+                            if (rkCount * 1 > dpCount * 1) {
+                                layer.msg('输入的数量不能大于总数量')
+                                return;
+                            }
+                        }
+                    } else {
+                        if (rkCount < 0) {
+                            layer.msg('输入的数量不能小于零')
+                            return;
+                        }
+                    }
+                    erp.load();
+                    // storageId = responseObj.storageId;//仓库id
+
+                    console.log(dpCount, spId, btId, ydId, rkCount, upckId)
+                    console.log(JSON.stringify(rkData))
+                    erp.postFun('pojo/procurement/inStorage', JSON.stringify(rkData), function (
+                        data) {
+                        console.log(data)
+                        $('.rk-wrap').hide();
+                        erp.closeLoad()
+                        if (data.data.statusCode == 200) {
+                            $scope.skuorTxmFlag = false;
+                            layer.msg('入库成功')
+                        } else {
+                            layer.msg('入库失败')
+                        }
+                    }, err)
+                }
+            }
+            $scope.closeRkFun = function () {
+                $('.rk-wrap').hide();
+            }
+            //修改包装重量
+            $scope.closeCWFun = function () {
+                $scope.changeWFlag = false;
+            }
+            $scope.sureCWFun = function function_name() {
+                console.log($scope.bzWeight)
+                console.log(responseObj)
+                if ($scope.bzWeight <= 0) {
+                    layer.msg('请输入重量')
+                    return;
+                }
+                erp.postFun('pojo/procurement/changePackWeight', {
+                    productId: responseObj.productId,
+                    variantId: responseObj.variantId,
+                    oldWeight: responseObj.oldWeight,
+                    newWeight: $scope.bzWeight
+                }, function (data) {
+                    console.log(data)
+                    if (data.data.statusCode == 200) {
+                        layer.msg('修改成功')
+                        responseObj.packWeight = $scope.bzWeight;
+                        $scope.changeWFlag = false;
+                    } else {
+                        layer.msg('修改失败')
+                    }
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+
+            $scope.index1 = '00';
+            //点击某个仓库
+            $scope.pointOne = function (item, e, posi) {
+                $scope.folder.active = false;
+                // console.log($scope.folder)
+                setAllChiToUnactive($scope.folder.childrens, 'childrens'); //把节点置为非选中
+                $scope.pointArr = getTheArr(posi, e, $scope);
+                // console.log($scope.pointArr)
+                // $scope.pointArr.active = true;
+                $scope.pointArr.active = true;
+                // console.log($scope.folder)
+                $scope.brunchItem = item;
+                // 选中的仓库分支
+                console.log('选中的仓库分支', $scope.brunchItem);
+            }
+            $scope.switchList = function (posi, e, flag) {
+                $scope.temArr = getTheArr(posi, e, $scope);
+                $scope.temArr.open = flag;
+            }
+
+            // 获取当前节点的信息
+            function renderBrunch() {
+                console.log(menuId)
+                erp.postFun('app/storagedo/selectByCatIdNodeList', JSON.stringify({
+                    storageId: storageId,
+                    idList: menuId
+                }), function (data) {
+                    console.log(data);
+                    // var resArr = data.data.list;
+                    $scope.folderData = data.data.root;
+                    $scope.folderData.open = true;
+                    $scope.folderData.active = true;
+                    $scope.folderData.codeType = '仓';
+                    $scope.folder = $scope.folderData
+                    $scope.brunchItem = $scope.folderData;
+                    console.log($scope.brunchItem)
+                }, err);
+            }
+
+            // renderBrunch();
+            $scope.queryDesign = function (item) {
+                $scope.showDesign = true;
+                let detail = JSON.parse(item.customeDesign);
+                console.log("TCL: $scope.queryDesign -> detail", detail)
+                let sku = item.sku.substring(item.sku.indexOf("-")+1,item.sku.length);
+                let variantL = detail.variantkeyen.split("-");
+                $scope.designColor='default';
+
+                for(let i=0;i<variantL.length;i++){
+                    if(variantL[i]=='Color'){
+                        $scope.designColor = sku.split("-")[i];
+                        console.log($scope.designColor)
+                    }
+                }
+                $scope.designObj={
+                    name:detail.nameen,
+                    sku:sku,
+                    customeDesign:JSON.parse(detail.customeDesign)
+                }
+                console.log("TCL: $scope.queryDesign -> $scope.designObj", $scope.designObj)
+                $scope.designIndex=0;
+                $scope.designImg = getDesignLink();
+            }
+            $scope.chooseArea = function (item,index) {
+                $scope.designIndex=index;
+                $scope.designImg = getDesignLink();
+            }
+            $scope.designIndex=0;
+            function getDesignLink(){
+                let links = $scope.designObj.customeDesign[$scope.designIndex].links;
+                let oareaName = $scope.designObj.customeDesign[$scope.designIndex].areaName;
+                $scope.designColor = $scope.designColor.replace(/\s/g,'');
+                if(links.length>1){
+                    for(let i=0;i<links.length;i++){
+                        let ocolor = links[i].split("_")[2];
+                        let areaName = links[i].split("_")[1];
+                        if($scope.designColor==ocolor&&areaName==oareaName){
+                            return links[i];
+                        }
+                        if($scope.designColor.toLowerCase()=='default'&&areaName==oareaName){
+                            return links[i];
+                        }
+                    }
+                }else{
+                    return links[0];
+                }
+            }
+        }]);
+
+        app.directive("folderTree", function () {
+            return {
+                restrict: "E",
+                scope: {
+                    //传入当前项的值
+                    currentFolder: '=',
+                    //循环索引的值
+                    myIndex: '=',
+                    // folderList: '=',
+                    //点击某个的方法
+                    pointOne: '&',
+                    // openupList: '&',
+                    // packupList: '&'
+                    //展开伸缩的方法
+                    switchList: '&'
+                },
+                // scope: true,
+                templateUrl: 'static/template/tree.html',
+            };
+        });
+
+        function err(error) {
+            erp.closeLoad();
+            console.log(error);
+            // layer.closeAll('loading');
+        }
+
+        //获取当前节点
+        function getTheArr(posi, e, $scope, cateflag) {
+            var rootArr, resArr, childFlag;
+            if (cateflag) {
+                rootArr = $scope.cateList;
+                childFlag = 'children';
+            } else {
+                rootArr = $scope.folder;
+                childFlag = 'childrens';
+            }
+            var temDom = e.target.parentElement;
+            var firIndex = angular.element(temDom).find('.index-span').html();
+            if (firIndex == '00') {
+                // $scope.folder.active = true;
+                console.log(firIndex);
+                console.log(rootArr)
+                return rootArr;
+            } else {
+                console.log(firIndex, 6666)
+            }
+            var posiArr = [angular.element(temDom).find('.index-span').html() * 1];
+            for (var i = 0; i < (posi); i++) {
+                temDom = turnToParentIndex(temDom);
+                posiArr.unshift(temDom.find('.index-span').html() * 1);
+            }
+            // console.log(posiArr);
+            var temArr = rootArr;
+            for (var i = 0; i < posiArr.length; i++) {
+                temArr = turnToChildren(temArr, posiArr[i], childFlag)
+            }
+            return temArr;
+            // console.log(temArr);
+            // temArr.active = true;
+        }
+
+        function turnToChildren(arr, index, tag) {
+            return arr[tag][index];
+        }
+
+        function turnToParentIndex(dom) {
+            return angular.element(dom).parent().parent().parent().siblings('.top-info');
+        }
+
+        //把所有节点置为非选中
+        function setAllChiToUnactive(arr, tag) {
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].active = false;
+                if (arr[i][tag] && arr[i][tag].length > 0) {
+                    setAllChiToUnactive(arr[i][tag], tag);
+                }
+            }
+        }
+
+        function sequencePlusOne(arr) {
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].sequence = arr[i].sequence * 1 + 1;
+                if (arr[i].childrens && arr[i].childrens.length > 0) {
+                    sequencePlusOne(arr[i].childrens);
+                }
+            }
+        }
+
+
+        function JsonPares(val) {//基于 全局 JSON parse重写 基础上 
+            const newVal = JSON.parse(val);
+            if (val === null) return val;
+            if (typeof newVal !== 'object') return val;
+            if (newVal.error) return val;
+            return newVal;
+        } 
+        //格式化时间
+        function timestampToTime(date) {
+            var Y, M, D, h, m, s
+            Y = date.getFullYear() + '-';
+            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            D = date.getDate() + ' ';
+            h = date.getHours() + ':';
+            m = date.getMinutes() + ':';
+            s = date.getSeconds();
+            return Y + M + D + h + m + s;
+        }
+
+        //格式化日期
+        function timestampToDate(date) {
+            var Y, M, D, h, m, s
+            Y = date.getFullYear() + '-';
+            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            D = date.getDate() + ' ';
+            h = date.getHours() + ':';
+            m = date.getMinutes() + ':';
+            s = date.getSeconds();
+            return Y + M + D;
+        }
+    })(angular)
+</script>
+
+</html>

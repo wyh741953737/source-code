@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>已完成</title>
+</head>
+<style>
+    body {
+        font-family: PingFangSC-Medium;
+    }
+
+    .zhuan-flag{
+        display: inline-block;
+        padding: 0 3px;
+        border-radius: 20px;
+        font-size: 6px;
+        color: #fff;
+        background-color: #0200ff;
+        margin-top: 1px;
+    }
+
+    .ea-content {
+        overflow: hidden;
+    }
+
+    .ea-right-search {
+        padding-top: initial;
+    }
+
+    .search-box {
+        width: auto;
+    }
+
+    .ea-right-search .input-group input {
+        width: 400px;
+        height: 40px;
+        border-color: #F9AE08;
+    }
+
+    .ea-right-search .input-group a {
+        width: 90px;
+        height: 40px;
+        line-height: 40px;
+        background: rgba(249, 174, 8, 1);
+    }
+
+    .ea-right-search .add-merch a {
+        width: 110px;
+        height: 36px;
+        border: none;
+        line-height: 36px;
+        background: rgba(252, 244, 217, 1);
+        border-radius: 2px;
+        color: #B0570A;
+    }
+
+    .ea-list-table th {
+        height: 40px;
+        background: rgba(252, 244, 217, 1);
+        /*line-height: 40px;*/
+        padding: initial;
+        font-size: 14px;
+        color: rgba(176, 86, 9, 1);
+        /*border-right: none;*/
+    }
+
+    .ea-list-table td {
+        /*border-right: none;*/
+    }
+
+    .ea-list-table .tr:hover {
+        background: #faa5383b;
+    }
+
+    .relative a {
+        width: 66px;
+        height: 28px;
+        border-radius: 4px;
+        border: 1px solid rgba(238, 238, 238, 1);
+        display: inline-block;
+    }
+
+    .tan-add-ware {
+        width: 360px;
+        min-height: 180px;
+        height: initial;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 4px;
+    }
+
+    .asj-common-tan h3 {
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        color: rgba(102, 102, 102, 1);
+        line-height: 20px;
+        margin: 10px 0;
+        text-align: left;
+    }
+
+    .tan-add-ware ul {
+        min-height: 80px;
+    }
+
+    .tan-add-ware li {
+        display: inline-block;
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        color: rgba(153, 153, 153, 1);
+        line-height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .tan-add-ware li:hover {
+        color: rgba(176, 86, 9, 1);
+    }
+
+    .asj-common-tan .tan-btns {
+        text-align: right;
+        position: initial;
+    }
+
+    .asj-common-tan .tan-btns a {
+        margin: initial;
+    }
+
+    .asj-common-tan .tan-btns .tan-btn1 {
+        width: 80px;
+        height: 30px;
+        background: rgba(249, 174, 8, 1);
+        border-radius: 2px;
+        color: #fff;
+    }
+
+    .asj-common-tan .tan-btns .tan-btn0 {
+        width: 80px;
+        height: 30px;
+        border-radius: 2px;
+        border: 1px solid rgba(247, 157, 45, 1);
+        margin: 0 20px;
+        color: #F9AE08;
+        background-color: #fff;
+    }
+
+    .tan-delete-ware {
+        border-radius: 4px;
+    }
+
+    .addschFlag .tan-add-ware {
+        width: 540px;
+        /*height: 600px;*/
+    }
+
+    .addschFlag .tan-add-ware ul {
+        padding: 0 50px;
+    }
+
+    .addschFlag .tan-add-ware li {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        color: rgba(176, 86, 9, 1);
+        line-height: 20px;
+    }
+
+    .addschFlag .tan-add-ware li span {
+        width: 90px;
+        display: inline-block;
+    }
+
+    .addschFlag .tan-add-ware li input, select {
+        width: 297px;
+        height: 40px;
+        border: 1px solid rgba(238, 238, 238, 1);
+        padding: 0 8px;
+    }
+    .typeSelect{
+        width: initial;
+        height: 40px;
+        border: 1px solid #F9AE08;
+        padding: 0 8px;
+        float: left;
+    }
+    .ea-list-table td {
+        font-size: 12px;
+        color: #000
+    }
+
+    .ea-list-table .focus {
+        background: #fcf4d982;
+    }
+
+    .page-box {
+        margin-left: initial !important;
+        margin-top: 15px;
+        margin-bottom: 120px;
+    }
+
+    .page-box .total-num, .page-box .page-index, .page-box .to-go {
+        width: initial;
+    }
+
+    .asj-common-tanwrap {
+        z-index: 100001;
+    }
+
+    .ea-list-table td {
+        font-size: 12px;
+        color: #000;
+        max-width: 200px;
+    }
+
+    .ea-list-table td span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin: initial;
+        text-align: center;
+        display: block;
+        height: 20px;
+        line-height: 20px;
+    }
+    .actc{
+        background-color: #faa5383b !important;
+    }
+    .RowTD{
+        padding: 0!important;
+    }
+    .RowTD .RowSpan{
+        border-bottom: solid #e1e1e1 1px;
+        line-height: 25px;
+    }
+    .RowTD .RowSpan:last-child{
+        border-bottom:none;
+    }
+    .table-con-box{
+        overflow-x: auto;
+    }
+    .ea-list-table{
+        /*width: 2500px;*/
+    }
+    .MroeActin{
+        position: relative;
+    }
+    .MroeActin a{
+        color: #333333;
+        line-height: 23px;
+        font-size: 12px;
+    }
+    .MroeActin span{
+        display: inline-block!important;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+    .MroeActin ul{
+        font-size: 12px;
+        position: absolute;
+        left: -30px;
+        top: 21px;
+        width: 175px;
+        box-shadow: 0px 8px 20px;
+        z-index: 10;
+        background-color: #fff;
+        border-radius: 4px;
+    }
+    .MroeActin ul li{
+        font-size: 12px;
+        line-height: 23px;
+    }
+    .MroeActin ul li:hover{
+        background-color: #e3e3e3;
+        cursor: pointer;
+    }
+    .tbody:hover{
+        background: #fcf4d982!important;
+    }
+    .b{
+        display: block;
+        height: 1px;
+        border-bottom: 1px dashed #ccc;
+    }
+    .ea-content{
+        overflow: initial;
+    }
+</style>
+<body>
+<div class="ea-content asj-ware-box">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+        <!-- right nav -->
+        <div class="asj-h10"></div>
+        <!-- right search -->
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <select class="typeSelect" ng-model="SelectType" ng-change="SelectChanges()">
+                        <option value="estimatedDeliveryTime">{{'101282' | translate}}</option>
+                        <option value="originalWarehouse">{{'101261' | translate}}</option>
+                        <option value="arrivedWarehouse">{{'101262' | translate}}</option>
+                        <option value="dispatcherTaskName">{{'100254' | translate}}</option>
+                        <option value="forwarderName">{{'101264' | translate}}</option>
+                        <option value="parcelUse">{{'101265' | translate}}</option>
+                        <option value="trackingNumber">{{'101310' | translate}}</option>
+                        <option value="transferNumber">{{'101267' | translate}}</option>
+                        <option value="estimatedArrivalTime">{{'101283' | translate}}</option>
+                        <!--<option>包裹件数</option>-->
+                        <option value="skuOrOrderId">{{'101311' | translate}}</option>
+                    </select>
+                    <input type="text" class="form-control top-search-inp" placeholder="{{places}}" ng-model="inputTxt"
+                           ng-keyup="enterSearch($event)">
+                    <a role="button" class="btn btn-default top-search-btn" type="button"
+                       ng-click="Search()">{{'100025' | translate}}</a>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <!--<table class="ea-list-table ea-erp-cs">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th><span>{{'100174' | translate}}</span></th>-->
+                        <!--<th><span>{{'101282' | translate}}</span></th>-->
+                        <!--<th><span>{{'101261' | translate}}</span></th>-->
+                        <!--<th><span>{{'101262' | translate}}</span></th>-->
+                        <!--<th><span>{{'101263' | translate}}</span></th>-->
+                        <!--<th><span>{{'101264' | translate}}</span></th>-->
+                        <!--<th><span>{{'101265' | translate}}</span></th>-->
+                        <!--<th><span>{{'101266' | translate}}</span></th>-->
+                        <!--<th><span>{{'101267' | translate}}</span></th>-->
+                        <!--<th><span>{{'101270' | translate}}</span></th>-->
+                        <!--<th><span>{{'101283' | translate}}</span></th>-->
+                        <!--<th><span>{{'101268' | translate}}</span></th>-->
+                        <!--<th><span>{{'100308' | translate}}</span></th>-->
+                        <!--<th><span>{{'100340' | translate}}</span></th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody ng-repeat="(index,item) in datalist">-->
+                    <!--<tr class="la_tr la_tr01"  ng-click="TRclick($index,item)" ng-class='{focus: $index == focus}'>-->
+                        <!--<td>-->
+                            <!--<span>{{index+1}}</span>-->
+                            <!--<span style="cursor: pointer;">-->
+                                <!--<img style="width: 15px;" ng-if="item.isChild" ng-click="isShowChild(item,index+1)" src="static/image/public-img/down.png" alt="">-->
+                                <!--<img style="width: 15px;" ng-if="!item.isChild" ng-click="isShowChild(item,index+1)" src="static/image/public-img/up.png" alt="">-->
+                            <!--</span>-->
+                        <!--</td>-->
+                        <!--<td><span>{{item.estimatedDeliveryTime}}</span></td>-->
+                        <!--<td><span>{{item.originalWarehouseName}}</span></td>-->
+                        <!--<td><span>{{item.arrivedWarehouseName}}</span></td>-->
+                        <!--<td><span>{{item.dispatcherTaskName}}</span></td>-->
+                        <!--<td><span>{{item.forwarderName}}</span></td>-->
+                        <!--<td><span>&#45;&#45;</span></td>-->
+                        <!--<td><span>{{item.trackingNumber}}</span></td>-->
+                        <!--<td><span>{{item.transferNumber}}</span></td>-->
+                        <!--<td><span>{{item.parcelCount}}</span></td>-->
+                        <!--<td><span>{{item.estimatedArrivalTime}}</span></td>-->
+                        <!--<td><span>&#45;&#45;</span></td>-->
+                        <!--<td><span>{{item.totalCount}}</span></td>-->
+                        <!--<td><span>{{item.remark}}</span></td>-->
+                        <!--&lt;!&ndash;<td><span>4/5</span></td>&ndash;&gt;-->
+                    <!--</tr>-->
+                    <!--<tr ng-class="{actc:itemc.checked == 1}" style="background: #f6f6f6;" ng-repeat="(index1,itemc) in item.disparcherParcelList" ng-show="item.isChild">-->
+                        <!--<td><span> {{index+1}} - {{index1+1}}</span></td>-->
+                        <!--<td><span>&#45;&#45;</span></td>-->
+                        <!--<td><span>&#45;&#45;</span></td>-->
+                        <!--<td><span>&#45;&#45;</span></td>-->
+                        <!--<td><span style="color: #337ab7;text-decoration: underline;cursor: pointer;" ng-click="gopercel(itemc.id)">{{itemc.parcelName}}</span></td>-->
+                        <!--<td><span>&#45;&#45;</span></td>-->
+                        <!--<td><span>{{itemc.parcelUse}}</span></td>-->
+                        <!--<td><span>{{itemc.trackingNumber}}</span></td>-->
+                        <!--<td><span>{{itemc.transferNumber}}</span></td>-->
+                        <!--<td><span>&#45;&#45;</span></td>-->
+                        <!--<td><span>{{itemc.estimatedArrivalTime}}</span></td>-->
+                        <!--<td class="RowTD" style="max-width: 94px;">-->
+                            <!--<span class="RowSpan" ng-repeat="itemz in itemc.skuOrOrderIds" ng-attr-title="{{itemz.skuOrOrderId}}" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{itemz.skuOrOrderId}}</span>-->
+                        <!--</td>-->
+                        <!--<td class="RowTD">-->
+                            <!--<span class="RowSpan" ng-repeat="itemz in itemc.skuOrOrderIds">{{itemz.quantity}}</span>-->
+                        <!--</td>-->
+                        <!--<td><span>{{itemc.remark}}</span></td>-->
+                        <!--&lt;!&ndash;<td><span>已收货</span></td>&ndash;&gt;-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                    <!--<tr ng-if="datalist.length <= 0">-->
+                        <!--<td colspan="15">{{'100980' | translate}}。</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+                <table class="ea-list-table ea-erp-cs" style="min-width: 1600px;">
+                    <thead>
+                    <tr>
+                        <th colspan="6">{{'101308' | translate}}</th>
+                        <th colspan="5">{{'101309' | translate}}</th>
+                    </tr>
+                    <tr>
+                        <th>{{'100174' | translate}}</th>
+                        <th>
+                            {{'101282' | translate}}
+                            <b class="b"></b>
+                            {{'101283' | translate}}
+                        </th>
+                        <th>
+                            {{'101261' | translate}}
+                            <b class="b"></b>
+                            {{'101262' | translate}}
+                        </th>
+                        <th>
+                            {{'101273' | translate}}
+                            <b class="b"></b>
+                            {{'100824' | translate}}
+                        </th>
+                        <th>
+                            {{'100109' | translate}}
+                            <b class="b"></b>
+                            {{'101267' | translate}}
+                        </th>
+                        <th>{{'100340' | translate}}</th>
+
+                        <th>{{'101271' | translate}}</th>
+                        <th>
+                            {{'101312' | translate}}
+                            <b class="b"></b>
+                            {{'101265' | translate}}
+                        </th>
+                        <th>
+                            {{'101266' | translate}}
+                            <b class="b"></b>
+                            {{'101267' | translate}}
+                        </th>
+                        <th>{{'100340' | translate}}</th>
+                        <th>{{'100043' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody class="tbody" ng-repeat="(index,item) in datalist" ng-click="TRclick($index,item)"  ng-class='{focus: $index == focus || item.isChild}'>
+                    <tr>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{index+1}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.estimatedDeliveryTime}}</span>
+                            <b class="b"></b>
+                            <span>{{item.estimatedArrivalTime}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.originalWarehouseName}}</span>
+                            <b class="b"></b>
+                            <span>{{item.arrivedWarehouseName}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.dispatcherTaskName}}</span>
+                            <b class="b"></b>
+                            <span>{{item.forwarderName}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.trackingNumber}}</span>
+                            <b class="b"></b>
+                            <span>{{item.transferNumber}}</span>
+                        </td>
+                        <td rowspan="{{item.rowsNum}}">
+                            <span>{{item.remark}}</span>
+                        </td>
+                    </tr>
+                    <tr class="tr" ng-class="{actc:itemc.checked == 1}" ng-repeat="(index1,itemc) in item.disparcherParcelList" style="height: 52px;">
+                        <td>
+                            <span>{{itemc.parcelName}}
+                                <img ng-click="LookLog(itemc.id)" class="log-img" src="static/image/public-img/ord-log.png" />
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-show="itemc.property == '1'">普货</span>
+                            <span ng-show="itemc.property == '0'">非普货</span>
+                            <span ng-show="itemc.property == '2'">未知属性</span>
+                            <span ng-show="!itemc.property"></span>
+                            <b class="b"></b>
+                            <span>{{itemc.parcelUse}}</span>
+                        </td>
+                        <td>
+                            <span>{{itemc.trackingNumber}}</span>
+                            <b class="b"></b>
+                            <span>{{itemc.transferNumber}}</span>
+                        </td>
+                        <td>
+                            <span>{{itemc.remark}}</span>
+                        </td>
+                        <td style="width: 145px;">
+                            <div class="MroeActin" ng-mouseenter="isOver = true;" ng-mouseleave="isOver = false;">
+                                <a>{{'100094' | translate}}</a>
+                                <span style="height: initial;"></span>
+                                <ul ng-show="isOver">
+                                    <li ng-click="LookDetail(itemc,index,index1)">{{'100259' | translate}}</li>
+                                    <li ng-click="ExportEXcel(itemc)">{{'100068' | translate}}Excel</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="item.disparcherParcelList.length == 0">
+                        <td colspan="7" style="height: 52px;">{{'100980' | translate}}。</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="page-box" ng-show="datalist.length > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize1" ng-change="pagechange1(pagesize1)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum1 }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum1">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange1()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!---->
+<a id="Excel" ng-href="{{ExcelUrl}}"></a>
+
+
+<!--查看订单操作记录-->
+<div class="lookOperationRecord" ng-show="isLookLog">
+    <div class="content">
+        <h3>操作日志<span class="close" ng-click="isLookLog = false;">×</span></h3>
+        <ul ng-click="stopProgFun($event)" style="min-height: 300px;overflow-y:auto;">
+            <li class="clearfix"  style="padding-block-end: 18px;" ng-repeat="item in logList">
+                <b></b>
+                <span class="name">{{item.operatingUserName}}</span>
+                <p>{{item.operatingDetails}}</p>
+                <p style="margin: 0 10px;">{{item.track}}</p>
+                <span class="date">{{item.createDate.time | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--查看详情-->
+<div class="asj-common-tanwrap" ng-show="isLook">
+    <div class="asj-common-tan tan-delete-ware" style="height: initial;width: 600px;">
+        <h3>{{'100259' | translate}}<span class="close" ng-click="isLook = false;">×</span></h3>
+        <div style="max-height: 400px;overflow-y: auto;">
+            <table style="margin-bottom: initial;" class="ea-list-table ea-erp-cs" cellspacing="0" cellpadding="0">
+                <thead>
+                <tr>
+                    <th>{{'101311' | translate}}</th>
+                    <th>{{'101295' | translate}}</th>
+                    <th>{{'101294' | translate}}</th>
+                    <th>{{'101293' | translate}}</th>
+                    <th>{{'100308' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="tr" ng-repeat="(index,item) in SkuList">
+                    <td>
+                        <span><b ng-if="item.conversionSheet == 11" class="zhuan-flag">转</b>
+                            {{item.skuOrOrderId}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.productName}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.actual_gross_weight}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.estimated_total_weight}}</span>
+                    </td>
+                    <td>
+                        <span>{{item.quantity}}</span>
+                    </td>
+                </tr>
+                <tr ng-show="item.SkuList.length == 0">
+                    <td colspan="5" style="height: 52px;">{{'100980' | translate}}。</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</html>

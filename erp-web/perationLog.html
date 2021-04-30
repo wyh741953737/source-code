@@ -1,0 +1,70 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>后台通用框架</title>
+</head>
+<meta charset="utf-8">
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="static/bootstrap-table-master/src/bootstrap-table.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/export/bootstrap-table-export.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/angular/bootstrap-table-angular.js"></script>
+<link href="static/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet" />
+<link href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="static/bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+<script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="static/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="static/angular-1.5.8/angular-cookies.min.js"></script> 
+<link rel="stylesheet" href="static/css/index.css">
+<body>
+<div class="pageBox container" ng-app="myApp" ng-controller="tableCtrl">
+<div class="panel-body" style="padding-bottom:0px;">
+	<div id="toolbar" class="btn-group">
+		<form id="exportLog" action="app/audit/exportAudit" method="get" style="display: none;">
+			<input type="hidden" name="userId" value="{{userId}}">
+			<input type="hidden" name="token" value="{{token}}">
+			<input type="hidden" name="lAuditTime" ng-model="startDate" value="{{startDate}}">
+			<input type="hidden" name="rAuditTime" ng-model="endDate" value="{{endDate}}">
+			<input type="hidden" name="type" ng-model="typeSet" value="{{typeSet}}">
+			<input type="hidden" name="userName">
+		</form>
+		<button type="button" ng-click="export()" class="btn btn-default"><span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出Excel</button>
+		<div class="pull-left">
+			<div class="pull-left">
+				<label class="control-label">操作时间</label>
+			</div>
+			<div class="pull-left" style="width: 600px;padding-left: 10px;">
+				<div class="input-group date start_date col-sm-5" id="startDate" style="float: left;">
+					<input ng-change="reflash()" class="form-control" size="16" type="text" readonly="" data-date-format="dd-mm-yyyy" data-bv-trigger="change" ng-model="startDate" name="startDate"  required>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+				<span class="control-label col-sm-1 text-center">-</span>
+				<div class="input-group date end_date col-sm-5" id="endDate">
+					<input ng-change="reflash()" class="form-control" size="16" type="text" readonly="" data-date-format="dd-mm-yyyy" data-bv-trigger="change" ng-model="endDate" name="endDate"  required>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+			</div>
+		</div>
+		<div class="pull-left">
+			<label for="typeSet">操作分类：</label>
+			<select ng-change="reflash()" class="form-control" name="typeSet" style="display: inline-block;width: auto;" ng-model="typeSet" ng-change="logSelect()">
+				<option value="">所有操作</option>
+				<option value="1">修改密码</option>
+				<option value="2">新增数据</option>
+				<option value="3">修改数据</option>
+				<option value="4">删除数据</option>
+				<option value="10">重置密码</option>
+			</select>
+		</div>
+		<div class="pull-left"><label for="">操作账号：</label></div>
+	</div>
+    <table id="table" init-table="options"></table>
+</div>
+</div>
+<script src="static/js/page/perationLog.js"></script>
+</body>
+</html>

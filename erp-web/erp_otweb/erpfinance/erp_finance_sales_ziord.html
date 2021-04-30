@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新品</title>
+    <!--业务员管理-->
+    <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+    <script src="erp_otweb/js/video.min.js"></script>
+</head>
+<style>
+    .filter {
+        line-height: 30px !important;
+        /* display: flex; */
+    }
+
+    .filter .datetab {
+        margin-left: 15px;
+    }
+
+    .filter .dateact {
+        color: #0d8efb;
+    }
+    .chartsbox .dateact {
+        color: #0d8efb;
+    }
+
+    .search-by-con {
+        height: 30px;
+        position: relative;
+        float: left;
+    }
+
+    .default-con {
+        width: 240px;
+        height: 30px;
+        padding-left: 10px;
+        line-height: 30px;
+        border: 1px solid #e5e5e5;
+        position: relative;
+    }
+
+    .has-list-cate {
+        float: left;
+        margin-right: 15px;
+    }
+
+    .serch-by-name {
+        height: 30px;
+        line-height: 30px;
+        float: left;
+    }
+
+    input, select {
+        height: 30px !important;
+    }
+
+    .three-grade-list {
+        position: absolute;
+        left: 0;
+        top: 0px;
+        margin-top: 0;
+        padding-left: 0;
+        background: #fff;
+        z-index: 99;
+        display: none;
+    }
+
+    .caret {
+        position: absolute;
+        right: 10px;
+        top: 13px;
+    }
+
+    .filter .search {
+        height: 30px;
+    }
+
+    .samlimg {
+        position: absolute;
+        /* top: -160px; */
+        /* left: 72px; */
+    }
+    .samlimg:hover{
+        transform: scale(15);
+    }
+
+    .lookProduct {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        top: 0;
+        left: 0;
+        z-index: 10000;
+    }
+
+    .lookProduct .content {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: #fff;
+        box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+        width: 523px;
+        min-height: 330px;
+        margin: initial;
+        border-radius: 4px;
+        padding: initial;
+    }
+
+    .lookProduct .content h3 {
+        padding: 15px;
+        margin: initial;
+        text-align: left;
+        border-bottom: 1px solid #F0F0F0;
+    }
+
+    .lookProduct .content h3 .close {
+        font-size: 25px;
+        font-weight: initial;
+        opacity: .4;
+    }
+
+    .my-video-dimensions {
+        width: 100%;
+        height: 273px;
+    }
+
+    .lookProduct .content {
+        top: 35%;
+    }
+
+    .filter input {
+        margin: 0 5px;
+        width: auto;
+    }
+    .page-box .to-idx{
+        float: left;
+    }
+    .page-box .to-idx input{
+        text-align: center;
+        width: 50px;
+        height: 25px!important;
+        margin: 0 5px;
+    }
+    .page-box .to-idx button{
+        border: 1px solid #dddee1;
+        height: 25px;
+        line-height: 25px;
+        width: 50px;
+        border-radius: 3px;
+    }
+    .chartsbox{
+        /* margin-bottom: 20px; */
+    }
+    .tableTs tr td{
+        /* white-space:pre-line; */
+        word-wrap: break-word;
+        word-break: break-all;
+        /* width:11%; */
+        max-width: 160px;
+        border: 1px solid rgb(241, 237, 237);
+    }
+    .textsbox{
+        border: 1px solide #ccc !important;
+        background: red;
+    }
+    .textsbox .edittextarea{
+        display:block;
+        border: 1px solide #ccc !important;
+        
+    }
+    .item-group textarea {
+        width: 348px;
+        height: 138px;
+        padding: 10px;
+        resize: none;
+    }
+    .filter select{
+        float:none;
+    }
+    .filter input{
+        /* float:none; */
+    }
+    .editpointer{
+        color:blue;
+        cursor: pointer;
+    }
+    .bordertext{
+        border: 1px solid #ccc;
+        margin-bottom: 25px;
+        height: 180px;
+    }
+    .textstyle{
+        display: block;
+        width: 100%;
+        padding: 20px;
+        height: 178px;
+    }
+    .tanbutton{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .imgbox{
+        width:60px;
+        height:60px;
+        display: flex;
+        justify-content: center;
+        margin: 5px;
+        position: relative;
+    }
+    .imgbox .img1{
+        width:60px;
+        height:60px
+    }
+    .img2{
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 60px;
+        height: 120px;
+    }
+    .imgbox a{
+        background: none;
+        border: 0;
+    }
+    .imgbox:hover .img2{
+        display: block;
+    }
+    .tabBox{
+        /* overflow: hidden; */
+    }
+    .tabBox li{
+        border: 1px solid #ccc;
+        border-left: none;
+        margin: 0;
+        height: 30px;
+        line-height: 30px;
+    }
+    .checktab{
+        padding: 5px;
+        overflow: hidden;
+        height: 40px;
+        line-height: 40px;
+        cursor: pointer;
+    }
+    .tabBox li:nth-child(1){
+        border-left: 1px solid #ccc;
+    }
+    .actTab{
+        background: #ccc;
+    }
+    .toBack{
+        border: 1px #ccc solid;
+        padding: 5px;
+        font-size: 16px;
+        width: auto;
+        cursor: pointer;
+        width: 72px;
+        text-align: center;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+    .searchfubox{
+        margin-bottom: 10px;
+    }
+</style>
+<body>
+<div class="tab" style="padding:20px;height: 74px;">
+    <div class="filter clearfix">
+       <input class="seach-inp" ng-model="zidingdan" style="border-radius: 0;float: none;" placeholder="输入子订单号" > 
+       <button class="search" style="float: none;border-radius: 0;" ng-click="searchInput()">查询</button>
+       
+        <select class="font-size-14px" ng-model="jufenType" ng-change="checkSelect()" style="float: left;margin: 0;">
+            <option value="">纠纷状态</option>
+            <option value="1">否</option>
+            <option value="0">是</option>
+        </select> 
+        <select class="font-size-14px" ng-model="yunfeiType" ng-change="checkSelect()" style="float: left;margin: 0;width: auto;">
+            <option value="">运费成本类型</option>
+            <option value="1">系统设置</option>
+            <option value="2">实付运费</option>
+        </select> 
+    </div>
+</div>
+<div style="height: 68px;"></div>
+<div class="content" style="overflow: hidden;margin-top: 20px;">
+    
+    <div class="left">
+        <div class="parent-order">
+            <p class="toBack" ng-click="comeBack1()">返回</p>
+            <table class="tableTs">
+                <thead>
+                <tr>
+                    <th>子订单号</th>
+                    <th>订单总额(￥)</th>
+                    <th style="width: 12%;">供应商商品总额(￥)</th>
+                    <th>CJ商品总额(￥)</th>
+                    <th>CJ商品成本(￥)</th>
+                    <th>服务商品服务费(￥)</th>
+                    <th>运费总额(￥)</th>
+                    <th>运费成本(￥)</th>
+                    <th>运费成本类型</th>
+                    <th>纠纷类型</th>
+                    <th>纠纷已完成的纠纷创建时间</th>
+                    <th>退款金额(￥)</th>
+                  
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataList2">
+                   <!-- <td>{{$index+1}}</td> -->
+                    <td>{{item.orderId }}</td>
+                    <td style="width: 12%;">{{item.orderTotalAmount*rates  | number:2  }}</td>
+                    <td>{{item.supplierProductTotalAmount*rates  | number:2 }}</td>
+                    <td>
+                        {{item.cjProductTotalAmount*rates  | number:2  }}
+                    </td>
+                    <td>
+                        {{item.cjProductPrimeCost  | number:2  }}
+                    </td>
+                    <td>
+                        {{item.serviceProductAmount*rates  | number:2  }}
+                    </td>
+                    <td>
+                        {{item.transportTotalAmount*rates  | number:2 }}
+                    </td>
+                    <td>{{item.transportCommission  | number:2 }}</td>
+                    <td>
+                        <span ng-show="item.transportCommissionType=='1'">系统设置</span>
+                        <span ng-show="item.transportCommissionType=='2'">实付运费</span>
+                    </td>
+                    <td>
+                        <span ng-show="item.disputeOrderStatus=='1'">补发</span>
+                        <span ng-show="item.disputeOrderStatus=='2'">未发货退款</span>
+                        <span ng-show="item.disputeOrderStatus=='3'">已发货退款</span>
+                        <span ng-show="item.disputeOrderStatus=='4'">无纠纷</span>
+                    </td>
+                    <td>{{item.disputeFinishDate }}</td>
+                    <td>{{item.disputeAmount*rates  | number:2  }}</td>
+                 
+                  
+                </tr>
+                <tr ng-show="dataList2.length == 0">
+                    <td colspan="30">暂无数据。</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--分页-->
+            <div class="page-box">
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="total-num">
+                        <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="pageSize" ng-change="pagechange(pageSize)" style="width: 65px;height: 31px;">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                        </select>
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup1"></div>
+                </div>
+                <div class="to-idx">
+                    到第<input type="number" ng-model="pageNum">页
+                    <button ng-click="toPage1()">确定</button>
+                </div>
+            </div>
+            <!-- <page></page> -->
+        </div>
+    </div>
+</div>
+
+<!-- tan -->
+<div class="lookProduct ng-scope" ng-show="isEdit" style="border:1px #bbb solid">
+    <div class="content" >
+        <h3 style="font-size: 16px;text-align: center;">修改成本<span class="close" ng-click="closeAlltan()">×</span></h3>
+        <!-- <h3 style="font-size: 16px;text-align: center;">填写成本<span class="close" ng-click="closeAlltan()">×</span></h3> -->
+             <div style="padding: 30px;overflow: hidden;" class="ng-binding">
+            <div class="searchfubox">
+                <span class="fontsizeformt">退款/补发的商品成本：</span>
+                <input type="number" placeholder="请输入" style="border-radius: 0;" ng-model="moneyVal1" >
+            </div>
+            <div class="searchfubox">
+                <span class="fontsizeformt">补发的物流成本：</span>
+                <input type="number" placeholder="请输入" style="border-radius: 0;" ng-model="moneyVal2" >
+            </div>
+            <div class="search-group d-flex align-items-center tanbutton">
+                <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="sureConfirm1()">确定</button>
+                <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="closeAlltan()">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

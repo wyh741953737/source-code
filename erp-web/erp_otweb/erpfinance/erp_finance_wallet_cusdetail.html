@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>提现申请-客户钱包管理-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+</head>
+
+<style>
+    .ea-list-manipulation span{
+        float: left;
+    }
+    .ea-list-manipulation a{
+        float: right;;
+    }
+</style>
+
+<body>
+    <!-- content -->
+    <div class="ea-content">
+        <!-- <div class="ea-content-box"> -->
+            <!-- <div class="ea-content-con"> -->
+                <!-- left nav -->
+                <div class="left-bar">
+				            <ul>
+				                <li><a href="#/allmony">收入管理</a></li>
+                        <li class="active"><a href="#/erpfinance/walletcuslistdel">客户钱包管理</a></li>
+                        <li><a href="#/erpfinance/accountquery">对账查询</a></li>
+				            </ul>
+								</div>
+                <!-- right con -->
+                <div class="right-bar-wrap ea-right-content">
+                	<div class="asj-h10"></div>
+                    <!-- right nav -->
+                    <!-- <div class="top-taps clearfix">
+                        <ul>
+                            <li class="active"><a href="#/erpfinance/walletcuslistdel">客户列表</a></li>
+                            <li><a href="#/erpfinance/walletcash">提现申请</a></li>
+                            <li><a href="#/erpfinance/wallet-recharge">充值管理</a></li>
+                        </ul>
+                    </div> -->
+                    <div class="right-bar">
+                    <!-- right search -->
+                    <!-- <div class="ea-right-search">
+                        <div class="datatime-screen-wrap clearfix">
+	                    		<div class="datatime-screen"><a href="javaScript:void(0)" ng-click="lastWeek(0)">今日</a><a href="javaScript:void(0)" ng-click="lastWeek(7)">最近一周</a><a class="active" href="javaScript:void(0)" ng-click="lastWeek(30)">一个月</a><a href="javaScript:void(0)" ng-click="lastWeek(93)">三个月</a>
+	                            <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtBeginDate" placeholder="选取开始日期" />
+	                            <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" id="txtEndDate" placeholder="选取结束日期" />
+	                            <input type="button" value="点击筛选">
+	                        </div>
+	                    	</div> 
+                        <div class="search-box-wrap">
+                        	<div class="input-group search-box">
+				              	<input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+				              	<a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">搜索</a>
+		            		</div>
+                        </div>
+                    </div> -->
+                    <!-- right list -->
+                    <!-- 用户信息一览 -->
+                    <div class="user-info-detail">
+                        <ul class="clearfix">
+                            <li>用户名：ssss</li>
+                            <li>客户名称：sssssss</li>
+                            <li>客户ID：135546</li>
+                            <li>业务员：张三</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- right list -->
+                    
+                    <div class="ea-list-manipulation clearfix"><span>钱包余额：ssss</span><a href="#">线下还款</a></div>
+                    
+                    <div class="table-con-box">
+                    <table class="ea-list-table ea-erp-cs">
+                        <tr>
+                            <th><span><input type="checkbox"></span></th>
+                            <th><span>日期</span></th>
+                            <th><span>动作</span></th>
+                            <th><span>余额</span></th>
+                            <th><span>积分</span></th>
+                        </tr>
+                        <tr>
+                            <td><span><input type="checkbox"></span></td>
+                            <td><span>09-12 12:30</span></td>
+                            <td><span>充值</span></td>
+                            <td><span>$23330</span></td>
+                            <td><span>+900</span></td>
+                        </tr>
+                        <tr>
+                            <td><span><input type="checkbox"></span></td>
+                            <td><span>09-12 12:30</span></td>
+                            <td><span>充值</span></td>
+                            <td><span>$23330</span></td>
+                            <td><span>+900</span></td>
+                        </tr>
+                        <tr>
+                            <td><span><input type="checkbox"></span></td>
+                            <td><span>09-12 12:30</span></td>
+                            <td><span>充值</span></td>
+                            <td><span>$23330</span></td>
+                            <td><span>+900</span></td>
+                        </tr>
+                    </table>
+                    <!-- 分页 -->
+                    <div class="page-box">
+                        <div class="select-page-num">
+                            <select class="form-control" ng-model="pageSize" ng-change="getPageSize()">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>每页</span>
+                        </div>
+                        <div class="total-num">
+                            共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                        </div>
+                        <div class="page-index">
+                            <div class="pagination1">
+                            </div>
+                        </div>
+                        <div class="to-go">
+                            <span>跳转：</span>
+                            <input type="text" class="form-control" placeholder="" ng-model="specifiedPage">
+                            <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="getSpecifiedPage()">go</a>
+                        </div>
+                    </div>
+
+                  </div>
+                </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+    <!-- 选取两段时间之间插件 -->
+    <!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+    <script>
+    $(function() {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate", // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200, // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true, // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true, // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(), // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"), // 日期下限，默认：NaN(不限制)
+            callback: function() { // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+    </script>
+</body>
+
+</html>

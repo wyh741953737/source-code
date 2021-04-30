@@ -1,0 +1,629 @@
+<style>
+  .my-wrap  .dikou-span {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 3px;
+    border-radius: 4px;
+    font-size: 10px;
+    color: #fff;
+    background-color: #449d44;
+    margin-top: 4px;
+    margin-left: 5px;
+  }
+  </style>
+<div class="my-wrap">
+  <main class="my-main prel">
+    <section class="tab-area">
+      <div id="top-tab" class="top-tab position-fixed">
+        <div class="top-tab-nav d-flex">
+          <span class="tab-span tab-border-bt cursor-pointer" ng-class="{'tab-active': $index === tabIndex}" ng-repeat="tab in tabArr" ng-click="switchTab($index)">{{tab}}</span>
+        </div>
+      </div>
+    </section>
+    <section class="filter-area">
+      <ul class="mb-20 input-arae flex">
+        <li class="filter-item fs-14">
+          <span>采购员: </span>
+          <input type="text" placeholder="请输入采购员" ng-model="filterParams.caigouStaff" ng-keyup="handleEnter($event)">
+        </li>
+        <li class="filter-item fs-14">
+          <span>采购订单号: </span>
+          <input type="text" placeholder="请输入采购订单号" ng-model="filterParams.caigouOrderid" ng-keyup="handleEnter($event)">
+        </li>
+      </ul>
+      <div>
+        <button class="confirm-btn" ng-click="handleSearch()">筛选</button>
+        <button class="cancel-btn" ng-click="exportExcel()">导出</button>
+      </div>
+    </section>
+    <section class="table-area">
+      <div class="tb-thead d-flex">
+        <div style="width: 10%; min-width: 150px;" class="tb-thead-th">所属采购订单号</div>
+        <div style="width: 10%" class="tb-thead-th">采购数量</div>
+        <div style="width: 10%" class="tb-thead-th">到货数量</div>
+        <div style="width: 10%" class="tb-thead-th">次品数量</div>
+        <div style="width: 15%" class="tb-thead-th">线下采购类型</div>
+        <div style="width: 15%" class="tb-thead-th">本次支付类型</div>
+        <div style="width: 15%" class="tb-thead-th">本次支付金额（¥）</div>
+        <div style="width: 15%" class="tb-thead-th" ng-if="tabIndex !== 0">原填写金额（¥）</div>
+        <div style="width: 10%" class="tb-thead-th" ng-if="tabIndex === 2">拒绝原因</div>
+        <div style="width: 10%" class="tb-thead-th">采购员</div>
+        <div style="width: 15%" class="tb-thead-th">申请打款时间</div>
+        <div style="width: 15%" class="tb-thead-th">操作</div>
+      </div>
+      <div class="tb-tbody table-content">
+        <div class="tb-tbody-tr" ng-repeat="item in list" ng-show="list.length">
+          <div style="width: 10%;  min-width: 150px; text-align: center;" class="tb-tbody-td">
+            <span>{{item.caigouOrderid}}</span>
+            <!-- <span title="含优先处理的订单" ng-show="item.isFirst" style="background-color: #FF7700;" class="dikou-span">首</span> -->
+            <tag tag='14' ng-if="item.isFirst"></tag>
+          </div>
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.caigouNumber}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.receiveNun || 0}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.defectiveNum || 0}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td"><span>{{retPurchaseType(item.caigouType) || '--'}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td"><span>{{retPayType(item.payType, item) || '--'}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td"><span>{{item.payAmount || '0'}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td" ng-if="tabIndex !== 0"><span>{{item.actualPayAmount || '--'}}</span></div>
+          <div style="width: 10%; padding: 0;" class="tb-tbody-td flex fyc fxc" ng-if="tabIndex === 2">
+            <img src="static/image/finance/refuse-reason.png" alt="" height="30" class="cp" ng-click="showReasonBox(item)">
+          </div>
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.caigouStaff || '--'}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td"><span>{{item.time || '--'}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td d-flex-center">
+            <span class="tb-btn-default" ng-click="showDetail(item)" ng-if="tabIndex !== 0">查看</span>
+            <span class="tb-btn-default" ng-click="showPayBox(item)" ng-if="tabIndex === 0">打款</span>
+            <span class="tb-btn-default" ng-click="showRefuseBox(item)" ng-if="tabIndex === 0">拒绝</span>
+          </div>
+        </div>
+        <div class="table-content flex fxc fyc" ng-show="list.length === 0">暂无数据</div>
+      </div>
+     
+    </section>
+    <section class="page-area">
+      <page></page>
+    </section>
+    <!-- 打款 -->
+    <section class="wrap-1" ng-show="payBox.show">
+      <div class="mb-20"><button ng-click="hidePayBox()" class="cancel-btn">&lt 退回</button></div>
+      <ul class="flex fyc fwp detail-ul mb-20">
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">供货公司:</span>
+          <span>{{payBoxInfo.gongHuoGongSi}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">收货仓库:</span>
+          <span>{{payBoxInfo.myWarehouse || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">线下采购方式:</span>
+          <span>{{payBoxInfo.myPurchaseType || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">本次支付类型:</span>
+          <span>{{retPayType(payBoxInfo.payType || '--')}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="payBoxInfo.caigouType === 1">
+          <span class="mr-10">本次支付订金(¥):</span>
+          <span>{{payBoxInfo.frontMoney || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="payBoxInfo.caigouType === 1">
+          <span class="mr-10">剩余尾款(¥):</span>
+          <span>{{payBoxInfo.restMoney || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="payBoxInfo.caigouType !== 1">
+          <span class="mr-10">本次支付金额(¥):</span>
+          <span>{{payBoxInfo.payAmount || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">采购员:</span>
+          <span>{{payBoxInfo.caigouRen || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="payBoxInfo.caigouType === 3">
+          <span class="mr-10">质检员:</span>
+          <span>--</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payBoxInfo.acceptType === 1">
+          <span class="mr-10">收款银行:</span>
+          <span>{{payBoxInfo.bank || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payBoxInfo.acceptType === 1">
+          <span class="mr-10">收款银行支行:</span>
+          <span>{{payBoxInfo.branchBank || '未填写'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payBoxInfo.acceptType === 1">
+          <span class="mr-10">收款账户名称:</span>
+          <span>{{payBoxInfo.accountName || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payBoxInfo.acceptType === 1">
+          <span class="mr-10">银行账号:</span>
+          <span>{{payBoxInfo.bankAccount || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payBoxInfo.acceptType === 2">
+          <span class="mr-10">收款类型:</span>
+          <span>支付宝</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payBoxInfo.acceptType === 2">
+          <span class="mr-10">支付宝账户名称:</span>
+          <span>{{payBoxInfo.accountName || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payBoxInfo.acceptType === 2">
+          <span class="mr-10">支付宝账号:</span>
+          <span>{{payBoxInfo.bankAccount || '--'}}</span>
+        </li>
+      </ul>
+      <section class="mb-20">
+        <div class="tb-thead d-flex">
+          <div style="width: 15%" class="tb-thead-th">图片</div>
+          <div style="width: 15%" class="tb-thead-th">SKU</div>
+          <div style="width: 15%" class="tb-thead-th">今日订单统计数量</div>
+          <div style="width: 10%" class="tb-thead-th">可用库存数量</div>
+          <div style="width: 10%" class="tb-thead-th">建议采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">搜品价格(¥)</div>
+          <div style="width: 10%" class="tb-thead-th">采购数量</div>
+          <div style="width: 10%" class="tb-thead-th" ng-if="payBoxInfo.caigouType === 3">到货数量</div>
+          <div style="width: 10%" class="tb-thead-th" ng-if="payBoxInfo.caigouType === 3">次品数量</div>
+        </div>
+        <div class="tb-tbody table-content">
+          <div class="tb-tbody-tr" ng-repeat="item in payBoxList" ng-show="payBoxList.length">
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc">
+              <img src="{{handleOssImg(item.cjImg)}}" alt="" height="40">
+            </div>
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.cjSku}}</span></div>
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.orderneedcount || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.kucun || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.shuLiang || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.danJia || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.shuLiang || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc" ng-if="payBoxInfo.caigouType === 3"><span>{{item.receiveNun}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc" ng-if="payBoxInfo.caigouType === 3"><span>{{item.defectiveNum}}</span></div>
+          </div>
+          <div class="table-content flex fxc fyc" ng-show="payBoxList.length === 0" style="min-height: 300px;">暂无数据</div>
+        </div>
+      </section>
+      <section>
+        <ul class="flex mb-20">
+          <li class="mr-20 fs-14" ng-if="payBoxInfo.caigouType === 3">
+            <span>实际支付金额(¥): </span>
+            <input type="text" ng-model="payBox.money">
+          </li>
+          <li class="mr-20 fs-14 flex fyc">
+            <span class="mr-5">支付方式: </span>
+            <select ng-model="selectedIndex" style="width: 320px; height: 30px; vertical-align: top;" class="br-4">
+              <option ng-repeat="option in payMethodList"  value="{{$index}}">
+                {{option.payName}} {{option.payObject}} {{option.payBank}} {{option.payAccount}}
+              </option>
+            </select>
+          </li>
+          <li class="fs-14">
+            <span>支付时间: </span>
+            <input id="time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="支付时间"/>
+          </li>
+        </ul>
+
+        <div class="flex" style="margin-bottom: 20px;">
+          <span class="mr-10 fs-14">采购凭证:</span>
+          <div class="fs-14 flex">
+            <uploadfiles id="'uploadFilesPaying'" init-files="certPic" show-component="true"></uploadfiles>
+            <!-- <div class="upload-img" ng-repeat="i in certPic track by $index" ng-show="certPic.length > 0">
+              <img src="{{i}}" />
+              <div class="edit-box-wrap">
+                <div class="edit-box">
+                  <a href="javascript:void(0);" class="preview-btn" ng-click="previewPic(i)">预览</a>
+                  <a href="javascript:void(0);" class="delete-btn" ng-click="certPic.splice($index,1)">删除</a>
+                </div>
+              </div>
+            </div> -->
+            {{ certPic.length <= 0 ? '未上传' : '' }}
+          </div>
+        </div>
+
+        <div class="flex">
+          <span class="mr-10 fs-14">支付凭证(jpg, png, gif, pdf, excel)(可拖拽):</span>
+          <uploadfiles id="'uploadFilesPaying1'" max-size="1" callback="uploadFilesCallback" init-files="payBox.img"></uploadfiles>
+          <!-- <div class="upload-area fs-14">
+            <span ng-click="uploadImg()" style="font-size: 34px;">+</span>
+            <span ng-click="uploadImg()">上传凭证</span>
+            <div class="img-wrap" ng-if="payBox.img">
+              <img ng-src="{{payBox.img}}" alt="">
+              <i ng-click="payBox.img=''"></i>
+            </div>
+          </div> -->
+        </div>
+      </section>
+      <div class="line mb-20 mt-20"></div>
+      <section class="flex fxr">
+        <div>
+          <button class="cancel-btn" ng-click="hidePayBox()">取消</button>
+          <button class="confirm-btn" ng-click="pay()">提交</button>
+        </div>
+      </section>
+    </section> 
+    <!-- 已打款详情 -->
+    <section class="wrap-1" ng-show="payedDetailShow">
+      <div class="mb-20"><button ng-click="hidePayedDetail()" class="cancel-btn">&lt 退回</button></div>
+      <ul class="flex fyc fwp detail-ul mb-20">
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">供货公司:</span>
+          <span>{{payedDetailInfo.gongHuoGongSi}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">收货仓库:</span>
+          <span>{{payedDetailInfo.myWarehouse || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">线下采购方式:</span>
+          <span>{{payedDetailInfo.myPurchaseType || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">本次支付类型:</span>
+          <span>{{retPayType(payedDetailInfo.payType)}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">本次支付金额(¥):</span>
+          <span>{{payedDetailInfo.actualPayAmount}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="payedDetailInfo.caigouType === 1">
+          <span class="mr-10">剩余尾款(¥)</span>
+          <span>{{payedDetailInfo.restMoney || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">采购员:</span>
+          <span>{{payedDetailInfo.caigouRen || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="payedDetailInfo.caigouType === 3">
+          <span class="mr-10">质检员:</span>
+          <span>--</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payedDetailInfo.acceptType === 1">
+          <span class="mr-10">收款银行:</span>
+          <span>{{payedDetailInfo.bank || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payedDetailInfo.acceptType === 1">
+          <span class="mr-10">收款银行支行:</span>
+          <span>{{payedDetailInfo.branchBank || '未填写'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payedDetailInfo.acceptType === 1">
+          <span class="mr-10">收款账户名称:</span>
+          <span>{{payedDetailInfo.accountName || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payedDetailInfo.acceptType === 1">
+          <span class="mr-10">银行账号:</span>
+          <span>{{payedDetailInfo.bankAccount || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payedDetailInfo.acceptType === 2">
+          <span class="mr-10">收款类型:</span>
+          <span>支付宝</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payedDetailInfo.acceptType === 2">
+          <span class="mr-10">支付宝账户名称:</span>
+          <span>{{payedDetailInfo.accountName || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="payedDetailInfo.acceptType === 2">
+          <span class="mr-10">支付宝账号:</span>
+          <span>{{payedDetailInfo.bankAccount || '--'}}</span>
+        </li>
+      </ul>
+      <section class="mb-20">
+        <div class="tb-thead d-flex">
+          <div style="width: 15%" class="tb-thead-th">图片</div>
+          <div style="width: 15%" class="tb-thead-th">SKU</div>
+          <div style="width: 15%" class="tb-thead-th">今日订单统计数量</div>
+          <div style="width: 10%" class="tb-thead-th">可用库存数量</div>
+          <div style="width: 10%" class="tb-thead-th">建议采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">搜品价格(¥)</div>
+          <div style="width: 10%" class="tb-thead-th">采购数量</div>
+          <div style="width: 10%" class="tb-thead-th" ng-if="payedDetailInfo.caigouType === 3">到货数量</div>
+          <div style="width: 10%" class="tb-thead-th" ng-if="payedDetailInfo.caigouType === 3">次品数量</div>
+        </div>
+        <div class="tb-tbody table-content">
+          <div class="tb-tbody-tr" ng-repeat="item in payedDetailList" ng-show="payedDetailList.length">
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc">
+              <img src="{{handleOssImg(item.cjImg)}}" alt="" height="40">
+            </div>
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.cjSku}}</span></div>
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.orderneedcount || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.kucun || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.shuLiang || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.danJia || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.shuLiang || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc" ng-if="payedDetailInfo.caigouType === 3"><span>{{item.receiveNun}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc" ng-if="payedDetailInfo.caigouType === 3"><span>{{item.defectiveNum}}</span></div>
+          </div>
+          <div class="table-content flex fxc fyc" ng-show="payedDetailList.length === 0" style="min-height: 300px;">暂无数据</div>
+        </div>
+      </section>
+      <section>
+        <ul class="flex mb-20">
+          <li class="fs-14" ng-if="payedDetailInfo.caigouType === 3" style="margin-right: 40px;">
+            实际支付金额(¥): {{payedDetailInfo.actualPayAmount || 0}}
+          </li>
+          <li class="fs-14" style="margin-right: 40px;">
+            <!-- 支付方式：银联 周理志 6230********6837 -->
+            支付方式 {{retPayName(payedDetailInfo.actualPayType)}} {{payedDetailInfo.actualPayObject}} {{payedDetailInfo.actualPayAccount}}
+          </li>
+          <li class="fs-14">
+            支付时间：{{payedDetailInfo.actualPayDate.slice(0,10) || '--'}}
+          </li>
+        </ul>
+
+        <div class="flex" style="margin-bottom: 20px;">
+          <span class="mr-10 fs-14">采购凭证:</span>
+          <div class="fs-14 flex">
+            <uploadfiles id="'uploadFilesPay'" init-files="certPic" show-component="true"></uploadfiles>
+            <!-- <div class="upload-img" ng-repeat="i in certPic track by $index" ng-show="certPic.length > 0">
+              <img src="{{i}}" />
+              <div class="edit-box-wrap">
+                <div class="edit-box">
+                  <a href="javascript:void(0);" class="preview-btn" ng-click="previewPic(i)">预览</a>
+                  <a href="javascript:void(0);" class="delete-btn" ng-click="certPic.splice($index,1)">删除</a>
+                </div>
+              </div>
+            </div> -->
+            {{ certPic.length <= 0 ? '未上传' : '' }}
+          </div>
+        </div>
+
+        <div class="flex" style="margin-bottom: 20px;">
+          <span class="mr-10 fs-14">支付凭证:</span>
+          <div class="fs-14 flex">
+            <uploadfiles id="'uploadFilesPay1'" init-files="payedDetailInfo.actualPayProof" show-component="true"></uploadfiles>
+            <!-- <div class="upload-img" ng-show="payedDetailInfo.actualPayProof != '' || payedDetailInfo.actualPayProof != null">
+              <img src="{{ payedDetailInfo.actualPayProof }}" />
+              <div class="edit-box-wrap">
+                <div class="edit-box">
+                  <a href="javascript:void(0);" class="preview-btn" ng-click="previewPic(payedDetailInfo.actualPayProof)">预览</a>
+                  <a href="javascript:void(0);" class="delete-btn" ng-click="certPic.splice($index,1)">删除</a>
+                </div>
+              </div>
+            </div> -->
+            {{ !payedDetailInfo.actualPayProof ? '未上传' : '' }}
+          </div>
+        </div>
+
+        <!-- <div class="flex">
+          <span class="mr-10 fs-14">支付凭证:
+            <img ng-src="{{payedDetailInfo.actualPayProof}}" style="max-height: 300px;" ng-if="payedDetailInfo.actualPayProof">
+            <span ng-if="!payedDetailInfo.actualPayProof">无</span>
+          </span>
+        </div> -->
+      </section>
+    </section> 
+    <!-- 已拒绝详情 -->
+    <section class="wrap-1" ng-show="refusedDetailShow">
+      <div class="mb-20"><button ng-click="hideRefusedDetail()" class="cancel-btn">&lt 退回</button></div>
+      <ul class="flex fyc fwp detail-ul mb-20">
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">供货公司:</span>
+          <span>{{refusedDetailInfo.gongHuoGongSi}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">收货仓库:</span>
+          <span>{{refusedDetailInfo.myWarehouse || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">线下采购方式:</span>
+          <span>{{refusedDetailInfo.myPurchaseType || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">本次支付类型:</span>
+          <span>{{retPayType(refusedDetailInfo.payType)}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">本次支付金额(¥):</span>
+          <span>{{refusedDetailInfo.actualPayAmount}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="refusedDetailInfo.caigouType === 1">
+          <span class="mr-10">剩余尾款(¥)</span>
+          <span>{{refusedDetailInfo.restMoney || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">采购员:</span>
+          <span>{{refusedDetailInfo.caigouRen || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-if="refusedDetailInfo.caigouType === 3">
+          <span class="mr-10">质检员:</span>
+          <span>--</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="refusedDetailInfo.acceptType === 1">
+          <span class="mr-10">收款银行:</span>
+          <span>{{refusedDetailInfo.bank || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="refusedDetailInfo.acceptType === 1">
+          <span class="mr-10">收款银行支行:</span>
+          <span>{{refusedDetailInfo.branchBank || '未填写'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="refusedDetailInfo.acceptType === 1">
+          <span class="mr-10">收款账户名称:</span>
+          <span>{{refusedDetailInfo.accountName || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="refusedDetailInfo.acceptType === 1">
+          <span class="mr-10">银行账号:</span>
+          <span>{{refusedDetailInfo.bankAccount || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="refusedDetailInfo.acceptType === 2">
+          <span class="mr-10">收款类型:</span>
+          <span>支付宝</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="refusedDetailInfo.acceptType === 2">
+          <span class="mr-10">支付宝账户名称:</span>
+          <span>{{refusedDetailInfo.accountName || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc" ng-show="refusedDetailInfo.acceptType === 2">
+          <span class="mr-10">支付宝账号:</span>
+          <span>{{refusedDetailInfo.bankAccount || '--'}}</span>
+        </li>
+      </ul>
+      <section class="mb-20">
+        <div class="tb-thead d-flex">
+          <div style="width: 15%" class="tb-thead-th">图片</div>
+          <div style="width: 20%" class="tb-thead-th">SKU</div>
+          <div style="width: 15%" class="tb-thead-th">今日订单统计数量</div>
+          <div style="width: 10%" class="tb-thead-th">可用库存数量</div>
+          <div style="width: 10%" class="tb-thead-th">建议采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">搜品价格(¥)</div>
+          <div style="width: 10%" class="tb-thead-th">采购数量</div>
+          <div style="width: 10%" class="tb-thead-th"  ng-if="refusedDetailInfo.caigouType === 3">到货数量</div>
+          <div style="width: 10%" class="tb-thead-th"  ng-if="refusedDetailInfo.caigouType === 3">次品数量</div>
+        </div>
+        <div class="tb-tbody table-content">
+          <div class="tb-tbody-tr" ng-repeat="item in refusedDetailList" ng-show="refusedDetailList.length">
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc">
+              <img src="{{handleOssImg(item.cjImg)}}" alt="" height="40">
+            </div>
+            <div style="width: 20%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.cjSku}}</span></div>
+            <div style="width: 15%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.orderneedcount || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.kucun || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.shuLiang || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.danJia || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"><span>{{item.shuLiang || 0}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"  ng-if="refusedDetailInfo.caigouType === 3"><span>{{item.receiveNun}}</span></div>
+            <div style="width: 10%; min-height: 48px; padding: 0;" class="tb-tbody-td flex fyc fxc"  ng-if="refusedDetailInfo.caigouType === 3"><span>{{item.defectiveNum}}</span></div>
+          </div>
+          <div class="table-content flex fxc fyc" ng-show="refusedDetailList.length === 0" style="min-height: 300px;">暂无数据</div>
+        </div>
+      </section>
+      <section>
+        <div class="flex" style="margin-bottom: 20px;">
+          <span class="mr-10 fs-14">采购凭证:</span>
+          <div class="fs-14 flex">
+            <uploadfiles id="'uploadFilesLookReject'" init-files="certPic" show-component="true"></uploadfiles>
+            <!-- <div class="upload-img" ng-repeat="i in certPic track by $index" ng-show="certPic.length > 0">
+              <img src="{{i}}" />
+              <div class="edit-box-wrap">
+                <div class="edit-box">
+                  <a href="javascript:void(0);" class="preview-btn" ng-click="previewPic(i)">预览</a>
+                  <a href="javascript:void(0);" class="delete-btn" ng-click="certPic.splice($index,1)">删除</a>
+                </div>
+              </div>
+            </div> -->
+            {{ certPic.length <= 0 ? '未上传' : '' }}
+          </div>
+        </div>
+        <div>
+          <span class="mr-10 fs-14">拒绝原因: {{refusedDetailInfo.refuseReason}}</span>
+        </div>
+      </section>
+    </section> 
+  </main>
+  <!-- 拒绝操作界面 -->
+  <section class="wrap" ng-show="refuseBox.show">
+    <div class="refuse-box">
+      <h3 class="mb-10 pb-10 bb-1e fs-16">拒绝通过</h3>
+      <div class="box-content bd-1e mb-20">
+        <textarea rows="7" class="fs-14" placeholder="请输入拒绝原因" ng-model="refuseBox.reason"></textarea>
+      </div>
+      <div class="flex">
+        <button class="cancel-btn mr-10" ng-click="hideRefuseBox()">取消</button>
+        <button class="confirm-btn" ng-click="refuse()">确定</button>
+      </div>
+    </div>
+  </section>
+  <!-- 拒绝原因 -->
+  <section class="wrap" ng-show="reasonBox.show">
+    <div class="refuse-box">
+      <h3 class="mb-10 pb-10 bb-1e fs-16">拒绝原因</h3>
+      <div class="box-content bd-1e mb-20" style="min-height: 160px;">
+        {{reasonBox.reason}}
+      </div>
+      <div class="flex">
+        <button class="confirm-btn" ng-click="hideReasonBox()">取消</button>
+      </div>
+    </div>
+  </section>
+</div>
+<style>
+.my-wrap { padding: 15px 15px 15px 230px; }
+.wrap-1 {position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: #fff; z-index: 10; padding: 20px;}
+.my-main { background: #fff; height: 100%; padding: 15px 15px 30px; }
+.top-tab {width: calc(100% - 285px); padding-top: 0; top: 15px;}
+.filter-area {height: 200px; padding: 60px 0 20px;}
+.input-arae input {height: 30px; line-height: 30px; padding: 0; text-indent: 8px; font-size: 14px;}
+.cancel-btn { line-height: 28px; padding: 0 15px; border-radius: 4px; background-color: #fff; border: 1px solid #ddd; font-size: 14px;}
+.confirm-btn { line-height: 28px; padding: 0 15px; border-radius: 4px; color: #fff; background-color: #4a90e2; font-size: 14px; }
+.filter-item {height: 40px; margin-right: 10px;}
+.table-content {min-height: 522px;}
+.wrap-1 .table-content {min-height: 300px;}
+.tb-tbody {border-bottom: 1px solid #eee;}
+.line {height: 1px; background-color: #ddd;}
+.detail-ul>li {height: 26px;}
+/* 上传图片 */
+.upload-area {width: 104px; height: 104px; border-radius: 4px; border: 1px dashed #DDDCDC; background:rgb(249, 249, 249); position: relative; display: flex; flex-direction: column; align-items: center;}
+.upload-area>.img-wrap {width: 104px; height: 104px; position: absolute; left: -1px; top: -1px;}
+.upload-area>.img-wrap>img {width: 104px; height: 104px;}
+.upload-area>.img-wrap>i{position: absolute; width: 22px; height: 22px; background: url('static/image/public-img/close-circle.png') no-repeat center center; background-size: 22px 22px; right: -11px; top: -11px; cursor: pointer;}
+.upload-area>span:nth-child(1) {margin-bottom: 4px; margin-top: 6px; color: #999; cursor: pointer;}
+.upload-area>span:nth-child(2) {font-size: 14px; cursor: pointer;}
+.refuse-box {width: 500px; height: 300px; background-color: #fff; padding: 20px; border-radius: 4px;}
+.box-content {padding: 5px;} 
+.box-content textarea {width: 100%; height: 100%;}
+/*common css*/
+*{box-sizing: border-box;}
+.flex {display: flex;}
+.fxl {justify-content: flex-start;}
+.fxc {justify-content: center;}
+.fxr {justify-content: flex-end;}
+.fxsa {justify-content: space-around;}
+.fxsb {justify-content: space-between;}
+.fyc {align-items: center;}
+.fdc {flex-direction: column;}
+.fg-1 {flex-grow: 1;}
+.fwp {flex-wrap: wrap;}
+
+.fs-12 {font-size: 12px;}
+.fs-14 {font-size: 14px;}
+.fs-16 {font-size: 16px;}
+
+.prel {position: relative;}
+.pabs {position: absolute;}
+.pfix {position: fixed;}
+
+.ml-5 {margin-left: 5px;}
+.mr-5 {margin-right: 5px;}
+.mr-10 {margin-right: 10px;}
+.mr-15 {margin-right: 15px;}
+.mr-20 {margin-right: 20px;}
+.mb-5 {margin-bottom: 5px;}
+.mb-10 {margin-bottom: 10px;}
+.mb-20 {margin-bottom: 20px;}
+.mt-20 {margin-top: 20px;}
+.pl-10 {padding-left: 10px;}
+.pb-10 {padding-bottom: 10px;}
+
+.etc { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.tx-c {text-align: center;}
+.lh-15e {line-height: 1.5em;}
+.indent {text-indent: 1em;}
+
+.br-4 {border-radius: 4px;}
+.br-half {border-radius: 50%;}
+.bd-1e {border: 1px solid #eee;}
+.bb-1e {border-bottom: 1px solid #ddd;}
+
+.cp {cursor: pointer; user-select: none;}
+
+.fw-550 {font-weight: 550;}
+
+.c-y1 {color: #F9AE08;}
+.c-b1 {color: #4A90E2;}
+.c-w1 {color: #ffffff;}
+.c-th {color: #8B572A;}
+.c-err {color: red;}
+.bg-y1 {background-color: #F9AE08;}
+.bg-y2 {background-color: #FCF4D9;}
+.bg-b1 {background-color: #4A90E2;}
+.bg-r1 {background-color: red;}
+
+/* upload img */
+.upload-img{margin-right:10px;width:100px;height:100px;position:relative;}
+.upload-img.upBtn{background:url('/static/image/public-img/plus.png') center no-repeat;}
+.upload-img img{width:100%;height:100%;position:absolute;top:0;left:0;}
+.upload-img input[type='file']{position: absolute;left:0;top:0;opacity:0;display: block;width: 100%!important;height: 100%!important;cursor: pointer;}
+.upload-img .edit-box-wrap{position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; display: none; background: rgba(0, 0, 0, 0.5); transition: all 0.5s; -moz-transition: all 0.5s; -webkit-transition: all 0.5s; -o-transition: all 0.5s; }
+.upload-img:hover .edit-box-wrap{display: block;}
+.upload-img .edit-box-wrap .edit-box { position: absolute; width: 100%;  height: 30px; bottom: 0; left: 50%; margin-left: -50px; line-height: 30px; }
+.upload-img .edit-box-wrap .edit-box a{ color: #fff; float: left; width: 50%; text-align: center; font-size: 14px; line-height: 24px; }
+
+
+.wrap {position: fixed; left: 0; top: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; background: #1b1b1b4d; z-index: 10002;}
+</style>

@@ -1,0 +1,258 @@
+<style>
+    .display-flex {
+        display: flex;
+        align-items: center;
+    }
+    .bg-color-fff {
+        background: #fff;
+    }
+    .margin-left-15 { margin-left: 15px; }
+
+    .margin-background { height: 10px; margin: 0 -10px; background: #F2F7FA; }
+
+    .w-container input, .w-container select .w-container .Wdate
+        { border-color: #E5E5E5; padding: 4px 5px; border-radius: 2px; width: 169px; height: 30px; margin-left: 7px; }
+    .w-content-tabel {
+        padding: 9px 0 0;
+        text-align: center;
+    }
+    .w-content-tabel .w-table-title {
+        font-weight: 700;
+        border: 1px solid #ececec;
+        background: #f4f8fd;
+    }
+    .w-content-tabel .w-table-body {
+        box-shadow: 0 3px 5px -2px #eee;
+        border-right: 1px solid #ececec;
+    }
+    .w-content-tabel span {
+        padding: 9px 4px;
+    }
+    .w-content-tabel .w-table-body span {
+        border-left: 1px solid #ececec;
+    }
+
+    .w-content-tabel span:nth-child(1) { width: 5%; }
+    .w-content-tabel span:nth-child(2) { width: 15%; }
+    .w-content-tabel span:nth-child(3) { width: 40%; }
+    .w-content-tabel span:nth-child(4) { width: 15%; }
+    .w-content-tabel span:nth-child(5) { width: 10%; }
+    .w-content-tabel span:nth-child(6) { width: 15%; }
+    .w-content-tabel span:nth-child(7) { width: 5%; }
+    .w-content-tabel.statistics span:nth-child(1) { width: 10%; }
+    .w-content-tabel.statistics span:nth-child(2) { width: 40%; }
+    .w-content-tabel.statistics span:nth-child(3) { width: 15%; }
+    .w-content-tabel.statistics span:nth-child(4) { width: 25%; }
+    .w-content-tabel.statistics span:nth-child(5) { width: 10%; }
+    .w-content-tabel .w-table-row {
+        display: flex;
+        justify-content: space-around;
+        border-bottom: 1px solid #ececec;
+    }
+    .w-content-tabel .w-table-row:nth-child(even) {
+        /* background: rgba(245, 245, 245, .7); */
+    }
+
+    .w-no-data { padding: 25px 0; }
+
+    .w-content-tabel .w-table-title, .w-content-tabel .w-table-row {
+        display: flex;
+        justify-content: space-around;
+        /* align-items: center; */
+    }
+
+    .w-nav-bar .w-nav-bar-item {
+        position: relative;
+        padding: 5px 15px 20px;
+        margin: 0 3px;
+        color: #333;
+        transition: 300ms;
+    }
+
+    .w-btn {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .w-nav-bar .w-nav-bar-item::after {
+        content: "";
+        position: absolute;
+        left: 20%;
+        bottom: 0;
+        background: transparent;
+        height: 2px;
+        width: 60%;
+    }
+
+    .w-content-box {
+        margin-top: 10px;
+        padding: 10px;
+    }
+    .w-query-btn {
+        padding: 5px 10px;
+        border-radius: 3px;
+        color: #fff;
+        background: rgba(255, 154, 0, 1);
+    }
+
+    .w-nav-bar .w-nav-bar-item.act {
+        color: #FDAA4D;
+    }
+    .w-nav-bar .w-nav-bar-item.act::after {
+        background: #FFB85F;
+    }
+
+    /* 分页 */
+    .w-container .to-go .w-btn { padding: 3px 8px; margin-left: 5px; }
+    .w-container .page-box { margin:0; }
+    .w-container .page-box .page-index { width: auto; display: flex; }
+    .w-container .page-index span { padding: 0 11px; cursor: pointer; user-select: none; border-radius: 3px; margin: 0 3px; border: 1px solid #ff9a00; color: #ff9a00; height: 28px; line-height: 26px;}
+    .w-container .page-index .start, .w-container .page-index .end { width: 42px; padding: 0 7px; }
+    .w-container .page-index span.act { background: rgba(255, 154, 0, 1); color: #fff; }
+    .w-container .page-index span.ellipsis { pointer-events: none; }
+
+    .w-condition-item select{
+        width:100px;
+        height:30px;
+        vertical-align: middle;
+        margin-left: 7px;
+    }
+    .page-box .page-index{
+        max-width:1000px;
+    }
+</style>
+
+<div class="ea-content">
+    <div class="right-bar-wrap ea-right-content">
+        <div class="w-container">
+            <div class="right-bar">
+                <div class="w-nav-bar display-flex bg-color-fff">
+                    <div class="w-nav-bar-item w-btn" ng-repeat="item in sub_nav" ng-click="changeSubMenu(item)"
+                        ng-class="{act: item.act}">{{item.tag}}</div>
+                </div>
+
+                <div class="margin-background"></div>
+
+                <div class="w-content-box bg-color-fff">
+                    <div class="w-screen-condition display-flex">
+                        <div class="w-condition-item display-flex">
+                            <span>出库时间</span>
+                            <span>
+                                <!-- <input type="date" onchange="angular.element(this).scope().setQueryData(this, 'start-time')">
+                                <input type="date" ng-hide="sub_nav[1].act" onchange="angular.element(this).scope().setQueryData(this, 'end-time')"> -->
+                                <input class="Wdate" data-flag="start" placeholder="开始日期"
+                                    onfocus="angular.element(this).scope().setTime(this, 'startTime')"
+                                    onchange="angular.element(this).scope().setTime(this, 'startTime', true)">
+                                <input class="Wdate" data-flag="end" placeholder="结束日期"
+                                    onfocus="angular.element(this).scope().setTime(this, 'endTime')"
+                                    onchange="angular.element(this).scope().setTime(this, 'endTime', true)">
+                            </span>
+                        </div>
+                        <div class="w-condition-item margin-left-15">
+                            <span>
+                                <input placeholder="入驻供应商名称" oninput="angular.element(this).scope().setQueryData(this, 'supplier_name')">
+                            </span>
+                            <span>
+                                <select ng-model="typename" ng-show="tag =='出库记录'">
+                                    <option value="queryName">商品名称</option>
+                                    <option value="querySku">SKU</option>
+                                    <option value="queryUser">出库人</option>
+                                </select>
+                                <input placeholder="请输入商品名称/SKU/出库人" ng-model="typevalue" oninput="angular.element(this).scope().setQueryData(this, 'query-value')">
+                            </span>
+                        </div>
+                        <div class="w-condition-item margin-left-15">
+                            <span class="w-query-btn w-btn" ng-click="queryData({flag: 'query-btn'})">查询</span>
+                        </div>
+                        <div class="w-condition-item margin-left-15">
+                            <span class="w-query-btn w-btn" ng-if="typename =='querySku'" ng-click="queryHZDataBase({flag: 'query-btn'})">杭州库查询</span>
+                        </div>
+                    </div>
+
+                    <!-- 出库记录 -->
+                    <div ng-if="sub_nav[0].act" class="w-content-tabel">
+                        <div class="w-table-title">
+                            <span>序号</span>
+                            <span>出库时间</span>
+                            <span>商品名称</span>
+                            <span>入驻供应商名称</span>
+                            <span>出库仓库</span>
+                            <span>SKU</span>
+                            <span>数量</span>
+                            <span style="width:5%">出库人</span>
+                        </div>
+                        <div class="w-table-body">
+                            <div class="w-table-row" ng-repeat="item in table_data.outputList">
+                                <span class="w-table-column">{{$index + 1}}</span>
+                                <span class="w-table-column">{{item.createDate | trans_date}}</span>
+                                <span class="w-table-column">{{item.NAMEEN}}</span>
+                                <span class="w-table-column">{{item.supplier_name || '--'}}</span>
+                                <span class="w-table-column">{{item.strogeName || '--'}}</span>
+                                <span class="w-table-column">{{item.SKU}}</span>
+                                <span class="w-table-column">{{item.optValue}}</span>
+                                <span class="w-table-column" style="width:5%">{{item.optUserName|| '--'}}</span>
+                            </div>
+                            <div class="w-no-data" ng-hide="table_data.outputList.length">暂无数据……</div>
+                        </div>
+                    </div>
+
+                    <!-- 出库统计 -->
+                    <div ng-if="sub_nav[1].act" class="w-content-tabel statistics">
+                        <div class="w-table-title">
+                            <span>序号</span>
+                            <span>商品名称</span>
+                            <span>入驻供应商名称</span>
+                            <span>SKU</span>
+                            <span>数量</span>
+                        </div>
+                        <div class="w-table-body">
+                            <div class="w-table-row" ng-repeat="item in table_data.outputList">
+                                <span class="w-table-column">{{$index + 1}}</span>
+                                <span class="w-table-column">{{item.NAMEEN}}</span>
+                                <span class="w-table-column">{{item.supplier_name || '--'}}</span>
+                                <span class="w-table-column">{{item.SKU}}</span>
+                                <span class="w-table-column">{{item.optValue}}</span>
+                            </div>
+                            <div class="w-no-data" ng-hide="table_data.outputList.length">暂无数据……</div>
+                        </div>
+                    </div>
+                    <div class="pagination">
+                        <!-- 分页 -->
+                        <div class="page-box">
+                            <div class="select-page-num">
+                                <select
+                                    class="form-control"
+                                    ng-model="json_data.pageSize"
+                                    ng-change="queryData({flag: 'set-size'})"
+                                    ng-options="size.size as size.size for size in page_sizes">
+                                </select>
+                                <span>每页</span>
+                            </div>
+                            <div class="total-num">
+                                共&nbsp;&nbsp;{{table_data.totalCount}}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index" ng-show="pagination.length > 0">
+                                <span class="start" ng-click="queryData({flag: 'start-page'})">首页</span>
+                                <span class="prev" ng-click="queryData({flag: 'prev-page'})">&lt;</span>
+                                <span class="item"
+                                    ng-repeat="idx in pagination track by $index"
+                                    ng-class="{act: json_data.page==idx, ellipsis: idx=='...'}"
+                                    ng-click="queryData({flag: 'change-page', idx})">{{idx}}</span>
+                                <span class="next" ng-click="queryData({flag: 'next-page'})">&gt;</span>
+                                <span class="end" ng-click="queryData({flag: 'end-page'})">尾页</span>
+                            </div>
+                            <div class="to-go">
+                                <span class="total-page">共 {{pages_len}} 页</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>跳转：</span>
+                                <input type="text" class="form-control" placeholder="" ng-model="goto_page">
+                                <span class="w-btn btn btn-default" ng-click="queryData({flag: 'goto-page'})">go</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

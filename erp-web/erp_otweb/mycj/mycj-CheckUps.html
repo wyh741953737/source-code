@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .searchGroup input{
+            width: 300px;
+            height: 30px;
+            border-radius: 4px 0 0 4px;
+            padding: 0 10px;
+        }
+        .searchBtn{
+            height: 30px;
+            /* padding: 0 15px; */
+            background: rgba(255,162,0,1);
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+            left: -5px;
+        }
+        .searchResult{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:50px;min-width: 1020px;">
+            <h1 style="font-size: 20px;font-weight: 700;margin-bottom: 20px">检测不能发USPS+原因</h1>
+            <div class="searchGroup">
+                <label>订单号：</label>
+                <input type="text" ng-model="serachInfo"/>
+                <button class="searchBtn" ng-click="searchFun()">Search</button>
+            </div>
+            <div class="searchResult">
+                <p style="margin-bottom: 10px">查询结果：</p>
+                <p ng-show="flag=='1'">
+                    {{message}}
+                </p>
+                <p ng-show="flag=='2'">
+                    可以发的物流：<span ng-repeat="wu in wuliuList">{{wu.logisticName}} ,</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

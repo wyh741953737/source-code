@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>临时工</title>
+    <style type="text/css">
+        .fun-div{
+            padding: 0 10px;
+            height: 30px;
+        }
+        .fun-div .sku-inp{
+            width: 230px;
+            height: 30px;
+            text-indent: 12px;
+            vertical-align: top;
+        }
+        .fun-div .skusea-btn{
+            height: 30px;
+            padding: 0 10px;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            vertical-align: top;
+            border-left: none;
+            margin-right: 50px;
+        }
+        .fun-div .skusea-btn:hover{
+            color: #f99429;
+        }
+        .ea-list-table td span{
+            font-size: 12px;
+        }
+        .ea-list-table td p{
+            font-size: 12px;
+        }
+        .pici-btn{
+            height: 30px;
+            padding: 0 15px;
+            background-color: #87CEFA;
+            color: #fff;
+            vertical-align: top;
+        }
+        .lightseagreen{
+            background-color: lightseagreen;
+        }
+        .second-tr{
+            display: none;
+        }
+        .fun-div .data-inp{
+            width: 133px;
+            height: 30px;
+            padding: 0;
+            border: solid #e1e1e1 1px;
+            vertical-align: top;
+        }
+        .fun-div .drk-seachInp{
+            background-color: #fff;
+            height: 30px;
+            padding: 0 10px;
+            vertical-align: top;
+            border-left: none;
+        }
+        .fun-div .drk-seachInp:hover{
+            color: #f99429;
+        }
+        .active-color{
+            color: #08ACE9;
+        }
+        .time-span{
+            margin-right: 20px;
+            display: inline-block;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+        .last-timespan{
+            margin-right: 50px;
+        }
+        .ord-list{
+            color: #08ACE9;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .ordnum-con{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #fff;
+            border-radius: 4px;
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #EEEEEE;
+            box-shadow:0px 12px 24px 0px rgba(0,0,0,0.1);
+        }
+        .error-close{
+            position: absolute;
+            top: -11px;
+            right: -11px;
+            cursor: pointer;
+        }
+        .ordnum-con p{
+            text-align: center;
+            color: #e55264;
+            margin-bottom: 10px;
+        }
+        .ordncon-list{
+            height: 400px;
+            overflow-y: auto;
+        }
+        .ordncon-list li{
+            height: 30px;
+            text-align: center;
+        }
+
+        .add-lsg-con{
+            width: 450px;
+            height: 280px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform:translate(-50%,-50%);
+            padding: 20px 20px 0;
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #ececec;
+            box-shadow: 0 5px 24px rgba(0,0,0,0.1);
+        }
+        .add-lsg-con li{
+            margin: 10px 0;
+        }
+        .add-lsg-con .add-gys-label{
+            display: inline-block;
+            width: 97px;
+            text-align: right;
+        }
+        .add-lsg-con .add-gys-inp{
+            width: 290px;
+            height: 30px;
+        }
+        .add-lsg-con .td-star{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .add-lsg-con .sel-leimu{
+            height: 30px;
+            width: 290px;
+        }
+        .gys-tk-btns{
+            text-align: center;
+            margin-top: 20px;
+        }
+        .gys-tk-btns button{
+            height: 30px;
+            padding: 0 15px;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        .gys-tk-btns .ispc-can-btn{
+            color: #6b6b6b;
+            border: 1px solid #cfcfcf;
+            background-color: #f6f6f6;
+            margin-right: 15px;
+        }
+        .gys-tk-btns .ispc-con-btn{
+            color: #fff;
+            height: 30px;
+            border-radius: 4px;
+            background-color: #ff8d31;
+        }
+        .lrlsg-btn{
+            height: 30px;
+            padding: 0 10px;
+            border: 1px solid #5dbdf2;
+            color: #5dbdf2;
+            border-radius: 4px;
+            background-color: #fff;
+            float: right;
+        }
+        .lrlsg-btn:hover{
+            background-color: #5dbdf2;
+            color: #fff;
+        }
+        .lsggz-val{
+            margin-left: 10px;
+        }
+        .del-lsgBtn{
+            height: 30px;
+            line-height: 28px;
+            padding: 0 10px;
+            border: 1px solid #5dbdf2;
+            color: #5dbdf2;
+            border-radius: 4px;
+            background-color: #fff;
+            display: inline-block;
+        }
+        .del-lsgBtn:hover{
+            background-color: #5dbdf2;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ea-content">
+        <div class="left-bar">
+            <ul>
+                <li class="active"><a href="#/erppurchase/needbuy">{{'100549' | translate}}</a></li>
+                <li><a href="#/supplier-manage">{{'100550' | translate}}</a></li>
+            </ul>
+        </div>
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content li_ea-right-content">
+            <!-- right nav -->
+            <div class="asj-h10"></div>
+            <div class="right-bar">
+            <!-- right list -->
+            <div class="fun-div">
+                <!-- <input class="sku-inp" placeholder="请输入入库人" ng-model="searchRkr"></input>
+                <input class="sku-inp" placeholder="请输入位置" ng-model="searchWz"></input>
+                <input class="sku-inp" placeholder="请输入长SKU" ng-model="searchLongSku"></input>
+                <input class="sku-inp" placeholder="请输入短SKU" ng-model="searchShortSku"></input> -->
+                <input class="sku-inp" placeholder="请输入名字/编号" ng-model="searchDdh"></input><button class="skusea-btn" ng-click="searchFun()">{{'100025' | translate}}</button>
+                <!-- <button ng-click="lrlsgFun()" class="lrlsg-btn">录入临时工</button> -->
+                <span ng-click="timeClickFun($event,0)" class="time-span">昨日</span>
+                <span ng-click="timeClickFun($event,1)" class="time-span last-timespan">今日</span>
+                <!-- <span class="time-span last-timespan">近一月</span> -->
+                <input class="Wdate data-inp" style="text-indent: 12px;" id="left-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></input><!-- <input id="right-time" placeholder="Now" class="Wdate data-inp" style="text-indent: 12px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> --><input ng-click="timeSFun()" class="drk-seachInp" type="button" value="{{'100025' | translate}}"></input>
+                <span ng-if="adminFlag" class="lsggz-val">日工资: {{riGongZi}}</span>
+                <span ng-if="adminFlag" class="lsggz-val">月工资: {{YueGongZi}}</span>
+                <button ng-click="tjdCwFun()" class="lrlsg-btn">提交到财务</button>
+            </div>
+            <div class="table-con-box" id="c-zi-ord">
+                <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+                    <tr>
+                        <th><span>
+                            <img class="c-checkall" src="static/image/order-img/multiple1.png">
+                        </span></th>
+                        <th><span>编号</span></th>
+                        <th><span>名字</span></th>
+                        <th><span>上班时间</span></th>
+                        <th><span>下班时间</span></th>
+                        <th><span>时长</span></th>
+                        <th><span>状态</span></th>
+                        <th><span>付款类型</span></th>
+                        <th><span>账户</span></th>
+                        <th><span>备注</span></th>
+                        <th><span>工资</span></th>
+                        <th><span>修改记录</span></th>
+                        <th ng-if="adminFlag"><span>操作</span></th>
+                    </tr>
+                <tbody>
+                    <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                        <td>
+                            <span>
+                                <img class="cor-check-box stop-prop" src="static/image/order-img/multiple1.png">
+                                <p style="display: none;" class="lsg-id-text">{{item.lingShiGongId}}</p>
+                                <p style="display: none;" class="lsg-sb-time">{{item.shangBan}}</p>
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{item.lingShiGongId}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{item.name}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>{{ item.shangBan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="item.xiaBan!='0'">{{ item.xiaBan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="item.xiaBan">{{(item.xiaBan-item.shangBan)/3600000 | number:1}}</span>
+                        </td>
+                        <td>
+                            <span style="color: #04a452;" ng-if="item.status=='0'">上班</span>
+                            <span style="color: #e55264;" ng-if="item.status=='1'">下班</span>
+                            <span style="color: #08aceb;" ng-if="item.status=='2'">已提交</span>
+                            <span style="color: #f1ca16;" ng-if="item.status=='3'">已支付</span>
+                        </td>
+                        <td>
+                            <span ng-if="item.leiXing=='0'">支付宝</span>
+                            <span ng-if="item.leiXing=='1'">微信</span>
+                            <span ng-if="item.leiXing=='2'">银行卡</span>
+                            <span ng-if="item.leiXing=='2'&&(item.yinHangMing||item.zhiHangMing)">
+                                银行: {{item.yinHangMing}} {{item.zhiHangMing}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>{{item.zhangHu}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="adminFlag">{{item.beiZhu}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="adminFlag">{{item.gongZi+item.gaiDegongZi}}</span>
+                            <span ng-if="!adminFlag">0</span>
+                        </td>
+                        <td>
+                            <span>{{item.gongZi+item.gongShi}}</span>
+                        </td>
+                        <td ng-if="adminFlag">
+                            <button ng-click="modefyGzFun(item)" class="del-lsgBtn">编辑</button>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+                <div style="text-align: center;" ng-cloak ng-show="totalNum<1">暂无数据</div>
+                <!--以下是分页-->
+                <!-- 分页 -->
+                 <!-- ng-show="hasMerch" -->
+                <div class="page-box" ng-show="totalNum>0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="changePageSize()">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div id="pagination1" class="pagination2">
+                            
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="toSpecifiedPage()">go</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- 录入 -->
+    <div class="add-lsg-con" ng-show="addLsgFlag">
+        <ul>
+            <li>
+                <span class="add-gys-label">名字:</span>
+                <input ng-model="lsgName" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">编号:</span>
+                <input ng-model="lsgBianHao" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">每小时工资:</span>
+                <input type="number" ng-model="gzVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">付款方式:</span>
+                <select ng-model="fkfsType" class="sel-leimu">
+                    <option value="0">支付宝</option>
+                    <option value="1">微信</option>
+                    <option value="2">银行卡</option>
+                </select>
+            </li>
+            <li>
+                <span class="add-gys-label">收款账户:</span>
+                <input ng-model="zhVal" class="add-gys-inp"></input>
+            </li>
+        </ul>
+        <div class="gys-tk-btns">
+            <button ng-click="addLsgFlag=false" class="ispc-can-btn">取消</button>
+            <button ng-click="sureAddFun()" class="ispc-con-btn">确定</button>
+        </div>
+    </div>
+    <!-- 修改 -->
+    <div class="add-lsg-con" style="height: 180px;" ng-show="modefyGzFlag">
+        <ul>
+            <li>
+                <span class="add-gys-label">备注:</span>
+                <input ng-model="gzBzVal" class="add-gys-inp"></input>
+            </li>
+            <li>
+                <span class="add-gys-label">修改工资:</span>
+                <input placeholder="如果减工资输入负整数,加工资输入正整数" ng-model="gzXgVal" class="add-gys-inp"></input>
+                 <!-- onkeyup="this.value=this.value.replace(/[^[-+]?([1-9]\d*|0)$]/g,'')" onafterpaste="this.value=this.value.replace(/[^[-+]?([1-9]\d*|0)$]/g,'')" -->
+            </li>
+        </ul>
+        <div class="gys-tk-btns">
+            <button ng-click="modefyGzFlag=false" class="ispc-can-btn">取消</button>
+            <button ng-click="surexggzFun()" class="ispc-con-btn">确定</button>
+        </div>
+    </div>
+    <!-- 删除 -->
+    <div class="del-lsg-wrap" ng-show="istjcwFlag">
+        <div class="add-lsg-con" style="height: 125px;width: 350px;">
+            <p>是否提交到财务?</p>
+            <div class="gys-tk-btns">
+                <button ng-click="istjcwFlag=false" class="ispc-can-btn">取消</button>
+                <button ng-click="sureTjcwFun()" class="ispc-con-btn">确定</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

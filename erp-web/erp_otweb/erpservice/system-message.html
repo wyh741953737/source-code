@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>通知-已发送-ERP系统</title>
+		<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+		<style type="text/css">
+			.data-inp{
+				text-indent: 12px;
+				height: 30px;
+				float: left;
+				width: 110px;
+				border: 1px solid #ececec;
+			}
+			.time-seabtn{
+				float: left;
+			    width: 55px;
+			    background: #08aceb;
+			    color: #fff;
+			    border: none;
+			    border-radius: 0;
+			    margin: 0;
+			    font-size: 12px;
+			    height: 30px;
+			    line-height: 30px;
+			}
+			.tz-fl-btn{
+				display: inline-block;
+				padding: 0 15px;
+				height: 30px;
+				line-height: 28px;
+				border-radius: 6px;
+				border: 1px solid #08aceb;
+				color: #08aceb;
+				margin-left: 15px;
+				margin-right: 0 !important;
+				cursor: pointer;
+			}
+			.tz-fl-btn.active-btn{
+				background: #08aceb;
+				color: #fff;
+			}
+			
+		</style>
+	</head>
+	
+	<body>
+		
+	
+		<!-- content -->
+		<div class="ea-content">
+			<!-- <div class="ea-content-box"> -->
+				
+				<!-- <div class="ea-content-con"> -->
+					<!-- left nav -->
+					<div class="left-bar">
+	            <ul>
+					<li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+					<li><a href="#/erpservice/document">{{'Document'}}</a></li>
+					<li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+	                <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+	                <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+	                <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+	                <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+	            </ul>
+	        </div>
+					
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+	          <!--<div class="top-taps clearfix">-->
+	            	<!--<ul>-->
+	                  <!--<li class="active"><a href="#/erpservice/tz">{{'100219' | translate}}</a></li>-->
+	                  <!--<li><a href="#/erpservice/tzdraft">{{'100220' | translate}}</a></li>-->
+	                  <!--<li><a href="#/erpservice/tztime">{{'100221' | translate}}</a></li>-->
+	                  <!--<li><a href="#/erpservice/tztemplet">{{'100222' | translate}}</a></li>-->
+	              <!--</ul>-->
+			    	<!--</div>-->
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+							<div class="input-group search-box">
+				              <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+				                <option value="SKU">SKU</option>
+				                <option value="CH">中文</option>
+				                <option value="EN">英文</option>
+				              </select> -->
+			                  <input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+			                  <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100025' | translate}}</a>
+            				</div>
+            				<input class="Wdate data-inp" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+            				<input id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+            				<button class="time-seabtn" ng-click="timeSeaFun()">搜索</button>
+							<!-- <p><input type="text" value=""  class="search-text-box" /><input type="button" value="搜索" class="search-button" /></p> -->
+							<!-- <p><select class="search-select">
+								<option>全部</option>
+								<option>无追踪信息</option>
+								<option>追踪信息不更新</option>
+								<option>追踪信息错误</option>
+								<option>商品退回</option>
+								<option>商品缺失</option>
+								<option>商品损坏</option>
+								<option>商品错发</option>
+								<option>订单未收到</option>
+							</select></p> -->
+							<a class="dc-btn" href="#/erpservice/tzedit/0">{{'100223' | translate}}</a>
+							<span ng-click="changeNotifyType(2)" ng-class="{'active-btn' : notifyType === 2}" class="tz-fl-btn">手动通知</span>
+							<span ng-click="changeNotifyType(1)" ng-class="{'active-btn' : notifyType === 1}" class="tz-fl-btn">系统自动通知</span>
+						</div>
+						
+						<!-- right list -->
+						
+						<!-- <div class="ea-list-manipulation">
+							<li class="active">
+								<a href="#/erpservice/tzedit/0">写通知</a>
+							</li>
+						</div> -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr>
+								<th><span class="chek-span"><!-- <input type="checkbox"> --></span></th>
+								<th style="width: 150px;"><span>{{'100224' | translate}}</span></th>
+								<th>{{'100159' | translate}}</th>
+								<th>{{'100225' | translate}}</th>
+								<th>{{'100043' | translate}}</th>
+
+							</tr>
+							<tr ng-repeat="item in list">
+
+								<td><span style="padding: 0 6px;"> <input name="need_inv" type="checkbox" value="1"></span></td>
+								<td>{{item.relationType==1?('100258' | translate):('100249' |translate )}}</td>
+								<td>{{item.notificationType}}....{{item.info}}</td>
+								<td>{{item.sendDate.year+1900}}-{{item.sendDate.month+1}}-{{item.sendDate.date}}</td>
+								<td><span><button type="button" class="ea-to-opea" ng-click="look(item)">{{'100122' | translate}}</button></span></td>
+							</tr>
+						</table>
+						<div ng-show="totalNum<1" style="text-align: center;">暂无数据</div>
+						<!-- 分页 -->
+            <!-- ng-show="hasMerch" -->
+            <div class="page-box" ng-show="totalNum>0">
+                <div class="select-page-num">
+                    <select class="form-control" ng-model="pagesize" ng-change="pagesizechange(pagesize)">
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>每页</span>
+                </div>
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup">
+                    	<a href="#">&lt;&lt;</a>
+					            <a href="#">&lt;</a>
+					            <a href="#">1</a>
+					            <a href="#">2</a>
+					            <a class="current" href="#">3</a>
+					            <a href="#">4</a>
+					            <a href="#">5</a>
+					            <a href="#">6</a>
+					            <a href="#">···</a>
+					            <a href="#">&gt;</a>
+					            <a href="#">&gt;&gt;</a>
+                    </div>
+                </div>
+                <div class="to-go">
+                    <span>跳转：</span>
+                    <input type="text" class="form-control" placeholder="" ng-model="pagenum">
+                    <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                </div>
+            </div>
+
+
+						<!-- <div class="fenPage" >
+							<span><select ng-options="item as item for item in pagearr" ng-model="pagesize" ng-change="pagesizechange(pagesize)" >
+
+							</select>
+							条每页
+							</span>
+							<span>共{{pagetol}}页</span>
+							<span class="pagegroup">
+						<a href="#">首页</a>
+						<a href="#">上一页</a>
+						<a class="bga" href="#">1</a>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">7</a>
+						<a href="#">8</a>
+						<a href="#">9</a>
+						<a href="#">下一页</a>
+						<a href="#">尾页</a>
+						</span>
+						<span>跳转 <input type="text" placeholder="" ng-model="pagenum"> 页 <input type="button" value="GO" ng-click="pagenumchange()"></span>
+						
+					</div> -->
+						
+						
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>

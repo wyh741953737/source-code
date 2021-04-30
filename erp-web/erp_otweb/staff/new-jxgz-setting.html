@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绩效规则设置</title>
+    <style>
+      .fun-div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+        height: 30px;
+      }
+
+      .btn-line {
+        height: 30px;
+        padding: 0 15px;
+        color: rgba(0, 0, 0, .2);
+        border: 1px solid rgba(0, 0, 0, .2);
+        border-radius: 3px;
+        padding: 5px 15px;
+        /* vertical-align: top; */
+      }
+
+      .btn-line:hover {
+        color: #1890ff;
+        border-color: #1890ff;
+      }
+
+
+      .btn,
+      .btn:hover,
+      .btn:active {
+        color: #f99429;
+        border: none;
+      }
+      /* .fun-div .sku-inp{
+            width: 280px;
+            height: 30px;
+            text-indent: 12px;
+            vertical-align: top;
+        } */
+      /* .fun-div .skusea-btn{
+            height: 30px;
+            padding: 0 10px;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            vertical-align: top;
+            margin-right: 50px;
+        } */
+      /* .fun-div .skusea-btn:hover{
+            color: #f99429;
+        } */
+      .table-con-box {
+        width: 100%;
+        overflow-x: auto;
+      }
+      .ea-list-table {
+        min-width: 100%;
+      }
+      .ea-list-table td {
+        min-width: 120px;
+      }
+      .ea-list-table td span {
+        font-size: 12px;
+      }
+
+      .ea-list-table td p {
+        font-size: 12px;
+      }
+
+      .lightseagreen {
+        background-color: lightseagreen;
+      }
+
+      .second-tr {
+        display: none;
+      }
+
+      .fun-div .data-inp {
+        width: 133px;
+        height: 30px;
+        padding: 0;
+        border: solid #e1e1e1 1px;
+        text-indent: .7em;
+      }
+
+      .fun-div .drk-seachInp {
+        background-color: #fff;
+        height: 30px;
+        padding: 0 10px;
+        vertical-align: top;
+        /*border-left: none;*/
+      }
+
+      .fun-div .drk-seachInp:hover {
+        color: #f99429;
+      }
+
+      .time-span {
+        margin-right: 20px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .time-span.active {
+        color: #08ACE9;
+      }
+
+      .sea-select {
+        height: 30px;
+        width: 160px;
+      }
+
+      .flex-th {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+
+      .sort-box {
+        display: flex;
+        flex-direction: column;
+      }
+      .ea-list-table .primary {
+        background-color: #40b3e2;
+      }
+      /* 弹框 */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        background-color: rgba(0, 0, 0, .2);
+      }
+      .modal .m-main {
+        padding: 20px;
+        background-color: #fff;
+      }
+      .modal .btn {
+        padding: 2px 35px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+      <div class="asj-h10"></div>
+      <div class="right-bar">
+        <!-- right list -->
+        <div class="fun-div">
+          <div>
+            <span>请选择组:</span>
+            <select class="sea-select" ng-model="khType" ng-change="khTypeFun(khType)">
+              <!-- 除搜品外暂时隐藏 -->
+              <option value="1">签收</option>
+              <option value="3">分标</option>
+              <option value="4">入库</option>
+              <option value="5">拣货</option>
+              <option value="8">称重出库</option>
+              <!-- <option value="2">称重</option>
+              <option value="6">验单</option>
+              <option value="7">打包</option>
+               -->
+              <option value="9">搜品</option>
+              <option value="11">质检</option>
+              <option value="12">分拣</option>
+              <option value="10">搜品扣分模块</option>
+            </select>
+          </div>
+          <!-- 搜品没有添加删除操作 -->
+          <div ng-if="!islog && isHaveSkus.indexOf(khType) == -1">
+            <a ng-show="khType != 10" href="#/staff/jxgzadd" class="btn-line">添加</a>
+            <!-- 搜品扣分添加分开处理 -->
+            <button ng-show="khType == 10" class="btn-line" ng-click="changeSoupinModelStatus(true)" >添加</button>
+            <a href="#/staff/jxgzSetting?islog=true" target="_black" class="btn-line">历史积分记录</a>
+          </div>
+        </div>
+        <div class="table-con-box">
+          <table ng-if="khType != 10" class="ea-list-table ea-erp-cs">
+            <thead>
+              <tr>
+                <th ng-if="!islog"><span>操作</span></th>
+                <th ng-show="isHaveSkus.indexOf(khType) == -1"><span>类目/SKU</span></th>
+                <th ng-repeat="x in groupDatas"><span>{{x.label}}</span></th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in rules">
+              <!-- <tr class="la_tr la_tr01"> -->
+                <td ng-if="!islog">
+                  <span>
+                    <a class="btn" ng-href="{{item.editUrl}}">编辑</a>
+                    <button ng-show="isHaveSkus.indexOf(khType) == -1" ng-click="ruleDelete(item.id)">删除</button>
+                  </span>
+                </td>
+                <td ng-show="isHaveSkus.indexOf(khType) == -1">
+                  <span>
+                    {{item.type == 1 ? item.categorySkuName : (item.type == 2 ? item.categorySku : '通用')}}
+                  </span>
+                </td>
+                <td ng-repeat="x in groupDatas">
+                  <span>{{item[x.key].start}}-{{item[x.key].end}}-{{item[x.key].interval}}-{{item[x.key].startPoints}}-{{item[x.key].intervalPoints}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table ng-if="khType == 10" class="ea-list-table ea-erp-cs" style="width: 500px !important;min-width: unset;">
+            <thead>
+              <tr>
+                <th ng-if="!islog"><span>操作</span></th>
+                <th><span>扣分模块</span></th>
+                <th><span>扣分规则</span></th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr class="la_tr la_tr01" ng-repeat="item in rules">
+                <td ng-if="!islog">
+                  <span>
+                    <button ng-click="item.isEdit = true" ng-show="!item.isEdit" class="primary">编辑</button>
+                    <button ng-click="onSaveSouPin(item)" ng-show="item.isEdit" class="primary">保存</button>
+                    <button ng-click="item.isEdit = false" ng-show="item.isEdit">取消</button>
+                    <button ng-click="ruleDelete(item.id)">删除</button>
+                  </span>
+                </td>
+                <td>
+                  <span ng-show="!item.isEdit">{{item.content}}</span>
+                  <span ng-show="item.isEdit">
+                    <input style="height: auto;width: auto" type="text" ng-model="item.content">
+                  </span>
+                </td>
+                <td>
+                  <span ng-show="!item.isEdit">{{item.score}}</span>
+                  <span ng-show="item.isEdit">
+                    <input style="height: auto;width: auto" type="number" ng-model="item.score">
+                  </span>
+                </td>
+              </tr>
+            </td>
+          </table>
+          <div style="text-align: center;" ng-cloak ng-show="rules.length<1">暂无数据</div>
+          <!-- 分页 -->
+          <page></page>
+        </div>
+      </div>
+      <!-- 搜品添加弹框 -->
+      <div ng-show="souPinCreateModel" class="modal">
+        <div class="m-main">
+          <h4 style="text-align:center">新增扣分原因</h4>
+          <div style="margin: 10px 0;">
+            <input type="text" ng-model="soupinCreateFrom.content" placeholder="请输入扣分原因">
+            <input type="text" ng-model="soupinCreateFrom.score" placeholder="输入单个分数">
+          </div>
+          <div style="text-align: center;">
+            <div class="btn" ng-click="changeSoupinModelStatus(false)">取消</div>
+            <div class="btn" ng-click="onSaveSouPin(soupinCreateFrom)">确定</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>提现</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+    <style>
+        body {
+            position: relative;
+        }
+
+        .clearfix:after {
+            content: "";
+            visibility: hidden;
+            display: block;
+            clear: both;
+            height: 0;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        body .guanlianshangpin {
+            width: 1111px;
+            height: 725px;
+            transform: translateX(0px);
+            transform: translateZ(0px);
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+                normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            left: 10%;
+            top: 10%;
+        }
+
+        body .guanlianshangpin .guanlianshangpinhead {
+            font-family: MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+            margin-left: 50%;
+        }
+
+        body .guanlianshangpin table {
+            margin: 0 auto;
+        }
+
+        body .guanlianshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .guanlianshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin {
+            margin: 0 auto;
+            width: 1011px;
+            height: 725px;
+            z-index: 100;
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+                normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            right: 1%;
+            bottom: -600px;
+        }
+
+        body .excelshangpin .guanlianshangpinhead {
+            font-family: MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            width: 1000px;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        body .excelshangpin table {
+            margin: 0 auto;
+        }
+
+        body .excelshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        .wllSort1 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            top: 23px;
+            cursor: pointer;
+        }
+
+        .wllSort2 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            bottom: 23px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+        .accreditSelect {
+            width: 100px;
+            border: 1px solid #ccc;
+            height: 35px;
+            text-align: center;
+            padding-left: 10px;
+            outline: none;
+            float: right;
+            margin-right: 20px;
+            margin-top: 8px;
+            color: #000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dianpuDialog {
+            z-index: 10003;
+        }
+
+        .dianpuDialog .guanlianshangpin {
+            width: 1000px;
+            height: 600px;
+        }
+
+        .dianpuDialog .guanlianshangpin .btns {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+
+        .dianpuDialog .guanlianshangpin .btns button {
+          background: #f99429;
+          color: #FFFEFE;
+          font-size: 12px;
+          padding: 0 10px;
+          width: initial;
+          line-height: initial;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 10px;
+            color: #999;
+            border: solid #e1e1e1 1px;
+            border-top: none;
+        }
+
+        .table-con-box img {
+            width: 15px;
+            display: inline-block;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .table-con-box .username {
+            cursor: pointer;
+        }
+
+        .table-con-box .username:hover {
+            color: #dc8a23;
+        }
+
+        .table-con-box tr:hover {
+            background-color: #e8f4ff;
+        }
+
+        .ea-list-table .focus {
+            background-color: #e8f4ff;
+        }
+
+        .table-con-box span {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .guanlianshangpin-wrap .left {
+            position: absolute;
+            left: -70px;
+            width: 40px;
+            height: 120px;
+            top: 300px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .guanlianshangpin-wrap .right {
+            position: absolute;
+            right: -70px;
+            width: 40px;
+            height: 120px;
+            top: 300px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .guanlianshangpin-wrap .closeimg {
+            width: 48px;
+            display: block;
+            position: absolute;
+            right: -24px;
+            top: -24px;
+            cursor: pointer;
+        }
+
+        .guanlianshangpin-wrap .one {
+            /*display: none;*/
+        }
+
+        .guanlianshangpin-wrap .one ul {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .guanlianshangpin-wrap .one li {
+            width: 45%;
+            float: left;
+            margin: 15px 25px;
+        }
+
+        .guanlianshangpin-wrap .one li span {
+            color: #000;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .guanlianshangpin-wrap .one li p {
+            color: #333;
+            font-size: 14px;
+            line-height: 40px;
+            height: 40px;
+            border-bottom: 2px solid #EEEEEE;
+        }
+
+        .guanlianshangpin-wrap .two ul {
+            width: 48%;
+            float: left;
+            margin: 20px 0;
+            padding: 0 85px;
+            overflow-y: auto;
+            height: 620px
+        }
+
+        .guanlianshangpin-wrap .two ul li {
+            word-wrap: break-word;
+        }
+
+        .guanlianshangpin-wrap .two ul:nth-child(1) {
+            border-right: 2px solid #666666;
+        }
+
+        .guanlianshangpin-wrap .two ul span {
+            font-size: 14px;
+            font-family: PingFangSC-Medium;
+            color: rgba(176, 86, 9, 1);
+            line-height: 17px;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .guanlianshangpin-wrap .two ul p {
+            font-size: 12px;
+            font-family: PingFangSC-Regular;
+            color: rgba(0, 0, 0, 1);
+            line-height: 25px;
+            min-height: 25px;
+            /*     display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 -webkit-line-clamp: 3;
+                 overflow: hidden;*/
+        }
+
+        .table-con-box .wa-SpColor {
+            color: #047aa7;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .table-con-box tr button {
+            /*    background-color: orange;
+                font-size: 12px;
+                color: #fff;
+                padding: 3px 8px;
+                margin: 0;
+                border-radius: 6px;*/
+        }
+
+        .layui-layer-btn .layui-layer-btn0 {
+            border: none;
+            background-color: #ccc;
+            width: 70px;
+            color: #000;
+        }
+
+        .layui-layer-btn .layui-layer-btn1 {
+            border: none;
+            width: 80px;
+        }
+
+        table th span,
+        td span {
+            font-size: 12px !important;
+            max-width: 200px;
+            display: inline-block !important;
+        }
+
+        .MroeActin {
+            position: relative;
+            width: 65px;
+            display: inline-block;
+        }
+
+        .MroeActin a {
+            color: #333333;
+            line-height: 23px;
+            font-size: 12px;
+        }
+
+        .MroeActin span {
+            display: inline-block !important;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-top: 4px dashed;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+        }
+
+        .MroeActin ul {
+            font-size: 12px;
+            position: absolute;
+            left: -16px;
+            top: 21px;
+            width: 100px;
+            box-shadow: 0px 8px 20px;
+            z-index: 10;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+
+        .MroeActin ul li {
+            font-size: 12px;
+            line-height: 23px;
+        }
+
+        .MroeActin ul li:hover {
+            background-color: #e3e3e3;
+            cursor: pointer;
+        }
+
+        .asj-common-tanwrap {
+            z-index: 100001;
+        }
+
+        .asj-common-tan h3 {
+            font-size: 14px;
+            font-family: PingFangSC-Medium;
+            color: rgba(102, 102, 102, 1);
+            line-height: 20px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .tan-add-ware ul {
+            min-height: 80px;
+        }
+
+        .tan-add-ware li {
+            display: inline-block;
+            font-size: 14px;
+            font-family: PingFangSC-Medium;
+            color: rgba(153, 153, 153, 1);
+            line-height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .tan-add-ware li:hover {
+            color: rgba(176, 86, 9, 1);
+        }
+
+        .asj-common-tan .tan-btns {
+            text-align: right;
+            position: initial;
+        }
+
+        .asj-common-tan .tan-btns a {
+            margin: initial;
+        }
+
+        .asj-common-tan .tan-btns .tan-btn1 {
+            width: 80px;
+            height: 30px;
+            background: rgba(249, 174, 8, 1);
+            border-radius: 2px;
+            color: #fff;
+        }
+
+        .asj-common-tan .tan-btns .tan-btn0 {
+            width: 80px;
+            height: 30px;
+            border-radius: 2px;
+            border: 1px solid rgba(247, 157, 45, 1);
+            margin: 0 20px;
+            color: #F9AE08;
+            background-color: #fff;
+        }
+
+        .tan-add-ware {
+            width: 360px;
+            min-height: 180px;
+            height: initial;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 4px;
+        }
+
+        .asj-common-tan input,
+        select {
+            width: 175px;
+            padding: 0 8px;
+            margin-bottom: 15px;
+            height: 28px;
+        }
+
+        .search-box {
+            width: initial;
+            line-height: 28px;
+        }
+
+        .search-box label {
+            float: left;
+        }
+
+        .guanlianshangpin ul {
+            margin-bottom: 10px;
+        }
+
+        .guanlianshangpin ul li {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        tr .subcriber {
+            background-color: #f99429;
+            color: #fff;
+            border-radius: 3px;
+            padding: 5px 8px;
+            font-size: 14px;
+        }
+
+        b {
+            font-size: 12px !important;
+        }
+
+        .yzkehu-flag {
+            display: inline-block;
+            padding: 0 3px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #fff;
+            background-color: #336699;
+            margin-top: 4px;
+        }
+
+        .ptkehu-flag {
+            display: inline-block;
+            padding: 0 3px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #fff;
+            background-color: #4A90E2;
+            margin-top: 4px;
+        }
+
+        .qzkehu-flag {
+            display: inline-block;
+            padding: 0 3px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #666666;
+            background-color: #F2F3F5;
+            margin-top: 4px;
+        }
+
+        .tab {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab li {
+            display: inline-block;
+            cursor: pointer;
+            margin-right: 20px;
+            padding: 4px 7px;
+        }
+
+        .tab li:hover,
+        .date-tab li:hover {
+            color: #0d47a1;
+        }
+
+        .tab .act {
+            color: #0d47a1;
+            border: 1px solid #0d47a1;
+        }
+
+        .date-tab {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .date-tab li {
+            display: inline-block;
+            margin: 10px;
+            color: #4A4A4A;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .date-tab .act {
+            color: #0d47a1;
+        }
+
+        .filter-btn {
+            padding: 4px 5px;
+            background-color: #08aceb;
+            color: #fff;
+            font-size: 12px;
+            height: 32px;
+            border-radius: 3px;
+        }
+
+        .dialog {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        .dialog .content {
+            width: 500px;
+            min-height: 180px;
+            height: initial;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 4px;
+            margin: 200px auto;
+            padding: 10px;
+        }
+
+        .dialog .content h3 {
+            font-size: 14px;
+
+        }
+
+        .dialog .content a {
+            padding: 4px 5px;
+            background-color: #08aceb;
+            color: #fff;
+            font-size: 12px;
+            border-radius: 3px;
+            margin-top: 10px;
+            display: block;
+            width: 100px;
+            text-align: center;
+        }
+
+        .img-box {
+            /*margin-top: 10px;*/
+        }
+
+        .img-box a {
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+            position: relative;
+            display: inline-flex !important;
+            align-items: center;
+        }
+
+        .img-box a i {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            right: -7px;
+            top: -7px;
+            text-align: center;
+            line-height: 15px;
+            background-color: #CCCCCC;
+        }
+
+        .img-box a img {
+            width: 100%;
+        }
+
+        .content .btns {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .content .btns button {
+            width: 80px;
+            height: 30px;
+            border-radius: 3px;
+            margin-left: 15px;
+        }
+
+        .content .btns button:nth-child(1) {
+            background-color: #08aceb;
+            color: #fff;
+        }
+
+        .content .btns button:nth-child(2) {
+            background-color: #08aceb;
+            color: #fff;
+        }
+
+        .content textarea {
+            width: 100%;
+            min-width: 200px;
+            border-radius: 3px;
+            border: 1px solid #CCCCCC;
+            margin-top: 10px;
+            padding: 8px;
+            font-size: 14px;
+            resize: auto;
+        }
+
+        table td a {
+            width: 50px;
+            height: 50px;
+            display: inline-flex !important;
+            align-items: center;
+            margin-right: 3px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        table td a img {
+            width: 100% !important;
+            margin: initial !important;
+        }
+
+        .guanlianshangpin ul {
+            margin-top: 10px;
+        }
+
+
+        .topNav {
+            position: fixed;
+            width: calc(100% - 270px);
+            top: 0;
+            left: 0;
+            margin-left: 260px;
+            background-color: #fff;
+            padding: 0 40px;
+            margin-bottom: 10px;
+            height: 58px;
+            line-height: 58px;
+            box-shadow: 2px 2px 14px 2px rgba(232, 244, 251, 1);
+            /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.18), 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 2px 6px 0px rgba(0, 0, 0, 0.04); */
+            z-index: 100;
+            display: flex;
+        }
+
+        .topNav>a {
+            display: inline-block;
+            padding: 5px 20px;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+        }
+
+        .topNav>a.active {
+            border-bottom-color: #F9AE08;
+            color: #F9AE08;
+        }
+
+        .topNav>a:hover {
+            color: #F9AE08;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ea-content">
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content">
+            <!-- <div class="bg-geduan"></div> -->
+            <div class="topNav">
+                <a class="" href="#/erpfinance/walletcash">CJ提现</a>
+                <a class="" href="#/erpfinance/walletcash/13">COD提现</a>
+                <a class="active" href="#/erpfinance/tixian">分销提现</a>
+            </div>
+            <div class="right-bar" style="min-height: 850px; margin-top: 70px;">
+                <ul class="tab">
+                    <li ng-class="{act:tabFlag == '1'}" ng-click="tabClick('1')">待处理</li>
+                    <li ng-class="{act:tabFlag == '2'}" ng-click="tabClick('2')">已确认提现</li>
+                    <li ng-class="{act:tabFlag == '3'}" ng-click="tabClick('3')">提现异常</li>
+                </ul>
+                <div class="clearfix" style="padding-left: 10px;">
+                    <div class="filter">
+                        <ul class="date-tab">
+                            <li ng-class="{act:dateTabFlag == '1'}" ng-click="dateTabClick('1')">今日</li>
+                            <li ng-class="{act:dateTabFlag == '2'}" ng-click="dateTabClick('2')">最近一周</li>
+                            <li ng-class="{act:dateTabFlag == '3'}" ng-click="dateTabClick('3')">一个月</li>
+                            <li ng-class="{act:dateTabFlag == '4'}" ng-click="dateTabClick('4')">三个月</li>
+                        </ul>
+                        <div style="display: inline-block;margin-left: 15px;">
+                            <wui-date format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+                                placeholder="开始时间" btns="{'ok':'确定','now':'今天'}" ng-model="startDate"></wui-date>
+                            <wui-date format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+                                class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}"
+                                ng-model="endDate"></wui-date>
+                            <button class="filter-btn" ng-click="filterSearch()">点击筛选</button>
+                        </div>
+                    </div>
+                    <div class="input-group search-box clearfix">
+                        <input type="text" class="form-control top-search-inp" placeholder="用户名" ng-model="search"
+                            ng-keyup="enterSearch($event)">
+                        <a role="button" class="btn btn-default top-search-btn" type="button"
+                            ng-click="searchList()">{{'100025' | translate}}</a>
+                    </div>
+                </div>
+                <!-- right list -->
+                <div class="table-con-box" id="c-mu-ord">
+                    <table class="ea-list-table ea-erp-cs">
+                        <thead>
+                            <tr>
+                                <th><span>序号</span></th>
+                                <th><span>日期</span></th>
+                                <th><span>用户名</span></th>
+                                <th><span>提现金额($)</span></th>
+                                <th><span>账户类型</span></th>
+                                <th><span>提现账户</span></th>
+                                <th ng-if="tabFlag == '2'"><span>提现成功时间</span></th>
+                                <th ng-show="tabFlag == '1'"><span>操作</span></th>
+                                <th ng-show="tabFlag == '2'"><span>转账凭证</span></th>
+                                <th ng-show="tabFlag == '3'"><span>拒绝原因</span></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in dataList" class="TR" ng-click="TrClick($index)"
+                                ng-class='{focus: $index == focus}'>
+                                <td><span>{{$index+1}}</span></td>
+                                <td><span> {{item.time}}</span></td>
+                                <td><span class="username" ng-click="usernameClick(item)"> {{item.userName}}</span></td>
+                                <td><span class="wa-SpColor" ng-click="tixianDetail(item)">{{item.billingamount}}</span>
+                                </td>
+                                <td><span>{{item.billingflag}}</span></td>
+                                <td><span>{{item.billingaccount}}</span></td>
+                                <td ng-if="tabFlag == '2'"><span>{{item.finishTime}}</span></td>
+                                <td ng-show="tabFlag == '1'">
+                                    <button class="subcriber" ng-click="passClick(item)">执行</button>
+                                    <button class="subcriber" ng-click="nopassClick(item)">拒绝</button>
+                                </td>
+                                <td ng-show="tabFlag == '2'">
+                                    <a target="_blank" ng-repeat="i in item.certificate track by $index"
+                                        ng-href="{{i}}">
+                                        <img ng-src="{{i}}" alt="">
+                                    </a>
+                                </td>
+                                <td ng-show="tabFlag == '3'">{{item.remark}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- 分页 -->
+                    <div class="no-data" ng-show="totalNum == 0">暂无数据。</div>
+                    <div class="page-box" ng-show="totalNum > 0">
+                        <div class="select-page-num">
+                            <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>每页</span>
+                        </div>
+                        <div class="total-num">
+                            共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                        </div>
+                        <div class="page-index">
+                            <div class="pagegroup">
+                                <a href="#">&lt;&lt;</a>
+                                <a href="#">&lt;</a>
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a class="current" href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+                                <a href="#">6</a>
+                                <a href="#">···</a>
+                                <a href="#">&gt;</a>
+                                <a href="#">&gt;&gt;</a>
+                            </div>
+                        </div>
+                        <div class="to-go">
+                            <span>跳转：</span>
+                            <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                            <a class="btn btn-default" href="javascript: void(0);" role="button"
+                                ng-click="pagenumchange()">go</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--执行-->
+    <div class="dialog" ng-show="zhixingFlag">
+        <div class="content clearfix">
+            <h3>是否转账给{{itemData.userName}}客户并且转账金额未${{itemData.billingamount}}?</h3>
+            <a href="" ng-click="uploadClick()">点击上传凭证</a>
+            <input style="display: none;" type="file" accept="image/*" id="uplod"
+                onchange="angular.element(this).scope().upLoadImg(this.files)">
+            <div class="img-box">
+                <a ng-repeat="item in imgList" target="_blank" ng-href="{{item}}"><i
+                        ng-click="removeImg($index,$event)">×</i><img ng-src="{{item}}" alt=""></a>
+            </div>
+            <div class="btns">
+                <button ng-click="zhixingY()">确定</button>
+                <button ng-click="zhixingFlag = false;">取消</button>
+            </div>
+        </div>
+    </div>
+    <!--拒绝-->
+    <div class="dialog" ng-show="jujueFlag">
+        <div class="content clearfix">
+            <h3>拒绝原因</h3>
+            <textarea ng-model="jujueTXt" onkeyup="value=value.replace(/[\u4E00-\u9FA5]/g,'')"
+                onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+                oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" placeholder="请输入English"></textarea>
+            <div class="btns">
+                <button ng-click="jujueY()">确定</button>
+                <button ng-click="jujueFlag = false;">取消</button>
+            </div>
+        </div>
+    </div>
+    <!--提现金额弹框-->
+    <div class="guanlianshangpin-wrap dianpuDialog" ng-show="tixianDialog">
+        <div class="guanlianshangpin c-ord-con" style="margin: auto;right: 0;top: 0;left: 0;bottom: 0;">
+            <button
+                style="position: absolute;line-height: 20px;right: 5px;top: 5px;width: 50px;height: 20px;background: #f99429;color: #FFFEFE;font-size: 12px;border-radius: 4px;"
+                ng-click="tixianDialog = false">{{'100066' | translate}}
+            </button>
+            <h3>提现记录</h3>
+            <ul>
+                <li>
+                    <span>客户ID:</span>
+                    <span>{{cjId}}</span>
+                </li>
+                <li>
+                    <span>客户名称:</span>
+                    <span>{{name}}</span>
+                </li>
+                <li>
+                    <span>业务员:</span>
+                    <span>{{salesman}}</span>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <span>结算区间:</span>
+                    <span>{{startTime}} - {{endTime}}</span>
+                </li>
+                <li>
+                    <span>金额:</span>
+                    <span>{{orderamount}}</span>
+                </li>
+            </ul>
+            <div class="btns">
+              <button ng-click="exportExcel()">导出提现记录</button>
+            </div>
+            <table>
+                <thead class="c-ord-thead">
+                    <tr>
+                        <th>订单号</th>
+                        <th>客户名</th>
+                        <th>类型</th>
+                        <th>时间</th>
+                        <th>金额</th>
+                        <th>佣金</th>
+                    </tr>
+                </thead>
+                <tbody class="c-ord-tbody">
+                    <tr ng-repeat="item in tixianList">
+                        <td>{{item.orders}}</td>
+                        <td>{{item.customerName}}</td>
+                        <td>
+                            <span ng-show="item.orderType == '1' || item.orderType == '2'">支付</span>
+                            <span ng-show="item.orderType == '4' || item.orderType == '5'">纠纷</span>
+                        </td>
+                        <td>{{item.time}}</td>
+                        <td>{{item.orderMoney}}</td>
+                        <td>{{item.totleAmount}}</td>
+                    </tr>
+                    <tr ng-show="tixianList.length == 0">
+                        <td colspan="6">暂无数据。</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-box" ng-show="tixianList.length > 0">
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ tixian_totalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="page-index">
+                    <div class="tixian-page">
+                        <a href="#">&lt;&lt;</a>
+                        <a href="#">&lt;</a>
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a class="current" href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">···</a>
+                        <a href="#">&gt;</a>
+                        <a href="#">&gt;&gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

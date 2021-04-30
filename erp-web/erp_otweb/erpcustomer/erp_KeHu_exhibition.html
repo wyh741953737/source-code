@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>客户-黑名单-ERP系统</title>
+	<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+	<style type="text/css">
+		.wllSort1{
+			width: 0;
+		    height: 0;
+		    border-left: 5px solid transparent;
+		    border-right: 5px solid transparent;
+		    border-top: 7px solid lightslategray;
+		    position: absolute;
+		    right: 25px;
+		    top: 23px;
+		    cursor: pointer;
+		}
+		.wllSort2{
+			width: 0;
+		    height: 0;
+		    border-left: 5px solid transparent;
+		    border-right: 5px solid transparent;
+		    border-bottom: 7px solid lightslategray;
+		    position: absolute;
+		    right: 25px;
+		    bottom: 23px;
+		    margin: auto;
+		    cursor: pointer;
+		}
+		.reasonsfalse{
+			width: 500px;
+			height: 300px;
+			padding:10px 25px;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			margin: auto;
+			background: #fff;
+			border: 1px solid lightgray;
+			box-shadow: 0 0 30px lightgray;
+		}
+		.reasonsname{
+			width: 98%;
+			height: 30px;
+			color: #000;
+			margin: auto;
+			margin-top: 10px;
+		}
+		.reasonsText{
+			width: 100%;
+			height: 160px;
+			border: 1px solid lightgrey;
+			color: gray;
+			margin-top: 5px;
+		}
+		.reasonsText>p{
+			width: 100%;
+			height: 100%;
+			padding: 10px;
+			overflow: auto;
+			font-size: 14px;
+		}
+		.reasonsclose{
+			width: 80px;
+			height: 30px;
+			color: #fff;
+			background: #a3a1a1;
+			margin: auto;
+			margin-top: 20px;
+			border-radius: 5px;
+			text-align: center;
+			line-height: 30px;
+			font-size: 14px;
+			cursor: pointer;
+		}
+		.tan-grant-gist {
+			width: 360px;
+			height: 180px;
+			/*margin-left: -180px;
+			margin-top: -90px;*/
+		}
+		.tan-grant-gist .tan-title {
+			margin: 45px 0;
+		}
+	</style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="ea-content">
+	<!-- <div class="ea-content-box"> -->
+
+		<!-- <div class="ea-content-con"> -->
+			<!-- left nav -->
+			<div class="left-bar">
+          <ul>
+			  <li><a href="#/erpcustomer/KeHuLieBiao">{{'100890' | translate}}（{{customerdata.normal}}）</a></li>
+			  <li><a href="#/erpcustomer/xushenhe">{{'100891' | translate}}（{{customerdata.needaudit}}）</a></li>
+			  <li><a href="#/erpcustomer/shenhenopass">{{'100892' | translate}}（{{customerdata.nopass}}）</a></li>
+			  <li><a href="#/erpcustomer/heimingdan">{{'100608' | translate}}（{{customerdata.black}}）</a></li>
+			  <li><a href="#/erpcustomer/shoplist">{{'100893' | translate}}（{{customerdata.shop}}）</a></li>
+			  <li ng-click="refresh()" class="active"><a href="#/erpcustomer/exhibition">{{'100894' | translate}}（{{customerdata.exhibition}}）</a></li>
+			  <li><a href="#/erpcustomer/Affiliate">{{'100895' | translate}}（{{customerdata.affUserNum}}）</a></li>
+			  <li><a href="#/erpcustomer/GH">{{'100896' | translate}}（{{customerdata.customerResourceNum}}）</a></li>
+		  </ul>
+      </div>
+
+			<!-- right con -->
+			<div class="right-bar-wrap ea-right-content">
+				<div class="bg-geduan"></div>
+				<!-- right search -->
+				<div class="right-bar">
+				<div class="ea-right-search">
+					<div class="input-group search-box">
+              <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+                <option value="SKU">SKU</option>
+                <option value="CH">中文</option>
+                <option value="EN">英文</option>
+              </select> -->
+              <input type="text" class="form-control top-search-inp" placeholder="" ng-model="searchinfo" ng-keyup="enterSearch($event)">
+              <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="searchcustomer()">{{'100025' | translate}}</a>
+          </div>
+          <button ng-if="dcAdminFlag" class="dao-chu-btn" ng-click="openInputPassword(daoChuFun)">导出</button>
+					<!-- <p><input type="text" value="" ng-model="searchinfo"  class="search-text-box" /><input type="button" value="搜索" class="search-button" ng-click="searchcustomer()" /></p> -->
+
+				</div>
+
+				<!-- right list -->
+				<div class="table-con-box" id="c-mu-ord">
+					<table class="ea-list-table ea-erp-cs">
+						<tr>
+							<th><span>序号</span></th>
+							<!-- <th><span style="min-width: 30px;">
+								<img class="c-mu-allchekbox" src="static/image/order-img/multiple1.png">
+							</span></th> -->
+							<!-- <th><span>用户名</span></th> -->
+							<th><span>{{'100927' | translate}}</span></th>
+							<!-- <th><span>国家</span></th> -->
+							<th style="position: relative;"><span style="width: 90%;">{{'100929' | translate}}</span><span class="wllSort1" ng-click="wllSort1()"></span><span class="wllSort2" ng-click="wllSort2()"></span></th>
+							<!-- <th><span>理由</span></th> -->
+							<!-- <th><span>拉黑时间</span></th> -->
+							<th><span>{{'101318' | translate}}</span></th>
+							<th><span>{{'100176' | translate}}</span></th>
+							<th><span>{{'100960' | translate}}</span></th>
+							<th><span>{{'100926' | translate}}</span></th>
+							<th><span>{{'100877' | translate}}</span></th>
+							<th><span>{{'100961' | translate}}</span></th>
+							<th><span>{{'100962' | translate}}</span></th>
+						</tr>
+						<tr ng-repeat="item in custExhiList">
+							<!-- item.ID -->
+							<!-- <td><span> {{(pageNum-1) * pageSize + $index + 1}}</span></td> -->
+							<td><span>{{$index+1}}</span></td>
+							<!-- <td>
+								<img class="c-mu-chekbox stop-prop" src="static/image/order-img/multiple1.png">
+								<p class="hide-order-id" style="display: none;">{{item.idStr}}</p>
+							</td> -->
+							<!-- <td style="cursor: pointer;" ng-click="shenhe(item)"><span><p>{{item.LOGIN_NAME}}</p></span></td> -->
+							<td style="cursor: pointer;" ng-click="shenhe(item)"><span>{{item.FIRSTNAME + ' '+ item.LASTNAME}}</span></td>
+							<!-- <td><span>{{item.COUNTRY}}</span></td> -->
+							<td><span>{{item.EXHIBITIONDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</span></td>
+							<!-- <td style="cursor: pointer;" ng-click="refusal(item)"><span>{{item.remarks1}}</span></td> -->
+							<!-- <td><span>{{item.encDate1}}<br> {{item.encDate2}}</span></td> -->
+							<td><span>{{item.OPERATORNAME}}</span></td>
+							<td><span>{{item.EMAIL}}</span></td>
+							<td><span>{{item.CONTACTTYPE + ': ' + item.CONTACT}}</span></td>
+							<td><span>{{item.shoptype || '--'}}</span></td>
+							<td><span>{{item.shopname || '--'}}</span></td>
+							<td><span>{{item.codegift || '--'}}</span></td>
+							<td>
+								<span ng-if="item.isgift == 1">{{'100963' | translate}}</span>
+								<a ng-if="item.codegift && item.isgift != 1" role="button" class="asj-btn-s asj-btn-s1" ng-click="grantGift(item, $index)" href="javascript: void(0);">{{'100964' | translate}}</a>
+								<span ng-if="!item.codegift">--</span>
+								<!-- <span>{{'已发放'}}</span> -->
+							</td>
+						</tr>
+
+					</table>
+					
+					<!-- 分页 -->
+					<div class="no-data" ng-show="custExhiList.length == 0">没有数据</div>
+           <!-- ng-show="hasMerch" -->
+          <div class="page-box" ng-show="custExhiList.length > 0">
+              <div class="select-page-num">
+                  <select class="form-control" ng-model="pageSize" ng-change="pagechange(pagesize)" style="width: 65px;height: 31px;">
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                  </select>
+                  <span>每页</span>
+              </div>
+              <div class="total-num">
+                  共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+              </div>
+              <div class="page-index">
+                  <div class="pagegroup">
+                  	<a href="#">&lt;&lt;</a>
+				            <a href="#">&lt;</a>
+				            <a href="#">1</a>
+				            <a href="#">2</a>
+				            <a class="current" href="#">3</a>
+				            <a href="#">4</a>
+				            <a href="#">5</a>
+				            <a href="#">6</a>
+				            <a href="#">···</a>
+				            <a href="#">&gt;</a>
+				            <a href="#">&gt;&gt;</a>
+                  </div>
+              </div>
+              <div class="to-go">
+                  <span>跳转：</span>
+                  <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+                  <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+              </div>
+          </div>
+
+					<!-- <div class="fenPage">
+							<span><select ng-model="pagesize" ng-change="pagechange(pagesize)" ng-options="item as item for item in pagenumarr">
+							</select>
+							条每页
+							</span>
+						<span>共{{totalpage()}}页</span>
+						<span class="pagegroup">
+							</span>
+						<span>跳转 <input class="goyema" type="number" style=" padding: 0;" step="1"  placeholder="" ng-model="pagenum"> 页 <input type="button" value="GO" ng-click="pagenumchange()"></span>
+
+					</div> -->
+
+
+				</div>
+				</div>
+			</div>
+			<!--拒绝理由弹框-->
+					<div class="reasonsfalse" ng-show="reasons">
+						<p class="reasonsname"></p>
+						<div class="reasonsText">
+							<p></p>
+						</div>
+						<p class="reasonsclose" ng-click="reasonsclose()">{{'100066' | translate}}</p>
+					</div>
+		<!-- </div> -->
+	<!-- </div> -->
+</div>
+
+<div class="asj-common-tanwrap" ng-show="grantGiftFlag">
+		<div class="asj-common-tan tan-grant-gist">
+			<div class="tan-title">{{'100965' | translate}}？</div>
+			<!-- <p>确认删除仓库？</p>	 -->
+			<div class="tan-btns"><a class="tan-btn0" ng-click="grantGiftFlag=false;grantItem=null;">{{'100051' | translate}}</a><a class="tan-btn1" ng-click="goGrantGift()">{{'100050' | translate}}</a></div>
+		</div>
+</div>
+<!--导出-->
+<div class="staffwindow" ng-show="daoChuFlag">
+	<div class="windowcontent" style="height: 160px;padding: 20px;text-align: center;">
+		<a style="text-decoration: underline;color: #047aa7;" href="javascript:void(0)" ng-click="downExcelFun()">{{excelLink}}</a>
+	<div>
+	<button ng-click="closeExcelFun()" style="margin:0;color: #fff;" >关闭</button>
+</div>
+</body>
+</html>

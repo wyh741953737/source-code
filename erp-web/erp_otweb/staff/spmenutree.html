@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    .firstNav {
+      border: 1px solid #F3F3F3;
+      width: 212px;
+    }
+
+    .firstNav li {
+      display: flex;
+      height: 44px;
+      line-height: 44px;
+      border-bottom: 1px solid #F3F3F3;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      position: relative;
+      color: #666;
+      font-size: 14px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .firstNav li:last-child {
+      border-bottom: none;
+    }
+
+    .firstNav>li.act {
+      background: #FFB900;
+      color: #fff;
+    }
+
+    .firstNav li>b {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: url("static/image/staff/next.png") no-repeat;
+    }
+
+    .firstNav>li.act>b {
+      background: url("static/image/staff/chevron.png") no-repeat;
+    }
+
+    .firstNav>li.act>.secondNav {
+      display: block;
+    }
+
+    .secondNav {
+      position: absolute;
+      width: 240px;
+      border: 1px solid #F3F3F3;
+      left: 210px;
+      top: 0;
+      display: none;
+    }
+
+    .firstNav>li.act>.secondNav {
+      display: block;
+    }
+
+    .firstNav li:nth-child(9)>.secondNav {
+      top: -44px;
+    }
+
+    .firstNav li:nth-child(10)>.secondNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(11)>.secondNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(12)>.secondNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(13)>.secondNav {
+      top: -132px;
+    }
+
+    .secondNav>li {
+      position: relative;
+    }
+
+    .secondNav>li.act {
+      background: #FCF4D9;
+      color: #FF9900;
+    }
+
+    .secondNav>li.act>.thirdNav {
+      display: block;
+    }
+
+    .thirdNav {
+      position: absolute;
+      width: 300px;
+      border: 1px solid #f3f3f3;
+      left: 238px;
+      top: 0;
+      display: none;
+    }
+
+    .firstNav li:nth-child(6)>.secondNav>li:nth-child(2)>.thirdNav {
+      top: -44px;
+    }
+
+    .firstNav li:nth-child(6)>.secondNav>li:nth-child(3)>.thirdNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(6)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(6)>.secondNav>li:nth-child(5)>.thirdNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(6)>.secondNav>li:nth-child(6)>.thirdNav {
+      top: -220px;
+    }
+
+    .firstNav li:nth-child(7)>.secondNav>li:nth-child(2)>.thirdNav {
+      top: -44px;
+    }
+
+    .firstNav li:nth-child(7)>.secondNav>li:nth-child(3)>.thirdNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(7)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(7)>.secondNav>li:nth-child(5)>.thirdNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(7)>.secondNav>li:nth-child(6)>.thirdNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(8)>.secondNav>li:nth-child(2)>.thirdNav {
+      top: -44px;
+    }
+
+    .firstNav li:nth-child(8)>.secondNav>li:nth-child(3)>.thirdNav {
+      top: -264px;
+    }
+
+    .firstNav li:nth-child(8)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(8)>.secondNav>li:nth-child(5)>.thirdNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(9)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -308px;
+    }
+
+    .firstNav li:nth-child(9)>.secondNav>li:nth-child(5)>.thirdNav {
+      top: -220px;
+    }
+
+    .firstNav li:nth-child(9)>.secondNav>li:nth-child(6)>.thirdNav {
+      top: -308px;
+    }
+
+    .firstNav li:nth-child(10)>.secondNav>li:nth-child(3)>.thirdNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(10)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(10)>.secondNav>li:nth-child(5)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(10)>.secondNav>li:nth-child(6)>.thirdNav {
+      top: -220px;
+    }
+
+    .firstNav li:nth-child(11)>.secondNav>li:nth-child(2)>.thirdNav {
+      top: -44px;
+    }
+
+    .firstNav li:nth-child(11)>.secondNav>li:nth-child(3)>.thirdNav {
+      top: -44px;
+    }
+
+    .firstNav li:nth-child(11)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(11)>.secondNav>li:nth-child(5)>.thirdNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(11)>.secondNav>li:nth-child(6)>.thirdNav {
+      top: -44px;
+    }
+
+    .firstNav li:nth-child(11)>.secondNav>li:nth-child(7)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(12)>.secondNav>li:nth-child(2)>.thirdNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(12)>.secondNav>li:nth-child(3)>.thirdNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(12)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(12)>.secondNav>li:nth-child(5)>.thirdNav {
+      top: -132px;
+    }
+
+    .firstNav li:nth-child(12)>.secondNav>li:nth-child(6)>.thirdNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(13)>.secondNav>li:nth-child(1)>.thirdNav {
+      top: -88px;
+    }
+
+    .firstNav li:nth-child(13)>.secondNav>li:nth-child(2)>.thirdNav {
+      top: -484px;
+    }
+
+    .firstNav li:nth-child(13)>.secondNav>li:nth-child(3)>.thirdNav {
+      top: -176px;
+    }
+
+    .firstNav li:nth-child(13)>.secondNav>li:nth-child(4)>.thirdNav {
+      top: -220px;
+    }
+
+    .thirdNav>li.act {
+      background: #FFFAFA;
+      color: #FF9900;
+    }
+
+    .pname {
+      margin-right: 15px;
+    }
+
+    .difficulty {
+      margin-right: 15px;
+    }
+
+    .difficulty>input {
+      display: none;
+      width: 28px;
+      height: 28px;
+    }
+
+    .difficulty>.fenshu {
+      display: inline-block;
+      color: #FF9900;
+    }
+
+    #taskTable>thead>tr>th {
+      background: #FFB900;
+      color: #fff;
+      font-size: 14px;
+      border-color: #FFB900;
+      padding: 10px;
+    }
+
+    #taskTable>thead>tr>th:first-child {
+      border-top-left-radius: 5px;
+    }
+
+    #taskTable>tbody>tr {
+      padding: 0 5px;
+    }
+
+    #taskTable>thead>tr {
+      border-color: #FFB900;
+    }
+
+    #taskTable>thead>tr>th:last-child {
+      border-top-right-radius: 5px;
+
+    }
+
+    #taskTable td {
+      font-size: 14px;
+      padding: 15px 0;
+    }
+
+    #taskTable>tbody>tr>td:not(:last-child) {
+      border-right: none;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .diffBtn>a {
+      border: 1px solid #f0f0f0;
+      border-radius: 50px;
+      padding: 5px 10px;
+    }
+
+    .add-type-sel {
+      height: 32px;
+    }
+
+    .search-cate {
+      width: 500px;
+      height: 32px;
+      line-height: 32px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .search-cate input {
+      width: 358px;
+      height: 32px;
+      border-radius: 0;
+      border-color: #e5e5e5;
+      box-shadow: none;
+      border-right: 0;
+    }
+
+    .search-cate button {
+      width: 32px;
+      height: 32px;
+      border-radius: 0;
+      background: #b9b9b9;
+      padding: 4px;
+      border: none;
+    }
+
+    .input-group-btn {
+      position: relative;
+      font-size: 0;
+      white-space: nowrap;
+    }
+
+    .sz-t-header {
+      display: flex;
+      background-color: #FFB900;
+      margin-top: 50px;
+    }
+
+    .sz-t-header li {
+      width: 25%;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .sz-sec-header {
+      display: flex;
+    }
+
+    .sz-sec-header li {
+      width: 6.25%;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    .sz-sec-header li input {
+      width: 90%;
+      padding: 10px 0;
+      text-align: center;
+    }
+    .option-btn-box{
+      text-align: center;
+      margin-top: 50px;
+    }
+    .option-blue-btn {
+      padding: 0 20px;
+      height: 30px;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 4px;
+      border: 1px solid #87CEFA;
+      color: #87CEFA;
+      margin-left: 10px;
+      font-size: 12px;
+    }
+    .option-blue-btn:hover{
+      background-color: #87CEFA;
+      color: #fff;
+    }
+
+    .rule-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 100%;
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+    .rule-container .rule-box {
+      margin-top: 20px;
+      width: 350px;
+      border-right: #eee 1px solid;
+    }
+    .rule-container .rule-box-header {
+      text-align: center;
+      padding: 10px 0;
+      background-color: #FFB900;
+    }
+    .rule-container .rule-box-titles {
+      display: flex;
+      justify-content: space-around;
+      padding: 5px 0;
+    }
+    .rule-container .rule-box-inputs {
+      display: flex;
+      justify-content: space-around;
+    }
+    .rule-box-inputs input {
+      width: 65px;
+      font-size: 90%;
+      margin: 0px 2px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="ea-content asj-service-docu">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+      <div class="asj-h10"></div>
+      <div class="right-bar" style="padding-top: 50px;padding-left: 20px;min-height: 980px;">
+        <div ng-show="notTypeData.indexOf(group) == -1">
+          <div style="padding: 12px 0;font-size: 16px;">
+            <span>请选择组:</span>
+            <select class="sea-select" ng-model="group" ng-change="khTypeFun(group)">
+              <!-- 除搜品外暂时隐藏 -->
+              <option value="1">签收</option>
+              <option value="3">分标</option>
+              <option value="4">入库</option>
+              <option value="5">拣货</option>
+              <!-- <option value="2">称重</option>
+              <option value="6">验单</option>
+              <option value="7">打包</option>
+               -->
+               <option value="11">质检</option>
+               <option value="12">分拣</option>
+            </select>
+          </div>
+          <div class="input-group search-cate" ng-click="stopPropagation($event)">
+            <select class="add-type-sel" ng-model="type">
+              <option value="1">根据类目设置</option>
+              <option value="2">SKU</option>
+              <option value="3">通用</option>
+            </select>
+            <!-- <span ng-show="type == 1" style="line-height: normal;white-space: nowrap;margin-left: 10px;">当前选择的类目为：{{categorySkuName}}</span> -->
+            <input ng-show="type==2" type="text" class="form-control" ng-model="sku" />
+            <span ng-show="type==2" class="input-group-btn" ng-click="searchSku()">
+              <button class="btn btn-default" type="button"><img src="static/image/public-img/iconsearch.png" alt=""></button>
+            </span>
+          </div>
+          <ul class="firstNav" ng-show="type==1">
+            <li data-type="1" class="">
+              全部类目
+            </li>
+            <li ng-class="{'act': first.id == selectedFirstId}" ng-click="changeCategory(first, 'selectedFirstId')" ng-repeat="first in FirstList">
+              <span>{{first.name}}</span>
+              <b></b>
+              <ul class="secondNav">
+                <li ng-class="{'act': second.id == selectedSecondId}" ng-click="changeCategory(second, 'selectedSecondId')"  ng-repeat="second in first.children">
+                  <span>{{second.name}}</span>
+                  <b></b>
+                  <ul class="thirdNav">
+                    <li ng-class="{'act': third.ID == categoryId}" ng-click="changeCategory(third, 'categoryId')"  ng-repeat="third in second.children">
+                      <span class="pname">{{third.NAME}}</span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+          <div class="task-right" ng-show="type==2">
+            <!-- <p style="margin-bottom: 10px">今日已录入数量（{{entryCount}}）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;待办任务（{{backlogCount}}）</p> -->
+            <table class="ea-list-table ea-erp-cs" id="taskTable">
+              <thead>
+                <tr>
+                  <th>图片</th>
+                  <th>商品名称</th>
+                  <th>SKU</th>
+                  <th>商品类目</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="product in productList" data-id="{{product.ID}}">
+                  <td><img src="{{product.bigImg}}" alt="" width="100" srcset=""></td>
+                  <td>{{product.nameEn}}</td>
+                  <td>{{product.sku}}</td>
+                  <td class="diffBtn">{{product.categoryName}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="option-btn-box">
+              <button class="option-blue-btn" ng-clcik="skuCancel()">取消</button>
+              <button class="option-blue-btn" ng-click="skuOk()">确认</button>
+            </div>
+          </div>
+        </div>
+        <h3 ng-show="group == 9">搜品规则设置</h3>
+        <h5 style="color: red;">温馨提示:如果想字段不计入积分,请将积分开始值和积分间距设为0;如果想字段积分不变,请将积分间距设为0</h5>
+        <h5 style="color: red;">切记间距值不能设为0</h5>
+        <ul class="rule-container">
+          <li class="rule-box" ng-repeat="x in testArr">
+            <div class="rule-box-header">{{x.label}}</div>
+            <div class="rule-box-main">
+              <ul class="rule-box-titles">
+                <li>起始值</li>
+                <li>结束值</li>
+                <li>间距值</li>
+                <li>积分开始</li>
+                <li>积分间距</li>
+              </ul>
+              <ul class="rule-box-inputs">
+                <li><input type="number" ng-model="params[x.key].start"></li>
+                <li><input type="number" ng-model="params[x.key].end"></li>
+                <li><input type="number" ng-model="params[x.key].interval" ng-blur="intervalBlur(params[x.key].interval, x.key)"></li>
+                <li><input type="number" ng-model="params[x.key].startPoints"></li>
+                <li><input type="number" ng-model="params[x.key].intervalPoints"></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <div class="option-btn-box">
+          <button class="option-blue-btn" ng-click="cancel()">取消</button>
+          <button class="option-blue-btn" ng-click="submit()">提交</button>
+        </div>
+
+        <div style = "margin-top: 100px;">
+          <ul class="rule-container">
+            <li class="rule-box">
+              <div class="rule-box-header">积分规则试算</div>
+              <div class="rule-box-main">
+                <ul class="rule-box-titles">
+                  <li>起始值</li>
+                  <li>结束值</li>
+                  <li>间距值</li>
+                  <li>积分开始</li>
+                  <li>积分间距</li>
+                </ul>
+                <ul class="rule-box-inputs">
+                  <li><input type="number" ng-model="intervalTest.start"></li>
+                  <li><input type="number" ng-model="intervalTest.end"></li>
+                  <li><input type="number" ng-model="intervalTest.interval"></li>
+                  <li><input type="number" ng-model="intervalTest.startPoints"></li>
+                  <li><input type="number" ng-model="intervalTest.intervalPoints"></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+          <div style="margin-top: 20px;">
+            <div ng-repeat="x in resultTest" style="margin-bottom: 5px;">
+              <span>参数{{$index + 1}}：</span>
+              <input style="margin-left: 10px;" type="number" ng-model="x.param">
+              <button class="option-blue-btn" ng-click="intervalTestSub($index)">试算</button>
+              <span style="margin-left: 20px;" >结果：</span>
+              <input type="number" ng-model="x.result">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

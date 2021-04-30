@@ -1,0 +1,193 @@
+<link rel="stylesheet" href="static\css\init.css">
+<link rel="stylesheet" href="static\css\y.css">
+<div class="my-wrap">
+  <main class="my-main">
+    <header class="header flex fyc mb-20">
+      <div class="mr-20 br-4 mr-20">
+        <span>订单关键词: </span>
+        <input type="text" placeholder="商品名称/订单号" ng-model="query" ng-keyup="handleSearch($event)" class="bd-1e" style="width: 170px;">
+      </div>
+      <div class="mr-20">
+        <span>下单时间:</span>
+        <input id="start" class="bd-1e" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="点击选择开始日期"/>
+        <i> - </i>
+        <input id="end" class="bd-1e" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="点击选择结束日期"/>
+      </div>
+      <div>
+        <button class="bg-b1 mr-10" ng-click="getList()">搜索</button>
+        <button class="bg-b1" ng-click="openInputPassword(handleBatchPayment)">批量付款</button>
+      </div>
+    </header>
+
+    <section class="table">
+      <ul class="table-head flex fyc fs-14 bd-1e c-th">
+        <li style="width: 5%; max-width: 50px;" class="flex fyc fxr">
+          <span class="checkbox" ng-class="{active: isAllChecked()}" ng-click="handleAllCheck()"></span>
+        </li>
+        <li style="width: 18%;" class="flex fyc fxl">订单号</li>
+        <li style="width: 10%;">创建时间</li>
+        <li style="width: 15%;">供货公司</li>
+        <li style="width: 10%;">下单账号</li>
+        <li style="width: 5%;">合计数量</li>
+        <li style="width: 5%;">总价(￥)</li>
+        <!-- <li style="width: 10%;">备忘信息</li> -->
+        <li style="width: 15%;">买家留言</li>
+        <li style="width: 5%;">收货人</li>
+        <li style="width: 10%;">订单详情</li>
+      </ul>
+      <ul class="table-body fs-14">
+        <li ng-repeat="item in list">
+          <div class="table-item flex fyc bd-1e">
+            <dl style="width: 5%; max-width: 50px;">
+              <span class="checkbox" ng-class="{active: item.checked}" ng-click="handleCheck(item,$event)"></span>
+            </dl>
+            <dl style="width: 18%;">
+              {{item.baseInfo.idOfStr}}
+              <img style="height: 18px;cursor: pointer;" ng-click="handleCopy(item.baseInfo.idOfStr)" src="./static/image/public-img/copy.png" alt="">
+              <span title="不支持跨境宝" ng-show='item.baseInfo.supportBorderPay == "0"' class="font-back-red custome-tip-icon">否</span>
+              <span title="未知是否支持跨境宝" ng-show='item.baseInfo.supportBorderPay == "-1"' class="font-back-warn custome-tip-icon">未</span>
+              <span title="支持跨境宝" ng-show='item.baseInfo.supportBorderPay == "1"' class="font-back-green custome-tip-icon">跨</span>
+              <!-- <span title="含优先处理的订单" ng-show="item.isFirst" class="font-back-green custome-tip-icon" style="background-color: #FF7700;">首</span> -->
+              <tag tag='14' ng-if="item.baseInfo.isFirst"></tag>
+            </dl>
+            <dl style="width: 10%;">{{retTime(item.baseInfo.createTime.time)}}</dl>
+            <dl style="width: 15%;">{{item.baseInfo.sellerContact.companyName}}</dl>
+            <dl style="width: 10%;">{{item.baseInfo.buyerLoginId}}</dl>
+            <dl style="width: 5%;">{{item.baseInfo.totalQuantity || '--'}}</dl>
+            <dl style="width: 5%; line-height: 16px;" class="fdc">
+              <del class="fs-12 c-ddd" ng-show="item.baseInfo.calcPrice">{{item.baseInfo.calcPrice}}</del>
+              <h4>{{item.baseInfo.totalAmount}}</h4>
+              <p class="fs-12 c-ddd">含运费 {{item.baseInfo.shippingFee}}</p>
+            </dl>
+            <!-- <dl style="width: 10%;">{{item.baseInfo.buyerMemo || '--'}}</dl> -->
+            <dl style="width: 15%;">{{item.baseInfo.remark || '--'}}</dl>
+            <dl style="width: 5%;">{{item.baseInfo.receiverInfo.toFullName || '--'}}</dl>
+            <dl style="width: 10%;">
+              <button class="bg-b1" ng-click="checkDetail(item,$event)">查看</button>
+              <span ng-click="item.show=!item.show">
+                <i id="toggle-logo1"
+                  style="font-size: 20px;cursor: pointer;" class="showVariantBtn glyphicon" ng-class="{'glyphicon-triangle-bottom':!item.show,'glyphicon-triangle-top':item.show}"></i>
+              </span>
+            </dl>
+          </div>
+          <div class="table-subitem flex fyc fxsb bd-1e" ng-show="item.show" ng-repeat="subItem in item.productItems">
+            <dl style="width: 5%; min-width: 60px;">
+              <div ng-if="subItem.productImgUrl && subItem.productImgUrl.length > 0" ng-mouseenter="subItem.hoverImg=true" ng-mouseleave="subItem.hoverImg=false" class="prel">
+                <img ng-src="{{subItem.productImgUrl[0]}}" alt="" height="40">
+                <img class="hover-img" ng-src="{{subItem.productImgUrl[0]}}" alt="" height="300" ng-show="subItem.hoverImg">
+              </div>
+            </dl>
+            <dl style="width: 20%;" class="fdc">
+              <p class="mb-5">商品名称</p>
+              <p>{{subItem.name}}</p>
+            </dl>
+            <dl style="width: 10%; line-height: 14px;" class="fdc fs-12">
+              <p ng-repeat="obj in subItem.skuInfos">{{obj.name}}: {{obj.value}}</p>
+            </dl>
+            <dl style="width: 40%;" class="fdc">
+              <p class="mb-5">采购链接: </p>
+              <a class="url-wrap" ng-href="{{subItem.productSnapshotUrl}}" ng-if="subItem.productSnapshotUrl" target="_blank">{{subItem.productSnapshotUrl}}</a>
+              <span ng-if="!subItem.productSnapshotUrl">--</span>
+            </dl>
+            <dl style="width: 10%;">
+              单价: {{subItem.price || 0}}
+            </dl>
+            <dl style="width: 10%;">
+              数量: {{subItem.quantity || 0}}
+            </dl>
+          </div>
+        </li>
+      </ul>
+      <div class="flex fyc fxc" ng-show="list.length === 0" style="height: 600px;">暂无数据</div>
+    </section>
+    <page></page>
+  </mian>
+  <section class="wrap" ng-show="info.show">
+    <div class="info-box prel br-4" style="padding: 20px;">
+      <h3 class="mb-20">收货信息</h3>
+      <section style="height: 130px;">
+        <div class="mb-10">
+          <span>订单号: </span>
+          <span>{{info.orderNo || '--'}}</span>
+        </div>
+        <div class="mb-10">
+          <span>收货人: </span>
+          <span>{{info.receiver || '--'}}</span>
+        </div>
+        <div class="mb-10">
+          <span>收货地址: </span>
+          <span class="url-wrap">{{info.address || '--'}}</span>
+        </div>
+        <div>
+          <span>手机号: </span>
+          <span>{{info.phone || '--'}}</span>
+        </div>
+        <div>
+          <span>备注信息: </span>
+          <span>{{info.remake || '--'}}</span>
+        </div>
+      </section>
+      <section>
+        <button class="bg-b1" ng-click="info.show=false">确认</button>
+      </section>
+    </div>
+  </section>
+  <section class="wrap" ng-show="paymentBox.show">
+    <div class="info-box prel br-4" style="padding: 20px;">
+      <h3 class="mb-20">支付信息</h3>
+      <section style="height: 130px;">
+        <div class="mb-10">
+          <span>选中的订单数: </span>
+          <span>{{paymentBox.selectNum || 0}}</span>
+        </div>
+        <div class="mb-10">
+          <span>支持跨境宝的订单数: </span>
+          <span>{{paymentBox.supportNum || 0}}</span>
+        </div>
+        <div class="mb-10" ng-show="paymentBox.ignoreNum">
+          <span>超出最大支付订单数: </span>
+          <span class="url-wrap">{{paymentBox.ignoreNum || 0}}</span>
+        </div>
+        <div>
+          <span>支付链接: </span>
+          <a ng-if="paymentBox.payUrl" class="url-wrap" ng-href="{{paymentBox.payUrl}}" target="_blank">{{paymentBox.payUrl}}</a>
+          <span ng-if="!paymentBox.payUrl">无支付链接</span>
+        </div>
+      </section>
+      <section>
+        <button class="bg-b1" ng-click="handleConfirm()">确认</button>
+      </section>
+    </div>
+  </section>
+</div>
+
+<style>
+  .my-wrap { padding: 20px 20px 20px 220px; min-height: 945px; height: 100vh;}
+  .my-main { min-height: 100%; background: #fff; padding: 20px;}
+  .header {padding: 0 20px; height: 60px; border-bottom: 1px solid #eee; font-size: 14px;}
+  .header input {text-indent: 5px;}
+  .table {min-height: 720px;}
+  button {min-height: 30px; padding: 0 10px; border-radius: 4px; color: #fff; cursor: pointer;}
+  .wrap {z-index: 10003;}
+
+  .info-box {min-width: 400px; max-width: 500px; min-height: 260px; background-color: #fff;}
+  .info-box h3 {line-height: 30px; text-align: center;}
+  .c-ddd {color: #aaa;}
+
+  .table-body>li:nth-last-of-type(1) .hover-img {top: auto; bottom: 0px;}
+  .table-body>li:nth-last-of-type(2) .hover-img {top: auto; bottom: 0px;}
+  .table-body>li:nth-last-of-type(3) .hover-img {top: auto; bottom: 0px;}
+  .table-body>li:nth-of-type(1) .hover-img {top: 0; bottom: auto;}
+  .table-body>li:nth-of-type(2) .hover-img {top: 0; bottom: auto;}
+  .table-body>li:nth-of-type(3) .hover-img {top: 0; bottom: auto;}
+  .table-head>li, .table-item>dl, .table-subitem>dl {word-break: break-all;}
+  .table .custome-tip-icon{
+    font-size: 12px;
+    padding: 4px;
+    border-radius: 4px;
+    color: #fff;
+  }
+  .font-back-red{background-color: #FF2E5A;}
+  .font-back-warn{background-color: #F1CA16;}
+  .font-back-green{background-color: #008000;}
+</style>

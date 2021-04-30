@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>提现申请-客户钱包管理-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+</head>
+<style>
+    .asj-common-tanwrap label{
+        margin-bottom: 10px;
+    }
+    .asj-common-tanwrap.Deduction .common-tan-delete{
+        width: 300px;
+        height: 262px;
+    }
+    .asj-common-tanwrap label input{
+        padding: 0 8px;
+        width: 156px;
+    }
+    .asj-common-tanwrap label button{
+        width: 80px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 4px;
+        margin: 0 25px;
+        display: inline-block;
+    }
+    .asj-common-tanwrap label textarea{
+        border: 1px solid #ccc;
+        padding: 8px;
+        height: 130px;
+        font-size: 14px;
+    }
+
+    /* btn */
+  a.btn {
+    padding: 5px 10px;
+  }
+
+  a.btn.primary {
+    background-color: #F8A636;
+    color: #fff;
+  }
+
+  a.btn.primary:hover {
+    opacity: 0.6;
+  }
+  .deductionReason {
+    width: 200px;
+    overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+    text-align: center;
+    margin: 0 auto;
+  }
+</style>
+<body>
+    <!-- content -->
+    <div class="ea-content">
+        <!-- <div class="ea-content-box"> -->
+            <!-- <div class="ea-content-con"> -->
+                <!-- left nav -->
+                <div class="left-bar">
+				            <ul>
+				                <li><a href="#/allmony">{{'100286' | translate}}</a></li>
+                        <li class="active"><a href="#/erpfinance/walletcuslistdel">{{'100287' | translate}}</a></li>
+                        <li><a href="#/erpfinance/accountquery">{{'100288' | translate}}</a></li>
+				            </ul>
+								</div>
+                <!-- right con -->
+                <div class="right-bar-wrap ea-right-content">
+                    <div class="asj-h10"></div>
+                    <!-- right nav -->
+                    <div class="top-taps clearfix">
+                        <ul>
+                            <li ng-class="{'active':platformWithDrawal==1}"><a href="#/erpfinance/walletcuslistdel/1">CJ钱包</a></li>
+                            <li ng-class="{'active':platformWithDrawal==2}"><a href="#/erpfinance/walletcuslistdel/2">COD钱包</a></li>
+                            <li><a href="#/ResidentMerchant/CustomerList">供应商钱包</a></li>
+                        </ul>
+                    </div>
+                    <!-- right nav -->
+                    <!--<div class="top-taps clearfix">-->
+                        <!--<ul>-->
+                            <!--<li class="active"><a href="#/erpfinance/walletcuslistdel">{{'100316' | translate}}</a></li>-->
+                            <!--<li><a href="#/erpfinance/walletcash">{{'100317' | translate}}</a></li>-->
+                            <!--<li><a href="#/erpfinance/wallet-recharge">{{'100318' | translate}}</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <div class="right-bar">
+                        <!--  -->
+                        <div class="top-nav-wrap">
+                            <div class="top-nav clearfix">
+                                <ul class="top-nav-ul">
+                                    <li ng-class="{'active': auditStatus === 0}"
+                                            ng-click="usersearch(0);">用户列表</li>
+                                    <li ng-class="{'active': auditStatus === 1}"
+                                            ng-click="usersearch(1);">处理中</li>
+                                    <li ng-class="{'active': auditStatus === 2}"
+                                            ng-click="usersearch(2);">审核通过</li>
+                                    <li ng-class="{'active': auditStatus === 3}"
+                                            ng-click="usersearch(3);">审核失败</li>
+                                </ul>
+                            </div>
+                            <!-- <div class="add-merch"><a href="#/merchandise/addSKU1" target="_blank" class="add-merch-btn">添加商品</a></div> -->
+                        </div>
+                    <!-- right search -->
+
+											<div class="flex" style="justify-content: space-between;align-items: center;margin-bottom:20px;">
+												<div class="ea-right-search">
+													<div class="search-box-wrap">
+														<div class="input-group search-box">
+																<input type="text" class="form-control top-search-inp" placeholder="客户名称/客户编号" ng-keyup="enterEvent($event)" ng-model="userinfo">
+                                                            <select class="form-control" style="margin: 0 10px; padding: 0; width: 200px;" ng-model="auditType" ng-show="auditStatus !== 0">
+                                                                <option value="">请选择类型</option>
+                                                                <option value="1">扣款</option>
+                                                                <option value="2">退款</option>
+                                                            </select>
+																<a role="button" class="btn btn-default top-search-btn" style="padding: 0;" type="button" ng-click="usersearch()">{{'100025' | translate}}</a>
+														</div>
+													</div>
+												</div>
+												<k-button type="primary" on-click="initWalletInitObjFun()">初始化钱包</k-button>
+											</div>
+                    <!-- right list -->
+                    <div class="table-con-box">
+                        <!-- 用户列表 -->
+                        <table class="ea-list-table ea-erp-cs" ng-if="auditStatus === 0">
+                            <tr>
+                                <th><span>{{'100174' | translate}}</span></th>
+                                <th><span>{{'100225' | translate}}</span></th>
+                                <th><span>{{'100304' | translate}}</span></th>
+                                <th><span>{{'100108' | translate}}</span></th>
+                                <th><span>{{'101318' | translate}}</span></th>
+                                <th><span>{{'100319' | translate}}</span></th>
+                                <th><span>{{'100320' | translate}}</span></th>
+                                <th><span>{{'100321' | translate}}</span></th>
+                                <th><span>{{'100322' | translate}}</span></th>
+                                <th><span>{{'100043' | translate}}</span></th>
+                            </tr>
+                            <tr ng-repeat='item in walletUserList'>
+                                <td><span>{{$index+1}}<input type="hidden" value={{item.ID}}></span></td>
+                                <td><span>{{item.createDate.time | date:"yyyy-MM-dd HH:mm:ss"}}</span></td>
+                                <td><span>{{item.userName}}</span></td>
+                                <td class="cus-lvtd">
+                                    <span><p>{{item.name}}</p></span>
+                                    <b ng-if="item.userLevel==3" class="yzkehu-flag">优</b>
+                                    <b ng-if="item.userLevel==2" class="ptkehu-flag">普</b>
+                                    <b ng-if="item.userLevel==1" class="qzkehu-flag">潜</b>
+                                    <img src="static/image/public-img/order.png">
+                                    <b class="cus-dengji">LV{{item.cunLevel}}</b>
+                                    <img src="static/image/public-img/money.png">
+                                    <b class="cus-dengji">LV{{item.moneyLevel}}</b>
+                                </td>
+                                <td><span>{{item.salesman}}</span></td>
+                                <td><span>${{ getPrice(item) }}</span></td>
+                                <td><span>${{ getWithdrawPrice(item) }}</span></td>
+                                <td><span>{{item.INTEGRAL || item.integration}}</span></td>
+                                <td><span>${{item.freezeAmount || 0}}</span></td>
+                                <td class="relative">
+                                <!-- <button ng-click="confirmReceive(item,$index)" type="button" class="ea-to-impl" value=""></button> -->
+                                <!-- <a class="ea-to-impl" href="{{'#/erpfinance/walletcusdetail/' + item.aid}}" target="_blank">流水记录</a> -->
+                                    <button type="button" class="ea-to-refuse" value="" ng-click="checkWechatBind(Deduction, item, $index, 1)">扣款</button>
+                                    <!-- <button type="button" class="ea-to-refuse" value="" ng-click="frozenAccount(item, $index)">{{'100323' | translate}}</button> -->
+                                    <button type="button" class="ea-to-refuse" value="" ng-click="checkWechatBind(returnFun, item, $index, 2)">退款</button>
+
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- 处理中, 审核通过, 审核失败列表 -->
+                        <table class="ea-list-table ea-erp-cs" ng-if="auditStatus !== 0">
+                            <tr>
+                                <th><span>序号</span></th>
+                                <th><span>发起日期</span></th>
+                                <th ng-show="auditStatus === 2"><span>审核通过时间</span></th>
+                                <th ng-show="auditStatus === 3"><span>审核拒绝时间</span></th>
+                                <th ng-show="auditStatus === 3"><span>审核拒绝原因</span></th>
+                                <th><span>用户名</span></th>
+                                <th><span>客户名称</span></th>
+                                <th><span>群主/业务员</span></th>
+                                <th><span>类型</span></th>
+                                <th><span>金额($)</span></th>
+                                <th><span>扣款/退款原因</span></th>
+                            </tr>
+                            <tr ng-repeat='item in walletUserList'>
+                                <!-- 序号 -->
+                                <td><span>{{$index+1}}<input type="hidden" value={{item.ID}}></span></td>
+                                <!-- 发起日期 -->
+                                <td><span>{{item.createDate}}</span></td>
+                                <!-- 审核通过时间 -->
+                                <td ng-show="auditStatus === 2"><span>{{item.auditTime}}</span></td>
+                                <!-- 审核拒绝时间 -->
+                                <td ng-show="auditStatus === 3"><span>{{item.auditTime}}</span></td>
+                                <!-- 审核拒绝原因 -->
+                                <td ng-show="auditStatus === 3"><span>{{item.refuseReason}}</span></td>
+                                <!-- 用户名 -->
+                                <td><span>{{item.userName}}</span></td>
+                                <!-- 客户名称 -->
+                                <td class="cus-lvtd">
+                                    <span><p>{{item.name}}</p></span>
+                                    <b ng-if="item.userLevel==3" class="yzkehu-flag">优</b>
+                                    <b ng-if="item.userLevel==2" class="ptkehu-flag">普</b>
+                                    <b ng-if="item.userLevel==1" class="qzkehu-flag">潜</b>
+                                    <img src="static/image/public-img/order.png">
+                                    <b class="cus-dengji">LV{{item.cunLevel}}</b>
+                                    <img src="static/image/public-img/money.png">
+                                    <b class="cus-dengji">LV{{item.moneyLevel}}</b>
+                                </td>
+                                <!-- 群主/业务员 -->
+                                <td><span>{{item.salesman}}</span></td>
+                                <!-- 类型 -->
+                                <td><span>{{auditTypeMapper[item.auditType] || ''}}</span></td>
+                                <!-- 金额($) -->
+                                <td><span>{{item.auditMoney}}</span></td>
+                                <!-- 扣款/退款原因 -->
+                                <td>
+                                    <div class="deductionReason" title={{item.auditReason}}>
+                                        {{item.auditReason}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="page-box">
+                            <div class="select-page-num">
+                                <select class="form-control" ng-model="pageSize" ng-change="getPageSize()">
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <span>每页</span>
+                            </div>
+                            <div class="total-num">
+                                共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index">
+                                <div class="pagination1">
+                                </div>
+                            </div>
+                            <div class="to-go">
+                                <span>跳转：</span>
+                                <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                                <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="getSpecifiedPage()">go</a>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+    <!-- 选取两段时间之间插件 -->
+    <!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+    <!-- <script>
+    $(function() {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate", // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200, // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true, // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true, // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(), // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"), // 日期下限，默认：NaN(不限制)
+            callback: function() { // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+    </script> -->
+    <div class="asj-common-tanwrap" ng-show="frozenAccountFlag">
+        <div class="asj-common-tan common-tan-delete">
+            <!-- <div class="tan-title">确认冻结aaa客户的钱包账户？</div>     -->
+            <div class="tan-con" style="margin-top: 15px; font-size: 14px; text-align: center;">{{'100324' | translate}}：<input type="text"></div>
+            <!-- <p>确认删除仓库？</p>  -->
+            <div class="tan-btns"><a class="tan-btn0" ng-click="frozenAccountFlag=false">{{'100051' | translate}}</a><a class="tan-btn1" ng-click="goFrozenAccount()">{{'100050' | translate}}</a></div>
+        </div>
+    </div>
+<!--扣款-->
+    <div class="asj-common-tanwrap Deduction" ng-show="DeductionFlag">
+        <div class="asj-common-tan common-tan-delete">
+            <label>
+                <span style="float: left;">扣款金额($)：</span>
+                <input  style="float: left;" type="number" ng-model="DeductionMoney" placeholder="请输入">
+            </label>
+            <label>
+                <span style="float: left;">扣款原因：</span>
+                <textarea style="float: left;" placeholder="请输入英文，限制最大输入1000字符" ng-model="DeductionType" ng-change="KKDeductionType()"></textarea>
+                <p ng-show="KK1000Show" style="float: left; margin-left: 80px; color: red; font-size: 12px;">限制最大输入1000字符</p>
+            </label>
+            <label>
+                <button ng-click="DeductionFlag = false;">取消</button>
+                <button ng-click="DeductionSub()" style="color:#fff;background-color: #08aceb;">确定</button>
+            </label>
+        </div>
+    </div>
+    <!-- 退款 -->
+    <div class="asj-common-tanwrap Deduction" ng-show="ReturnFlag">
+        <div class="asj-common-tan common-tan-delete">
+            <label>
+                <span style="float: left;">退款金额($)：</span>
+                <input  style="float: left;" type="number" ng-model="ReturnMoney" placeholder="请输入">
+            </label>
+            <label>
+                <span style="float: left;">退款原因：</span>
+                <textarea style="float: left;" placeholder="请输入英文，限制最大输入1000字符" ng-model="ReturnType" ng-change="TKReturnType()"></textarea>
+                <p ng-show="TK1000Show" style="float: left; margin-left: 80px; color: red; font-size: 12px;">限制最大输入1000字符</p>
+            </label>
+            <label>
+                <button ng-click="ReturnFlag = false;">取消</button>
+                <button ng-click="ReturnSub()" style="color:#fff;background-color: #08aceb;">确定</button>
+            </label>
+        </div>
+    </div>
+
+    <!-- 初始化钱包 -->
+    <modal tit="初始化钱包信息" visible="walletInitObj.initWalletFlag" on-ok="initOkWalletInfo()">
+        <div class="flex fdc jcb">
+            <!-- 搜索框 -->
+            <div class="flex aic" style="align-items: center;">
+							<k-input value="walletInitObj.inputVal" placeholder="请输入用户名" on-change="walletInitInputValChange(value)" />
+							<k-button type="primary" on-click="searchInitUsers()" style="margin-left:10px;">搜索</k-button>
+            </div>
+
+            <!-- 客户列表 -->
+            <table class="k-table" style="margin-top:20px;">
+                <thead>
+									<th>
+										<input type="checkbox" ng-model="walletInitObj.allChecked" />
+									</th>
+									<th>客户名称</th>
+									<th>用户名</th>
+									<th>群主/业务员</th>
+                </thead>
+                <tbody style="max-height: 350px;overflow-y: auto;">
+									<tr ng-repeat="item in walletInitObj.list">
+										<td>
+											<div class="td">
+												<input type="checkbox" ng-checked="walletInitObj.allChecked" ng-model="item.checked" ng-change="itemWalletInitCheckboxChange()" />
+											</div>
+										</td>
+										<td><div class="td">{{item.name}}</div></td>
+										<td><div class="td">{{item.userName}}</div></td>
+										<td><div class="td">{{item.salesman}}</div></td>
+									</tr>
+                </tbody>
+            </table>
+        </div>
+    </modal>
+</body>
+
+</html>

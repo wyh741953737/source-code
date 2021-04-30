@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>入库记录</title>
+    <style type="text/css">
+        .fun-div{
+            padding: 0 10px;
+            height: 30px;
+        }
+        .fun-div .sku-inp{
+            width: 100px;
+            height: 30px;
+            text-indent: 12px;
+            vertical-align: top;
+        }
+        .fun-div .skusea-btn{
+            height: 30px;
+            padding: 0 10px;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            vertical-align: top;
+            border-left: none;
+            margin-right: 50px;
+        }
+        .fun-div .skusea-btn:hover{
+            color: #f99429;
+        }
+        .ea-list-table td span{
+            font-size: 12px;
+        }
+        .ea-list-table td p{
+            font-size: 12px;
+        }
+        .pici-btn{
+            height: 30px;
+            padding: 0 15px;
+            background-color: #87CEFA;
+            color: #fff;
+            vertical-align: top;
+        }
+        .lightseagreen{
+            background-color: lightseagreen;
+        }
+        .second-tr{
+            display: none;
+        }
+        .fun-div .data-inp{
+            width: 133px;
+            height: 30px;
+            padding: 0;
+            border: solid #e1e1e1 1px
+        }
+        .fun-div .drk-seachInp{
+            background-color: #fff;
+            height: 30px;
+            padding: 0 10px;
+            vertical-align: top;
+            border-left: none;
+        }
+        .fun-div .drk-seachInp:hover{
+            color: #f99429;
+        }
+        .active-color{
+            color: #08ACE9;
+        }
+        .time-span{
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        .last-timespan{
+            margin-right: 50px;
+        }
+        .ord-list{
+            color: #08ACE9;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .ordnum-con{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #fff;
+            border-radius: 4px;
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #EEEEEE;
+            box-shadow:0px 12px 24px 0px rgba(0,0,0,0.1);
+        }
+        .error-close{
+            position: absolute;
+            top: -11px;
+            right: -11px;
+            cursor: pointer;
+        }
+        .ordnum-con p{
+            text-align: center;
+            color: #e55264;
+            margin-bottom: 10px;
+        }
+        .ordncon-list{
+            height: 400px;
+            overflow-y: auto;
+        }
+        .ordncon-list li{
+            height: 30px;
+            text-align: center;
+        }
+        .store-sel-need{
+            width: 100px;
+            height: 30px;
+            font-size: 12px;
+        }
+        .fun-div .sku-inp{
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ea-content">
+        <div class="left-bar">
+            <ul>
+                <li class="active"><a href="#/erppurchase/needbuy">{{'100549' | translate}}</a></li>
+                <li><a href="#/supplier-manage">{{'100550' | translate}}</a></li>
+            </ul>
+        </div>
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content li_ea-right-content">
+            <!-- right nav -->
+            <div class="asj-h10"></div>
+            <div class="right-bar">
+            <!-- right list -->
+            <div class="fun-div" style="display: flex;align-items: center">
+                <input class="sku-inp" placeholder="请输入入库人" ng-model="searchRkr"></input>
+                <input class="sku-inp" placeholder="请输入位置" ng-model="searchWz"></input>
+                <input class="sku-inp" placeholder="请输入长SKU" ng-model="searchLongSku"></input>
+                <input class="sku-inp" placeholder="请输入短SKU" ng-model="searchShortSku"></input>
+                <!-- <input class="sku-inp" placeholder="请输入供应商" ng-model="supplier_name"></input> -->
+                <select class="store-sel-need" ng-change="selByStorageFun()" ng-model="storageId">
+                    <option value="">全部</option>
+                    <option value="{{item.id}}" ng-repeat="item in ckArr">{{item.storageName}}</option>
+                </select>
+                <!-- <input class="sku-inp" placeholder="请输入订单号" ng-model="searchDdh"></input> -->
+                <!--<button class="skusea-btn" ng-click="searchFun()">{{'100025' | translate}}</button>-->
+                <!-- <span class="time-span">今日</span>
+                <span class="time-span">近七天</span>
+                <span class="time-span last-timespan">近一月</span> -->
+                <input class="Wdate data-inp" style="text-indent: 12px;" id="left-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></input><input id="right-time" placeholder="Now" class="Wdate data-inp" style="text-indent: 12px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/><input ng-click="timeSFun()" class="drk-seachInp" type="button" value="{{'100025' | translate}}"></input>
+                <button class="skusea-btn" ng-click="clearFun()" style="border-left: 1px solid #E0E0E0;margin-left: 15px;">清空</button>
+            </div>
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+                    <tr>
+                        <!-- <th><span>批次号</span></th> -->
+                        <th><span>序号</span></th>
+                        <th><span>时间</span></th>
+                        <th><span>入库人</span></th>
+                        <th><span>SKU</span></th>
+                        <th><span>短SKU</span></th>
+                        <th><span>仓库</span></th>
+                        <th><span>入驻供应商名称</span></th>
+                        <th><span>位置</span></th>
+                        <th><span>入库数量</span></th>
+                        <th><span>订单占用数量</span></th>
+                        <th><span>私有数量</span></th>
+                        <th><span>公有数量</span></th>
+                        <th><span>积分</span></th>
+                    </tr>
+                <tbody>
+                    <tr class="la_tr la_tr01" ng-repeat="item in listArr">
+                        <td>
+                            <span>
+                                {{item.asyntaskId}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{ item.creationTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{item.storageUserName}}
+                            </span>
+                        </td>
+                        <td>
+                            <span>{{item.sku}}</span>
+                        </td>
+                        <td>
+                            <span>{{item.spShortCode}}</span>
+                        </td>
+                        <td>
+                            <span>{{item.storageName}}</span>
+                        </td>
+                        <td>
+                            <span>{{item.supplier_name || '--'}}</span>
+                        </td>
+                        <td>
+                            <span>{{item.storageSite}}</span>
+                        </td>
+                        <td>
+                             <span>{{item.storageNum}}</span>
+                        </td>
+                        <td>
+                             <span ng-if="item.remark2!='null'" ng-click="showOrdFun(item)" class="ord-list">{{item.storageNum-item.remark2-item.priNum}}</span>
+                             <span ng-if="item.remark2=='null'" ng-click="showOrdFun(item)" class="ord-list">{{item.storageNum}}</span>
+                        </td>
+                        <td>
+                             <span ng-if="item.priNum!='0'" ng-click="showSyOrdFun(item)" class="ord-list">{{item.priNum}}</span>
+                             <span ng-if="item.priNum=='0'" class="ord-list">{{item.priNum}}</span>
+                        </td>
+                        <td>
+                             <span ng-if="item.remark2!='null'">{{item.remark2}}</span>
+                             <span ng-if="item.remark2=='null'">0</span>
+                        </td>
+                        <td>
+                             <span>{{item.totalPoints | number:2}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+                <div style="text-align: center;" ng-cloak ng-show="totalNum<1">暂无数据</div>
+                <!--以下是分页-->
+                <!-- 分页 -->
+                 <!-- ng-show="hasMerch" -->
+                <page ng-show="totalNum>0"></page>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- 分货 -->
+    <!-- <div class="ordnum-wrap">
+        
+    </div> -->
+    <div class="ordnum-con" ng-show="ordFlag">
+        <img ng-click="ordFlag=false" class="error-close" src="static/image/public-img/close-circle.png">
+        <p>占用库存的订单</p>
+        <div class="ordncon-list">
+            <ul>
+                <li ng-repeat="item in ordList">{{item}}</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

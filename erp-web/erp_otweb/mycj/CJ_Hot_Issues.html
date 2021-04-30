@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>小助手问答</title>
+  <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+  <style>
+    .clearfix:after {
+      content: "";
+      visibility: hidden;
+      display: block;
+      clear: both;
+      height: 0;
+    }
+
+    .clearfix {
+      zoom: 1;
+    }
+
+    .search-box {
+      width: 100%;
+      line-height: 28px;
+      padding-right: 10px;
+    }
+
+    .search-box label {
+      float: left;
+    }
+
+    .subcriber {
+      background-color: #fff;
+      color: #666;
+      border-radius: 4px;
+      padding: 5px 8px;
+      font-size: 14px;
+      border: 1px solid #E6E6E6;
+      margin: 0 8px;
+    }
+
+    .dialog {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      top: 0;
+      left: 0;
+      z-index: 99999;
+    }
+
+    .dialog .content {
+      width: 500px;
+      min-height: 180px;
+      height: initial;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 4px;
+      /* margin: 200px auto; */
+      padding: 30px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .dialog .content h3 {
+      font-size: 16px;
+      font-weight: 550
+    }
+
+    .dialog .content a {
+      padding: 4px 5px;
+      background-color: #08aceb;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 3px;
+      margin-top: 10px;
+      display: block;
+      width: 100px;
+      text-align: center;
+    }
+
+    .img-box {
+      /*margin-top: 10px;*/
+    }
+
+    .img-box a {
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      position: relative;
+      display: inline-flex !important;
+      align-items: center;
+    }
+
+    .img-box a i {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      right: -7px;
+      top: -7px;
+      text-align: center;
+      line-height: 15px;
+      background-color: #CCCCCC;
+    }
+
+    .img-box a img {
+      width: 100%;
+    }
+
+    .content .btns {
+      float: right;
+      margin-top: 10px;
+    }
+
+    .content .btns button {
+      width: 80px;
+      height: 30px;
+      border-radius: 3px;
+      margin-left: 15px;
+    }
+
+    .content .btns button:nth-child(1) {
+      background-color: #08aceb;
+      color: #fff;
+    }
+
+    .content .btns button:nth-child(2) {
+      background-color: #08aceb;
+      color: #fff;
+    }
+
+    .content textarea {
+      width: 100%;
+      min-width: 200px;
+      border-radius: 3px;
+      border: 1px solid #CCCCCC;
+      margin-top: 10px;
+      padding: 8px;
+      font-size: 14px;
+      resize: auto;
+      min-height: 100px;
+      max-width: 485px;
+    }
+
+    table td a {
+      color: #0d47a1;
+    }
+
+    table td a img {
+      width: 100% !important;
+      margin: initial !important;
+    }
+
+    .guanlianshangpin ul {
+      margin-top: 10px;
+    }
+
+    .add-btn {
+      width: 55px;
+      background: #08aceb;
+      color: #fff;
+      border: none;
+      border-radius: 0;
+      margin: 0;
+      font-size: 12px;
+      height: 30px;
+      line-height: 30px;
+      float: right;
+    }
+
+    .ea-content .tab {
+      /* position: fixed; */
+      /* top: 20px; */
+      /* width: calc(100% - 290px); */
+      background-color: #F2F7FA;
+      /* padding: 0 20px; */
+      /* margin-bottom: 10px; */
+      /* height: 58px; */
+      /* line-height: 58px; */
+      /* box-shadow: 2px 2px 14px 2px rgba(232, 244, 251, 1); */
+      /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.18), 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 2px 6px 0px rgba(0, 0, 0, 0.04); */
+      z-index: 100;
+      border-radius: 2px;
+      min-width: 985px;
+    }
+
+    .ea-content .tab li {
+      display: inline-block;
+      padding: 0 10px;
+      margin: 0 15px;
+      line-height: 54px;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .ea-content .tab li:hover {
+      color: #F9AE08;
+    }
+
+    .ea-content .tab .act {
+      color: #F9AE08;
+      border-bottom: 4px solid #F9AE08;
+    }
+
+    .ea-list-table th {
+      background: rgba(252, 244, 217, 1);
+      font-size: 14px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      color: rgba(139, 87, 42, 1);
+    }
+
+    .search-box .top-search-btn,
+    .form-control {
+      float: initial !important;
+    }
+
+    .status {
+      margin-right: 15px;
+    }
+
+    .status select {
+      width: 80px;
+      height: 30px;
+    }
+
+    .search-box .top-search-btn {
+      background-color: #F9AE08;
+    }
+
+    .form-control {
+      border-color: #E4E4E4 !important;
+    }
+
+    td span {
+      font-size: 12px;
+    }
+
+    .question {
+      width: 200px;
+    }
+
+    .question span {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+
+    .content .btns {
+      float: initial;
+    }
+
+    .content .btns button:nth-child(1) {
+      width: 70px;
+      height: 32px;
+      background: rgba(249, 174, 8, 1);
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+    }
+
+    .content .btns button:nth-child(2) {
+      width: 70px;
+      height: 32px;
+      background: #fff;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: PingFangSC-Regular;
+      font-weight: 400;
+      color: #666666;
+      border: 1px solid rgba(230, 230, 230, 1)
+    }
+
+    .dialog h3 {
+      margin-top: 45px;
+      font-size: 18px;
+      font-family: PingFangSC-Medium;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+      line-height: 25px;
+    }
+
+    .dialog .content .btns {
+      /* position: absolute; */
+      /* bottom: 10px; */
+      /* left: 0; */
+      /* right: 0; */
+      /* margin: auto; */
+      text-align: center;
+    }
+
+    .addOredit textarea {
+      max-width: 820px;
+    }
+
+    .addOredit .title {
+      display: block;
+      font-size: 14px;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .addOredit .title span {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+
+    .addOredit .title span input {
+      margin-left: 10px;
+    }
+
+    .addOredit .title i {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #E8E8E8;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .addOredit .title .act {
+      background-image: url("erp_otweb/images/rideo_click@2x.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      border: none;
+    }
+
+    .hide-2 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box !important;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+
+    .tab ul {
+      padding: 0 20px
+    }
+
+    .search-wrap {
+      margin-top: 8px
+    }
+
+    .select-status {
+      height: 40px;
+      border-radius: 4px;
+      width: 80px;
+      margin-right: 50px;
+      border: 1px solid #D9D9D9;
+    }
+
+    .search-input {
+      height: 40px;
+      width: 280px;
+      border-radius: 4px 0 0 4px;
+      border: 1px solid #E4E4E4;
+    }
+
+    .btn-orange {
+      background: #F9AE08;
+      color: #fff;
+    }
+
+    .btn-radius {
+      border-radius: 4px
+    }
+
+    .search-btn-top {
+      height: 40px;
+      width: 90px;
+      border-radius: 0 4px 4px 0 !important;
+      line-height: 40px;
+      background-image: url('static/image/public-img/search-btn.svg');
+      background-repeat: no-repeat;
+      background-position: 30px 5px
+    }
+
+    .add-btn {
+      height: 40px;
+      width: 90px
+    }
+
+    .list-th {
+      width: 10%;
+      text-align: center;
+      background: #FCF4D9;
+      color: #8B572A;
+      font-weight: 600;
+      padding: 14px 0;
+    }
+
+    .list-th:first-child {
+      border-top-left-radius: 6px
+    }
+
+    .list-th:last-child {
+      border-top-right-radius: 6px
+    }
+
+    .list-td {
+      text-align: center;
+      border-bottom: 1px solid #e1e1e1;
+      font-size: 12px;
+      box-sizing: border-box;
+      border-right: 1px solid #e1e1e1;
+    }
+
+    .list-td:first-child {
+      border-left: 1px solid #e1e1e1;
+    }
+
+    .list-td>span {
+      display: block
+    }
+
+    .question-wrap {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.6);
+      font-size: 12px;
+      color: #fff;
+      border-radius: 4px;
+      top: 100%;
+      left: 25%;
+      z-index: 99;
+      width: 100%;
+      padding: 5px;
+      display: none;
+    }
+
+    .wrap-hover:hover .question-wrap {
+      display: block;
+    }
+
+    .question-wrap b {
+      position: absolute;
+      border: 4px solid transparent;
+      border-bottom-color: rgba(0, 0, 0, 0.6);
+      top: -8px;
+      left: 15%;
+    }
+
+    .list-th b {
+      display: inline-block;
+      width: 15px;
+      height: 11px;
+      background: url(static/image/manage/sort@2x.svg) no-repeat;
+      margin-left: 5px;
+    }
+
+    .list-th b.active {
+      background: url(static/image/manage/sort_select@2x.svg) no-repeat;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ea-content" style="background: #F2F7FA">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content" style="padding-left: 230px; padding-right: 20px">
+      <div class="tab">
+        <div class="search-wrap d-flex justify-content-between bg-white padding-20px">
+          <div class="d-flex align-items-center">
+            <!-- <div class="d-flex align-items-center">
+              <span class="font-size-16px font-weight-500">状态：</span>
+              <select class="select-status" ng-model="status" ng-change="searchChange()">
+                <option value="">全部</option>
+                <option value="1">已上线</option>
+                <option value="2">已下线</option>
+                <option value="3">待上线</option>
+              </select>
+            </div> -->
+            <div class="d-flex align-items-center">
+              <span class="font-size-16px font-weight-500">类型：</span>
+              <select class="select-status" ng-model="type" ng-change="typeChange()">
+                <option value="">全部</option>
+                <option value="1">产品</option>
+                <option value="2">订单</option>
+                <option value="3">物流</option>
+                <option value="4">售后</option>
+                <option value="5">其他</option>
+                <option value="6">订单拉取</option>
+              </select>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="font-size-16px font-weight-500">排序方式：</span>
+              <select class="select-status" ng-model="orderType" ng-change="handleSortChange()" style="width: 100px;">
+                <option value="1">创建时间</option>
+                <option value="2">顺序号</option>
+              </select>
+            </div>
+            <input type="text" class="search-input" placeholder="请输入问题/答案/创建人" ng-model="search"
+              ng-keyup="enterSearch($event)">
+            <button class="btn-orange search-btn-top" ng-click="searchList()"></button>
+          </div>
+          <div class="d-flex align-items-center">
+            <button class="add-btn btn-radius btn-orange" ng-click="addData()">新增问题</button>
+          </div>
+        </div>
+        <div class="d-flex padding-lr-20px bg-white">
+          <div class="list-th" style="width: 5%"><span>序号</span></div>
+          <!-- <div class="list-th" style="width: 6%"><span>状态</span></div> -->
+          <div class="list-th" style="width: 12%"><span>创建时间</span></div>
+          <div class="list-th" style="width: 8%"><span>类型</span></div>
+          <div class="list-th" style="width: 15%"><span>问题</span></div>
+          <div class="list-th" style="width: 15%"><span>答案</span></div>
+          <div class="list-th" style="width: 7%"><span>创建人</span></div>
+          <div class="list-th" style="width: 6%">
+            <span class="d-flex-center">浏览量
+              <b ng-click="sortFun('1')" ng-class="{'active': sortType === '1'}"
+                class="d-inline-block cursor-pointer"></b>
+            </span>
+          </div>
+          <div class="list-th" style="width: 5%"><span>顺序号</span></div>
+          <div class="list-th" style="width: 6%">
+            <span class="d-flex-center">已解决
+              <b ng-click="sortFun('2')" ng-class="{'active': sortType === '2'}"
+                class="d-inline-block cursor-pointer"></b>
+            </span>
+          </div>
+          <div class="list-th" style="width: 6%">
+            <span class="d-flex-center">未解决
+              <b ng-click="sortFun('3')" ng-class="{'active': sortType === '3'}"
+                class="d-inline-block cursor-pointer"></b>
+            </span>
+          </div>
+          <div class="list-th" style="width: 12%"><span>操作</span></div>
+
+        </div>
+      </div>
+
+      <div class="right-bar padding-20px" style="min-height: 720px; padding: 0 20px 20px;">
+        
+        <div class="" id="c-mu-ord">
+          <div class="d-flex" ng-repeat="item in dataList">
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 5%"><span>{{$index + 1}}</span></div>
+            <!-- <div class="list-td d-flex-center padding-tb-10px" style="width: 6%">
+              <span ng-show="item.status == '1'">已上线</span>
+              <span ng-show="item.status == '2'">已下线</span>
+              <span ng-show="item.status == '3'">待上线</span>
+            </div> -->
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 12%"><span>{{item.createTime}}</span></div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 8%"><span>{{formatType(item.type)}}</span></div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 15%">
+              <span class="position-relative cursor-pointer wrap-hover d-inline-block w-100">
+                <span class="hide-2" ng-attr-title="{{item.question}}">{{item.question}}</span>
+                <!-- <div class="question-wrap">
+                  <b class="d-block"></b>
+                  <span style="word-break: break-all;">{{item.question}}</span>
+                </div> -->
+              </span>
+
+            </div>
+            <div class="list-td d-flex-center padding-tb-10px " style="width: 15%">
+              <span
+                class="position-relative cursor-pointer wrap-hover d-inline-block w-100">
+                <span class="hide-2" ng-attr-title="{{item.answer}}" ng-bind-html="item.answer | to_trusted"></span>
+                <!-- <div class="question-wrap">
+                  <b class="d-block"></b>
+                  <span style="word-break: break-all;">{{item.answer}}</span>
+                </div> -->
+              </span>
+            </div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 7%"><span>{{item.create_user_id}}</span>
+            </div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 6%"><span>{{item.browse_count}}</span>
+            </div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 5%"><span>{{item.sequence_number ? item.sequence_number: '--'}}</span>
+            </div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 6%"><span>{{item.resolved_count}}</span>
+            </div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 6%"><span>{{item.unsolved_count}}</span>
+            </div>
+            <div class="list-td d-flex-center padding-tb-10px" style="width: 12%">
+              <button class="subcriber" ng-click="editItem(item)">编辑</button>
+              <button class="subcriber" ng-click="removeItem(item)">删除</button>
+              <!-- <button ng-show="item.status == '2' || item.status == '3'" class="subcriber"
+                ng-click="upOrdow(item,'上线')">上线
+              </button>
+              <button ng-show="item.status == '1'" class="subcriber" ng-click="upOrdow(item,'下线')">下线</button> -->
+            </div>
+          </div>
+          <div class="padding-20px text-align-center" ng-show="dataList.length === 0">
+            <span>暂无数据</span>
+          </div>
+          <!-- 分页 -->
+          <div class="page-box" ng-show="dataList.length > 0">
+            <div class="select-page-num">
+              <select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+                style="width: 65px;height: 31px;">
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+              </select>
+              <span>每页</span>
+            </div>
+            <div class="total-num">
+              共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+            </div>
+            <div class="page-index">
+              <div class="pagegroup">
+                <a href="#">&lt;&lt;</a>
+                <a href="#">&lt;</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a class="current" href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">6</a>
+                <a href="#">···</a>
+                <a href="#">&gt;</a>
+                <a href="#">&gt;&gt;</a>
+              </div>
+            </div>
+            <div class="to-go">
+              <span>跳转：</span>
+              <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+              <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--新增or编辑-->
+  <div class="dialog addOredit" ng-show="addOreditFlag">
+    <div class="content clearfix" style="width: 840px;min-height: 300px">
+      <h3 style="margin: 0;text-align: center;">{{addOreditTxt}}</h3>
+      <div class="title">问题</div>
+      <textarea ng-model="questionTXt" placeholder="请输入问题"></textarea>
+      <div class="title" style="margin-top: 10px;">顺序号</div>
+      <div style="margin-top: 5px;">
+        <input ng-model="sortTxt" min="0" max="10" placeholder="请输入大于零且小于10的展示顺序" style="width: 100%;border-radius: 3px;padding: 8px; font-size: 14px;" />
+      </div>
+      <div class="title" style="margin-top: 10px;">类型</div>
+      <div style="margin-top: 5px;">
+        <select ng-model="flagType" style="width: 100%;border-radius: 3px;padding: 8px; font-size: 14px;">
+          <option value="1">产品</option>
+          <option value="2">订单</option>
+          <option value="3">物流</option>
+          <option value="4">售后</option>
+          <option value="5">其他</option>
+          <option value="6">订单拉取</option>
+        </select>
+      </div>
+      <div class="title" style="margin-top: 10px;">
+        <span ng-click="actClass = '1'">
+          编辑答案
+        </span>
+      </div>
+      <div id="wang" style="margin-top: 5px;"></div>
+      <div class="btns">
+        <button ng-click="addOreditFlagY()">{{addOreditTxt === '新增问题' ? '创建' : '确定'}}</button>
+        <button ng-click="addOreditFlag = false;">取消</button>
+      </div>
+    </div>
+  </div>
+  <!--删除-->
+  <div class="dialog" ng-show="removeFlag">
+    <div style="width: 300px;min-height: initial;height: 178px;text-align: center" class="content clearfix">
+      <h3>确认删除这条问题？</h3>
+      <div class="btns">
+        <button ng-click="removeY()">确定</button>
+        <button ng-click="removeFlag = false;">取消</button>
+      </div>
+    </div>
+  </div>
+  <!--上线or下线-->
+  <div class="dialog" ng-show="upOrdowFlag">
+    <div style="width: 300px;min-height: initial;height: 178px;text-align: center" class="content clearfix">
+      <h3>确认{{upOrdowTxt}}这条问题？</h3>
+      <div class="btns">
+        <button ng-click="upOrdowY()">确定</button>
+        <button ng-click="upOrdowFlag = false;">取消</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>提现</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_financing_income.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div id="right-bar-wrap" class="right-bar-wrap ea-right-content" style="min-width: 1451px;">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab" style="z-index: 9; min-width: 1200px;">
+				<!-- tab -->
+				<div class="top-tab-nav d-flex">
+					<span ng-click="changeIncomeType(expenditureTypeModel.salary.val)"
+						ng-class='{"tab-active": expenditureType === expenditureTypeModel.salary.val }'
+						class="tab-span tab-border-bt cursor-pointer">工资</span>
+					<span ng-click="changeIncomeType(expenditureTypeModel.manageComposite.val)"
+						ng-class='{"tab-active": expenditureType === expenditureTypeModel.manageComposite.val }'
+						class="tab-span tab-border-bt cursor-pointer">综合</span>
+				</div>
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索区域 -->
+					<!-- 工资 -->
+					<div class="top-tab-search d-flex align-items-center"
+						ng-if="expenditureType === expenditureTypeModel.salary.val">
+						<div class="search-group d-flex align-items-center">
+							<button class="asj-btn-s asj-btn-s2 search-btn" style="margin-right: 20px;"
+								ng-click="openInputPassword(export)">Excel导出</button>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>币种展示：</span>
+							<select style="width: 90px" name="" id="" ng-model="$parent.currentCurrency">
+								<option value="">全部</option>
+								<option value="1">RMB</option>
+								<option value="2">USD</option>
+							</select>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>总计：</span>
+							<select style="width: 110px" name="" id="">
+								<option value="">￥{{sumMoneyRMB}}</option>
+								<option value="">${{sumMoneyUSD}}</option>
+							</select>
+						</div>
+					</div>
+					<!-- 综合 -->
+					<div class="top-tab-search d-flex align-items-center justify-content-between"
+						ng-if="expenditureType === expenditureTypeModel.manageComposite.val">
+						<div class="d-flex-center">
+							<div class="search-group d-flex align-items-center">
+								<span>支出时间：</span>
+								<wui-date class="startTime searchDay" format="yyyy-mm-dd"
+									ng-class="{'disable-opacity': disable.select}" placeholder="开始时间" btns="{'ok':'确定','now':'今天'}"
+									ng-model="$parent.startDate"></wui-date>
+								<wui-date class="endTime searchDay" format="yyyy-mm-dd"
+									ng-class="{'disable-opacity': disable.select}" class="margin-left-small" placeholder="结束时间"
+									btns="{'ok':'确定','now':'今天'}" ng-model="$parent.endDate">
+								</wui-date>
+							</div>
+							<div class="search-group d-flex align-items-center search-group-drawback">
+								<span>支出类型：</span>
+								<select style="width: 74px" name="" id="" ng-model="$parent.searchExpend">
+									<option value="">全部</option>
+									<option value="6">差旅费</option>
+									<option value="7">福利费</option>
+									<option value="8">办公费</option>
+									<option value="9">租金</option>
+									<option value="10">水电费</option>
+									<option value="11">招聘费</option>
+									<option value="12">低值易耗</option>
+									<option value="13">其他税费</option>
+								</select>
+								<button class="asj-btn-s asj-btn-s2 search-btn" style="width: 60px;margin-left: 10px;"
+									ng-click="searchFun()">查询</button>
+							</div>
+							<div class="search-group d-flex align-items-center search-group-drawback">
+								<span>金额：</span>
+								<select style="width: 75px" name="" id="">
+									<option value="">￥{{sumMoneyRMB}}</option>
+									<option value="">${{sumMoneyUSD}}</option>
+								</select>
+							</div>
+							<div class="search-group d-flex align-items-center search-group-drawback">
+								<span>币种：</span>
+								<select style="width: 52px" name="" id="" ng-model="$parent.currentCurrency">
+									<option value="">全部</option>
+									<option value="1">RMB</option>
+									<option value="2">USD</option>
+								</select>
+							</div>
+						</div>
+						<div class="d-flex-center">
+							<div class="search-group d-flex align-items-center search-group-drawback">
+								<button class="asj-btn-s asj-btn-s2 search-btn" style="width: 80px; margin-right: 10px;"
+									ng-click="openAdd('add')">新增</button>
+								<button ng-click="openInputPassword(export)" class="asj-btn-s asj-btn-s2 search-btn" style="width: 80px;">Excel导出</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- 表头 -->
+					<!-- 工资 -->
+					<div class="tb-thead d-flex tb-thead-border" ng-if="expenditureType === expenditureTypeModel.salary.val">
+						<div style="width: 4%" class="tb-thead-th d-flex-center border-r-coffie">序号</div>
+						<div style="width: 5%" class="tb-thead-th d-flex-center border-r-coffie">月份</div>
+						<div style="width: 13%" class="border-r-coffie">
+							<div class="d-flex-center border-b-coffie tb-thead-th fuhe-thead-1">杭州</div>
+							<div class="d-flex-center tb-thead-th fuhe-thead-2">
+								<div style="width: 50%">工资</div>
+								<div style="width: 50%">五险一金</div>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-coffie">
+							<div class="d-flex-center border-b-coffie tb-thead-th fuhe-thead-1">义乌</div>
+							<div class="d-flex-center tb-thead-th fuhe-thead-2">
+								<div style="width: 50%">工资</div>
+								<div style="width: 50%">五险一金</div>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-coffie">
+							<div class="d-flex-center border-b-coffie tb-thead-th fuhe-thead-1">深圳</div>
+							<div class="d-flex-center tb-thead-th fuhe-thead-2">
+								<div style="width: 50%">工资</div>
+								<div style="width: 50%">五险一金</div>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-coffie">
+							<div class="d-flex-center border-b-coffie tb-thead-th fuhe-thead-1">美东</div>
+							<div class="d-flex-center tb-thead-th fuhe-thead-2">
+								<div style="width: 50%">工资</div>
+								<div style="width: 50%">五险一金</div>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-coffie">
+							<div class="d-flex-center border-b-coffie tb-thead-th fuhe-thead-1">美西</div>
+							<div class="d-flex-center tb-thead-th fuhe-thead-2">
+								<div style="width: 50%">工资</div>
+								<div style="width: 50%">五险一金</div>
+							</div>
+						</div>
+						<div style="width: 6%" class="tb-thead-th d-flex-center border-r-coffie">工资总计</div>
+						<div style="width: 6%" class="border-r-coffie">
+							<div class="d-flex-center border-b-coffie tb-thead-th fuhe-thead-1">五险一金</div>
+							<div class="d-flex-center tb-thead-th fuhe-thead-2">总计</div>
+						</div>
+						<div style="width: 6%" class="tb-thead-th d-flex-center border-r-coffie">总计</div>
+						<div style="width: 8%" class="tb-thead-th d-flex-center">操作</div>
+					</div>
+					<!-- 综合 -->
+					<div class="tb-thead d-flex" ng-if="expenditureType === expenditureTypeModel.manageComposite.val">
+						<div style="width: 5%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 17%" class="tb-thead-th d-flex-center">支出时间</div>
+						<div style="width: 10%" class="tb-thead-th d-flex-center">支出类型</div>
+						<div style="width: 17%" class="tb-thead-th d-flex-center">金额</div>
+						<div style="width: 34%" class="tb-thead-th d-flex-center">摘要</div>
+						<div style="width: 17%" class="tb-thead-th d-flex-center">操作</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" class="content-wrap bg-white padding-lr-20px" style="min-height: 600px;">
+				<!-- 表格 -->
+				<!-- 工资 -->
+				<div class="tb-tbody" ng-if="expenditureType === expenditureTypeModel.salary.val">
+					<div class="tb-tbody-tr" ng-repeat="salary in salaryList">
+						<div style="width: 4%" class="tb-tbody-td border-r-td d-flex-center"><span>{{$index + 1}}</span></div>
+						<div style="width: 5%" class="tb-tbody-td border-r-td d-flex-center"><span>{{salary.salaryMonth}}</span>
+						</div>
+						<div style="width: 13%" class="border-r-td d-flex">
+							<div class="tb-tbody-td  border-r-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.moneyHz, salary.moneyHzType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.moneyHz" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.moneyHzType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+							<div class="tb-tbody-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.fiveHz, salary.fiveHzType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.fiveHz" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.fiveHzType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-td d-flex">
+							<div class="tb-tbody-td  border-r-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.moneyYw, salary.moneyYwType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.moneyYw" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.moneyYwType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+							<div class="tb-tbody-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.fiveYw, salary.fiveYwType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.fiveYw" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.fiveYwType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-td d-flex">
+							<div class="tb-tbody-td  border-r-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.moneySz, salary.moneySzType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.moneySz" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.moneySzType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+							<div class="tb-tbody-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.fiveSz, salary.fiveSzType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.fiveSz" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.fiveSzType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-td d-flex">
+							<div class="tb-tbody-td  border-r-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.moneyMd, salary.moneyMdType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.moneyMd" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.moneyMdType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+							<div class="tb-tbody-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.fiveMd, salary.fiveMdType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.fiveMd" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.fiveMdType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+						</div>
+						<div style="width: 13%" class="border-r-td d-flex">
+							<div class="tb-tbody-td  border-r-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.moneyMx, salary.moneyMxType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.moneyMx" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.moneyMxType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+							<div class="tb-tbody-td d-flex-center word-break-break-all" style="width:50%;">
+								<span ng-show="!salary.editFlag">{{changeCurrency(salary.fiveMx, salary.fiveMxType)}}</span>
+								<span ng-show="salary.editFlag" class="d-flex-center expend-span">
+									<input ng-model="$parent.currentEdit.fiveMx" class="input-money" style="width: 50%;" type="number"
+										onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+									<select ng-model="$parent.currentEdit.fiveMxType" class="select-none" style="width: 50%;" name=""
+										id="">
+										<option value="1">RMB</option>
+										<option value="2">USD</option>
+									</select>
+								</span>
+							</div>
+						</div>
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{changeCurrency(salary.moneyTotal, 2)}}</span></div>
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{changeCurrency(salary.fiveTotal, 2)}}</span></div>
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{changeCurrency(salary.total, 2)}}</span></div>
+						<div style="width: 8%" class="tb-tbody-td d-flex-center">
+							<span ng-if="!salary.editFlag" class="tb-btn-default" ng-click='openEdit(salary)'>编辑</span>
+							<span ng-if="salary.editFlag" class="tb-btn-default" ng-click='saveEdit()'>保存</span>
+							<b ng-if="salary.editFlag" class="tb-btn-long"></b>
+							<span ng-if="salary.editFlag" class="tb-btn-default" ng-click="closeEdit(salary)">取消</span>
+						</div>
+					</div>
+				</div>
+				<!-- 综合 -->
+				<div class="tb-tbody" ng-if="expenditureType === expenditureTypeModel.manageComposite.val">
+					<div class="tb-tbody-tr" ng-repeat="composite in compositeList">
+						<div style="width: 5%" class="tb-tbody-td border-r-td" d-flex-center><span>{{$index + 1}}</span></div>
+						<div style="width: 17%" class="tb-tbody-td border-r-td d-flex-center"><span>{{composite.expendDate}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{expendTypeModel[composite.expendType].txt}}</span></div>
+						<div style="width: 17%" class="tb-tbody-td border-r-td d-flex-center">
+							<span>{{changeCurrency(composite.money, composite.rateType)}}</span></div>
+						<div style="width: 34%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="hidden-three">{{composite.remark}}</span></div>
+						<div style="width: 17%" class="tb-tbody-td d-flex-center">
+							<span class="tb-btn-default" ng-click="openAdd('edit', composite)">编辑</span>
+							<b class="tb-btn-long"></b>
+							<span class="tb-btn-default" ng-click="sureReceipt(composite)">删除</span>
+						</div>
+					</div>
+				</div>
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+					<span>暂无数据</span>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="canShowPage">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 新增弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFLag">
+		<div class="erp-common-tan-v2" style="width: 404px; height: initial;">
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6 class="text-align-center">{{windowType.txt}}</h6>
+			</div>
+			<!-- content -->
+			<div class="tan-v2-con">
+				<div class="item-group d-flex align-items-center">
+					<label>支出时间：</label>
+					<div class="right-con">
+						<wui-date class="" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}" placeholder="支出时间"
+							btns="{'ok':'确定','now':'今天'}" ng-model="windowType.item.expendDate"></wui-date>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>支出类型：</label>
+					<div class="right-con">
+						<select name="" id="" ng-model="windowType.item.expendType">
+							<option value="6">差旅费</option>
+							<option value="7">福利费</option>
+							<option value="8">办公费</option>
+							<option value="9">租金</option>
+							<option value="10">水电费</option>
+							<option value="11">招聘费</option>
+							<option value="12">低值易耗</option>
+							<option value="13">其他税费</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种：</label>
+					<div class="right-con">
+						<select name="" id="" ng-model="windowType.item.rateType">
+							<option value="1">RMB</option>
+							<option value="2">USD</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<label>金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：</label>
+					<div class="right-con">
+						<input type="number" ng-model="windowType.item.money"
+							onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+					</div>
+				</div>
+				<div class="item-group d-flex align-items-center">
+					<textarea name="" id="" placeholder="请填写金额摘要(非必填)" ng-model="windowType.item.remark"></textarea>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFLag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" class="que-ding-btn" ng-click="sureAddAccount()">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- 确认弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFLag2">
+		<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: initial;">
+			<p style="margin-top: 25px; margin-bottom: 38px;">确认删除本条记录？</p>
+			<div class="tan-v2-bot">
+				<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="showFLag2=false">取消</a>
+				<a href="javascript:void(0)" class="que-ding-btn" ng-click="sureConfirm()">确定</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>已取消订单金额-财务收入管理-ERP系统</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/>
+    <link rel="stylesheet" href="erp_otweb/css/li_erp.css">
+</head>
+<style>
+.authorize-chart {
+        width: 90%;
+        margin: 0 auto;
+        margin-bottom: 200px;
+    }
+
+    .boldWeigth {
+        font-size: 24px;
+        font-weight: 500;
+        margin-top: 20px;
+    }
+
+    .infoshow {
+        width: 420px;
+        background: rgba(0, 0, 0, 0.7);
+        font-size: 12px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        line-height: 17px;
+        color: #fff;
+        position: absolute;
+        top: 105px;
+        border-radius: 3px;
+        padding: 7px;
+        text-align: left;
+        z-index: 1;
+        left: 335px;
+    }
+
+    .selectop {
+		height: 34px;
+		margin-right: 10px;
+        /* margin: 0 10px; */
+        /* margin-top: 20px; */
+        border-radius: 4px;
+    }
+
+    .selectop1 {
+        height: 34px;
+        /* margin-top: 20px; */
+    }
+
+    .searchTop {
+        background: #08aceb;
+        color: #fff;
+        width: 60px;
+        text-align: center;
+    }
+
+    .block-title {
+        margin-top: 30px;
+    }
+
+    .isinfoshow {
+        width: 420px;
+        background: rgba(0, 0, 0, 0.7);
+        font-size: 12px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        line-height: 17px;
+        color: #fff;
+        position: absolute;
+        top: 840px;
+        border-radius: 3px;
+        padding: 7px;
+        text-align: left;
+        z-index: 1;
+        left: 14%;
+    }
+    </style>
+<body>
+
+
+<!-- content -->
+<!-- <div class="ea-content">
+    <!--<div class="ea-content-box">-->
+
+        <!--<div class="ea-content-con">-->
+            <!-- left nav -->
+            <!-- <div class="left-bar">
+                <ul>
+                    <li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+                    <li><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+                    <li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+                    <li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+                    <li class="active"><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+                    <li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+                    <li><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+                </ul>
+            </div> -->
+
+            <!-- right con -->
+            <!--<div class="ea-right-content li_ea-right-content">-->
+            	<!-- <div class="right-bar-wrap ea-right-content"> -->
+                <!-- right nav -->
+                <!-- <div class="asj-h10"></div> -->
+                <!--<div class="top-taps clearfix">-->
+                    <!--<ul>-->
+                        <!--<li><a href="#/erplogistics/trackstatistics">{{'100796' | translate}}</a></li>-->
+                        <!--<li class="active"><a href="#/erplogistics/logististylel">{{'100797' | translate}}</a></li>-->
+                        <!--<li><a href="#/erplogistics/cslogisti">{{'100798' | translate}}</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!-- right search -->
+                <!-- <div class="right-bar">
+                <div class="ea-right-search">
+                    <div class="datatime-screen">
+                        <a href="#" class="active">{{'100296' | translate}}</a>
+                        <a href="#">{{'100297' | translate}}</a>
+                        <a href="#">{{'100298' | translate}}</a>
+                        <a href="#">{{'100299' | translate}}</a>
+                    	<input type="text" value="" placeholder="{{'100811' | translate}}"  class="Wdate"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+                    	<input type="text" value="" placeholder="{{'100812' | translate}}"  class="Wdate"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/> -->
+                    	<!--<input type="text" id="txtBeginDate" placeholder="选取开始日期"/>
+                    	<input type="text" id="txtEndDate" placeholder="选取结束日期"/>-->
+                    	<!-- <input type="button" value="{{'100813' | translate}}">
+                    </div> -->
+                    <!--以下是选择物流公司-->
+                    <!-- <ul class="ea-list-table ea-right-search la_search la_cg">
+
+                        <li>
+								   <span>
+									   	{{'100814' | translate}}：
+								   </span>
+                            <span>
+									  <select class="la_select">
+								<option>E邮宝</option>
+								<option>E邮宝2</option>
+								<option>E邮宝3</option>
+								<option>E邮宝4</option>
+								<option>E邮宝5</option>
+							</select>
+								   </span>
+                        </li>
+
+                    </ul> -->
+                    <!--<p><input type="text" value="输入物流公司查询" class="search-text-box"/>
+                        <input type="button" value="查询"
+class="search-button la_tj"/></p>-->
+					<!-- <div class="input-group search-box">
+			           <input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+			           <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100801' | translate}}</a>
+			        </div>
+                </div> -->
+                <!-- right list -->
+                <!-- <div class="table-con-box">
+                    <table class="ea-list-table ea-erp-cs">
+                        <tr class="la_title">
+                            <th>
+                                <span>{{'100651' | translate}}</span>
+                            </th>
+                            <th><span>{{'100802' | translate}}</span></th>
+                            <th><span>{{'100806' | translate}}</span></th>
+                        </tr>
+                        <tr class="la_wl">
+                            <td><span>物流公司A</span></td>
+                            <td><span class="lashop_img">
+								</span>3333334444</td>
+                            <td><span>80%</span></td>
+                        </tr>
+                        <tr class="la_wl">
+                            <td><span>物流公司B</span></td>
+                            <td><span>3333333
+								</span></td>
+                            <td><span>90%</span></td>
+                        </tr>
+                        <tr class="la_wl">
+                            <td><span>物流公司C</span></td>
+                            <td><span>3333333
+								</span></td>
+                            <td><span>70%</span></td>
+                        </tr>
+                        <tr class="la_wl">
+                            <td><span>物流公司D</span></td>
+                            <td><span>3333333
+								</span></td>
+                            <td><span>50%</span></td>
+                        </tr>
+                    </table> -->
+                <!--    <div class="fenPage">
+							<span><select>
+								<option>30</option>
+								<option>50</option>
+								<option>100</option>
+								<option>200</option>
+								<option>300</option>
+							</select>
+							条每页
+							</span>
+                        <span>共145页</span>
+                        <a href="#">首页</a>
+                        <a href="#">上一页</a>
+                        <a class="bga" href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">7</a>
+                        <a href="#">8</a>
+                        <a href="#">9</a>
+                        <a href="#">下一页</a>
+                        <a href="#">尾页</a>
+
+                        <span>跳转 <input type="text" placeholder=""> 页 <input type="button" value="GO"></span>
+
+                    </div>
+-->
+
+                <!-- </div>
+            </div>
+
+        </div>
+    </div> --> 
+<!--</div>-->
+
+<div class="right-bar-wrap ea-right-content">
+        <!-- 物流统计 -->
+        <div class="block authorize-chart">
+            <div class="block-title d-flex align-items-center">
+                <!-- <div class="boldWeigth">物流方式统计</div>
+                <img src="erp_otweb/images/icon_alert.png" alt=""
+                    style="height: 20px;margin-top: 30px;margin-left: 20px;" ng-mouseenter="isTps = true;"
+                    ng-mouseleave="isTps = false;"> -->
+                    <!-- 单个时间 -->
+                <div class="selectop d-flex align-items-center" ng-show="logisticsName == undefined ">
+                        <label>选择时间：</label>
+                        <wui-date class="startTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+                            placeholder="选择时间" btns="{'ok':'确定','now':'今天'}" ng-model="selectDate">
+                        </wui-date>
+                        
+                </div>
+                <!-- <div class="search-order" ng-hide="noData" style="margin-left:20px;">
+                    <select class="selectop" ng-options='item.id as item.value for item in daysList'
+                        ng-model="sourcestatus1" ng-change="dayChange(sourcestatus1)">
+                    </select>
+                </div> -->
+                <!-- 下拉物流 -->
+                <div ng-show="selectDate==undefined">
+                    <!-- <select class="selectop" ng-options="item.id as item.loginName for item in accountList"
+                        ng-model="accountItem" ng-change="getaccount(accountItem)">
+                        <option value="">Please select</option>
+					</select> -->
+					<label>物流方式：</label>
+                    <select class="selectop" ng-model="logisticsName">
+						<option value="">请选择物流方式</option>
+						<option value="{{item.id}}" ng-repeat="item in accountList">{{item.loginName}}</option>
+                    </select>
+                </div>
+                <!-- 下拉仓库 -->
+                <div>
+					<label>仓库：</label>
+                    <select class="selectop" ng-options="item.id as item.storageName for item in warehouse"
+                        ng-model="store" ng-change="getaccount(store)">
+                        <option value="">请选择仓库</option>
+                    </select>   
+                </div>
+                    <!-- 选择时间段 -->
+                <div class="selectop" ng-show="logisticsName !=undefined ">
+                        <label>开始时间：</label>
+                        <wui-date class="startTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+                            placeholder="开始时间" btns="{'ok':'确定','now':'今天'}" ng-model="startDate"></wui-date>
+                        <label>结束时间：</label>
+                        <wui-date class="endTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+                        class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="endDate">
+                        </wui-date>
+                </div>
+                <!-- <div>
+                    <p>
+                        <input ng-click="searchFun()" type="button" value="查询" class="selectop1 searchTop" />
+                    </p>
+                </div> -->
+                <div>
+					<input ng-click="inquire()" type="button" value="查询" class="selectop1 searchTop" />
+                </div>
+
+            </div>
+
+            <div id="container" style="height:600px"></div>
+
+
+             <!-- <div class="infoshow ng-binding ng-hide" ng-show="isTps">
+                The following shipping methods are not included at the moment:<br>
+                Yanwen, HKpost, China Post Registered Air Mail, China Post Shanghai <br>
+                Registered Parcel, Brazil Special Line, Grand Slam, Part of DHL shipping.
+            </div>
+            <div class="block-content" style="padding-top: 70px;padding-bottom: 30px;">
+                <div class="charts-list clearfix" ng-show='showstatistics == true'>
+                    <div id="main" style="height:600px;"></div>
+                </div>
+                <div class="charts-list clearfix" style="display:flex;position: relative;">
+                    <div id="statusInfo" style="width: 50%;height:400px;margin-top:100px;" ng-show='showstatusInfo'>
+                            </div>
+                    <div style="position:absolute;top:92px;left: 15%;"><img src="erp_otweb/images/icon_alert.png"
+                            alt="" style="height: 20px;margin-top: 10px;margin-left: 20px;"
+                            ng-mouseenter="isinfo = true;" ng-mouseleave="isinfo = false;" ng-show='showicon'>
+                    </div>
+                    <div class="isinfoshow ng-binding ng-hide" ng-show="isinfo"
+                        style="position:absolute;top:142px;left: 15%;">
+                        No tracking info found: no tracking info within 5 days after shipment.<br>
+                        Tracking info not found for long time: no tracking info over 5 days after shipment. <br>
+                        In transit: Shipping time within double average delivery time.<br>
+                        Delay: Shipping time over double average delivery time but within the tripled.<br>
+                        No delivery for long time: Shipping time over triple average delivery time.<br>
+                        Returned: Package returned and received by CJ warehouse.<br>
+                        Delivered: Package has been delivered to the recipient.
+                    </div>
+                    
+
+                    <div id="circle" style="width: 40%;height:400px;margin-top:100px;" ng-show='showstatistics'>
+                    
+                    </div> 
+                </div>
+
+            </div> -->
+        </div>
+    </div>
+
+
+<!-- 选取两段时间之间插件 -->
+<!--<script type="text/javascript" src="../js/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+
+
+</body>
+</html>

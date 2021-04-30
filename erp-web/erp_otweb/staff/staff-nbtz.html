@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>员工-内部通知</title>
+</head>
+<style>
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    /* .guanlianshangpin-wrap .clos {
+        background-color: orange;
+        color: #fff;
+        padding: 4px 10px;
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        border-radius: 3px;
+        font-size: 12px;
+        cursor: pointer;
+    } */
+
+    body .guanlianshangpin {
+        width: 700px;
+        height: 500px;
+    }
+
+    .guanlianshangpin ul {
+        padding: 40px 20px 10px 20px;
+        font-size: 14px;
+        line-height: 30px;
+        overflow-y: auto;
+        height: 447px;
+    }
+
+    .guanlianshangpin ul li span {
+        float: left;
+    }
+
+    .guanlianshangpin ul li span:nth-child(2) {
+        color: #999;
+        word-wrap: break-word;
+        width: 470px;
+    }
+
+    .table-con-box tr button {
+        background-color: orange;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 8px;
+        margin: 0;
+    }
+    .selectActive {
+        background: #e8f4ff;
+    }
+    .overTR:hover{
+        background: #e8f4ff;
+    }
+    .ea-list-table td{
+        font-size: 12px;
+    }
+    .tzinfo-text{
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+        margin: 0 auto;
+    }
+    .guanlianshangpin-pre {
+    appearance: none;
+    border: 0 none;
+    background: none;
+    white-space: pre-line;
+}
+</style>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/staff/KPIAssessment">{{'101018' | translate}}</a></li>
+            <li><a href="#/staff/setkpiassess">{{'101019' | translate}}</a></li>
+            <li><a href="#/staff/stafffiles">{{'101020' | translate}}</a></li>
+            <li><a href="#/staff/stafftable">{{'101021' | translate}}</a></li>
+            <li class="active"><a href="#/staff/nbtz">{{'101022' | translate}}</a></li>
+            <li><a href="#/staff/recruit">{{'101023' | translate}}</a></li>
+            <!-- <li><a href="#/staff/client">员工客户管理</a></li> -->
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <!-- <div class="bg-geduan"></div> -->
+        <div class="asj-h10"></div>
+        <!--<div class="top-taps clearfix">-->
+            <!--<ul>-->
+                <!--<li class="active"><a href="#/staff/nbtz">{{'100219' | translate}}</a></li>-->
+                <!--<li><a href="#/staff/cgx">{{'100220' | translate}}</a></li>-->
+                <!--&lt;!&ndash;<li><a href="#/staff/dsfs">定时发送</a></li>&ndash;&gt;-->
+            <!--</ul>-->
+        <!--</div>-->
+        <div class="right-bar">
+            <div class="ea-right-search">
+                <div class="input-group search-box">
+                    <div class="input-group search-box">
+                        <input type="text" class="form-control top-search-inp" placeholder="{{'101132' | translate}}" ng-model="title">
+                        <a role="button" class="btn btn-default top-search-btn" type="button"
+                           ng-click="usersearch()">{{'100025' | translate}}</a>
+                    </div>
+                </div>
+                <a class="dc-btn" href="#/staff/write?type=add">{{'100223' | translate}}</a>
+            </div>
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <!--<th><span class="chek-span"></span></th>-->
+                        <th>{{'100174' | translate}}</th>
+                        <th>{{'100256' | translate}}</th>
+                        <th>{{'100226' | translate}}</th>
+                        <th>{{'101133' | translate}}</th>
+                        <th>{{'100225' | translate}}</th>
+                        <th>{{'100043' | translate}}</th>
+                    </tr>
+                    <tr ng-repeat="item in dataList" ng-click="TrClick($index)" ng-class='{selectActive: $index == focus,"overTR":isoverTR}'>
+                        <!--<td><span style="padding: 0 6px;"> <input name="need_inv" type="checkbox" value="1"></span></td>-->
+                        <td>{{$index+1}}</td>
+                        <td>{{item.title}}</td>
+                        <td>{{item.notificationType}}</td>
+                        <td>
+                            <p class="tzinfo-text">{{item.info}}</p>
+                        </td>
+                        <td>{{item.sendDate}}</td>
+                        <td><span><button type="button" class="ea-to-opea" ng-click="look(item)">{{'100122' | translate}}</button></span></td>
+                    </tr>
+                </table>
+                <!-- 分页 -->
+                <div class="no-data" ng-show="totalNum == 0" style="text-align: center;">{{'100980' | translate}}</div>
+                <div class="page-box" ng-show="totalNum > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="guanlianshangpin-wrap" ng-show="isCKstate">
+    <div class="guanlianshangpin c-ord-con" style="margin: auto;right: 0;top: 0;left: 0;bottom: 0;">
+        <span class="clos" ng-click="close()">{{'100066' | translate}}</span>
+        <ul>
+            <li class="clearfix">
+                <span>{{'100226' | translate}}：</span>
+                <span>{{lookdata.notificationType}}</span>
+            </li>
+            <li class="clearfix">
+                <span>{{'101134' | translate}}：</span>
+                <span>
+                    <span ng-show="relationId == 'all'">{{lookdata.relationId}}</span>
+                    <sapn ng-show="relationId1.length>0" ng-repeat="item in relationId1" style="margin:0 5px;">{{item.name}};</sapn>
+                </span>
+            </li>
+            <li class="clearfix">
+                <span>{{'100266' | translate}}：</span>
+                <span>{{lookdata.title}}</span>
+            </li>
+            <li class="clearfix">
+                <span>{{'101133' | translate}}：</span>
+                <pre class="guanlianshangpin-pre" ng-bind-html="lookdata.info"></pre>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

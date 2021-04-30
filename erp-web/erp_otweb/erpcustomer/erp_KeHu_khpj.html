@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .listTop{
+            display: flex;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f3f3f3;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .listTop span{
+            display: block;
+            width: 14px;
+            height: 12px;
+            background: url("static/image/public-img/Back.png") no-repeat;
+            cursor: pointer;
+        }
+        .listTop p{
+            color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            margin-left: 20px;
+        }
+        .selectWrap{
+            padding: 17px 14px;
+        }
+        .selectWrap span{
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            border: 1px solid #e4e4e4;
+            font-size: 12px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .selectWrap span.act{
+            background: #F9AE08;
+            border-color: #F9AE08;
+            color: #fff;
+        }
+        .mainWrap{
+            display: flex;
+            border: 1px solid #e4e4e4;
+            border-radius: 2px;
+            margin-top: 15px;
+        }
+        .leftWrap{
+            width: 30%;
+            border-right: 1px solid #e4e4e4;
+        }
+        .rightWrap{
+            width: 70%;
+            padding: 15px;
+        }
+        .leftWrap li{
+            cursor: pointer;
+        }
+        .leftWrap li.act{
+            background: #e4e4e4;
+        }
+        .leftWrap li>span{
+            display: inline-block;
+            font-size: 14px;
+            line-height: 30px;
+            text-align: center;
+        }
+        .topTitle{
+            display: flex;
+            background:#FCF4D9;
+            color: #8B572A;
+            padding: 5px;
+        }
+        .top-td{
+            text-align: center;
+        }
+        .list-tr{
+            cursor: pointer;
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #e4e4e4;
+            background: #fff;
+        }
+        .list-tr.act{
+            background: #e4e4e4;
+        }
+        .list-td{
+            text-align: center;
+            padding: 0 5px;
+        }
+        .list-td>span{
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .rightMenu{
+            position: relative;
+            left: -30px;
+        }
+        .rightMenu>p{
+            font-size: 13px;
+        }
+        .rightMenu>p:first-child{
+            color: #F9AE08;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .timeWrap{
+            position: relative;
+        }
+        .selectYear{
+            display: inline-block;
+            padding: 0 10px;
+            line-height: 30px;
+            width: 120px;
+            height: 30px;
+            border-radius: 4px;
+            border: 1px solid #e4e4e4;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .selectYear span:last-child{
+            display: inline-block;
+            border: 6px solid transparent;
+            border-top-color: #333;
+            position: relative;
+            top: 12px;
+        }
+        .timeDropWrap{
+            background: #fff;
+            border-radius: 4px;
+            width: 300px;
+            position: absolute;
+            box-shadow:0px 2px 8px 0px rgba(0,0,0,0.15);
+            top: 35px;
+            z-index: 99999999;
+            display: none;
+        }
+        .select-top{
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #e4e4e4;
+            padding: 15px 10px;
+        }
+        .time-tr{
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .time-tr span{
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .time-tr span.act{
+            background: #F9AE08;
+            color: #fff;
+        }
+        .sbottomWrap{
+            border-top: 1px solid #e4e4e4;
+            padding: 15px 12px;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        .sbottomWrap button{
+            padding: 5px 15px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            margin-left: 15px;
+        }
+        .sbottomWrap button:first-child{
+            background: #fff;
+            border-color: #e4e4e4;
+        }
+        .sbottomWrap button:last-child{
+            background: #F9AE08;
+            color: #fff;
+            border-color: #F9AE08;
+        }
+        .nameListWrap{
+            max-height: 620px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:8px 10px;">
+            <div class="listTop">
+                <span ng-click="goBackFun()"></span>
+                <p>客户评级（根据近90天数据对客户等级进行评定）</p>
+                <b></b>
+            </div>
+            <div class="selectWrap">
+                <span data-value="2" class="act">潜在客户</span>
+                <span data-value="0" >优质客户</span>
+                <span data-value="1">普通客户</span>
+                
+            </div>
+            <div class="mainWrap">
+                <div class="leftWrap">
+                    <div class="topTitle" style="font-size: 12px;">
+                        <div class="top-td" style="width:20%;">姓名</div>
+                        <div class="top-td" style="width:20%;">业务员</div>
+                        <div class="top-td" style="width:20%;">CJ订单量</div>
+                        <div class="top-td" style="width:20%;">总订单量</div>
+                        <div class="top-td" style="width:20%;">CJ订单百分比</div>
+                    </div>
+                    <div class="nameListWrap">
+                        <div class="list-tr " data-id="{{cu.paymentId}}" ng-repeat="cu in customerList" render-finish>
+                            <div class="list-td" style="width: 20%;"><span ng-click="gotoCustmerDetail(cu.paymentId)">{{cu.paymentName}}</span></div>
+                            <div class="list-td" style="width: 20%;"><span>{{cu.salesmanName}}</span></div>
+                            <div class="list-td" style="width: 20%;"><span>{{cu.cjocun}}</span></div>
+                            <div class="list-td" style="width: 20%;"><span>{{cu.ocun}}</span></div>
+                            <div class="list-td" style="width: 20%;">{{cu.ratio}}%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rightWrap">
+                    <div class="timeWrap">
+                        <select name="" id="selectYearGroup" style="width: 100px;height: 30px;border-radius: 4px;">
+                            <option ng-repeat="year in yearList" value="{{year.year}}">{{year.year}}</option>
+                        </select>
+                        <!-- <span class="selectYear" ng-click="selectYearFun()"><span class="yearSpan">{{thisYear}}</span><span></span></span>
+                        <div class="timeDropWrap">
+                            <div class="select-top">
+                                <span style="cursor: pointer" class="prevFun" ng-click="prevYear()">&Lt;</span>
+                                <span>{{thisYear}}年</span>
+                                <span style="cursor: pointer" class="nextFun" ng-click="nextYear()">&Gt;</span>
+                            </div>
+                            <div>
+                                <div class="time-tr">
+                                    <span>{{nowYear-4}}</span>
+                                    <span>{{nowYear-3}}</span>
+                                    <span>{{nowYear-2}}</span>
+                                </div>
+                                <div class="time-tr">
+                                    <span>{{nowYear-1}}</span>
+                                    <span class="act">{{nowYear}}</span>
+                                    <span>{{nowYear+1}}</span>
+                                </div>
+                                <div class="time-tr">
+                                    <span>{{nowYear+2}}</span>
+                                    <span>{{nowYear+3}}</span>
+                                    <span>{{nowYear+4}}</span>
+                                </div>
+                                <div class="time-tr">
+                                    <span>{{nowYear+5}}</span>
+                                    <span>{{nowYear+6}}</span>
+                                    <span>{{nowYear+7}}</span>
+                                </div>
+                            </div>
+
+                            <div class="sbottomWrap">
+                                
+                                <button ng-click="sureYearFun()">确定</button>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="tongjitu" id="main1" style="width: 100%;height: 300px"></div>
+                    <div class="tongjitu" id="main2" style="width: 100%;height: 300px;margin-top: 20px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>提现</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_financing_income.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab position-absolute">
+				<div ng-if="statisticsType === statisticsModel.market.val || statisticsType === statisticsModel.particulars.val"
+					class="top-tab-nav d-flex">
+					<span ng-click="changeIncomeType(statisticsModel.market.val)"
+						ng-class='{"tab-active": statisticsType === statisticsModel.market.val }'
+						class="tab-span tab-border-bt cursor-pointer">销售统计</span>
+					<span ng-click="changeIncomeType(statisticsModel.particulars.val)"
+						ng-class='{"tab-active": statisticsType === statisticsModel.particulars.val }'
+						class="tab-span tab-border-bt cursor-pointer">销售明细</span>
+				</div>
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索区域 -->
+					<!-- 销售统计 -->
+					<div ng-if="statisticsType === statisticsModel.market.val" class="top-tab-search d-flex align-items-center">
+						<div class="search-group d-flex align-items-center">
+							<button class="asj-btn-s asj-btn-s2 search-btn" ng-click="openInputPassword(export)">Excel导出</button>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>币种展示：</span>
+							<select style="width: 90px" name="" id="" ng-model="$parent.currentCurrency">
+								<option value="2">USD</option>
+								<option value="1">RMB</option>
+							</select>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>总计：</span>
+							<select style="width: 110px" name="" id="">
+								<option value="">${{totalMoneyUSD}}</option>
+								<option value="">￥{{totalMoneyRMB}}</option>
+							</select>
+						</div>
+					</div>
+					<!-- 销售明细 -->
+					<div ng-if="statisticsType === statisticsModel.particulars.val"
+						class="top-tab-search d-flex align-items-center">
+						<div class="search-group search-big d-flex align-items-center">
+							<input placeholder="请输入订单号/用户名/业务员" type="text" ng-model="$parent.searchName">
+							<button class="asj-btn-s asj-btn-s2" ng-click="searchFun()">查询</button>
+							<div style="margin-left: 30px;" class="d-flex-center"><img style="margin-right: 5px;" src="../../static/image/finance/notice.svg" alt="">报表数据一天统计一次</div>
+						</div>
+					</div>
+					<div ng-if="statisticsType === statisticsModel.particulars.val"
+						class="top-tab-search d-flex align-items-center justify-content-between" style="padding-top: 0">
+						<div class="d-flex align-items-center">
+							<div class="search-group d-flex align-items-center">
+								<span>付款时间：</span>
+								<wui-date class="startTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+									placeholder="开始时间" btns="{'ok':'确定','now':'今天'}" ng-model="$parent.startTime"></wui-date>
+								<wui-date class="endTime searchDay" format="yyyy-mm-dd" ng-class="{'disable-opacity': disable.select}"
+									class="margin-left-small" placeholder="结束时间" btns="{'ok':'确定','now':'今天'}" ng-model="$parent.endTime">
+								</wui-date>
+							</div>
+							<div class="search-group search-group-statistics d-flex align-items-center">
+								<span>订单类型：</span>
+								<select style="width: 90px" name="" id="" ng-model="$parent.orderType">
+									<option value="">全部</option>
+									<option value="直发">直发</option>
+									<option value="代发">代发</option>
+									<option value="私有">私有</option>
+								</select>
+							</div>
+							<div class="search-group search-group-statistics d-flex align-items-center">
+								<span>销售额：</span>
+								<select style="width: 90px" name="" id="">
+									<option value="">${{totalMoneyUSD}}</option>
+									<option value="">￥{{totalMoneyRMB}}</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<div class="search-group d-flex align-items-center">
+								<div style="margin-right: 20px;" class="search-group d-flex align-items-center">
+									<span>币种展示：</span>
+									<select style="width: 90px" name="" id="" ng-model="$parent.currentCurrency">
+										<option value="2">USD</option>
+										<option value="1">RMB</option>
+									</select>
+								</div>
+								<button class="asj-btn-s asj-btn-s2 search-btn" ng-click="openInputPassword(export)">Excel导出</button>
+							</div>
+						</div>
+					</div>
+					<!-- 收入统计 -->
+					<div ng-if="statisticsType === statisticsModel.income.val" class="top-tab-search d-flex align-items-center">
+						<div class="search-group d-flex align-items-center">
+							<button class="asj-btn-s asj-btn-s2 search-btn" style="margin-right: 20px;"
+								ng-click="openInputPassword(export)">Excel导出</button>
+							<button class="asj-btn-s asj-btn-s2 search-btn" ng-click='paritiesFun()'>中美汇率</button>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>币种展示：</span>
+							<select style="width: 90px" name="" id="" ng-model="$parent.currentCurrency">
+								<option value="2">USD</option>
+								<option value="1">RMB</option>
+							</select>
+						</div>
+						<div class="search-group search-group-statistics d-flex align-items-center">
+							<span>总收入：</span>
+							<select style="width: 110px" name="" id="">
+								<option value="">${{totalMoneyUSD}}</option>
+								<option value="">￥{{totalMoneyRMB}}</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- 表头 -->
+					<!-- 销售统计 -->
+					<div ng-if="statisticsType === statisticsModel.market.val" class="tb-thead d-flex tb-thead-border">
+						<div style="width: 5%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 7%" class="tb-thead-th d-flex-center border-r-coffie">月份</div>
+						<div style="width: 36.1%; padding: 0;" class="tb-thead-th border-r-coffie">
+							<div class="border-b-coffie d-flex-center fuhe-thead-1">代发</div>
+							<div class="d-flex fuhe-thead-2">
+								<div style="width: 20%;">母订单数量</div>
+								<div style="width: 20%;">子订单数量</div>
+								<div style="width: 20%;">订单金额</div>
+								<div style="width: 20%;">物流金额</div>
+								<div style="width: 20%;">总计</div>
+							</div>
+						</div>
+						<div style="width: 29.25%; padding: 0;" class="tb-thead-th border-r-coffie">
+							<div class="border-b-coffie d-flex-center fuhe-thead-1">直发</div>
+							<div class="d-flex fuhe-thead-2">
+								<div style="width: 25%;">订单数量</div>
+								<div style="width: 25%;">订单金额</div>
+								<div style="width: 25%;">物流金额</div>
+								<div style="width: 25%;">总计</div>
+							</div>
+						</div>
+						<div style="width: 15.65%; padding: 0;" class="tb-thead-th border-r-coffie">
+							<div class="border-b-coffie d-flex-center fuhe-thead-1">私有</div>
+							<div class="d-flex fuhe-thead-2">
+								<div style="width: 50%;">订单数量</div>
+								<div style="width: 50%;">订单金额</div>
+							</div>
+						</div>
+						<div style="width: 7%" class="tb-thead-th d-flex-center">总销售额</div>
+					</div>
+					<!-- 销售明细 -->
+					<div ng-if="statisticsType === statisticsModel.particulars.val" class="tb-thead d-flex">
+						<div style="width: 5%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">付款时间</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">订单号</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">订单类型</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">用户名</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">业务员</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">订单金额</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">物流金额</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">销售额</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">采购成本</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">物流成本</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">总成本</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">订单利润</div>
+						<div style="width: 6.78%" class="tb-thead-th d-flex-center">物流利润</div>
+						<div style="width: 6.86%" class="tb-thead-th d-flex-center">总利润</div>
+					</div>
+					<!-- 收入统计 -->
+					<div ng-if="statisticsType === statisticsModel.income.val" class="tb-thead d-flex tb-thead-border">
+						<div style="width: 5%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 10%" class="tb-thead-th d-flex-center border-r-coffie">月份</div>
+						<div style="width: 28%; padding: 0;" class="tb-thead-th border-r-coffie">
+							<div class="border-b-coffie d-flex-center fuhe-thead-1">营业收入</div>
+							<div class="d-flex fuhe-thead-2">
+								<div style="width: 33%;">订单金额</div>
+								<div style="width: 33%;">物流金额</div>
+								<div style="width: 34%;">总销售额</div>
+							</div>
+						</div>
+						<div style="width: 47%; padding: 0;" class="tb-thead-th border-r-coffie">
+							<div class="border-b-coffie d-flex-center fuhe-thead-1">其他收入</div>
+							<div class="d-flex fuhe-thead-2">
+								<div style="width: 20%;">退税</div>
+								<div style="width: 20%;">利息</div>
+								<div style="width: 20%;">信用卡返点</div>
+								<div style="width: 20%;">营外收入</div>
+								<div style="width: 20%;">总计</div>
+							</div>
+						</div>
+						<div style="width: 10%" class="tb-thead-th d-flex-center">总销售额</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" class="content-wrap bg-white padding-lr-20px" style="min-height: 600px;">
+				<!-- 销售统计 -->
+				<div ng-if="statisticsType === statisticsModel.market.val" class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="market in marketList">
+						<div style="width: 5%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div>
+						<div style="width: 7%" class="tb-tbody-td border-r-td"><span>{{market.statistics_date}}</span></div>
+						<div style="width: 36.1%" class="border-r-td d-flex">
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{market.d_m_order_count || 0}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{market.d_z_order_count || 0}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{showMoneyFun(market.d_order_money || 0)}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{showMoneyFun(market.d_logistics_money || 0)}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td">
+								<span class="word-break-break-all">{{showMoneyFun(market.dAllMoney || 0)}}</span>
+							</div>
+						</div>
+						<div style="width: 29.25%" class="border-r-td d-flex">
+							<div style="width: 25%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{market.z_order_count || 0}}</span></div>
+							<div style="width: 25%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{showMoneyFun(market.z_order_money || 0)}}</span></div>
+							<div style="width: 25%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{showMoneyFun(market.z_logistics_money || 0)}}</span></div>
+							<div style="width: 25%" class="tb-tbody-td">
+								<span class="word-break-break-all">{{showMoneyFun(market.zAllMoney || 0)}}</span>
+							</div>
+						</div>
+						<div style="width: 15.65%" class="border-r-td d-flex">
+							<div style="width: 50%" class="tb-tbody-td border-r-td">
+								<span class="word-break-break-all">{{market.s_order_count || 0}}</span>
+							</div>
+							<div style="width: 50%" class="tb-tbody-td">
+								<span class="word-break-break-all">{{showMoneyFun(market.s_order_money || 0)}}</span>
+							</div>
+						</div>
+						<div style="width: 7%" class="tb-tbody-td">
+							<span class="word-break-break-all">{{showMoneyFun(market.allMoney || 0)}}</span>
+						</div>
+					</div>
+				</div>
+				<!-- 销售明细 -->
+				<div ng-if="statisticsType === statisticsModel.particulars.val" class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="income in incomeList">
+						<div style="width: 5%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{$index + 1}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{income.paymentDate}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center flex-column">
+							<span class="word-break-break-all">{{income.id}}</span>
+							<span ng-if="income.sign > 0" class="siyouIcon">私
+								<span><b></b>	该订单含私有库存商品，订单金额不包含私有库存商品金额，只累加物流金额</span>
+							</span>
+						</div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{income.orderType}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{income.accountName}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{income.merchantName}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.orderMoney ? income.orderMoney : 0)}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.logistisMoney ? income.logistisMoney : 0)}}</span>
+						</div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.saleMoney ? income.saleMoney : 0)}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.productAmountProfit ? income.productAmountProfit : 0)}}</span>
+						</div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.logisticsAmountProfit ? income.logisticsAmountProfit : 0)}}</span>
+						</div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.totalCost ? income.totalCost : 0)}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.orderProfit ? income.orderProfit : 0)}}</span></div>
+						<div style="width: 6.78%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.logisticsProfit ? income.logisticsProfit : 0)}}</span>
+						</div>
+						<div style="width: 6.78%" class="tb-tbody-td d-flex-center"><span
+								class="word-break-break-all">{{showMoneyFun(income.totalProfit ? income.totalProfit : 0)}}</span></div>
+					</div>
+				</div>
+				<!-- 收入统计 -->
+				<div ng-if="statisticsType === statisticsModel.income.val" class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="out in outsideList">
+						<div style="width: 5%" class="tb-tbody-td border-r-td"><span>{{$index + 1}}</span></div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td"><span>{{out.statisticsDate}}</span></div>
+						<div style="width: 28%" class="d-flex">
+							<div style="width: 33%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.allMoney ? out.allMoney : 0)}}</span></div>
+							<div style="width: 33%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.logisticsMoney ? out.logisticsMoney : 0)}}</span></div>
+							<div style="width: 34%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.allSaleMoney ? out.allSaleMoney : 0)}}</span></div>
+						</div>
+						<div style="width: 47%" class="d-flex">
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.drawbackMoney ? out.drawbackMoney : 0)}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.interestMoney ? out.interestMoney : 0)}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.rebateMoney ? out.rebateMoney : 0)}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.outsideMoney ? out.outsideMoney : 0)}}</span></div>
+							<div style="width: 20%" class="tb-tbody-td border-r-td">
+								<span>{{showMoneyFun(out.zjMoney ? out.zjMoney : 0)}}</span></div>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td"><span>{{showMoneyFun(out.zonMoney ? out.zonMoney : 0)}}</span>
+						</div>
+					</div>
+				</div>
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+					<span>暂无数据</span>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="canShowPage">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 汇率设置 弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 404px; height: initial;">
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6 class="text-align-center">汇率设置
+					<span class="cursor-pointer position-relative span-notice"><img src="../../static/image/finance/notice.svg"
+							alt="">
+						<span class="position-absolute span-notice-wrap">
+							<span class="d-block">“汇率设置后，财务模块内均使用此汇率”</span>
+							<span class="d-block">汇率转换后小数点保留两位小数</span>
+						</span>
+					</span>
+				</h6>
+			</div>
+			<!-- content -->
+			<div class="tan-v2-con">
+				<div class="item-group d-flex-center">
+					<span>USD&nbsp;&nbsp;:&nbsp;&nbsp;RMB&nbsp;&nbsp;=&nbsp;&nbsp;1&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+					<input style="width: 90px;" type="number" ng-model="rateMoney">
+				</div>
+			</div>
+			<!-- bottom -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" class="que-ding-btn" ng-click="sureRate()">确定</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

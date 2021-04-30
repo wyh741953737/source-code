@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>已取消订单金额-财务收入管理-ERP系统</title>
+		<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+		<!-- <link rel="stylesheet" href="erp_otweb/css/li_erp.css"> -->
+		<!-- <link rel="stylesheet" type="text/css" href="static/css/erp-warehouse.css"> -->
+	</head>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content">
+					<div class="left-bar">
+	            <ul>
+	                <!-- <li class="active"><a href="#/erpwarehouse/erpdepotIn">义务仓</a></li> -->
+	                <li class="active"><a href="#/erpwarehouse/privatekucun">私有仓库</a></li>
+	                <li><a href="#/erpwarehouse/erpdepotIn">待入库商品</a></li>
+	                <li><a href="#/erpwarehouse/warelist">仓库设置</a></li>
+	                <li><a href="#/erpwarehouse/warestock">商品库存</a></li>
+	                <li><a href="#/erpwarehouse/warelinkcate">类目管理</a></li>
+					<li><a href="#/erpwarehouse/SchedulingTask">调度任务</a></li>
+					<li><a href="#/erpwarehouse/Parcel">包裹管理</a></li>
+	            </ul>
+	        </div>
+					<!-- <div class="ea-left-nav">
+						<ul>
+							<li class="active" href="#" ng-repeat="item in cangku"><a href="#">{{item.storage}}</a></li>
+						</ul>
+					</div> -->
+
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content li_ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+	          <div class="top-taps clearfix">
+	            	<ul>
+	                  <!-- <li ng-class="{'active': isPrivateruku}"><a href="#/erpwarehouse/privateruku">入库</a></li> -->
+	                  <li ng-class="{'active': isPrivatekucun}"><a href="#/erpwarehouse/privatekucun">库存</a></li>
+	                  <!-- <li ng-class="{'active': isPrivatechuku}"><a href="#/erpwarehouse/privatechuku">出库</a></li> -->
+	              </ul>
+			    	</div>
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search">
+							<div class="show-cur-customer clearfix">
+								<div class="show-name">
+									<span class="show-span">当前选择客户：{{clientname}}</span>
+									<a href="javascript:void(0);" class="re-chose-btn" ng-click="choseCustomerTag=true;rechoseTag=true">重新选择</a>
+								</div>
+								<div class="add-merch"><a href="javascript:void(0);" class="add-merch-btn" ng-click="addKucunTag=true">新增入库</a></div>
+							</div>
+							
+							<div class="search-line clearfix">
+								<div class="input-group search-box">
+	                  <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+	                    <option value="SKU">SKU</option>
+	                    <option value="CH">中文</option>
+	                    <option value="EN">英文</option>
+	                  </select> -->
+	                  <input type="text" class="form-control top-search-inp" placeholder="" ng-model="userinfo">
+	                  <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">搜索</a>
+	              </div>
+
+	              <div class="datatime-screen"><a href="#" class="active">今日</a><a href="#">最近一周</a><a href="#">一个月</a><a href="#">三个月</a><input type="text" id="txtBeginDate" placeholder="选取开始日期" /><input type="text" id="txtEndDate" placeholder="选取结束日期" /><input type="button" value="点击筛选">
+								</div>
+	              
+	              <!-- <div class="search-sele-box">
+	              	<select name="" id="" class="search-sele search-sele1" ng-change="changeWareType()" ng-model="wareType">
+	              		<option value="1">公有仓库</option>
+	              		<option value="0">私有仓库</option>
+	              	</select>
+	              	<div class="sele-customer">
+	              		<span>选择客户：</span>
+	              		<select name="" id="" class="search-sele">
+		              		<option value="">11</option>
+		              		<option value="">22</option>
+		              	</select>
+	              	</div>
+	              </div> -->
+							</div>
+
+							<!-- <p><input type="text" value=""  class="search-text-box" /><input type="button" value="搜索" class="search-button" /></p> -->
+							
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs" id="ea-list-table">
+							<thead>
+							<tr>
+								<th width="5%"><span><input type="checkbox"></span></th>
+								<th width="15%"><span>图片</span></th>
+								<th width="10%"><span>商品SKU</span></th>
+								<th width="35%"><span>商品名称</span></th>
+								<th width="10%"><span>供应商</span></th>
+								<th width="10%">
+									<span>库存数量</span>
+									<div class="cangku-name">
+										<span ng-repeat="itemw in wareList">{{itemw.storage}}</span>
+									</div>
+								</th>
+								<!-- <th><span>即将出库</span></th> -->
+								<th width="15%"><span>操作</span></th>
+							</tr>
+							</thead>
+							<tbody ng-repeat="(index1,item) in kucunliebiao">
+							<tr class="la_tr la_tr01">
+								<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>
+								<td><span class="lashop_img">
+									<img src={{item.img}} alt="" >
+								</span></td>
+								<td><span>{{item.sku}}</span></td>
+								<td><span>{{item.nameEn}}</span></td>
+								<td><span>查询供应商</span></td>
+								<td><span ng-repeat="itemw in wareList">{{item.realInventory[itemw.id]}}</span></td>
+								<!-- <td><span>{{item.inv}}</span></td> -->
+								<td class="relative active">
+									<span>
+										<!-- <poplinkt class="active">
+										 操作日志
+									  </poplinkt> -->
+										<!-- <a href="javascript:void(0);" class="poplink active">盘点</a> -->
+									</span>
+									<div>
+										<a href="javascript:void(0);" class="show-variant-btn" title="点击展开变体信息" ng-show="item.down" ng-click="showVariant(item, index1)"><img src="./static/image/public-img/to-down.png" alt=""></a>
+								  	<a href="javascript:void(0);" class="show-variant-btn" title="点击展开变体信息" ng-show="!item.down" ng-click="hideVariant(item, index1)"><img src="./static/image/public-img/to-up.png" alt=""></a>
+									</div>
+								</td>
+							</tr>
+							<tr class="la_tr la_tr01" ng-repeat="(index2,item2) in item.vlist" style="background: #f5f5f5;">
+								<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>
+								<td><span class="lashop_img">
+									<img src={{item2.img}} alt="" >
+								</span></td>
+								<td><span>{{item2.sku}}</span></td>
+								<td><span>{{item2.nameEn}}</span></td>
+								<td><span>查询供应商</span></td>
+								<td><span ng-repeat="item2w in wareList">{{item2.realInventory[item2w.id]}}</span></td>
+								<!-- <td><span>{{item.inv}}</span></td> -->
+								<td class="relative active">
+									<span>
+										<!-- <poplinkt class="active">
+										 操作日志
+									  </poplinkt> -->
+										<a href="javascript:void(0);" class="poplink active" ng-click="toRuku(item2, index2, index1)">入库</a>
+										<a href="javascript:void(0);" class="poplink" ng-click="toChuku(item2, index2, index1)">出库</a>
+									</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+							<!-- 分页 -->
+                 <!-- ng-show="hasMerch" -->
+                <div class="page-box" ng-show="kucunliebiao.length > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="getPageSize()">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div id="pagination1" class="pagination2">
+                        	<a href="#">&lt;&lt;</a>
+							            <a href="#">&lt;</a>
+							            <a href="#">1</a>
+							            <a href="#">2</a>
+							            <a class="current" href="#">3</a>
+							            <a href="#">4</a>
+							            <a href="#">5</a>
+							            <a href="#">6</a>
+							            <a href="#">···</a>
+							            <a href="#">&gt;</a>
+							            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="specifiedPage">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="getSpecifiedPage()">go</a>
+                    </div>
+                </div>
+						
+						
+						</div>
+						</div>
+					</div>
+		</div>
+		
+		
+		<!-- 选取两段时间之间插件 -->
+		<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+<!--选择客户弹出框-->
+<div class="staffwindow staffwindow-ware" ng-show="choseCustomerTag">
+			<div class="windowcontent">
+				<h3>选择客户</h3>
+				<div class="sele-customer-box">
+					<!-- ng-blur="clientul=false" -->
+					<input type="text" ng-model="clientname" ng-change="clientchange()" ng-focus="clientchange()" placeholder="请输入客户名搜索">
+					<ul class="emplist" ng-show="clientul">
+						<li ng-repeat="item in clientlist" ng-mousedown="getclient(item)">
+							<p>{{item.num + '-' + item.NAME}}</p>
+						</li>
+					</ul>	
+				</div>
+				<!-- onclick="javascript:history.go(-1);" -->
+				<div class="sele-customer-btns"><button ng-click="cancel()" class="submit-btn">取消</button><button ng-click="submit()" class="submit-btn">确定</button></div>
+			</div>
+</div>
+<!-- 现有商品操作的弹框 -->
+<div class="existing-tankuang-wrap" ng-show="addKucunTag">
+<div class="existing-tankuang">
+	<div class="center-block" style="width: 300px; background-color: #CBCBCB;margin-top: 10px;font-size: 13px;">
+		<input class="es-seach-inp" type="text" ng-model="skuinfo" placeholder="请输入SKU搜索" style="height: 31px;width: 250px;padding-left: 3px;" ng-keyup="enterSearch($event)">
+		<a class="es-seach-btn" href="javascript:void(0)" ng-click="skuSearch()" style="color:#767575;padding:5px;">搜索</a>
+	</div>
+	<div class="existing-content" style="width: 100%;margin-top: 5px;min-height: 175px;">
+		<ul>
+			<li style="background-color: #f4f8fd;padding: 3px 2px;">
+				<span style="width: 76px;">图片</span>
+				<span style="width: 170px;">商品名称</span>
+				<span style="width: 100px;">SKU</span>
+				<span style="width: 135px;">价格</span>
+				<span style="width: 100px;">库存数量</span>
+			</li>
+		</ul>
+		<ul style="margin-top: 8px;height: 310px;overflow-y: auto;">
+			<li style="border-bottom: 1px solid #ccc;padding-bottom: 2px;position:relative;" ng-repeat="item in proVarientList">
+				<div>
+					<img style="width: 16px;height: 16px;cursor: pointer;" class="esou-cheked" ng-click="seleVariant(item,$index)" src="static/image/public-img/radiobutton1.png">
+					<!-- <input type="radio"> -->
+					<img style="width: 50px;height: 50px;margin-left: 10px;" ng-src={{item.IMG}}>
+				</div>
+				<p style="width: 170px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" title="{{item.NAMEEN}}">{{item.NAMEEN}}</p>
+				<p style="width: 100px;">{{item.SKU}}</p>
+				<p style="width: 135px;">USD {{item.SELLPRICE}}</p>
+				<!-- <div style="width: 100px;height:30px;border: 1px solid  #ccc;line-height: 30px;margin-top: 5px;font-size: 13px;" ng-click="wuliuRequire()">请选择</div>
+				<ol class="select-ol" style="width: 100px;height: 30px;font-size: 13px; margin-top: 8px;position: absolute;right: 0;top: 30px;">
+					<li>请选择</li>
+					<li>请选择</li>
+					<li>请选择</li>
+					<li>请选择</li>
+				</ol> -->
+				<div ng-click="choseCurWuliu(item,$index)" class="asj-chose-wuliu" href="javascript:void(0);" style="width: 100px;height: 30px; padding-left: 5px; font-size: 12px; margin-top: 8px; border: 1px solid #E0E0E0; background: rgb(248, 248, 248); border-radius: 4px; cursor: pointer;" ng-show="item.existingWuliu.length == 0">
+					<span style="line-height: 30px;">请选择</span>
+					<span class="caret" style="position: absolute; top: 21px; right: 5px;"></span>
+				</div>
+				<input type="number" class="cucun-inp" style="width: 100px;height: 30px;font-size: 12px; margin-top: 8px; text-align: center;">
+			</li>
+		</ul>
+	</div>
+	<div class="sele-ware">
+		选择仓库：
+		<select ng-model="seleWareId" style="width: 100px;height: 30px;font-size: 12px; margin-top: 8px; text-align: center;">
+			<option ng-repeat="item in wareList" value="{{item.id}}">{{item.storage}}</option>
+		</select>
+	</div>
+	<div class="existing-btns center-block" style="width: 180px;display: flex;justify-content: space-between;margin-top: 15px;">
+		<button style="background-color: #666;" ng-click="addKucunTag=false">取消</button>
+		<button style="background-color: #f88f29;" ng-click="quedingFun()">确定</button>
+	</div>
+	
+	
+</div>
+</div>
+
+<script>
+
+    $(function () {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true,                                       // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+            callback: function () {                               // 点击选择日期后的回调函数
+            //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+</script>
+
+
+<!-- 弹框js -->
+<script>
+	
+	function clickshow(btn,box,close,close1){
+	var eaListTable=document.getElementById('ea-list-table');
+	var showImgBtn=eaListTable.getElementsByTagName(btn);
+	var showImg=eaListTable.getElementsByTagName(box);
+	var closeShowImg=eaListTable.getElementsByTagName(close);
+	var closeShowImgt=eaListTable.getElementsByTagName(close1);
+	for(var i=0; i<showImgBtn.length; i++){
+		showImgBtn[i].index=i;
+		showImgBtn[i].onclick=function(){
+				showImg[this.index].style.display='block';
+		}
+		}
+	for(var i=0; i<closeShowImg.length; i++){
+		closeShowImg[i].index=i;
+		closeShowImg[i].onclick=function(){
+			showImg[this.index].style.display='none';
+		}
+	}
+	for(var i=0; i<closeShowImgt.length; i++){
+		closeShowImgt[i].index=i;
+		closeShowImgt[i].onclick=function(){
+			showImg[this.index].style.display='none';
+		}
+	}
+	}
+	clickshow('poplink','section','closetext','closetextt');
+	clickshow('poplinkt','sectiont','closetextx');
+</script>
+
+<sectiont id="show-img" class="pop-sontab-box">
+	<h3>操作日志</h3>
+	<table>
+		<tr>
+			<th>编号</th>
+			<th>操作描述</th>
+			<th>工号</th>
+			<th>日期</th>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>出库200个</td>
+			<td>王艳</td>
+			<td>2017-10-11 10:10</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>盘点200个改为300个</td>
+			<td>王艳</td>
+			<td>2017-10-11 10:10</td>
+		</tr>
+	</table>
+<closetextx class="btn-determine">确定</closetextx>
+</sectiont>
+
+<section id="show-img">
+	<h3>盘点</h3>
+	<ul class="state-modify-list">
+		<li><span class="list-tit">原库存数量</span><span class="list-con">500</span></li>
+		<li><span class="list-tit">新库存数量</span><span class="list-con"><input type="text" value="" class="input-full"></span></li>
+	</ul>
+<closetext class="btn-cancel">取消</closetext><closetextt class="btn-determine">确定</closetextt>
+</section>
+
+</body>
+</html>

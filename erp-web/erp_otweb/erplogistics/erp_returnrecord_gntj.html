@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>退件记录</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+</head>
+<style>
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .ea-right-search .fl{
+        float: right;
+    }
+    .ea-right-search .fl:hover{
+        background-color: #08ACE9;
+        color: #fff;
+    }
+    .ea-right-search .fr{
+        float: right;
+    }
+    .related{
+        background-color: green;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 10px;
+    }
+    .Unrelated{
+        background-color: orange;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 8px;
+    }
+    .ea-list-table td input{
+        width: inherit;
+        height: inherit;
+        border: none;
+        border-radius: 3px;
+    }
+    .layui-layer-btn .layui-layer-btn0{
+        width: 70px;
+        background-color: #999;
+        border: none;
+    }
+    .layui-layer-btn .layui-layer-btn1{
+        width: 70px;
+        background-color: #08aceb;
+        border: none;
+    }
+    .selectActive {
+        background: #e8f4ff;
+    }
+    .overTR:hover{
+        background: #e8f4ff;
+    }
+    .serState{
+        /*margin-left: 15px;*/
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 3px;
+        width: 270px;
+    }
+    .search-box{
+        width: 100%;
+    }
+    .search-box .top-search-btn,.input-group .form-control{
+        float: inherit;
+    }
+    .search-box label{
+        margin:  0 10px 10px 0;
+        width: 345px;
+    }
+    .search-box label span{
+        width: 90px;
+        display: inline-block;
+        text-align: right;
+    }
+    .search-box .top-search-btn{
+        /*margin-left: 75px;*/
+        width: 90px;
+        border: 1px solid #08aceb;
+        border-left: none;
+        background-color: #fff;
+        color: #08aceb;
+        vertical-align: top;
+    }
+    .search-box .top-search-btn:hover{
+        background-color: #08aceb;
+        color: #fff;
+    }
+    #c-mu-ord .c-mu-allchekbox,.c-mu-chekbox{
+        cursor: pointer;
+    }
+    #c-mu-ord td{
+        font-size: 13px;
+    }
+    #c-mu-ord td p{
+        font-size: 12px;
+    }
+    body .guanlianshangpin{
+        width: 670px;
+        height: 430px;
+        padding:20px;
+    }
+    body .guanlianshangpin input,select{
+        width: 500px;
+        line-height: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 3px;
+    }
+    body .guanlianshangpin .add-wrap-con{
+        display: block;
+        margin: 15px 0;
+        /*text-align: center;*/
+    }
+    body .guanlianshangpin .add-tjjlbtns button{
+        width: 70px;
+        height: 30px;
+        background: rgba(249,193,52,1);
+        border-radius: 2px;
+        /*margin-left: 20px;*/
+        color: #fff;
+    }
+    body .guanlianshangpin label span{
+        display: inline-block;
+        /*width: 112px;*/
+        text-align: right;
+    }
+    .search-box label{
+        width: auto;
+    }
+    .red{
+        color: red;
+    }
+    .greens{
+        color: green;
+    }
+    .set label{
+        margin-right: 15px;
+    }
+    .set label input,select{
+        width: 220px;
+        line-height: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 3px;
+    }
+    table button{
+        background-color: #ff9328;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 14px;
+        padding: 2px 5px;
+    }
+    body .guanlianshangpin ul{
+        /*height: 300px;
+        overflow-y: scroll;
+        border: 1px solid #8c8c8c;
+        padding: 10px;*/
+    }
+    body .guanlianshangpin ul li{
+        /*line-height: 18px;
+        padding: 5px;
+        height: 28px;
+        margin-bottom: 5px;*/
+        height: 20px;
+    }
+    body .guanlianshangpin ul li:nth-child(even){
+        background-color: #449d44;
+    }
+    body .guanlianshangpin ul li:hover{
+        background-color: #CCCCCC;
+    }
+    body .guanlianshangpin ul li span{
+        float: right;
+        cursor: pointer;
+        /*width: 15px;*/
+        line-height: 20px;
+    }
+    body .guanlianshangpin ul li .span-serial{
+        float: left;
+        display: inline-block;
+        width: 40px;
+        text-align: center;
+    }
+    body .guanlianshangpin .content-active{
+        border: 1px solid #4791ff;
+    }
+    .zzh-listdiv{
+        border: 1px solid #ff9916;
+        height: 300px;
+        overflow: auto;
+    }
+    .indexnum-ul{
+        float: left;
+    }
+    .text-list{
+        display: block;
+        /*border: 1px solid;*/
+        /*width: 100%;*/
+        width: 560px;
+        height: 2020px;
+        float: left;
+        line-height: 20px;
+        overflow: hidden;
+    }
+    /*更多操作*/
+    .morefun-div{
+        position: relative;
+        width: 92px;
+        margin: 0 auto;
+    }
+    .more-btn{
+        color: #333333;
+        line-height: 23px;
+    }
+    .morefun-div .caret{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+    .more-selul{
+        font-size: 12px;
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 21px;
+        z-index: 3;
+        width: 100%;
+        box-shadow: 0px 8px 20px;
+    }
+    .more-selul li{
+        font-size: 12px;
+        cursor: pointer;
+        background-color: #fff;
+        display: block;
+        width: 100%;
+        line-height: 23px;
+    }
+    .more-selul li:hover{
+        background-color: #e3e3e3;
+    }
+    .morefun-div:hover .more-selul{
+        display: block;
+    }
+    .font-yellow{
+        color: #f0ad4e;
+    }
+    .font-green{
+        color: #449d44;
+    }
+    .font-red{
+        color: #d9534f;
+    }
+    .font-blue{
+        color: #5bc0de;
+    }
+    .return-modefy-btn{
+        width: 60px;
+        height: 30px;
+        border: 1px solid #08ACE9;
+        border-radius: 4px;
+        color: #08ACE9;
+        background-color: #fff;
+    }
+    .return-modefy-btn:hover{
+        color: #fff;
+        background-color: #08ACE9;
+    }
+    .err-listdiv p{
+        text-align: center;
+        padding-left: 0;
+    }
+</style>
+<body>
+<div class="ea-content">
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+            <li><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+            <li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+            <li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+            <li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+            <li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+            <li class="active"><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="ea-right-search clearfix">
+                <!-- <div class="input-group search-box clearfix">
+                    <label class="clearfix">
+                        <input style="width: 450px;" type="text" class="form-control top-search-inp" placeholder="{{'100837' | translate}}" ng-model="sersampleCode"><a role="button"  class="btn btn-default top-search-btn" type="button" ng-click="researchFun()">{{'100025' | translate}}</a>
+                    </label>
+                    <a class="dc-btn fl" ng-click="addClick()">{{'100826' | translate}}</a>
+                </div> -->
+                <div class="input-group search-box clearfix">
+                    <label class="clearfix">
+                        <!-- <span>追踪号：</span> -->
+                        <input style="width: 450px;" type="text" class="form-control top-search-inp" placeholder="{{'100837' | translate}}" ng-model="sersampleCode"><a role="button"  class="btn btn-default top-search-btn" type="button" ng-click="researchFun()">{{'100025' | translate}}</a>
+                    </label>
+                    <a class="dc-btn fl" ng-click="addClick()">{{'100826' | translate}}</a>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="c-mu-ord">
+                    <tr>
+                        <th><span>{{'100225' | translate}}</span></th>
+                        <th><span>{{'100109' | translate}}</span></th>
+                        <th><span>CJ子订单号</span></th>
+                        <th><span>{{'100114' | translate}}</span></th>
+
+                        <th><span>{{'100838' | translate}}</span></th>
+                        <th><span>{{'100839' | translate}}</span></th>
+                        <th>
+                            <select style="width:auto;" ng-model="saleName" ng-change="saleManFun()">
+                                <option value="">{{'100840' | translate}}</option>
+                                <option value="{{item}}" ng-repeat="item in saleArr track by $index">{{item}}</option>
+                            </select>
+                        </th>
+                        <th>
+                            <select style="width:auto;" ng-model="hdName" ng-change="hdFun()">
+                                <option value="">{{'100841' | translate}}</option>
+                                <option value="{{item}}" ng-repeat="item in freightArr track by $index">{{item}}</option>
+                            </select>
+                        </th>
+                        <th><span>{{'100842' | translate}}</span></th>
+                        <th><span>{{'100843' | translate}}</span></th>
+                        <th><span>{{'100844' | translate}}</span></th>
+                        <th><span>{{'100340' | translate}}</span></th>
+                        <th><span>发货状态</span></th>
+                        <th><span>{{'100043' | translate}}</span></th>
+                    </tr>
+                    <tr ng-repeat="item in returnList">
+                        <td><span>
+                            {{item.create_time.time | date : 'yyyy-MM-dd HH:mm:ss'}}
+                        </span></td>
+                        <td><span><p>{{item.TRACKINGNUMBER}}</p></span></td>
+                        <td><span>{{item.cjorderId}}</span></td>
+                        <td><span><p>{{item.shopify_ORDER_ID}}</p></span></td>
+                        <td><span>{{item.new_way_id}}</span></td>
+                        <td><span class="tj-reson-mw200">{{item.cause_info}}</span></td>
+                        <td><span>{{item.salesmanName}}</span></td>
+                        <td><span>{{item.freight_name}}</span></td>
+                        <td><span>
+                            <p class="font-green" ng-if="item.is_receive==1">{{'100845' | translate}}</p>
+                            <p class="font-blue" ng-if="item.is_receive==0">{{'100846' | translate}}</p>
+                        </span></td>
+                        <td><span>
+                            <p class="font-green" ng-if="item.is_chare==1">{{'100845' | translate}}</p>
+                            <p class="font-blue" ng-if="item.is_chare==0">{{'100846' | translate}}</p>
+                            <p>{{'100847' | translate}}¥: <em class="font-yellow">{{item.chare_money}}</em></p>
+                        </span></td>
+                        <td><span>
+                            <p class="font-green" ng-if="item.is_pay==1">{{'100845' | translate}}</p>
+                            <p class="font-blue" ng-if="item.is_pay==0">{{'100846' | translate}}</p>
+                            <p>{{'100848' | translate}}¥: <em class="font-yellow">{{item.pay_money}}</em></p>
+                        </span></td>
+                        <td><span class="tj-reson-mw200">{{item.remark}}</span></td>
+                        <td>
+                            <p ng-if="item.type=='0'" class="font-green">确定发货</p>
+                            <p ng-if="item.type=='1'" class="font-red">不确定发货</p>
+                        </td>
+                        <td>
+                            <button ng-click="modefyFun(item,$index)" class="return-modefy-btn">{{'100120' | translate}}</button>
+                            <div class="morefun-div" ng-click="stopFun($event)">
+                                <a href="javascript:void(0);" class="more-btn">{{'100094' | translate}}</a><span class="caret"></span>
+                                <ul class="more-selul">
+                                    <li ng-click="tjFun(item)">{{'100849' | translate}}</li>
+                                    <li ng-click="kfFun(item)">{{'100850' | translate}}</li>
+                                    <li ng-click="pcFun(item)">{{'100851' | translate}}</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!-- 分页 -->
+                <!-- ng-show="hasMerch" -->
+                <div class="no-data" ng-show="totalNum == 0" style="text-align: center;line-height: 60px;">没有数据</div>
+                <div class="page-box" ng-show="totalNum>0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="guanlianshangpin-wrap ng-scope not-content" ng-show="isadd">
+        <div class="guanlianshangpin c-ord-con" style="margin: auto;right: 0;top: 0;left: 0;bottom: 0;">
+            <div class="add-wrap-con">
+                <span>{{'100109' | translate}}:<span style="font-size: 12px;color: #999;">({{'100852' | translate}})</span></span>
+                <!-- contenteditable="true" -->
+                <!-- <ul
+                    id="content"
+                    onpaste="return false;"
+                    ng-keypress="getcode($event)"
+                    ng-blur="blurFun($event)"
+                    ng-focus="focusFun($event)"
+                >
+                    <li ng-repeat="item in codeList"
+                        ng-mouseenter="item.isover = !item.isover"
+                        ng-mouseleave="item.isover = !item.isover"
+                        ng-keyup="enters($index,$event,item)"
+                        ng-model="item.code"
+                    > {{item.code}}
+                        <span ng-click="removeCode($index)" ng-show="item.isover">×</span>
+                    </li>
+                </ul> -->
+                <div class="zzh-listdiv">
+                    <ul class="indexnum-ul"></ul>
+                    <textarea placeholder="{{'100853' | translate}}" class="text-list"></textarea>
+                </div>
+            </div>
+            <div class="add-tjjlbtns">
+                <button class="define" ng-click="define()">{{'100050' | translate}}</button>
+                <button class="define" style="margin-left: 20px;" ng-click="close()">{{'100051' | translate}}</button>
+                <button class="define" style="margin-left: 20px;" ng-click="clearTextFun()">{{'100854' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 退件 -->
+<div class="return-tk-wrap" ng-show="tjFlag">
+    <div class="return-tk-con">
+        <div class="rt-con-text">
+            <p>{{'100855' | translate}}?</p>
+            <div class="tr-inp-div">
+                <input class="rt-con-inp" placeholder="{{'100837' | translate}}" ng-model="returnZzh"></input>
+            </div>
+        </div>
+        <div class="rt-con-btns">
+            <button ng-click="tjFlag = false" class="rt-no-btn">{{'100846' | translate}}</button>
+            <button ng-click="tjSureFun()" class="rt-yes-btn">{{'100845' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- 扣费 -->
+<div class="return-tk-wrap" ng-show="kfFlag">
+    <div class="return-tk-con">
+        <div class="rt-con-text">
+            <p>{{'100856' | translate}}?</p>
+            <div class="tr-inp-div">
+                <input type="number" class="rt-con-inp" placeholder="{{'100857' | translate}}" ng-model="returnKfCount"></input>
+            </div>
+        </div>
+        <div class="rt-con-btns">
+            <button ng-click="kfFlag = false" class="rt-no-btn">{{'100846' | translate}}</button>
+            <button ng-click="kfSureFun()" class="rt-yes-btn">{{'100845' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- 赔偿 -->
+<div class="return-tk-wrap" ng-show="pcFlag">
+    <div class="return-tk-con">
+        <div class="rt-con-text">
+            <p>{{'100858' | translate}}?</p>
+            <div class="tr-inp-div">
+                <input type="number" class="rt-con-inp" placeholder="{{'100859' | translate}}" ng-model="returnPcMoney"></input>
+            </div>
+        </div>
+        <div class="rt-con-btns">
+            <button ng-click="pcFlag = false" class="rt-no-btn">{{'100846' | translate}}</button>
+            <button ng-click="pcSureFun()" class="rt-yes-btn">{{'100845' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- 编辑 -->
+<div class="return-tk-wrap" ng-show="modefyFlag">
+    <div class="return-tk-con return-modefy-con">
+        <div class="mode-group">
+            <input ng-model="modefyNewNum" placeholder="{{'100860' | translate}}"></input>
+        </div>
+        <div class="mode-group">
+            <textarea ng-model="returnReson" placeholder="{{'100861' | translate}}"></textarea>
+        </div>
+        <div class="mode-group">
+            <textarea ng-model="returnRemark" placeholder="{{'100527' | translate}}"></textarea>
+        </div>
+        <!-- <div class="rt-con-text">
+            <p>该包裹是否确认赔偿?</p>
+            <div class="tr-inp-div">
+                <input type="number" class="rt-con-inp" placeholder="请输赔偿金额" ng-model="returnPcMoney"></input>
+            </div>
+        </div> -->
+        <div class="rt-con-btns">
+            <button ng-click="modefyFlag = false" class="rt-no-btn">{{'100051' | translate}}</button>
+            <button ng-click="sureModefyFun()" class="rt-yes-btn">{{'100050' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- 新增返回的结果 -->
+<div class="return-tk-wrap addRes-wrap" ng-show="addResFlag">
+    <div class="return-tk-con">
+        <div class="mode-group">
+            <p>
+                {{'100862' | translate}}: <span ng-click="errNumFun('success')" class="res-resultNum">{{successCount}}</span>
+            </p>
+            <p>
+                {{'100863' | translate}}: <span ng-click="errNumFun('error')" class="res-resultNum">{{errCount}}</span>
+            </p>
+        </div>
+        <!-- <div class="mode-group">
+            
+        </div> -->
+        <div class="rt-con-btns">
+            <button ng-click="addResFlag = false" class="rt-no-btn">{{'100066' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- 新增返回的结果 -->
+<div class="return-tk-wrap Reserr-wrap" ng-show="ResErrFlag">
+    <div class="return-tk-con res-err-con">
+        <!-- <h3>失败的追踪号列表</h3> -->
+        <p style="text-align: center;">失败的追踪号</p>
+        <div class="err-listdiv">
+            <p ng-repeat="item in ResErrList">{{item}}</p>
+        </div>
+        <div class="rt-con-btns">
+            <button ng-click="ResErrFlag = false" class="rt-no-btn">{{'100066' | translate}}</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

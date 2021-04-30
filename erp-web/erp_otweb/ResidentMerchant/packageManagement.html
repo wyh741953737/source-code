@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>新品</title>
+    <!--业务员管理-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="static/css/SalesmanManagement.css"
+    />
+    <script src="erp_otweb/js/video.min.js"></script>
+  </head>
+  <style>
+    .filter {
+      line-height: 30px !important;
+      /* display: flex; */
+    }
+
+    .filter .datetab {
+      margin-left: 15px;
+    }
+
+    .filter .dateact {
+      color: #0d8efb;
+    }
+    .chartsbox .dateact {
+      color: #0d8efb;
+    }
+
+    .search-by-con {
+      height: 30px;
+      position: relative;
+      float: left;
+    }
+
+    .default-con {
+      width: 240px;
+      height: 30px;
+      padding-left: 10px;
+      line-height: 30px;
+      border: 1px solid #e5e5e5;
+      position: relative;
+    }
+
+    .has-list-cate {
+      float: left;
+      margin-right: 15px;
+    }
+
+    .serch-by-name {
+      height: 30px;
+      line-height: 30px;
+      float: left;
+    }
+
+    input,
+    select {
+      height: 30px !important;
+    }
+
+    .three-grade-list {
+      position: absolute;
+      left: 0;
+      top: 0px;
+      margin-top: 0;
+      padding-left: 0;
+      background: #fff;
+      z-index: 99;
+      display: none;
+    }
+
+    .caret {
+      position: absolute;
+      right: 10px;
+      top: 13px;
+    }
+
+    .filter .search {
+      height: 30px;
+    }
+    .control {
+      padding: 10px 0;
+    }
+
+    .control .add {
+      width: 90px;
+      height: 30px;
+      background: rgba(249, 174, 8, 1);
+      background-size: 30px 30px;
+      color: #fff;
+    }
+
+    .samlimg {
+      position: absolute;
+      /* top: -160px; */
+      /* left: 72px; */
+    }
+    .samlimg:hover {
+      transform: scale(15);
+    }
+
+    .lookProduct {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      top: 0;
+      left: 0;
+      z-index: 10000;
+    }
+
+    .lookProduct .content {
+      transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: #fff;
+      box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+      width: 523px;
+      min-height: 330px;
+      margin: initial;
+      border-radius: 4px;
+      padding: initial;
+    }
+
+    .lookProduct .content h3 {
+      padding: 15px;
+      margin: initial;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .lookProduct .content h3 .close {
+      font-size: 25px;
+      font-weight: initial;
+      opacity: 0.4;
+    }
+
+    .my-video-dimensions {
+      width: 100%;
+      height: 273px;
+    }
+
+    .lookProduct .content {
+      top: 35%;
+    }
+
+    .filter input {
+      margin: 0 5px;
+      /* width: auto; */
+    }
+    .page-box .to-idx {
+      float: left;
+    }
+    .page-box .to-idx input {
+      text-align: center;
+      width: 50px;
+      height: 25px !important;
+      margin: 0 5px;
+    }
+    .page-box .to-idx button {
+      border: 1px solid #dddee1;
+      height: 25px;
+      line-height: 25px;
+      width: 50px;
+      border-radius: 3px;
+    }
+    .chartsbox {
+      /* margin-bottom: 20px; */
+    }
+    .tableTs tr td {
+      /* white-space:pre-line; */
+      word-wrap: break-word;
+      word-break: break-all;
+      /* width:11%; */
+      border: 1px solid rgb(241, 237, 237);
+    }
+    .textsbox {
+      border: 1px solide #ccc !important;
+      background: red;
+    }
+    .textsbox .edittextarea {
+      display: block;
+      border: 1px solide #ccc !important;
+    }
+    .item-group textarea {
+      width: 348px;
+      height: 138px;
+      padding: 10px;
+      resize: none;
+    }
+    .filter select {
+      float: none;
+      width: auto;
+    }
+    .filter input {
+      /* float:none; */
+    }
+    .editpointer {
+      cursor: pointer;
+      padding: 0 5px;
+      height: 30px;
+      line-height: 30px;
+      /* background: #0d8efb; */
+      background: rgba(249, 174, 8, 1);
+      color: #fff;
+      border-radius: 5px;
+    }
+    .bordertext {
+      border: 1px solid #ccc;
+      margin-bottom: 25px;
+      /* height: 140px; */
+      width: 320px;
+    }
+    .textstyle {
+      display: block;
+      width: 100%;
+      padding: 20px;
+      height: 178px;
+    }
+    .tanbutton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .fontsizeformt {
+      font-size: 14px;
+    }
+    .textareapailie {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    .searchfubox {
+      display: flex;
+      height: 30px;
+      line-height: 30px;
+      margin-bottom: 20px;
+    }
+    .seach-inp {
+      width: 180px;
+    }
+  </style>
+  <body>
+    <div class="tab"></div>
+    <div style="height: 68px;"></div>
+    <div class="content" style="overflow: hidden;">
+      <div class="left">
+        <div class="filter clearfix">
+          <!-- <button class="font-size-14px" style="margin-left: 15px;">费用类型：</!-->
+          <select class="font-size-14px" ng-model="statusType">
+            <option value="-1">状态（全部）</option>
+            <option value="1">启用</option>
+            <option value="0">禁用</option>
+          </select>
+          <input
+            class="seach-inp"
+            ng-model="packageName"
+            style="border-radius: 0;float: none;"
+            placeholder="请输入套餐名称"
+          />
+          <button
+            class="search"
+            style="float: none;border-radius: 0;"
+            ng-click="searchInput()"
+          >
+            查询
+          </button>
+          <a href="/erpmicro/supplier/planUpdateRecords">
+            <button class="search" style="float: right;border-radius: 0;">
+                套餐记录
+            </button>
+          </a>
+          
+        </div>
+        <div class="control">
+          <button class="add" ng-click="addPackage()">新建套餐</button>
+        </div>
+        <div class="parent-order">
+          <table class="tableTs">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>套餐名称</th>
+                <th>按月金额</th>
+                <th>按年每月</th>
+                <th>上传商品</th>
+                <th>自发货</th>
+                <th>仓租</th>
+                <th>交易费</th>
+                <th>自发货交易费</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                <td>{{$index+1}}</td>
+                <td>{{item.planName}}</td>
+                <td>{{item.planFeeMonth}}</td>
+                <td>{{item.planFeeYear}}</td>
+                <td>{{item.productUploadNumber}}</td>
+                <td>{{item.selfdeliverySupportWhether | whetherTrans}}</td>
+                <td>{{item.warehouseRental | rentalTrans}}</td>
+                <td>{{item.transactionFeeScale}}%</td>
+                <td>{{item.selfdeliveryTransactionFeeScale}}%</td>
+                <td>{{item.status | suppliersStatus:1}}</td>
+                <td>
+                  <button
+                    ng-click="controlStatus(item.status, item.id)"
+                    class="editpointer"
+                  >
+                    {{item.status | suppliersStatus:0}}
+                  </button>
+                  <button ng-click="editPackage(item.id)" class="editpointer">
+                    编辑
+                  </button>
+                  <button ng-click="checkPackage(item.id)" class="editpointer">
+                    查看
+                  </button>
+                </td>
+              </tr>
+              <tr ng-show="dataList.length == 0">
+                <td colspan="9">暂无数据。</td>
+              </tr>
+            </tbody>
+          </table>
+          <!--分页-->
+          <div class="page-box">
+            <div class="total-num">
+              共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+            </div>
+            <div class="total-num">
+              <select
+                class="form-control ng-pristine ng-valid ng-not-empty ng-touched"
+                ng-model="pageSize"
+                ng-change="pagechange(pageSize)"
+                style="width: 65px;height: 31px;"
+              >
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div class="page-index">
+              <div class="pagegroup1"></div>
+            </div>
+            <div class="to-idx">
+              到第<input type="number" ng-model="pageNum" />页
+              <button ng-click="toPage1()">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>客户-黑名单-ERP系统</title>
+  <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/> -->
+  <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+</head>
+<style type="text/css">
+  .singinfo-box .singinfo-box-con .boxwidth-helf,
+  .singinfo-box .singinfo-box-con .boxwidth-full,
+  .singinfo-box .singinfo-box-con select {
+    width: 80%;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 3px;
+    padding: 0 8px;
+    font-size: 14px;
+  }
+
+  .singinfo-box .singinfo-box-tit {
+    text-align: right;
+    padding-left: 0;
+  }
+  .singinfo-box{
+    /*width: 490px;*/
+  }
+  .ea-list-table.ea-erp-cs.noborder td, .ea-list-table td{
+    width: 30%;
+  }
+  .detailwindow {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  .windowcontent {
+    width: 340px;
+    padding: 0 20px;
+
+    height: 300px;
+    background: #ffffff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .windowcontent input {
+    width: 100%;
+    height: 36px;
+    border-radius: 4px;
+    border: solid 1px #b4b4b4;
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
+
+  .windowcontent p {
+    padding: 10px 0;
+    font-weight: 500;
+  }
+
+  .windowcontentp1 {
+    text-align: center;
+  }
+
+  .windowcontentfoot {
+    margin-top: 20px;
+  }
+
+  .windowcontentfoot button {
+    width: 49%;
+    height: 36px;
+    /*background-image: linear-gradient(*/
+    /*#08aceb,*/
+    /*#08aceb),*/
+    /*linear-gradient(*/
+    /*#545662,*/
+    /*#545662);*/
+    /*background-blend-mode: normal,*/
+    /*normal;*/
+    border-radius: 4px;
+
+  }
+
+  #divDate {
+    top: 197px;
+    left: 750px;
+  }
+
+  #divDate2 {
+    top: 300px;
+    left: 370px;
+  }
+
+  .calendar .calMain .calTitle .prevMonth, .calendar .calMain .calTitle .nextMonth {
+    margin: 8px 0;
+  }
+
+  #wxpt {
+    border: solid #e1e1e1 1px;
+    width: 100%;
+
+  }
+
+  #wxpt tr td {
+    text-align: center;
+    width: 25%;
+    background: #fff;
+    border-right: solid #e1e1e1 1px;
+  }
+
+  #wxpt tr td input {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    border: none;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 8px;
+  }
+
+  #wxpt tr {
+    border-bottom: 1px solid #e1e1e1;
+  }
+
+  .ea-list-table th {
+    padding: 0;
+    height: 40px;
+  }
+
+  .ea-list-table.ea-erp-cs.noborder td,
+  .ea-list-table td {
+    padding: 0;
+  }
+
+  .singinfo-box {
+    margin-top: 8px;
+  }
+  #wxpt tr td .Pickerinpt{
+    width: 45%;
+  }
+  .table-con-box .subbtn {
+    border: none;
+    height: 35px;
+    background: #f99429;
+    border-radius: 5px;
+    color: #fff;
+    width: 110px;
+    line-height: 35px;
+  }
+
+  .ea-list-table.ea-erp-cs.noborder {
+    background: #F4F8FB;
+  }
+
+  .singinfo-box .singinfo-box-tit {
+    width: 195px;
+  }
+
+  .singinfo-box .verification {
+    font-size: 12px;
+    color: red;
+    display: inline-block;
+  }
+
+  .WdateDiv {
+    position: absolute;
+    top: 37px;
+  }
+
+  .add {
+    cursor: cell;
+  }
+
+  .add:hover {
+    color: #f99429;
+  }
+
+  .back-prev a {
+    padding: 0px 15px;
+    border-radius: 4px;
+    background: #f99429;
+    font-size: 14px;
+    color: #fff;
+    height: 25px;
+    display: inline-block;
+    line-height: 25px;
+  }
+  .right-bar-wrap{
+    width: 1740px;
+  }
+</style>
+<body>
+<!-- content -->
+<div class="ea-content">
+  <div class="left-bar">
+    <ul>
+      <li><a href="#/staff/KPIAssessment">{{'101018' | translate}}</a></li>
+      <li><a href="#/staff/setkpiassess">{{'101019' | translate}}</a></li>
+      <li class="active"><a href="#/staff/stafffiles">{{'101020' | translate}}</a></li>
+      <li><a href="#/staff/stafftable">{{'101021' | translate}}</a></li>
+      <li><a href="#/staff/nbtz">{{'101022' | translate}}</a></li>
+      <li><a href="#/staff/recruit">{{'101023' | translate}}</a></li>
+    </ul>
+  </div>
+  <!-- right con -->
+  <div class="right-bar-wrap ea-right-content">
+    <div class="asj-h10"></div>
+    <div class="right-bar">
+      <div class="table-con-box">
+        <table class="ea-list-table ea-erp-cs noborder">
+          <tr>
+            <th colspan="4">
+              <div class="back-prev"><a href="#/staff/stafffiles">{{'100173' | translate}}</a></div>
+            </th>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'100992' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input ng-disabled="staffcompanydivision.companyName != '美国' && job!='人事' " type="text" class="boxwidth-helf" ng-model="staffname">
+                  <span ng-show="staffnameState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'101045' | translate}}：</span>
+                <span class="singinfo-box-con">
+                   <input ng-disabled="staffcompanydivision.companyName != '美国' && job!='人事'" type="text" name="" class="boxwidth-helf"
+                          onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                          ng-model="staffhiredate" id="staffhiredate">
+                  <span ng-show="staffhiredateState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td rowspan="4">
+              <div class="up-to-pic" style="margin-left: 100px;">
+                <img ng-src="{{headimg}}" alt="" style="width: 150px;height: 180px;" ng-show="headimg">
+                <img src="./static/image/public-img/iconplus.png" alt=""
+                     style="width: 50px;height: 60px;margin: 60px 50px" ng-show="!headimg">
+                <!--头像-->
+                <form action="" method="post"
+                      enctype="multipart/form-data" id="uploadimg2" style="display: inline">
+                  <input type="file" ng-model="documentupload2" id="document2"
+                         onchange="angular.element(this).scope().upLoadImg2(this.files)"
+                         style="opacity: 0;width: 150px;height: 180px;">
+                </form>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'101047' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <select ng-disabled="staffcompanydivision.companyName != '美国' && job!='人事'" name="" ng-model="staffsex" ng-change="sexget(staffsex)">
+                      <option value="">{{'100693' | translate}}</option>
+                      <option value="男">{{'101048' | translate}}</option>
+                      <option value="女">{{'101049' | translate}}</option>
+                  </select>
+                  <span ng-show="staffsexState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'101050' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input ng-disabled="staffcompanydivision.companyName != '美国' && job!='人事'" type="text" class="boxwidth-helf" ng-model="staffidcard" ng-blur="idcardchange()">
+                  <span ng-show="staffidcardState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'101051' | translate}}：</span>
+                <span class="singinfo-box-con" id="date2">
+                    <input type="text" readonly="true" class="boxwidth-helf" ng-model="staffagestr">
+                    <span ng-show="staffagestrState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'100675' | translate}}：</span><span class="singinfo-box-con" id="date2">
+                    <input ng-disabled="staffcompanydivision.companyName != '美国' && job!='人事' && job!='管理'" type="text" class="boxwidth-helf" ng-model="staffnameen">
+                     <span ng-show="staffnameenState" class="verification">{{'101052' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <div class="singinfo-box clearfix" style="width: 100%;">
+                <span class="singinfo-box-tit">*{{'101053' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <select ng-options="item as item.name for item in provinceList"
+                          ng-model="province" style="width: 150px;" ng-change="provinceget(province)">
+                          <option value="">{{'100693' | translate}}</option>
+                  </select>
+                  <select ng-options="item as item.name for item in citylist"
+                          ng-model="city" style="width: 150px;" ng-change="cityget(city)">
+                          <option value="">{{'100693' | translate}}</option>
+                  </select>
+                  <select ng-options="item as item for item in arealist" ng-model="area" style="width: 150px;"
+                          ng-change="areaget(area)">
+                        <option value="">{{'100693' | translate}}</option>
+                  </select>
+                  <input type="text" class="boxwidth-helf" ng-model="staffaccount" style="width: 180px;">
+                  <span ng-show="staffaccountState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101054' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <select name="" ng-model="staffeducation">
+                    <option value="">{{'100693' | translate}}</option>
+                    <option value="初中">{{'101055' | translate}}</option>
+                    <option value="高中">{{'101056' | translate}}</option>
+                    <option value="大专">{{'101057' | translate}}</option>
+                    <option value="本科">{{'101058' | translate}}</option>
+                    <option value="硕士">{{'101059' | translate}}</option>
+                    <option value="博士">{{'101060' | translate}}</option>
+                  </select>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101061' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-full" ng-model="staffaddress">
+                </span>
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101062' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <select name="" ng-model="staffpoliticalstatus">
+                    <option value="">{{'100693' | translate}}</option>
+                    <option value="群众">{{'101063' | translate}}</option>
+                    <option value="共青团员">{{'101064' | translate}}</option>
+                    <option value="中共党员">{{'101065' | translate}}</option>
+                  </select>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101066' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-full" ng-model="staffschool">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit" style="text-align: right;">{{'101067' | translate}}</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="staffprofession">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix" style="width: 100%;">
+                <span class="singinfo-box-tit">*{{'100475' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <select ng-options="item.phoneCode as item.phoneCode + '('+ item.nameEn +')' for item in countries"
+                          ng-model="stafftel_qh" style="width: 150px;">
+                          <!-- <option value="">{{'100693' | translate}}</option> -->
+                  </select>
+                  <input type="text" class="boxwidth-helf" ng-model="stafftel" style="width: 80%">
+                  <span ng-show="stafftelState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*E-mail：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-full" ng-model="staffemail">
+                  <span ng-show="staffEmailFlag" class="verification">{{'101046' | translate}}!</span>
+                </span>     
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit" style="text-align: right;">{{'100473' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="staffwechat">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101068' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="staffqq">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101069' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="staffqqpassword">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101070' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <select name="" ng-model="staffmarriage">
+                    <option value="">{{'100693' | translate}}</option>
+                    <option value="未婚">{{'101071' | translate}}</option>
+                    <option value="已婚">{{'101072' | translate}}</option>
+                  </select>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101073' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="workqqEmail">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101074' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="workqqPhone">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101075' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="cloudUrl">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101076' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="cloudAccount">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101077' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="cloudPwd">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101078' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="cloudPhone">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101079' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="workEmailAccount">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101080' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="workEmailPwd">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101081' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="workEmailPhone">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101082' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="skypeAccount">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101083' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="skypePwd">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101084' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="skypeEmail">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101085' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="skypePhone">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101086' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="facebookAccount">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101087' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="facebookPwd">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101088' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="facebookPhone">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101089' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="googleAccount">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101090' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="googlePwd">
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101091' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <input type="text" class="boxwidth-helf" ng-model="googlePhone">
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <div class="singinfo-box clearfix" style="width: 100%;">
+                <span class="singinfo-box-tit">{{'101092' | translate}}：</span>
+                <span style="float: left;height: auto;width: 85%;">
+                  <table id="wxpt">
+                      <tr>
+                        <th>{{'101093' | translate}}</th>
+                        <th>{{'101094' | translate}}</th>
+                        <th>{{'101095' | translate}}</th>
+                        <th>{{'100043' | translate}}</th>
+                      </tr>
+                      <tr ng-repeat="item in workxparr">
+                        <td>{{item.start}}</td>
+                        <td>{{item.company}}</td>
+                        <td>{{item.time}}</td>
+                        <td>
+                          <button ng-click="delworkxp($index)"
+                                  style="padding: 0px 15px;border-radius: 4px;background: #8c8c8c;font-size: 14px;color: #000;height: 25px;line-height: 25px;">{{'100227' | translate}}</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <!--<input type="text" ng-model="workstart" placeholder="请输入起止时间">-->
+                            <input type="text" name="" class="boxwidth-helf Pickerinpt" placeholder="{{'101096' | translate}}"
+                                   onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                                   ng-model="workstart1"> -
+                           <input type="text" name="" class="boxwidth-helf Pickerinpt" placeholder="{{'101097' | translate}}"
+                                  onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                                  ng-model="workstart2">
+                        </td>
+                        <td>
+                          <input type="text" ng-model="workcompany" placeholder="{{'101098' | translate}}">
+                        </td>
+                        <td>
+                          <!--<input type="text" ng-model="worktime" placeholder="请输入任职时间">-->
+                          <input type="text" name="" class="boxwidth-helf" placeholder="{{'101099' | translate}}"
+                                 onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                                 ng-model="worktime">
+                        </td>
+                        <td>
+                          <button ng-click="addworkxp()"
+                                  style="padding: 0px 15px;border-radius: 4px;background: #f99429;color: #FFFFFF;font-size: 14px;height: 25px;line-height: 25px;">{{'100613' | translate}}</button>
+                        </td>
+                      </tr>
+                  </table>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <div class="singinfo-box clearfix" style="width: 100%;">
+                <span class="singinfo-box-tit">{{'101100' | translate}}：</span>
+                <span style="float: left;height: auto;width: 85%;">
+                  <table id="wxpt">
+                      <tr>
+                        <th>{{'100487' | translate}}</th>
+                        <th>{{'101101' | translate}}</th>
+                        <th>{{'100886' | translate}}</th>
+                        <th>{{'100043' | translate}}</th>
+                      </tr>
+                      <tr ng-repeat="item in BXlist">
+                        <td>{{item.time}}</td>
+                        <td>{{item.type}}</td>
+                        <td>{{item.cause}}</td>
+                        <td>
+                          <button ng-click="delBX($index)"
+                                  style="padding: 0px 15px;border-radius: 4px;background: #8c8c8c;font-size: 14px;color: #000;height: 25px;line-height: 25px;">{{'100227' | translate}}</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                           <input type="text" name="" class="boxwidth-helf" placeholder="{{'101102' | translate}}"
+                                  onClick="WdatePicker({onpicked: function(){$(this).trigger('change')}})"
+                                  ng-model="time">
+                        </td>
+                        <td>
+                          <input type="text" ng-model="type" placeholder="{{'101103' | translate}}">
+                        </td>
+                        <td>
+                          <input type="text" ng-model="cause" placeholder="{{'101104' | translate}}">
+                        </td>
+                        <td>
+                          <button ng-click="addBX()"
+                                  style="padding: 0px 15px;border-radius: 4px;background: #f99429;color: #FFFFFF;font-size: 14px;height: 25px;line-height: 25px;">{{'100613' | translate}}</button>
+                        </td>
+                      </tr>
+                  </table>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" style="padding-left: 58px;">
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit" style="width: 150px;">{{'101105' | translate}}：
+                  <form action=""
+                        method="post" enctype="multipart/form-data" style="display: inline">
+                      <label for="document3" class="add">{{'100269' | translate}}</label>
+                      <input type="file" ng-model="documentupload" id="document3"
+                             onchange="angular.element(this).scope().Upresume(this.files)"
+                             style="opacity: 0">
+                  </form>
+                </span>
+              </div>
+              <div style="padding-left: 81px;">
+                <a href="item.url" ng-repeat="item in resumearr" style="margin-left: 20px">{{item.name}}</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix" style="padding-left: 58px;">
+                <span class="singinfo-box-tit">{{'101106' | translate}}：
+                  <form action=""
+                        method="post" enctype="multipart/form-data" id="uploadimg"
+                        style="display: inline">
+                      <label for="document1" class="add">{{'100613' | translate}}</label>
+                      <input type="file" ng-model="documentupload3" id="document1"
+                             onchange="angular.element(this).scope().upLoadImg3(this.files)"
+                             style="opacity: 0">
+                  </form>
+                </span>
+              </div>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+             <span style="width:435px;padding-left: 146px;">
+              <img ng-src="{{item}}" ng-repeat="item in imgarr" alt=""
+                   style="width: 70px;height: 70px;float: left;padding: 10px">
+             </span>
+            </td>
+          </tr>
+        </table>
+        <table class="ea-list-table ea-erp-cs noborder" style="margin-top: 20px;">
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'101107' | translate}}：</span>
+                <span class="singinfo-box-con">
+                                    <!--<span class="singinfo-box-con dropdown">-->
+                  <!--<input type="text" class="boxwidth-helf" ng-model="staffcompanydivision"-->
+                  <!--class="btn dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" >-->
+                  <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">-->
+                  <!--<li role="presentation" ng-repeat="item in companyList">-->
+                  <!--<a role="menuitem" tabindex="-1" ng-click="companyget(item,$index)">{{item.companyName}}</a>-->
+                  <!--</li>-->
+                  <!--</ul>-->
+                  <!--</span>-->
+                  <select ng-options="item as item.companyName for ($index,item) in companyList"
+                          ng-model="staffcompanydivision" ng-change="companyget(staffcompanydivision)"
+                          id="test">
+                     <option value="">{{'100693' | translate}}</option>
+                  </select>
+                  <span ng-show="staffcompanydivisionState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">{{'101108' | translate}}：</span>
+                <span class="singinfo-box-con">
+                  <select name="" ng-model="staffposition">
+                    <option value="">{{'100693' | translate}}</option>
+                    <option value="总经理">{{'101109' | translate}}</option>
+                    <option value="副总经理">{{'101110' | translate}}</option>
+                    <option value="总监">{{'101111' | translate}}</option>
+                    <option value="经理">{{'101112' | translate}}</option>
+                    <option value="主管">{{'101113' | translate}}</option>
+                    <option value="组长">{{'101114' | translate}}</option>
+                    <option value="员工">{{'101115' | translate}}</option>
+                  </select>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit" style="width: 100px;">{{'101116' | translate}}：</span>
+                <span class="singinfo-box-con">
+                   <select name="" ng-model="staffjob">
+                      <option value="">{{'100693' | translate}}</option>
+                     <option value="运营">{{'101117' | translate}}</option>
+                     <option value="销售">{{'101118' | translate}}</option>
+                     <option value="客服">{{'100010' | translate}}</option>
+                     <option value="采购">{{'100004' | translate}}</option>
+                     <option value="财务">{{'100009' | translate}}</option>
+                     <option value="打单">{{'101119' | translate}}</option>
+                     <option value="质检">{{'101120' | translate}}</option>
+                     <option value="配货">{{'101121' | translate}}</option>
+                     <option value="搜品">{{'100007' | translate}}</option>
+                     <option value="发货">{{'101122' | translate}}</option>
+                     <option value="美工">{{'101123' | translate}}</option>
+                     <option value="人事">{{'101124' | translate}}</option>
+                     <option value="行政">{{'101125' | translate}}</option>
+                     <option value="IT产品">{{'101126' | translate}}</option>
+                     <option value="IT后端">{{'101127' | translate}}</option>
+                     <option value="IT前端">{{'101128' | translate}}</option>
+                     <option value="IT设计">{{'101129' | translate}}</option>
+                     <option value="IT运维">{{'101130' | translate}}</option>
+                     <option value="收货">{{'101303' | translate}}</option>
+                     <option value="上架">{{'101304' | translate}}</option>
+                     <option value="验单">{{'101305' | translate}}</option>
+                     <option value="售后">{{'101306' | translate}}</option>
+                     <option value="IT测试">{{'101307' | translate}}</option>
+                     <option value="其他">{{'100430' | translate}}</option>
+                     <option value="安卓">安卓</option>
+                    <option value="IOS">IOS</option>
+                    <option value="找货员">找货员</option>
+                  </select>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'101025' | translate}}：</span>
+                <!--<span class="singinfo-box-con" style="position: relative">-->
+                <!--<input type="text" class="boxwidth-helf" ng-model="staffdepartment"   class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">-->
+                <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">-->
+                <!--<li role="presentation" ng-repeat="item in departmentlist">-->
+                <!--<a role="menuitem" tabindex="-1" ng-click="departmentget(item,$index)">{{item.department}}</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</span>-->
+                <span class="singinfo-box-con">
+                  <select ng-options="item as item.department for ($index,item) in departmentlist"
+                          ng-model="staffdepartment" ng-change="departmentget(staffdepartment)">
+                       <option value="">{{'100693' | translate}}</option>
+                  </select>
+                  <span ng-show="staffdepartmentState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <span class="singinfo-box-tit">*{{'101026' | translate}}：</span>
+                <!--<span class="singinfo-box-con" style="position: relative"><input-->
+                <!--type="text" class="boxwidth-helf" ng-model="staffgroup"   class="btn dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown">   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">-->
+                <!--<li role="presentation">-->
+                <!--<a role="menuitem" tabindex="-1" ng-repeat="item in groupList" ng-click="groupget(item,$index)">{{item.comgroup}}</a>-->
+                <!--</li>-->
+                <!--</ul></span>-->
+                <span class="singinfo-box-con">
+                  <select ng-options="item as item.comgroup for ($index,item) in groupList"
+                          ng-model="staffgroup" ng-change="groupget(staffgroup)">
+                       <option value="">{{'100693' | translate}}</option>
+                  </select>
+                  <span ng-show="staffgroupState" class="verification">{{'101046' | translate}}!</span>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="singinfo-box clearfix">
+                <!--<span class="singinfo-box-tit">岗位：</span><span class="singinfo-box-con"><input type="text" class="boxwidth-helf"></span>-->
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <div style="padding: 60px 0; text-align: center;">
+                <input class="subbtn" type="button" ng-click="determine()" value="{{'100050' | translate}}">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

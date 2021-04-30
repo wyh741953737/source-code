@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>员工-员工账号管理</title>
+  <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+  <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+</head>
+<style>
+  .related{
+    background-color: green;
+    font-size: 12px;
+    color: #fff;
+    padding: 3px 10px;
+  }
+  .Unrelated{
+    background-color: orange;
+    font-size: 12px;
+    color: #fff;
+    padding: 3px 8px;
+  }
+  .ea-list-table td input{
+    width: inherit;
+    height: inherit;
+    border: none;
+    border-radius: 3px;
+  }
+  .layui-layer-btn .layui-layer-btn0{
+    width: 70px;
+    background-color: #999;
+    border: none;
+  }
+  .layui-layer-btn .layui-layer-btn1{
+    width: 70px;
+    background-color: #08aceb;
+    border: none;
+  }
+  .selectActive {
+    background: #e8f4ff;
+  }
+  .overTR:hover{
+    background: #e8f4ff;
+  }
+  .serState{
+    /*margin-left: 15px;*/
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 3px;
+  }
+  .search-box {
+    width: auto;
+  }
+  .search-box label{
+    margin-left: 15px;
+  }
+</style>
+<body>
+<div class="ea-content">
+  <!-- left nav -->
+  <div class="left-bar">
+    <ul>
+      <li><a href="#/staff/KPIAssessment">{{'101018' | translate}}</a></li>
+      <li><a href="#/staff/setkpiassess">{{'101019' | translate}}</a></li>
+      <li><a href="#/staff/stafffiles">{{'101020' | translate}}</a></li>
+      <li class="active"><a href="#/staff/stafftable">{{'101021' | translate}}</a></li>
+      <li><a href="#/staff/nbtz">{{'101022' | translate}}</a></li>
+      <li><a href="#/staff/recruit">{{'101023' | translate}}</a></li>
+    </ul>
+  </div>
+  <!-- right con -->
+  <div class="right-bar-wrap ea-right-content">
+    <div class="asj-h10"></div>
+    <div class="right-bar">
+      <!-- right search -->
+      <div class="ea-right-search">
+        <div class="input-group search-box">
+          <input type="text" class="form-control top-search-inp" placeholder="" ng-model="searchinfo">
+          <a role="button"  class="btn btn-default top-search-btn" type="button" ng-click="searchstaff()">{{'100025' | translate}}</a>
+          <label>
+            <span>{{'100329' | translate}}：</span>
+            <select class="serState" ng-model="serState" ng-change="serChange()">
+              <option value="1">{{'101131' | translate}}</option>
+              <option value="2">{{'100744' | translate}}</option>
+            </select>
+          </label>
+          <label>
+            <span>{{'100025' | translate}}：</span>
+            <select class="serState" ng-model="companynames" ng-change="serChange()">
+              <option value="">{{'100187' | translate}}</option>
+              <option value="杭州">{{'101033' | translate}}</option>
+              <option value="义乌">{{'101034' | translate}}</option>
+              <option value="深圳">{{'101035' | translate}}</option>
+             <!-- <option value="美国">{{'101036' | translate}}</option>-->
+                <option value="美国东">{{'101314' | translate}}</option>
+                <option value="美国西">{{'101315' | translate}}</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <!-- right list -->
+      <div class="table-con-box">
+        <table class="ea-list-table ea-erp-cs">
+          <tr>
+            <th><span>{{'100174' | translate}}</span></th>
+            <th><span>{{'101038' | translate}}</span></th>
+            <th><span>{{'100992' | translate}}</span></th>
+            <th><span>{{'100675' | translate}}</span></th>
+            <th><span>{{'100254' | translate}}</span></th>
+            <th><span>{{'101032' | translate}}</span></th>
+            <th><span>{{'101025' | translate}}</span></th>
+            <th><span>{{'101039' | translate}}</span></th>
+            <th><span>{{'101040' | translate}}</span></th>
+            <th><span>{{'100924' | translate}}</span></th>
+            <th><span>{{'100202' | translate}}</span></th>
+            <th ng-if="serState == '1'"><span>{{'101446' | translate}}</span></th>
+            <th ng-if="serState == '2'"><span>{{'101447' | translate}}</span></th>
+            <th style="width: 150px;"><span>Youtube链接</span></th>
+            <th><span>{{'100043' | translate}}</span></th>
+          </tr>
+          <tr ng-repeat="item in stafflist" ng-click="TrClick($index)" ng-class='{selectActive: $index == focus,"overTR":isoverTR}'>
+            <td><span>{{$index+1}}</span></td>
+            <td><span>{{item.hiredate.year+1900}}-{{item.hiredate.month+1}}-{{item.hiredate.date}}</span></td>
+            <td><span><p>{{item.NAME}}</p></span></td>
+            <td><span><p>{{item.nameen}}</p></span></td>
+            <td><span>{{item.number}}</span></td>
+            <td><span>{{item.companyname}}</span></td>
+            <td><span>{{item.department}}</span></td>
+            <td><span>{{item.position}}</span></td>
+            <td><span>{{item.job}}</span></td>
+            <td><span>{{item.CREATE_DATE.year+1900}}-{{item.CREATE_DATE.month+1}}-{{item.CREATE_DATE.date}}</span></td>
+            <td><span>{{arr2[item.userStatus]}}</span></td>
+            <td ng-if="item.userStatus==1">
+              <span ng-if="item.active_or_down_time">{{item.active_or_down_time.year+1900}}-{{item.active_or_down_time.month+1}}-{{item.active_or_down_time.date}}</span>
+              <span ng-if="!item.active_or_down_time">{{item.CREATE_DATE.year+1900}}-{{item.CREATE_DATE.month+1}}-{{item.CREATE_DATE.date}}</span>
+            </td>
+            <td ng-if="item.userStatus==2">
+              <span ng-if="item.active_or_down_time">{{item.active_or_down_time.year+1900}}-{{item.active_or_down_time.month+1}}-{{item.active_or_down_time.date}}</span>
+              <!-- <span ng-if="!item.active_or_down_time">{{item.update_at.year+1900}}-{{item.update_at.month+1}}-{{item.update_at.date}}</span> -->
+              <span ng-if="!item.active_or_down_time">-</span>
+            </td>
+            <td><span>{{item.youTubVideo || '--'}}</span></td>
+            <td>
+              <span>
+                <input title="客服变成销售后，将手下得客户归属转移给该账号" ng-show="item.job === '销售'" type="button" value="客服客户转移" class="Unrelated" ng-click="serviceKhTransfer(item)">
+                <input type="button" value="{{arr[item.userStatus]}}" ng-class="{'related':arr[item.userStatus]=='启用','Unrelated':arr[item.userStatus]=='停用'}" ng-click="leave(item)">
+                <input ng-show="isAdm && item.userStatus == 2" type="button" value="转移" class="Unrelated" ng-click="transferUser(item.NAME)"/>
+                <input ng-show="item.isResetPas" type="button" value="重置密码" class="Unrelated" ng-click="resetPas(item)"/>
+              </span>
+            </td>
+          </tr>
+        </table>
+        <!-- 分页 -->
+        <!-- ng-show="hasMerch" -->
+        <div class="no-data" ng-show="totalNum == 0" style="text-align: center;line-height: 60px;">{{'100980' | translate}}</div>
+        <div class="page-box" ng-show="totalNum > 0">
+          <div class="select-page-num">
+            <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                    style="width: 65px;height: 31px;">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+            </select>
+            <span>每页</span>
+          </div>
+          <div class="total-num">
+            共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+          </div>
+          <div class="page-index">
+            <div class="pagegroup">
+              <a href="#">&lt;&lt;</a>
+              <a href="#">&lt;</a>
+              <a href="#">1</a>
+              <a href="#">2</a>
+              <a class="current" href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+              <a href="#">6</a>
+              <a href="#">···</a>
+              <a href="#">&gt;</a>
+              <a href="#">&gt;&gt;</a>
+            </div>
+          </div>
+          <div class="to-go">
+            <span>跳转：</span>
+            <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+            <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 客服客户转移弹窗 -->
+<div class="erp-common-tan-v2-wrap" ng-show="showFlag">
+	<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: 160px;">
+		<p>是否确定转移?</p>
+		<div class="tan-v2-bot">
+			<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="showFlag=false">取消</a>
+			<a href="javascript:void(0)" class="que-ding-btn" ng-click="serviceKhTransferSubmit()">确定</a>
+		</div>
+	</div>
+</div>
+<!-- 选取两段时间之间插件 -->
+<!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+<!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+<script>
+  $(function () {
+    $("#txtBeginDate").calendar({
+      controlId: "divDate",                                 // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+      speed: 200,                                           // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+      complement: true,                                     // 是否显示日期或年空白处的前后月的补充,默认：true
+      readonly: true,                                       // 目标对象是否设为只读，默认：true
+      upperLimit: new Date(),                               // 日期上限，默认：NaN(不限制)
+      lowerLimit: new Date("2011/01/01"),                   // 日期下限，默认：NaN(不限制)
+      callback: function () {                               // 点击选择日期后的回调函数
+        //alert("您选择的日期是：" + $("#txtBeginDate").val());
+      }
+    });
+    $("#txtEndDate").calendar();
+  });
+</script>
+
+
+</body>
+</html>

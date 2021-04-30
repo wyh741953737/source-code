@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .search-top{
+            display: flex;
+        }
+        #searchType,input{
+            height: 30px;
+        }
+        input{
+            width: 240px;
+        }
+        #searchType{
+            position: relative;
+            top: 2px;
+            left: 1px;
+        }
+        .searchBtn{
+            display: inline-block;
+            height: 30px;
+            width: 60px;
+            text-align: center;
+            color: #fff;
+            background: #F8A636;
+
+        }
+        #selectCurrency{
+            height: 30px;
+            position: relative;
+            top: 2px;
+            margin-left: 50px;
+        }
+        .data-inp{
+            width: 150px;
+            height: 30px;
+            border: 1px solid #E0E0E0;
+        }
+        .erp-seachInp{
+            width: 60px;
+            position: relative;
+            top: 1px;
+            background: #F8A636;
+            color: #fff;
+            border: none;
+            height: 30px;
+        }
+        .ea-list-table{
+            /*table-layout: fixed;*/
+        }
+        .ea-list-table td:last-child{
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 5px;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999999;
+        }
+        .zzc-content{
+            background: #fff;
+            border-radius: 5px;
+            width: 580px;
+            min-height: 500px;
+            margin: 100px auto;
+            padding: 20px;
+        }
+        .contnet-top{
+            display: flex;
+            margin-top: 10px;
+            background:#F4F8FB;
+        }
+        .content-left,.content-middle,.content-right,.content-action{
+            width: 120px;
+            text-align: center;
+            border: 1px solid #eee;
+            padding: 6px 0;
+            position: relative;
+
+        }
+        .content-action{
+            width: 180px;
+        }
+        .content-left,.content-middle,.content-right{
+            border-right: none;
+        }
+        .content-menu{
+            display: flex;
+        }
+        #wbbz{
+            width: 100px;
+            position: absolute;
+            top: 5px;
+            left: 9px;
+            height:25px;
+            padding: 2px 5px;
+        }
+        #wnhl{
+            width: 60px;
+            position: absolute;
+            top: 5px;
+            left: 55px;
+            height:25px;
+            padding: 2px 5px;
+        }
+        .hlbtn{
+            background: #F8A636;
+            color: #fff;
+            border-radius: 5px;
+            padding: 2px 10px ;
+        }
+        .updatehl,.savehl{
+            margin-right: 10px;
+        }
+        .savehl,.canclehl{
+            display: none;
+        }
+        .content-c{
+            height: 400px;
+            overflow: auto;
+        }
+        .content-menu input{
+            display: none;
+        }
+        .ea-list-table td{
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content asj-service-docu">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="ea-right-search" style="margin-bottom: 15px;">
+                <div class="search-content">
+                    <div class="search-top">
+                        <div class="input-group">
+                            <select name="" id="searchType">
+                                <!--<option value="0">请选择查询类型</option>-->
+                                <option value="1">支出卡号</option>
+                                <option value="2">收入卡号</option>
+                                <option value="3">摘要</option>
+                            </select>
+                            <input style="padding: 0 10px" type="text"  class="" placeholder="" id="searchInfo">
+                            <button class="searchBtn" ng-click="usersearch()">{{'100025' | translate}}</button>
+                        </div>
+                        <div class="input-group">
+                            <select name="" id="selectCurrency">
+                                <option value="">请选择币种</option>
+                                <option ng-repeat="bz in bankBZList" value="{{bz.currencyType}}">{{bz.currencyType}}</option>
+                            </select>
+                        </div>
+                        <div class="input-group" style="margin-left: 50px;position: relative;top: 1px;">
+                            <input class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                            <input id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                            <input style="top: 1px;left: -1px;" ng-click="timeFun()" class="erp-seachInp" type="button" value="搜索">
+                        </div>
+                    </div>
+                </div>
+                <div class="banktable" style="margin-top: 15px">
+                    <table class="ea-list-table ea-erp-cs">
+                        <thead>
+                        <tr>
+                            <th>收支创建时间</th>
+                            <th>操作方式</th>
+                            <th>收支类型</th>
+                            <th>收支账户银行</th>
+                            <th>收支账户卡号</th>
+                            <th>收支金额</th>
+                            <th>收支币种</th>
+                            <th>手续费</th>
+                            <th>汇率</th>
+                            <th>收支RMB金额</th>
+
+                            <!--<th>收入账户银行</th>-->
+                            <!--<th>收入账户卡号</th>-->
+                            <!--<th>支出账户银行</th>-->
+                            <!--<th>支出账户卡号</th>-->
+
+
+
+
+                            <th style="max-width: 100px">摘要</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="water in waterList">
+                            <td title="{{water.createTime}}">{{water.createTime2}}</td>
+                            <td>{{classSource(water.source)}}</td>
+                            <td>{{classType(water.type)}}</td>
+                            <td>{{water.szBankName}}</td>
+                            <td title="{{water.szCardNumber}}">{{water.szCardNumber2}}</td>
+                            <td>{{water.money}}</td>
+                            <td>{{water.currencyType}}</td>
+                            <td>{{nullSxf(water.feeMoney)}}</td>
+                            <td>1:{{water.rate}}</td>
+
+                            <td>{{water.RMBMoney}}</td>
+
+                            <!--<td>{{water.incomeAccountBankName}}</td>-->
+                            <!--<td title="{{water.incomeAccountCardNumber}}">{{water.incomeAccountCardNumber2}}</td>-->
+                            <!--<td>{{water.expenditureAccountBankName}}</td>-->
+                            <!--<td title="{{water.expenditureAccountCardNumber}}">{{water.expenditureAccountCardNumber2}}</td>-->
+
+
+
+
+                            <td title="{{water.summary}}">{{water.summary}}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="page-box">
+                        <div class="select-page-num">
+                            <select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>每页</span>
+                        </div>
+                        <div class="total-num">
+                            共&nbsp;&nbsp;{{ waterTotalCount }}&nbsp;&nbsp;条
+                        </div>
+                        <div class="page-index">
+                            <div class="pagegroup">
+                                <a href="#">&lt;&lt;</a>
+                                <a href="#">&lt;</a>
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a class="current" href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+                                <a href="#">6</a>
+                                <a href="#">···</a>
+                                <a href="#">&gt;</a>
+                                <a href="#">&gt;&gt;</a>
+                            </div>
+                        </div>
+                        <div class="to-go">
+                            <span>跳转：</span>
+                            <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                            <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

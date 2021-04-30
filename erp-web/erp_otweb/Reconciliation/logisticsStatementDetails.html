@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+  <meta charset="UTF-8">
+  <title>物流对账单明细</title>
+	<link rel="stylesheet" href="erp_otweb/css/reconciliation.css">
+</head>
+<body>
+<div class="content" id="logistics-statement-details">
+	<div class="filter-box">
+		<div class="item">
+			<select ng-model="logisticsCompanyName" ng-options="item for item in logisticsCompanyArr">
+				<option value="">全部</option>
+			</select>
+			<input type="text" ng-model="logisticName" placeholder="渠道名称">
+		</div>
+		<div class="item">
+			<span class="label">付款日期：</span>
+	    <input id="date1" class="Wdate data-inp" ng-focus="dateFocus($event,'startTime')"
+	           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="" ng-model="startTime">
+			<span class="line">-</span>
+      <input id="date2" class="Wdate data-inp" ng-focus="dateFocus($event,'endTime')"
+             onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="" ng-model="endTime">
+		</div>
+		<div class="item">
+			<button style="margin-right: 10px;" ng-click="hadelSearch()">查询</button>
+			<button ng-click="hadelExprot()">导出</button>
+		</div>
+	</div>
+  <table>
+    <thead>
+    <tr>
+      <th>序号</th>
+      <th>物流公司</th>
+      <th>渠道名称</th>
+      <th>CJ运单号</th>
+      <th>物流商运单号</th>
+	  <th>出库时间</th>
+	  <th>物流商入库时间</th>
+      <th>CJ订单参考重量</th>
+      <th>CJ出库重量</th>
+      <th>物流商重量</th>
+	  <th>出库与物流商重量误差</th>
+	  <th>cj参考运费</th>
+	  <th>物流折扣</th>
+      <th>CJ应付运费</th>
+      <th>物流商运费</th>
+      <th>实付运费</th>
+      <th>匹配状态</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-style="{backgroundColor:item.reconciliationStatus === '0' && 'rgb(251, 196, 178)'}"
+        ng-repeat="item in tableData" ng-show="tableData.length>0">
+	    <td>{{$index+1}}</td>
+	    <td>{{item.logisticsCompanyName}}</td>
+	    <td>{{item.logisticName}}</td>
+	    <td>{{item.cjorderId}}</td>
+	    <td>{{item.logisticsWaybillNo}}</td>
+	  <td>{{item.deliveryTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+	  <td>{{item.referenceDeliveryTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+      <td>{{item.referenceWeight ? item.referenceWeight+'g' : ''}}</td>
+	    <td>{{item.orderweight ? item.orderweight+'g' : ''}}</td>
+	    <td>{{item.logisticsCompanyWeight ? item.logisticsCompanyWeight+'g' : ''}}</td>
+		<td>{{item.errorWeight ? item.errorWeight+'g' : ''}}</td>
+
+		<td>{{item.referencePayFreight ? '¥'+item.referencePayFreight : ''}}</td>
+	    <td>{{item.logisticsDiscountRate}}</td>
+
+	    <td>{{item.cjPayFreight ? '¥'+item.cjPayFreight : ''}}</td>
+	    <td>{{item.logisticsPayFreight ? '¥'+item.logisticsPayFreight : ''}}</td>
+	    <td>
+		    <input
+			    type="text"
+			    ng-model="item.realPayFreight"
+			    style="width: 80px;text-align: center;"
+					ng-change="inputChange($event,item)"
+					ng-show="status==1"
+				>
+				<span ng-show="status==2">{{item.realPayFreight ? '¥'+item.realPayFreight : ''}}</span>
+	    </td>
+	    <td>
+		    <span ng-show="item.reconciliationStatus === '0'">否</span>
+		    <span ng-show="item.reconciliationStatus === '1'">是</span>
+	    </td>
+    </tr>
+    <tr ng-show="tableData.length == 0">
+      <td colspan="17" style="font-size: 14px;">暂无数据。</td>
+    </tr>
+    <tr ng-show="tableData.length > 0">
+      <td colspan="13">合计</td>
+	    <td>¥{{cjFreightTotal.toFixed(2)}}</td>
+	    <td>¥{{logisticsFreightTotal.toFixed(2)}}</td>
+	    <td>¥{{actualFreightTotal.toFixed(2)}}</td>
+	    <td>--</td>
+    </tr>
+    </tbody>
+  </table>
+	<page ng-show="tableData.length > 0"></page>
+	<div class="bot-box" ng-show="tableData.length > 0">
+		<div ng-show="status==1">
+			<button ng-click="handleSave('1')">保存</button>
+			<button ng-click="handleSave('2')">保存并生成打款单</button>
+		</div>
+		<div ng-show="status==2">
+			<button ng-click="handleBack()">返回</button>
+		</div>
+	</div>
+</div>
+<!-- 对账单名称 -->
+<div class="logistic-modal-warp" ng-show="isShowModal" ng-cloak>
+		<div class="content-warp">
+			<h3>请输入对账单名称</h3>
+			<div class="content">
+				<input type="text" ng-model="statementName" style="width: 100%;">
+			</div>
+			<div class="operating-box">
+				<button ng-click="isShowModal = false;">取消</button>
+				<button ng-click="handleConfirm()">确定</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

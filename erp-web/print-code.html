@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>打印条形码</title>
+<style type="text/css">
+    .tip-div {
+      text-align: center;
+    }
+    .code-val {
+      height: 30px;
+      width: 240px;
+    }
+    .print-btn {
+      background: rgb(32, 178, 170);
+      height: 30px;
+      color: #fff;
+      border: none;
+    }
+    .print-type {
+      height: 30px;
+    }
+</style>
+</head>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<body ng-app="barcodeApp" ng-controller="barcodeAppCtrl">
+      <!-- <div class="bg-wrap"></div> -->
+      <div class="tip-div">
+        <p>
+          <font size='10' color="lightseagreen">打印条形码</font>
+        </p>
+        <select class="print-type" ng-model="printType">
+          <option value="goods">商品</option>
+          <option value="other">其他</option>
+        </select>
+        <input class="code-val" id="tx" type="text" placeholder="" ng-keyup="enterSearch($event)" />
+        <button class="print-btn" ng-click="bulkPrintOFun()">打印</button>
+      </div>
+</body>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src='./static/layer/layer.js'></script>
+<script type="text/javascript">
+(function (angular) {
+    var app = angular.module('barcodeApp',['service']);
+    app.controller('barcodeAppCtrl',['$scope',"erp",function ($scope,erp) {
+      $("#tx").focus();
+      $scope.printType = 'goods';
+      // $(document).click(function () {
+      //   $("#tx").focus();
+      // })
+      //批量打印条形码
+      $scope.bulkPrintOFun = function () {
+        if (!$("#tx").val()) return;
+        var code = $("#tx").val();
+        var printtype;
+        if ($scope.printType=='goods') {
+          printtype = '';
+        }
+        if ($scope.printType=='other') {
+          printtype = 'GENERAL';
+        }
+        // var printData = {};
+        // printData[$("#tx").val()] = 1;
+        // console.log(printData)
+        // // return;
+        // layer.load(2)
+        // var pUpdata = {};
+        // pUpdata.skuMap = printData;
+        // var printLink;
+        // console.log(JSON.stringify(pUpdata))
+        // erp.postFun('app/pdfOpt/getBarcode128Batch',JSON.stringify(pUpdata),function (data) {
+        //   console.log(data)
+        //   layer.closeAll('loading');
+        //   if(data.data.code=='200'){
+        //     printLink = data.data.pdfFillUrl;
+        //   }else{
+        //     printLink = 'error';
+        //   }
+          
+        // },function (data) {
+        //   console.log(data)
+        //   layer.closeAll('loading');
+        //   printLink = 'error';
+        // })
+        layer.load(2);
+        erp.postFun('app/pdfOpt/getGeneralBarcode128Batch',{
+            "barcode":code,      //要打印的条形码
+            "codeType":printtype         //通用打印参数  为空或其它为商品条码打印
+        },function (data) {
+          console.log(data)
+          layer.closeAll('loading');
+          if(data.data.code=='200'){
+            printLink = data.data.pdfFillUrl;
+          }else{
+            printLink = 'error';
+          }
+          
+        },function (data) {
+          console.log(data)
+          layer.closeAll('loading');
+          printLink = 'error';
+        })
+        var printTimer = setInterval(function () {
+          if (printLink == 'error') {
+            layer.msg('打印错误')
+            clearInterval(printTimer);
+            printLink = null;
+          } else if (printLink) {
+            window.open('https://' + printLink,'_blank','');
+            clearInterval(printTimer);
+            printLink = null;
+          }
+        }, 100);
+      }
+      $scope.enterSearch = function (e) {
+        if(e.keyCode==13) {
+          $scope.bulkPrintOFun();
+        }
+      }
+      $('#YdhModal').click(function (e) {
+        e.stopPropagation();
+      })
+      $('.ydh-rk-wrap').click(function (e) {
+        e.stopPropagation();
+      })
+      $('.stop-pro').click(function (e) {
+        e.stopPropagation();
+      })
+      $('.chage-wrap').click(function (e) {
+        e.stopPropagation();
+      })
+
+  }])
+})(angular)   
+
+</script>
+</html>

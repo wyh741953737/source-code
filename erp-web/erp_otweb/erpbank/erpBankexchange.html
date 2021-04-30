@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .hlbtn{
+            background: #F8A636;
+            color: #fff;
+            border-radius: 5px;
+            padding: 5px 20px;
+            outline: none;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999999;
+            display: none;
+        }
+        .zzc-content{
+            background: #fff;
+            border-radius: 5px;
+            width: 340px;
+            margin: 200px auto;
+            padding: 20px;
+        }
+        .hl-content{
+            display: flex;
+            line-height: 30px;
+            margin: 10px 0;
+        }
+        input{
+            height: 30px;
+            padding: 0 10px;
+        }
+        label{
+            width: 100px;
+        }
+        .zzc-content h4{
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .hlbtn2{
+            padding: 2px 20px;
+        }
+
+        #addexchange,#updateexchange{
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content asj-service-docu">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="right-top">
+                <button class="hlbtn" id="xzhlBtn">新增汇率</button>
+            </div>
+            <div class="content-table" style="margin-top: 15px">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th>外币币种</th>
+                        <th>兑换币种</th>
+                        <th>汇率</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="exchange in exchangeList">
+                        <td>{{exchange.currencyType}}</td>
+                        <td>RMB</td>
+                        <td>
+                            1&nbsp;&nbsp;:&nbsp;&nbsp;{{exchange.exchangeRate}}</p></td>
+                        <td>
+                            <button class="hlbtn" ng-click="updateHl(exchange.currencyType,exchange.exchangeRate,exchange.id)">修改</button>
+                            <button class="hlbtn" ng-click="deleteHl(exchange.id)">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--新增汇率-->
+<div class="zzc">
+    <div class="zzc-content">
+        <h4>新增汇率</h4>
+        <div class="hl-content">
+            <label for="wbbz">外币币种 ：</label>
+            <input style="width: 178px" type="text" id="wbbz"/>
+        </div>
+        <div class="hl-content">
+            <label>兑换币种 ：</label>
+            <span>RMB</span>
+        </div>
+        <div class="hl-content">
+            <label for="hlsz">汇率设置 ：</label>
+            <div>
+                <span>1 : </span> <input style="width: 154px" type="text" id="hlsz"/>
+            </div>
+        </div>
+        <div class="hl-content" style="margin-top: 30px;justify-content: center">
+            <button class="hlbtn hlbtn2" id="addexchange">确定</button>
+            <button class="hlbtn hlbtn2" id="updateexchange">确定</button>
+            <button class="hlbtn hlbtn2" id="closezzc">关闭</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

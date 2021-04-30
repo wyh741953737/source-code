@@ -1,0 +1,196 @@
+<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_shortage_refund.css">
+<style>
+	.ea-content  .dikou-span {
+		display: inline-block;
+		cursor: pointer;
+		padding: 0 3px;
+		border-radius: 4px;
+		font-size: 10px;
+		color: #fff;
+		background-color: #449d44;
+		margin-top: 4px;
+		margin-left: 5px;
+	}
+
+	.hover-tag {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>
+<div class="ea-content shortage-refund">
+	<div class="right-bar-wrap ea-right-content">
+		<!-- 顶部tab -->
+		<div id="top-tab" class="top-tab position-absolute" ng-init="init()">
+			<div class="top-tab-nav d-flex">
+				<span ng-click="changeTabType(refundType.pending.key)"
+					ng-class='{"tab-active": currentRefundType === refundType.pending.key }'
+					class="tab-span tab-border-bt cursor-pointer">待退款</span>
+				<span ng-click="changeTabType(refundType.refunded.key)"
+					ng-class='{"tab-active": currentRefundType === refundType.refunded.key }'
+					class="tab-span tab-border-bt cursor-pointer">已退款</span>
+				<span ng-click="changeTabType(refundType.rejected.key)"
+					ng-class='{"tab-active": currentRefundType === refundType.rejected.key }'
+					class="tab-span tab-border-bt cursor-pointer">已拒绝</span>
+			</div>
+			<!-- 搜索区域 & 表头 -->
+			<div class="top-tab-bottom bg-white padding-lr-20px">
+				<!-- 搜索区域 -->
+				<div class="top-tab-search shortage-search d-flex justify-content-between align-items-center">
+					<!-- 左侧筛选条件 -->
+					<div class="top-tab-search-left d-flex-center">
+						<div class="shortage-search-item d-flex-center">
+							<label>处理人: </label>
+							<input ng-model="searchApplicant" type="text" placeholder="请输入处理人姓名">
+						</div>
+						<div class="shortage-search-item d-flex-center">
+							<label>订单号: </label>
+							<input ng-model="caigouId" type="text" placeholder="请输入订单号">
+						</div>
+						<div class="shortage-search-item d-flex-center">
+							<button ng-click="searchfn()" class="asj-btn-s2 search-btn">筛选</button>
+							<button class="asj-btn-s3 search-btn">导出</button>
+							<button ng-click="resetSearch()" class="asj-btn-s3 search-btn">清空</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="content-wrap" class="content-wrap">
+			<div class="bg-white shortage-content">
+				<table class="w-100">
+					<thead>
+						<tr>
+							<th>CJ订单号</th>
+							<th>所属母订单</th>
+							<th>付款时间</th>
+							<th>群主/业务员</th>
+							<th>
+								<div>数量/金额</div>
+								<div>重量/邮费</div>
+							</th>
+							<th>缺货处理人</th>
+							<th>缺货处理时间</th>
+							<th>协商退款金额（$）</th>
+							<th>处理方式</th>
+							<th ng-show="currentRefundType === refundType.refunded.key">实际退款金额（$）</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="item in refundList track by $index">
+						<tr ng-class="{'table-active': item.isDrop}">
+							<td>
+								<span>{{item.orderId}}</span>
+								<!-- <span title="含优先处理的订单" ng-show="item.isFirst" style="background-color: #FF7700;" class="dikou-span">首</span> -->
+								<div class="hover-tag">
+									<tag tag="18"></tag>
+									<tag tag='14' ng-if="item.isFirst"></tag>
+								</div>
+							</td>
+							<td><span>{{item.parentOrderId}}</span></td>
+							<td><span>{{item.paymentDate}}</span></td>
+							<td>
+								<div><span>{{item.ownerName || item.salesmanName || '--'}}</span></div>
+								<div><span style="color: #999">{{item.ownerName ? '群主' : '业务员'}}</span></div>
+							</td>
+							<td>
+								<div>{{item.orderQuantity}}个/${{item.amount}}</div>
+								<div>{{item.orderWeight}}g：${{item.postage}}</div>
+							</td>
+							<td><span>{{item.handlerName}}</span></td>
+							<td><span>{{item.processingTime}}</span></td>
+							<td><span>{{item.negotiateRefundAmount}}</span></td>
+							<td><span>{{refundHandle[+item.handlerResult]}}</span></td>
+							<td ng-show="currentRefundType === refundType.refunded.key"><span>{{item.actualRefundAmount}}</span></td>
+							<td>
+								<div class="d-flex-center">
+									<span ng-click="openRefund(item)" ng-show="currentRefundType === refundType.pending.key"
+										class="stortge-table-btn asj-btn-s2 cursor-pointer">退款</span>
+									<span ng-click="rejectItem(item)" ng-show="currentRefundType === refundType.pending.key"
+										class="stortge-table-btn asj-btn-s2 cursor-pointer" style="margin-left:5px;">拒绝</span>
+									<b ng-click="dropDownFn(item.id)" class="stortage-drop-btn cursor-pointer"
+										ng-class="{'btn-active': item.isDrop}"></b>
+								</div>
+							</td>
+						</tr>
+						<tr class="stortage-drop-wrap" ng-class="{'display-table': item.isDrop, 'display-none': !item.isDrop}">
+							<td colspan="16" class="p-0">
+								<div class="stortage-drop-box">
+									<table class="w-100">
+										<tbody>
+											<tr ng-repeat="productItem in item.productList track by $index">
+												<td>
+													<img ng-if="productItem.image" ng-src="{{productItem.image | IMG_SIZE: 60}}">
+													<span ng-if="!productItem.image">--</span>
+												</td>
+												<td>
+													<div>SKU：{{productItem.stanSku}}</div>
+													<div ng-if="productItem.isShortage > 0"><span class="text-color-cj">缺货</span></div>
+												</td>
+												<td><span>数量：{{productItem.quantity}}个</span></td>
+												<td><span>重量：{{productItem.grams}}g/个</span></td>
+												<td><span>现单价（$）：{{productItem.price}}</span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="d-flex-center no-data-wrap" ng-show="refundList.length === 0">暂无数据</div>
+				<!-- 分页 -->
+				<page ng-show="refundList.length > 0"></page>
+			</div>
+		</div>
+	</div>
+
+	<!-- 弹窗 - 退款 -->
+	<div class="erp-common-tan-v2-wrap refund-modal" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 500px;height: 350px;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>退款</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div class="refund-modal-item d-flex align-items-center">
+					<label>协商退款金额($):</label>
+					<input ng-model="refundItem.consultMoney" readonly type="text">
+				</div>
+				<p class="refund-modal-tip">建议退款金额：{{refundItem.suggestRefundAmount}}</p>
+				<div class="refund-modal-item d-flex align-items-center" style="position: relative;padding-bottom: 20px;">
+					<label>实际退款金额($):</label>
+					<input
+						onkeypress="if (event.keyCode!=46 && event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false"
+						ng-model="refundItem.realityMoney" type="number"
+						ng-change="realityMoneyChange(refundItem.realityMoney)" 
+						>
+					<p ng-show="errorWarning" style="color:red;position: absolute;right: 88px;bottom: -6px;font-size: 14px;">实际退款金额不能大于原订单金额！</p>	
+				</div>
+				<div class="d-flex-center">系统将会把实际退款金额退至用户钱包余额中!</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot" style="position: initial;">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" ng-click="openConfirm()" class="que-ding-btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- 弹窗 - 确认退款 - confirm -->
+	<div class="erp-common-tan-v2-wrap" ng-show="confirmFlag">
+		<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: 160px;">
+			<p>是否确认退款 ${{refundItem.realityMoney}}吗?</p>
+			<div class="tan-v2-bot">
+				<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="confirmFlag=false">取消</a>
+				<a href="javascript:void(0)" class="que-ding-btn" ng-click="confirmRefundFn()">确定</a>
+			</div>
+		</div>
+	</div>
+</div>

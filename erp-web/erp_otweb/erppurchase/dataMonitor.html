@@ -1,0 +1,191 @@
+<style>
+  .my-wrap {
+    height: 100vh;
+    padding: 15px 15px 15px 230px;
+  }
+
+  .title {
+    background: #fff;
+    font-size: 20px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border-radius: 4px;
+  }
+
+  .head-option {
+    overflow: hidden;
+    background: #fff;
+    padding: 24px;
+    padding-bottom: 6px;
+    border-radius: 4px;
+  }
+
+  .search-item {
+    display: inline-block;
+    margin-right: 24px;
+    margin-bottom: 18px;
+  }
+
+  #c-data-time,
+  #cdatatime2 {
+    height: 30px;
+    border-right: none;
+    border: 1px solid #ececec;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .search-btn {
+    display: inline-block;
+    background: #ffa500;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 12px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 24px;
+  }
+
+  .list-container {
+    margin-top: 24px;
+    padding: 12px;
+    background: #fff;
+  }
+</style>
+
+<body>
+  <div class="my-wrap">
+    <div class="title">
+      数据监控
+    </div>
+    <!-- 查询列表 -->
+    <div class="head-option">
+      <!-- sku -->
+      <div class="search-item">
+        <span>SKU:</span>&nbsp;
+        <input ng-model="searchSku"></input>
+      </div>
+
+
+      <!-- 采购订单 -->
+      <div class="search-item">
+        <span>采购订单:</span>&nbsp;
+        <input ng-model="orderId"></input>
+      </div>
+
+      <!-- 返利比率 -->
+      <div class="search-item">
+        <span>返利比率:</span>&nbsp;
+        <input ng-model="ratio"></input>
+      </div>
+
+      <!-- 采购人员 -->
+      <div class="search-item">
+        <span>采购人员:</span>&nbsp;
+        <input ng-model="purMan"></input>
+      </div>
+
+      <!-- 外部订单状态 -->
+      <div class="search-item">
+        <span>外部订单状态:</span>&nbsp;
+        <select style="margin-left:5px;" ng-model="orderStatus">
+          <option value="">全部</option>
+          <option value="10">订单创建</option>
+          <option value="20">已付款</option>
+          <option value="50">交易成功</option>
+          <option value="80">交易关闭</option>
+        </select>
+      </div>
+
+      <!-- 采购时间 -->
+      <div class="search-item">
+        <span>采购时间:</span>&nbsp;
+        <input placeholder="start" class="Wdate" style="text-indent: 12px;" id="c-data-time" type="text" onclick="var cdatatime2=$dp.$('cdatatime2');WdatePicker({onpicked:function(){cdatatime2.click();},maxDate:'#F{$dp.$D(\'cdatatime2\')}'})">
+        </input>
+        <input placeholder="end" id="cdatatime2" class="Wdate" style="text-indent: 12px;" type="text" onclick="WdatePicker({minDate:'#F{$dp.$D(\'c-data-time\')}'})" />
+      </div>
+
+      <!-- 订单结算状态 -->
+      <div class="search-item">
+        <span>结算状态:</span>&nbsp;
+        <select style="margin-left:5px;" ng-model="settleStatus">
+          <option value="">全部</option>
+          <option value="1">结算成功</option>
+          <option value="2">结算失败</option>
+        </select>
+      </div>
+
+      <!-- 查询按钮 -->
+      <div class="search-btn" ng-click="handleSearch()">
+        查询
+      </div>
+
+    </div>
+
+    <div class="list-container">
+      <table style="width: 100%;">
+        <thead class="es-ord-thead">
+          <tr>
+            <th style="width: 50px">序号</th>
+            <th style="width: 150px">SKU</th>
+            <th style="width: 150px">商品名称</th>
+            <th style="width: 120px">采购订单</th>
+            <th style="width: 100px">返利比率(%)</th>
+            <th style="width: 100px">预估返利金额(￥)</th>
+            <th style="width: 70px">采购人员</th>
+            <th style="width: 120px">采购时间</th>
+            <th style="width: 100px">外部订单状态</th>
+            <th style="width: 70px">结算金额</th>
+            <th style="width: 70px">结算状态</th>
+          </tr>
+        </thead>
+        <tbody class="es-ord-tbody" ng-repeat="item in list">
+          <tr>
+            <!-- 序号 -->
+            <td>{{ item.number }}</td>
+
+            <!-- SKU -->
+            <td>{{ item.cjSku }}</td>
+
+            <!-- 商品名称 -->
+            <td>{{ item.productName }}</td>
+
+            <!-- 采购订单 -->
+            <td>{{ item.bizId }}</td>
+
+            <!-- 返利比率 -->
+            <td>{{ item.ratio }}</td>
+
+            <!-- 预估返利金额 -->
+            <td>{{ item.commission }}</td>
+
+            <!-- 采购人员 -->
+            <td>{{ item.buyerName }}</td>
+
+            <!-- 采购时间 -->
+            <td>{{ item.createTime }}</td>
+
+            <!-- 外部订单状态 -->
+            <td>
+              <span ng-show="item.orderState == 10">订单创建</span>
+              <span ng-show="item.orderState == 20">已付款</span>
+              <span ng-show="item.orderState == 50">交易成功</span>
+              <span ng-show="item.orderState == 80">交易关闭</span>
+            </td>
+
+            <!-- 结算金额 -->
+            <td>{{ item.commission }}</td>
+
+            <!-- 结算状态 -->
+            <td>
+              <span ng-show="item.settleState == 1">结算成功</span>
+              <span ng-show="item.settleState == 2">结算失败</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <page></page>
+    </div>
+
+  </div>
+</body>

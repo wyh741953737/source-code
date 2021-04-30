@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="static/favicons.png" />
+  <title>验收分标</title>
+  <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+  <link rel="stylesheet" href="static/css/init.css">
+  <link rel="stylesheet" href="static/css/y.css">
+  <link rel="stylesheet" href="static/css/y.css">
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="static/css/receiving.css">
+
+</head>
+
+<body ng-app="receiving" ng-cloak ng-controller="receivingCtrl">
+  <main class="main" id="main">
+    <div class="title-area mb-30" style="padding-bottom: 20px;">
+      <h3 class="tx-c" style="font-size: 20px;">分 标</h3>
+    </div>
+    <div class="container">
+      <header class="header flex fyc bd-1e mb-20">
+        <ul class="option flex fyc fxc fg-1 fs-14">
+          <li class="flex fyc">
+            <div class="mr-20">
+              <span class="fs-16 mr-5">扫描包裹: </span>
+              <input type="text" placeholder="请扫描运单号" id="inputWaybill" ng-model="params.waybillNumber"
+                ng-keyup="handleSearch($event)">
+            </div>
+            <div>
+              <span class="fs-16 mr-5">核对商品: </span>
+              <input type="text" placeholder="请扫描sku或短码" id="inputSku" ng-model="params.sku"
+                ng-keyup="handleSearchSku($event)">
+            </div>
+          </li>
+        </ul>
+      </header>
+    </div>
+    <div class="tab-status" ng-cloak>
+      <div class="tab-status-item">
+        <span class="tab-status-name">目标仓库:</span>
+        <select class="tab-status-select" ng-change="filtergetData()" ng-model="filterObj.store">
+          <option value="">全部</option>
+          <option ng-repeat="item in storeList" value="{{item.type}}">{{item.dataName}}</option>
+        </select>
+      </div>
+      <div class="tab-status-item">
+        <span class="tab-status-name">采购方式:</span>
+        <select class="tab-status-select" ng-change="filtergetData()" ng-model="filterObj.procurementType">
+          <option ng-repeat="item in purchaseList" value="{{item.val}}">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="tab-status-item">
+        <span class="tab-status-name">采购单号：</span>
+        {{list[0]?list[0].orderId:'--'}}
+      </div>
+      <div class="tab-status-item">
+        <span class="tab-status-name">采购人：</span>
+        {{list[0]?list[0].caigouRen:'--'}}
+      </div>
+    </div>
+    <div class="tab-status" ng-cloak>
+      <div class="tab-status-item">
+        <span class="tab-status-name">批量修改： </span>
+        长：<input type="text" class="tab-status-input" ng-model="editObj.length">
+        宽：<input type="text" class="tab-status-input" ng-model="editObj.weight">
+        高：<input type="text" class="tab-status-input" ng-model="editObj.height">
+        <span class="cj-btn" ng-click="changeAll()">确定</span>
+      </div>
+    </div>
+    <!-- <main class="flex"> -->
+    <section class="table fg-1">
+      <ul class="table-head flex fyc fs-14 bd-1e c-th">
+        <li style="width: 10%;">图片</li>
+        <li style="width: 24%;" class="flex fyc fxl">SKU</li>
+        <li style="width: 10%;">属性</li>
+        <li style="width: 10%;">目标仓库</li>
+        <li style="width: 10%;">采购类型</li>
+        <li style="width: 10%;">预计到货数量</li>
+        <li style="width: 10%;">实际数量</li>
+        <li style="width: 10%;">合格数量</li>
+        <li style="width: 10%;">少货数量 (S)</li>
+        <li style="width: 10%;">多货数量 (D)</li>
+        <li style="width: 8%;">系统重量 (g)</li>
+        <li style="width: 8%;">实际重量 (g)</li>
+        <li style="width: 8%;">长 (CM)</li>
+        <li style="width: 8%;">宽 (CM)</li>
+        <li style="width: 8%;">高 (CM)</li>
+        <li style="width: 5%;">是否抛货</li>
+        <li style="width: 15%;">操作</li>
+        <li style="width: 15%;">SKU条码打印</li>
+      </ul>
+      <ul class="table-body fs-14">
+        <li ng-repeat="item in list track by $index"
+          ng-class="{'actived-sku': info.sku === item.cjSku, 'checked-sku': item.status === 2}">
+          <div class="table-item flex fyc bd-1e">
+            <dl style="width: 10%;" ng-mouseenter="imgHover=true" ng-mouseleave="imgHover=false">
+              <div class="prel">
+                <img ng-src="{{item.cjImg}}" alt="" height="60" style="max-width: 100%">
+                <img class="hover-img" ng-src="{{item.cjImg}}" alt="" height="300" ng-show="imgHover">
+              </div>
+            </dl>
+            <dl style="width: 24%;" class="fyc fdc lh-20">
+              <!-- 目前需要产品类型及其flag -->
+              <p class="mb-5">{{item.cjSku}}</p>
+              <p>短码: {{item.cjShortSku}} <span class="copy-btn cp br-4" style="padding: 0px 6px;"
+                  ng-click="handleCopy(item.cjSku)">复制</span></p>
+              <span class="cut-word" title="供应商商品"><b ng-if="item.sourceType==1" class="qzkehu-flag" style="background: #f2002d;color: white;cursor: pointer;">供</b></span>
+              
+            </dl>
+            <dl style="width: 10%;">
+            <div style="display: flex; flex-direction: column;">
+              <div ng-repeat="(key,val) in item.variantKeyMap" style="display: block;font-size: 12px;">
+                {{key}}：{{val}}
+              </div>
+            </div>
+              
+            </dl>
+            <dl style="width: 10%;">{{item.store | storeFilter}}</dl>
+            <!-- <dl style="width: 10%;">库区</dl> -->
+            <dl style="width: 10%;">{{item.procurementType | procurementFilter}}</dl>
+            <dl style="width: 10%;">
+              <div class="edit-area"><input type="text" ng-model="item.shuLiang" disabled></div>
+            </dl>
+            <dl style="width: 10%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.receiveNun"
+                  ng-change="handleInputReceivedNum(item)"></div>
+            </dl>
+            <dl style="width: 10%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.qualifiedNum"
+                  ng-change="handleInputQualifiedNum(item)"></div>
+            </dl>
+            <dl style="width: 10%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.lackNum"
+                  ng-class="{'c-err': item.lackNum > 0}" disabled></div>
+            </dl>
+            <dl style="width: 10%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.moreNum"
+                  ng-class="{'c-err': item.moreNum > 0}" disabled></div>
+            </dl>
+            <dl style="width: 8%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.weight" disabled></div>
+            </dl>
+            <dl style="width: 8%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.realWeight"
+                  ng-change="handleActualWeight(item)"></div>
+            </dl>
+            <dl style="width: 8%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.productL"></div>
+            </dl>
+            <dl style="width: 8%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.productW"></div>
+            </dl>
+            <dl style="width: 8%;">
+              <div class="edit-area"><input type="number" maxlength="9" ng-model="item.productH"></div>
+            </dl>
+            <dl style="width: 5%;">
+              {{item.overSizeFlag?'是':'否'}}
+            </dl>
+            <dl style="width: 15%;">
+              <button class="print-btn bg-r1"
+                ng-click="unusualFun(item)" ng-class="{'disable-btn': item.procurementType === 20}">异常</button>
+              <button class="print-btn bg-y1" ng-class="{'disable-btn': item.status === 2}"
+                ng-click="showBreakup(item)">拆分</button>
+              <button class="confirm-btn bg-b1" ng-click="handleConfirm(item)"
+                ng-class="{'disable-btn': item.status === 2}">确认</button>
+            </dl>
+            <dl style="width: 15%;">
+              <button class="print-btn bg-y1 mr-5" ng-click="handlePrint(item, 6,'sd')"
+                ng-class="{'disable-btn': item.status !== 2}">打印</button>
+              <button class="print-btn bg-y1" ng-click="handlePrint(item, 6,'zd')"
+                ng-class="{'disable-btn': item.status !== 2}">自动打印</button>
+            </dl>
+          </div>
+        </li>
+      </ul>
+      <div class="no-data flex fyc fxc" ng-show="list.length === 0">暂无数据</div>
+    </section>
+    <section class="right-area" ng-show="info.show">
+      <ul class="flex fyc fxsa c-th">
+        <li>变体信息: <span class="c-err ml-10">{{info.variant}}</spanclass="c-err">
+        </li>
+        <li>预计到货数量: <span class="c-err ml-10">{{info.count}}</span></li>
+      </ul>
+      <div class="bd-1e">
+        <img src="{{info.img}}" alt="">
+      </div>
+    </section>
+    <!-- </main> -->
+    </div>
+    <section class="wrap" ng-show="false && info.show">
+      <div class="info-box prel br-4" style="padding: 20px;">
+        <img src="static/image/analysis/close.png" alt="" class="pabs cp" style="right: 8px; top: 6px;"
+          ng-click="hideInfoBox()">
+        <h3>变体信息:<span class="c-err ml-5">{{info.variant}}</span></h3>
+        <h3>预计到货数量:<span class="c-err ml-5">{{info.count}}</span></h3>
+        <div class="flex fxc">
+          <img src="{{info.img}}" alt="" height="400" class="bd-1e">
+        </div>
+      </div>
+    </section>
+    <section class="wrap" ng-show="recordWeightParams.show">
+      <div class="confirm-box br-4">
+        <h2 class="mb-20">该商品已经被称过重量，确认提交至销售审核 ?</h2>
+        <div class="confirm-content fs-14">该商品已经被称过重量，确认提交至销售审核 ?</div>
+        <div>
+          <button class="br-4 c-w1 cp bg-y1 mr-5" ng-click="hideRecordWeightBox()">取消</button>
+          <button class="br-4 c-w1 cp bg-b1" ng-click="submitRecordWeight()">确认</button>
+        </div>
+      </div>
+    </section>
+    <section class="wrap" ng-show="packageWeightParams.show">
+      <div class="confirm-box br-4">
+        <h2 class="mb-20">修改包装重量</h2>
+        <div class="confirm-content fs-14">
+          <p class="mb-10">
+            商品重量不得大于包装重量 现在包装重量为 <span class="c-err">{{packageWeightParams.oldWeight || 0}}</span class="c-err">
+            实际重量为 <span class="c-err">{{packageWeightParams.realWeight || 0}}</span>
+          </p>
+          <div>包装重量: <input type="number" ng-model="packageWeightParams.newWeight" class="" maxlength="9"></div>
+        </div>
+        <div>
+          <button class="br-4 c-w1 cp bg-y1 mr-5" ng-click="hidePackageWeightBox()">取消</button>
+          <button class="br-4 c-w1 cp bg-b1" ng-click="submitPackageWeight()">确认</button>
+        </div>
+      </div>
+    </section>
+    <section class="wrap" ng-show="downLoadFlag">
+      <div class="confirm-box br-4">
+        <div class="confirm-content fs-14">
+          <p class="mb-10">
+            未检测到自动打印软件，请下载、解压、运行。如果已经下载，请双击启动
+          </p>
+          <div><a href="http://erp.cjdropshipping.cn/down/cjapp.zip">自动打单软件</a></div>
+        </div>
+        <div>
+          <button class="br-4 c-w1 cp bg-y1 mr-5" ng-click="downLoadFlag = false;">关闭</button>
+        </div>
+      </div>
+    </section>
+    <section class="wrap" ng-show="zddyFalseFlag">
+      <div class="confirm-box br-4">
+        <div class="confirm-content fs-14">
+          <p class="mb-10">
+            自动打印失败,当前失败链接:
+          </p>
+          <div>
+            <a ng-click='zddyFalseFlag = false;' target="_blank" href="{{zddyErrorPdfLink}}">{{zddyErrorPdfLink}}</a>
+          </div>
+        </div>
+        <div>
+          <button class="br-4 c-w1 cp bg-y1 mr-5" ng-click="zddyFalseFlag = false;">关闭</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="confirm-box1 f-center" ng-show="breakupObj.show">
+    <div class="confirm-main">
+      <div class="confirm-title">
+        <span>拆分SKU</span>
+      </div>
+      <div class="confirm-content">
+        <button class="confirm-btn yes-btn" ng-click="addBreakupItem(item)">添加</button>
+        <div class="cj-table-box">
+          <table class="cj-table">
+            <thead class="cj-table-thead">
+              <th>SKU</th>
+              <th>应到商品</th>
+              <th>实到商品</th>
+              <th>组商品数量</th>
+              <th>未分配数量</th>
+              <th>操作</th>
+            </thead>
+            <tr class="cj-table-tr" ng-repeat="(index,item) in breakupObj.list track by item.id">
+              <td>{{item.sku}}</td>
+              <td>{{item.shuLiang}}</td>
+              <td>{{item.receiveNun}}</td>
+              <td><input class="table-input" ng-focus="focusBreakupItem(item)" ng-change="changeBreakupItem(item)"
+                  type="text" maxlength="9" ng-model="item.num"></td>
+              <td>{{item.unnum}}</td>
+              <td>
+                <button class="confirm-btn bg-y1" ng-click="delBreakupItem(item,index)">删除</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+      <div class="confirm-btn-box">
+        <span ng-click="breakupObj.show=false" class="no-btn">取消</span>
+        <span ng-click="confirmBreakup()" class="yes-btn">确定</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm-box1 f-center" ng-show="yichangFlag">
+    <div class="confirm-main">
+      <div class="confirm-title">
+        <span>异常说明</span>
+      </div>
+      <div class="confirm-content">
+        <div class="flex fyc mb20">
+          <div>异常数量:</div>
+          <div class="ml20">{{ycCount}}</div>
+        </div>
+        <div class="flex fyc mb20">
+          <div>异常原因:</div>
+          <div><select class="ycreson-sel ml20" ng-model="resonSelVal" ng-change="resonChaFun()"
+            ng-options="x.label for x in errOptions">
+          </select></div>
+        </div>
+        <div>
+          <textarea class="reson-text" cols="30" rows="10"  ng-model="newQsYcReson"></textarea>
+        </div>
+      </div>
+      <div class="confirm-btn-box">
+        <span ng-click="yichangFlag=false" class="no-btn">取消</span>
+        <span ng-click="unusualConfirmFun()" class="yes-btn">确定</span>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+  <script src="./static/js/public/base64.min.js"></script>
+  <script src="./static/js/public/common.js"></script>
+  <script src='./static/layer/layer.js'></script>
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+  <script src="static/providers/filter/filter.js"></script>
+  <script src="static/js/erp-purchase/receiving.js"></script>
+</body>
+
+</html>

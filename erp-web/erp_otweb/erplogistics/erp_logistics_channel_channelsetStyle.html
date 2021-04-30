@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>物流渠道设置-物流方式管理-ERP系统</title>
+		<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" />
+		<style type="text/css">
+			.shanchu{
+				width: 300px;
+				height: 180px;
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: auto;
+				background: #fff;
+				box-shadow: 0 0 10px gray;
+			}
+			.shanchu-p1{
+				font-size: 16px;
+				text-align: center;
+				margin-top: 50px;
+				text-align: center;
+			}
+			.shanchu-p2{
+				width: 80%;
+				margin:50px auto;
+				
+			}
+			.shanchu-p2 span{
+				display: inline-block;
+				width: 100px; 
+				height: 30px;
+				border-radius: 5px;
+				text-align:center;
+				line-height: 30px;	
+				color: #fff;	
+				font-size: 14px;
+				cursor: pointer;		
+			}
+			.shanchu-p2 span:nth-of-type(1){
+				background: #F8A636;
+			}
+			.shanchu-p2 span:nth-of-type(2){
+				background: gray;
+				margin-left: 30px;
+			}
+			/*属性*/
+			.search-by {
+				  margin:0 10px;
+				  padding-left: 40px;
+				  margin-bottom: 0;
+				  padding-bottom: 10px;
+				/*border-bottom: 1px solid #efefef;*/
+				}
+				.search-by .serch-by-name {
+				  float: left;
+				  width: 60px;
+				  line-height: 30px;
+				  text-align: center;
+				  font-size: 14px;
+				}
+				.search-by-con {
+				  float: left;
+				}
+				
+				.check-box {
+				  margin: 8px 0;			  
+				}
+				.check-box input{
+					cursor: pointer;
+				}
+				.ea-right-content .check-box label {
+				  padding-left: 20px;
+				  width: 100%;
+				  background-position: top left;
+				  line-height: 16px;
+				  color: #333333;
+					margin-right: 8px;
+				}
+				.btn-f60{
+					 width: 100px;
+					  height: 30px;
+					   background: #f99429; 
+					   color: #fff; float:
+					    left; border: none;
+					     border-radius: 6px;
+					     margin-left: 100px;
+			   }
+				.div-btn-f60{
+					position: absolute;
+					right: 200px;
+					bottom: 10px;
+				}
+				.ea-list-table th {
+				font-size: 14px;
+			}
+			.ea-list-table tr td span {
+				font-size: 13px;
+			}
+			/*商品属性所在的td*/
+			.sx-td p b{
+				font-size: 12px;
+				font-weight: normal;
+			}
+			.red{
+				color: red;
+			}
+			#show-img{
+				width: 530px;
+			}
+			#show-img .list-tit{
+				width: 190px;
+			}
+			.remark-class{
+				font-size: 12px;
+			}
+			.FilterSelect{
+				height: 30px;
+				width: 80px;
+				margin-left: 20px;
+			}
+			.flex {display: flex;}
+			.fxc {justify-content: center;}
+			.fxsa {justify-content: space-around;}
+			.fxsb {justify-content: space-between;}
+			.fyc {align-items: center;}
+			.fdc {flex-direction: column;}
+			.fg-1 {flex-grow: 1;}
+			.fwp {flex-wrap: wrap;}
+			.mr-20 {margin-right: 20px;}
+			.cp {cursor: pointer; user-select: none;}
+			.confirm-btn { line-height: 28px; padding: 0 15px; border-radius: 4px; color: #fff; background-color: #4a90e2; font-size: 14px; }
+			input {height: 30px; line-height: 26px; padding: 0 10px; border-radius: 4px; border: 1px solid #dddee1;}
+		</style>
+	</head>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content">
+			<!--<div class="ea-content-box">-->
+				
+				<!--<div class="ea-content-con">-->
+					<!-- left nav -->
+					<div class="left-bar">
+				            <ul>
+								<li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+								<li class="active"><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+								<li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+								<li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+								<li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+								<li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+								<li><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+							</ul>
+				       </div>
+					
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content">
+						<!-- right nav -->
+						<div class="asj-h10"></div>
+				         <!--<div class="top-taps clearfix">-->
+				            <!--<ul>-->
+								<!--<li><a href="#/erplogistics/channelset">{{'100733' | translate}}</a></li>-->
+								<!--<li><a href="#/erplogistics/coopcompany">{{'100734' | translate}}</a></li>-->
+								<!--<li class="active"><a href="#/erplogistics/channelsetStyle">{{'100735' | translate}}</a></li>-->
+				            <!--</ul>-->
+			    		<!--</div>-->
+						<!-- right search -->
+						<div class="right-bar">
+						<div class="ea-right-search flex fyc fwp">
+							<div class="mr-20">
+								<input type="text" placeholder="请输入物流公司名称" ng-model="userinfo">
+								<button class="confirm-btn cp" ng-click="usersearch()">搜索</button>
+							</div>
+							<select class="mr-20" ng-change="FilterChange()" ng-model="isSwitch" style="width: 60px; height: 28px;">
+								<option value="">全部</option>
+								<option value="1">正常</option>
+								<option value="0">停用</option>
+							</select>
+							<button class="confirm-btn cp" ng-click="xinzeng()">新增物流方式</button>
+							<div ng-show="isAdminFlag" id="ea-list-table" class="relative" style="display: inline-block;">
+								<!-- <div class="poplink-active" ng-click="xinzeng()">{{'100769' | translate}}</div> -->
+								  <div ng-show="addwin" id="show-img" style="text-align: center; left: 0; top: 0;right: 0;bottom: 0;height: 630px;margin: auto;overflow: auto;z-index: 22;">
+										<h3>{{'100769' | translate}}</h3>
+										<ul class="state-modify-list">
+											<li><span class="list-tit">{{'100770' | translate}}</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addlogStylezn"></span></li>
+											<li ng-if="xinzengFlag">
+												<span class="list-tit">{{'100771' | translate}}</span><span class="list-con"><input type="text" ng-blur="test()" class="input-full" ng-model="$parent.addlogStyleyn"></span>
+											</li>
+											<!-- <li ng-if="shezhiFlag">
+												<span class="list-tit">物流方式英文</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addlogStyleyn" readonly="readonly"></span>
+											</li> -->
+											<li><span class="list-tit">{{'100772' | translate}}</span><span class="list-con"><input type="text" value="" class="input-full" ng-model="addlogStyle"></span></li>
+											<li><span class="list-tit">{{'100740' | translate}}</span><span class="list-con"><input type="number" value="" class="datatime" ng-model="addtime1">-<input type="number" value="" class="datatime" ng-model="addtime2">{{'100539' | translate}}</span></li>
+											<li><span class="list-tit">{{'100741' | translate}}</span><span class="list-con"><input type="number" value="" class="input-full" ng-model="addxianzhong" style="width: 30%;">&nbsp;g <button ng-click="buxianzhong()" style="height: 30px;width: 85px;line-height: 30px;font-size: 14px;color: #fff;background: #F8A636;text-align: center;margin-left: 10px;border-radius: 5px;">{{'100773' | translate}}</button> </span></li>
+											<li><span class="list-tit">{{'100738' | translate}}</span><span class="list-con">
+												<input style="width: 30%;" type="number" value="{{addzhekou}}" class="input-full" ng-model="addzhekou" />%
+												<!--<select style="width: 80px;" ng-change="discountnum(num)" ng-model="addzhekou">
+													<option value="">请选择</option>
+													<option value="{{item.num}}" ng-repeat="item in discount">{{item.num}}</option>
+												</select>	
+											</span></li>-->
+											
+											<li><span class="list-tit">{{'100774' | translate}}</span>
+												<div class="list-con" style="overflow: hidden;">
+													<!--<div class="search-by serch-by-property clearfix">-->
+										        <!--<div class="serch-by-name">属性：</div>-->
+										        <div class="search-by-con">
+										            
+										            <div class="check-box ">
+										                <input type="checkbox" value="ELECTRONIC" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100084' | translate}}</label>
+										            </div>
+										            <div class="check-box ">
+										                <input type="checkbox" value="BATTERY" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100085' | translate}}</label>
+										            </div>
+										            <div class="check-box ">
+										                <input type="checkbox" value="IS_ELECTRICITY" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100086' | translate}}</label>
+										            </div>
+										            <div class="check-box ">
+										                <input type="checkbox" value="HAVE_LIQUID" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100087' | translate}}</label>
+										            </div>
+										            <div class="check-box ">
+										                <input type="checkbox" value="HAVE_STIVE" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100088' | translate}}</label>
+										            </div>
+										            <div class="check-box " style="width: 50px;">
+										                <input type="checkbox" value="WATER" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100438' | translate}}</label>
+										            </div>
+										            <div class="check-box ">
+										                <input type="checkbox" value="HAVE_CREAM" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100089' | translate}}</label>
+										            </div>
+										            <div class="check-box ">
+										                <input type="checkbox" value="HAVE_MAGNETISM" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100090' | translate}}</label>
+										            </div>
+										            <div class="check-box ">
+										                <input type="checkbox" value="EDGE" ng-click="getPropertyInfo($event)">
+										                <label for="">{{'100091' | translate}}</label>
+										            </div>
+													<div class="check-box w90">
+														<input type="checkbox" value="NO_ENTRY" ng-click="getPropertyInfo($event)">
+														<label for="">海关禁售</label>
+													</div>
+													<div class="check-box w60">
+														<input type="checkbox" value="CLONE" ng-click="getPropertyInfo($event)">
+														<label for="">仿牌</label>
+													</div>
+													<div class="check-box ">
+														<input type="checkbox" value="OVERSIZE" ng-click="getPropertyInfo($event)">
+														<label for="">{{'抛货'}}</label>
+													</div>
+													<div class="check-box ">
+														<input type="checkbox" value="THIN" ng-click="getPropertyInfo($event)">
+														<label for="">{{'轻薄'}}</label>
+													</div>
+													<div class="check-box ">
+														<input type="checkbox" value="FLAT" ng-click="getPropertyInfo($event)">
+														<label for="">{{'薄平'}}</label>
+													</div>
+										            <!--<div class="check-box w60">
+										                <input type="checkbox" value="PROOERTY" ng-click="getPropertyInfo($event)">
+										                <label for="">其他</label>
+										            </div>-->
+										        <!--</div>-->
+										    </div>
+												</div>
+											</li>
+											<li><span class="list-tit">{{'100340' | translate}}</span><span class="list-con">
+												<!-- <input type="number" value="" class="input-full" ng-model="addxianzhong" style="width: 30%;"> -->
+												<!-- <div  style="width: 100%; border: 1px solid #eee; height: 60px;overfow-y:auto;" contentEditable='true' ng-bind-html="wuliuRemark" id="wuliu-remark"></div> -->
+												<textarea ng-model="wuliuRemark" style="width: 100%; border: 1px solid #eee; height: 60px;" id="wuliu-remark"></textarea>
+											</span></li>
+											
+										</ul>
+										<closetext class="btn-cancel" ng-click="addwin=false">{{'100051' | translate}}</closetext><closetextt class="btn-determine" ng-click="sure()">{{'100050' | translate}}</closetextt>
+									</div>
+							</div>
+							
+						</div>
+						
+						<!-- right list -->
+						<div class="table-con-box">
+						<table class="ea-list-table ea-erp-cs">
+							<tr>
+								<th>{{'100770' | translate}}</th>
+								<th>{{'100771' | translate}}</th>
+								<th>{{'100718' | translate}}</th>
+								<th>{{'100740' | translate}}</th>
+								<th>{{'100741' | translate}}(g)</th>
+								<th>{{'100738' | translate}}</th>
+								<th width="26%">{{'100429' | translate}}</th>
+								<th width="10%">{{'100340' | translate}}</th>
+								<th>{{'100202' | translate}}</th>
+								<th ng-show="isAdminFlag">{{'100043' | translate}}</th>
+							</tr>
+							<tr ng-repeat="item in logStyleList">
+								<!--<td><span>1</span></td>-->
+								<td><span>{{item.namecn}}</span></td>
+								<td><span>{{item.nameen}}</span></td>
+								<td><span>{{item.mode}}</span></td>
+								<td><span>{{item.beginAging}}-{{item.endAging}}天</span></td>
+								<td><span>{{item.weightlimit}}</span></td>
+								<td><span>{{item.discount}}%</span></td>
+								<!-- <td><span>{{item.propertycn}}</span></td> -->
+								<td class="sx-td">
+									<p>
+										<b ng-class="{'red':item.propertycn.indexOf('电子')>=0}">{{'100084' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('内置电池')>=0}">{{'100085' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('纯电池')>=0}">{{'100086' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('含液体')>=0}">{{'100087' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('含粉末')>=0}">{{'100088' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('水')>=0}">{{'100438' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('含膏状')>=0}">{{'100089' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('含磁')>=0}">{{'100090' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('尖锐')>=0}">{{'100091' | translate}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('海关禁售')>=0}">{{'海关禁售'}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('仿牌')>=0}">{{'仿牌'}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('抛货')>=0}">{{'抛货'}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('轻薄')>=0}">{{'轻薄'}}</b>
+										<b ng-class="{'red':item.propertycn.indexOf('薄平')>=0}">{{'薄平'}}</b>
+									</p>
+								</td>
+								<td><div class="remark-class" ng-bind-html="item.remark"></div></td>
+								<td ng-if="item.state==1"><span>{{'100743' | translate}}</span></td>
+								<td ng-if="item.state==0"><span>{{'100744' | translate}}</span></td>
+								<td ng-show="isAdminFlag">
+									<button ng-click="shezhi(item)" class="btn" style="padding: 2px 15px;margin: 0 5px 0 0;outline: none;">{{'100747' | translate}}</button>
+									<button ng-click="tyWlFun(item)" ng-if="item.state==1" class="btn" style="padding: 2px 15px;margin: 0 5px 0 0;outline: none;">停用</button>
+									<button ng-click="qyWlFun(item)" ng-if="item.state==0" class="btn" style="padding: 2px 15px;margin: 0 5px 0 0;outline: none;">启用</button>
+									<button ng-click="shanchu($event,item)"  class="btn" style="padding: 2px 15px;margin: 0;outline: none;">{{'100227' | translate}}</button>
+								</td>
+							</tr>
+							
+						</table>
+						
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="shanchu" ng-show="sfshanchu">
+			<p class="shanchu-p1">{{'100270' | translate}}?</p>
+			<p class="shanchu-p2">
+				<span ng-click="queding()">{{'100050' | translate}}</span>
+				<span ng-click="quxiao()">{{'100051' | translate}}</span>
+			</p>
+		</div>
+		<!--管理弹出框-->
+		<div class="log-man-win" ng-show="win" ng-cloak style="z-index: 22;height: 500px;">
+			<table>
+				<thead>
+				<tr>
+					<th></th>
+					<th>{{'100718' | translate}}</th>
+					<th>{{'100749' | translate}}渠道方式代码</th>
+					<th>{{'100741' | translate}}限重</th>
+					<th>{{'100750' | translate}}渠道名称</th>
+					<th>{{'100751' | translate}}是否是默认渠道</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+					<td>普货易邮宝</td>
+				</tr>
+				<tr>
+					<td><input type="text" ng-model="companyName" ></td>
+					<td><input type="text" ng-model="logisticsway"></td>
+					<td><input type="text" ng-model="logisticscode"></td>
+					<td><input type="text" ng-model="logisticsweight"></td>
+					<td><input type="text" ng-model="logisticschannel"></td>
+					<td><input type="text" ng-model="logisticsdefault"></td>
+				</tr>
+				<tr>
+					<td colspan="6" style="text-align: left">
+						<div class="btngroup">
+							<button type="button" class="btn btn-default" ng-click="win=false" style="padding: 2px 15px;margin: 0 20px 0 0;outline: none;">{{'100051' | translate}}</button>
+							<button type="button" class="btn btn-primary" ng-click="addinfo()" style="padding: 2px 15px;margin: 0;outline: none;">{{'100133' | translate}}</button>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<div class="wl-tc-wrap" ng-show="isTyFlag">
+			<div class="wltc-w350">
+				<p>确定停用该物流吗?</p>
+				<div class="wltc-btns">
+					<button ng-click="isTyFlag=false" class="wlqx-btn">取消</button>
+					<button ng-click="isWorkFun()" class="wlqd-btn">确定</button>
+				</div>
+			</div>
+		</div>
+		<div class="wl-tc-wrap" ng-show="isQyFlag">
+			<div class="wltc-w350">
+				<p>确定启用该物流吗?</p>
+				<div class="wltc-btns">
+					<button ng-click="isQyFlag=false" class="wlqx-btn">取消</button>
+					<button ng-click="isWorkFun()" class="wlqd-btn">确定</button>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 弹框js -->
+<script>
+	
+//	var poplink=document.getElementsByTagName('poplink')[0];
+//	var showImg=document.getElementById('show-img');
+//	var closetext=document.getElementsByTagName('closetext')[0];
+//	var closetextt=document.getElementsByTagName('closetextt')[0];
+//	poplink.onclick=function(){
+//		showImg.style.display='block';
+//	}
+//	closetext.onclick=function(){
+//		showImg.style.display='none';
+//	}
+//	closetextt.onclick=function(){
+//		showImg.style.display='none';
+//	}
+</script>
+		
+	</body>
+</html>

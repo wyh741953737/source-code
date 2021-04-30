@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>物流财务-erp</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/>
+    <link rel="stylesheet" href="erp_otweb/css/li_erp.css">
+    <style type="text/css">
+        .datatime-screen{
+            float: none;
+        }
+    	.datatime-screen input{
+    		width: 150px;
+    		height: 30px;
+    	}
+        .ea-list-table th {
+            font-size: 14px;
+        }
+        .ea-list-table tr td span {
+            font-size: 13px;
+        }
+        .ea-right-search .search-box{
+            width: 177px;
+            margin-left: 30px;
+            float: none;
+            display: inline-block;
+        }
+        .time-btn{
+            background-color: #fff;
+            width: 50px;
+            height: 24px;
+            border-radius: 15px;
+            border: 1px solid #E4E4E4;
+            color: #666666;
+            text-align: center;
+            font-size: 12px;
+            line-height: 22px;
+            margin-right: 10px;
+        }
+        .act-btn{
+            color: #fff;
+            background-color: #F9AE08;
+            border: none;
+            line-height: 24px;
+        }
+        .selectop1{
+            line-height: inherit;
+        }
+        #up-btn{
+        background-color: #fff;
+        border: 1px solid #5dbdf2;
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 4px;
+        color: #5dbdf2;
+    }
+    .errtk-con{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 200px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        #upLoadInp {
+		width: 75px;
+		font-size: 0;
+		border: 1px solid red;
+		display: inline-block;
+		height: 30px;
+		position: absolute;
+		/* right: 0; */
+		opacity: 0;
+		cursor: pointer;
+    }
+    .a-down,.td-bt{
+        width: 82px;
+        height: 30px;
+        border: 1px solid #e1e1e1;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 4px;
+    }
+    .bt-pt{
+        padding: 4px 18px;
+    }
+    .input-upload-excel {
+		position: absolute;
+		top: -1000px;
+		left: 0;
+    }
+    .list-fir-th {
+        position: relative;
+        width: 180px;
+    }
+    .c-th{
+        position: relative;
+        background: #fff;
+    }
+    .c-allchekbox ,.c-chekbox {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        transform: translateY(-50%);
+    }
+    .editmesstc-wrap{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 999;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .sel{
+        width: 155px;
+        height: 28px;
+    }
+    .mr-10{
+        margin-right: 10px;
+    }
+    .mb-16{
+        margin-bottom: 16px;
+    }
+    </style>
+</head>
+<body>
+
+
+<!-- content -->
+<div class="ea-content">
+            	<div class="right-bar-wrap ea-right-content">
+                <!-- right nav -->
+                <div class="asj-h10"></div>
+                <!--<div class="top-taps clearfix">-->
+                    <!--<ul>-->
+	                    <!--<li class="active"><a href="#/erplogistics/trackstatistics">{{'100796' | translate}}</a></li>-->
+	                    <!--<li><a href="#/erplogistics/logististylel">{{'100797' | translate}}</a></li>-->
+	                    <!--<li><a href="#/erplogistics/cslogisti">{{'100798' | translate}}</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!-- right search -->
+                <div class="right-bar">
+                <div class="ea-right-search">
+                    <div>
+                        <span>CJ运单号查询</span>
+                        <input type="text" ng-model="cjTracknumber" class="bt-pt">
+                        <button class="td-bt" ng-click="timeList()">查询</button>
+                    </div>
+                    <div class="datatime-screen d-flex align-items-center">
+                        <!-- <button ng-click="timeSeaFun(0)" class="time-btn" ng-class="{'act-btn':day==0}">今日</button>
+                        <button ng-click="timeSeaFun(-7)" class="time-btn" ng-class="{'act-btn':day==-7}">近一周</button>
+                        <button ng-click="timeSeaFun(-30)" class="time-btn" ng-class="{'act-btn':day==-30}">近一月</button> -->
+                        <input type="text" id="b-time" value="" placeholder="请选择时间"  class="Wdate time-inp"  
+                        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>--
+                        <input type="text" id="e-time" value="" placeholder="请选择时间"  class="Wdate time-inp mr-10"  
+                        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"/>
+                        <span>物流公司：</span>
+                        <input class="mr-10" type="text" ng-model="logisticsName">
+                        <span>允许重量差（g）：</span>
+                        <input class="mr-10" type="text" ng-model="cjLogisticsSubWeight">
+                        <button ng-click="timeListes()" class="td-bt mr-10">查询</button>
+                        <a href="https://cc-west-usa.oss-us-west-1.aliyuncs.com/timers/logisticsFinancial.xls" download="下载模板" class="a-down">下载模板</a>
+                        <!-- 导入采购单 -->
+                        <form class="d-flex" id="up-form" action="" method="post" type="button"
+                            enctype="multipart/form-data">
+                            <input type="file" value="上传excel" id="upLoadInp"
+                                 onchange="angular.element(this).scope().upLoadExcel(this.files)"></input>
+                            <button class="mr-10" id="up-btn" class="two-ck-btn float-r">上传excel</button>
+                            <a class="td-bt" ng-click="dcMuOrd()">导出</a>
+                             
+                         </form>
+                    </div>
+                </div>
+                <!-- right list -->
+                <div class="table-con-box">
+                    <table class="ea-list-table ea-erp-cs">
+                        <tr class="la_title">
+                            <th class="list-fir-th">
+                                <img class="c-allchekbox" src="static/image/order-img/multiple1.png">
+                                <span>序列</span>
+                            </th>
+                            <th><span>物流公司</span></th>
+                            <th><span>渠道名称</span></th>
+                            <th><span>CJ运单号</span></th>
+                            <th><span>物流商运单号</span></th>
+                            <th><span>CJ出库重量(g)</span></th>
+                            <th><span>物流商重量(g)</span></th>
+                            <th><span>CJ出库与物流商重量差(g)</span></th>
+                            <th><span>CJ应付运费</span></th>
+                            <th><span>物流商运费</span></th>
+                            <th><span>实付运费</span></th>
+                            <th><span>匹配状态</span></th>
+                            <th><span>操作</span></th>
+                             </tr>
+                        <tr class="la_wl" ng-repeat="item in returnList">
+                            <td class="c-th">
+                                <img class="c-chekbox" src="static/image/order-img/multiple1.png">
+                                <span ng-bind="{$index + 1}">{{$index + 1}}</span>
+                                <p style="display: none;" class="hide-order-id">{{item.id}}</p>
+                            </td>
+                            <td><span>{{item.logisticsName}}</span></td>
+                            <td><span>{{item.logisticsModel}}</span></td>
+                            <td><span>{{item.cjTracknumber}}</span></td>
+                            <td><span>{{item.tracknumber}}</span></td>
+                            <td><span>{{item.cjOutWeight || '--'}}</span></td>
+                            <td><span>{{item.logisticsWeight || '--'}}</span></td>
+                            <td><span>{{item.cjLogisticsSubWeight || '--'}}</span></td>
+                            <td><span>{{item.cjAmount}}</span></td>
+                            <td><span>{{item.logisticsAmount}}</span></td>
+                            <td><span>{{item.amount}}</span></td>
+                            <td><span>{{item.status=='0'?'未对账':'已对账'}}</span></td>
+                            <td> 
+                                <button class="td-bt" ng-click="editlist(item)">编辑修改</button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- 修改编辑 -->
+                    <div class="editmesstc-wrap" ng-show="changePriFlag">
+                        <div class="change-pricon editmess-con" style="padding: 24px; height: initial;">
+                            <div class="editmess-top mb-16">
+                                <span>实付运费</span>
+                                <input  type="number" ng-model="amount"></input>
+                            </div>
+                            <div class="editmess-top mb-16">
+                                    <span>匹配状态</span>
+                                    <select ng-model="status" class="sel" >
+                                        <option value="0">未对账</option>
+                                        <option value="1">已对账</option>
+                                    </select>
+                                </div>
+                            <div class="editmess-btns text-align-center">
+                                <button style="width: 90px; margin: 0 10px;" ng-click="changePriFlag=false" class="edit-cancel-btn">{{'100051' | translate}}</button>
+                                <button style="width: 90px; margin: 0 10px;" ng-click="updataes()" class="edit-confirm-btn">{{'100050' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                         <!--以下是分页-->
+							<!-- 分页 -->
+                 <!-- ng-show="hasMerch" -->
+                 <div class="no-data" ng-show="totalNum == 0" style="text-align: center;line-height: 60px;">没有数据</div>
+                 <div class="page-box" >
+                        <div class="select-page-num">
+                            <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                    style="width: 65px;height: 31px;">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>每页</span>
+                        </div>
+                        <div class="total-num">
+                            共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                        </div>
+                        <div class="page-index">
+                            <div class="pagegroup">
+                            </div>
+                        </div>
+                        <div class="to-go">
+                            <span>跳转：</span>
+                            <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                            <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                        </div>
+                    </div>
+            </div>
+            <!-- <div ng-show="wlCompanyList.length<1" style="text-align: center;">暂无数据</div> -->
+        </div>
+    </div>
+</div>
+</body>
+</html>

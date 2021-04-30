@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>积分规则设置</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css" />
+    <style>
+        body {
+            position: relative;
+        }
+
+        .clearfix:after {
+            content: "";
+            visibility: hidden;
+            display: block;
+            clear: both;
+            height: 0;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        body .guanlianshangpin {
+            width: 1111px;
+            height: 725px;
+            transform: translateX(0px);
+            transform: translateZ(0px);
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+                normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            left: 10%;
+            top: 10%;
+        }
+
+        body .guanlianshangpin .guanlianshangpinhead {
+            font-family: MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+            margin-left: 50%;
+        }
+
+        body .guanlianshangpin table {
+            margin: 0 auto;
+        }
+
+        body .guanlianshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .guanlianshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin {
+            margin: 0 auto;
+            width: 1011px;
+            height: 725px;
+            z-index: 100;
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+                normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            right: 1%;
+            bottom: -600px;
+        }
+
+        body .excelshangpin .guanlianshangpinhead {
+            font-family: MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            width: 1000px;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        body .excelshangpin table {
+            margin: 0 auto;
+        }
+
+        body .excelshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        .tan-delete-ware {
+            border-radius: 4px;
+        }
+
+        .tan-delete-ware {
+            width: initial;
+            height: initial;
+            min-width: 340px !important;
+            min-height: 120px !important;
+            max-width: 800px;
+            max-height: 700px;
+            overflow-y: scroll;
+        }
+
+        .asj-common-tan h3 {
+            font-size: 14px;
+            font-family: PingFangSC-Medium;
+            color: rgba(102, 102, 102, 1);
+            line-height: 20px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .asj-common-tan .tan-btns {
+            text-align: right;
+            position: initial;
+        }
+
+        .asj-common-tan .tan-btns .tan-btn1 {
+            width: 80px;
+            height: 30px;
+            background: rgba(249, 174, 8, 1);
+            border-radius: 2px;
+            color: #fff;
+            margin: initial;
+        }
+
+        .asj-common-tan .tan-btns .tan-btn0 {
+            width: 80px;
+            height: 30px;
+            border-radius: 2px;
+            border: 1px solid rgba(247, 157, 45, 1);
+            margin: 0 20px;
+            color: #F9AE08;
+            background-color: #fff;
+        }
+
+        .table-con-box h3 {
+            display: inline-block;
+        }
+
+        .table-con-box h4 {
+            color: #2d2d2d;
+            font-size: 25px;
+            line-height: 18px;
+            margin-top: 30px;
+        }
+
+        .table-con-box button {
+            padding: 2px 15px;
+            border: 1px solid #FDAA4D;
+            font-size: 14px;
+            border-radius: 3px;
+            margin-left: 50px;
+        }
+
+        .table-con-box ul {
+            /*margin-top: 15px;*/
+            border: solid #e1e1e1 1px;
+            border-top: none;
+            width: 420px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        .table-con-box ul li {
+            border-bottom: solid #e1e1e1 1px;
+            line-height: 40px;
+        }
+
+        .table-con-box ul li:last-child {
+            /*border-bottom: none;*/
+        }
+
+        .table-con-box ul li input {
+            width: 85px;
+            height: 28px;
+            border-radius: 4px;
+            padding: 0 8px;
+            text-align: center;
+            border-color: #f1f1f1;
+        }
+
+        .table-con-box ul li a {
+            font-size: 14px;
+            padding: 2px 15px;
+            border-radius: 4px;
+            border: 1px solid rgba(238, 238, 238, 1);
+            display: inline-block;
+            line-height: 22px;
+        }
+
+        .table-con-box ul li:nth-child(1) {
+            /*background-color: rgba(252, 244, 217, 1);*/
+        }
+
+        .table-con-box ul li span {
+            width: 100px;
+            line-height: 30px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .asj-common-tan h3 {
+            color: #2d2d2d;
+            font-size: 18px;
+            line-height: 18px;
+        }
+
+        .asj-common-tan li span {
+            width: 53px;
+            display: inline-block;
+            text-align: right;
+        }
+
+        .asj-common-tan li {
+            margin-bottom: 5px;
+        }
+
+        .asj-common-tan li input {
+            border-radius: 3px;
+            padding: 0 8px;
+            line-height: 28px;
+        }
+
+        .asj-common-tan .tan-btns {
+            margin-top: 10px;
+        }
+
+        .act {
+            border-color: #F9AE08 !important;
+        }
+
+        .table-con-box .tab {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .table-con-box .tab .hearder {
+            border: solid #e1e1e1 1px;
+            background-color: rgba(252, 244, 217, 1);
+            margin-top: 15px;
+        }
+
+        .table-con-box .tab .hearder span {
+            width: 100px;
+            line-height: 35px;
+            text-align: center;
+            display: inline-block;
+            color: rgba(176, 86, 9, 1);
+        }
+
+        .table-con-box .mdl {
+            width: 100%;
+        }
+        
+        .tab-con {
+            margin-bottom: 15px;
+        }
+        .tab-con>span{
+            font-size: 16px;
+            display: inline-block;
+            width: 185px;
+        }
+        .tab-con>input{
+            width: 100px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ea-content">
+        <!-- right con -->
+        <div class="right-bar-wrap ea-right-content">
+            <div class="bg-geduan"></div>
+            <div class="right-bar" style="min-height: 850px;">
+                <h3>积分规则设置</h3>
+                <div class="table-con-box clearfix">
+                    <!--入库-->
+                    <div class="mdl clearfix">
+                        <h4>入库</h4>
+                        <div class="tab">
+                            <h3>行走距离</h3>
+                            <button ng-click="Add('入库1')">添加</button>
+                            <button ng-click="Save('入库1')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in rukuData1">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','入库1')"
+                                            ng-focus="setFours(item,'1','入库1')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','入库1')"
+                                            ng-focus="setFours(item,'2','入库1')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','入库1')"
+                                            ng-focus="setFours(item,'3','入库1')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'入库1')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab">
+                            <h3>商品数量</h3>
+                            <button ng-click="Add('入库2')">添加</button>
+                            <button ng-click="Save('入库2')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in rukuData2">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','入库2')"
+                                            ng-focus="setFours(item,'1','入库2')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','入库2')"
+                                            ng-focus="setFours(item,'2','入库2')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','入库2')"
+                                            ng-focus="setFours(item,'3','入库2')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'入库2')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--抓货-->
+                    <div class="mdl clearfix">
+                        <h4>抓货</h4>
+                        <!--单品-->
+                        <div class="tab">
+                            <h3>商品数量(单品)</h3>
+                            <button ng-click="Add('抓货1')">添加</button>
+                            <button ng-click="Save('抓货1')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData1">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货1')"
+                                            ng-focus="setFours(item,'1','抓货1')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货1')"
+                                            ng-focus="setFours(item,'2','抓货1')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货1')"
+                                            ng-focus="setFours(item,'3','抓货1')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货1')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab">
+                            <h3>订单数量(单品)</h3>
+                            <button ng-click="Add('抓货2')">添加</button>
+                            <button ng-click="Save('抓货2')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData2">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货2')"
+                                            ng-focus="setFours(item,'1','抓货2')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货2')"
+                                            ng-focus="setFours(item,'2','抓货2')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货2')"
+                                            ng-focus="setFours(item,'3','抓货2')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货2')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab">
+                            <h3>位置个数(单品)</h3>
+                            <button ng-click="Add('抓货3')">添加</button>
+                            <button ng-click="Save('抓货3')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData3">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货3')"
+                                            ng-focus="setFours(item,'1','抓货3')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货3')"
+                                            ng-focus="setFours(item,'2','抓货3')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货3')"
+                                            ng-focus="setFours(item,'3','抓货3')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货3')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<div class="tab">-->
+                        <!--<h3>用时(单品)</h3>-->
+                        <!--<button ng-click="Add('抓货4')">添加</button>-->
+                        <!--<button ng-click="Save('抓货4')">保存</button>-->
+                        <!--<p class="hearder">-->
+                        <!--<span>起始值</span>-->
+                        <!--<span>结束值</span>-->
+                        <!--<span>积分</span>-->
+                        <!--<span>操作</span>-->
+                        <!--</p>-->
+                        <!--<ul>-->
+                        <!--<li ng-repeat="item in zhuahuoData4">-->
+                        <!--<span>-->
+                        <!--<input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货4')" ng-focus="setFours(item,'1','抓货4')" type="text" ng-model="item.beginNumber">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                        <!--<input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货4')" ng-focus="setFours(item,'2','抓货4')" type="text" ng-model="item.endNumber">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                        <!--<input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货4')" ng-focus="setFours(item,'3','抓货4')" type="text" ng-model="item.score">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                        <!--<a ng-click="Remove(item,$index,'抓货4')">删除</a>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <div class="tab">
+                            <h3>行走距离(单品)</h3>
+                            <button ng-click="Add('抓货5')">添加</button>
+                            <button ng-click="Save('抓货5')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData5">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货5')"
+                                            ng-focus="setFours(item,'1','抓货5')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货5')"
+                                            ng-focus="setFours(item,'2','抓货5')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货5')"
+                                            ng-focus="setFours(item,'3','抓货5')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货5')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--多品-->
+                        <div class="tab">
+                            <h3>商品数量(多品)</h3>
+                            <button ng-click="Add('抓货6')">添加</button>
+                            <button ng-click="Save('抓货6')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData6">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货6')"
+                                            ng-focus="setFours(item,'1','抓货6')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货6')"
+                                            ng-focus="setFours(item,'2','抓货6')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货6')"
+                                            ng-focus="setFours(item,'3','抓货6')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货6')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab">
+                            <h3>订单数量(多品)</h3>
+                            <button ng-click="Add('抓货7')">添加</button>
+                            <button ng-click="Save('抓货7')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData7">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货7')"
+                                            ng-focus="setFours(item,'1','抓货7')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货7')"
+                                            ng-focus="setFours(item,'2','抓货7')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货7')"
+                                            ng-focus="setFours(item,'3','抓货7')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货7')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab">
+                            <h3>位置个数(多品)</h3>
+                            <button ng-click="Add('抓货8')">添加</button>
+                            <button ng-click="Save('抓货8')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData8">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货8')"
+                                            ng-focus="setFours(item,'1','抓货8')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货8')"
+                                            ng-focus="setFours(item,'2','抓货8')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货8')"
+                                            ng-focus="setFours(item,'3','抓货8')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货8')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<div class="tab">-->
+                        <!--<h3>用时(多品)</h3>-->
+                        <!--<button ng-click="Add('抓货9')">添加</button>-->
+                        <!--<button ng-click="Save('抓货9')">保存</button>-->
+                        <!--<p class="hearder">-->
+                        <!--<span>起始值</span>-->
+                        <!--<span>结束值</span>-->
+                        <!--<span>积分</span>-->
+                        <!--<span>操作</span>-->
+                        <!--</p>-->
+                        <!--<ul>-->
+                        <!--<li ng-repeat="item in zhuahuoData9">-->
+                        <!--<span>-->
+                        <!--<input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货9')" ng-focus="setFours(item,'1','抓货9')" type="text" ng-model="item.beginNumber">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                        <!--<input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货9')" ng-focus="setFours(item,'2','抓货9')" type="text" ng-model="item.endNumber">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                        <!--<input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货9')" ng-focus="setFours(item,'3','抓货9')" type="text" ng-model="item.score">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                        <!--<a ng-click="Remove(item,$index,'抓货9')">删除</a>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <div class="tab">
+                            <h3>行走距离(多品)</h3>
+                            <button ng-click="Add('抓货10')">添加</button>
+                            <button ng-click="Save('抓货10')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in zhuahuoData10">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','抓货10')"
+                                            ng-focus="setFours(item,'1','抓货10')" type="text"
+                                            ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','抓货10')"
+                                            ng-focus="setFours(item,'2','抓货10')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','抓货10')"
+                                            ng-focus="setFours(item,'3','抓货10')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'抓货10')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--验单-->
+                    <div class="mdl clearfix">
+                        <h4>验单</h4>
+                        <div class="tab">
+                            <h3>商品数量</h3>
+                            <button ng-click="Add('验单1')">添加</button>
+                            <button ng-click="Save('验单1')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in YandanData1">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','验单1')"
+                                            ng-focus="setFours(item,'1','验单1')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','验单1')"
+                                            ng-focus="setFours(item,'2','验单1')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','验单1')"
+                                            ng-focus="setFours(item,'3','验单1')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'验单1')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab">
+                            <h3>商品类别数量</h3>
+                            <button ng-click="Add('验单2')">添加</button>
+                            <button ng-click="Save('验单2')">保存</button>
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in YandanData2">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','验单2')"
+                                            ng-focus="setFours(item,'1','验单2')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','验单2')"
+                                            ng-focus="setFours(item,'2','验单2')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','验单2')"
+                                            ng-focus="setFours(item,'3','验单2')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'验单2')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab">
+                            <h3>订单数量</h3>
+                            <!-- <label style="margin-left:15px;">单个订单积分:</label> -->
+                            <!-- <input style="width:60px;"  ng-model="singleScore" type="text">
+                            <button style="margin-left:10px;" ng-click="SaveSingle()">保存单个订单积分</button> -->
+                            <button style="margin-left:0;"  ng-click="Add('验单3')">添加</button>
+                            <button  ng-click="Save('验单3')">保存</button>
+
+                            <p class="hearder">
+                                <span>起始值</span>
+                                <span>结束值</span>
+                                <span>积分</span>
+                                <span>操作</span>
+                            </p>
+                            <ul>
+                                <li ng-repeat="item in YandanData3">
+                                    <span>
+                                        <input ng-class="{act:item.isact1}" ng-blur="setBlur(item,'1','验单3')"
+                                            ng-focus="setFours(item,'1','验单3')" type="text" ng-model="item.beginNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact2}" ng-blur="setBlur(item,'2','验单3')"
+                                            ng-focus="setFours(item,'2','验单3')" type="text" ng-model="item.endNumber">
+                                    </span>
+                                    <span>
+                                        <input ng-class="{act:item.isact3}" ng-blur="setBlur(item,'3','验单3')"
+                                            ng-focus="setFours(item,'3','验单3')" type="text" ng-model="item.score">
+                                    </span>
+                                    <span>
+                                        <a ng-click="Remove(item,$index,'验单3')">删除</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab" style="padding-top: 20px;">
+                            <div class="tab-con">
+                                <span>验单单个商品积分：</span>
+                                <input ng-model="singleScore2" type="text">
+                                <button style="margin-left: 0" ng-click="SaveSingle(1)">保存</button>
+                            </div>
+                            <div class="tab-con">
+                                <span>验单单个商品类别积分：</span>
+                                <input ng-model="singleScore3" type="text">
+                                <button style="margin-left: 0" ng-click="SaveSingle(2)">保存</button>
+                            </div>
+                            <div class="tab-con">
+                                <span>验单单个订单积分：</span>
+                                <input ng-model="singleScore" type="text">
+                                <button style="margin-left: 0" ng-click="SaveSingle(3)">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除-->
+    <div class="asj-common-tanwrap ng-scope" ng-show="isDel">
+        <div class="asj-common-tan tan-delete-ware">
+            <h3>是否删除？</h3>
+            <div class="tan-btns">
+                <a class="tan-btn1" ng-click="RemoveYbtn()">确认</a>
+                <a class="tan-btn0" ng-click="isDel = false">取消</a>
+            </div>
+        </div>
+    </div>
+    <!--
+<div class="asj-common-tanwrap ng-scope" ng-show="isShow">
+    <div class="asj-common-tan tan-delete-ware">
+        <h3>{{TypeTxt}}</h3>
+        <ul>
+            <li>
+                <span>起始值:</span>
+                <input type="text">
+            </li>
+            <li>
+                <span>起始值:</span>
+                <input type="text">
+            </li>
+            <li>
+                <span>积分:</span>
+                <input type="text">
+            </li>
+        </ul>
+        <div class="tan-btns">
+            <a class="tan-btn1" ng-click="Ybtn()">确认</a>
+            <a class="tan-btn0" ng-click="isShow = false">取消</a>
+        </div>
+    </div>
+</div>-->
+</body>
+
+</html>

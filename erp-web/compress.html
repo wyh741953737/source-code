@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="static/favicons.png" />
+  <title>压缩打包</title>
+  <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+  <link rel="stylesheet" href="static\css\init.css">
+  <link rel="stylesheet" href="static\css\y.css">
+  <style>
+    .main {padding: 20px 20px 120px; min-height: 100vh;}
+    .header {padding: 0 20px; height: 60px;}
+    .option>li {margin-right: 30px; font-size: 16; }
+    
+    .option>li input {border: 1px solid #ddd; line-height: 25px; text-indent: 5px;}
+    .no-data {height: 500px;}
+
+    .edit-area {padding: 0 10px;}
+    .edit-area>input { max-width: 60px; width: 100%; border-bottom: 1px solid rgb(10, 181, 248); text-align: center;}
+
+    .message {width: 300px; margin-left: 20px;}
+    .message li { border: 1px solid #eee; padding: 10px 5px; }
+
+    /* 独立打印区域设置 合格 次品 多出 */
+    .table .print-area>input{padding-top: 17px; }
+    .table .print-area>button{padding: 0; min-height: 17px; color: red; width: 100%; }
+    #main .table-item { min-height: 80px; }
+    .table-head {min-height: 60px;}
+    .table-head>li {text-align: center; line-height: 1.2em;}
+    .table-body>li:nth-last-of-type(1) .hover-img {top: auto; bottom: 0px;}
+    .table-body>li:nth-last-of-type(2) .hover-img {top: auto; bottom: 0px;}
+    .table-body>li:nth-last-of-type(3) .hover-img {top: auto; bottom: 0px;}
+    .table-body>li:nth-of-type(1) .hover-img {top: 0; bottom: auto;}
+    .table-body>li:nth-of-type(2) .hover-img {top: 0; bottom: auto;}
+    .table-body>li:nth-of-type(3) .hover-img {top: 0; bottom: auto;}
+    input[type=number] { -moz-appearance:textfield; }  
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    
+    .cancel-btn { line-height: 28px; padding: 0 15px; border-radius: 4px; background-color: #fff; border: 1px solid #ddd; font-size: 14px;}
+    .confirm-btn { line-height: 28px; padding: 0 15px; border-radius: 4px; color: #fff; background-color: #4a90e2; font-size: 14px; }
+    
+    .record-box { width: 700px; height: 250px; background: #fff; padding: 20px;}
+  </style>
+</head>
+
+<body ng-app="receiving" ng-cloak>
+  <main ng-controller="receivingCtrl" class="main" id="main">
+    <div class="title-area mb-30" style="padding-bottom: 20px;">
+      <h3 class="tx-c" style="font-size: 20px;">压缩打包</h3>
+    </div>
+    <div class="container">
+      <header class="header flex fyc bd-1e mb-20">
+        <ul class="option flex fyc fxc fg-1 fs-14">
+          <li class="flex fyc">
+            <div class="mr-20">
+              <span class="fs-16 mr-5">扫描条形码: </span>
+              <input type="text" placeholder="请扫描条形码" ng-model="barcode" ng-keyup="handleSearch($event)">
+            </div>
+          </li>
+        </ul>
+      </header>
+      <main class="flex">
+        <section class="table fg-1">
+          <ul class="table-head flex fyc fs-14 bd-1e c-th">
+            <li style="width: 24%;" class="flex fyc fxl">SKU</li>
+            <li style="width: 10%;">图片</li>
+            <li style="width: 20%;">采购订单号</li>
+            <li style="width: 10%;">批次号</li>
+            <li style="width: 20%;">供货公司</li>
+            <li style="width: 10%;">采入仓库</li>
+            <li style="width: 10%;">商品单价</li>
+            <li style="width: 10%;">数量</li>
+            <li style="width: 10%;">签收人</li>
+            <li style="width: 10%;">分标人</li>
+            <li style="width: 10%;">压缩人</li>
+            <li style="width: 10%;">操作</li>
+          </ul>
+          <ul class="table-body fs-14">
+            <li ng-repeat="item in list">
+              <div class="table-item flex fyc bd-1e">
+                <dl style="width: 24%;" class="fyc fdc lh-20">
+                  <p class="mb-5">SKU: {{item.cjSku}}</p>
+                  <p>短码: {{item.cjShortSku}} <span class="copy-btn cp br-4" style="padding: 0px 6px;" ng-click="handleCopy(item.cjShortSku)">复制</span></p>
+                </dl>
+                <dl style="width: 10%;" ng-mouseenter="imgHover=true" ng-mouseleave="imgHover=false">
+                  <div class="prel">
+                    <img ng-src="{{item.cjImg}}" alt="" height="60" style="max-width: 100%">
+                    <img class="hover-img" ng-src="{{item.cjImg}}" alt="" height="300" ng-show="imgHover">
+                  </div>
+                </dl>
+                <dl style="width: 20%;">{{item.orderId}}</dl>
+                <dl style="width: 10%;">{{item.batchNum}}</dl>
+                <dl style="width: 20%;">{{item.gongHuoGongSi || '--'}}</dl>
+                <dl style="width: 10%;">{{item.storage}}</dl>
+                <dl style="width: 10%;">{{item.danJia || 0}}</dl>
+                <dl style="width: 10%;">{{item.shuLiang || 0}}</dl>
+                <dl style="width: 10%;">{{item.signee}}</dl>
+                <dl style="width: 10%;">{{item.skuQueRenRen}}</dl>
+                <dl style="width: 10%;">{{item.packagingUser || '--'}}</dl>
+                <dl style="width: 10%;">
+                  <button class="confirm-btn" ng-click="handleConfirm(item)" ng-if="!item.packagingUser">确认</button>
+                  <button class="confirm-btn" ng-click="showRecordBox(item)" ng-if="item.packagingUser">记录</button>
+                </dl>
+              </div>
+            </li>
+          </ul>
+          <div class="no-data flex fyc fxc fs-16" ng-show="list.length === 0">暂无数据</div>
+        </section>
+      </main>
+    </div>
+    <section class="wrap" ng-show="recordBox.show">
+      <div class="record-box br-4">
+        <section class="table mb-30">
+          <ul class="table-head flex fyc fs-14 bd-1e c-th">
+            <li style="width: 40%;">处理时间</li>
+            <li style="width: 30%;">处理人</li>
+            <li style="width: 30%;">操作行为</li>
+          </ul>
+          <ul class="table-body fs-14">
+            <li>
+              <div class="table-item flex fyc bd-1e">
+                <dl style="width: 40%;">{{recordBox.time}}</dl>
+                <dl style="width: 30%;">{{recordBox.who}}</dl>
+                <dl style="width: 30%;">{{recordBox.do}}</dl>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section class="flex fyc fxc">
+          <button ng-click="hideRecordBox()" class="cancel-btn cp">关闭</button>
+        </section>
+      </div>
+     
+    </section>
+    
+  </main>
+  <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+  <script src="./static/js/public/base64.min.js"></script>
+  <script src="./static/js/public/common.js"></script>
+  <script src='./static/layer/layer.js'></script>
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+  <script>
+    var app = angular.module('receiving', ['service']);
+    app.controller('receivingCtrl', ['$scope', 'erp', '$q', function($scope, erp, $q) {
+      const api = {
+        listUrl: 'caigou/procurement/packaging',//{post num: '1000017'}
+        comfirmUrl: 'caigou/procurement/packagingConfirm', //{post batchNum: '1000017'}
+      }
+
+      init()
+
+      function init() {
+        initModule()
+        initRecordModule()//初始化 记录弹窗模块
+        initClipboard()//初始化 剪切板功能
+      }
+
+      function initModule() {
+        $scope.barcode = '';//条形码
+        $scope.list = [];
+        $scope.handleSearch = handleSearch;
+        $scope.handleConfirm = handleConfirm;
+      }
+
+
+      /* 搜索 start */
+      function handleSearch(ev) {//搜索 列表  扫描运单号获取 列表
+        if (ev.keyCode !== 13) return;
+        ev.target.blur()//主动失去焦点
+        getList()
+      }
+      /* 搜索 end */
+
+      function getList() {//签收 获取 列表接口
+        const barcode = $scope.barcode;
+        if (!barcode) return layer.msg('请输入/扫描条形码');
+        const url = `${api.listUrl}?num=${barcode}`;
+        erp.mypost(url).then(res => {
+          res = JsonPares(res)
+          const { result } = res;
+          console.log("TCL: getList -> result", result)
+          $scope.list = result;
+        })
+      }
+
+
+
+      /* 确认 start */
+      function handleConfirm({batchNum}) {
+        if (!batchNum) return layer.msg('batchNum 批次号不存在')
+        const url = `${api.comfirmUrl}?batchNum=${batchNum}`;
+        erp.mypost(url).then(res => {
+          layer.msg('操作成功')
+          getList()
+        })
+      }
+      /* 确认 start */
+
+
+      /* 查看记录模块 start */
+      function initRecordModule() {
+        const initRecord = { show: false, who: '', time: '', do: '' }
+        $scope.recordBox = Object.assign({}, initRecord)
+        $scope.showRecordBox = showRecordBox;
+        $scope.hideRecordBox = hideRecordBox;
+        function showRecordBox({packagingUser: who, packagingTime}) {
+          const time = erp.handleTimestampToString(packagingTime.time);
+          $scope.recordBox = { show: true, who, time, do: '压缩打包' }
+        }
+        function hideRecordBox() {
+          $scope.recordBox = Object.assign({}, initRecord)
+        }
+      }
+      
+      /* 查看记录模块 end */
+
+      function initClipboard() {//初始化 剪切板功能
+        window.onload = function() {
+          const clipboard = new window.cjUtils.Clipboard();
+          $scope.handleCopy = handleCopy;
+          function handleCopy(content) {
+            clipboard.set(content).then(() => {
+              layer.msg('复制成功')
+            }).catch(err => {console.log('handleCopy failed err -->> ', err)})
+          }
+        }
+      }
+
+      function JsonPares(val) {//基于 全局 JSON parse重写 基础上 
+        const newVal = JSON.parse(val);
+        if (val === null) return val;
+        if (typeof newVal !== 'object') return val;
+        if (newVal.error) return val;
+        return newVal;
+      }
+
+    }])
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>后台公用框架</title>
+</head>
+<meta charset="utf-8">
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="static/bootstrap-table-master/src/bootstrap-table.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/export/bootstrap-table-export.js"></script>
+<script src="static/bootstrap-table-master/src/extensions/angular/bootstrap-table-angular.js"></script>
+<link href="static/bootstrap-table-master/src/bootstrap-table.css" rel="stylesheet" />
+<link href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="static/bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+<script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="static/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="static/bootstrap-validator/dist/js/bootstrapValidator.min.js"></script>
+<link href="static/bootstrap-validator/dist/css/bootstrapValidator.min.css" rel="stylesheet">
+<script src="static/layer/layer.js"></script>
+<script src="static/angular-1.5.8/angular-cookies.min.js"></script> 
+<link rel="stylesheet" href="static/css/index.css">
+<body>
+<div class="pageBox container" ng-app="myApp" ng-controller="tableCtrl">
+<!-- 修改弹框 -->
+<div class="modal fade" id="Modal-exdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    修改列表
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="editDep" class="form-horizontal" role="form" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">分组名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="username" data-bv-stringlength data-bv-stringlength-max="10" data-bv-stringlength-message="分组名不可超过10个汉字"  maxlength="10" placeholder="请输入" ng-model="name" pattern="^[\u4E00-\u9FA5]+$" data-bv-regexp-message="分组名称只能是中文" data-bv-notempty-message="请输入分组名称" data-bv-trigger="blur" required>
+                        </div>                        
+                    </div>
+                </form>
+                <div class="form-group" style="width: 130px;margin: 0 auto;">                            
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="all" ng-checked="allRadio" ng-click="clickRadio('allRadio')"> 全选
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="userManage" ng-checked="userRadio" ng-click="clickRadio('userRadio')">用户管理
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="owerManage" ng-checked="owerRadio" ng-click="clickRadio('owerRadio')">权限管理
+                        </label>
+                    </div>
+                    <ul>  
+                         <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="owerManage-type" ng-checked="owerRadioType" ng-click="clickRadio('owerRadioType')">分组管理
+                            </label>
+                        </li>
+                        <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="owerManage-console" ng-checked="owerRadioConsole" ng-click="clickRadio('owerRadioConsole')">操作日志
+                            </label>
+                        </li>
+                    </ul> 
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="fileManage" ng-checked="fileRadio" ng-click="clickRadio('fileRadio')">文件管理
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="userCount" ng-checked="userRadioCount" ng-click="clickRadio('userRadioCount')">人员统计
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="moneyManage" ng-checked="moneyRadio" ng-click="clickRadio('moneyRadio')">资产管理
+                        </label>
+                    </div>
+                    <ul>  
+                         <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="moneyRadio-type" ng-checked="moneyRadioType" ng-click="clickRadio('moneyRadioType')">分组管理
+                            </label>
+                        </li>
+                        <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="moneyRadio-device" ng-checked="moneyRadioDevice" ng-click="clickRadio('moneyRadioDevice')">设备管理
+                            </label>
+                        </li>
+                    </ul> 
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="deviceCount" ng-checked="deviceRadio" ng-click="clickRadio('deviceRadio')">设备统计
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default" ng-click="resetClear()">重置</button>
+                <button type="submit" class="btn btn-primary" ng-click="addBtnEditarClick()">确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 新增弹框 -->
+<div class="modal fade" id="Modal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增分组
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="addDep" class="form-horizontal" role="form" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh" data-bv-excluded="disabled">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">分组名称</label>
+                        <div class="col-sm-10 form-group">
+                            <input type="text" data-bv-stringlength data-bv-stringlength-max="10" maxlength="10" data-bv-stringlength-message="分组名不可超过10个汉字" class="form-control" name="name" placeholder="请输入" ng-model="name"  pattern="^[\u4E00-\u9FA5]+$" data-bv-regexp-message="分组名称只能是中文" data-bv-notempty-message="请输入分组名称" data-bv-trigger="blur" required>
+                        </div> 
+                        <div class="help-block with-errors col-sm-5"></div>                           
+                    </div>
+                </form>
+                <div class="form-group" style="width: 130px;margin: 0 auto;">                            
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="all" ng-checked="allRadio" ng-click="clickRadio('allRadio')"> 全选
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="userManage" ng-checked="userRadio" ng-click="clickRadio('userRadio')">用户管理
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="owerManage" ng-checked="owerRadio" ng-click="clickRadio('owerRadio')">权限管理
+                        </label>
+                    </div>
+                    <ul>  
+                         <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="owerManage-type" ng-checked="owerRadioType" ng-click="clickRadio('owerRadioType')">分组管理
+                            </label>
+                        </li>
+                        <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="owerManage-console" ng-checked="owerRadioConsole" ng-click="clickRadio('owerRadioConsole')">操作日志
+                            </label>
+                        </li>
+                    </ul> 
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="fileManage" ng-checked="fileRadio" ng-click="clickRadio('fileRadio')">文件管理
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="userCount" ng-checked="userRadioCount" ng-click="clickRadio('userRadioCount')">人员统计
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="moneyManage" ng-checked="moneyRadio" ng-click="clickRadio('moneyRadio')">资产管理
+                        </label>
+                    </div>
+                    <ul>  
+                         <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="moneyRadio-type" ng-checked="moneyRadioType" ng-click="clickRadio('moneyRadioType')">分组管理
+                            </label>
+                        </li>
+                        <li class="checkbox">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="moneyRadio-device" ng-checked="moneyRadioDevice" ng-click="clickRadio('moneyRadioDevice')">设备管理
+                            </label>
+                        </li>
+                    </ul> 
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="deviceCount" ng-checked="deviceRadio" ng-click="clickRadio('deviceRadio')">设备统计
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="resetClear()">重置
+                </button>
+                <button type="submit" class="btn btn-primary" ng-click="add()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 操作成功 -->
+<div class="alert alert-success ng-hide" role="alert" ng-hide="isFalse" style="margin-top: 15px;">操作成功</div>
+<!-- 警告弹框 -->
+<div class="alert alert-danger ng-hide" role="alert" ng-hide="isHttp" style="margin-top: 15px;">操作失败</div>
+<!-- 未选择 -->
+<div class="alert alert-danger ng-hide" role="alert" ng-hide="isDel" style="margin-top: 15px;">请选择数据</div>
+<div id="toolbar" class="btn-group">
+    <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#Modal-add" ng-click="moveClear()">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>新增
+    </button>
+</div>
+<table id="table" init-table="options"></table>
+<script src="static/js/page/dep.js"></script>
+<script>
+    $(document).ready(function() {          
+        $('#addDep').bootstrapValidator();
+        $('#editDep').bootstrapValidator();
+    });
+</script>
+</body>
+</html>

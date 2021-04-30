@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>抽查记录</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+</head>
+<style>
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .ea-right-search .fl{
+        float: left;
+    }
+    .ea-right-search .fr{
+        float: right;
+    }
+    .related{
+        background-color: green;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 10px;
+    }
+    .Unrelated{
+        background-color: orange;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 8px;
+    }
+    .ea-list-table td input{
+        width: inherit;
+        height: inherit;
+        border: none;
+        border-radius: 3px;
+    }
+    .layui-layer-btn .layui-layer-btn0{
+        width: 70px;
+        background-color: #999;
+        border: none;
+    }
+    .layui-layer-btn .layui-layer-btn1{
+        width: 70px;
+        background-color: #08aceb;
+        border: none;
+    }
+    .selectActive {
+        background: #e8f4ff;
+    }
+    .overTR:hover{
+        background: #e8f4ff;
+    }
+    .serState{
+        /*margin-left: 15px;*/
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 3px;
+        width: 270px;
+    }
+    .search-box{
+        width: 100%;
+    }
+    .search-box .top-search-btn,.input-group .form-control{
+        float: inherit;
+    }
+    .search-box label{
+        margin:  0 10px 10px 0;
+        width: 345px;
+    }
+    .search-box label span{
+        width: 140px;
+        display: inline-block;
+        text-align: right;
+    }
+    .search-box .top-search-btn{
+        margin-left: 75px;
+    }
+    .search-box .top-search-btn{
+        width: 90px;
+    }
+    #c-mu-ord .c-mu-allchekbox,.c-mu-chekbox{
+        cursor: pointer;
+    }
+    body .guanlianshangpin{
+        width: 670px;
+        height: 350px;
+        padding: 75px 20px;
+    }
+    body .guanlianshangpin input,select{
+        width: 500px;
+        line-height: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 3px;
+    }
+    body .guanlianshangpin label{
+        display: block;
+        margin: 15px 0;
+        /*text-align: center;*/
+    }
+    body .guanlianshangpin label button{
+        width: 70px;
+        height: 30px;
+        background: rgba(249,193,52,1);
+        border-radius: 2px;
+        margin-left: 20px;
+        color: #fff;
+    }
+    body .guanlianshangpin label span{
+        display: inline-block;
+        width: 112px;
+        text-align: right;
+    }
+    .search-box label{
+        width: auto;
+    }
+    .red{
+        color: red;
+    }
+    .greens{
+        color: green;
+    }
+    .set label{
+        margin-right: 15px;
+    }
+    .set label input,select{
+        width: 220px;
+        line-height: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 3px;
+    }
+    table button{
+        background-color: #ff9328;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 14px;
+        padding: 2px 5px;
+    }
+    table img{
+        width: 15px;
+        display: inline-block;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="ea-content">
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+            <li><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+            <li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+            <li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+            <li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+            <li class="active"><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+            <li><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <!--<div class="top-taps clearfix">-->
+            <!--<ul>-->
+                <!--<li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>-->
+                <!--<li class="active"><a href="#/erplogistics/SpotCheck">{{'100818' | translate}}</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <div class="right-bar">
+            <!-- right search -->
+            <div class="ea-right-search clearfix">
+                <div class="input-group search-box clearfix">
+                    <label class="clearfix">
+                        <span>{{'100825' | translate}}：</span>
+                        <input type="text" class="form-control top-search-inp" placeholder="" ng-model="sersampleUserName">
+                    </label>
+                    <label class="clearfix">
+                        <span>{{'100109' | translate}}：</span>
+                        <input style="width: 450px;" type="text" class="form-control top-search-inp" placeholder="" ng-model="sersampleCode">
+                    </label>
+       <!--             <label class="clearfix">
+                        <span>转单号：</span>
+                        <input type="text" class="form-control top-search-inp" placeholder="" ng-model="changeSearch">
+                    </label>
+                    <label class="clearfix">
+                        <span>物流公司：</span>
+                        <select class="serState" ng-model="selectedName" ng-change="serChange()" ng-options="item.companyName for item in names">
+                            <option value="">请选择</option>
+                        </select>
+                    </label>
+                    <label class="clearfix">
+                        <span>类型：</span>
+                        <select class="serState" ng-model="type" ng-change="serChange()">
+                            <option value="">请选择</option>
+                            <option value="PACKET">小包</option>
+                            <option value="EXPRESS">快递</option>
+                        </select>
+                    </label>-->
+                    <label>
+                        <a role="button"  class="btn btn-default top-search-btn" type="button" ng-click="searchstaff()">{{'100025' | translate}}</a>
+                    </label>
+                </div>
+                <a class="dc-btn fl" ng-click="addClick()">{{'100826' | translate}}</a>
+                <div class="fr set">
+             <!--       <label>
+                        <span>误差值(g):</span>
+                        <input type="text" ng-model="samplePassValue">
+                    </label>
+                    <label>
+                        <span>计算标记:</span>
+                        <select ng-model="samplePassSign">
+                            <option value="EQ">等于</option>
+                            <option value="GT">大于</option>
+                            <option value="LT">小于</option>
+                            <option value="GTE">大于等于</option>
+                            <option value="LE">小于等于</option>
+                            <option value="LESS">正负小于</option>
+                        </select>
+                    </label>-->
+                    <a class="dc-btn" ng-click="sportClick()">{{'100827' | translate}}</a>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="c-mu-ord">
+                    <thead>
+                        <tr>
+                        <th><span>{{'100109' | translate}}</span></th>
+
+                        <th><span>{{'100828' | translate}}</span></th>
+                        <th><span>{{'100829' | translate}}</span></th>
+                        <th><span>{{'100830' | translate}}</span></th>
+                        <th><span>{{'100831' | translate}}</span></th>
+
+                        <th><span>{{'100824' | translate}}</span></th>
+                        <th><span>{{'100200' | translate}}</span></th>
+
+                        <th><span>{{'100832' | translate}}</span></th>
+                        <th><span>{{'100833' | translate}}</span></th>
+                        <th><span>{{'100834' | translate}}</span></th>
+                        <th><span>{{'100835' | translate}}</span></th>
+                        <th><span>{{'100836' | translate}}</span></th>
+
+                        <th><span>{{'100340' | translate}}</span></th>
+                        <th><span>{{'100043' | translate}}</span></th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="item in stafflist">
+                        <tr ng-click="TrClick($index)" ng-class='{selectActive: $index == focus,"overTR":isoverTR}'>
+                        <!-- <td>
+                             <img data-id="{{item.id}}" class="c-mu-chekbox" src="static/image/order-img/multiple1.png">
+                         </td>-->
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span>{{item.createDate}}</span></td>
+                        <td><span>--</span></td>
+                        <td><span>{{item.countSum}}</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td><span>--</span></td>
+                        <td>
+                          <span>
+                            <img ng-if="item.dw" ng-click="downClick(item,$index+1)" src="static/image/public-img/down.png" alt="">
+                            <img ng-if="!item.dw" ng-click="downClick(item,$index+1)" src="static/image/public-img/up.png" alt="">
+                          </span>
+                            <!--<button ng-click="remove(item)">删除</button>-->
+                        </td>
+                    </tr>
+                        <tr style="background: #f6f6f6;" ng-repeat="(index1,item1) in item.dataList" ng-show="item.dw">
+                        <td><span>{{item1.sampleCode}}</span></td>
+                        <td><span>{{item1.freightWeight}}</span></td>
+                        <td><span>{{item1.sampleAttrValue}}</span></td>
+                        <td><span>{{item1.samplePassValue}}</span></td>
+                        <td><span>{{item1.sampleValue}}/{{item1.sampleValueOpposite}}</span></td>
+                        <td><span>{{item1.freightName}}</span></td>
+                        <td><span>{{item1.createDate}}</span></td>
+                        <td><span>{{item1.sampleDate}}</span></td>
+                        <td><span>--</span></td>
+                        <td><span>{{item1.sampleUserName}}</span></td>
+                        <td><span ng-class="{red:item1.samplePassFlag == 'NOTPASS',greens:item1.samplePassFlag == 'PASS'}">{{ispass(item1.samplePassFlag)}}</span></td>
+                        <td><span>{{item1.sampleStatus}}</span></td>
+                        <td><span>{{item1.remark}}</span></td>
+                        <td>
+                            <button ng-click="remove(item1)">{{'100227' | translate}}</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <!-- ng-show="hasMerch" -->
+                <div class="no-data" ng-show="totalNum == 0" style="text-align: center;line-height: 60px;">没有数据</div>
+                <div class="page-box" ng-show="totalNum > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="500">500</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="guanlianshangpin-wrap ng-scope" ng-show="isadd">
+        <div class="guanlianshangpin c-ord-con" style="margin: auto;right: 0;top: 0;left: 0;bottom: 0;">
+            <label>
+                <span>{{'100109' | translate}}:</span>
+                <input type="text" ng-model="sampleCode">
+            </label>
+            <label>
+                <span>{{'100380' | translate}}:</span>
+                <input type="text" ng-model="sampleAttrValue">
+            </label>
+           <!-- <label>
+                &lt;!&ndash;<span>当前允许误差:</span>&ndash;&gt;
+                <span style="text-align: left;width: auto;">{{isfun(samplePassSign)+samplePassValue+'g'}}</span>
+                &lt;!&ndash;<input type="text" ng-model="samplePassValue">&ndash;&gt;
+            </label>-->
+      <!--      <label>
+                <span>计算标记:</span>
+                <select ng-model="samplePassSign">
+                    <option value="">请选择</option>
+                    <option value="EQ">等于</option>
+                    <option value="GT">大于</option>
+                    <option value="LT">小于</option>
+                    <option value="GTE">大于等于</option>
+                    <option value="LE">小于等于</option>
+                </select>
+            </label>-->
+            <label>
+                <span>{{'100340' | translate}}:</span>
+                <input type="text" ng-model="remark">
+            </label>
+            <label>
+                <button class="define" style="margin-left: 115px;" ng-click="define()">{{'100050' | translate}}</button>
+                <button class="clos" ng-click="close()">{{'100051' | translate}}</button>
+            </label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

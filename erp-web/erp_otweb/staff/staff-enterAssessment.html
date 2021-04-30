@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .linkZZC{
+            /*padding-left: 210px;*/
+            padding: 20px 20px 20px 230px;
+            background: #F2F7FA;
+        }
+        .linlWrap{
+            /*border: 1px solid #000;*/
+            width: 1190px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .link-top{
+            height: 350px;
+        }
+        .link-bottom{
+            height: 600px;
+            margin-top: 20px;
+        }
+        .link-content{
+            /*border: 1px solid #000;*/
+            box-sizing: border-box;
+            background: #fff;
+        }
+        .top-left{
+            width: 350px;
+            padding: 50px;
+            color: rgba(102,102,102,1);
+            font-size: 14px;
+        }
+        .bijiao{
+            display: flex;
+            padding: 16px 0;
+            border-bottom: 1px solid #999999;
+            margin-bottom: 38px;
+        }
+        .bijaoimg{
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+        }
+        .bijaoimg.up{
+            background: url("static/image/staff/Up.png") no-repeat;
+        }
+        .bijaoimg.down{
+            background: url("static/image/staff/Down.png") no-repeat;
+        }
+        .top-right{
+            width: 820px;
+        }
+        .bottom-left{
+            width: 840px;
+            padding: 25px 20px;
+        }
+        .searchGroup{
+            margin-right: 22px;
+            font-size: 14px;
+        }
+        .searchGroup input{
+            height: 32px;
+            border: 1px solid #D9D9D9;
+            border-radius: 5px;
+            width: 130px;
+        }
+        .linkBtn{
+            height: 32px;
+            line-height: 32px;
+            padding: 0 10px;
+            background: #FFB900;
+            color: #fff;
+            border-radius: 5px;
+            margin-left: 34px;
+        }
+        .ea-list-table td,.ea-list-table tr{
+            border-color: #F3F3F3;
+        }
+        .ea-list-table td{
+            padding: 12px 0;
+        }
+        .table-top{
+            display: flex;
+        }
+        .bottom-right{
+            width: 330px;
+            padding: 35px 40px;
+        }
+        .paimingUL>li{
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .paimingUL>li>span{
+            line-height: 30px;
+            color: #333;
+        }
+        .paimingUL>li>span.xuhao{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50px;
+            background: #EEEEEE;
+            color: #999;
+            text-align: center;
+            margin-right: 20px;
+        }
+        .paimingUL>li:nth-child(1)>span.xuhao{
+            color: #fff;
+            background:#FF7700 ;
+        }
+        .paimingUL>li:nth-child(2)>span.xuhao{
+            color: #fff;
+            background:#FFA200 ;
+        }
+        .paimingUL>li:nth-child(3)>span.xuhao{
+            color: #fff;
+            background:#FFB900 ;
+        }
+        .paimingUL>li>span.name{
+            width: 140px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 20px;
+        }
+
+        @media screen and (min-width: 1570px) {
+            .linlWrap{
+                width: 100%;
+            }
+            .top-left{
+                width: 30%;
+            }
+            .top-right{
+                width: 69%;
+            }
+            .bottom-left{
+                width: 70%;
+            }
+            .bottom-right{
+                width: 29%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="linkZZC">
+    <div class="linlWrap link-top">
+        <div class="link-content top-left">
+            <p>总录入数</p>
+            <p style="font-size: 36px;rgba(51,51,51,1);padding: 12px 0;">{{totalcount}}</p>
+            <div class="bijiao">
+                <p style="margin-right: 15px;">周同比：<span>{{week}}</span> <span id="zhou" class="bijaoimg"></span></p>
+                <p>日同比：<span>{{day}}</span> <span id="ri" class=" bijaoimg"></span></p>
+            </div>
+            <p style="color:rgba(51,51,51,1);">今日录入数 &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 18px;">{{todaycount}}</span></p>
+        </div>
+        <div class="link-content top-right" style="background: #fff" >
+            <div id="main" style="height: 350px"></div>
+        </div>
+    </div>
+    <div class="linlWrap link-bottom">
+        <div class="link-content bottom-left">
+            <div class="table-top">
+                <div class="searchGroup">
+                    <label>姓名:</label>
+                    <input id="searchName" type="text"/>
+                </div>
+                <div class="searchGroup">
+                    <input class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" id="c-data-time" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+                    <input id="cdatatime2" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;position:relative;top: 0px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                    <button class="linkBtn" ng-click="searchFun()">查询</button>
+                </div>
+            </div>
+            <div class="table-content" style="margin-top: 20px">
+                <table class="ea-list-table ea-erp-cs" style="border: none">
+                    <thead>
+                    <tr style="border-left-color:#FCF4D9 ">
+                        <th style="width: 25%;background: #FCF4D9;border-color: #FCF4D9;">时间</th>
+                        <th style="width: 25%;background: #FCF4D9;border-color: #FCF4D9;">姓名</th>
+                        <th style="width: 25%;background: #FCF4D9;border-color: #FCF4D9;">数量</th>
+                        <th style="width: 25%;background: #FCF4D9;border-color: #FCF4D9;">得分</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="p in addressList">
+                        <td>{{time}}</td>
+                        <td>{{p.NAME}}</td>
+                        <td>{{p.count}}</td>
+                        <td>{{p.score}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="page-box">
+                    <div class="total-num" style="margin-right: 30px;margin-left: 5px">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="link-content bottom-right">
+            <p style="font-size: 18px;color: #333;font-weight: bold">排行榜</p>
+            <ul class="paimingUL" style="margin-top: 26px">
+                <li ng-repeat="task in taskList">
+                    <span class="xuhao">{{$index+1}}</span>
+                    <span class="name">{{task.NAME}}</span>
+                    <span class="number">{{task.count1}}</span>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!--echarts -->
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品签收</title>
+    <link rel="shortcut icon" href="static/favicons.png" />
+    <link rel="stylesheet" href="static/css/receive.css">
+</head>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<body ng-app="barcodeApp" ng-controller="barcodeAppCtrl" class="main">
+    <!-- <div class="bg-wrap"></div> -->
+    <div class="tip-div">
+        <p style="font-size: 32px;">商品签收</p>
+        <input id="tx" type="text" style="text-indent: 5px;" ng-model="searchVal" placeholder="请扫描条形码/输入采购订单号" />
+    </div>
+    <div class="clearfix" style="width: 90%;margin: auto;">
+        <ul class="putong" ng-show="ptquehuoArr.length>0">
+            <li class="WaringTxt" style="margin-top: 20px;">普通订单</li>
+            <li class="WaringTxt" ng-repeat="item in ptquehuoArr">
+                <span style="color: #1131ef;" ng-show="item.store == '0'">义乌仓-</span>
+                <span style="color: #1131ef;" ng-show="item.store == '1'">深圳仓-</span>
+                缺货商品的SKU是{{item.sku}}需要{{item.quantity}}个!
+            </li>
+        </ul>
+        <ul class="zhifa" ng-show="zfquehuoArr.length>0">
+            <li class="WaringTxt" style="margin-top: 20px;">直发订单</li>
+            <li class="WaringTxt" ng-repeat="item in zfquehuoArr">缺货商品的SKU是{{item.sku}}需要{{item.quantity}}个!</li>
+        </ul>
+    </div>
+    <!-- 运单号入库的弹框 -->
+    <!-- class="modal fade" -->
+    <div id="YdhModal" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document" style="width: 90%;">
+            <div class="modal-content"
+                style="box-shadow: 0 0 10px #eee; border: 1px solid #ececec; background: #f8f8f8;padding-bottom: 40px;">
+                <div class="modal-header">
+                    <div class="tab-status">
+                        <div class="tab-status-item">
+                            <span class="tab-status-name">目标仓库:</span>
+                            <select class="tab-status-select" ng-change="changeFilter()" ng-model="filterObj.store">
+                                <option value="">全部</option>
+                                <option ng-repeat="item in storeList" value="{{item.type}}">{{item.dataName}}</option>
+                            </select>
+                        </div>
+                        <!-- <div class="tab-status-item">
+                            <span class="tab-status-name">库区:</span>
+                            <select class="tab-status-select" name="" id="" ng-model="filterObj.storeType">
+                                <option ng-repeat="item in storeTypeList" value="{{item.val}}">{{item.name}}</option>
+                            </select>
+                        </div> -->
+                        <div class="tab-status-item">
+                            <span class="tab-status-name">采购方式:</span>
+                            <select class="tab-status-select" ng-change="changeFilter()" ng-model="filterObj.procurementType">
+                                <option ng-repeat="item in purchaseList" value="{{item.val}}">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="tab-status-item">
+                            <span class="tab-status-name">采购单号：</span>
+                            {{ydhList[0]?ydhList[0].orderId:'--'}}
+                        </div>
+                        <div class="tab-status-item">
+                            <span class="tab-status-name">包裹状态：</span>
+                            <span class="f-red">{{ydhList[0]?(ydhList[0].procurementType | procurementFilter):'--'}}</span>
+                        </div>
+
+                    </div>
+        
+                    <span class="ydh-tit">sku详情</span>
+                    <span style="margin-left: 30px;" ng-repeat="(key,val) in ydhList[0].zhuiZongHao" ng-show="condition === 'oldVersion'">{{val}}
+                        {{key}}</span>
+                    <span style="margin-left: 30px;" ng-show="condition === 'latestVersion'" ng-cloak>{{logisticsName}} {{logisticsNumber}}</span>
+                </div>
+                <div class="modal-body" ng-class='{"model-bodyact":ydhList.length>0 || list.length > 0}'>
+                    <table class="table table-bordered ydh-table" ng-show="condition === 'oldVersion'">
+                        <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>SKU</th>
+                                <th>属性</th>
+                                <th>客户订单号</th>
+                                <th>目标仓库</th>
+                                <!-- <th>库区</th> -->
+                                <th>采购方式</th>
+                                <th>采购人</th>
+                                <th>状态</th>
+                                <th>供货公司</th>
+                                <th>预计到货数量</th>
+                                <th>备注</th>
+                                <th>到货仓库</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="qianshou-tr" ng-repeat="item in ydhList">
+                                <td>
+                                    <a href="{{'manage.html#/merchandise/show-detail/' + item.productId + '/0/3/0'}}"
+                                        target="_blank" class="ydh-img-box">
+                                        <img class="ydh-img" ng-src="{{item.img}}">
+                                        <img class="ydh-big-img" ng-class="{'ydh-big-img-bottom':$index>1}"
+                                            ng-src="{{item.img}}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <p style="position: relative; padding-right: 24px;">
+                                        <span>{{item.skuLeft}}</span><span class="sku-right">{{item.skuRight}}</span>
+                                        <a href="javascript:void(0)"
+                                            style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;"
+                                            title="复制SKU" ng-click="copyWord(item.sku)"><img style="height: 18px;"
+                                                src="./static/image/public-img/copy.png" alt=""></a>
+                                    </p>
+                                    <p>短码：{{item.shortSku}}</p>
+                                    <span class="design-icon" ng-show="item.customMessage && item.customMessage !== 'null'" ng-click="customeDesignFun(item)">个性</span>
+                                    <!-- <span class="qianshou-btn" ng-show="item.customeDesign && item.customeDesign !== 'null'" ng-click="queryDesign(item)">查看定制信息</span> -->
+                                </td>
+                                <td>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <div ng-repeat="(key,val) in item.variantKeyMap" style="display: block;font-size: 12px;">
+                                        {{key}}：{{val}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{item.orderId}}
+                                </td>
+                                <!-- <td>
+                                    库区{{item.procurementOrderId}}
+                                </td> -->
+                                <td>
+                                    {{item.storageName}}
+                                </td>
+                                <td>
+                                    {{item.procurementType | procurementFilter}}
+                                </td>
+                                <td>
+                                    <p>{{item.caiGouRen}}</p>
+                                </td>
+                                <td>
+                                    <P>
+                                    <span ng-style="STATUSMAPOBJECT[item.dingDanZhuangtai].style">{{STATUSMAPOBJECT[item.dingDanZhuangtai].text}}</span>
+                                    </P>
+                                </td>
+                                <td>{{item.gongHuoGongSi}}</td>
+                                <td>
+                                    {{item.count}}
+                                </td>
+                                <td>
+                                    {{ item.signRemark }}
+                                </td>
+                                <td>{{item.storageName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered ydh-table" ng-show="condition === 'latestVersion'">
+                        <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>SKU</th>
+                                <th>属性</th>
+                                <th>入驻供应商名称</th>
+                                <th>预计到货数量</th>
+                                <th>到货仓库</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="qianshou-tr" ng-repeat="item in list">
+                                <td>
+                                    <a href="javasctipt:;" target="_blank" class="ydh-img-box">
+                                        <img class="ydh-img" ng-src="{{item.imageUrl}}">
+                                        <img class="ydh-big-img" ng-class="{'ydh-big-img-bottom':$index>1}"
+                                            ng-src="{{item.imageUrl}}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <p style="position: relative; padding-right: 24px;">
+                                        <span>{{item.skuLeft}}</span><span class="sku-right">{{item.skuRight}}</span>
+                                        <a href="javascript:void(0)"
+                                            style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;"
+                                            title="复制SKU" ng-click="copyWord(item.sku)"><img style="height: 18px;"
+                                                src="./static/image/public-img/copy.png" alt=""></a>
+                                    </p>
+                                    <p>短码：{{item.num}}</p>
+                                </td>
+                                <td>
+                                    {{item.companyName}}
+                                </td>
+                                <td>
+                                    <p ng-repeat="(key,val) in pList.variantKeyMap" style="">
+                                        {{key}}：{{val}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <input type="number" ng-model="item.productNum" style="width:80px;">
+                                </td>
+                                <td>{{item.warehouse}}</td>
+                                <td>
+                                    <button class="btn btn-primary" ng-click="showErrBox(item)">异常</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="detail-div" ng-show="itemObj">
+                    <div class="info-detail-div">
+                        变体信息: <span class="sku-right" style="margin-right: 50px;">{{itemObj.skuRight}}</span>
+                        预计到货数量: <span class="sku-right">{{itemObj.count}}</span>
+                    </div>
+                    <div class="big-img-div">
+                        <img ng-src="{{itemObj.img}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio class="audio-vip" src="static/audio/vip.mp3"></audio>
+    <audio class="audio-shoudan" src="static/audio/shoudan.mp3"></audio>
+    <audio class="audio-zhengchang" src="static/audio/zhengchang.mp3"></audio>
+    <audio class="audio-jiaji" src="static/audio/jiaji.mp3"></audio>
+    <audio class="audio-qingzhuyi" src="static/audio/qingzhuyi.mp3"></audio>
+    <audio class="audio-zhifa" src="static/audio/zhifa.mp3"></audio>
+    <audio class="audio-usazhifa" src="static/audio/usazhifa.mp3"></audio>
+    <audio class="audio-zuzhuang" src="static/audio/zuzhuang.mp3"></audio>
+    <audio class="audio-bufa" src="static/audio/bufa.mp3"></audio>
+    <audio class="audio-buruku" src="static/audio/buruku.mp3"></audio>
+    <audio class="audio-quehuoxuyao" src="static/audio/ssss.mp3"></audio>
+    <audio class="audio-xianxiazu" src="static/audio/xianxiazu.mp3"></audio>
+    <audio class="audio-gaiBiao" src="static/audio/gaiBiao.mp3"></audio>
+
+    <!-- 新增状态语音 -->
+  <audio class="audio-xiaoDanZhiFa" src="static/audio/xiaoDanZhiFa.mp3"></audio>
+  <audio class="audio-haiWaiCangZhiFa" src="static/audio/haiWaiCangZhiFa.mp3"></audio>
+  <audio class="audio-guiZhongWuPin" src="static/audio/guiZhongWuPin.mp3"></audio>
+    <!-- sku/条形码入库弹框 -->
+    <div class="rk-wrap ng-hide" ng-show="skuorTxmFlag">
+        <div class="rk-con">
+            <div class="rk-main">
+
+                <div class="rk-left">
+
+                    <div class="rksp-imgcon">
+                        <img class="rk-sp-img" src="">
+                    </div>
+                    <div class="rksp-detailcon">
+                        <div class="rkspdetail-left">
+                            <ul>
+                                <li><span>sku:</span></li>
+                                <li><span>入库数量:</span></li>
+                                <li><span>商品重量:</span></li>
+                            </ul>
+                        </div>
+                        <div class="rkspdetail-right">
+                            <ul>
+                                <li>
+                                    <span class="sku-text"></span>
+                                </li>
+                                <li>
+                                    <input type="number" class="rk-num"></input>
+                                </li>
+                                <li>
+                                    <input type="number" class="rk-weight"></input>
+                                    <button class="btn btn-primary" ng-click="editWeiFun()">提交</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rk-right">
+                    <div class="selck-div">
+                        请选择仓库:
+                        <p ng-show="moreFlag">
+                            <label>义乌仓:</label>
+                            <input class="radio-inp" ng-click="selCkFun($event)" type="radio" name="ckradio" value="1"
+                                checked></input>
+                            <label>深圳仓:</label>
+                            <input class="radio-inp" ng-click="selCkFun($event)" type="radio" name="ckradio"
+                                value="2"></input>
+                            <label>美国仓:</label>
+                            <input class="radio-inp" ng-click="selCkFun($event)" type="radio" name="ckradio"
+                                value="3"></input>
+                        </p>
+                    </div>
+                    <div class="asj-tree-box">
+                        <folder-tree current-folder="folder" my-index="index1" point-one="pointOne(item,event,posi)"
+                            switch-list="switchList(posi,event,flag)"></folder-tree>
+                    </div>
+                </div>
+            </div>
+            <div class="rk-btns">
+                <button type="button" class="btn btn-default" ng-click="skuOrTxmCloseFun()" id="close-rktk">关闭</button>
+                <button type="button" ng-click="sureRkFun()" class="btn btn-primary" id="sure-rktk">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 运单号入库弹框 -->
+    <div class="ydh-rk-wrap ng-hide stop-pro" ng-show="ydhrkFlag">
+        <div class="rk-con">
+            <p class="ydh-rktit">运单号入库</p>
+            <div class="rk-main">
+                <div class="rksp-detailcon ydhrk-detailcon">
+                    <table class="table table-bordered ydh-table">
+                        <thead>
+                            <tr>
+                                <th>图片</th>
+                                <th>SKU</th>
+                                <th>日期</th>
+                                <th>总数量</th>
+                                <th>商品重量</th>
+                                <th>仓库</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ydhList">
+                                <td>
+                                    <img class="ydh-img" ng-src="{{item.img}}">
+                                </td>
+                                <td>{{item.sku}}</td>
+                                <td>{{bulkRkTime}}</td>
+                                <td>{{item.count}}</td>
+                                <td></td>
+                                <td>{{item.storageName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="rk-btns">
+                <button type="button" class="btn btn-default" ng-click="ydhCloseRk()">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="ydhRkSureFun()">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 修改包装重量 -->
+    <div class="changebz-wrap index-wrap ng-hide stop-pro" ng-show="changeWFlag">
+        <div class="changWeight-con">
+            <p>修改包装重量</p>
+            <p class="cwtip-p">
+                商品重量不能大于或则等于包装重量,现在的包装重量是 {{tipWeight}},你可以修改包装重量
+            </p>
+            <div class="cWcon-group">
+                <label>包装重量:</label>
+                <input type="number" ng-model="bzWeight"></input>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="closeCWFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="sureCWFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 运单号修改包装重量 -->
+    <div class="changebz-wrap index-wrap ng-hide stop-pro" ng-show="ydhchangeWFlag">
+        <div class="changWeight-con">
+            <p>修改包装重量</p>
+            <p class="cwtip-p">
+                商品重量不能大于或则等于包装重量,现在的包装重量是 {{ydhtipWeight}},你可以修改包装重量
+            </p>
+            <div class="cWcon-group">
+                <label>包装重量:</label>
+                <input type="number" ng-model="ydhbzWeight"></input>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="ydhcloseCWFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="ydhsureCWFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 已经修改过包装重量 -->
+    <div class="chage-wrap ng-hide stop-pro" ng-show="isNextChangeFlag">
+        <div class="changWeight-con next-change">
+            <p>该商品已经被称过重量,确定要再次修改吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="nextQxFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="nextSureFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 已经修改过包装重量 -->
+    <div class="chage-wrap ng-hide" ng-show="ydhisNextChangeFlag">
+        <div class="changWeight-con next-change">
+            <p>该商品已经被称过重量,确定要再次修改吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="ydhnextQxFun()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="ydhnextSureFun()" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 是否签收 -->
+    <div class="chage-wrap ng-hide" ng-show="isqianshouFlag">
+        <div class="changWeight-con next-change">
+            <p>确定签收吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="ydhNoQs()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="ycqsFun()" class="btn btn-warning qs-btn">异常签收</button>
+                <button type="button" ng-click="ydhSureQs()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 批量打印条形码 -->
+    <div class="chage-wrap ng-hide" ng-show="txmTkFlag">
+        <div class="changWeight-con next-change">
+            <a target="_blank" ng-href="{{'https://'+txmHref}}">{{'https://'+txmHref}}</a>
+            <div class="rk-btns">
+                <button type="button" ng-click="txmTkFlag=false" class="btn btn-default">关闭</button>
+            </div>
+        </div>
+    </div>
+    <!-- 异常签收 -->
+    <div class="chage-wrap" ng-show="qsycResonFlag" ng-cloak>
+        <div class="changWeight-con qs-con">
+            <div class="qs-res-con">
+                <textarea ng-model="qsycReson"></textarea>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="qsycResonFlag=false" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="qsycSureFun()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 异常的原因 -->
+    <div class="chage-wrap" ng-show="ycYyFlag" ng-cloak>
+        <div class="changWeight-con qs-con" style="height: 300px;">
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">数量:</span>
+                <input type="number" ng-model="ycCount" style="width: 200px;height: 30px;"></input>
+            </div>
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">异常原因:</span>
+                <select ng-model="ycYyVal" style="width: 200px;height: 30px;">
+                    <option value="1">未发货</option>
+                    <option value="2">未收到</option>
+                    <option value="3">质量问题</option>
+                    <option value="4">数量问题</option>
+                    <option value="5">颜色问题</option>
+                    <option value="6">尺寸问题</option>
+                    <option value="7">其它</option>
+                </select>
+            </div>
+            <div class="qs-res-con">
+                <textarea ng-model="newQsYcReson"></textarea>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="ycYyFlag=false" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="sureYcFun()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 异常的原因 -->
+    <div class="chage-wrap" ng-show="errorbox" ng-cloak>
+        <div class="changWeight-con qs-con" style="height: 300px;">
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">数量:</span>
+                <input type="number" ng-model="params.badNum" style="width: 200px;height: 30px;" ng-keyup="handleNumberLimit()" maxlength="5"></input>
+            </div>
+            <div class="qs-res-con" style="margin-bottom: 20px;">
+                <span style="width: 90px;text-align: left;display: inline-block;">异常原因:</span>
+                <select ng-model="params.badType" style="width: 200px;height: 30px;">
+                    <option value="1">损坏</option>
+                    <option value="2">缺货</option>
+                    <option value="3">其它</option>
+                </select>
+            </div>
+            <div class="qs-res-con">
+                <textarea ng-model="params.badRemark"></textarea>
+            </div>
+            <div class="rk-btns">
+                <button type="button" ng-click="hideErrBox()" class="btn btn-default">关闭</button>
+                <button type="button" ng-click="submitError()" class="btn btn-primary qs-btn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 服务商品是否签收 -->
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="isQianSFlag">
+        <div class="changWeight-con next-change">
+            <p ng-if="qsStu==1">确定拒绝签收吗?</p>
+            <p ng-if="qsStu==2">确定签收吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="isQianSFlag = false" class="fuwu-closebtn">取消</button>
+                <button type="button" ng-click="sureQsFwFun()" class="fuwu-surebtn">确定</button>
+            </div>
+        </div>
+    </div>
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="fwPdfFlag">
+        <div class="changWeight-con next-change" style="width: 560px;">
+            <a target="_blank" style="text-decoration: underline;color:#08ACE9;word-wrap: break-word;"
+                href="{{pdfLink}}">{{pdfLink}}</a>
+            <div class="rk-btns">
+                <button type="button" ng-click="fwPdfFlag = false" class="fuwu-closebtn">取消</button>
+            </div>
+        </div>
+    </div>
+    <!-- 确定拒绝签收吗 -->
+    <div class="chage-wrap ng-hide" style="z-index: 100;" ng-show="isJuJueFlag">
+        <div class="changWeight-con next-change">
+            <p>确定拒绝签收吗?</p>
+            <div class="rk-btns">
+                <button type="button" ng-click="isJuJueFlag = false" class="fuwu-closebtn">取消</button>
+                <button type="button" ng-click="sureJuJueFwFun()" class="fuwu-surebtn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- 服务商品签收 -->
+    
+    <div class="ydh-rk-wrap stop-pro ng-hide" ng-show="qsSeaFlag">
+        <div class="rk-con" style="width: 900px;height: auto;">
+            <h3 class="margin-t0b20px fontweight600" style="line-height: 24px;">服务商品签收 <span class="close-icon"
+                    ng-click="qsSeaFlag=false">×</span></h3>
+            <div class="rk-main margin-t20px" style="overflow-y: auto;">
+                <div class="rksp-detailcon ydhrk-detailcon fw-qscon" style="height: 460px;">
+                    <ul class="qs-mesul w30ul">
+                        <li>
+                            <span class="w30">名称:</span>
+                            <span class="w65">{{listArr[0].orderName}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">仓库:</span>
+                            <span class="w65">{{listArr[0].storagedoName}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">批次号:</span>
+                            <span class="w65">{{listArr[0].batchNumber}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">运单号:</span>
+                            <span class="w65">{{listArr[0].trackingNumber}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">数量:</span>
+                            <span class="w65">{{listArr[0].num}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">发货时间:</span>
+                            <span class="w65">{{listArr[0].deliveryTime}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">客户名称:</span>
+                            <span class="w65">{{listArr[0].createName}}</span>
+                        </li>
+                        <li>
+                            <span class="w30">业务员名称:</span>
+                            <span class="w65">{{listArr[0].salemanName}}</span>
+                        </li>
+                    </ul>
+                    <ul class="qs-mesul w10ul" ng-if="listArr[0].serveMoenyList.length>0">
+                        <li ng-repeat="item in listArr[0].serveMoenyList">
+                            <span class="w65">{{item.itemName}}:</span>
+                            <span class="w30">{{item.status=='1'?'是':'否'}}</span>
+                        </li>
+                    </ul>
+                    <div class="bt-list w56">
+                        <p>商品名称: {{listArr[0].dbProductName}}</p>
+                        <table class="table table-bordered ydh-table fw-table">
+                            <thead>
+                                <tr style="background-color: #F0EDE7">
+                                    <th>SKU</th>
+                                    <th>图片</th>
+                                    <th>实收</th>
+                                    <th>损坏</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in listArr[0].productStanList">
+                                    <td>
+                                        <span class="max-width230px">{{item.sku}}</span>
+                                    </td>
+                                    <td style="position: relative;" ng-mouseenter="item.isOver = true;"
+                                        ng-mouseleave="item.isOver = false;" class="img-td">
+                                        <img class="small-img" ng-src="{{item.img}}" alt="">
+                                        <img class="show-big-img" ng-class="{'top-150px':$index>2}"
+                                            ng-show="item.isOver" ng-src="{{item.img}}" alt="">
+                                    </td>
+                                    <td>
+                                        <input class="w60px" ng-keyup="isNumFun(item,'actualNum',item.actualNum)"
+                                            ng-model="item.actualNum"></input>
+                                    </td>
+                                    <td>
+                                        <input class="w60px" ng-keyup="isNumFun(item,'damageNum',item.actualNum)"
+                                            ng-model="item.damageNum"></input>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="rk-btns">
+                <button type="button" class="fuwu-closebtn" ng-click="fwQsFun(1)">拒收</button>
+                <button type="button" class="fuwu-surebtn" ng-click="fwQsFun(2)">签收</button>
+                <button type="button" class="fuwu-surebtn" ng-click="hqFwmdFun()">获取面单</button>
+            </div>
+        </div>
+    </div>
+    <!-- 是否拒收 ng-show="bianJiFlag"-->
+    <div class="lookProduct ng-hide" ng-show="bianJiFlag">
+        <div class="content media-content paddinglrt20px" style="width: 810px;min-height: inherit;">
+            <div class="tk-top-tit" style="background-color: #fff;">
+                <p class="fontweight600">拒绝原因 <span class="close-icon" ng-click="bianJiFlag = false">×</span></p>
+            </div>
+            <div class="tk-mid-con margin-bt20px" style="max-height: 500px;overflow-y: auto;">
+                <table class="table table-bordered ydh-table fw-table">
+                    <thead>
+                        <th>商品名称</th>
+                        <th>图片</th>
+                        <th>运单号</th>
+                        <th>批次号</th>
+                        <th>数量</th>
+                        <th>实收</th>
+                        <th>损坏</th>
+                        <th>可入库</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in listArr">
+                            <td>
+                                <span class="max-width230px">{{item.dbProductName}}</span>
+                            </td>
+                            <td style="position: relative;" ng-mouseenter="item.isShow = true;"
+                                ng-mouseleave="item.isShow = false;" class="img-td">
+                                <img class="small-img" ng-src="{{item.dbImages}}" alt="">
+                                <img class="show-big-img" ng-class="{'top-150px':$index>2}" ng-show="item.isShow"
+                                    ng-src="{{item.dbImages}}" alt="">
+                            </td>
+                            <td>{{item.trackingNumber}}</td>
+                            <td>{{item.batchNumber}}</td>
+                            <td>{{item.num}}</td>
+                            <td>
+                                <input class="w60px" ng-keyup="isNumFun(item,'actualNum',item.actualNum)"
+                                    ng-model="item.actualNum"></input>
+                            </td>
+                            <td>
+                                <input class="w60px" ng-keyup="isNumFun(item,'damageNum',item.actualNum)"
+                                    ng-model="item.damageNum"></input>
+                            </td>
+
+                            <td>{{item.actualNum - item.damageNum}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tk-btns">
+                <button ng-click="isSureJuShouFun()" class="fuwu-surebtn">确定拒收</button>
+            </div>
+        </div>
+    </div>
+    <div class="reseive-design-box" ng-show="showDesign">
+        <div class="shade"></div>
+        <div class="reseive-design-main">
+            <i class="iconfont close" ng-click="showDesign=false">+</i>
+            <h5 class="title">定制包装信息</h5>
+            <div class="reseive-design-left">
+                <div class="reseive-area-list">
+                    <span class="reseive-area-item" ng-repeat="(index,item) in designObj.customeDesign track by $index" ng-click="chooseArea(item,index)" ng-class="{cur:designIndex==index}">
+                        {{item.areaName}}
+                    </span>
+                </div>
+                <img class="img" src="{{designImg}}" src="" alt="">
+            </div>
+            <div class="reseive-design-right">
+                <ul class="info-list">
+                    <li class="info-item">
+                        <span class="info-item-title">商品名称：</span>
+                        {{designObj.name}}
+                    </li>
+                    <li class="info-item">
+                        <span class="info-item-title">商品变量：</span>
+                        {{designObj.sku}}
+                    </li>
+                    {{designImg}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-confirm" ng-show="showCustomDesign">
+        <div class="modal-content">
+            <div class="modal-title">定制的个性化信息</div>
+            <table class="modal-table">
+                <tr>
+                    <th>位置</th>
+                    <th>原图</th>
+                    <th>设计图</th>
+                    <th>类型</th>
+                    <th>下载图片</th>
+                </tr>
+                <tr ng-repeat="item in podList">
+                    <td>{{item.position}}</td>
+                    <td>
+                        <div class="img-box">
+                            <img ng-src="{{item.originImg | IMG_SIZE: 50}}" alt="">
+                            <img ng-src="{{item.originImg | IMG_SIZE: 200}}" class="preview" alt="">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="img-box">
+                            <img ng-src="{{item.showImg | IMG_SIZE: 50}}" alt="">
+                            <img ng-src="{{item.showImg | IMG_SIZE: 200}}" class="preview" alt="">
+                        </div>
+                    </td>
+                    <td>{{item.type}}</td>
+                    <td><a target="black" ng-href="{{item.showImg}}">下载图片</a></td>
+                </tr>
+            </table>
+            <div class="modal-footer">
+                <span class="close-btn" ng-click="showCustomDesign=false">关闭</span>
+            </div>
+        </div>
+    </div>
+    <audio class="audio-shibai" src="static/audio/shibai.mp3" preload="auto">
+        浏览器不支持audio标签,请升级
+    </audio>
+    <audio class="audio-podsp" src="static/audio/podsp.mp3" preload="auto">
+        浏览器不支持audio标签,请升级
+    </audio>
+</body>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src='./static/layer/layer.js'></script>
+<script src='static/providers/filter/filter.js'></script>
+<script src='static/providers/utils/utils.js'></script>
+<script src='static/js/erp-purchase/receive.js'></script>
+
+</html>

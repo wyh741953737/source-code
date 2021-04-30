@@ -1,0 +1,194 @@
+<style lang="less">
+    .scroll-style::-webkit-scrollbar { width: 6px; height: 6px; }
+    .scroll-style::-webkit-scrollbar-track { border-radius: 3px; background: rgba(0,0,0,0.06); box-shadow: inset 0 0 5px rgba(0,0,0,0.08); }
+    /* 滚动条滑块 */
+    .scroll-style::-webkit-scrollbar-thumb { border-radius: 3px; background: rgba(0,0,0,0.12); box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
+    #push-new-wrap {
+      padding:20px 20px 20px 220px; min-width: 1350px; min-height: 1000px; background:#F2F7FA;  user-select:none;
+    } 
+    .button-yellow {background: #F9AE08;}
+    .button-blue {background:#4A90E2;}
+    .button-disabled {background: #DDDCDC!important;}
+    .checkbox-disabled {background: #DDDCDC!important;}
+    #push-new-wrap span {font-size: 14px;}
+    #push-new-wrap textarea {width: 800px; padding: 5px; border-radius: 5px; font-size: 14px;}
+    #push-new-wrap input {font-size: 14px; height: 32px; border-radius: 5px;}
+    #push-new-wrap select {font-size: 14px; width: 220px; height: 32px; border-radius: 5px; }
+    #push-new-wrap button {color: #fff; width: 80px; height: 32px; line-height: 32px; text-align: center; border-radius: 4px; font-size: 14px;} 
+    #push-new-wrap>.main {
+      width: 100%; height: 100%; background: #fff; box-sizing: border-box; padding: 0 26px 40px; 
+    }
+    #push-new-wrap>.main>.title-area {
+      width: 100%;  height: 60px; line-height: 60px; text-align: center; position: relative; border-bottom: 1px solid #DDDCDC; margin-bottom: 20px;
+    }
+    /* 上传图片 */
+    .upload-area {width: 104px; height: 104px; border-radius: 4px; border: 1px dashed #DDDCDC; background:rgb(249, 249, 249);
+    position: relative; display: flex; flex-direction: column; align-items: center;}
+    .upload-area>.img-wrap {width: 104px; height: 104px; position: absolute; left: -1px; top: -1px;}
+    .upload-area>.img-wrap>img {width: 104px; height: 104px;}
+    .upload-area>.img-wrap>i{position: absolute; width: 22px; height: 22px; background: url('static/image/public-img/close-circle.png') no-repeat center center; background-size: 22px 22px; right: -11px; top: -11px; cursor: pointer;}
+    .upload-area>span:nth-child(1) {margin-bottom: 4px; margin-top: 6px; color: #999; cursor: pointer;}
+    .upload-area>span:nth-child(2) {font-size: 14px; cursor: pointer;}
+  
+    .main>.title-area>.back-arrow {
+      position: absolute; width: 9px; height: 18px; left: 10px; top: 20px; background: url('erp_otweb/images/back-arrow.png') no-repeat center center; cursor: pointer;
+    }
+    .main>.operate-area>div { display: flex; padding: 10px 0;}
+    .main>.operate-area>.last-line>section {display: flex; margin-right: 20px;}
+    .last-line>section>span {margin-right: 14px; padding-top: 6px;}
+    .last-line>section>button {margin-right: 20px;}
+    .main>.operate-area>div>span { margin-right: 14px; padding-top: 6px;}
+    /*自定义单选框*/
+    .radio-area>em {font-size: 14px; margin-right: 20px; position: relative; padding-left: 25px;}
+    .radio-area>em::before{content: ''; position: absolute; width: 18px; height: 18px; background: url('erp_otweb/images/radio-check.png') no-repeat center center; left: 0; top: 2px;}
+    .radio-area>.radio-checked::before{background: url('erp_otweb/images/radio-checked.png') no-repeat center center;}
+    /*列表区域*/
+    .down-area {position: relative; width: 1180px; height: 905px; position: relative; }
+    .pic-list-area { display: flex; position: relative;}
+    .pic-list-area>.edit-wrap {position: absolute; left: 0; bottom: 0;  background: rgba(255, 254, 255, 0); z-index: 12; 
+      /* height: 60px; width: 100%; */ right: 0; top: 0;
+    }
+    
+    
+    .all-select {display: flex; align-items: center;}
+    .checkbox-false {width: 16px; height: 16px; background: url('erp_otweb/images/checkbox-false.png') no-repeat center center; margin-right: 5px;}
+    .checkbox-true {width: 16px; height: 16px; background: url('erp_otweb/images/checkbox-true.png') no-repeat center center; margin-right: 5px;}
+    
+    .right-main>.goods-list>li {
+      width: 254px; height: 94px; display: flex; background:rgba(247,246,246,1);  margin: 0 auto 20px; overflow: hidden;
+    }
+    .right-main>.goods-list>.checked {background:rgb(255, 247, 228);}
+    .right-main>.goods-list>li>img {min-width: 94px; min-height: 94px; max-width: 94px; max-height: 94px;margin-right: 14px;}
+    .right-main>.footer-area {width: 292px; height: 58px; background:rgba(247,246,246,1); position: absolute; bottom: 0; left: 0; display: flex; justify-content: center; align-items: center;}
+    .right-main>.footer-area>button {width: 80px; height: 32px; line-height: 32px; text-align: center; background: rgb(255, 211, 114); color: #fff; border-radius: 5px;}
+    /*弹窗 自动推送 编辑区域*/
+    .down-area>.box-wrap {
+      position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.459); display: flex; justify-content: center; z-index: 15;
+    }
+    .auto-push-edit-area {
+      width: 1048px; height: 730px; margin-top: 33px; background: #fff;
+    }
+    .auto-push-edit-area>.header {height: 58px; background: rgb(236, 244, 252); color: #3B72CF; font-size: 14px; text-align: center; line-height: 58px;}
+    .auto-push-edit-area>.footer {height: 58px; background: rgb(236, 244, 252); }
+    .auto-push-edit-area>.middle {height: 610px; overflow-y: auto; padding-top: 10px; box-sizing: border-box;}
+    .middle>ul {display: flex; flex-wrap: wrap;}
+    .middle>ul>li {width: 190px; height: 280px; background:rgba(247,246,246,1); margin-right: 16px; box-shadow:0px 3px 7px 0px rgba(0, 0, 0, 0.08); border-radius:4px 4px 0px 0px; display: flex; flex-direction: column; position: relative;}
+    .middle>ul>li>img {width: 190px; height: 186px; margin-bottom: 10px;}
+    .middle>ul>li>p {width: 190px; padding: 0 13px; margin-bottom: 10px; font-size: 14px; overflow: hidden;}
+    .middle>ul>li>div {width: 190px; padding: 0 13px; display: flex; justify-content: space-between;}
+    .middle>ul>li:first-child {margin: 0 16px 20px 16px;}
+    .middle>ul>li:nth-child(5n+1) {margin: 0 16px 10px 16px;}
+    .middle>ul>li:nth-child(5n) {margin: 0 0 20px 0px;}
+    .middle>ul>li>i {position: absolute; right: 5px; top: 5px; width: 32px; height: 32px; background: url('erp_otweb/images/check.png') no-repeat center center;}
+    .middle>ul>li>.checked {background: url('erp_otweb/images/checked.png') no-repeat center center;}
+    /*page area*/
+    .page-area {display: flex; justify-content: space-around; background: #fff; align-items: center;}
+    .page-area input, .page-area select {border-radius: 4px; margin: 0 10px;}
+    .page-area a, .page-area div, .page-area span, .page-area button {font-size: 14px;}
+    .page-area a {padding: 0 2px;}
+    .page-size-area, .page-go-area {display: flex; height: 32px; align-items: center;}
+    .current-page {color: #F9AE08;}
+    /* 多行文本缩略 */
+    .ellipsis-font {overflow: hidden; text-overflow: ellipsis;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+    /* 自定义多选框 */
+    .my-select {
+      width: 200px; height: 32px; border: 1px solid #ddd; position: relative; border-radius: 4px; z-index: 13;
+    }
+    .my-select .select-list {
+      position: absolute; left: -1px; top: 34px; border: 1px solid #409eff; width: 200px; border-radius: 4px;
+    }
+    .my-select .select-list>li { background: #fff; }
+    .my-select .select-txt {
+      height: 30px; line-height: 30px; font-size: 12px; text-indent: 1em; position: relative; 
+    }
+    .my-select .select-txt>i {background: url('erp_otweb/images/back-arrow.png') no-repeat center center; position: absolute; right: 15px; top: 10px; background-size: 6px 12px; width: 6px; height: 12px; transition: .3s; transform: rotate(-90deg);}
+    .my-select .select-txt .pull-down { transform: rotate(-270deg);}
+    .my-select .select-list>li>p{text-indent: 16px; padding: 2px; font-size: 12px; background: #fff;}
+    .my-select .select-list>li>.hover-actived {background: #f5f7fa;}
+    .my-select .actived {color: #F9AE08;}
+    
+  </style>
+  <div id="push-new-wrap">
+    <div class="main">
+        <section class="title-area">
+          <i class="back-arrow" ng-click="backHandle()"></i>
+          {{title}}
+        </section>
+        <!-- 选项操作区域 -->
+        <section class="operate-area" style="margin-bottom: 10px; width: 1140px;">
+            <div class="operate-area-item">
+              <span>推送类别: 商品推送</span>
+            </div>
+            <div class="operate-area-item">
+                <span>标题: {{info.title}}</span>
+              </div>
+            <div style="align-content: center;">
+              <span>内容:</span>
+              <textarea name="" id="" cols="30" rows="6" placeholder="" maxlength="500" ng-model="info.content"  maxlength="500" readonly></textarea>
+            </div>
+            <div v-if="info.picurl">
+              <span>图片:</span>
+              <div class="upload-area">
+                <div class="img-wrap">
+                  <img ng-src="{{info.picurl}}" alt="">
+                </div>
+              </div>
+            </div>
+            <div>
+              <span>客户群体:</span>
+              <div class="radio-area" style="display: flex; align-items: center;">
+                <em ng-class="info.customerGroup == 1 ? 'radio-checked' : ''" ng-if="info.customerGroup == 1">系统根据商品自动匹配</em>
+                <em ng-class="info.customerGroup == 2 ? 'radio-checked' : ''" ng-if="info.customerGroup == 2">定向发送</em>
+                
+                <div class="my-select" style="z-index: 14;" ng-class="mycheckbox.disabled ? 'checkbox-disabled' : ''" ng-if="info.customerGroup == 2">
+                  <p ng-click="showHandle($event)" class="select-txt">{{mycheckbox.text}}<i ng-class="mycheckbox.textblur ? 'pull-down' : ''"></i></p>
+                  <ul class="select-list" ng-show="mycheckbox.selectAreaShow">
+                    <li ng-repeat="item in mycheckbox.kindsList" :key="index">
+                      <p ng-class="[mycheckbox.hoverIndex === $index ? 'hover-actived' : '', item.checked ? 'actived' : '']" ng-click="selectItem($index,$event)">{{item.name}}</p>
+                    </li>
+                  </ul>
+                </div>
+  
+              </div>
+            </div>
+            <div class="operate-area-item">
+              <span>推送方式: {{info.driverWay}}</span>
+            </div>
+        </section>
+        <!-- 选项操作以下区域 -->
+        <section class="down-area">
+          
+          <div class="auto-push-edit-area" style="border: 1px solid #ddd;">
+              <section class="header">推送商品</section>
+              <section class="middle scroll-style">
+                <ul>
+                  <li ng-repeat="item in picInfo.list">
+                    <img ng-src="{{item.firstImg}}" alt="">
+                    <p class="ellipsis-font" ng-attr-title="{{item.productcate}}">{{item.productcate}}</p>
+                    <div style="color: #F9AE08;">
+                      <span>lists: <em style="color: #666;">{{item.num}}</em></span>
+                      <span>$ {{item.sellPrice}}</span>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+              <section class="footer page-area">
+                <div style="display: flex; align-items: center;">
+                  <div class="page-index-area" style="display: flex;">
+                      <div class="auto-push-page"  style="margin-right: 5px;"></div>
+                      <div class="page-total-area">
+                        共&nbsp;&nbsp;{{ picInfo.total }}&nbsp;&nbsp;条
+                      </div>
+                  </div>
+                  <div class="page-go-area">
+                    <span style="margin-left: 5px;">到第</span>
+                    <input type="text" ng-model="picInfo.navPage" style="width: 40px; margin: 0 5px;" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')">
+                    <span style="margin-right: 5px;">页</span>
+                    <button style="width: 60px; height: 30px; line-height: 30px; text-align:center; color: #333; border-radius: 4px; background: #fff; border: 1px solid #DDDCDC;" ng-click="pageTo()">确定</button>
+                  </div>
+                </div>
+              </section>
+            </div>
+        </section>
+    </div>
+  </div>

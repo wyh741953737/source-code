@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>员工-员工账号管理</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+</head>
+<style>
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .related {
+        background-color: green;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 10px;
+    }
+
+    .Unrelated {
+        background-color: orange;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 8px;
+    }
+
+    .ea-list-table td input {
+        width: inherit;
+        height: inherit;
+        border: none;
+        border-radius: 3px;
+    }
+
+    .layui-layer-btn .layui-layer-btn0 {
+        width: 70px;
+        background-color: #999;
+        border: none;
+    }
+
+    .layui-layer-btn .layui-layer-btn1 {
+        width: 70px;
+        background-color: #08aceb;
+        border: none;
+    }
+
+    .selectActive {
+        background: #e8f4ff;
+    }
+
+    .overTR:hover {
+        background: #e8f4ff;
+    }
+
+    .serState {
+        /*margin-left: 15px;*/
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 3px;
+        width: 240px;
+    }
+
+    .search-box {
+        width: 100%;
+        height: initial ;
+        flex-wrap: wrap;
+    }
+
+    .search-box .item{
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .search-box .top-search-btn, .input-group .form-control {
+        float: inherit;
+    }
+
+    .search-box label {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .search-box label span {
+        text-align: right;
+    }
+
+    .search-box .top-search-btn {
+        margin-left: 75px;
+    }
+
+    .search-box .top-search-btn {
+        width: 90px;
+    }
+
+    .btn-group-sea {
+        margin-bottom: 10px;
+    }
+
+    .sea-wltype-btn {
+        padding: 0 10px;
+        height: 30px;
+        line-height: 30px;
+        margin: 0 10px;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid #ececec;
+        vertical-align: top;
+    }
+
+    .sea-wltype-act {
+        border: 1px solid #08aceb;
+        color: #08aceb;
+    }
+
+    .btn-group-sea .clearfix {
+        vertical-align: top;
+    }
+
+    .tan-add-ware {
+        width: 425px;
+        min-height: 180px;
+        height: initial;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 4px;
+    }
+
+    .asj-common-tan h3 {
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        color: rgba(102, 102, 102, 1);
+        line-height: 20px;
+        margin: 10px 0;
+        text-align: left;
+    }
+
+    .tan-delete-ware li {
+        margin: 8px 0;
+    }
+
+    .tan-delete-ware li span {
+        width: 80px;
+        display: inline-block;
+        text-align: right;
+    }
+
+    .tan-delete-ware li input {
+        width: 180px;
+        padding: 0 8px;
+        border-radius: 3px;
+        line-height: 28px;
+    }
+
+    .asj-common-tan .tan-btns {
+        text-align: right;
+        position: initial;
+        margin-top: 30px;
+    }
+
+    .asj-common-tan .tan-btns a {
+        margin: initial;
+    }
+
+    .asj-common-tan .tan-btns .tan-btn1 {
+        width: 80px;
+        height: 30px;
+        background: rgba(249, 174, 8, 1);
+        border-radius: 2px;
+        color: #fff;
+    }
+
+    .asj-common-tan .tan-btns .tan-btn0 {
+        width: 80px;
+        height: 30px;
+        border-radius: 2px;
+        border: 1px solid rgba(247, 157, 45, 1);
+        margin: 0 20px;
+        color: #F9AE08;
+        background-color: #fff;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .gre {
+        color: green;
+    }
+
+    .EXPRESS td input {
+        height: 30px;
+        border-radius: 3px;
+        max-width: 100px;
+        border: 1px solid #d2d2d2;
+        padding: 0 8px;
+    }
+    .EXPRESS td{
+        font-size: 12px;
+    }
+    .EXPRESS th{
+        font-size: 12px;
+    }
+    .EXPRESS td .btn {
+        width: 55px;
+        height: 25px;
+        background-color: #0d8efb;
+        margin: initial;
+        line-height: 25px;
+        text-align: center;
+        color: #fff;
+    }
+    .search-box .top-search-btn{
+        margin-left: initial;
+        margin-right: 15px;
+    }
+    .green{
+        color: green;
+        background: initial;
+    }
+    .red{
+        color: red;
+    }
+    .ea-right-search .search-box{
+        margin-top: 10px;
+    }
+    .relative-box{
+        position: relative;
+    }
+    .like-ul{
+        position: absolute;
+        right: 0;
+        border: 1px solid #eee;
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: #fff;
+        z-index: 5;
+        top: 30px;
+    }
+    .like-ul li{
+        border-bottom: 1px solid #eee;
+        padding: 5px 10px;
+        text-align: left;
+    }
+    .ea-right-search{
+        overflow: inherit;
+    }
+</style>
+<body>
+<div class="ea-content">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <!-- right search -->
+            <div class="search-box">
+                <div class="btn-group-sea">
+                    <!--<button ng-click="wlTypeAllFun($event)" class="sea-wltype-btn">全部</button>-->
+                    <button ng-click="wlTypeXbFun($event)" class="sea-wltype-btn">小包</button>
+                    <button ng-click="wlTypeKdFun($event)" class="sea-wltype-btn">快递</button>
+                </div>
+                <div class="item" style="flex-wrap: wrap;">
+                    <label>
+                        <span>{{'100724' | translate}}：</span>
+                        <select class="serState" ng-model="countrySearch" ng-change="countryChange()"
+                                ng-options="item.NAME as item.NAME  for item in countryList">
+                            <option value="">{{'100693' | translate}}</option>
+                        </select>
+                    </label>
+                    <!-- <label class="clearfix">
+                        <span>{{'100651' | translate}}：</span>
+                        <select class="serState" ng-model="selectedName" ng-change="serChange()"
+                                ng-options="item.companyName as item.companyName  for item in names">
+                            <option value="">{{'100693' | translate}}</option>
+                        </select>
+                    </label> -->
+                    <label>
+                        <span>货代名称：</span>
+                        <select class="serState" ng-model="freightGs" ng-change="freightFun()">
+                            <option value="">{{'100693' | translate}}</option>
+                            <option value="{{item}}" ng-repeat="item in hdNameArr track by $index">{{item}}</option>
+                        </select>
+                    </label>
+                    <label class="relative-box">
+                        <span>物流方式：</span>
+                        <input type="text" ng-change="filterWlFun()" ng-model="wlfsName">
+                        <ul class="like-ul">
+                            <li ng-repeat="item in filterArr track by $index" ng-click="wlNameSeaFun(item)">{{item}}</li>
+                        </ul>
+                    </label>
+                    <label>
+                        <span>业务员：</span>
+                        <select style="width: 100px;" class="serState" ng-model="serSalesmanName" ng-change="serChange()"
+                                ng-options="item.name as item.name for item in customList">
+                            <option value="">{{'100693' | translate}}</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="item">
+                    <label>
+                        <span>{{'101187' | translate}}：</span>
+                        <input type="text" class="form-control top-search-inp" placeholder="" ng-model="tkCodeSearch">
+                    </label>
+                    <label class="clearfix">
+                        <span>{{'100380' | translate}}：</span>
+                        <input type="text" class="form-control top-search-inp" placeholder="" ng-model="weightSearch">
+                    </label>
+                    <label ng-show="type == 'EXPRESS'">
+                        <span>时间：</span>
+                        <input class="Wdate data-inp" style="text-indent: 12px;height: 28px;" id="startDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        <input class="Wdate data-inp" style="text-indent: 12px;height: 28px;" placeholder="Now" id="endDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </label>
+                </div>
+                <div class="item" style="justify-content: flex-end;">
+                    <label>
+                        <a role="button"  class="btn btn-default top-search-btn"
+                            type="button" ng-click="shippingamount()">运费金额</a>
+                        <a role="button"  class="btn btn-default top-search-btn"
+                           type="button" ng-click="searchstaff()">{{'100025' | translate}}</a>
+                        <a ng-show="type == 'EXPRESS'" role="button"
+                           class="btn btn-default top-search-btn"
+                           type="button" ng-click="excelUp()">导出Excel</a>
+                        <a ng-show="type == 'EXPRESS'" role="button"
+                           class="btn btn-default top-search-btn"
+                           type="button" ng-click="addClick()">录入</a>
+                    </label>
+                </div>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table ng-hide="type == 'EXPRESS'" class="ea-list-table ea-erp-cs">
+                    <tr>
+                        <th><span>{{'100174' | translate}}</span></th>
+                        <th><span>时间</span></th>
+                        <th><span>业务员</span></th>
+                        <th><span>{{'100824' | translate}}</span></th>
+                        <th><span>{{'100718' | translate}}</span></th>
+                        <th><span>{{'100724' | translate}}</span></th>
+                        <th><span>{{'100109' | translate}}</span></th>
+                        <th><span>{{'100819' | translate}}</span></th>
+                        <th><span>{{'100820' | translate}}</span></th>
+                        <!--<th><span>负责人</span></th>-->
+                        <th><span>{{'100781' | translate}}</span></th>
+                        <th><span>实际重量(g)</span></th>
+                        <!--<th><span>备注</span></th>-->
+                    </tr>
+                    <tr ng-repeat="item in stafflist" ng-click="TrClick($index)"
+                        ng-class='{selectActive: $index == focus,"overTR":isoverTR}'>
+                        <td><span>{{$index+1}}</span></td>
+                        <td><span>{{item.createDate}}</span></td>
+                        <td><span>{{item.salesmanName}}</span></td>
+                        <td><span><p>{{item.freightName}}</p></span></td>
+                        <td><span><p>{{item.logisticsType}}</p></span></td>
+                        <td><span>{{item.stateCode}}</span></td>
+                        <td><span>{{item.trackingNumCode}}</span></td>
+                        <td><span>{{item.billIdByOriginal}}</span></td>
+                        <td><span>{{item.billIdByChange}}</span></td>
+                        <!--<td><span>{{item.adminName}}</span></td>-->
+                        <td><span>{{item.freightMoney}}</span></td>
+                        <td><span>{{item.freightWeight}}</span></td>
+                        <td ng-show="type == 'EXPRESS'">
+                            <span ng-class="{red:item.freightWeight<item.throwingWeight,gre:item.freightWeight>item.throwingWeight}"
+                                  style="border-bottom: 1px solid #CCCCCC;">{{item.throwingWeight}}</span>
+                            <span>{{item.packageSize}}</span>
+                        </td>
+                    </tr>
+                </table>
+                <div ng-show="type == 'EXPRESS'" style="overflow-x: auto;width: 100%;">
+                    <table style="min-width: 1600px;" class="ea-list-table ea-erp-cs EXPRESS">
+                        <thead>
+                        <tr>
+                            <th><span>序号</span></th>
+                            <th><span>时间</span></th>
+                            <th><span>业务员</span></th>
+                            <th><span>货代名称</span></th>
+                            <th><span>物流方式</span></th>
+                            <th><span>国家</span></th>
+                            <th><span>追踪号</span></th>
+                            <th><span>系统重量</span></th>
+                            <th><span>系统运费</span></th>
+                            <th><span>转单号</span></th>
+                            <th><span>原单号</span></th>
+                            <th><span>实际重量(kg)</span></th>
+                            <th><span>长(cm)</span></th>
+                            <th><span>宽(cm)</span></th>
+                            <th><span>高(cm)</span></th>
+                            <th><span>抛货重量(kg)</span></th>
+                            <th><span>操作</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-show="isAdd">
+                            <td>--</td>
+                            <td><span>{{createDate}}</span></td>
+                            <td><span>{{salesmanName}}</span></td>
+                            <td><span>{{freightName}}</span></td>
+                            <td><span>{{logisticsType}}</span></td>
+                            <td><span>{{stateCode}}</span></td>
+                            <td><span>{{trackingNumCode}}</span></td>
+                            <td><span>{{freightWeight}}</span></td>
+                            <td><span>{{freightMoney}}</span></td>
+                            <td><span>{{billIdByChange}}</span></td>
+                            <td><input ng-model="billIdByOriginal" id="zdinput1" type="text"></td>
+                            <td><input ng-model="actualWeight" id="zdWeight" ng-keydown="keyFun($event)" type="number" ng-focus="isVaildFocus()"></td>
+                            <td><input ng-model="length" ng-keydown="keyFun($event)" type="number"></td>
+                            <td><input ng-model="width" ng-keydown="keyFun($event)" type="number"></td>
+                            <td><input ng-model="height" ng-keydown="keyFun($event,'tab')" type="number"></td>
+                            <td>
+                                <span ng-class="{green:actualWeight > throwingWeight,red:actualWeight < throwingWeight}">{{throwingWeight}}</span>
+                            </td>
+                            <td>
+                                <a class="btn" href="" ng-click="next()">继续</a>
+                                <a class="btn" href="" ng-click="addCon()">完成</a>
+                                <a ng-click="isCancel()" class="btn" href="">取消</a>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in stafflist" ng-click="TrClick($index)"
+                            ng-class='{selectActive: $index == focus,"overTR":isoverTR}'>
+                            <td><span>{{$index+1}}</span></td>
+                            <td><span>{{item.createDate}}</span></td>
+                            <td><span>{{item.salesmanName}}</span></td>
+                            <td><span>{{item.freightName}}</span></td>
+                            <td><span>{{item.logisticsType}}</span></td>
+                            <td><span>{{item.stateCode}}</span></td>
+                            <td><span>{{item.trackingNumCode}}</span></td>
+                            <td><span>{{item.freightWeight}}</span></td>
+                            <td><span>{{item.freightMoney}}</span></td>
+                            <td>
+                                <span ng-show="!item.isEdit">{{item.billIdByChange}}</span>
+                                <input ng-show="item.isEdit" class="zdinput2" ng-model="$parent.stafflist[$index].billIdByChange" type="text">
+                            </td>
+                            <td>
+                                <span>{{item.billIdByOriginal}}</span>
+                                <!--<input ng-show="item.isEdit" ng-model="$parent.stafflist[$index].billIdByOriginal" type="text">-->
+                            </td>
+                            <td>
+                                <span ng-show="!item.isEdit">{{item.actualWeight}}</span>
+                                <input ng-show="item.isEdit" string-to-number ng-keydown="itemkeyFun($event,item)"  ng-model="$parent.stafflist[$index].actualWeight" type="number">
+                            </td>
+                            <td>
+                                <span ng-show="!item.isEdit">{{item.length}}</span>
+                                <input ng-show="item.isEdit" string-to-number ng-keydown="itemkeyFun($event,item)"  ng-model="$parent.stafflist[$index].length" type="number">
+                            </td>
+                            <td>
+                                <span ng-show="!item.isEdit">{{item.width}}</span>
+                                <input ng-show="item.isEdit" string-to-number ng-keydown="itemkeyFun($event,item)"  ng-model="$parent.stafflist[$index].width" type="number">
+                            </td>
+                            <td>
+                                <span ng-show="!item.isEdit">{{item.height}}</span>
+                                <input ng-show="item.isEdit" string-to-number ng-keydown="itemkeyFun($event,item,'tab',$index)"  ng-model="$parent.stafflist[$index].height" type="number">
+                            </td>
+                            <td>
+                                <span ng-class="{green:item.actualWeight > item.throwingWeight,red:item.actualWeight < item.throwingWeight}">{{item.throwingWeight}}</span>
+                            </td>
+                            <td>
+                                <a ng-show="!item.isEdit" class="btn" href="" ng-click="editItem(item,$index)">编辑</a>
+                                <a ng-show="item.isEdit" class="btn" href="" ng-click="editCon(item)">完成</a>
+                                <a ng-show="!item.isEdit" class="btn" href="" ng-click="remove(item)">删除</a>
+                                <a ng-show="item.isEdit" ng-click="editCancel(item)" class="btn" href="">取消</a>
+                            </td>
+                        </tr>
+                        <tr ng-show="totalNum == 0" >
+                            <td colspan="17">暂无数据。</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 分页 -->
+                <div class="page-box" ng-show="totalNum > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="500">500</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增-->
+<!-- <div class="asj-common-tanwrap" ng-show="isAdd=true">
+<div class="asj-common-tan tan-delete-ware" style="height: initial;width: 400px;height: 315px;">
+&lt;!&ndash;<h3>{{'100259' | translate}}<span class="close" ng-click="isAdd = false;">×</span></h3>&ndash;&gt;
+<div>
+<ul>
+<li>
+<span>原单号:</span>
+<input type="text" ng-model="trackNumber">
+</li>
+<li>
+<span>长(cm):</span>
+<input type="text" ng-model="length">
+</li>
+<li>
+<span>宽(cm):</span>
+<input type="text" ng-model="width">
+</li>
+<li>
+<span>高(cm):</span>
+<input type="text" ng-model="height">
+</li>
+<li>
+<span>重量(g):</span>
+<input type="text" ng-model="freightWeight">
+</li>
+</ul>
+</div>
+<div class="tan-btns">
+<a class="tan-btn1" ng-click="addConfirm()">{{'101275' | translate}}</a>
+<a class="tan-btn0" ng-click="isAdd = false">{{'100051' | translate}}</a>
+</div>
+</div>
+</div> -->
+
+<!-- 新增运费金额弹框 -->
+<div class="asj-common-tanwrap" ng-show="isAddShipping">
+    <div class="asj-common-tan tan-delete-ware" style="height: initial;padding: 20px">
+    
+    <div> 
+    <ul>
+    <li>
+    <span>追踪号:</span>
+    <input type="text" ng-model="trankingNum">
+    </li>
+    <li>
+    <span>运费金额:</span>
+    <input type="text" ng-model="shippingMoney">
+    </li>
+    </ul>
+    </div>
+    <div class="tan-btns">
+    <a class="tan-btn1" ng-click="addShippingConfirm()">{{'101275' | translate}}</a>
+    <a class="tan-btn0" ng-click="isAddShipping = false">{{'100051' | translate}}</a>
+    </div>
+    </div>
+</div>
+
+</body>
+</html>

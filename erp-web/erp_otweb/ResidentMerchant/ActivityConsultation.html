@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新品</title>
+    <!--业务员管理-->
+    <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+    <script src="erp_otweb/js/video.min.js"></script>
+</head>
+<style>
+    .filter {
+        line-height: 30px !important;
+        /* display: flex; */
+    }
+
+    .filter .datetab {
+        margin-left: 15px;
+    }
+
+    .filter .dateact {
+        color: #0d8efb;
+    }
+    .chartsbox .dateact {
+        color: #0d8efb;
+    }
+
+    .search-by-con {
+        height: 30px;
+        position: relative;
+        float: left;
+    }
+
+    .default-con {
+        width: 240px;
+        height: 30px;
+        padding-left: 10px;
+        line-height: 30px;
+        border: 1px solid #e5e5e5;
+        position: relative;
+    }
+
+    .has-list-cate {
+        float: left;
+        margin-right: 15px;
+    }
+
+    .serch-by-name {
+        height: 30px;
+        line-height: 30px;
+        float: left;
+    }
+
+    input, select {
+        height: 30px !important;
+    }
+
+    .three-grade-list {
+        position: absolute;
+        left: 0;
+        top: 0px;
+        margin-top: 0;
+        padding-left: 0;
+        background: #fff;
+        z-index: 99;
+        display: none;
+    }
+
+    .caret {
+        position: absolute;
+        right: 10px;
+        top: 13px;
+    }
+
+    .filter .search {
+        height: 30px;
+    }
+
+    .samlimg {
+        position: absolute;
+        /* top: -160px; */
+        /* left: 72px; */
+    }
+    .samlimg:hover{
+        transform: scale(15);
+    }
+
+    .lookProduct {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        top: 0;
+        left: 0;
+        z-index: 10000;
+    }
+
+    .lookProduct .content {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: #fff;
+        box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+        width: 700px;
+        min-height: 330px;
+        margin: initial;
+        border-radius: 4px;
+        padding: initial;
+    }
+
+    .lookProduct .content h3 {
+        padding: 15px;
+        margin: initial;
+        text-align: left;
+        border-bottom: 1px solid #F0F0F0;
+    }
+
+    .lookProduct .content h3 .close {
+        font-size: 25px;
+        font-weight: initial;
+        opacity: .4;
+    }
+
+    .my-video-dimensions {
+        width: 100%;
+        height: 273px;
+    }
+
+    .lookProduct .content {
+        /* top: 35%; */
+    }
+
+    .filter input {
+        margin: 0 5px;
+        width: auto;
+    }
+    .page-box .to-idx{
+        float: left;
+    }
+    .page-box .to-idx input{
+        text-align: center;
+        width: 50px;
+        height: 25px!important;
+        margin: 0 5px;
+    }
+    .page-box .to-idx button{
+        border: 1px solid #dddee1;
+        height: 25px;
+        line-height: 25px;
+        width: 50px;
+        border-radius: 3px;
+    }
+    .chartsbox{
+        /* margin-bottom: 20px; */
+    }
+    .fontcenter{
+        text-align: center;
+    }
+    .activeTime{
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    .activeTitle{
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+    .activeContent{
+        width: 660px;
+        padding: 10px 10px 20px;
+        word-wrap: break-word;
+        word-break: normal;
+    }
+
+    /* 富文本框 */
+    .content1{
+        background-color: #fff;
+        padding: 20px;
+        position: relative;
+        margin-left: 220px;
+    }
+    .title{
+        float: left;
+        width: 60px; 
+        text-align: right;
+        height: 40px;
+        line-height: 40px;
+    }
+    .w-e-text-container{
+        height: 500px !important;
+    }
+    .filter {
+        line-height: 30px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 220px;
+    }
+    .topbox{
+        height: 60px;
+        background: #fff;
+        margin-left: 220px;
+        margin-top: 20px;
+        padding: 40px 50px 30px;
+        cursor: pointer;
+    }
+    .topbox:hover{
+        color: red;
+    }
+    .titleinput{
+        display:block;
+        border:1px solid #ccc;
+        height: 40px;
+        line-height: 40px;
+        float: right;
+        width: 94%;
+        border-radius: 0;
+    }
+    .titlebox{
+        margin-bottom: 20px;
+        overflow: hidden;
+        margin-right: 100px;
+    }
+    .editbox{
+        overflow: hidden;
+        margin-right: 100px;
+        margin-bottom: 20px;
+    }
+    .title-content{
+        position: relative;
+    }
+    #pushEditor{
+        z-index: 20;
+    }
+    #text1{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -12;
+    }
+    .clearfix{
+        display: block;
+        margin-right: 0;
+    }
+    .detail-box{
+        padding: 10px 20px;
+        height: 600px;
+        overflow: scroll;
+    }
+</style>
+<body>
+<div style="height: 68px;"  ng-show="!isEdit"></div>
+<div class="content" style="overflow: hidden;" ng-show="!isEdit">
+    <div>
+            <div class="filter clearfix">
+                <button class="search" style="float: right;border-radius: 0;font-size: 14px;" ng-click="pushNewConsult()">发布新资讯</button>
+            </div>
+        <div class="parent-order">
+            <table>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>文章标题</th>
+                    <th>浏览数</th>
+                    <th>发布时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                    <td>{{$index+1}}</td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.readingVolume}}</td>
+                    <td>{{item.createAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                    <td>
+                        <span ng-click="showArtical(item)" style="cursor: pointer;">【详情】</span>
+                        <span ng-click="EditArtical(item)" style="cursor: pointer;">编辑</span>
+                        <span ng-click="delArtical(item)" style="cursor: pointer;">删除</span>
+                    </td>
+                </tr>
+                <tr ng-show="dataList.length == 0">
+                    <td colspan="9">暂无数据。</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--分页-->
+            <div class="page-box">
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="total-num">
+                     <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="pageSize" ng-change="pagechange(pageSize)" style="width: 65px;height: 31px;">
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup1"></div>
+                </div>
+                <div class="to-idx">
+                    到第<input type="number" ng-model="pageNum">页
+                    <button ng-click="toPage1()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--详情弹框-->
+<div class="lookProduct" ng-show="isDetail" style="border:1px #bbb solid">
+        <div class="content">
+            <h3 style="font-size: 16px;" class="activeTitle">文章详情<span class="close" ng-click="lookProclose()">×</span></h3>
+            <!-- <div ng-show="content != ''"> -->
+            <div class="detail-box">
+                <p class="fontcenter activeTitle">{{title}}</p>
+                <p class="fontcenter activeTime">{{createAt | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                <!-- <p>{{content}}</p> -->
+                <div class="activeContent">
+
+                </div>
+            </div>
+            <!-- <span ng-show="ProDetail.length == 0" style="font-size: 12px;text-align: center;display: block;line-height: 40px;">暂无数据。</span> -->
+        </div>
+    </div>
+
+<!-- 删除弹框 -->
+<div class="return-tk-wrap ng-scope" ng-show="isDel">
+    <div class="return-tk-con">
+        <div class="rt-con-text">
+            <p class="ng-binding" style="margin: 30px;">确认删除吗?</p>
+        </div>
+        <div class="rt-con-btns">
+            <button ng-click="cancelDel()" class="rt-no-btn ng-binding">取消</button>
+            <button class="rt-yes-btn ng-binding" ng-click="sureDel()">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- 富文本框 -->
+<div ng-show="isEdit">
+    <!-- <div class="topbox"></div> -->
+    <!-- <div ng-click="isEdit = false" class="topbox">< 返回</div> -->
+    <div ng-click="isEdit = false" class="topbox"></div>
+    <div class="content1">
+        <div class="titlebox">
+            <div class="title">标题</div>
+                <input type="text" class="titleinput" id="title"  ng-model = "title">       
+                <!-- maxlength="20" -->
+        </div>
+        <div class="editbox">
+            <div class="title">内容</div>
+            <div class="parent-order title-content">
+                <div id="pushEditor" style="float: right;width: 94%;">
+                    <p></p>
+                </div>
+                <textarea id="text1" style="width:100%; height:200px;"></textarea>
+            </div>
+        </div>
+        <div class="filter">
+            <button class="search" style="border-radius: 0;font-size: 14px;" ng-click="EditConsult()" id="publicConsult">确认修改</button>
+            <button class="search" style="border-radius: 0;font-size: 14px;" ng-click="clearNewConsult()">撤消</button>
+            <button class="search" style="border-radius: 0;font-size: 14px;"  ng-click="isEdit = false">返回</button>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

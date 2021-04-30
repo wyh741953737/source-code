@@ -1,0 +1,516 @@
+<style>
+  .my-wrap  .dikou-span {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 3px;
+    border-radius: 4px;
+    font-size: 10px;
+    color: #fff;
+    background-color: #449d44;
+    margin-top: 4px;
+    margin-left: 5px;
+  }
+  </style>
+<div class="my-wrap">
+    <main class="my-main">
+      <section class="filter-area">
+        <a href="#/erppurchase/paying">< 返回</a>
+      </section>
+      <div style="height:30px;"></div>
+      <div class="form-area flex fyc fwp">
+        <div class="input-item hide">
+            <label>
+              采购单号:
+            </label>
+            <div class="right-con">
+              <input type="text" ng-model="dataInfo.id" disabled=true />
+            </div>
+        </div>
+        <div class="input-item">
+            <label>
+              创建人:
+            </label>
+            <div class="right-con">
+              <input type="text" ng-model="dataInfo.caigouRen"  disabled=true />
+            </div>
+        </div>
+        <div class="input-item">
+            <label>
+              采购类型:
+            </label>
+            <div class="right-con">
+              <!-- <input type="text" ng-model="dataInfo.caigouType" disabled=true /> -->
+              <select ng-model="dataInfo.caigouType" disabled=true>
+                <option value="0">1688非API</option>
+                <option value="1">1688API</option>
+                <option value="2">淘宝</option>
+                <option value="3">天猫</option>
+                <option value="4">线下</option>
+                <option value="9">拼多多</option>
+              </select>
+            </div>
+        </div>
+        <div class="input-item" ng-show="onlineType!='2'">
+            <label>
+              订单号:
+            </label>
+            <div class="right-con">
+              <input type="text" ng-model="dataInfo.orderId" placeholder=""/>
+            </div>
+        </div>
+
+        <!-- 线下字段 -->
+        <div class="input-item" ng-show="onlineType=='2'">
+          <label>
+            共需支付(￥):
+          </label>
+          <div class="right-con">
+            <input type="text" ng-model="dataInfo.zhiFu" disabled=true placeholder=""/>
+          </div>
+        </div>
+      </div>
+
+      <!-- 线下字段 -->
+      <div class="form-area flex fyc fwp" ng-show="onlineType=='2'">
+        <div class="input-item">
+          <label>
+            收款银行:
+          </label>
+          <div class="right-con">
+            <input type="text" ng-model="dataInfo.bank" disabled=true />
+          </div>
+        </div>
+        <div class="input-item">
+          <label>
+            收款支行:
+          </label>
+          <div class="right-con">
+            <input type="text" ng-model="dataInfo.branchBank" disabled=true />
+          </div>
+        </div>
+        <div class="input-item">
+          <label>
+            收款账号名称:
+          </label>
+          <div class="right-con">
+            <input type="text" ng-model="dataInfo.accountName" disabled=true />
+          </div>
+        </div>
+        <div class="input-item">
+          <label>
+            收款银行账号:
+          </label>
+          <div class="right-con">
+            <input type="text" ng-model="dataInfo.bankAccount" disabled=true />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-area flex fyc fwp">
+          <div class="input-item">
+              <label>
+                供货公司:
+              </label>
+              <div class="right-con">
+                <input type="text" ng-model="dataInfo.gongHuoGongSi" placeholder="" />
+              </div>
+          </div>
+          <div class="input-item">
+              <label>
+                仓库:
+              </label>
+              <div class="right-con">
+                <select ng-model="dataInfo.warehouse" ng-change="warehouseChange()">
+                  <option ng-repeat="i in warehouseList" value="{{i.value}}">{{i.label}}</option>
+                </select>
+              </div>
+          </div>
+          <div class="input-item">
+              <label>
+                标记:
+              </label>
+              <div class="right-con">
+                <select ng-model="dataInfo.caiGouLiuYan">
+                  <option value="zhengChang">正常</option>
+                  <option value="jiaJi">加急</option>
+                  <!-- <option value="zhiFa">直发</option> -->
+                  <option value="zuZhuang">组装</option>
+                  <option value="buRuKu">不入库</option>
+                  <option value="xianXiaZu">线下组</option>
+                  <option value="gaiBiao">改标</option>
+                  <!-- <option value="zhiFa">美国仓直发</option>
+                  <option value="gaiBiao">VIP</option> -->
+
+                  <!-- 新增标记状态 -->
+                  <option value="xiaoDanZhiFa">小单直发</option>
+                  <option value="haiWaiCangZhiFa">海外仓直发</option>
+                  <option value="guiZhongWuPin">贵重物品</option>
+                </select>
+              </div>
+          </div>
+          <div class="input-item">
+            <label>
+              标记备注：
+            </label>
+            <div class="right-con">
+              <input type="text" ng-model="dataInfo.signRemark">
+            </div>
+          </div>
+          <div class="input-item" ng-show="onlineType!='2'">
+              <label>
+                原总价(¥):
+              </label>
+              <div class="right-con">
+                <input type="number" step="0.01" ng-model="dataInfo.huoWuZongJia" placeholder=""/>
+              </div>
+          </div>
+          <div class="input-item truePayfor" ng-show="onlineType!='2'">
+              <label>
+                实际支付价格(¥):
+              </label>
+              <div class="right-con">
+                <input type="number" step="0.01" ng-model="dataInfo.zhiFu" placeholder="请输入实际支付价格" />
+              </div>
+          </div>
+          <div class="input-item" ng-show="onlineType!='2'">
+            <label>
+              付款时间:
+            </label>
+            <div class="right-con">
+              <wui-date format="yyyy-mm-dd HH:mm:ss" ng-class="{'disable-opacity': disable.select}" placeholder="付款时间" btns="{'ok':'确定','now':'今天'}" ng-model="dataInfo.fuKuanDate"></wui-date>
+            </div>
+        </div>
+      </div>
+
+      <div class="form-area flex fyc fwp" ng-show="onlineType=='2'">
+          <div class="input-item">
+            <label>
+              支付方式:
+            </label>
+            <div class="right-con flex fdc">
+              <select ng-model="payTypeSelected">
+                <option ng-repeat="i in payTypeArr" value="{{$index}}">{{i.payName}} {{i.payObject}} {{i.payBank}} {{i.payAccount}} </option>
+              </select>
+            </div>
+          </div>
+          <div class="input-item">
+            <label>
+              支付时间:
+            </label>
+            <div class="right-con flex fdc">
+              <input id="payTime" class="data-inp"  type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="支付时间" />
+            </div>
+          </div>
+        </div>
+        
+      <div class="form-area flex fyc fwp logistics" ng-repeat="i in dataInfo.logistics">
+        <div class="flex fyc fwp">
+          <div class="input-item">
+            <label>
+              物流公司:
+            </label>
+            <div class="right-con">
+              <input type="text" placeholder="请填写物流公司" ng-model='i.company' />
+            </div>
+          </div>
+          <div class="input-item">
+              <label>
+                运单号:
+              </label>
+              <div class="right-con">
+                <input type="text" placeholder="请输入运单号" ng-model='i.orderNo' />
+              </div>
+          </div>
+        </div>
+        <div class="operate flex fyc" style="margin-bottom:12px;margin-left:15px;font-size:22px;">
+          <button class="btn primary" ng-click="addLogistics()">+</button>
+          <button class="btn primary" ng-show="dataInfo.logistics.length>1" ng-click="delLogistics($index)">-</button>
+        </div>
+      </div>
+
+      <div class="form-area flex fyc fwp">
+        <div class="input-item">
+          <label>
+            物流费用(¥):
+          </label>
+          <div class="right-con">
+            <input type="number" step="0.01" ng-model="dataInfo.freight" placeholder="请输入物流费用" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-area flex fyc fwp cert">
+        <div class="input-item" ng-show="onlineType=='2'">
+          <label>
+            支付凭证:
+          </label>
+          <div class="right-con flex fdc">
+            <div class="_tips">(凭证格式：.jpg,.gif,.jpeg,.png)</div>
+            <div class="flex fyc">
+                <div class="upload-img" ng-repeat="i in dataInfo.certPic">
+                    <img src="{{i}}" />
+                    <div class="edit-box-wrap">
+                      <div class="edit-box">
+                        <a href="javascript:void(0);" class="preview-btn" ng-click="previewPic(i)">预览</a>
+                        <a href="javascript:void(0);" class="delete-btn" ng-click="deletePic($index)">删除</a>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="upload-img upBtn">
+                    <input type="file" multiple id="upload-img1" accept="image/jpg,image/gif,image/jpeg,image/png" onchange="angular.element(this).scope().upLoadImg(this.files)" />
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="table-area">
+        <!-- 表格列表 -->
+        <div class="tb-thead d-flex k-tb-thead">
+            <div style="width: 10%" class="tb-thead-th">图片</div>
+            <div style="width: 10%" class="tb-thead-th">SKU</div>
+            <div style="width: 8%" class="tb-thead-th">属性</div>
+            <div style="width: 14%" class="tb-thead-th">今日订单统计数量</div>
+            <div style="width: 14%" class="tb-thead-th">可用库存数量</div>
+            <div style="width: 14%" class="tb-thead-th">建议采购数量</div>
+            <div style="width: 14%" class="tb-thead-th">搜品价格(￥)</div>
+            <div style="width: 14%" class="tb-thead-th">实际采购数量  <span ng-click="showFlag=true" style="color:#F8A636;">批量操作</span></div>
+        </div>
+        <div class="tb-tbody" style="max-height:400px;overflow-y: auto;">
+          <div class="tb-tbody-tr item-tr" ng-repeat="i in dataInfo.newSkuList">
+            <div style="width: 10%" class="tb-tbody-td">
+              <div class="flex fyc fxc">
+                  <img src="{{i.img}}" alt="" width=45 height=45 />
+              </div>
+            </div>
+            <div style="width: 10%" class="tb-tbody-td">
+              <span>{{i.sku}}</span>
+            </div>
+            <div style="width: 8%" class="tb-tbody-td">
+              <div style="display: flex; flex-direction: column; text-align: center;">
+                <div ng-repeat="(key,val) in i.variantKeyMap" style="display: block;font-size: 12px;">
+                  {{key}}：{{val}}
+                </div>
+              </div>
+            </div>
+            <div style="width: 14%" class="tb-tbody-td">
+              <span>{{i.orderneedcount || 0}}</span>
+              <tag tag='6' ng-if="i.disputeLogo == 1"></tag>
+              <div class="hover-tag">
+                 <tag tag="14" class="first-tag">
+                 <tag tag="18" ></tag>  
+              </div>
+            </div>
+            <div style="width: 14%" class="tb-tbody-td"><span>{{i.kucun || 0}}</span></div>
+            <div style="width: 14%" class="tb-tbody-td"><span>{{i.inprocurementcount || 0}}</span></div>
+            <div style="width: 14%" class="tb-tbody-td"><span>{{i.costprice}}</span></div>
+            <div style="width: 14%" class="tb-tbody-td">
+              <input type="text" ng-model="i.shuLiang" />
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-btns flex frre" style="margin-top:30px;">
+          <button type="button" class="btn primary" ng-click="openConfirmPop()">确定并提交至待签收</button>
+          <button type="button" class="btn ghost" onClick="javascript:history.back(-1);">取消</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <!-- 弹窗：批量设置 -->
+  <div class="erp-common-tan-v2-wrap" ng-show="showFlag">
+      <div class="erp-common-tan-v2" style="width: 500px; height: 210px;">
+        <!-- 关闭按钮 -->
+        <a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img src="static/image/public-img/close-img.png"></a>
+        <!-- title -->
+        <div class="tan-v2-top">
+          <h6>批量设置采购数量</h6>
+        </div>
+        <!-- 内容 -->
+        <div class="tan-v2-con">
+          <div class="flex fyc">
+            <label>采购数量：</label>
+            <input type="text" ng-model="batchShuLiang" placeholder="" class="batch-set">
+          </div>
+        </div>
+        <!-- 底部 -->
+        <div class="tan-v2-bot">
+          <!-- 取消按钮（灰色） -->
+          <a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+          <!-- 确认按钮（彩色） -->
+          <a href="javascript:void(0);" ng-click="batchChangeShuLiang()" class="que-ding-btn">确定</a>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 出单确认弹窗 -->
+    <div class="erp-common-tan-v2-wrap confirm-popup" ng-show="showConfirm">
+      <div class="erp-common-tan-v2" style="width: 500px; height: 210px;">
+        <!-- 关闭按钮 -->
+        <a class="tan-v2-close" href="javascript:void(0);" ng-click="showConfirm=false;"><img src="static/image/public-img/close-img.png"></a>
+        <!-- title -->
+        <div class="tan-v2-top">
+          <h6>{{formatCaigouType(dataInfo.caigouType)}}采购</h6>
+        </div>
+        <!-- 内容 -->
+        <div class="tan-v2-con">
+          <div class="flex fdc">
+            <div class="confirm-info flex fwp">
+              <div class="text-item hide">采购单号：{{dataInfo.id}}</div>
+              <div class="text-item">创建人：{{dataInfo.caigouRen}}</div>
+              <div class="text-item">采购类型：{{formatCaigouType(dataInfo.caigouType)}}</div>
+              <div class="text-item" ng-show="onlineType!=2">订单号：{{dataInfo.orderId}}</div>
+              <div class="text-item" ng-show="onlineType==2">共需支付(￥)：{{dataInfo.zhiFu}}</div>
+            </div>
+            <div class="flex fwp" ng-show="onlineType==2">
+              <div class="text-item">收款银行：{{dataInfo.bank}}</div>
+              <div class="text-item">收款支行：{{dataInfo.branchBank}}</div>
+              <div class="text-item">收款账号名称：{{dataInfo.accountName}}</div>
+              <div class="text-item">收款银行账号：{{dataInfo.bankAccount}}</div>
+            </div>
+
+            <div class="flex fwp">
+              <div class="text-item">供货公司：{{dataInfo.gongHuoGongSi}}</div>
+              <div class="text-item">仓库：{{formatWarehouseText(dataInfo.warehouse)}}</div>
+              <div class="text-item">标记：{{formatBiaoJiText(dataInfo.caiGouLiuYan)}}</div>
+              <div class="text-item">标记备注：{{dataInfo.signRemark}}</div>
+              <div class="text-item" ng-show="onlineType!=2">原总价(¥)：{{dataInfo.huoWuZongJia}}</div>
+              <div class="text-item" ng-show="onlineType!=2">实际支付价格(¥)：{{dataInfo.zhiFu}}</div>
+              <div class="text-item" ng-show="onlineType!=2">付款时间：{{dataInfo.fuKuanDate}}</div>
+            </div>
+
+            <div class="confirm-logistics flex fdc">
+              <div class="flex fyc" ng-repeat="i in dataInfo.logistics">
+                <div class="text-item">物流公司：{{handleEmpty(i.company)}}</div>
+                <div class="text-item">运单号：{{handleEmpty(i.orderNo)}}</div>
+              </div>
+              <div class="text-item">物流费用(¥)：{{dataInfo.freight || 0}}</div>
+            </div>
+
+            <div class="flex" ng-show="onlineType==2">
+              <div class="text-item cert-pic">
+                支付凭证：<span ng-show="dataInfo.certPic.length==0">未上传</span>
+                <div class="flex fyc" ng-show="dataInfo.certPic.length>0">
+                  <img ng-repeat="i in dataInfo.certPic" src="{{i}}" style="margin-right:10px;" />
+                </div>
+              </div>
+            </div>
+
+            <div class="confirm-table">
+              <section class="table-area">
+                <!-- 表格列表 -->
+                <div class="tb-thead d-flex k-tb-thead">
+                    <div style="width: 10%" class="tb-thead-th">图片</div>
+                    <div style="width: 10%" class="tb-thead-th">SKU</div>
+                    <div style="width: 8%" class="tb-thead-th">属性</div>
+                    <div style="width: 14%" class="tb-thead-th">今日订单统计数量</div>
+                    <div style="width: 14%" class="tb-thead-th">可用库存数量</div>
+                    <div style="width: 14%" class="tb-thead-th">建议采购数量</div>
+                    <div style="width: 14%" class="tb-thead-th">搜品价格(￥)</div>
+                    <div style="width: 14%" class="tb-thead-th">实际采购数量</div>
+                </div>
+                <div class="tb-tbody" style="overflow: auto;max-height:280px;">
+                  <div class="tb-tbody-tr item-tr" ng-repeat="i in dataInfo.newSkuList">
+                    <div style="width: 10%" class="tb-tbody-td">
+                      <div class="flex fyc fxc">
+                          <img src="{{i.img}}" alt="" width=45 height=45 />
+                      </div>
+                    </div>
+                    <div style="width: 10%" class="tb-tbody-td"><span>{{i.sku}}</span></div>
+                    <div style="width: 8%" class="tb-tbody-td">
+                      <div style="display: flex; flex-direction: column; text-align: center;">
+                        <div ng-repeat="(key,val) in i.variantKeyMap" style="display: block;font-size: 12px;">
+                          {{key}}：{{val}}
+                        </div>
+                      </div>
+                    </div>
+                    <div style="width: 14%" class="tb-tbody-td"><span>{{i.orderneedcount || 0}}</span></div>
+                    <div style="width: 14%" class="tb-tbody-td"><span>{{i.kucun || 0}}</span></div>
+                    <div style="width: 14%" class="tb-tbody-td"><span>{{i.inprocurementcount || 0}}</span></div>
+                    <div style="width: 14%" class="tb-tbody-td"><span>{{i.costprice}}</span></div>
+                    <div style="width: 14%" class="tb-tbody-td"><span>{{i.shuLiang}}</span></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!-- 底部 -->
+        <div class="tan-v2-bot">
+          <!-- 取消按钮（灰色） -->
+          <a href="javascript:void(0);" ng-click="showConfirm=false;" class="qu-xiao-btn">取消</a>
+          <!-- 确认按钮（彩色） -->
+          <a href="javascript:void(0);" ng-click="saveCaigouInfo()" class="que-ding-btn">确定</a>
+        </div>
+      </div>
+    </div>
+
+  <style>
+  .my-wrap { margin-left:215px; padding:15px; }
+    .my-main { background: #fff;}
+    .filter-area { padding: 10px;}
+
+    .fs-14 {font-size: 14px;}
+    .lh-30 {line-height: 30px;}
+    .mb-20 {margin-bottom: 20px;}
+    .mr-10 {margin-right: 10px;}
+    .bd {border: 1px solid #eee;}
+    .flex {display: flex;}
+    .fbt{justify-content: space-between;}
+    .fxc {justify-content: center;}
+    .fyc {align-items: center;}
+    .fdc {flex-direction: column;}
+    .fwp {flex-wrap: wrap;}
+    .fg-1 {flex-grow: 1;}
+    .frre{flex-direction: row-reverse;}
+    
+    .my-main .search-btn{height:37px;line-height: 37px;padding:0 15px;border:1px solid #eee;background-color:#fff;}
+
+    /* btn */
+    button.btn{height:37px;line-height: 37px;padding:0 15px;}
+    button.primary{border:1px solid #f9ae08;background-color:#f9ae08;color:#fff;}
+    button.ghost{border:1px solid #eee;background-color:#fff;}
+
+    .table-area{padding:15px;}
+    .item-tr{position:relative;}
+    .item-tr .hover_sku_list{display: none;position:absolute;left:0;top:100%;width:100%;background-color:#f7f3e6;z-index:1;}
+    .item-tr .hover_sku_list .li-tr{padding:15px 10px;}
+    .item-tr .hover_sku_list .li-tr .li-td{padding:0 15px;font-size:14px;display: flex;align-items: center;justify-content: center;}
+    .item-tr .hover_sku_list .li-tr .li-td img.pic{width:45px;height:45px;}
+    .item-tr:hover .hover_sku_list{display: block!important;}
+
+    .form-area label{width:125px!important;}
+    .form-area .right-con{padding-left:125px!important;}
+    .form-area .input-item{display: flex;align-items: center;width:auto!important;}
+    .form-area .input-item.truePayfor label{width:150px!important;}
+    .form-area .input-item.truePayfor .right-con{padding-left:150px!important;}
+    .form-area .right-con input,.form-area .right-con select{width:180px!important;}
+
+
+    input.batch-set{flex:1;}
+
+    /* 采购确认单 */
+    .confirm-popup .erp-common-tan-v2{width:1100px!important;height:auto!important;}
+    .confirm-popup .text-item{margin-right:55px;margin-bottom:25px;}
+    .confirm-popup .cert-pic img{width:100px;height:100px;}
+
+    /* upload img */
+    .upload-img{margin-right:10px;width:100px;height:100px;position:relative;}
+    .upload-img.upBtn{background:url('/static/image/public-img/plus.png') center no-repeat;}
+    .upload-img img{width:100%;height:100%;position:absolute;top:0;left:0;}
+    .upload-img input[type='file']{position: absolute;left:0;top:0;opacity:0;display: block;width: 100%!important;height: 100%!important;cursor: pointer;}
+    .upload-img .edit-box-wrap{position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; display: none; background: rgba(0, 0, 0, 0.5); transition: all 0.5s; -moz-transition: all 0.5s; -webkit-transition: all 0.5s; -o-transition: all 0.5s; }
+    .upload-img:hover .edit-box-wrap{display: block;}
+    .upload-img .edit-box-wrap .edit-box { position: absolute; width: 100%;  height: 30px; bottom: 0; left: 50%; margin-left: -50px; line-height: 30px; }
+    .upload-img .edit-box-wrap .edit-box a{ color: #fff; float: left; width: 50%; text-align: center; font-size: 14px; line-height: 24px; }
+
+    select:disabled{background-color: rgb(235, 235, 228)!important;}
+
+    .wui-date-editor .wui-date-input{padding-left:24px!important;}
+
+    .hover-tag {display: flex;justify-content: center;align-items: center;}
+    .first-tag {cursor: pointer;}
+  </style>

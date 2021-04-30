@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .listTop{
+            display: flex;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f3f3f3;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .listTop span{
+            display: block;
+            width: 14px;
+            height: 12px;
+            background: url("static/image/public-img/Back.png") no-repeat;
+            cursor: pointer;
+        }
+        .listTop p{
+            color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            margin-left: 20px;
+        }
+        .searchWrap{
+            display: flex;
+            margin-top: 15px;
+        }
+        .searchGroup{
+            display: flex;
+            align-items: center;
+        }
+        .searchGroup input{
+            height: 30px;
+            width: 250px;
+            border: 1px solid #e1e1e1;
+            padding: 0 5px;
+        }
+        .searchGroup button{
+            height: 30px;
+            padding: 0 15px;
+            color: #fff;
+            background: #F9AE08;
+        }
+        .searchGroup a{
+            display:inline-block;
+            padding: 5px 15px;
+        }
+        .searchGroup a:hover{
+            color: #F9AE08;
+        }
+        .searchGroup a.act{
+            color: #F9AE08
+        }
+        .lostWrap{
+            margin-top: 20px;
+        }
+        .lostThead{
+            display: flex;
+        }
+        .lostThead .lostTH{
+            width: 20%;
+            background: #FCF4D9;
+            color: #8B572A;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #FCF4D9;
+        }
+        .lostTr{
+            display: flex;
+            border-left: 1px solid #e1e1e1;
+        }
+        .lostTD{
+            width: 20%;
+            border-right: 1px solid #e1e1e1;
+            border-bottom: 1px solid #e1e1e1;
+            text-align: center;
+            padding: 8px 5px;
+            
+        }
+        .lostTD:first-child span{
+            cursor: pointer;
+        }
+        .ClassCustomerBtn{
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+        }
+        .ClassCustomerBtn>b{
+            display: inline-block;
+            border: 4px solid transparent;
+            border-top-color: #666;
+        }
+        .ClassCustomerBtn>ul{
+            position: absolute;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0px 8px 20px;
+            width: 100px;
+            z-index: 999;
+            left: calc(50% - 50px);
+            display: none;
+        }
+        .ClassCustomerBtn:hover ul{
+            display: block;
+        }
+        .ClassCustomerBtn:hover ul>li>span{
+            display: block;
+            padding: 3px;
+            cursor: pointer;
+        }
+        .ClassCustomerBtn:hover ul>li>span:hover{
+            background: #e1e1e1;
+        }
+        .zzc{
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99999;
+            /* display: none; */
+        }
+        .zzcWrap{
+            background: #fff;
+            border-radius: 4px;
+            margin: 150px auto;
+            width: 500px;
+            min-height: 300px;
+        }
+        .zzcWrap>p{
+            text-align: center;
+            padding:20px 15px ;
+        }
+        .inputGroup{
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+        .inputGroup textarea{
+            border: 1px solid #e1e1e1;
+            border-radius: 2px;
+            padding: 5px;
+            font-size: 13px;
+            width: 400px;
+            height:150px;
+        }
+        .btnBottom{
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .btnBottom button{
+            padding: 5px 15px;
+            border-radius: 4px;
+        }
+        .btnBottom button:first-child{
+            margin-right: 15px;
+            background: #F9AE08;
+            color: #fff;
+            border: 1px solid #F9AE08;
+        }
+        .btnBottom button:last-child{
+            background: #fff;
+            border: 1px solid #e1e1e1;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+            <li><a href="#/erpservice/document">{{'Document'}}</a></li>
+            <li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+            <li class="active"><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+            <li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+            <li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+            <li><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="right-bar-wrap ea-right-content">
+        <div class="asj-h10"></div>
+        <div class="right-bar" style="padding:8px 10px;">
+            <div class="listTop">
+                <span ng-click="goBackFun()"></span>
+                <p>已流失的客户</p>
+                <b></b>
+            </div>
+            <div class="searchWrap">
+                <div class="searchGroup">
+                    <input ng-model="searchInfo" placeholder="请输入业务员姓名" type="text">
+                    <button ng-click="searchFun()">搜索</button>
+                </div>
+                <div class="searchGroup selectDateGroup" style="margin-left:40px;">
+                    <a href="1" class="act">近三天</a>
+                    <a href="2">本周</a>
+                    <a href="3" >本月</a>
+                </div>
+            </div>
+
+            <div class="lostWrap">
+                <div class="lostThead">
+                    <div class="lostTH">客户类型</div>
+                    <div class="lostTH">姓名</div>
+                    <div class="lostTH">业务员</div>
+                    <div class="lostTH">最后消费日期</div>
+                    <div class="lostTH">CJ订单数量($)</div>
+                    <div class="lostTH">CJ订单金额($)</div>
+                    <div class="lostTH">操作</div>
+                </div>
+                <div class="lostBody">
+                    <div class="lostTr" ng-repeat="lost in lostList">
+                        <div class="lostTD"><span>{{classType(lost.vip)}}</span></div>
+                        <div class="lostTD"><span ng-click="openDetail(lost.id,lost.login_name)">{{lost.login_name}}</span></div>
+                        <div class="lostTD"><span>{{lost.salesmanName}}</span></div>
+                        <div class="lostTD"><span>{{classEmpty(lost.createDate)}}</span></div>
+                        <div class="lostTD"><span>{{classEmpty(lost.cjCun)}}</span></div>
+                        <div class="lostTD"><span>{{classEmpty(lost.sumMoney)}}</span></div>
+                        <div class="lostTD">
+                            <span class="ClassCustomerBtn">客户分类 <b></b>
+                                <ul>
+                                    <li ng-if="lost.vip!='0'"><span ng-click="changeTypeFun(0,lost)">小客户</span></li>
+                                    <li ng-if="lost.vip!='1'"><span ng-click="changeTypeFun(1,lost)">VIP</span></li>
+                                    <li ng-if="lost.vip!='2'"><span ng-click="changeTypeFun(2,lost)">需吃透</span></li>
+                                    <li ng-if="lost.vip!='3'"><span ng-click="changeTypeFun(3,lost)">需跟进</span></li>
+                                </ul>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-box" >
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+                            style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button"
+                            ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="zzc" ng-show="isSetVIP">
+    <div class="zzcWrap">
+        <p>你确定要将{{setName}}设置为{{classType(setType)}}吗?</p>
+        <div class="inputGroup">
+            <label>备注：</label>
+            <textarea ng-model="typeRemark"></textarea>
+        </div>
+        <div class="btnBottom">
+            <button ng-click="sureChangeType()">确定</button>
+            <button ng-click="closeZZC()">关闭</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="static/js/public/echarts.common.min.js"></script>
+</body>
+</html>

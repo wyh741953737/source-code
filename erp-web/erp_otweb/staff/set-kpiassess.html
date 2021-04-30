@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>员工-KPI考核标准</title>
+		<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+		<style>
+			.set-kpiassess-box .singinfo-box-tit{
+				width: 200px;
+			}
+		</style>
+	</head>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content">
+			<!-- <div class="ea-content-box"> -->
+				
+				<!-- <div class="ea-content-con"> -->
+					<!-- left nav -->
+					<div class="left-bar">
+						<ul>
+							<li><a href="#/staff/KPIAssessment">{{'101018' | translate}}</a></li>
+							<li class="active"><a href="#/staff/setkpiassess">{{'101019' | translate}}</a></li>
+							<li><a href="#/staff/stafffiles">{{'101020' | translate}}</a></li>
+							<li><a href="#/staff/stafftable">{{'101021' | translate}}</a></li>
+							<li><a href="#/staff/nbtz">{{'101022' | translate}}</a></li>
+							<li><a href="#/staff/recruit">{{'101023' | translate}}</a></li>
+							<!-- <li><a href="#/staff/client">员工客户管理</a></li> -->
+						</ul>
+					</div>
+					
+					<!-- right con -->
+					<div class="right-bar-wrap ea-right-content">
+						<!-- <div class="bg-geduan"></div> -->
+						<div class="asj-h10"></div>
+						<div class="right-bar">
+						<!-- right list -->
+						<div class="table-con-box clearfix">
+						<div class="set-kpiassess-box clearfix">
+							<div class="singinfo-box clearfix">
+								<div class="singinfo-box clearfix">
+									<span class="singinfo-box-tit">{{'100759' | translate}}：</span><span class="singinfo-box-con">
+								<select  ng-model="company" ng-options="item as item.companyName for ($index,item) in companyList" ng-change="companyget(company)">
+								<!--<option ng-repeat="item in departmentList" value="{{item.id}}" >{{item.department}}</option>-->
+							</select></span>
+								</div>
+							<span class="singinfo-box-tit">{{'101025' | translate}}：</span><span class="singinfo-box-con">
+								<select  ng-model="department" ng-options="item as item.department for ($index,item) in departmentList" ng-change="departmentget(department)">
+								<!--<option ng-repeat="item in departmentList" value="{{item.id}}" >{{item.department}}</option>-->
+							</select></span>
+							</div>
+							<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{'101026' | translate}}：</span><span class="singinfo-box-con" id="tab-tit"><a class="groupitem" href="javascript:;" ng-repeat="item in groupList" ng-click="groupget(item)">{{department.department}}组{{item.comgroup}}</a>
+							</span>
+
+							</div>
+							<div class="set-kpiassess-con" id="tab-con">
+							
+							<dl style="display: block;">
+							<div class="singinfo-box clearfix">
+							<span class="singinfo-box-tit">{{goup.comgroup}}{{'101030' | translate}}：</span><span class="singinfo-box-con">
+								<p class="singinfo-p">{{'101014' | translate}} <span ng-show="!groupshow">{{goup.standardSalesAmount?goup.standardSalesAmount:0}}</span><input  ng-show="groupshow" type="text" ng-model="goupstandardSalesAmount" class="small"></p>
+								<p class="singinfo-p">{{'101028' | translate}} <span ng-show="!groupshow">{{goup.standardGrossProfit?goup.standardGrossProfit:0}}</span><input ng-show="groupshow" type="text" ng-model="goupstandardGrossProfit" class="small"></p>
+								<p class="singinfo-p">{{'101029' | translate}} <span ng-show="!groupshow">{{goup.standardSProfitRate?goup.standardSProfitRate:0}}</span><input ng-show="groupshow" type="text" ng-model="goupstandardSProfitRate" class="small"></p>
+								<div class="btn-tijiao" style="padding: 0;float: right"><input type="button" class="btn-block" value="{{'100120' | translate}}" ng-click="groupshow=true" style="width:50px; display: inline-block;padding: 0;line-height: 0"> <input type="button" class="btn-default" value="{{'100133' | translate}}" style="width:50px; display: inline-block;padding: 0;line-height: 0" ng-click="modifygroup()"></div>
+								<div class="clear"></div>
+								<table style="width: 100%">
+									<tr>
+										<th>{{'101027' | translate}}</th>
+										<th>{{'101014' | translate}}</th>
+										<th>{{'101029' | translate}}</th>
+										<th>{{'101028' | translate}}</th>
+										<th>{{'100043' | translate}}</th>
+									</tr>
+									<tr ng-repeat="item in stafflist">
+										<td>{{item.name}}</td>
+										<td><p ng-show="!item.flag">{{item.standardSalesAmount?item.standardSalesAmount:0}}</p><input type="text"  ng-show="item.flag" ng-model="data.one" class="small staff"></td>
+										<td><p ng-show="!item.flag">{{item.standardSProfitRate?item.standardSProfitRate:0}}</p><input type="text"  ng-show="item.flag" ng-model="data.two" class="small staff"></td>
+										<td><p ng-show="!item.flag">{{item.standardGrossProfit?item.standardGrossProfit:0}}</p><input type="text"   ng-show="item.flag" ng-model="data.three" class="small staff"></td>
+										<td><div class="btn-tijiao" style="padding: 0">
+											<input type="button" class="btn-block" ng-click="editstaff($index)" value="{{'100120' | translate}}" style="width:50px; display: inline-block;padding: 0;line-height: 0">
+											<input type="button" class="btn-default" value="{{'100133' | translate}}" style="width:50px; display: inline-block;padding: 0;line-height: 0" ng-click="modifystaff(item,$index)"></div></td>
+									</tr>
+								</table>
+								</span>
+							</div>
+							</dl>
+							</div>
+							<div class="clear"></div>
+
+						</div>
+						</div>
+					</div>
+					
+				</div>
+			<!-- </div> -->
+		</div>
+	</body>
+</html>

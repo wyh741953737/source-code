@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>错发率</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-warehouse-cuofa.css" />
+</head>
+
+<body>
+	<div class="ea-content">
+		<div class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab" style="z-index: 9">
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索区域 -->
+					<div class="d-flex align-items-center" style="padding: 30px 20px">
+						<div class="cuofa-search-item d-flex">
+							<span ng-click="searchByDateType('seven')" ng-class="{'active': dateType === 'seven'}"
+								class="cuofa-date cursor-pointer">近七天</span>
+							<span ng-click="searchByDateType('one')" ng-class="{'active': dateType === 'one'}"
+								class="cuofa-date cursor-pointer">一个月</span>
+							<span ng-click="searchByDateType('three')" ng-class="{'active': dateType === 'three'}"
+								class="cuofa-date cursor-pointer">三个月</span>
+						</div>
+						<div class="cuofa-search-item d-flex-center">
+							<!-- <span>搜索时间：</span> -->
+							<wui-date style="width: 120px;" class="startTime searchDay" format="yyyy-mm-dd"
+								ng-class="{'disable-opacity': disable.select}" placeholder="开始时间" btns="{'ok':'确定','now':'今天'}"
+								ng-model="startDate"></wui-date>
+							<span style="padding: 0 10px;">至</span>
+							<wui-date style="width: 120px;" class="endTime searchDay" format="yyyy-mm-dd"
+								ng-class="{'disable-opacity': disable.select}" class="margin-left-small" placeholder="结束时间"
+								btns="{'ok':'确定','now':'今天'}" ng-model="endDate">
+							</wui-date>
+						</div>
+						<div class="cuofa-search-item d-flex-center">
+							<label for="">仓库：</label>
+							<select style="width: 80px;" name="" id="" ng-model="store">
+								<option value="0">义乌</option>
+								<option value="1">深圳</option>
+								<option value="2">美西</option>
+								<option value="3">美东</option>
+							</select>
+							<button class="asj-btn-s asj-btn-s2 search-btn" ng-click="search()">查询</button>
+						</div>
+					</div>
+
+					<div class="tb-thead d-flex">
+						<div style="width: 13%" class="tb-thead-th d-flex-center">序号</div>
+						<div style="width: 15%" class="tb-thead-th d-flex-center">验单人</div>
+						<div style="width: 18%" class="tb-thead-th d-flex-center">商品损坏数量</div>
+						<div style="width: 18%" class="tb-thead-th d-flex-center">商品缺失数量</div>
+						<div style="width: 18%" class="tb-thead-th d-flex-center">商品错发数量</div>
+						<div style="width: 18%" class="tb-thead-th d-flex-center">总计</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容 -->
+			<div class="cuofa-content bg-white" style="margin-top: 162px; min-height: 200px; padding: 0 20px 20px 20px;">
+				<div class="tb-tbody" ng-show="pageFlag">
+					<div class="tb-tbody-tr" ng-repeat="cuofa in cuofaList">
+						<div style="width: 13%" class="tb-tbody-td border-r-td d-flex-center"><span>{{$index + 1}}</span></div>
+						<div style="width: 15%" class="tb-tbody-td border-r-td d-flex-center"><span>{{cuofa.userName}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{showData(cuofa.sunhuai)}}</span>
+						</div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{showData(cuofa.queshi)}}</span>
+						</div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{showData(cuofa.cuofa)}}</span>
+						</div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{showData(cuofa.sum)}}</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 30px" ng-show="!pageFlag">
+					<span>暂无数据</span>
+				</div>
+				<!-- 总纠纷数 -->
+				<div style="margin-top: 20px; font-size: 16px;" >
+					<span>总错误数量：{{columnSum}}</span>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="pageFlag">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

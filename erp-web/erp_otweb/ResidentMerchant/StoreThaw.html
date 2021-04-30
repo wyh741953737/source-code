@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>店铺解冻</title>
+  <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+</head>
+<style>
+  .passModal,.refuseModal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    z-index: 10000;
+  }
+
+  .passModal .content {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    background: #fff;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    height: 160px;
+    margin: initial;
+    border-radius: 4px;
+    padding: initial;
+  }
+
+  .passModal .content h3 {
+    padding: 15px;
+    margin: initial;
+    text-align: left;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  .passModal .content h3 .close {
+    font-size: 25px;
+    font-weight: initial;
+    opacity: .4;
+  }
+  .passModal .tip{
+    text-align: center;
+    font-size: 18px;
+    margin-top: 12px;
+  }
+
+  .refuseModal .content {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    background: #fff;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    height: 320px;
+    margin: initial;
+    border-radius: 4px;
+    padding: initial;
+  }
+
+  .refuseModal .content h3 {
+    padding: 15px;
+    margin: initial;
+    text-align: left;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  .refuseModal .content h3 .close {
+    font-size: 25px;
+    font-weight: initial;
+    opacity: .4;
+  }
+  .refuseModal .tip{
+    text-align: center;
+    font-size: 18px;
+    margin-top: 12px;
+  }
+
+  .option{
+    color: #f9ae08;
+    cursor: pointer;
+  }
+  .option:hover{
+    color: #f78809;
+  }
+</style>
+
+<body>
+  <div style="height: 10px;"></div>
+  <div class="content" style="background:none;padding:0;">
+    <div class="top-taps clearfix">
+      <ul>
+        <li ng-class="{'active': activeTab === 0}"><a href="" ng-click="handleTab(0)">待审核</a></li>
+        <li ng-class="{'active': activeTab === 1}"><a href="" ng-click="handleTab(1)">审核通过</a></li>
+        <li ng-class="{'active': activeTab === 2}"><a href="" ng-click="handleTab(2)">未审核通过</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content" style="overflow: hidden;">
+    <div class="left">
+      <div class="filter clearfix">
+        <input class="seach-inp" ng-model="search" style="border-radius: 0;float: none;" placeholder="客户名称">
+        <button class="search" style="float: none;border-radius: 0;" ng-click="handleSearch()">查询</button>
+      </div>
+      <div class="parent-order">
+        <table class="tableTs">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>账号类型</th>
+              <th>供应商编号</th>
+              <th>供应商名称</th>
+              <th>供应商邮箱</th>
+              <th>手机号</th>
+              <th>店铺名称</th>
+              <th>业务员</th>
+              <th>申请解冻时间</th>
+              <th>冻结日期</th>
+              <th ng-show="activeTab===0">操作</th>
+              <th ng-show="activeTab===1 || activeTab===2">申请状态</th>
+              <th ng-show="activeTab===2">拒绝原因</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in list">
+              <!-- 序号 -->
+              <td>{{ item.index }}</td>
+              <!-- 账号类型 -->
+              <td>{{ item.accountType }}</td>
+              <!-- 供应商编号 -->
+              <td>{{ item.supplierSn }}</td>
+              <!-- 供应商名称 -->
+              <td>
+                {{ item.userName }}
+              </td>
+              <!-- 供应商邮箱 -->
+              <td>
+                {{ item.email }}
+              </td>
+              <!-- 手机号 -->
+              <td>
+                {{ item.legalPhone }}
+              </td>
+              <!-- 店铺名称 -->
+              <td>
+                {{ item.shopName }}
+              </td>
+              <!-- 业务员 -->
+              <td>
+                {{ item.supplierSalesman }}
+              </td>
+              <!-- 申请时间 -->
+              <td>
+                {{ item.createAt }}
+              </td>
+              <!-- 冻结日期 -->
+              <td>
+                {{ item.freezeStartAt }} - {{ item.freezeEndAt }}
+              </td>
+              <!-- 操作 -->
+              <td ng-show="activeTab===0">
+                <span class="option" ng-click="handleOption(item.id,'pass')" style="margin-right: 12px;">审核通过</span>
+                <span class="option" ng-click="handleOption(item.id,'refuse')">拒绝通过</span>
+              </td>
+              <!-- 申请状态 -->
+              <td ng-show="activeTab===1 || activeTab===2">
+                {{ item.status }}
+              </td>
+              <!-- 拒绝原因 -->
+              <td ng-show="activeTab===2">
+                {{ item.reason }}
+              </td>
+            </tr>
+            <tr ng-show="list.length == 0">
+              <td colspan="9">暂无数据。</td>
+            </tr>
+          </tbody>
+        </table>
+        <!--分页-->
+        <page></page>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="passModal ng-scope" ng-show="passThawVisible" style="border:1px #bbb solid">
+    <div class="content">
+      <h3 style="font-size: 16px;text-align: center;"><span class="close" ng-click="closeAllModal()">×</span></h3>
+      <div style="overflow: hidden;" class="ng-binding">
+        <div class="tip">
+          供应商店铺解冻申请通过
+        </div>
+
+        <div style="text-align: center;margin-top: 24px;">
+          <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="handlePass()">确定</button>
+          <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="closeAllModal()">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="refuseModal ng-scope" ng-show="refuseThawVisible" style="border:1px #bbb solid">
+    <div class="content">
+      <h3 style="font-size: 16px;text-align: center;"><span class="close" ng-click="closeAllModal()">×</span></h3>
+      <div style="overflow: hidden;" class="ng-binding">
+        <div class="tip">
+          供应商店铺解冻申请拒绝
+        </div>
+        <div style="overflow: hidden;padding: 24px;">
+          <p class="fontsizeformt">拒绝原因：</p>
+          <div class="bordertext" style="height:120px">
+            <textarea type="text" class="rote ng-pristine ng-untouched ng-valid ng-not-empty textstyle" ng-model="remarks" placeholder="请输入拒绝原因"></textarea>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <button class="asj-btn-s asj-btn-s2" style="padding: 1px 12px;border-radius: 0;margin-right: 10px;" ng-click="handleRefuse()">确定</button>
+          <button class="asj-btn-s " style="padding: 1px 12px;border-radius: 0;" ng-click="closeAllModal()">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

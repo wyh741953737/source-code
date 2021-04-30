@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>退件记录</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+</head>
+<style>
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .ea-right-search .fl{
+        float: right;
+    }
+    .ea-right-search .fl:hover{
+        background-color: #08ACE9;
+        color: #fff;
+    }
+    .ea-right-search .fr{
+        float: right;
+    }
+    .related{
+        background-color: green;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 10px;
+    }
+    .Unrelated{
+        background-color: orange;
+        font-size: 12px;
+        color: #fff;
+        padding: 3px 8px;
+    }
+    .ea-list-table td input{
+        width: inherit;
+        height: inherit;
+        border: none;
+        border-radius: 3px;
+    }
+    .layui-layer-btn .layui-layer-btn0{
+        width: 70px;
+        background-color: #999;
+        border: none;
+    }
+    .layui-layer-btn .layui-layer-btn1{
+        width: 70px;
+        background-color: #08aceb;
+        border: none;
+    }
+    .selectActive {
+        background: #e8f4ff;
+    }
+    .overTR:hover{
+        background: #e8f4ff;
+    }
+    .serState{
+        /*margin-left: 15px;*/
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 3px;
+        width: 270px;
+    }
+    .search-box{
+        width: 100%;
+    }
+    .search-box .top-search-btn,.input-group .form-control{
+        float: inherit;
+    }
+    .search-box label{
+        margin:  0 10px 10px 0;
+        width: 345px;
+    }
+    .search-box label span{
+        width: 90px;
+        display: inline-block;
+        text-align: right;
+    }
+    .search-box .top-search-btn{
+        /*margin-left: 75px;*/
+        width: 90px;
+        border: 1px solid #08aceb;
+        border-left: none;
+        background-color: #fff;
+        color: #08aceb;
+        vertical-align: top;
+    }
+    .search-box .top-search-btn:hover{
+        background-color: #08aceb;
+        color: #fff;
+    }
+    #c-mu-ord .c-mu-allchekbox,.c-mu-chekbox{
+        cursor: pointer;
+    }
+    #c-mu-ord td{
+        font-size: 13px;
+    }
+    #c-mu-ord td p{
+        font-size: 12px;
+    }
+    body .guanlianshangpin{
+        width: 670px;
+        height: 430px;
+        padding:20px;
+    }
+    body .guanlianshangpin input,select{
+        width: 500px;
+        line-height: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 3px;
+    }
+    body .guanlianshangpin .add-wrap-con{
+        display: block;
+        margin: 15px 0;
+        /*text-align: center;*/
+    }
+    body .guanlianshangpin .add-tjjlbtns button{
+        width: 70px;
+        height: 30px;
+        background: rgba(249,193,52,1);
+        border-radius: 2px;
+        /*margin-left: 20px;*/
+        color: #fff;
+    }
+    body .guanlianshangpin label span{
+        display: inline-block;
+        /*width: 112px;*/
+        text-align: right;
+    }
+    .search-box label{
+        width: auto;
+    }
+    .red{
+        color: red;
+    }
+    .greens{
+        color: green;
+    }
+    .set label{
+        margin-right: 15px;
+    }
+    .set label input,select{
+        width: 220px;
+        line-height: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 3px;
+    }
+    table button{
+        background-color: #ff9328;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 14px;
+        padding: 2px 5px;
+    }
+    body .guanlianshangpin ul{
+        /*height: 300px;
+        overflow-y: scroll;
+        border: 1px solid #8c8c8c;
+        padding: 10px;*/
+    }
+    body .guanlianshangpin ul li{
+        /*line-height: 18px;
+        padding: 5px;
+        height: 28px;
+        margin-bottom: 5px;*/
+        height: 20px;
+    }
+    body .guanlianshangpin ul li:nth-child(even){
+        background-color: #449d44;
+    }
+    body .guanlianshangpin ul li:hover{
+        background-color: #CCCCCC;
+    }
+    body .guanlianshangpin ul li span{
+        float: right;
+        cursor: pointer;
+        /*width: 15px;*/
+        line-height: 20px;
+    }
+    body .guanlianshangpin ul li .span-serial{
+        float: left;
+        display: inline-block;
+        width: 40px;
+        text-align: center;
+    }
+    body .guanlianshangpin .content-active{
+        border: 1px solid #4791ff;
+    }
+    .zzh-listdiv{
+        border: 1px solid #ff9916;
+        height: 300px;
+        overflow: auto;
+    }
+    .indexnum-ul{
+        float: left;
+    }
+    .text-list{
+        display: block;
+        /*border: 1px solid;*/
+        /*width: 100%;*/
+        width: 560px;
+        height: 2000px;
+        float: left;
+        line-height: 20px;
+        overflow: hidden;
+    }
+    /*更多操作*/
+    .morefun-div{
+        position: relative;
+        width: 92px;
+        margin: 0 auto;
+    }
+    .more-btn{
+        color: #333333;
+        line-height: 23px;
+    }
+    .morefun-div .caret{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+    .more-selul{
+        font-size: 12px;
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 21px;
+        z-index: 3;
+        width: 100%;
+        box-shadow: 0px 8px 20px;
+    }
+    .more-selul li{
+        font-size: 12px;
+        cursor: pointer;
+        background-color: #fff;
+        display: block;
+        width: 100%;
+        line-height: 23px;
+    }
+    .more-selul li:hover{
+        background-color: #e3e3e3;
+    }
+    .morefun-div:hover .more-selul{
+        display: block;
+    }
+    .font-yellow{
+        color: #f0ad4e;
+    }
+    .font-green{
+        color: #449d44;
+    }
+    .font-red{
+        color: #d9534f;
+    }
+    .font-blue{
+        color: #5bc0de;
+    }
+    .return-modefy-btn{
+        width: 60px;
+        height: 30px;
+        border: 1px solid #08ACE9;
+        border-radius: 4px;
+        color: #08ACE9;
+        background-color: #fff;
+    }
+    .return-modefy-btn:hover{
+        color: #fff;
+        background-color: #08ACE9;
+    }
+    #c-mu-ord td img{
+        width: 60px;
+        height: 60px;
+    }
+    #c-mu-ord td .show-imglist-icon{
+        height: 16px;
+        width: 16px;
+        cursor: pointer;
+    }
+    #c-mu-ord td .af-plusshow-img{
+        width: 16px;
+        height: 16px;
+    }
+    .ytt-cusname-td{
+        cursor: pointer;
+    }
+    .cz-btn{
+        width: 60px;
+        height: 30px;
+        border-radius: 4px;
+        border: 1px solid #D6D4D4;
+        font-size: 12px;
+        background-color: #fff;
+        color: #000;
+    }
+    .cz-btn:hover{
+        color: #F9AE08;
+        border: 1px solid #F9AE08;
+    }
+    .back-his{
+        cursor: pointer;
+        margin-right: 30px;
+    }
+    .back-his:hover{
+        color: #FDAA4D;
+    }
+    .margin-t{
+        margin-top: 75px !important;
+    }
+</style>
+<body>
+<div class="ea-content">
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+            <li><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+            <li><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+            <li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+            <li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+            <li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+            <li class="active"><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+        </ul>
+    </div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content" style="padding: 0 20px 0 230px">
+        <div ng-show="!searchUserId" id="top-tab" class="top-tab position-fixed" style="padding-top: 0;">
+            <!-- tab -->
+            <div class="top-tab-nav d-flex">
+                <span class="tab-span tab-active tab-border-bt cursor-pointer">
+                    <a href="javascript:void(0);">退回包裹</a>
+                </span>
+                <span class="tab-span tab-border-bt cursor-pointer">
+                    <a href="#/erplogistics/yttrecord">用户</a>
+                </span>
+            </div>
+        </div>
+        <!-- <div class="top-taps clearfix">
+            <ul>
+                <li><a href="#/erplogistics/ReturnRecords">{{'101178' | translate}}</a></li>
+                <li class="active"><a href="#/erplogistics/yttrecord">{{'101179' | translate}}</a></li>
+                <li><a href="#/erplogistics/gnrecord">{{'101180' | translate}}</a></li>
+            </ul>
+        </div> -->
+        <div class="right-bar" ng-class="{'margin-t': !searchUserId}">
+            <!-- right search -->
+            <div class="ea-right-search clearfix">
+                <div class="input-group search-box clearfix">
+                    <span ng-show="searchUserId" ng-click="backHisFun()" class="back-his">< Back</span>
+                    <label class="clearfix">
+                        <!-- <span>追踪号：</span> -->
+                        <input style="width: 450px;" ng-model="searchVal" type="text" class="form-control top-search-inp" placeholder="{{'100837' | translate}}" ng-model="sersampleCode"><a role="button"  class="btn btn-default top-search-btn" type="button" ng-click="researchFun()">{{'100025' | translate}}</a>
+                    </label>
+                    <!-- <a class="dc-btn fl" ng-click="addClick()">{{'100826' | translate}}</a> -->
+                </div>
+                
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs" id="c-mu-ord">
+                    <tr>
+                        <th><span>退件日期</span></th>
+                        <th><span>退回追踪号</span></th>
+                        <th><span>退件人</span></th>
+                        <th><span>退件人邮箱</span></th>
+                        <th><span>订单号</span></th>
+                        <th><span>退货原因</span></th>
+                        <th><span>退货图片</span></th>
+                        <th><span>退回包裹图片</span></th>
+                        <th><span>退货进度</span></th>
+                        <th><span>操作</span></th>
+                    </tr>
+                    <tr ng-repeat="item in returnList">
+                        <td class="ytt-cusname-td">
+                            {{item.createat.time | date:'yyyy-MM-dd HH:mm:ss'}}
+                        </td>
+                        <td>
+                            <p style="height: 60px;line-height: 60px;">{{item.returntrackingumber}}</p>
+                        </td>
+                        <td>
+                            <p>{{item.name}}</p>
+                        </td>
+                        <td>
+                            {{item.email}}
+                        </td>
+                        <td>
+                            {{item.ordernumber}}
+                        </td>
+                        <td>
+                            <p>{{item.reason}}</p>
+                        </td>
+                        <td class="af-img-td">
+                            <!-- <img ng-src="{{item.imgcj[0]}}">
+                            <img ng-click="showimglistFun1(item)" class="show-imglist-icon" src="static/image/public-img/iconplus.png"> -->
+
+                            <span class="af-blank-span" ng-if="item.imgcj.length>0&&item.imgcj.length<2">
+                                <img class="af-sp-smallimg img-margin16" ng-src="{{item.imgcj[0]}}">
+                                <img class="af-hide-bigimg" ng-src="{{item.imgcj[0]}}">
+                            </span>
+                            <img class="af-sp-smallimg" ng-src="{{item.imgcj[0]}}" ng-if="item.imgcj.length>1">
+                            <img ng-click="showitemPicFun(item.imgcj)" class="af-plusshow-img" ng-if="item.imgcj.length>1" src="static/image/public-img/iconplus.png">
+                        </td>
+                        <td class="af-img-td">
+                            <!-- <img ng-src="{{item.imgs[0]}}">
+                            <img ng-click="showimglistFun2(item)" class="show-imglist-icon" src="static/image/public-img/iconplus.png"> -->
+                            <span class="af-blank-span" ng-if="item.imgs.length>0&&item.imgs.length<2">
+                                <img class="af-sp-smallimg img-margin16" ng-src="{{item.imgs[0]}}">
+                                <img class="af-hide-bigimg" ng-src="{{item.imgs[0]}}">
+                            </span>
+                            <img class="af-sp-smallimg" ng-src="{{item.imgs[0]}}" ng-if="item.imgs.length>1">
+                            <img ng-click="showitemPicFun(item.imgs)" class="af-plusshow-img" ng-if="item.imgs.length>1" src="static/image/public-img/iconplus.png">
+                        </td>
+                        <td>
+                            <p ng-if="item.status==1">提交完成,正在审核</p>
+                            <p ng-if="item.status==2">审核通过，等待商家收货</p>
+                            <p ng-if="item.status==3">审核拒绝</p>
+                            <p ng-if="item.status==4">商家已收货，退货处理</p>
+                            <p ng-if="item.status==5">商家未收货</p>
+                            <p ng-if="item.status==6">同意退货</p>
+                            <p ng-if="item.status==7">拒绝退货</p>
+                        </td>
+                        <td>
+                            <button ng-if="item.status<3" ng-click="openShtkFun(item,$index)" class="cz-btn">确认收货</button>
+                            <button ng-if="item.status>3&&item.status!=5" ng-click="openCheckFun(item,$index)" class="cz-btn">查验包裹</button>
+                        </td>
+                    </tr>
+                </table>
+                <!-- 分页 -->
+                <!-- ng-show="hasMerch" -->
+                <div class="no-data" ng-show="totalNum == 0" style="text-align: center;line-height: 60px;">没有数据</div>
+                <div class="page-box" ng-show="totalNum>0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pagesize" ng-change="pagechange(pagesize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pagenum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="imglist-wrap" ng-show="showimglistFlag">
+    <div class="imglist-con">
+        <img class="imglist-cancel" ng-click="showimglistFlag=false" src="static/image/public-img/cancel_brown.png">
+        <ul class="imglist-ul">
+            <li class="imglist-li" ng-repeat="item in itempicArr track by $index">
+                <img ng-src="{{item}}">
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 查看包裹 -->
+<div class="imglist-wrap" ng-show="checkpacFlag">
+    <div class="check-pcon">
+        <img ng-click="checkpacFlag=false" class="check-closeimg" src="static/image/public-img/download.png">
+        <div class="checkpcon-group">
+            <label>追踪号:</label>
+            <input ng-model="checkZzhNum"></input>
+        </div>
+        <div class="checkpcon-group">
+            <label>退货数量:</label>
+            <input type="number" ng-model="checkThCount"></input>
+        </div>
+        <div class="checkpcon-group">
+            <label>瑕疵:</label>
+            <input ng-model="checkReson"></input>
+        </div>
+        <div class="uploadimgs-div">
+            <div class="res-upload-div">
+                <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" ng-model="documentupload2" id="file" onchange="angular.element(this).scope().upLoadImg4(this.files)">
+                 </form>
+                 <div class="up-bg-div">
+                    <div class="up-bg-img">
+                        <img src="static/image/public-img/iconplus.png">
+                    </div>
+                    <p>上传照片</p>
+                 </div>
+            </div>
+            <div class="imgs-show-div">
+                <ul class="resshow-imgs" ng-show="imgArr.length>0" ng-cloak>
+                    <li ng-repeat="item in imgArr" ng-cloak>
+                        <img class="show-big-img" ng-src="{{item}}">
+                        <img ng-click="deleteImgFun($index)" class="delete-img" src="static/image/public-img/close-circle.png">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <p class="allowed-img">支持: .jpg, .jpeg, .png 格式</p>
+        <div class="checkp-btns">
+            <button ng-click="checkbgycFun()" class="checkp-cancel">包裹异常</button>
+            <button ng-click="checkPacFun()" class="checkp-sure">确认无误</button>
+            <!-- <button></button> -->
+        </div>
+    </div>
+</div>
+<!-- 是否确认收货 -->
+<div class="imglist-wrap" ng-show="isshFlag">
+    <div class="isSh-con">
+        <div class="isSh-top">
+            收货
+            <img ng-click="isshFlag=false" class="close-issh-tk" src="static/image/public-img/close-img.png">
+        </div>
+        <p class="issh-textcon">
+            <img src="static/image/public-img/icon-qustion.png">
+            是否收到货?
+        </p>
+        <div class="isSh-btns">
+            <button ng-click="wshFun()" class="wsh-btn">未收到货</button>
+            <button ng-click="sureShFun()" class="ysh-btn">已收到货</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

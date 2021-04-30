@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新品</title>
+    <!--业务员管理-->
+    <link rel="stylesheet" type="text/css" href="static/css/SalesmanManagement.css">
+    <script src="erp_otweb/js/video.min.js"></script>
+</head>
+<style>
+    .filter {
+        line-height: 30px !important;
+        /* display: flex; */
+    }
+
+    .filter .datetab {
+        margin-left: 15px;
+    }
+
+    .filter .dateact {
+        color: #0d8efb;
+    }
+    .chartsbox .dateact {
+        color: #0d8efb;
+    }
+
+    .search-by-con {
+        height: 30px;
+        position: relative;
+        float: left;
+    }
+
+    .default-con {
+        width: 240px;
+        height: 30px;
+        padding-left: 10px;
+        line-height: 30px;
+        border: 1px solid #e5e5e5;
+        position: relative;
+    }
+
+    .has-list-cate {
+        float: left;
+        margin-right: 15px;
+    }
+
+    .serch-by-name {
+        height: 30px;
+        line-height: 30px;
+        float: left;
+    }
+
+    input, select {
+        height: 30px !important;
+    }
+
+    .three-grade-list {
+        position: absolute;
+        left: 0;
+        top: 0px;
+        margin-top: 0;
+        padding-left: 0;
+        background: #fff;
+        z-index: 99;
+        display: none;
+    }
+
+    .caret {
+        position: absolute;
+        right: 10px;
+        top: 13px;
+    }
+
+    .filter .search {
+        height: 30px;
+    }
+
+    .samlimg {
+        position: absolute;
+        /* top: -160px; */
+        /* left: 72px; */
+    }
+    .samlimg:hover{
+        transform: scale(15);
+    }
+
+    .lookProduct {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        top: 0;
+        left: 0;
+        z-index: 10000;
+    }
+
+    .lookProduct .content {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: #fff;
+        box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.3);
+        width: 523px;
+        min-height: 330px;
+        margin: initial;
+        border-radius: 4px;
+        padding: initial;
+    }
+
+    .lookProduct .content h3 {
+        padding: 15px;
+        margin: initial;
+        text-align: left;
+        border-bottom: 1px solid #F0F0F0;
+    }
+
+    .lookProduct .content h3 .close {
+        font-size: 25px;
+        font-weight: initial;
+        opacity: .4;
+    }
+
+    .my-video-dimensions {
+        width: 100%;
+        height: 273px;
+    }
+
+    .lookProduct .content {
+        top: 35%;
+    }
+
+    .filter input {
+        margin: 0 5px;
+        width: auto;
+    }
+    .page-box .to-idx{
+        float: left;
+    }
+    .page-box .to-idx input{
+        text-align: center;
+        width: 50px;
+        height: 25px!important;
+        margin: 0 5px;
+    }
+    .page-box .to-idx button{
+        border: 1px solid #dddee1;
+        height: 25px;
+        line-height: 25px;
+        width: 50px;
+        border-radius: 3px;
+    }
+    .chartsbox{
+        /* margin-bottom: 20px; */
+    }
+    table tr td{
+        /* white-space:pre-line; */
+        word-wrap: break-word;
+        word-break: break-all;
+        width:12.5%;
+        border: 1px solid rgb(241, 237, 237);
+    }
+    .textsbox{
+        border: 1px solide #ccc !important;
+        background: red;
+    }
+    .textsbox .edittextarea{
+        display:block;
+        border: 1px solide #ccc !important;
+        
+    }
+    .item-group textarea {
+        width: 348px;
+        height: 138px;
+        padding: 10px;
+        resize: none;
+    }
+    .noneborder{
+        border-radius: 0 !important;
+    }
+</style>
+<body>
+<div class="tab">
+    <ul class="clearfix" style="cursor: pointer;">
+            <li class="datetab" ng-click="checkTab(item)"  ng-repeat = "item in tabArr" ng-class="{'Act':item.isActive}">{{item.name}}</li>
+            <!-- <a class="datetab margin-left-10px" ng-class="{dateact:item.flag,'margin-left-30px':$index==0}" href="javascript:void(0)" ng-repeat="item in dateArr"
+            ng-click="dateClick(item)">{{item.name}}</a> -->
+        <!-- <li class="Act" ng-click="checkTab()"><a href="#/CommodityAnalysis/LinkageAndPublication">佣金设置</a></li> -->
+        <li style="float: right;">
+            <select class="font-size-14px" ng-model="selectVal">
+                <option value="1">供应商订单</option>
+                <option value="2">自发货订单</option>
+                <!-- <option value="SKU">SKU</option> -->
+            </select>
+        </li>
+    </ul>
+</div>
+<div style="height: 68px;"></div>
+<div class="content" style="overflow: hidden;" ng-show= "val==1">
+    <div class="left">
+        <div class="filter clearfix">
+        <span style="float: left;">选择日期：</span>
+        <input id="date1" class="Wdate data-inp noneborder" ng-focus="dateFocus()"
+               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="起始日期" readonly="" ng-model="startTime">
+        <span class="line" style="float: left;">-</span>
+        <input id="date2" class="Wdate data-inp noneborder" ng-focus="dateFocus()"
+               onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="结束日期" readonly="" ng-model="endTime">
+       <!-- <span class="font-size-14px margin-left-30px">商品名称：</span> -->
+       
+       <input class="seach-inp" ng-model="searVal" style="border-radius: 0;" placeholder="订单号"> 
+       <button class="search" style="float: none;border-radius: 0;" ng-click="searchInput()">查询</button>
+        </div>
+        <div class="parent-order">
+            <table>
+                <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>订单号</th>
+                    <th>供应商</th>
+                    <th>供应商ID</th>
+                    <th>支付金额</th>
+                    <th>佣金</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataList">
+                <!-- <tr> -->
+                    <!-- <td>{{$index+1}}</td> -->
+                    <td>{{item.payTime}}</td>
+                    <td>{{item.orderNumber}}</td>
+                    <td>{{item.companyName}}</td>
+                    <td>
+                        {{item.supplierSn}}
+                    </td>
+                    <td>{{item.totalAmount | currency}}</td>
+                    <td>{{item.commission | currency}}</td>
+                    <td>
+                        {{item.remark}}
+                    </td>
+                    <td>
+                        <span ng-click="addRemarks(item.remark,item.id)" style="cursor: pointer;color: blue;">编辑</span>
+                    </td>
+                </tr>
+                <tr ng-show="dataList.length == 0">
+                    <td colspan="9">暂无数据。</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--分页-->
+            <div class="page-box">
+                <div class="total-num">
+                    共&nbsp;&nbsp;{{ TotalNum }}&nbsp;&nbsp;条
+                </div>
+                <div class="total-num">
+                        <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="pageSize" ng-change="pagechange(pageSize)" style="width: 65px;height: 31px;">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                        </select>
+                </div>
+                <div class="page-index">
+                    <div class="pagegroup1"></div>
+                </div>
+                <div class="to-idx">
+                    到第<input type="number" ng-model="pageNum">页
+                    <button ng-click="toPage1()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑弹框-->
+<div class="erp-common-tan-v2-wrap ng-scope" ng-show="isDetail==true">
+		<div class="erp-common-tan-v2" style="width: 404px; height: initial;">
+			<div class="tan-v2-top">
+				<h6 class="text-align-center ng-binding">编辑备注</h6>
+			</div>
+			<div class="tan-v2-con" style="margin-bottom: 20px;">
+				<div class="item-group d-flex align-items-center" style="border: 1px solid #ccc;">
+					<textarea ng-model="remarks" name="" id="" placeholder="" class="ng-pristine ng-valid ng-empty ng-touched" ></textarea>
+				</div>
+			</div>
+			<div class="tan-v2-bot">
+				<a href="javascript:void(0);" class="qu-xiao-btn" ng-click="cancelEdit()">取消</a>
+				<a href="javascript:void(0);" class="que-ding-btn" ng-click="sureEdit(remarks)">确定</a>
+			</div>
+		</div>
+	</div>
+<div class="content" style="overflow: hidden;" ng-show= "val==2">
+    <div class="left">
+        <div class="filter clearfix">
+         <span style="float: left;">设置佣金比例：</span>
+         <!-- <span class="font-size-14px margin-left-30px">商品名称：</span> -->
+        <input  ng-model="yongjinNum" style="border-radius: 0;" placeholder="5" type="number" id="yongjin"> <span>%</span>
+        <button class="search" style="float: none;border-radius: 0;" ng-click="toPlayFee()">应用</button>
+    </div>
+    <p>*根据供应商商品的实付订单金额抽取佣金</p>
+    </div>   
+</div>
+</body>
+</html>

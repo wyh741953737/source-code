@@ -1,0 +1,443 @@
+<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css"/>
+<style type="text/css">
+    select {
+        -webkit-appearance: menulist;
+        box-sizing: border-box;
+        align-items: center;
+        white-space: pre;
+        -webkit-rtl-ordering: logical;
+        color: black;
+        background-color: white;
+        cursor: pointer;
+        letter-spacing: normal;
+        word-spacing: normal;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow: none;
+        display: inline-block;
+        text-align: start;
+        margin: 0em;
+        font: 400 13.3333px Arial;
+        font-size: 12px;
+    }
+
+    .ea-list-table td {
+        font-size: 14px;
+    }
+
+    .ea-right-content {
+        /*width: 1435px;*/
+    }
+
+    /*属性*/
+    .search-by {
+        margin: 0 10px;
+        padding-left: 40px;
+        margin-bottom: 0;
+        padding-bottom: 10px;
+        /*border-bottom: 1px solid #efefef;*/
+    }
+
+    .search-by .serch-by-name {
+        float: left;
+        width: 80px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .search-by-con {
+        float: left;
+    }
+
+    .check-box {
+        margin: 8px 0;
+    }
+
+    .check-box input {
+        cursor: pointer;
+    }
+
+    .ea-right-content .check-box label {
+        padding-left: 20px;
+        width: 100%;
+        background-position: top left;
+        line-height: 16px;
+        color: #333333;
+        margin-right: 10px;
+    }
+
+    .btn-f60 {
+        width: 100px;
+        height: 30px;
+        background: #f99429;
+        color: #fff;
+        float: left;
+        border: none;
+        border-radius: 6px;
+    }
+
+    .div-btn-f60 {
+        /*position: absolute;
+        right: 200px;
+        bottom: 10px;*/
+        display: inline-block;
+        /*float: left;*/
+    }
+
+    /*物流下边*/
+    .ea-freight-calculation .ea-freight4 .wllDh {
+        width: 210px;
+        /*height: 300px;*/
+        float: left;
+        /*background: red;*/
+        margin-top: 1px;
+        margin-right: 10px;
+        /*position: absolute;
+        left: 0;
+        height: 100%;*/
+    }
+
+    .wllDh ul {
+        /*overflow: auto;*/
+        width: 100%;
+        background: #f1f1f1;
+        /*height: 258px;*/
+    }
+
+    /*.wllDh ul>li:last-child{
+        border-bottom: none;
+    }*/
+    .ea-freight4xq1, .ea-freight4xq3 {
+        float: left;
+        width: 940px;
+        position: relative;
+        overflow-y: auto;
+        height: 520px;
+        overflow-x: hidden;
+    }
+
+    .ea-freight4xq2 {
+        float: left;
+        width: 940px;
+        position: relative;
+        overflow-y: auto;
+        height: 488px;
+        overflow-x: hidden;
+    }
+
+    .wllDhTable {
+        float: left;
+        width: 940px;
+        position: relative;
+        /*overflow: auto;*/
+        height: 300px;
+        table-layout: fixed;
+    }
+
+    .wllDh-logi {
+        text-align: center;
+        padding: 10px 0;
+        height: 41px;
+        background: #f99429;
+        color: #fff;
+        font-size: 15px;
+        font-weight: normal;
+    }
+
+    .wllDh-logili {
+        width: 100%;
+        text-align: center;
+        height: 40px;
+        /*border-bottom: solid #e1e1e1 1px;
+        border-left: solid #e1e1e1 1px;*/
+        /*border-right: solid #e1e1e1 1px;*/
+        color: #000;
+        font-size: 14px;
+        cursor: pointer;
+        line-height: 40px;
+    }
+
+    .wllDh-logili:hover {
+        background: lightgray;
+        color: #fff;
+    }
+
+    .activewll {
+        background: #fff;
+        color: #08ACE9;
+        /*border: 1px solid lightgray;*/
+    }
+
+    .oddlogia {
+        width: 100%;
+        padding-top: 5px;
+        border-top: 1px solid #fff;
+        margin-top: 5px;
+    }
+
+    .oddlogia span {
+        width: 40%;
+        text-align: center;
+        height: 100%;
+        /*padding-bottom: 10px;*/
+    }
+
+    .oddlogia span:nth-of-type(1) {
+        border-right: 1px solid #fff;
+    }
+
+    .table-con-box-div {
+        width: 100%;
+        /*height: 270px;
+        overflow-y: auto;*/
+    }
+
+    .table-con-box-div > ul {
+        width: 100%;
+        font-size: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 45px;
+    }
+
+    .table-con-box-div > ul:nth-child(even) {
+        background: #e1e1e1;
+    }
+
+    .table-con-box-div > ul > li {
+        font-size: 14px;
+        text-align: center;
+        color: #899;
+    }
+
+    .ea-freight-calculation .ea-freight1 table td:nth-child(odd) {
+        width: 145px;
+    }
+
+    .volume-div {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .volume-div input {
+        width: 80px;
+        height: 30px;
+        border-radius: 4px;
+        text-indent: 12px;
+    }
+
+    .pFlag {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #f45d1a;
+        color: #fff;
+        border-radius: 4px;
+    }
+
+    .ea-list-table tr {
+        border: none;
+    }
+</style>
+
+<!-- content -->
+<div class="ea-content">
+    <!--<div class="ea-content-box">-->
+
+    <!--<div class="ea-content-con">-->
+    <!-- left nav -->
+    <div class="left-bar">
+        <ul>
+            <li><a href="#/erplogistics/setmoney">{{'100696' | translate}}</a></li>
+            <li><a href="#/erplogistics/channelset">{{'100697' | translate}}</a></li>
+            <li class="active"><a href="#/erplogistics/freighttrial">{{'100698' | translate}}</a></li>
+            <li><a href="#/erplogistics/waybillsearch">{{'100699' | translate}}</a></li>
+            <li><a href="#/erplogistics/trackstatistics">{{'100700' | translate}}</a></li>
+            <li><a href="#/erplogistics/forwarding">{{'100701' | translate}}</a></li>
+            <li><a href="#/erplogistics/ReturnRecords">{{'100702' | translate}}</a></li>
+        </ul>
+    </div>
+    <div class="bg-geduan"></div>
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+
+        <!--  -->
+        <div class="right-bar" style="padding-top: 0;">
+            <div class="ea-freight-calculation">
+                <div class="ea-freight1" style="position: relative;">
+                    <h3 style=" margin-bottom: 7px;" ng-click="dianji()">{{'100775' | translate}}</h3>
+                    <div class="table-con-box" style="margin: 0;">
+                        <table class="ea-list-table ea-erp-cs" style="border: none;width: 90%;margin: auto;">
+                            <tr>
+                                <td>{{'100718' | translate}}</td>
+                                <td>
+                                    <select ng-model="logisticsMode" ng-change="logisticsMode1(logisticsMode)">
+                                        <option value="">all</option>
+                                        <option ng-repeat="item in logistics" value="{{item.enName}}">{{item.enName}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>{{'100776' | translate}}</td>
+                                <td>
+                                    <select ng-model="countryDestination"
+                                            ng-change="countryDestination1(countryDestination)">
+                                        <option ng-if="isallFlag" ng-repeat="item in nation"
+                                                value="{{item.ALPHA_2_CODE}}">{{item.NAME_EN}}（{{item.ALPHA_2_CODE}}）
+                                        </option>
+                                        <option ng-if="isallFlag==false" ng-repeat="item in filterCountry"
+                                                value="{{item.country}}">
+                                            {{item.countryfull}}
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{'100777' | translate}}</td>
+                                <td>
+                                    <select ng-model="exportingCountry" ng-change="exportingCountry1(exportingCountry)">
+                                        <option value="中国">{{'100778' | translate}}</option>
+                                        <option value="美国">{{'101036' | translate}}</option>
+                                        <option value="泰国">泰国</option>
+                                        <!--<option>def</option>
+                                        <option>ghi</option>-->
+                                    </select>
+                                </td>
+                                <td>{{'100380' | translate}}(g)</td>
+                                <td>
+                                    <input id="weight" type="number" ng-model="weightNum"
+                                           ng-change="weightNum1(weightNum)"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- 属性start -->
+                    <div class="search-by serch-by-property clearfix">
+
+                        <div class="search-by-con">
+                            <div class="serch-by-name">{{'100429' | translate}}：</div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="COMMON" ng-click="getPropertyInfo($event)" checked>
+                                <label for="">{{'100083' | translate}}</label>
+                            </div>
+                            <!-- <div class="check-box w60">
+                                <input type="checkbox" value="HAVE_ELECTRICITY" ng-click="getPropertyInfo($event)">
+                                <label for="">含电</label>
+                            </div> -->
+                            <div class="check-box ">
+                                <input type="checkbox" value="ELECTRONIC" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100084' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="BATTERY" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100085' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="IS_ELECTRICITY" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100086' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="HAVE_LIQUID" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100087' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="HAVE_STIVE" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100088' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="HAVE_CREAM" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100089' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="HAVE_MAGNETISM" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100090' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="EDGE" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100091' | translate}}</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="NO_ENTRY" ng-click="getPropertyInfo($event)">
+                                <label for="">海关禁售</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="CLONE" ng-click="getPropertyInfo($event)">
+                                <label for="">仿牌</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="OVERSIZE" ng-click="getPropertyInfo($event)">
+                                <label for="">抛货</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="THIN" ng-click="getPropertyInfo($event)">
+                                <label for="">轻薄</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="FLAT" ng-click="getPropertyInfo($event)">
+                                <label for="">薄平</label>
+                            </div>
+                            <div class="check-box ">
+                                <input type="checkbox" value="PROOERTY" ng-click="getPropertyInfo($event)">
+                                <label for="">{{'100430' | translate}}</label>
+                            </div>
+                            <div class="volume-div">
+                                <span>长:</span>
+                                <input type="number" ng-model="pLength"></input>
+                                <span>宽:</span>
+                                <input type="number" ng-model="pWidth"></input>
+                                <span>高:</span>
+                                <input type="number" ng-model="pHeight"></input>
+                                <span>(单位:CM)</span>
+                            </div>
+                            <div class="div-btn-f60"><input type="button" value="{{'100779' | translate}}"
+                                                            class="btn-f60" ng-click="countBtn()"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 属性end -->
+                <!-- <div class="div-btn-f60"><input type="button" value="计算" class="btn-f60" ng-click="countBtn()"></div>
+                </div> -->
+
+                <div class="ea-freight2">
+                    <h3>{{'100780' | translate}}</h3>
+                    <div class="table-con-box" style="margin: 0;">
+                        <table class="ea-list-table ea-erp-cs" style="border: none;">
+                            <thead style="background: #5e5f64;">
+                            <tr>
+                                <td style="width: 10%;">{{'100174' | translate}}</td>
+                                <td style="width: 30%;">{{'100718' | translate}}</td>
+                                <td style="width: 30%;">{{'100781' | translate}}</td>
+                                <td style="width: 30%;">{{'100740' | translate}}</td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="table-con-box-div">
+                            <ul ng-repeat="item in countResult">
+                                <li ng-bind="$index+1"  style="width: 10%;">
+                                </li>
+                                <li style="width: 30%;">{{item.logisticName}}</li>
+                                <li style="width: 30%;">
+                                    <span >${{item.price}}</span><span ng-show="item.discount"></span>
+                                    <br>
+                                    <span>¥{{item.cnprice}}</span><span ng-show="item.cndiscount"></span>
+                                    <span ng-if="item.cast=='1'" class="pFlag">抛</span>
+                                </li>
+                                <li style="width: 30%;">{{item.aging}}&nbsp;Day(s)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+		
+		
+		
+		
+		
+

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户-客户分销-ERP系统</title>
+    <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-wa-KeHu-style.css"/>
+    <style>
+        body {
+            position: relative;
+        }
+
+        .clearfix:after {
+            content: "";
+            visibility: hidden;
+            display: block;
+            clear: both;
+            height: 0;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        body .guanlianshangpin {
+            width: 1111px;
+            height: 725px;
+            transform: translateX(0px);
+            transform: translateZ(0px);
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+            normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            left: 10%;
+            top: 10%;
+        }
+
+        body .guanlianshangpin .guanlianshangpinhead {
+            font-family: ﻿MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+            margin-left: 50%;
+        }
+
+        body .guanlianshangpin table {
+            margin: 0 auto;
+        }
+
+        body .guanlianshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .guanlianshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin {
+            margin: 0 auto;
+            width: 1011px;
+            height: 725px;
+            z-index: 100;
+            background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ff8241, #ff8241);
+            background-blend-mode: normal,
+            normal;
+            box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+            border: solid 1px #efefef;
+            position: absolute;
+            right: 1%;
+            bottom: -600px;
+        }
+
+        body .excelshangpin .guanlianshangpinhead {
+            font-family: ﻿MicrosoftYaHei;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 56px;
+            letter-spacing: 0px;
+            color: #030303;
+            width: 1000px;
+            font-weight: 700;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        body .excelshangpin table {
+            margin: 0 auto;
+        }
+
+        body .excelshangpin table tbody .guanlianinp {
+            width: 30px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        body .excelshangpin table tbody .guanliansec {
+            width: 90px;
+            display: inline;
+            border-radius: 2px 2px 2px 2px;
+            border: solid 1px #d3d3d3;
+        }
+
+        .wllSort1 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            top: 23px;
+            cursor: pointer;
+        }
+
+        .wllSort2 {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 7px solid lightslategray;
+            position: absolute;
+            right: 25px;
+            bottom: 23px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+        .accreditSelect {
+            width: 100px;
+            border: 1px solid #ccc;
+            height: 35px;
+            text-align: center;
+            padding-left: 10px;
+            outline: none;
+            float: right;
+            margin-right: 20px;
+            margin-top: 8px;
+            color: #000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dianpuDialog {
+            z-index: 10003;
+        }
+
+        .dianpuDialog .guanlianshangpin {
+            width: 1000px;
+            height: 600px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 10px;
+            color: #999;
+            border: solid #e1e1e1 1px;
+            border-top: none;
+        }
+
+        .table-con-box img {
+            width: 15px;
+            display: inline-block;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .table-con-box .username {
+            cursor: pointer;
+        }
+
+        .table-con-box .username:hover {
+            color: #dc8a23;
+        }
+
+        .table-con-box tr:hover {
+            background-color: #e8f4ff;
+        }
+
+        .ea-list-table .focus {
+            background-color: #e8f4ff;
+        }
+
+        .table-con-box span {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .guanlianshangpin-wrap .left {
+            position: absolute;
+            left: -70px;
+            width: 40px;
+            height: 120px;
+            top: 300px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .guanlianshangpin-wrap .right {
+            position: absolute;
+            right: -70px;
+            width: 40px;
+            height: 120px;
+            top: 300px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .guanlianshangpin-wrap .closeimg {
+            width: 48px;
+            display: block;
+            position: absolute;
+            right: -24px;
+            top: -24px;
+            cursor: pointer;
+        }
+
+        .guanlianshangpin-wrap .one {
+            /*display: none;*/
+        }
+
+        .guanlianshangpin-wrap .one ul {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .guanlianshangpin-wrap .one li {
+            width: 45%;
+            float: left;
+            margin: 15px 25px;
+        }
+
+        .guanlianshangpin-wrap .one li span {
+            color: #000;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .guanlianshangpin-wrap .one li p {
+            color: #333;
+            font-size: 14px;
+            line-height: 40px;
+            height: 40px;
+            border-bottom: 2px solid #EEEEEE;
+        }
+
+        .guanlianshangpin-wrap .two ul {
+            width: 48%;
+            float: left;
+            margin: 20px 0;
+            padding: 0 85px;
+            overflow-y: auto;
+            height: 620px
+        }
+
+        .guanlianshangpin-wrap .two ul li {
+            word-wrap: break-word;
+        }
+
+        .guanlianshangpin-wrap .two ul:nth-child(1) {
+            border-right: 2px solid #666666;
+        }
+
+        .guanlianshangpin-wrap .two ul span {
+            font-size: 14px;
+            font-family: PingFangSC-Medium;
+            color: rgba(176, 86, 9, 1);
+            line-height: 17px;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .guanlianshangpin-wrap .two ul p {
+            font-size: 12px;
+            font-family: PingFangSC-Regular;
+            color: rgba(0, 0, 0, 1);
+            line-height: 25px;
+            min-height: 25px;
+            /*     display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 -webkit-line-clamp: 3;
+                 overflow: hidden;*/
+        }
+
+        .table-con-box .wa-SpColor {
+            color: #047aa7;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .table-con-box tr button {
+            background-color: orange;
+            font-size: 12px;
+            color: #fff;
+            padding: 3px 8px;
+            margin: 0;
+            border-radius: 6px;
+        }
+
+        .layui-layer-btn .layui-layer-btn0 {
+            border: none;
+            background-color: #ccc;
+            width: 70px;
+            color: #000;
+        }
+
+        .layui-layer-btn .layui-layer-btn1 {
+            border: none;
+            width: 80px;
+        }
+
+        .ea-right-search li {
+            float: left;
+            /*margin-right: 10px;*/
+            margin-bottom: 8px;
+            margin-right: 10px;
+        }
+
+        .ea-right-search li span {
+            color: #4A4A4A;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .ea-right-search li .active {
+            color: #0d8efb;
+        }
+
+        .ea-right-search li input, select {
+            padding: 0 8px;
+            line-height: 28px;
+            height: 28px;
+            width: 150px;
+            font-size: 14px;
+        }
+
+        .ea-right-search li button {
+            background: #08aceb;
+            color: #fff;
+            border: none;
+            height: 28px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="ea-content">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content">
+        <div class="bg-geduan"></div>
+        <div class="right-bar" style="min-height: 850px;">
+            <div class="ea-right-search">
+                <ul class="clearfix">
+                    <li>
+                        <span ng-repeat="item in sortData" ng-class="{active:item.isAct}" ng-click="sortClick(item)">{{item.name}}</span>
+                        <input class="Wdate data-inp" placeholder="开始日期" style="text-indent: 12px;" id="StartDate"
+                               type="text" ng-blur="Datefocus()" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        <input id="EndDate" placeholder="结束日期" class="Wdate data-inp" style="text-indent: 12px;"
+                               type="text" ng-blur="Datefocus()" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                        <button ng-click="Search()" class="drk-seachInp">搜索</button>
+                    </li>
+                    <li>
+                        <button ng-click='refreshFn()' class="drk-seachInp">刷新</button>
+                    </li>
+                    <!--   <li>
+                           <span>找货人:</span>
+                           <input type="text" ng-model="lookingForPerson">
+                           <button ng-click="Search()">搜索</button>
+                       </li>-->
+                </ul>
+            </div>
+            <!-- right list -->
+            <div class="table-con-box">
+                <table class="ea-list-table ea-erp-cs">
+                    <thead>
+                    <tr>
+                        <th rowspan="2"><span>排名</span></th>
+                        <th rowspan="2"><span>找货人</span></th>
+                        <th colspan="5">单品</th>
+                        <th colspan="5">多品</th>
+                        <th rowspan="2" ng-click="Sort('all')">
+                            <span>
+                            总积分
+                             <img ng-show="!all" src="static/image/order-img/multiple1.png">
+                             <img ng-show="all" src="static/image/order-img/multiple2.png">
+                            </span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th ng-repeat="item in thead">
+                            <span ng-click="Sort(item)">
+                                {{item.name}}
+                                <img ng-show="!item.flag" src="static/image/order-img/multiple1.png">
+                                <img ng-show="item.flag" src="static/image/order-img/multiple2.png">
+                            </span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="item in Datalist">
+                    <tr class="TR" ng-click="TrClick($index)" ng-class='{focus: $index == focus}'>
+                        <td><span ng-bind="$index+1+(pageNum-1)*pageSize"></span></td>
+                        <td><span>{{item.lookingForPerson}}</span></td>
+                        <!--<td><span>{{item.batchNumber1}}</span></td>-->
+                        <td><span> {{item.cjOrderNumberSum1}}</span></td>
+                        <td><span>{{item.productNumberSum1}}</span></td>
+                        <td><span>{{item.locationNumberSum1}}</span></td>
+                        <td><span>{{item.zhaoHuoJuLi1}}</span></td>
+                        <td><span>{{item.integral1}}</span></td>
+                        <!--<td><span>{{item.batchNumber2}}</span></td>-->
+                        <td><span>{{item.cjOrderNumberSum2}}</span></td>
+                        <td><span>{{item.productNumberSum2}}</span></td>
+                        <td><span>{{item.locationNumberSum2}}</span></td>
+                        <td><span>{{item.zhaoHuoJuLi2}}</span></td>
+                        <td><span>{{item.integral2}}</span></td>
+                        <td><span>{{item.zongJiFen}}</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="no-data" ng-show="totalNum == 0">暂无数据。</div>
+                <div class="page-box" ng-show="totalNum > 0">
+                    <div class="select-page-num">
+                        <select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+                                style="width: 65px;height: 31px;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>每页</span>
+                    </div>
+                    <div class="total-num">
+                        共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                    </div>
+                    <div class="page-index">
+                        <div class="pagegroup">
+                            <a href="#">&lt;&lt;</a>
+                            <a href="#">&lt;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a class="current" href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">···</a>
+                            <a href="#">&gt;</a>
+                            <a href="#">&gt;&gt;</a>
+                        </div>
+                    </div>
+                    <div class="to-go">
+                        <span>跳转：</span>
+                        <input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+                        <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

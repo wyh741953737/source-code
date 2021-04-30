@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>查询包裹</title>
+  <link rel="shortcut icon" href="static/favicons.png" />
+  <style type="text/css">
+    /*@charset "UTF-8";[ng:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng:form{display:block;}*/
+    .tip-div {
+      text-align: center;
+    }
+
+    #tx {
+      text-indent: 12px;
+      width: 200px;
+    }
+
+    .ydh-img-box {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      /*height: 120px;*/
+      margin: 0 auto;
+    }
+
+    .ydh-img {
+      max-height: 60px;
+      /*max-width: 120px;*/
+    }
+
+    .ydh-img-box .ydh-big-img {
+      position: absolute;
+      left: 60px;
+      top: 0;
+      display: none;
+      z-index: 9;
+    }
+
+    .ydh-img-box:hover .ydh-big-img {
+      display: block;
+    }
+
+    .ydh-img-box .ydh-big-img-bottom {
+      bottom: 0;
+      top: auto;
+    }
+
+    .ydh-tit {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .bulk-ydhrk {
+      float: right;
+      margin-right: 50px;
+    }
+
+    .ydh-rktit {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .ydhrk-detailcon {
+      height: 390px;
+      overflow-y: auto;
+    }
+
+    /*运单号入库重量的输入框*/
+    .ydh-table th {
+      text-align: center;
+    }
+
+    .ydh-table td {
+      text-align: center;
+    }
+
+    .ydh-weightInp {
+      width: 80px;
+    }
+
+    .sku-right {
+      font-size: 24px;
+      color: #e55264;
+    }
+
+    .modal-body {
+      height: 700px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<body ng-app="barcodeApp" ng-controller="barcodeAppCtrl">
+  <div class="tip-div">
+    <p>
+      <font size="10" color="lightseagreen">查询包裹</font>
+    </p>
+    <input id="tx" type="text" placeholder="请扫描条形码" />
+  </div>
+
+  <div id="YdhModal" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document" style="width: 90%;">
+      <div class="modal-content"
+        style="box-shadow: 0 0 10px #eee; border: 1px solid #ececec; background: #f8f8f8;padding-bottom: 40px;">
+        <div class="modal-header">
+          <span class="ydh-tit">sku详情</span>
+          <span style="margin-left: 30px;" ng-repeat="(key,val) in ydhList[0].zhuiZongHao" ng-show="condition === 'oldVersion'">{{val}} {{key}}</span>
+          <span style="margin-left: 30px;" ng-show="condition === 'latestVersion'">{{logisticsName}} {{logisticsNumber}}</span>
+        </div>
+        <!-- <div class="modal-body" ng-class="{'model-bodyact':ydhList.length>0}"> -->
+        <table class="table table-bordered ydh-table" ng-show="condition === 'oldVersion'">
+          <thead>
+            <tr>
+              <th>图片</th>
+              <th>SKU</th>
+              <th>采购订单号</th>
+              <th>预计到货数量</th>
+              <th>到货仓库</th>
+              <th>入库状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="qianshou-tr" ng-repeat="item in ydhList">
+              <td>
+                <a href="{{'manage.html#/merchandise/show-detail/' + item.PRODUCTID + '/0/3/0'}}" target="_blank"
+                  class="ydh-img-box">
+                  <img class="ydh-img" ng-src="{{item.img}}">
+                  <img class="ydh-big-img" ng-class="{'ydh-big-img-bottom':$index>1}" ng-src="{{item.img}}">
+                </a>
+              </td>
+              <td>
+                <p style="position: relative; padding-right: 24px;">
+                  <span>{{item.skuLeft}}</span><span class="sku-right">{{item.skuRight}}</span>
+                  <a href="javascript:void(0)"
+                    style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;"
+                    title="复制SKU" ng-click="copyWord(item.sku)"><img style="height: 18px;"
+                      src="./static/image/public-img/copy.png" alt=""></a>
+                </p>
+                <p>短码：{{item.shortSku}}</p>
+                <!-- <span class="qianshou-btn" ng-show="item.customeDesign" ng-click="queryDesign(item)">查看定制信息</span> -->
+                <!-- <p ng-if="item.chekCount==1" class="yjy-sku">已检验</p> -->
+              </td>
+              <td>
+                {{item.procurementOrderId}}
+                <p>采购人：{{item.caiGouRen}}</p>
+                <P>
+                  状态:<span ng-style="STATUSMAPOBJECT[item.dingDanZhuangtai].style">{{STATUSMAPOBJECT[item.dingDanZhuangtai].text}}</span>
+                  </P>
+              </td>
+              <td style="line-height: 5;">
+                {{item.count}}
+                <!-- <input type="number" ng-model="item.count" style="width:80px;"> -->
+              </td>
+              <td style="line-height: 5;">{{item.storageName}}</td>
+              <td style="line-height: 5;">
+                <!-- <button class="btn btn-primary" ng-click="yiChangFun(item)">异常</button> -->
+                <p ng-if="item.status === 3 && item.hasException === 0"><span style="color:#04a452;">已签收</span></p>
+                <p ng-if="item.status === 2 && item.hasException === 0"><span style="color:#f1ca16;">待签收</span></p>
+                <p ng-if="item.hasException === 1"><span style="color:#e55264;">签收异常</span></p>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <!-- 新增需求 泰国仓查询 -->
+        <table class="table table-bordered ydh-table" ng-show="condition === 'latestVersion'">
+          <thead>
+            <tr>
+              <th>图片</th>
+              <th>SKU</th>
+              <th>入驻供应商名称</th>
+              <th>预计到货数量</th>
+              <th>到货仓库</th>
+              <th>入库状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="qianshou-tr" ng-repeat="item in list">
+              <td>
+                <a href="javascript:;" target="_blank" ng-show="item.imageUrl" class="ydh-img-box">
+                  <img class="ydh-img" ng-src="{{item.imageUrl}}">
+                  <img class="ydh-big-img" ng-class="{'ydh-big-img-bottom':$index>1}" ng-src="{{item.imageUrl}}">
+                </a>
+              </td>
+              <td>
+                <p style="position: relative; padding-right: 24px;">
+                  <span>{{item.skuLeft}}</span><span class="sku-right">{{item.skuRight}}</span>
+                  <a href="javascript:void(0)"
+                    style="width: 18px; height: 18px; position: absolute; bottom: 2px; right: 2px; line-height: 18px;"
+                    title="复制SKU" ng-click="copyWord(item.sku)"><img style="height: 18px;"
+                      src="./static/image/public-img/copy.png" alt=""></a>
+                </p>
+                <p>短码：{{item.cOUNT}}</p>
+                <!-- <span class="qianshou-btn" ng-show="item.customeDesign" ng-click="queryDesign(item)">查看定制信息</span> -->
+                <!-- <p ng-if="item.chekCount==1" class="yjy-sku">已检验</p> -->
+              </td>
+              <td style="line-height: 5;">
+                {{item.companyName || '--'}}
+              </td>
+              <td style="line-height: 5;">
+                {{item.productNum}}
+                <!-- <input type="number" ng-model="item.count" style="width:80px;"> -->
+              </td>
+              <td style="line-height: 5;">{{item.sTORAGENAME}}</td>
+              <td style="line-height: 5;">
+                <p>{{item.signStatus}}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      <div class="detail-div" ng-show="itemObj">
+        <div class="info-detail-div">
+          变体信息: <span class="sku-right" style="margin-right: 50px;">{{itemObj.skuRight}}</span>
+          预计到货数量: <span class="sku-right">{{itemObj.count}}</span>
+        </div>
+        <div class="big-img-div">
+          <img ng-src="{{itemObj.img}}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <audio class="audio-vip" src="static/audio/vip.mp3"></audio>
+  <audio class="audio-shoudan" src="static/audio/shoudan.mp3"></audio>
+  <audio class="audio-zhengchang" src="static/audio/zhengchang.mp3"></audio>
+  <audio class="audio-jiaji" src="static/audio/jiaji.mp3"></audio>
+  <audio class="audio-qingzhuyi" src="static/audio/qingzhuyi.mp3"></audio>
+  <audio class="audio-zhifa" src="static/audio/zhifa.mp3"></audio>
+  <audio class="audio-usazhifa" src="static/audio/usazhifa.mp3"></audio>
+  <audio class="audio-zuzhuang" src="static/audio/zuzhuang.mp3"></audio>
+  <audio class="audio-bufa" src="static/audio/bufa.mp3"></audio>
+  <audio class="audio-buruku" src="static/audio/buruku.mp3"></audio>
+  <!-- <audio class="audio-quehuoxuyao" src="static/audio/ssss.mp3"></audio> -->
+  <audio class="audio-xianxiazu" src="static/audio/xianxiazu.mp3"></audio>
+  <audio class="audio-gaiBiao" src="static/audio/gaiBiao.mp3"></audio>
+
+  <!-- 新增状态语音 -->
+  <audio class="audio-xiaoDanZhiFa" src="static/audio/xiaoDanZhiFa.mp3"></audio>
+  <audio class="audio-haiWaiCangZhiFa" src="static/audio/haiWaiCangZhiFa.mp3"></audio>
+  <audio class="audio-guiZhongWuPin" src="static/audio/guiZhongWuPin.mp3"></audio>
+
+  <audio class="audio-shibai" src="static/audio/shibai.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+  </audio>
+  <audio class="audio-podsp" src="static/audio/podsp.mp3" preload="auto">
+    浏览器不支持audio标签,请升级
+  </audio>
+</body>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src="./static/layer/layer.js"></script>
+<script type="text/javascript">
+  (function (angular) {
+    var app = angular.module('barcodeApp', ['service']);
+    app.controller('barcodeAppCtrl', ['$scope', "erp", "$timeout", "$http", function ($scope, erp, $timeout,
+      $http) {
+      // var nowDate = timestampToDate(new Date());
+      // var bs = new Base64();
+      // var erpLoginName = bs.decode(localStorage.getItem('erploginName') == undefined ? '' :
+      //   localStorage.getItem('erploginName'));
+      // var userId = bs.decode(localStorage.getItem('erpuserId') == undefined ? '' : localStorage
+      //   .getItem('erpuserId'));
+      $scope.condition = 'oldVersion';//  新增泰国仓查询 接口不一致  显示不一样 (oldVersion 3种情况  latestVersion 泰国地区 操作)
+      $scope.logisticsName = '';
+      $scope.logisticsNumber = '';
+      $scope.list = [];//新增需求 产品列表
+
+       // 状态映射对象
+       $scope.STATUSMAPOBJECT = erp.STATUS_TEXT;
+      function queryList() {//获取产品列表接口
+        let code = $.trim($("#tx").val());
+        layer.load(2);
+        const url = 'supplier/supplierPackageProduct/getPackageProduct' + '?logisticsNumber=' + code;
+        erp.getFun(url, function (data) {
+          layer.closeAll('loading');
+          var res = data.data && data.data.data;
+          if (!res || res.length === 0) {
+            $("#tx").val('');
+            $scope.ydhList = [];
+            return layer.msg("没有包裹信息");
+          }
+          res.forEach(item => {
+            let sku = item.sku;
+            item.skuLeft = sku.substring(0, 14)
+            item.skuRight = sku.substr(14)
+          })
+          $scope.list = res;
+          if (res && res.length > 0) {//追踪号
+            const {logisticsName, logisticsNumber} = res[0]
+            $scope.logisticsName = logisticsName;
+            $scope.logisticsNumber = logisticsNumber;
+          }
+          $("#tx").val('')
+        })
+      }
+
+      function showProduct() {
+        let code = $.trim($("#tx").val());
+        layer.load(2);
+        // caigou/procurement/chaXunBaoGuo {zhuizonghao: ''}  --->> procurement/order/queryParcel {barCod: ''}
+        erp.postFun('procurement/order/queryParcel', {
+          "barCod": code
+        }, function ({data}) {
+          layer.closeAll('loading');
+          console.log(data)
+          // if (data.data.result == 'pod') {
+          //   layer.msg(data.data.result)
+          //   $('.audio-podsp').get(0).play()
+          //   $("#tx").val('')
+          //   return
+          // }
+          // if (data.data.serveOrderList && (erpLoginName == '黄莉' || erpLoginName == 'admin' ||
+          //     erpLoginName == '庹章龙' || erpLoginName == '陈新民' || erpLoginName == '陈平' || erpLoginName ==
+          //     '陈真')) {
+          //   $scope.listArr = data.data.serveOrderList;
+          //   console.log($scope.listArr)
+          //   $scope.qsSeaFlag = true;
+          //   $("#tx").val('')
+          //   return
+          // }
+          var arrives = data.data.list
+          console.log("TCL: showProduct -> arrives", arrives)
+          console.log(arrives);
+          if (arrives.length <= 0) {
+            $scope.condition = 'latestVersion';
+            queryList()
+            return
+          }
+          var len = arrives.length;
+          for (var i = 0; i < len; i++) {
+            arrives[i].count = arrives[i].count - 0;
+            arrives[i].skuLeft = arrives[i].sku.substring(0, 14)
+            arrives[i].skuRight = arrives[i].sku.substring(14)
+            console.log(arrives[i])
+          }
+          $scope.ydhList = arrives.map(item => {
+            item.zhuiZongHao = JsonPares(item.zhuiZongHao)
+            return item;
+          });
+          console.log($scope.ydhList)
+          var dingDanZhuangtais = arrives[0].dingDanZhuangtais;
+          if (dingDanZhuangtais.length <= 1) {
+            if (dingDanZhuangtais[0] == 'zhengChang') {
+              $('.audio-zhengchang').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'vip') {
+              $('.audio-vip').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'jiaJi') {
+              $('.audio-jiaji').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'zhiFa') {
+              $('.audio-zhifa').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'usaZhiFa') {
+              $('.audio-usazhifa').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'zuZhuang') {
+              $('.audio-zuzhuang').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'buFa') {
+              $('.audio-bufa').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'buRuKu') {
+              $('.audio-buruku').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'xianXiaZu') {
+              $('.audio-xianxiazu').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'gaiBiao') {
+              $('.audio-gaiBiao').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'xiaoDanZhiFa') {
+              $('.audio-xiaoDanZhiFa').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'haiWaiCangZhiFa') {
+              $('.audio-haiWaiCangZhiFa').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'guiZhongWuPin') {
+              $('.audio-guiZhongWuPin').get(0).play()
+            } else if (dingDanZhuangtais[0] == 'shoudan') {
+              $('.audio-shoudan').get(0).play()
+            } 
+          } else {
+            $('.audio-qingzhuyi').get(0).play()
+          }
+          $("#tx").val('')
+        })
+      }
+
+      $scope.copyWord = function (word) {
+        var Url1;
+        Url1 = document.createElement('input');
+        Url1.setAttribute('readonly', 'readonly');
+        Url1.setAttribute('value', word);
+        document.body.appendChild(Url1);
+        //console.log(Url1.value);
+        Url1.select(); //选择对象
+        document.execCommand("Copy");
+        var tag = document.execCommand("Copy"); //执行浏览器复制命令
+        if (tag) {
+          layer.msg('复制成功');
+        }
+        document.body.removeChild(Url1);
+      }
+
+      $('#tx').keypress(function (e) {
+        if (e.which == 13) {
+          $scope.condition = 'oldVersion';
+          showProduct();
+        }
+      });
+    }]);
+
+    function JsonPares(val) {//基于 全局 JSON parse重写 基础上 
+      const newVal = JSON.parse(val);
+      if (val === null) return val;
+      if (typeof newVal !== 'object') return val;
+      if (newVal.error) return val;
+      return newVal;
+    } 
+
+    //格式化时间
+    function timestampToTime(date) {
+      var Y, M, D, h, m, s
+      Y = date.getFullYear() + '-';
+      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      D = date.getDate() + ' ';
+      h = date.getHours() + ':';
+      m = date.getMinutes() + ':';
+      s = date.getSeconds();
+      return Y + M + D + h + m + s;
+    }
+
+    //格式化日期
+    function timestampToDate(date) {
+      var Y, M, D, h, m, s
+      Y = date.getFullYear() + '-';
+      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      D = date.getDate() + ' ';
+      h = date.getHours() + ':';
+      m = date.getMinutes() + ':';
+      s = date.getSeconds();
+      return Y + M + D;
+    }
+  })(angular)
+</script>
+
+</html>

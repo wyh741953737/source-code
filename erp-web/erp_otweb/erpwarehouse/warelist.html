@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>仓库</title>
+	</head>
+	<body>
+
+		
+		<!-- content -->
+		<div class="ea-content asj-ware-box">
+			<!-- right con -->
+			<div class="right-bar-wrap ea-right-content li_ea-right-content">
+				<!-- right nav -->
+				<div class="asj-h10"></div>
+				<!-- right search -->
+				<div class="right-bar">
+				<div class="ea-right-search">
+					<div class="add-merch" style="display: flex;">
+						<a href="javascript:void(0);" class="add-merch-btn" ng-click="addWareFun()">{{'100673' | translate}}</a>
+					</div>
+				</div>
+				<!-- right list -->
+				<div class="table-con-box">
+				<table class="ea-list-table ea-erp-cs" id="ea-list-table">
+					<thead>
+					<tr>
+						<!-- <th><input type="checkbox"></th> -->
+						<th>{{'100674' | translate}}</th>
+						<th>{{'100675' | translate}}</th>
+						<th>所属区域（国家）</th>
+						<th>包含类型</th>
+						<th>{{'100383' | translate}}</th>
+						<th width='200'>收货信息（英文）</th>
+						<th width='200'>其他信息</th>
+						<!-- <th>{{'100676' | translate}}</th> -->
+						<!-- <th>{{'100677' | translate}}</th> -->
+						<th>{{'100340' | translate}}</th>
+						<th>状态</th>
+						<th>{{'100043' | translate}}</th>
+					</tr>
+					</thead>
+					<tbody ng-repeat="(index1,item) in wareList">
+						
+					<tr class="la_tr la_tr01">
+						<!-- <td><input name="need_inv" type="checkbox" value="1"></td> -->
+						<td>{{item.storageName}}</td>
+						<td>{{item.storageNo2Name}}</td>
+						<td>{{formatAreaId(item.areaId)}}</td>
+						<td>{{constOBJ.storageType[item.useStorageType]}}</td>
+						<td>{{item.principalName || '--'}}</td>
+						<td style="font-size: 12px;">
+							Company：{{item.companyName || '--'}}<br/>
+							Consignee：{{item.consignee || '--'}}<br/>
+							Contact：{{item.principalPhone || '--'}}<br/>
+							Address：{{ item.addresses || '--'}}
+						</td>
+						<td style="font-size: 12px;">
+							该仓库是否需要VIP客户才能购买私有库存：{{constOBJ.noOryes[item.vipPrivateStockToBuy]}}<br/>
+							供应商是否可以发货到该仓库：{{constOBJ.noOryes[item.suppliersWillBeAbleToDeliver]}}<br/>
+							该仓库是否有采购权限：{{constOBJ.noOryes[item.purchasingAuthority]}}
+						</td>
+						
+						<!-- <td>{{item.principalPhone}}</td> -->
+						<!-- <td>{{item.addresses}}</td> -->
+						<td>{{item.remark}}</td>
+						<td>{{constOBJ['storageStatus'][item.storageStatus]}}</td>
+						<td class="relative active">
+							<div>
+								<a role="button" class="asj-btn-s asj-btn-s1" ng-if="isadmin" ng-click="editOneWare(item)" href="javascript: void(0);">{{'100120' | translate}}</a>
+								<a role="button" class="asj-btn-s asj-btn-s2" ng-click="showCate(item)" href="javascript: void(0);">{{'100633' | translate}}</a>
+							<a role="button" class="asj-btn-s asj-btn-s3" ng-if="isadmin" ng-click="deleteOneWare(item)">{{'100227' | translate}}</a>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<!-- page -->
+				<page></page>
+				</div>
+				</div>
+			</div>
+		</div>
+	<div class="asj-common-tanwrap" ng-show="addWareFlag">
+		<div class="asj-common-tan tan-add-ware" style="max-height: 80%;overflow-y: auto;">
+			<span class="asj-common-close" ng-click="cancelDetailWare()"><i>+</i></span>
+			<div class="tan-title">{{opeWareType}}</div>
+			<div ng-show="addStepOne">
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>{{'100679' | translate}}:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请输入仓库中文名" ng-model="updateParams.storageName">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>{{'100680' | translate}}:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请输入仓库英文名" ng-model="updateParams.storageNo2Name">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>{{'仓库详细名称'}}:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请输入仓库详细名称" ng-model="updateParams.cjStorageName">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>所属区域（国家）:</label>
+					<div class="right-con">
+						<select ng-model='updateParams.areaId'>
+							<option value="">请输入仓库所属国家</option>
+							<option ng-repeat="i in countryByareaIdArr" value="{{i.areaId}}">{{i.areaCn}}</option>
+						</select>
+					</div>
+				</div>
+				<!-- <div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>国家简码:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请输入国家简码" ng-model="updateParams.countryCode">
+					</div>
+				</div> -->
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>仓库包含类型:</label>
+					<div class="right-con">
+						<div class="flex fdc">
+							<div class="radio-box" style="margin-bottom:10px;width:100px;">
+								<input type="radio" name="wareType" ng-value="2" ng-model='updateParams.useStorageType'>
+								<label for="">虚拟仓</label>
+							</div>
+							<div class="radio-box" style="margin-bottom:10px;width:100px;">
+								<input type="radio" name="wareType" ng-value="1" ng-model="updateParams.useStorageType">
+								<label for="">真实仓</label>
+							</div>
+							<div class="radio-box" style="margin-bottom:10px;width:100px;">
+								<input type="radio" name="wareType" ng-value="3" ng-model="updateParams.useStorageType">
+								<label for="">SAAS</label>
+							</div>
+							<!-- <div class="flex aic" style="padding-left:30px;">
+								<div class="check-box" style="width:65px;" ng-repeat="i in realBlockList">
+									<input type="checkbox" name="" ng-model="i.checked">
+									<label for="">{{i.blockName}}</label>
+								</div>
+								<div ng-show="realBlockList.length<=0">请添加区位</div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+				
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>负责人:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请输入仓库负责人姓名" ng-model="updateParams.principalName">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>收货人:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请输入仓库收货人英文姓名" ng-model="updateParams.consignee">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>联系电话:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请输入联系电话" ng-model="updateParams.principalPhone">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>公司名称:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请使用英语输入公司名称" ng-model="updateParams.companyName">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>具体地址:</label>
+					<div class="right-con">
+						<input type="text" placeholder="请使用英文输入仓库具体地址" ng-model="updateParams.addresses">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>该仓库是否需要VIP客户才能购买私有库存:</label>
+					<div class="right-con">
+						<div class="flex aic">
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="privateStore" ng-value='1' ng-model="updateParams.vipPrivateStockToBuy">
+								<label for="">是</label>
+							</div>
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="privateStore" ng-value='0' ng-model="updateParams.vipPrivateStockToBuy">
+								<label for="">否</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>供应商是否可以发货到该仓库:</label>
+					<div class="right-con">
+						<div class="flex aic">
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="sentStorage" ng-value='1' ng-model='updateParams.suppliersWillBeAbleToDeliver'>
+								<label for="">是</label>
+							</div>
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="sentStorage" ng-value='0' ng-model='updateParams.suppliersWillBeAbleToDeliver'>
+								<label for="">否</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>该仓库是否有采购权限:</label>
+					<div class="right-con">
+						<div class="flex aic">
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="hasPromise" ng-value='1' ng-model='updateParams.purchasingAuthority'>
+								<label for="">是</label>
+							</div>
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="hasPromise" ng-value='0' ng-model='updateParams.purchasingAuthority'>
+								<label for="">否</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>仓库是否启用:</label>
+					<div class="right-con">
+						<div class="flex aic">
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="storageStatus" ng-value='""' ng-model='updateParams.storageStatus'>
+								<label for="">启用</label>
+							</div>
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="storageStatus" ng-value='1' ng-model='updateParams.storageStatus'>
+								<label for="">禁用</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>是否存储服务商品:</label>
+					<div class="right-con">
+						<div class="flex aic">
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="hasFuwu" ng-value='1' ng-model='updateParams.placeServerProduct'>
+								<label for="">是</label>
+							</div>
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="hasFuwu" ng-value='0' ng-model='updateParams.placeServerProduct'>
+								<label for="">否</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>是否存储私有库存:</label>
+					<div class="right-con">
+						<div class="flex aic">
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="hasSiyou" ng-value='1' ng-model='updateParams.placePrivateProduct'>
+								<label for="">是</label>
+							</div>
+							<div class="radio-box" style="margin-right:10px;width:100px;">
+								<input type="radio" name="hasSiyou" ng-value='0' ng-model='updateParams.placePrivateProduct'>
+								<label for="">否</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">*</span>{{'100383' | translate}}:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" ng-model="chargeMan">
+					</div>
+				</div> 
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">* </span>{{'100676' | translate}}:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" ng-model="phoneNum">
+					</div>
+				</div> -->
+				<!-- <div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">*</span>{{'100724' | translate}}:</label>
+					<div class="right-con">
+						<div class="right-con-select" id="selectList" ng-click="toggleCountryFun($event)">
+							<span ng-show="!countryInfo" class="right-con-select-nodata">{{'100705' | translate}}</span>
+							<span ng-show="countryInfo" class="right-con-name-box">{{countryInfo.ID}}-{{countryInfo.NAME}}<span class="right-con-select-name"></span><span class="close" ng-click="removeCountryFun()"></span></span>
+							<div class="right-con-list-box" ng-show="showCountryList" id="countryList">
+								<input type="text" class="right-con-list-serch" ng-model="searchCountryVal" ng-click="stopProp($event)" ng-change="searchCountry($event)" placeholder="根据简写、中英文名、货币搜索">
+								<div class="right-con-list">
+									<div class="right-con-item" ng-repeat = "item in countryList track by $index" ng-show="item.isShow" ng-class="{'selected':item.check}" ng-click="chooseCountryFun(item)">
+										{{item.ID}}-{{item.NAME}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<!-- <div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">*</span>{{'100677' | translate}}:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" maxlength="240" ng-model="wareAddress">
+					</div>
+				</div> -->
+				<div class="input-item clearfix">
+					<label class="">{{'100340' | translate}}:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" ng-model="updateParams.remark">
+					</div>
+				</div>
+				<div class="tan-btns" style="position: static;">
+					<a class="tan-btn0" ng-click="cancelAddWare()">{{'100051' | translate}}</a>
+					<a class="tan-btn1" ng-click="goAddOneWare()">{{'100050' | translate}}</a>
+				</div>
+				<!-- <div class="tan-btns" ng-show="addStepOne&&!editWareId">
+					<a class="tan-btn0" ng-click="goAddOneWare()">保存</a>
+					<a class="tan-btn1" ng-click="goAddOneWare()">下一步</a>
+				</div> -->
+			</div>
+			<!-- <div ng-show="addStepTwo">
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">*</span>分区数:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" ng-model="wareDetailData.areaNum" ng-change="areaNumChange()" maxlength="1"> 
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">*</span>每个区域排数:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" ng-model="wareDetailData.rowNum" ng-change="rowNumChange()" maxlength="3">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">*</span>每排层数:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" ng-model="wareDetailData.tierNum" ng-change="tierNumChange()" maxlength="2">
+					</div>
+				</div>
+				<div class="input-item clearfix">
+					<label class=""><span class="asj-must-require">*</span>每层框数:</label>
+					<div class="right-con">
+						<input type="text" placeholder="" ng-model="wareDetailData.boxNum" ng-change="boxNumChange()" maxlength="2">
+					</div>
+				</div>
+				<div class="tan-btns">
+					<a class="tan-btn1" ng-click="addDetailWare()">确定</a>
+				</div>
+			</div> -->
+
+		</div>
+	</div>
+
+	<div class="asj-common-tanwrap" ng-show="deleteWareFlag">
+		<div class="asj-common-tan tan-delete-ware">
+			<div class="tan-title">确认删除{{deleteWareName}}仓库？</div>
+			<div class="tan-btns"><a class="tan-btn0" ng-click="deleteWareFlag=false">{{'100051' | translate}}</a><a class="tan-btn1" ng-click="goDeleteWare()">{{'100050' | translate}}</a></div>
+		</div>
+	</div>
+
+	<style>
+		.input-item .right-con{min-height: 28px;padding-left:320px;display: flex;align-items: center;}
+		.input-item .right-con input[type=text]{max-height:28px;line-height: 28px;}
+		.input-item label{line-height: 28px;width:320px;}
+
+		/* flex */
+		.flex {display: flex;}
+		.flex.fdc {flex-direction: column;}
+		.flex.jcc {justify-content: center;}
+		.flex.fdrr {flex-direction: row-reverse;}
+		.flex.fdcr {flex-direction: column-reverse;}
+		.flex.aic {align-items: center;}
+		.flex.fwp {flex-wrap: wrap;}
+	</style>
+</body>
+</html>

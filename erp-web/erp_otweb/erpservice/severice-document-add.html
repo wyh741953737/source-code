@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>通知-已发送-ERP系统</title>
+</head>
+<body>
+<style type="text/css">
+    .erp-mc-text {
+        width: 1000px;
+    }
+
+    .erp-mc-text .erp-text-p {
+        float: left;
+    }
+
+    .erp-mc-text #wang {
+        float: left;
+        margin-left: 51px;
+        width: 800px;
+    }
+
+    .asj-service-docu .erp-mes-stu .erp-stu-p .erp-stu-span {
+        display: inline-block;
+        width: 74px;
+    }
+    .asj-service-docu .erp-mes-stu{
+        margin-top: 15px;
+    }
+    .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue {
+        padding-left: 0;
+    }
+
+    .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue span {
+        font-size: 14px;
+        color: #686868;
+    }
+
+    .enclosure-file {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+
+    #uploadfile {
+        display: inline-block;
+        width: 90px;
+    }
+
+    .fjfuplod {
+        color: #fff;
+        background-color: #08aceb;
+        padding: 5px 8px;
+        font-size: 12px;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+        margin-left: 28px;
+    }
+
+    .file-list {
+        margin-left: 98px;
+        margin-right: 10px;
+    }
+
+    .file-list li {
+        font-size: 14px;
+        line-height: 30px;
+        color: #666;
+        position: relative;
+        width: 300px;
+        transition: all .5s;
+        padding-left: 24px;
+    }
+
+    .file-list li span {
+        display: block;
+        width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .file-list li .file-icon {
+        position: absolute;
+        top: 8px;
+        left: 0px;
+    }
+
+    .file-list li .right-icon {
+        position: absolute;
+        top: 6px;
+        right: 0px;
+    }
+
+    .file-list li .close-icon {
+        display: none;
+        cursor: pointer;
+    }
+
+    .file-list li:hover {
+        background: #f5f7fa;
+    }
+
+    .file-list li:hover .close-icon {
+        display: block;
+    }
+
+    .file-list li:hover .check-icon {
+        display: none;
+    }
+
+    .file-list li {
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue {
+        margin-bottom: 20px;
+    }
+
+    .asj-service-docu .erp-mid-con .erp-mc-left .erp-jianlue .fj-tip {
+        font-size: 12px;
+        line-height: 24px;
+        color: #999;
+    }
+
+    .asj-service-docu .erp-mes-btns {
+        margin: 30px 100px 100px 98px;
+    }
+
+    .asj-service-docu .erp-mes-btns a {
+        margin-right: 20px;
+    }
+
+    .asj-service-docu .erp-mes-btns .cancel-btn {
+        background: #fff;
+        border: 1px solid #ccc;
+        color: #666;
+    }
+</style>
+<!-- content -->
+<div class="ea-content asj-service-docu">
+    <!-- right con -->
+    <div class="cj-am-main" ng-class="{'right-bar-wrap': isHideNav !== '1'}">
+        <div class="asj-h10"></div>
+        <div class="right-bar">
+            <div class="erp-main-top">
+                <p ng-if="addFlag">{{'Add Document'}}</p>
+                <p ng-if="editFlag">{{'Edit Document'}}</p>
+            </div>
+            <div class="erp-main-content">
+                <!--     <div class="erp-mes-stu">
+                         <p class="erp-stu-p">
+                             <span class="erp-stu-span">{{'Category'}}:</span>
+                             <select class="erp-stu-sel" ng-model="cateItem">
+                                 &lt;!&ndash; <option value="">{{'Please select'}}</option> &ndash;&gt;
+                                  <option value="{{item.problemType.id}}" ng-repeat="item in cateList">{{item.problemType.name}}</option>
+                             </select>
+                             &lt;!&ndash;<select class="erp-stu-sel" ng-model="typename" ng-options="item as item.TemplateName for item in typearr" ng-change="typenameget(typename)" ng-show="typearr.length>1">&ndash;&gt;
+                             </select>
+                             &lt;!&ndash; <input class="erp-stu-sel" type="text" readonly="true" ng-model="title2"> &ndash;&gt;
+                         </p>
+                     </div>-->
+                <div class="erp-mes-stu">
+                    <p class="erp-stu-p">
+                        <span class="erp-stu-span">Title:</span>
+                        <input class="erp-stu-sel" type="text" ng-model="docuTitle">
+                    </p>
+                </div>
+                <div class="erp-mid-con">
+                    <div class="erp-mc-left">
+                        <div class="erp-jianlue">
+                            <div>
+                                <span>Enclosure:</span>
+                                <form action="https://erp.cjdropshipping.com/app/ajax/upload" method="post"
+                                      enctype="multipart/form-data" id="uploadfile" class="ng-pristine ng-valid">
+                                    <input type="file" name="file" id="enclosure-file" class="enclosure-file" multiple
+                                           onchange="angular.element(this).scope().upLoadImg(this.files)" title="">
+                                    <label class="fjfuplod" for="enclosure-file">Upload</label>
+                                </form>
+                                <ul class="file-list">
+                                    <li ng-repeat="item in hasUploadFile">
+                                        <img class="file-icon" src="./static/image/public-img/fileicon.svg" alt="">
+                                        <span>{{item.name}}</span>
+                                        <img class="right-icon check-icon" src="./static/image/public-img/checkicon.svg"
+                                             alt="">
+                                        <img class="right-icon close-icon" ng-click="delFile($index)"
+                                             src="./static/image/public-img/closeicon.svg" alt="">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="erp-mc-text">
+                            <p class="erp-text-p">{{'Text'}}:</p>
+                            <div id="wang"></div>
+                        </div>
+                    </div>
+                    <div class="erp-mes-btns">
+                        <a href="javascript:void(0)" class="cancel-btn" ng-click="cancelClick()">Cancel</a>
+                        <a href="javascript:void(0)" ng-click="submitDocu()">Confirm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

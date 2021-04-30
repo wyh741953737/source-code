@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Print</title>
+    <link rel="shortcut icon" href="static/favicons.png"/>
+    <script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="erp_otweb/js/media.js"></script>
+    <script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+
+
+    <style>
+
+        .del-lsg-wrap{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .add-lsg-con{
+            width: 450px;
+            height: 290px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform:translate(-50%,-50%);
+            padding: 20px 20px 0;
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #ececec;
+            box-shadow: 0 5px 24px rgba(0,0,0,0.1);
+        }
+
+        .gys-tk-btns{
+            text-align: center;
+            margin-top: 20px;
+        }
+        .gys-tk-btns button{
+            height: 30px;
+            padding: 0 15px;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        .gys-tk-btns .ispc-can-btn{
+            color: #6b6b6b;
+            border: 1px solid #cfcfcf;
+            background-color: #f6f6f6;
+            margin-right: 15px;
+        }
+        .gys-tk-btns .ispc-con-btn{
+            color: #fff;
+            height: 30px;
+            border-radius: 4px;
+            background-color: #ff8d31;
+        }
+
+
+
+        .inputcontainer{
+            text-align: center;
+            margin-top: 25px;
+        }
+        #inputsrc{
+            width: 500px;
+            height: 40px;
+
+            border-radius: 5px;
+            outline: none;
+            padding: 0 5px;
+            font-size: 14px;
+            border: 1px solid #DBDBDB;
+            box-sizing: border-box;
+        }
+        .result-title{
+            margin: 10px 0 ;
+        }
+
+        h4{
+            display: inline-block;
+            width: 500px;
+            text-align: left;
+        }
+        .inputtitle{
+            text-align: center;
+        }
+        #media{
+           margin: 5px auto;
+        }
+        .isdymd-wrap{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .isdymd-wrap .isdymd-con{
+            width: 350px;
+            height: 120px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 20px 0;
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        .isdymd-wrap .isdymd-con .isdymd-btns {
+            margin-top: 20px;
+            text-align: right;
+            position: fixed;
+            bottom: 20px;
+            right: 50px;
+        }
+        .isdymd-wrap .isdymd-con .isdymd-btns .isdymd-can-btn {
+            color: #6b6b6b;
+            height: 30px;
+            width: 76px;
+            border: 1px solid #cfcfcf;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f6f6f6;
+            margin-right: 15px;
+        }
+        .isdymd-wrap .isdymd-con .isdymd-btns .isdymd-con-btn {
+            color: #fff;
+            height: 30px;
+            width: 76px;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #ff8d31;
+        }
+    </style>
+
+</head>
+<body ng-app="printApp" ng-controller="printAppCtrl">
+<div class="inputcontainer"><input type="text"  id="inputsrc"/></div>
+
+<!--<button id="btn">sadasd</button>-->
+<div class="inputtitle">
+    <div>
+        <h4 class="result-title">获取结果预览：</h4>
+
+        <h1 ng-if="darkToLightLog" style="color: red">【该面单已转换，请确认】Converted，！！！</h1>
+
+    </div>
+    <p style="color:#e55264;font-size: 24px;">{{printMessage}}</p>
+    <p id="popnoptice" style="width:500px;text-align:left;display: inline-block;margin-top: 0"></p>
+</div>
+
+<div id="container">
+</div>
+<div class="queh-tk"  ng-show="lanjieFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该订单是拦截订单，请勿进行打包操作。</p>
+        <div class="queh-btns">
+            <button ng-click="closeLanjie()" class="qx-qhbtn">我已拦截</button>
+        </div>
+    </div>
+</div>
+<div class="queh-tk" ng-show="jiufenOrdFlag" ng-cloak>
+    <div class="queh-tk-con">
+        <p style="font-size: 20px;">该订单是纠纷订单，请勿进行打包操作。</p>
+        <div class="queh-btns">
+            <button ng-click="closeLanjie()" class="qx-qhbtn">我已拦截</button>
+        </div>
+    </div>
+</div>
+<div class="isdymd-wrap" ng-show="downLoadFlag">
+	<div class="isdymd-con" style="width: 500px;height: 200px;">
+		<p>未检测到自动打印软件，请下载、解压、运行。如果已经下载，请双击启动，点击关闭不再提示，刷新会重新启用</p>
+		<a href="http://erp.cjdropshipping.cn/down/cjapp.zip" ng-click="downLoadFlag = false" style="color: #87CEFA;">自动打单软件</a>
+		<div class="isdymd-btns">
+			<button ng-click="closeAuto()" class="isdymd-can-btn">关闭</button>
+		</div>
+	</div>
+</div>
+
+<!--  -->
+<div class="del-lsg-wrap" ng-show="oneistjcwFlag">
+    <div class="add-lsg-con" style="height: 125px;width: 350px;">
+        <p>该订单已转换，是否确认第二次转换?</p>
+        <div class="gys-tk-btns">
+            <button ng-click="oneistjcwFlag=false" class="ispc-can-btn">取消</button>
+            <button ng-click="confirmConversion()" class="ispc-con-btn">确定</button>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="static/js/public/base64.min.js"></script>
+<script type="text/javascript" src="static/js/public/common.js"></script>
+<script type="text/javascript" src='static/layer/layer.js'></script>
+<script type="text/javascript">
+
+    (function(angular){
+        var app = angular.module('printApp',['service']);
+        app.controller('printAppCtrl',['$scope',"erp",function ($scope,erp) {
+            var time = 0;
+            $scope.activeAuto = true
+            $('#inputsrc').focus();
+            $('#inputsrc').on('keypress',function(event){
+
+                //console.log(event.keyCode);
+                if(event.keyCode=='13'){
+                    if (time == 0) {
+                        time = 1; //设定间隔时间（秒）
+
+                        //启动计时器，倒计时time秒后自动关闭计时器。
+                        var index = setInterval(function(){
+                            time--;
+                            if (time == 0) {
+                                clearInterval(index);
+                            }
+                        }, 1000);
+
+//                        alert('按钮事件被触发');
+                        var code = $(this).val();
+                        console.log(code);
+//                    if(document.getElementById('media')){
+//                        var ele = document.getElementById('media');
+//                        document.getElementById('container').removeChild(ele);
+//                    }
+                        $('#container').empty();
+                        $('#popnoptice').html('');
+                        if(code.length==30){
+                            code = code.substring(8)
+                        }
+                        var data = {
+                            "orderNum":code
+                        };
+
+                        // 验证是否第一次转换面单
+                        erp.postFun('erp/darkToLightLog/query',data,function(res){
+                            console.log(res)
+                            if (res.data.statusCode == '200'){
+                                $scope.darkToLightLog = true;
+                            }else {
+                                $scope.darkToLightLog = false;
+                            }
+                            transferOrder(code);
+
+                        },function(){
+
+                        })
+
+
+                    }else{
+//                        alert('目前按钮事件不允许被触发');
+                    }
+
+                }
+
+
+            });
+
+            // $('#inputsrc').focus(function(e){
+            //     $(this).val('');
+            // });
+
+
+            $scope.confirmConversion = function(){
+                $scope.oneistjcwFlag = false;
+                transferOrder($scope.orderNumCode)
+            }
+
+
+            function textToAudio1(text,obj){
+                const tts = new SpeechSynthesisUtterance();
+                let param = {
+                    text:text,
+                    lang:'zh-CN',
+                    rate:0.7,
+                    pitch:1.8,
+                    volume:1
+                }
+                for(let key in param){
+                    if(obj && obj[key]) param[key] = obj[key];
+                    tts[key] = param[key];
+                }
+                console.log(tts)
+                window.speechSynthesis.speak(tts);
+            }
+
+            function toSleep(milliSeconds) {
+                var startTime = new Date().getTime() + parseInt(milliSeconds, 10);
+                while(new Date().getTime() < startTime) {}
+
+            }
+
+            //转换面单
+            function transferOrder(code){
+                var data = {
+                    "orderNum":code
+                };
+                        $scope.printMessage = '';
+                        var sendUrl = "processOrder/faHuo/getOrderNumPdf";
+                        erp.postFun('app/order/selctDpr',{'orderNum':code},function(res){
+                            console.log(res)
+                            data.isItEmpty = res.data.isItEmpty;
+                            erp.postFun(sendUrl,JSON.stringify(data),vedio,err);
+                        },function(){
+
+                        })
+
+                        function vedio(n){
+//                        console.log(n.data);
+                            if(n.data.code!=200){
+                                layer.msg(n.data.message)
+                                //verificationLanjie(code)
+                                return;
+                            }
+                            // 不是拦截订单 和 是重复显示提示
+                            if (n.data.code!=419 && $scope.darkToLightLog){
+                                textToAudio1('Converted')
+                                layer.msg("<a style='color:darkorange'>【该面单已转换】Converted</a>",{
+                                    offset:'10%',shade :0,time: 4000
+                                }, function () {
+                                    faceListDisplay(code,n);
+                                });
+                                return;
+                            }
+
+                            faceListDisplay(code,n);
+                        }
+                        function err(n){}
+
+
+
+            };
+
+
+            //面单显示
+            function faceListDisplay(code,n){
+                var href = n.data.data;
+                if(href.indexOf('http')=='-1'){
+                    $scope.printMessage = href;
+                    return
+                }
+                var str = n.data.message;
+                $('#popnoptice').html(str);
+                //console.log(count);
+                if(href=="not found"){
+                    layer.msg("not found");
+                }else if(href=="the number is wrong"){
+                    layer.msg("the number is wrong");
+                }else{
+                    var media = document.createElement('a');
+                    media.className='media';
+                    media.href='https://'+href.replace('https://','').replace('http://','');
+                    media.id='media';
+                    document.getElementById('container').appendChild(media);
+                    console.log(media.href)
+                    PrintCode(media.href);
+//                        var count = document.getElementsByClassName('media').length;
+//                        console.log(count);
+                    $('a.media').media({width:650, height:650});
+                }
+                addDarkToLightLog(code,href)
+                $('#inputsrc').val('');
+
+
+             };
+
+            //转换面单成功新增转换面单记录
+            function addDarkToLightLog(code,href) {
+                var params = {
+                    'orderNum': code, "href": href
+                }
+                erp.postFun('erp/darkToLightLog/add',params,function(res){
+                    console.log(res)
+                },function(){
+
+                })
+
+            }
+
+
+            function verificationLanjie(code){
+                var param={
+                    batchNumber:"",
+                    batchNumberStatus:"",
+                    trackingNumber:code,
+                    cjOrder:""
+                }
+                erp.postFun('processOrder/intercept/verification', param, function(data) {
+                    console.log(data)
+                    var res=data.data
+                    if(res.code==200 && res.data.interceptList.length!=0){
+                        $scope.cjorder = res.data.interceptList[0].id
+                        $scope.interceptStatus=res.data.interceptStatus
+                        if(res.data.interceptStatus==0){
+                            $scope.lanjieFlag =true
+                        }else if(res.data.interceptStatus==1){
+                            $scope.jiufenOrdFlag=true
+                        }
+                    }
+                })
+            }
+            $scope.closeLanjie = function(){
+                $scope.lanjieFlag = false;
+                $scope.jiufenOrdFlag = false;
+                $("#inputsrc").val('');
+                console.log($scope.cjorder)
+                erp.postFun('processOrder/intercept/confirm', {cjOrder:$scope.cjorder}, function (data) {
+                    console.log(data)
+                }, function (data) {},{layer:true})
+            }
+            $('#inputsrc').focus(function(e){
+                $(this).val('');
+            });
+            function PrintCode(url) {
+                if( !$scope.activeAuto ) return
+                console.log(url)
+                $.ajax({
+                    url: 'http://127.0.0.1:9999/marking?url=' + url,
+                    async: true,
+                    cache: false,
+                    dataType: 'text',
+                    error: function (xhr) {
+                        $scope.downLoadFlag = true;
+                        $scope.$apply()
+                        console.log($scope.downLoadFlag)
+                    },
+                    success: function (data) {
+                        $scope.$apply()
+                    }
+                })
+            }
+            $scope.closeAuto = function () {
+                $scope.downLoadFlag = false
+                $scope.activeAuto = false
+            }
+        }]);
+    })(angular)
+
+</script>
+</html>

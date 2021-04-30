@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>区域</title>
+</head>
+
+<body>
+  <!-- content -->
+  <div class="ea-content asj-ware-box">
+    <!-- right con -->
+    <div class="right-bar-wrap ea-right-content li_ea-right-content">
+      <!-- right nav -->
+      <div class="asj-h10"></div>
+      <!-- right search -->
+      <div class="right-bar">
+        <div class="ea-right-search">
+          <div class="add-merch" style="display: flex;">
+            <a href="javascript:void(0);" class="add-merch-btn" ng-click="addWareFun()">新增区域</a>
+          </div>
+        </div>
+
+        <!-- right list -->
+        <div class="table-con-box">
+          <table class="ea-list-table ea-erp-cs" id="ea-list-table">
+            <thead>
+              <tr>
+                <th>区域名称-中文</th>
+                <th>区域名称-英文</th>
+                <th>国家简码</th>
+                <th>区域排序</th>
+                <th>区域管控</th>
+                <th>区域库存设置</th>
+                <th>{{'100043' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="(index1,item) in areaList">
+              <tr class="la_tr la_tr01">
+                <td>{{item.areaCn}}</td>
+                <td>{{item.areaEn}}</td>
+                <td>{{item.countryCode}}</td>
+                <td>{{item.sort}}</td>
+                <td>{{item.inventoryControl == 0 ? '不管控' : '管控'}}</td>
+                <td>{{item.warehouseSetName}}</td>
+                <td class="relative active">
+                  <div>
+                    <a role="button" class="asj-btn-s" ng-if="isadmin" ng-click="editOneWare(item)" href="javascript: void(0);">{{'100120' | translate}}</a>
+                    <a role="button" class="asj-btn-s" ng-if="isadmin" ng-click="deleteOneWare(item)">{{'100227' | translate}}</a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+         <!-- 分页 -->
+         <div class="pages-fun page-box">
+          <div class="total-num">
+              共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+          </div>
+          <div class="total-num">
+                  <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="pageSize" ng-change="pagechange(pageSize)" style="width: 65px;height: 31px;">
+                          <option value="20">20</option>
+                          <option value="30">30</option>
+                          <option value="50">50</option>
+                  </select>
+          </div>
+          <div class="page-index">
+              <div class="pagegroup1"></div>
+          </div>
+          <div class="to-idx">
+              到第<input type="number" ng-model="pageNum" style="width: 40px;">页
+              <button ng-click="toPage1()" class="jump-btn">确定</button>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新增 -->
+  <div class="asj-common-tanwrap" ng-show="addWareFlag">
+    <div class="asj-common-tan tan-add-ware" style="padding-right: 40px;padding-top: 20px;">
+      <span class="asj-common-close" ng-click="cancelDetailWare()"><i>+</i></span>
+      <div class="tan-title">{{opeWareType}}</div>
+      <div>
+        <div class="input-item clearfix">
+          <label class="">区域名称-中文:</label>
+          <div class="right-con">
+            <input type="text" placeholder="" ng-model="areaNameCn">
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">区域名称-英文:</label>
+          <div class="right-con">
+            <input type="text" placeholder="" ng-model="areaNameEn">
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">国家简码:</label>
+          <div class="right-con">
+            <select ng-options="code.id as code.id for code in areaCodeList" ng-model="countryCode"></select>
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">区域排序:</label>
+          <div class="right-con">
+            <input type="text" placeholder="" ng-model="sort">
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">区域管控:</label>
+          <div class="right-con">
+            <select name="" id="" ng-model="areaControl" ng-init="areaControl='1'">
+              <option value="1">管控</option>
+              <option value="0">不管控</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="input-item clearfix">
+          <label class="">区域库存设置:</label>
+          <div class="right-con" style="min-height: 1px;" ng-repeat="item in warehouseList">
+            <input type="checkbox" ng-model="item.check" ng-click="warehouseIsCheck(item,item.check)">{{item.storageName}}
+          </div>
+        </div> -->
+        <div class="tan-btns">
+          <a class="tan-btn0" ng-click="cancelDetailWare()">取消</a>
+          <a class="tan-btn1" ng-click="sureAdd()">提交</a>
+        </div>
+      </div>
+    
+
+    </div>
+  </div>
+
+
+  <!-- 编辑 -->
+  <div class="asj-common-tanwrap" ng-show="editWareFlag">
+    <div class="asj-common-tan tan-add-ware" style="padding-right: 40px;padding-top: 20px;">
+      <span class="asj-common-close" ng-click="cancelDetailWare()"><i>+</i></span>
+      <div class="tan-title">{{opeWareType}}</div>
+      <div>
+        <div class="input-item clearfix">
+          <label class="">区域名称-中文:</label>
+          <div class="right-con">
+            <input type="text" placeholder="" ng-model="areaCn">
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">区域名称-英文</label>
+          <div class="right-con">
+            <input type="text" placeholder="" ng-model="areaEn">
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">国家简码:</label>
+          <div class="right-con">
+            <select ng-options="code.id as code.id for code in areaCodeList" ng-model="countryCode"></select>
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">区域排序:</label>
+          <div class="right-con">
+            <input type="text" placeholder="" ng-model="editSort">
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">区域管控:</label>
+          <div class="right-con">
+            <select name="" id="" ng-model="areaControl">
+              <option value="1">管控</option>
+              <option value="0">不管控</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-item clearfix">
+          <label class="">区域库存设置:</label>
+          <div class="right-con" style="min-height: 1px;" ng-repeat="item in warehouseList">
+            <input type="checkbox" ng-model="item.check" ng-click="editIsCheck(item,item.check)">{{item.storageName}}
+          </div>
+        </div>
+        <div class="tan-btns">
+          <a class="tan-btn0" ng-click="cancelDetailWare()">取消</a>
+          <a class="tan-btn1" ng-click="sureEdit()">提交</a>
+        </div>
+      </div>
+    
+
+    </div>
+  </div>
+
+
+  <!-- 删除 -->
+  <div class="asj-common-tanwrap" ng-show="deleteWareFlag">
+    <div class="asj-common-tan tan-delete-ware">
+      <div class="tan-title">确认删除{{deleteWareName}}区域？</div>
+      <div class="tan-btns"><a class="tan-btn0" ng-click="deleteWareFlag=false">{{'100051' | translate}}</a><a class="tan-btn1" ng-click="goDeleteWare()">{{'100050' | translate}}</a></div>
+    </div>
+  </div>
+</body>
+
+<style>
+  .areaBox {
+    display: flex;
+  }
+</style>
+
+</html>

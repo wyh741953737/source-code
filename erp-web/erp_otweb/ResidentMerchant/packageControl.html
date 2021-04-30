@@ -1,0 +1,681 @@
+<style>
+  .content {
+    background-color: #fff;
+    padding: 20px;
+    position: relative;
+    margin-left: 220px;
+  }
+  .content > .title {
+    padding: 10px 0;
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .ban-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    z-index: 9999;
+  }
+  .radit-item {
+    display: inline-block;
+    width: 98px;
+    margin-top: 10px;
+  }
+
+  .button {
+    color: #fff;
+    background-color: #08aceb;
+    line-height: 40px;
+    border: none;
+    font-size: 14px;
+    font-weight: 400;
+    width: 116px;
+    height: 40px;
+    border-radius: 6px;
+  }
+
+  .button.add {
+    margin-left: 40px;
+  }
+  .button.back {
+    background: #fff;
+    color: #444;
+    border: 1px solid #eee;
+    margin-left: 20px;
+  }
+  /* 上传图片 */
+  .upload-area {
+    width: 104px;
+    height: 104px;
+    border-radius: 4px;
+    border: 1px dashed #dddcdc;
+    background: rgb(249, 249, 249);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .upload-area > .img-wrap {
+    width: 104px;
+    height: 104px;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+  }
+  .upload-area > .img-wrap > img {
+    width: 104px;
+    height: 104px;
+  }
+  .upload-area > .img-wrap > i {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: url("static/image/public-img/close-circle.png") no-repeat center
+      center;
+    background-size: 22px 22px;
+    right: -11px;
+    top: -11px;
+    cursor: pointer;
+  }
+  .upload-area > span:nth-child(1) {
+    margin-bottom: 4px;
+    margin-top: 6px;
+    color: #999;
+    cursor: pointer;
+  }
+  .upload-area > span:nth-child(2) {
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .upload-warp {
+  }
+</style>
+<body>
+  <div class="content">
+    <form>
+      <div class="ban-bg" ng-show="isDetail"></div>
+      <div class="title">{{type | titleTrans}}</div>
+      <div class="input-item clearfix">
+        <label class=""
+          ><span class="asj-must-require">* </span>套餐名称：</label
+        >
+        <div class="right-con">
+          <input type="text" class="merchan-name-inp" name="packageName" maxlength="100" ng-model="packageName" ng-disabled="type === 'edit'" />
+        </div>
+      </div>
+
+      <div class="input-item clearfix">
+        <label class=""><span class="asj-must-require">* </span>图标:</label>
+        <div class="right-con">
+          <div class="upload-area">
+            <span ng-click="uploadImg()" style="font-size: 34px;">+</span>
+            <span ng-click="uploadImg()">上传图片</span>
+            <div class="img-wrap" ng-if="picurl">
+              <img ng-src="{{picurl}}" name="img" alt="" />
+              <i ng-click="clearImg()"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-item clearfix">
+        <label class=""
+          ><span class="asj-must-require">* </span>按月金额：</label
+        >
+        <div class="right-con">
+          <input
+            type="text"
+            class="merchan-name-inp"
+            ng-model="planFeeMonth"
+          />&nbsp;每月
+        </div>
+      </div>
+      <div class="input-item clearfix">
+        <label class=""
+          ><span class="asj-must-require">* </span>按年每月：</label
+        >
+        <div class="right-con">
+          <input
+            type="text"
+            class="merchan-name-inp"
+            ng-model="planFeeYear"
+          />&nbsp;每月
+        </div>
+      </div>
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>默认套餐：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="baseType"
+                ng-model="baseType"
+                value="0"
+              />
+              <label for="">Basics</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="baseType"
+                    ng-model="baseType"
+                    value="1"
+                  />
+                  <label for="">Pro</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="baseType"
+                ng-model="baseType"
+                value="2"
+              />
+              <label for="">Pro Bussiness</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="baseType"
+                ng-model="baseType"
+                value="3"
+              />
+              <label for="">PB Core</label>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+      <div class="input-item clearfix">
+        <label class=""
+          ><span class="asj-must-require">* </span>上传商品：</label
+        >
+        <div class="right-con">
+          <input
+            type="text"
+            class="merchan-name-inp"
+            ng-model="uploadProduct"
+          />
+        </div>
+      </div>
+      <!-- 自发货 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>是否自发货：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="isSelfDelivery"
+                ng-model="isSelfDelivery"
+                value="1"
+              />
+              <label for="">是</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="isSelfDelivery"
+                    ng-model="isSelfDelivery"
+                    value="0"
+                  />
+                  <label for="">否</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+      <!-- 仓租 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""><span class="asj-must-require">* </span>仓租：</label>
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="rentTime"
+                ng-model="rentTime"
+                value="6"
+              />
+              <label for="">6个月</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="rentTime"
+                    ng-model="rentTime"
+                    value="12"
+                  />
+                  <label for="">1 年</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="rentTime"
+                ng-model="rentTime"
+                value="-1"
+              />
+              <label for="">永久</label>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+      <!-- 交易费 -->
+      <div class="input-item clearfix">
+        <label class=""><span class="asj-must-require">* </span>交易费：</label>
+        <div class="right-con">
+          <input type="text" class="merchan-name-inp" ng-model="txFee" />%
+        </div>
+      </div>
+      <!-- 自发货交易费 -->
+      <div class="input-item clearfix">
+        <label class=""
+          ><span class="asj-must-require">* </span>自发货交易费：</label
+        >
+        <div class="right-con">
+          <input
+            type="text"
+            class="merchan-name-inp"
+            ng-model="selfDeliveryFee"
+          />%
+        </div>
+      </div>
+      <!-- 是否免订单处理费 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>是否免订单处理费：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="isWithoutOrdDealFee"
+                ng-model="isWithoutOrdDealFee"
+                value="1"
+              />
+              <label for="">是</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="isWithoutOrdDealFee"
+                    ng-model="isWithoutOrdDealFee"
+                    value="0"
+                  />
+                  <label for="">否</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+      <!-- 助力销售 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>助力销售：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="isHelpSale"
+                ng-model="isHelpSale"
+                value="1"
+              />
+              <label for="">是</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="isHelpSale"
+                    ng-model="isHelpSale"
+                    value="0"
+                  />
+                  <label for="">否</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+      <!-- 搜品报价 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>搜品报价：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="secProdQuotn"
+                ng-model="secProdQuotn"
+                value="0"
+              />
+              <label for="">无</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="secProdQuotn"
+                    ng-model="secProdQuotn"
+                    value="10"
+                  />
+                  <label for="">10条/天</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="secProdQuotn"
+                    ng-model="secProdQuotn"
+                    value="20"
+                  />
+                  <label for="">20条/天</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+
+      <!-- 客户聊天功能 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>客户聊天功能：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="isChatFunc"
+                ng-model="isChatFunc"
+                value="1"
+              />
+              <label for="">是</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="isChatFunc"
+                    ng-model="isChatFunc"
+                    value="0"
+                  />
+                  <label for="">否</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+
+      <!-- 自定义域名 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>自定义域名：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="iscustomizeDN"
+                ng-model="iscustomizeDN"
+                value="1"
+              />
+              <label for="">是</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="iscustomizeDN"
+                    ng-model="iscustomizeDN"
+                    value="0"
+                  />
+                  <label for="">否</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+
+      <!-- 新项目合作 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>新项目合作：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="isNewProjectCoop"
+                ng-model="isNewProjectCoop"
+                value="1"
+              />
+              <label for="">是</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="isNewProjectCoop"
+                    ng-model="isNewProjectCoop"
+                    value="0"
+                  />
+                  <label for="">否</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+
+      <!-- 精美店铺 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>精美店铺：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="isDelicateShop"
+                ng-model="isDelicateShop"
+                value="1"
+              />
+              <label for="">是</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="isDelicateShop"
+                    ng-model="isDelicateShop"
+                    value="0"
+                  />
+                  <label for="">否</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+
+      <!-- 套餐状态 -->
+      <div class="input-item attribute clearfix" id="authrity-users">
+        <label class=""
+          ><span class="asj-must-require">* </span>套餐状态：</label
+        >
+        <div class="right-con">
+          <div class="radit-item">
+            <div class="radio-box">
+              <!-- ng-class="{'forbid-use': addSourceId}" -->
+              <input
+                type="radio"
+                name="packageStatus"
+                ng-model="packageStatus"
+                value="1"
+              />
+              <label for="">启用</label>
+            </div>
+          </div>
+          <div class="radit-item">
+            <div class="part-see-top clearfix">
+              <div class="part-see-radio">
+                <div class="radio-box">
+                  <input
+                    type="radio"
+                    name="packageStatus"
+                    ng-model="packageStatus"
+                    value="0"
+                  />
+                  <label for="">禁用</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="error-message" ng-show="verifyAuthUser">
+            {{'100524' | translate}}
+          </div>
+        </div>
+      </div>
+      <!-- 套餐排序 -->
+      <div class="input-item clearfix">
+        <label class=""
+          ><span class="asj-must-require">* </span>套餐排序：</label
+        >
+        <div class="right-con">
+          <input type="number" class="merchan-name-inp" ng-model="sort" />
+        </div>
+      </div>
+
+      <!-- 描述 -->
+      <div class="input-item clearfix">
+        <label class=""><span class="asj-must-require">&nbsp;&nbsp;</span>描述：</label>
+        <div class="right-con">
+          <input type="text" class="merchan-name-inp" ng-model="remark" />
+        </div>
+      </div>
+
+      <button
+        ng-click="confirmOpera()"
+        class="button add"
+        ng-hide="type === 'detail'"
+      >
+        {{controlDesc}}
+      </button>
+      <button ng-click="back()" class="button back">
+        返回
+      </button>
+    </form>
+  </div>
+</body>

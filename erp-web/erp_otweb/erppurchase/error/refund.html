@@ -1,0 +1,324 @@
+
+<div class="my-wrap">
+  <main class="my-main prel">
+    <section class="tab-area">
+      <div id="top-tab" class="top-tab position-fixed">
+        <div class="top-tab-nav d-flex">
+          <span class="tab-span tab-border-bt cursor-pointer" ng-class="{'tab-active': $index === tabIndex}" ng-repeat="tab in tabArr" ng-click="switchTab($index)">{{tab}}</span>
+        </div>
+      </div>
+    </section>
+    <section class="filter-area">
+      <div class="mb-20 input-arae">
+        <input id="startTime" class="mr-10"  type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="开始时间"/>
+        <input id="endTime"  type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="结束时间"/>
+        <input type="text" placeholder="请输入订单号" ng-model="params.orderId">
+        <input type="text" placeholder="请输入创建人" ng-model="params.createName">
+        <button ng-click="handleSearch()">搜索</button>
+        <a href="/query_package.html" target="_blank">
+          <button>查询包裹</button>
+        </a>
+      </div>
+      <button class="bg-b1 c-w1 fs-14">筛选</button>
+    </section>
+    <section class="table-area">
+      <div class="tb-thead d-flex">
+        <div style="width: 10%" class="tb-thead-th">序号</div>
+        <div style="width: 15%" class="tb-thead-th">订单号</div>
+        <div style="width: 20%" class="tb-thead-th">供货公司</div>
+        <div style="width: 20%" class="tb-thead-th">运单号</div>
+        <div style="width: 10%" class="tb-thead-th">实际支付（¥）</div>
+        <div style="width: 10%" class="tb-thead-th">退款金额（¥）</div>
+        <div style="width: 10%" class="tb-thead-th">退款类型（¥）</div>
+        <div style="width: 5%" class="tb-thead-th">创建人</div>
+        <div style="width: 15%" class="tb-thead-th">创建时间</div>
+        <div style="width: 10%" class="tb-thead-th">操作</div>
+      </div>
+      <div class="tb-tbody table-content">
+        <div class="tb-tbody-tr" ng-repeat="item in list" ng-show="list.length">
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.id}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td"><span>{{item.orderId}}</span></div>
+          <div style="width: 20%" class="tb-tbody-td"><span>{{item.gongHuoGongSi}}</span></div>
+          <div style="width: 20%" class="tb-tbody-td">
+            <p ng-repeat="str in item.waybill" class="fs-12 tx-c">{{str}}</p>
+          </div>
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.realPayPrice}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.refundAmount}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td"><span>{{item.refundType}}</span></div>
+          <div style="width: 5%" class="tb-tbody-td"><span>{{item.caigouRen}}</span></div>
+          <div style="width: 15%" class="tb-tbody-td"><span>{{item.createDate}}</span></div>
+          <div style="width: 10%" class="tb-tbody-td d-flex-center">
+            <span class="tb-btn-default" ng-click="showDetail(item)">查看</span>
+          </div>
+        </div>
+        <div class="table-content flex fxc fyc" ng-show="list.length === 0">暂无数据</div>
+      </div>
+     
+    </section>
+    <section class="page-area">
+      <page></page>
+    </section>
+    <!-- 线上详情 -->
+    <section class="wrap-1" ng-show="onlineDetailShow">
+      <div class="mb-20"><button ng-click="hideDetail(onlineDetail)">&lt 退回</button></div>
+      <ul class="flex fyc fwp detail-ul mb-20">
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">供货公司:</span>
+          <span>{{offlineDetail.gongHuoGongSi || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">收货仓库:</span>
+          <span>{{offlineDetail.myWarehouse || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">采购类型:</span>
+          <span>{{tabArr[tabIndex] || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">订单号:</span>
+          <span>{{offlineDetail.orderId || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">标记:</span>
+          <span>{{offlineDetail.caiGouLiuYan || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">标记备注:</span>
+          <span>{{offlineDetail.signRemark || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">原总价(¥):</span>
+          <span>{{offlineDetail.huoWuZongJia}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">实际支付(¥):</span>
+          <span>{{offlineDetail.realPayPrice || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">退款金额(¥):</span>
+          <span>{{offlineDetail.refundAmount || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">创建人:</span>
+          <span>{{offlineDetail.caigouRen || '--'}}</span>
+        </li>
+
+        <li style="min-width: 100%;" class="fs-14 flex fyc" ng-repeat="item in offlineDetail.logisticsList">
+          <div style="min-width: 20%;">
+            <span class="mr-10">物流公司:</span>
+            <span>{{item.val}}</span>
+          </div>
+          <div style="min-width: 20%;">
+            <span class="mr-10">运单号:</span>
+            <span>{{item.key}}</span>
+          </div>
+        </li>
+        
+      </ul>
+      <section>
+        <div class="tb-thead d-flex">
+          <div style="width: 15%" class="tb-thead-th">图片</div>
+          <div style="width: 15%" class="tb-thead-th">SKU</div>
+          <div style="width: 15%" class="tb-thead-th">今日订单统计数量</div>
+          <div style="width: 10%" class="tb-thead-th">可用库存数量</div>
+          <div style="width: 10%" class="tb-thead-th">建议采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">搜品价格(¥)</div>
+          <div style="width: 5%" class="tb-thead-th">采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">退款后采购数量</div>
+        </div>
+        <div class="tb-tbody table-content">
+          <div class="tb-tbody-tr" ng-repeat="item in onlineDetailList" ng-show="onlineDetailList.length">
+            <div style="width: 15%; padding: 0;" class="tb-tbody-td flex fyc fxc">
+              <span><img src="{{item.cjImg}}" width="50"></span>
+            </div>
+            <div style="width: 15%" class="tb-tbody-td"><span>{{item.cjSku}}</span></div>
+            <div style="width: 15%" class="tb-tbody-td"><span>{{item.orderneedcount  || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.kucun || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.a || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.danJia}}</span></div>
+            <div style="width: 5%" class="tb-tbody-td"><span>{{item.shuLiang || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.tuiKuanHouCaiGou || '--'}}</span></div>
+          </div>
+          <div class="table-content flex fxc fyc" ng-show="onlineDetailList.length === 0">暂无数据</div>
+        </div>
+      </section>
+    </section>
+    <!-- 线下详情 -->
+    <section class="wrap-1" ng-show="offlineDetailShow">
+      <div class="mb-20"><button ng-click="hideDetail(offlineDetail)">&lt 退回</button></div>
+      <ul class="flex fyc fwp detail-ul mb-20">
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">进仓编号:</span>
+          <span>{{offlineDetail.storageNumber || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">供货公司:</span>
+          <span>{{offlineDetail.gongHuoGongSi || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">仓库:</span>
+          <span>{{offlineDetail.myWarehouse || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">标记:</span>
+          <span>{{offlineDetail.caiGouLiuYan}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">标记备注:</span>
+          <span>{{offlineDetail.signRemark}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">付款方式:</span>
+          <span>{{retPurchaseType(offlineDetail.payType)}}</span>
+        </li>
+
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">订金(¥):</span>
+          <span>{{offlineDetail.frontMoney || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">尾款(¥):</span>
+          <span>{{offlineDetail.restMoney || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">已付金额(¥):</span>
+          <span>{{offlineDetail.realPayPrice || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">退款金额(¥):</span>
+          <span>{{offlineDetail.refundAmount || '--'}}</span>
+        </li>
+        
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">收款银行:</span>
+          <span>{{offlineDetail.bank || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">收款银行支行:</span>
+          <span>{{offlineDetail.branchBank || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">收款账户名称:</span>
+          <span>{{offlineDetail.accountName || '--'}}</span>
+        </li>
+        <li style="min-width: 20%;" class="fs-14 flex fyc">
+          <span class="mr-10">银行账号:</span>
+          <span>{{offlineDetail.bankAccount || '--'}}</span>
+        </li>
+        <li style="min-width: 100%;" class="fs-14 flex fyc">
+          <span class="mr-10">收货地址:</span>
+          <span>{{offlineDetail.shouHuoDiZhi || '--'}}</span>
+        </li>
+        <li style="min-width: 100%;" class="fs-14 flex fyc" ng-repeat="item in offlineDetail.logisticsList">
+          <div style="min-width: 20%;">
+            <span class="mr-10">物流公司:</span>
+            <span>{{item.val}}</span>
+          </div>
+          <div style="min-width: 20%;">
+            <span class="mr-10">运单号:</span>
+            <span>{{item.key}}</span>
+          </div>
+        </li>
+        
+      </ul>
+      <section>
+        <div class="tb-thead d-flex">
+          <div style="width: 15%" class="tb-thead-th">图片</div>
+          <div style="width: 15%" class="tb-thead-th">SKU</div>
+          <div style="width: 15%" class="tb-thead-th">今日订单统计数量</div>
+          <div style="width: 10%" class="tb-thead-th">可用库存数量</div>
+          <div style="width: 10%" class="tb-thead-th">建议采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">搜品价格(¥)</div>
+          <div style="width: 5%" class="tb-thead-th">采购数量</div>
+          <div style="width: 10%" class="tb-thead-th">退款后采购数量</div>
+        </div>
+        <div class="tb-tbody table-content">
+          <div class="tb-tbody-tr" ng-repeat="item in offlineDetailList" ng-show="offlineDetailList.length">
+            <div style="width: 15%; padding: 0;" class="tb-tbody-td flex fyc fxc">
+              <span><img src="{{item.cjImg}}" width="50"></span>
+            </div>
+            <div style="width: 15%" class="tb-tbody-td"><span>{{item.cjSku}}</span></div>
+            <div style="width: 15%" class="tb-tbody-td"><span>{{item.orderneedcount  || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.kucun || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.a || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.danJia}}</span></div>
+            <div style="width: 5%" class="tb-tbody-td"><span>{{item.shuLiang || '--'}}</span></div>
+            <div style="width: 10%" class="tb-tbody-td"><span>{{item.tuiKuanHouCaiGou || '--'}}</span></div>
+          </div>
+          <div class="table-content flex fxc fyc" ng-show="offlineDetailList.length === 0">暂无数据</div>
+        </div>
+      </section>
+    </section>
+  </main>
+  
+</div>
+
+<style>
+.my-wrap { min-height: 100vh; padding: 15px 15px 15px 230px; }
+.wrap-1 {position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: #fff; z-index: 10; padding: 20px;}
+.my-main { background: #fff; height: 100%; padding: 15px 15px 30px; }
+.top-tab {width: calc(100% - 285px); padding-top: 0; top: 15px;}
+.filter-area {height: 200px; padding: 60px 0 20px;}
+.input-arae input {height: 30px; line-height: 30px; padding: 0; text-indent: 8px; font-size: 14px;}
+.input-arae button {border: 1px solid #ddd;  background: #fff; font-size: 14px;}
+.table-content {min-height: 522px;}
+.tb-tbody {border-bottom: 1px solid #eee;}
+.tx-c {text-align: center;}
+button {line-height: 28px; padding: 0 15px; border-radius: 4px; background-color: #fff; border: 1px solid #eee; font-size: 14px;}
+.detail-ul>li {height: 30px; }
+/*common css*/
+*{box-sizing: border-box;}
+.flex {display: flex;}
+.fxl {justify-content: flex-start;}
+.fxc {justify-content: center;}
+.fxr {justify-content: flex-end;}
+.fxsa {justify-content: space-around;}
+.fxsb {justify-content: space-between;}
+.fyc {align-items: center;}
+.fdc {flex-direction: column;}
+.fg-1 {flex-grow: 1;}
+.fwp {flex-wrap: wrap;}
+
+.fs-12 {font-size: 12px;}
+.fs-14 {font-size: 14px;}
+.fs-16 {font-size: 16px;}
+
+.prel {position: relative;}
+.pabs {position: absolute;}
+.pfix {position: fixed;}
+
+.ml-5 {margin-left: 5px;}
+.mr-5 {margin-right: 5px;}
+.mr-10 {margin-right: 10px;}
+.mr-15 {margin-right: 15px;}
+.mr-20 {margin-right: 20px;}
+.mb-5 {margin-bottom: 5px;}
+.mb-10 {margin-bottom: 10px;}
+.mb-20 {margin-bottom: 20px;}
+.pl-10 {padding-left: 10px;}
+
+.etc { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.tx-c {text-align: center;}
+.lh-15e {line-height: 1.5em;}
+.indent {text-indent: 1em;}
+
+.br-4 {border-radius: 4px;}
+.br-half {border-radius: 50%;}
+.bd-1e {border: 1px solid #eee;}
+
+.cp {cursor: pointer; user-select: none;}
+
+.fw-550 {font-weight: 550;}
+
+.c-y1 {color: #F9AE08;}
+.c-b1 {color: #4A90E2;}
+.c-w1 {color: #ffffff;}
+.c-th {color: #8B572A;}
+.c-err {color: red;}
+.bg-y1 {background-color: #F9AE08;}
+.bg-y2 {background-color: #FCF4D9;}
+.bg-b1 {background-color: #4A90E2;}
+.bg-r1 {background-color: red;}
+
+.wrap {position: fixed; left: 0; top: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; background: #1b1b1b4d;}
+</style>

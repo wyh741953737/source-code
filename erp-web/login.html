@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="义乌市促佳贸易有限公司"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>login</title>
+	<link rel="shortcut icon" href="static/favicons.png"/>
+	<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+	<script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<script src="./static/layer/layer.js"></script>
+	<style type="text/css">
+		.zloginwrap{
+			position: fixed;
+			top: 0;
+			left:0;
+			bottom: 0;
+			right: 0;
+			width: 100%;
+			background-color: #f0f2f5;
+
+		}
+		.zlogincontent{
+			width: 1090px;
+			margin: 126px auto;
+
+		}
+		.zlogin-right{
+			width: 300px;
+			background-color: #fff;
+			padding: 14px 50px 124px 50px;
+			border-radius: 8px;
+			margin-left: 90px;
+			position: relative;
+		}
+		.zlogincontentp{
+			width: 100%;
+			font-family: ﻿Constantia;
+			font-size:30px;
+			font-weight: normal;
+			font-stretch: normal;
+			line-height: 49px;
+			letter-spacing: 0px;
+			color: #F29748;
+			text-align: center;
+		}
+		.zlogincontenti1{
+			width: 100%;
+			height: 40px;
+			padding: 0 45px;
+			background-blend-mode: normal,
+			normal;
+			border-radius: 20px;
+			border: solid 1px #BFBFBF;
+			box-sizing: border-box;
+			margin-bottom: 30px;
+			outline: none;
+		}
+		.zlogincontenti2{
+			box-sizing: border-box;
+			width: 100%;
+			height: 40px;
+			padding: 0 45px;
+			background-blend-mode: normal,
+			normal;
+			border-radius: 20px;
+			border: solid 1px #BFBFBF;
+			box-sizing: border-box;
+			outline: none;
+			margin-bottom: 10px;
+
+		}
+		.remberpassword{
+			width: 100%;
+			padding: 10px 0 20px;
+		}
+		.zlogincontentb{
+			width: 100%;
+			height: 44px;
+			background:rgba(242,151,72,1);
+			border-radius:20px;
+			background-blend-mode: normal,
+			normal;
+			border:none;
+			color: #FFFFFF;
+			outline: none;
+			transition: all .45s;
+		}
+		.zlogincontentb:hover{
+			opacity: 0.45;
+		}
+		.signin-with{
+			margin-top: 20px;
+		}
+		.qiYeWeiXin {
+			cursor: pointer;
+		}
+		.qiYeWeiXin:hover {
+			opacity: 0.45;
+		}
+		input#passworda{
+			opacity: 0;
+			margin-left: 8px;
+		}
+		input#passworda+label.jzma{
+			background: url('static/image/login/checkbox.png');
+			position: relative;
+			left: -21px;
+			top: 1px;
+		}
+		input#passworda:checked+label.jzma{
+			background: url('static/image/login/checkbox_select.png');
+		}
+
+		input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px white inset;
+ 		}
+	</style>
+
+</head>
+
+<body ng-app="login-app" ng-controller="loginCtrl">
+	<div class="zloginwrap">
+            <div class="zlogincontent" style="display: flex;align-items:center;">
+				<div class="zlogin-left">
+					<img src="static/image/login/left.png" alt=""/>
+				</div>
+				<div class="zlogin-right" id="qiYeWeiXin">
+					<p class="zlogincontentp">CJ ERP</p>
+					<input type="text" class="zlogincontenti1" placeholder="登录名" autocomplete="off" ng-model="name">
+					<img style="position: absolute;top: 132px;left: 68px;" src="static/image/login/icon_name.png" alt=""/>
+					<input type="password" class="zlogincontenti2" ng-model="password" autocomplete="new-password" placeholder="请输入密码">
+					<input  type="hidden" ng-model="qiYeWeiXinUserId" class="zlogincontentb" >
+					<img style="position: absolute;top: 202px;left: 68px;" src="static/image/login/icon_password.png" alt=""/>
+					<div class="remberpassword">
+						<input ng-model="remberpassword" type="checkbox" id="passworda" style="margin-right: 10px">
+						<label class="jzma" for="passworda" style="display: inline-block;width: 16px;height: 16px;"></label>
+						<label for="passworda" style="font-size: 12px;position: relative;left: -15px;top: -3px;">记住密码</label>
+						<label ng-show="qiYeWeiXinUserId!=''" style="font-size: 12px;position: relative;left: -15px;top: -3px;color: seagreen">当前授权企业微信绑定中</label>
+
+					</div>
+					<input style="cursor: pointer;" type="button" value="登录" class="zlogincontentb" ng-click="signin()">
+					<div class="signin-with">
+						<span class="qiYeWeiXin"  ng-click="qiYeWeiXinLogin()">
+							<svg width="120" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="M.445.694a.453.453 0 0 0-.031.603c.009.013.02.024.031.035.019.02.04.038.062.053a5.807 5.807 0 0 1 1.71 3.104 1.922 1.922 0 0 0 .063.384 1.9 1.9 0 0 0 .482.837 1.86 1.86 0 0 0 2.648 0c.73-.738.73-1.934 0-2.672a1.853 1.853 0 0 0-.903-.506 1.495 1.495 0 0 0-.112-.022c-.037-.007-.075-.011-.113-.017A5.716 5.716 0 0 1 1.26.883c-.064-.062-.122-.125-.18-.189A.441.441 0 0 0 .76.561a.437.437 0 0 0-.316.133z" id="svg_841fb010_a" class="path_1"></path><path d="M2.479 1.447a1.892 1.892 0 0 0-.5.911 1.615 1.615 0 0 0-.022.114 1.603 1.603 0 0 0-.015.114A5.83 5.83 0 0 1 .346 5.639c-.06.062-.125.122-.188.18v.002a.455.455 0 0 0 0 .639.444.444 0 0 0 .598.031c.012-.01.025-.02.035-.031a.465.465 0 0 0 .052-.063A5.728 5.728 0 0 1 3.918 4.67a1.828 1.828 0 0 0 .38-.064c.304-.083.59-.244.83-.486a1.902 1.902 0 0 0 0-2.673 1.86 1.86 0 0 0-2.648 0h-.001z" id="svg_841fb010_b" class="path_3"></path><path d="M.916.78a1.903 1.903 0 0 0 0 2.674c.258.259.572.426.903.504.036.008.074.016.112.022.038.006.075.012.113.016a5.734 5.734 0 0 1 3.024 1.61c.06.062.121.127.18.191a.446.446 0 0 0 .633 0 .456.456 0 0 0 .031-.604.463.463 0 0 0-.094-.088l-.13-.126A5.83 5.83 0 0 1 4.108 2a1.495 1.495 0 0 0-.02-.183A1.89 1.89 0 0 0 3.565.78 1.86 1.86 0 0 0 2.24.225c-.479 0-.958.185-1.324.554z" id="svg_841fb010_c" class="path_5"></path><path d="M5.57.934c-.012.01-.025.02-.035.031a.564.564 0 0 0-.053.064c-.04.044-.083.087-.124.13a5.733 5.733 0 0 1-2.95 1.597 1.856 1.856 0 0 0-.38.063 1.867 1.867 0 0 0-.83.486 1.902 1.902 0 0 0 0 2.673 1.86 1.86 0 0 0 2.648 0c.258-.26.424-.577.5-.911.01-.037.016-.075.023-.113.006-.038.01-.075.015-.115a5.828 5.828 0 0 1 1.594-3.051c.064-.063.126-.125.19-.183a.454.454 0 0 0 0-.64.445.445 0 0 0-.598-.032z" id="svg_841fb010_d" class="path_7"></path></defs><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" class="Symbols"><g class="_________API"><g class="_________API"><g class="Logo_white"><g transform="translate(0 .7)" class="__logo"><g transform="translate(36.25 4.5)" fill="#0082EF" class="Group_11"><path d="M.505 7.064C3.883 5.359 6.929 2.989 9.328.198h1.341c2.512 2.872 5.546 5.225 8.79 6.814l-.966 1.767c-3.258-1.731-6.068-3.992-8.352-6.724l-.144-.17-.14.171c-2.131 2.581-4.968 4.848-8.433 6.74l-.92-1.732zm.842 11.376v-1.703h3.078V8.77H6.12v7.967H9.75V5.757h1.74v4.567h5.4v1.704h-5.4v4.709h6.912v1.703H1.347z" class="Combined_Shape"></path><path d="M22.499 4.835c1.095 3.106 1.943 6.053 2.588 8.998l1.604-.392a72.12 72.12 0 0 0-2.7-9.114l-1.492.508zm12.814 8.507l1.522.539c1.098-2.479 2.017-5.418 2.808-8.972l-1.549-.443c-.963 4.097-1.803 6.779-2.78 8.876zM22.014 18.44h18.13v-1.757h-6.228V.323h-1.802v16.36H29.77V.323h-1.8v16.36h-5.956v1.757z" class="Fill_5"></path><path d="M47.706 6.228h6.326v-4.89H52.86v3.555h-1.335V.208l-1.345-.01.046 4.695h-1.36V1.338h-1.159v4.89zm-5.549-.742l.775 1.46a15.533 15.533 0 0 0 4.02-5.86l-1.369-.74c-.744 1.865-2.065 3.847-3.426 5.14zM57.95 11.8l-.193-.624c-.385-1.241-.773-2.965-1.093-4.856l-.008-.041.012-.04c.063-.234.093-.403.125-.582.03-.171.062-.35.124-.594l.034-.141h1.94l-.007.193c-.089 2.416-.34 4.395-.77 6.053l-.164.632zm-11.092 5.957l1.104 1.154c1.136-1.268 1.73-3.057 1.767-5.322v-1.125h1.986v3.259a1.209 1.209 0 0 1-.42.727l.7 1.326 3.14-2.616-.406-1.26-1.503 1.281v-4.118h-5.112v2.529c-.023 1.98-.4 3.24-1.256 4.165zm-2.383 1.434H45.9l.033-10.633c.398-.73.7-1.36.921-1.92l-1.326-.718c-.63 1.686-1.824 3.477-3.387 5.078l.716 1.35c.287-.283.58-.62.864-.945.148-.17.293-.336.43-.488l.324-.356v8.632zm3.1-9.815h6.252V7.954h-6.252v1.422zm10.385 5.88l.157.326c.69 1.438 1.49 2.71 2.173 3.462l1.021-1.513c-.848-.797-1.802-2.22-2.577-3.856l-.035-.072.028-.074c.933-2.48 1.394-5.08 1.495-8.426l.006-.181h.892v-1.48h-3.85l.037-.216c.103-.63.197-1.385.287-2.115l.083-.654-1.492-.269c-.38 3.61-1.052 6.595-2 8.879l-.226.542.917 1.215c.227-.435.463-.938.747-1.59l.231-.535.121.57a34.226 34.226 0 0 0 1.172 4.26l.025.07-.03.068c-.664 1.519-1.66 2.915-2.816 3.953l.918 1.244a13.677 13.677 0 0 0 2.543-3.291l.173-.316z" class="Fill_7"></path><path d="M70.607 7.514h10.26v-1.5h-10.26v1.5zm.031 3.127h10.259l-.003-1.505H70.651l-.013 1.505zm1.638 6.695h7.14v-3.46h-7.14v3.46zm-1.623 1.462h10.354v-6.446H70.653v6.446zM69.151 4.456H82.42v-1.58h-5.86L75.642.428l-1.617.44.806 2.008h-5.68v1.58zM65.797 19.19h1.657l.022-14.108c.649-1.237 1.184-2.6 1.68-4.276L67.532.044c-.997 3.495-2.366 6.137-4.18 8.064l.672 1.862c.118-.133.239-.268.362-.403.37-.41.753-.835 1.077-1.27l.334-.451V19.19z" class="Fill_9"></path></g><g transform="translate(21.378 22.44)" class="Group_14"><mask fill="#fff" class="mask_2"><use xlink:href="#svg_841fb010_a"></use></mask><use fill="#FB6500" xlink:href="#svg_841fb010_a" class="Clip_13"></use></g><g transform="translate(26.955 18.699)" class="Group_17"><mask fill="#fff" class="mask_4"><use xlink:href="#svg_841fb010_b"></use></mask><use fill="#0082EF" xlink:href="#svg_841fb010_b" class="Clip_16"></use></g><g transform="translate(23.237 14.021)" class="Group_20"><mask fill="#fff" class="mask_6"><use xlink:href="#svg_841fb010_c"></use></mask><use fill="#2DBC00" xlink:href="#svg_841fb010_c" class="Clip_19"></use></g><g transform="translate(17.66 16.828)" class="Group_23"><mask fill="#fff" class="mask_8"><use xlink:href="#svg_841fb010_d"></use></mask><use fill="#FC0" xlink:href="#svg_841fb010_d" class="Clip_22"></use></g><g transform="translate(0 .925)" fill="#0082F0" class="Group_28"><path d="M13.604.547c-.546 0-1.112.032-1.68.095-3.33.365-6.357 1.803-8.522 4.047a11.47 11.47 0 0 0-2.065 2.938 10.325 10.325 0 0 0-1.058 4.55c0 2.03.613 4.035 1.771 5.793.605.918 1.585 2.048 2.438 2.813l.047.042v.063l-.418 3.27c-.012.034-.025.067-.032.102-.008.03-.01.063-.012.096l-.008.059c-.002.014-.004.027-.004.041 0 .017.003.032.005.048l.006.045a.895.895 0 0 0 .886.813.878.878 0 0 0 .443-.123l.071-.042 3.908-1.98.053.015c.778.225 1.593.383 2.49.483a15.084 15.084 0 0 0 6.465-.685 2.035 2.035 0 0 1-1.041-1.768c-.734.223-1.487.38-2.242.466a13.232 13.232 0 0 1-2.937.009l-.186-.025-.11-.016a12.597 12.597 0 0 1-1.925-.407 1.17 1.17 0 0 0-.921.096.8.8 0 0 0-.075.038L6.485 22.89c-.252.147-.476-.012-.476-.242l.372-1.474.193-.74a.866.866 0 0 0-.305-.965 11.008 11.008 0 0 1-1.002-.85 9.906 9.906 0 0 1-1.42-1.695c-.945-1.435-1.444-3.063-1.444-4.708 0-1.279.29-2.52.86-3.692a9.461 9.461 0 0 1 1.702-2.42c1.822-1.887 4.38-3.098 7.204-3.407a12.831 12.831 0 0 1 2.936.006c2.81.323 5.354 1.54 7.161 3.426a9.44 9.44 0 0 1 1.694 2.425 8.367 8.367 0 0 1 .843 3.81c.7-.322 1.522-.21 2.114.29a10.325 10.325 0 0 0-1.029-4.99 11.46 11.46 0 0 0-2.055-2.946C21.685 2.476 18.676 1.031 15.36.65a15.44 15.44 0 0 0-1.755-.103" class="Fill_26"></path></g></g></g></g></g></g></svg>
+						</span>
+					</div>
+				</div>
+			</div>
+	</div>
+</body>
+
+<script type="text/javascript" src="static/js/login/login.js"></script>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src="./static/md5/md5.min.js"></script>
+<script src="https://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js"></script>
+</html>

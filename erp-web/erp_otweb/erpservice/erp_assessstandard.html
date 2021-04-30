@@ -1,0 +1,808 @@
+<!-- <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>通知-已发送-ERP系统</title> -->
+<!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+<style type="text/css">
+	/*分页*/
+	.fenPage {
+		font-size: 14px;
+		padding: 20px 0 0 0;
+		text-align: right;
+	}
+
+	.fenPage a,
+	.fenPage span {
+		display: inline-block;
+		padding: 3px 8px;
+		border-radius: 6px;
+		color: #737373;
+		margin-right: 2px;
+	}
+
+	.fenPage a.bga {
+		color: #ffffff;
+		background-color: rgba(255, 154, 0, 1);
+	}
+
+	.fenPage span {
+		border: none;
+	}
+
+	.fenPage input:nth-child(1) {
+		width: 30px;
+		padding: 2px 10px;
+		border: none;
+		border-bottom: solid #ccc 1px;
+		background: none;
+		text-align: center;
+	}
+
+	.fenPage input:nth-child(2) {
+		width: auto;
+		background-color: #eee;
+		border: solid #ccc 1px;
+		padding: 2px 10px;
+	}
+
+	.video-text {
+		width: 560px;
+		height: 360px;
+		background: #fff;
+		border: 1px solid #E0E0E0;
+		box-shadow: 0 0 20px #939393;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		margin: auto;
+		padding: 50px 30px 20px 30px;
+	}
+
+	.video-text2,
+	.video-text3 {
+		width: 90%;
+		height: 50px;
+		color: #000;
+		font-size: 16px;
+		vertical-align: middle;
+		margin: auto;
+		margin-bottom: 50px;
+	}
+
+	.video-text2>textarea,
+	.video-text3>textarea {
+		vertical-align: middle;
+	}
+
+	.video-text2>textarea,
+	.video-text3>textarea {
+		width: 80%;
+		height: 40px;
+		border: 1px solid #E0E0E0;
+		color: #000;
+		padding: 10px 5px;
+		font-size: 12px;
+	}
+
+	.video-but {
+		width: 100%;
+		height: 30px;
+		text-align: center;
+		margin-top: 50px;
+	}
+
+	.video-but>p {
+		width: 100px;
+		height: 30px;
+		font-size: 12px;
+		border-radius: 5px;
+		color: #fff;
+		display: inline-block;
+		line-height: 30px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.video-but>p:nth-of-type(1) {
+		background: #a3a1a1;
+		margin-right: 40px;
+	}
+
+	.video-but>p:nth-of-type(2) {
+		background: #f99429;
+	}
+
+	.ea-list-tr>td:nth-of-type(3) {
+		max-width: 200px;
+	}
+
+	.ea-list-tr>td:nth-of-type(4) {
+		max-width: 300px;
+	}
+
+	.buchong {
+		width: 100%;
+		height: 20px;
+		background: #F1F3F2;
+	}
+
+	.videoremove {
+		width: 300px;
+		height: 200px;
+		background: #fff;
+		box-shadow: 0 0 30px gainsboro;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+		/*display: none;*/
+	}
+
+	.videoremove>p {
+		width: 100%;
+		text-align: center;
+		margin-top: 50px;
+	}
+
+	.videoremove>div {
+		width: 100%;
+		height: 30px;
+		text-align: center;
+		margin-top: 65px;
+	}
+
+	.videoremove>div>span {
+		display: inline-block;
+		width: 100px;
+		height: 30px;
+		text-align: center;
+		line-height: 30px;
+		border-radius: 5px;
+	}
+
+	.videoremoveFalse {
+		border: 1px solid #d2d2d2;
+		background-color: #fff;
+		color: #7f7f7f;
+		margin-right: 15px;
+		cursor: pointer;
+	}
+
+	.videoremoveSure {
+		border: none;
+		background-color: #08aceb;
+		color: #fff;
+		cursor: pointer;
+	}
+
+	.overTR:hover {
+		background: #e8f4ff;
+	}
+
+	.ea-content .act {
+		background: #e8f4ff;
+	}
+
+	.search-box {
+		width: 950px;
+	}
+
+	.search-date {
+		display: inline-block;
+		/* padding-left: 35px; */
+	}
+
+	.data-inp {
+		height: 30px;
+		border: 1px solid #e5e5e5;
+		vertical-align: top;
+		font-size: 12px;
+	}
+
+	.tan-turn-private {
+		width: 1100px;
+		height: 650px;
+
+	}
+
+	/*.wa-GuestsDetails{*/
+	/*height: 500px;*/
+	/*}*/
+	.wa-GuestsDetails {
+		height: 400px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+
+	.search-date-btn {
+		padding: 5px 10px;
+		border-radius: 6px;
+		border: solid #F8A636 1px;
+		font-size: 12px;
+		background: #fff;
+		color: #F8A636;
+		margin-right: 10px;
+	}
+
+	.search-date-btn:hover {
+		background-color: #F8A636;
+		color: white;
+	}
+
+	.search-date select {
+		border-radius: 5px;
+	}
+
+	.ea-list-table td .onlinetd>span.online {
+		display: inline-block;
+		font-size: 12px;
+		border-radius: 5px;
+		color: rgb(64, 194, 24);
+		border: 1px solid rgb(64, 194, 24);
+		padding: 3px 8px;
+
+	}
+
+	.ea-list-table .onlinetd>span {
+		display: inline-block;
+
+	}
+
+	.ea-list-table .onlinetd>span:nth-child(1) {
+		display: none;
+	}
+
+	.topNav2 {
+		background: #fff;
+		position: fixed;
+		top: 0;
+		left: 260px;
+		width: calc(100% - 270px);
+		min-width: 1005px;
+		padding: 0 20px;
+		display: flex;
+		z-index: 9999;
+	}
+
+	.topNav2>a {
+		padding: 20px 15px 5px 15px;
+		border-bottom: 2px solid transparent;
+	}
+
+	.topNav2>a:hover {
+		color: #F8A636;
+	}
+
+	.topNav2>a.act {
+		border-bottom-color: #F8A636;
+		color: #F8A636;
+		background: #fff;
+	}
+
+	.input-group input {
+		height: 30px;
+	}
+
+	.ea-right-search .search-select {
+		margin-left: 0;
+		border-radius: 0;
+		height: 30px;
+		border-color: #e1e1e1;
+	}
+
+	#selectDateType {
+		height: 30px;
+		margin-left: 30px;
+	}
+
+	.searchBtn {
+		height: 30px;
+		/* padding: 0 15px; */
+		color: #fff;
+		background: #F8A636;
+		border-radius: 4px;
+		margin-left: 20px;
+	}
+
+	.tan-v2-bot {
+		position: initial !important;
+		padding: 0 !important;
+	}
+
+	.no-reply-tr .tb-tbody-td>span {
+		word-break: break-all;
+	}
+</style>
+
+<!-- content -->
+<div class="ea-content">
+	<!-- <div class="ea-content-box"> -->
+	<!-- <div class="ea-content-con"> -->
+	<!-- left nav -->
+	<div class="left-bar">
+		<ul>
+			<li><a href="#/erpservice/sc">{{'100157' | translate}}</a></li>
+			<li><a href="#/erpservice/document">{{'Document'}}</a></li>
+			<li><a href="#/erpservice/csdisputePendingm">{{'100158' | translate}}</a></li>
+			<li><a href="#/erpservice/tz">{{'100159' | translate}}</a></li>
+			<li><a href="#/erpservice/gd">{{'100160' | translate}}</a></li>
+			<li><a href="#/erpservice/video">{{'100161' | translate}}</a></li>
+			<li class="active"><a href="#/erpservice/khbz">{{'100162' | translate}}</a></li>
+		</ul>
+	</div>
+	<!-- <div class="buchong"></div> -->
+	<!-- right con -->
+	<div class="right-bar-wrap ea-right-content">
+		<div class="asj-h10"></div>
+		<div class="topNav2">
+			<a class="act" href="javascript:void(0);">业务员</a>
+			<a href="#/erpservice/khbzbykf">客服</a>
+			<a href="#/erpservice/nigthShift">夜班</a>
+		</div>
+		<div class="right-bar" style="margin-top:35px;">
+			<div class="ea-right-search" style="margin-bottom: 15px;">
+				<div class="input-group search-box" style="display:flex;align-items: center;">
+					<!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+                    <option value="SKU">SKU</option>
+                    <option value="CH">中文</option>
+                    <option value="EN">英文</option>
+				  </select> -->
+					<span>业务员：</span>
+					<input type="text" class="" placeholder="" ng-model="searchinfo" style="width:200px;">
+					<!-- <a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100025' | translate}}</a> -->
+					<!--<div class="search-date" >-->
+					<!--<input id="search-date" type="date" class="date form-control" ng-model="searchDate"/>-->
+
+					<!--</div>-->
+					<select name="" id="selectDateType">
+						<option value="0">周期</option>
+						<option value="1">日期</option>
+					</select>
+					<p class="search-date" ng-if="dateType=='0'">
+						<select class="search-select" ng-change="zhouQiFun()" ng-model="selZqVal" style="padding: 2px 10px;">
+							<option ng-repeat="option in selectList" value="{{option.startDate}}#{{option.endDate}}">
+								{{option.startDate}}--{{option.endDate}}
+							</option>
+						</select>
+					</p>
+					<p class="search-date" ng-if="dateType=='1'">
+						<input class="Wdate data-inp"
+							style="text-indent: 12px;position:relative;top: 0px;height: 30px;border: 1px solid #e1e1e1;width: 120px;"
+							id="c-data-time2" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" placeholder="起始日期">
+						<input id="cdatatime3" placeholder="结束日期" class="Wdate data-inp"
+							style="text-indent: 12px;position:relative;top: 0px;height: 30px; border: 1px solid #e1e1e1;width: 120px;left:-5px;"
+							type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+					</p>
+					<button class="searchBtn" ng-click="usersearch()">查询</button>
+					<button class="export-btn" ng-click="decentralizedExport()">导出</button>
+				</div>
+			</div>
+			<!--<div class="ea-list-manipulation" style="padding: 0 0 20px 0;"><li  class="active"><a ng-click="uplaodeVideo();uplaode=true" href="">上传新视频</a></li></div>-->
+			<table class="ea-list-table ea-erp-cs">
+				<thead>
+					<tr>
+						<!--<th><span><input type="checkbox"></span></th>-->
+						<th><span>{{'101313' | translate}}</span></th>
+						<th><span>{{'101318' | translate}}</span></th>
+						<th><span>{{'100456' | translate}}</span></th>
+						<th>{{'100273' | translate}}</th>
+						<th>{{'100274' | translate}}</th>
+						<th>{{'101406' | translate}}</th>
+						<th>{{'101407' | translate}}</th>
+						<th>{{'101408' | translate}}</th>
+						<th>{{'100276' | translate}}</th>
+						<th>{{'100277' | translate}}</th>
+						<th>{{'100122' | translate}}</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr class="ea-list-tr overTR " ng-class="{act:item.isact}" ng-repeat="item in dataList">
+						<!-- ng-click="trClick(item)"-->
+						<!--<td><span> <input name="need_inv" type="checkbox" value="1"></span></td>-->
+						<td>
+							<span>{{startDay}} -- {{endDay}}</span>
+						</td>
+						<td ng-attr-title="{{item.nameen}}">
+							<div class="onlinetd">
+								<span ng-class="{online:item.isonline}">{{'100285' | translate}}</span>
+								{{item.nameen}}
+							</div>
+
+						</td>
+						<td ng-attr-title="{{item.name}}">
+							<div class="onlinetd">
+								<span ng-class="{online:item.isonline}">{{'100285' | translate}}</span>
+								{{item.name}}
+							</div>
+						</td>
+						<td ng-attr-title="{{item.count}}"><span>{{item.count}}</span></td>
+						<td ng-attr-title="{{item.scoremessagemun}}"><span>{{item.scoremessagemun}}</span></td>
+						<td ng-attr-title="{{item.scoregrademun}}"><span class="">{{item.scoregrademun}}</span></td>
+						<td ng-attr-title="{{item.loginTimes || 0}}"><span class="cursor-pointer"
+								ng-click="lookScoremun(item)">{{item.loginTimes || 0}}</span></td>
+						<td><span class="cursor-pointer" ng-click="lookNoReply(item)">{{item.noreplyCount}}</span></td>
+						<td ng-attr-title="{{item.scoretimemun}}"><span>{{item.scoretimemun}}</span>
+						</td>
+						<td ng-attr-title="{{item.scoremun}}"><span>{{item.scoremun}}</span></td>
+						<td style="width: 240px; padding: 10px 0;">
+							<button class="search-date-btn" ng-click="checkDeatails(item.nameen)">{{'100275' | translate}}</button>
+							<button class="search-date-btn" ng-click="checkZhpf(item.nameen)">{{'100277' | translate}}</button>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+			<!-- 分页 -->
+			<!-- ng-show="hasMerch" -->
+			<div class="page-box">
+				<div class="select-page-num">
+					<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)">
+						<option value="20">20</option>
+						<option value="30">30</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="500">500</option>
+					</select>
+					<span>每页</span>
+				</div>
+				<div class="total-num">
+					共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+				</div>
+				<div class="page-index">
+					<div class="pagegroup">
+						<a href="#">&lt;&lt;</a>
+						<a href="#">&lt;</a>
+						<a href="#">1</a>
+						<a href="#">2</a>
+						<a class="current" href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">···</a>
+						<a href="#">&gt;</a>
+						<a href="#">&gt;&gt;</a>
+					</div>
+				</div>
+				<div class="to-go">
+					<span>跳转：</span>
+					<input type="text" class="form-control" placeholder="" ng-model="pageNum">
+					<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+				</div>
+			</div>
+			<!-- -->
+			<!--弹框好评率-->
+			<div class="asj-common-tanwrap" ng-show="clickSatisfacrion">
+				<div id="scoregrademunView"
+					ng-class="{'asj-common-tan': true, 'common-tan-sty1': true, 'tan-turn-private': true}">
+					<h3 style="text-align: center;padding: 20px 0;margin: 0"><b>{{'100278' | translate}}</b></h3>
+					<div class="wa-GuestsDetails">
+
+						<table class="ea-list-table ea-erp-cs">
+							<thead>
+								<tr>
+									<th><span>{{'101318' | translate}}</span></th>
+									<th><span>{{'100108' | translate}}</span></th>
+									<th><span>{{'100279' | translate}}</span></th>
+									<th><span>{{'100280' | translate}}</span></th>
+									<th><span>{{'100281' | translate}}</span></th>
+									<th><span>{{'100282' | translate}}</span></th>
+								</tr>
+							</thead>
+							<tbody class="guest-info-tbody">
+								<tr class="la_tr la_tr01" ng-repeat="i in detailList">
+									<td ng-attr-title="{{i.employee}}"><span>{{i.employee}}</span></td>
+									<td ng-attr-title="{{i.account}}"><span>{{i.account}}</span></td>
+									<td ng-attr-title="{{i.grade}}"><span>{{i.grade}}</span></td>
+									<td ng-attr-title="{{i.score}}"><span>{{isstatus(i.status,i.score)}}</span></td>
+									<td ng-attr-title="{{i.createat}}"><span>{{i.createat}}</span></td>
+									<td ng-attr-title="{{i.leaves}}"><span>{{i.leaves}}</span></td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div class="page-box">
+						<div class="select-page-num">
+							<select class="form-control" ng-model="detailpageSize" ng-change="detailpagechange(detailpageSize)">
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="50">50</option>
+							</select>
+							<span>每页</span>
+						</div>
+						<div class="total-num">
+							共&nbsp;&nbsp;{{ detailtotalCounts }}&nbsp;&nbsp;条
+						</div>
+						<div class="page-index" id="guest-page">
+							<div class="detailpagegroup">
+								<a href="#">&lt;&lt;</a>
+								<a href="#">&lt;</a>
+								<a href="#">1</a>
+								<a href="#">2</a>
+								<a class="current" href="#">3</a>
+								<a href="#">4</a>
+								<a href="#">5</a>
+								<a href="#">6</a>
+								<a href="#">···</a>
+								<a href="#">&gt;</a>
+								<a href="#">&gt;&gt;</a>
+							</div>
+						</div>
+						<div class="to-go">
+							<span>跳转：</span>
+							<input type="text" class="form-control" placeholder="" ng-model="detailpageNum">
+							<a class="btn btn-default" href="javascript: void(0);" role="button"
+								ng-click="detailpagenumchange()">go</a>
+						</div>
+					</div>
+					<div class="tan-btns">
+						<a class="tan-btn0" ng-click="closeModal()">{{'100051' | translate}}</a>
+						<a class="tan-btn1" ng-click="closeModal()">{{'100050' | translate}}</a>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="asj-common-tanwrap" ng-show="clickScorefacrion">
+				<div id="comprehensiveView"
+					ng-class="{'asj-common-tan': true, 'common-tan-sty1': true, 'tan-turn-private': true}">
+					<h3 style="text-align: center;padding: 20px 0;margin: 0">{{'100283' | translate}}</h3>
+
+					<div class="wa-GuestsDetails">
+						<table class="ea-list-table ea-erp-cs">
+							<thead>
+								<tr>
+									<th><span>{{'100265' | translate}}</span></th>
+									<th><span>{{'101318' | translate}}</span></th>
+									<th><span>{{'100274' | translate}}</span></th>
+									<th><span>{{'100275' | translate}}</span></th>
+									<th><span>{{'100276' | translate}}</span></th>
+									<th><span>{{'100277' | translate}}</span></th>
+								</tr>
+							</thead>
+							<tbody class="guest-info-tbody">
+								<tr class="la_tr la_tr01" ng-repeat="i in zhpfList">
+									<td ng-attr-title="{{i.createat.time}}"><span>{{formatDate(i.createat.time)}}</span></td>
+									<td ng-attr-title="{{i.nameen}}"><span>{{i.nameen}}</span></td>
+									<td ng-attr-title="{{i.scoremessage}}"><span>{{i.scoremessage}}</span></td>
+									<td ng-attr-title="{{i.scoregrade}}"><span>{{i.scoregrade}}</span></td>
+									<td ng-attr-title="{{i.scoretime}}"><span>{{i.scoretime}}</span></td>
+									<td ng-attr-title="{{i.score}}"><span>{{i.score}}</span></td>
+								</tr>
+							</tbody>
+						</table>
+
+
+					</div>
+					<p style="padding-top: 20px;padding-left: 10px;">{{'100284' | translate}}：<span>{{zhpfCount}}</span></p>
+					<div class="page-box">
+						<div class="select-page-num">
+							<select class="form-control" ng-model="zhpfpageSize" ng-change="zhpfpagechange(zhpfpageSize)">
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="50">50</option>
+							</select>
+							<span>每页</span>
+						</div>
+						<div class="total-num">
+							共&nbsp;&nbsp;{{ zhpftotalCounts }}&nbsp;&nbsp;条
+						</div>
+						<div class="page-index" id="zhpf-page">
+							<div class="zhpfpagegroup">
+								<a href="#">&lt;&lt;</a>
+								<a href="#">&lt;</a>
+								<a href="#">1</a>
+								<a href="#">2</a>
+								<a class="current" href="#">3</a>
+								<a href="#">4</a>
+								<a href="#">5</a>
+								<a href="#">6</a>
+								<a href="#">···</a>
+								<a href="#">&gt;</a>
+								<a href="#">&gt;&gt;</a>
+							</div>
+						</div>
+						<div class="to-go">
+							<span>跳转：</span>
+							<input type="text" class="form-control" placeholder="" ng-model="zhpfpageNum">
+							<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="zhpfpagenumchange()">go</a>
+						</div>
+					</div>
+					<div class="tan-btns">
+						<a class="tan-btn0" ng-click="closeModal2()">{{'100051' | translate}}</a>
+						<a class="tan-btn1" ng-click="closeModal2()">{{'100050' | translate}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- </div> -->
+	</div>
+	<div class="erp-common-tan-v2-wrap" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 800px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>在线时长</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div class="tb-thead d-flex">
+					<div style="width: 10%" class="tb-thead-th d-flex-center">序号</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">业务员</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">上线时间</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">下线时间</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">计时(h)</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">类型</div>
+				</div>
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="time in timeList">
+						<div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span>{{$index + 1}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{time.ename}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{time.begintime}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{time.endtime}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center">
+							<span class="cursor-pointer" ng-click="showLineDetail(time)">{{time.count}}</span>
+						</div>
+						<div style="width: 18%" class="tb-tbody-td d-flex-center">
+							<span>{{time.nigth_type === 1 ? '白班' : '夜班'}}</span></div>
+					</div>
+				</div>
+				<div class="page-box">
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ tiemTotalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index" id="zxsc-page">
+						<div class="zxscpagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="form-control" placeholder="" ng-model="timePageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="timepagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<!-- <a href="javascript:void(0);" ng-click="doSomething()" class="que-ding-btn">确定</a> -->
+			</div>
+		</div>
+	</div>
+
+	<div class="erp-common-tan-v2-wrap" ng-show="noReplyFlag">
+		<div class="erp-common-tan-v2" style="width: 800px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="noReplyFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>未读消息列表</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div class="tb-thead d-flex">
+					<div style="width: 6%" class="tb-thead-th d-flex-center">序号</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">客户</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">业务员</div>
+					<div style="width: 18%" class="tb-thead-th d-flex-center">未回复时间</div>
+					<div style="width: 40%" class="tb-thead-th d-flex-center">未回复信息</div>
+				</div>
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr no-reply-tr" ng-repeat="noReply in noReplyList">
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex-center"><span>{{$index + 1}}</span></div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{noReply.fromProductId}}</span>
+						</div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{noReply.toUserName}}</span>
+						</div>
+						<div style="width: 18%" class="tb-tbody-td border-r-td d-flex-center"><span>{{noReply.createDate}}</span>
+						</div>
+						<div style="width: 40%" class="tb-tbody-td border-r-td d-flex-center"><span class="hidden-three" title="{{noReply.msgContent}}">{{noReply.msgContent}}</span>
+						</div>
+					</div>
+				</div>
+				<div class="page-box">
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ noReplyTotalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="noReplyPagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="form-control" placeholder="" ng-model="noReplyPageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="noReplyPagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="noReplyFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<!-- <a href="javascript:void(0);" ng-click="doSomething()" class="que-ding-btn">确定</a> -->
+			</div>
+		</div>
+	</div>
+	<!-- 导出 -->
+	<div ng-show="exportFlag > 0" class="oneistbdp-wrap">
+		<div class="oneistbdp-con">
+			<p>是否导出考核数据?</p>
+			<div class="oneistbdp-btns">
+				<button ng-click="exportFlag=0" class="oneistbdp-can-btn">取消</button>
+				<button ng-click="confirmExport()" class="oneistbdp-con-btn">确定</button>
+			</div>
+		</div>
+	</div>
+	<!-- 上下线信息弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="lineFlag" style="z-index: 100005;">
+		<div class="erp-common-tan-v2" style="width: 800px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="lineFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>上下线详情</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con">
+				<div class="tb-thead d-flex">
+					<div style="width: 20%" class="tb-thead-th d-flex-center">姓名</div>
+					<div style="width: 25%" class="tb-thead-th d-flex-center">日期</div>
+					<div style="width: 30%" class="tb-thead-th d-flex-center">上下线时间</div>
+					<div style="width: 25%" class="tb-thead-th d-flex-center">类型</div>
+				</div>
+				<div class="tb-tbody" style="max-height: 600px; overflow-y: auto;">
+					<div class="tb-tbody-tr" ng-repeat="line in lineList">
+						<div style="width: 20%" class="tb-tbody-td border-r-td d-flex-center"><span>{{line.nameen}}</span></div>
+						<div style="width: 25%" class="tb-tbody-td border-r-td d-flex-center"><span>{{line.date}}</span></div>
+						<div style="width: 30%" class="tb-tbody-td border-r-td d-flex-center"><span>{{line.date_time}}</span></div>
+						<div style="width: 25%" class="tb-tbody-td border-r-td d-flex-center"><span>{{line.login_type === 2 ? "下线" : "上线"}}</span></div>
+					</div>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="lineFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<!-- <a href="javascript:void(0);" ng-click="doSomething()" class="que-ding-btn">确定</a> -->
+			</div>
+		</div>
+	</div>
+</div>
+</body>

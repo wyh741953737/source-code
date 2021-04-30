@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>汇款管理-财务收入管理-ERP系统</title>
+    <!-- <link rel="stylesheet" type="text/css" href="erp_otweb/css/erp-public_style.css" /> -->
+    <style type="text/css">
+    /*执行弹窗*/
+
+    .isequalTc-wrap .isequalTc-con {
+        position: absolute;
+        width: 360px;
+        height: 120px;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        border-radius: 4px;
+    }
+
+    .isequalTc-con p {
+        font-size: 12px;
+        margin-top: 30px;
+    }
+
+    .isequalTc-con p span {
+        color:
+    }
+
+    .isequalTc-btns {
+        position: fixed;
+        bottom: 20px;
+        right: 50px;
+        /*// border: 1px solid red;
+			    // display: block;*/
+    }
+
+    .isequalTc-btns .isequalTc-cancelbtn {
+        width: 76px;
+        height: 30px;
+        margin-right: 15px;
+        background: #f6f6f6;
+        border: 1px solid #cfcfcf;
+        color: #6b6b6b;
+        border-radius: 4px;
+    }
+
+    .isequalTc-btns .isequalTc-confirmbtn {
+        background-color: #ff8d31;
+        color: #fff;
+        border-radius: 4px;
+        width: 76px;
+        height: 30px;
+        /*// margin-right: 50px;*/
+    }
+    /*拒绝弹框*/
+
+    .jjTc-con {
+        position: absolute;
+        width: 360px;
+        height: 120px;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        border-radius: 4px;
+    }
+
+    .jjTc-con .wskx-btn {
+        width: 96px;
+        height: 30px;
+        margin-right: 15px;
+        margin-top: 20px;
+        background: #fff;
+        border: 1px solid #ff8d31;
+        color: #ff8d31;
+        border-radius: 4px;
+    }
+
+    .jjTc-con .wskx-btn:hover {
+        background: #ff8d31;
+        color: #fff;
+    }
+
+    .jjTc-con .jeqs-btn {
+        width: 76px;
+        height: 30px;
+        margin-top: 20px;
+        margin-right: 15px;
+        background: #fff;
+        border: 1px solid #ff8d31;
+        color: #ff8d31;
+        border-radius: 4px;
+    }
+
+    .jjTc-con .jeqs-btn:hover {
+        background: #ff8d31;
+        color: #fff;
+    }
+
+    .jjTc-con p {
+        font-size: 12px;
+        margin-top: 30px;
+    }
+
+    .jjTc-con p span {
+        color:
+    }
+
+    .jjTc-btns {
+        position: fixed;
+        bottom: 20px;
+        right: 140px;
+        /*// border: 1px solid red;
+			    // display: block;*/
+    }
+
+    .jjTc-btns .jjTc-cancelbtn {
+        width: 76px;
+        height: 30px;
+        margin-right: 15px;
+        background: #f6f6f6;
+        border: 1px solid #cfcfcf;
+        color: #6b6b6b;
+        border-radius: 4px;
+    }
+
+    .jjTc-btns .jjTc-confirmbtn {
+        background-color: #ff8d31;
+        color: #fff;
+        border-radius: 4px;
+        width: 76px;
+        height: 30px;
+        /*// margin-right: 50px;*/
+    }
+    /*金额缺少的弹框*/
+
+    .jeqs-con {
+        position: absolute;
+        width: 300px;
+        height: 120px;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        border-radius: 4px;
+    }
+
+    .jeqs-con p {
+        margin-top: 23px;
+    }
+
+    .jeqs-con p span {
+        font-size: 12px;
+    }
+
+    .jeqs-con p input {
+        width: 140px;
+        text-indent: 12px;
+    }
+
+    .jeqs-con button {
+        background-color: #ff8d31;
+        color: #fff;
+        border-radius: 4px;
+        width: 76px;
+        height: 30px;
+        margin-top: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- content -->
+    <div class="ea-content">
+        <!-- <div class="ea-content-box"> -->
+            <!-- <div class="ea-content-con"> -->
+                <!-- left nav -->
+                <div class="left-bar">
+				            <ul>
+                                <li><a href="#/allmony">{{'100286' | translate}}</a></li>
+                                <li class="active"><a href="#/erpfinance/walletcuslistdel">{{'100287' | translate}}</a></li>
+                                <li><a href="#/erpfinance/accountquery">{{'100288' | translate}}</a></li>
+				            </ul>
+				        </div>
+                <!-- right con -->
+                <div class="right-bar-wrap ea-right-content">
+                	<div class="asj-h10"></div>
+                    <!-- right nav -->
+                    <!--<div class="top-taps clearfix">-->
+                        <!--<ul>-->
+                            <!--<li><a href="#/erpfinance/walletcuslistdel">{{'100316' | translate}}</a></li>-->
+                            <!--<li><a href="#/erpfinance/walletcash">{{'100317' | translate}}</a></li>-->
+                            <!--<li class="active"><a href="#/erpfinance/wallet-recharge">{{'100318' | translate}}</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <div class="right-bar">
+                    <!-- right search -->
+                    <div class="top-nav-wrap">
+                        <div class="top-nav clearfix">
+                          <ul class="top-nav-ul">
+                            <li ng-class="{'active': chargeStatus=='0'}" ng-click="chargeStatus='0';pageNum=1;getChargeList();">{{'100325' | translate}}</li>
+                            <li ng-class="{'active': chargeStatus=='1'}" ng-click="chargeStatus='1';pageNum=1;getChargeList();">{{'100335' | translate}}</li>
+                            <li ng-class="{'active': chargeStatus=='2'}" ng-click="chargeStatus='2';pageNum=1;getChargeList();">{{'100336' | translate}}</li>
+                            <!-- <li>搜品关联</li> -->
+                            <!-- <li ng-click="getListOffAss()">线下指派</li> -->
+                          </ul>
+                        </div>
+                        <!-- <div class="add-merch"><a href="#/merchandise/addSKU1" target="_blank" class="add-merch-btn">添加商品</a></div> -->
+                    </div>
+                    <div class="ea-right-search">
+                    		<div class="datatime-screen-wrap clearfix">
+                                <div class="datatime-screen"><a href="javaScript:void(0)" ng-click="lastWeek(0,$event)">{{'100296' | translate}}</a><a href="javaScript:void(0)" ng-click="lastWeek(1,$event)">{{'100297' | translate}}</a><a class="active" href="javaScript:void(0)" ng-click="lastWeek(2,$event)">{{'100298' | translate}}</a><a href="javaScript:void(0)" ng-click="lastWeek(3,$event)">{{'100299' | translate}}</a>
+                                    <input class="Wdate data-inp" style="text-indent: 12px;height: 30px;" id="txtBeginDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></input><input id="txtEndDate" placeholder="Now" class="Wdate data-inp" style="text-indent: 12px;height: 30px;" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                                    <input type="button" ng-click="timefilFun()" style="margin-left: -5px;" value="{{'100302' | translate}}">
+                                </div>
+                        </div>
+                        <div class="search-box-wrap">
+                        	<div class="input-group search-box">
+						                  <!-- <select class="form-control top-search-sel" ng-model="topSearchKey">
+						                    <option value="SKU">SKU</option>
+						                    <option value="CH">中文</option>
+						                    <option value="EN">英文</option>
+						                  </select> -->
+							              	<input type="text" class="form-control top-search-inp" placeholder="" ng-model="userName">
+							              	<a role="button" class="btn btn-default top-search-btn" type="button" ng-click="usersearch()">{{'100025' | translate}}</a>
+					            		</div>
+                        </div>
+                    </div>
+                    <!-- right list -->
+                    <div class="table-con-box">
+                        <table class="ea-list-table ea-erp-cs">
+                            <tr>
+                                <!-- <th><span><input type="checkbox"></span></th> -->
+                                <!-- <th><span><img class="all-checkbtn" src="static/image/order-img/multiple1.png"></span></th> -->
+                                <!-- <th><span>订单号</span></th> -->
+                                <th><span>{{'100337' | translate}}</span></th>
+                                <th><span>{{'100008' | translate}}</span></th>
+                                <!-- <th><span>客户ID</span></th> -->
+                                <th><span>{{'101318' | translate}}</span></th>
+                                <!-- <th><span>数量</span></th> -->
+                                <th><span>{{'100338' | translate}}</span></th>
+                                <th>来源平台</th>
+                                <th><span>{{'100339' | translate}}</span></th>
+                                <th><span>{{'100340' | translate}}</span></th>
+                                <th ng-if="chargeStatus=='2'"><span>{{'100341' | translate}}</span></th>
+                                <th><span>{{'100043' | translate}}</span></th>
+                                <!-- <th><span>订单状态</span></th> -->
+                            </tr>
+                            <tr ng-repeat='item in rechargeList'>
+                                <!-- <td><span> <input name="need_inv" type="checkbox" value="1"></span></td> -->
+                                <!-- <td><span><img class="checkbtn" src="static/image/order-img/multiple1.png"></span></td> -->
+                                <!-- <td><span>{{item.ID}}</span></td> -->
+                                <td><span><p>{{item.createDate.time | date:"yyyy-MM-dd HH:mm:ss"}}</p></span></td>
+                                <td class="cus-lvtd">
+                                    <span><p>{{item.paymentName}}</p></span>
+                                    <b ng-if="item.userLevel==3" class="yzkehu-flag">优</b>
+                                    <b ng-if="item.userLevel==2" class="ptkehu-flag">普</b>
+                                    <b ng-if="item.userLevel==1" class="qzkehu-flag">潜</b>
+                                    <img src="static/image/public-img/order.png">
+                                    <b class="cus-dengji">LV{{item.cunLevel}}</b>
+                                    <img src="static/image/public-img/money.png">
+                                    <b class="cus-dengji">LV{{item.moneyLevel}}</b>
+                                </td>
+                                <!-- <td><span>{{item.MERCHANT_NUMBER}}</span></td> -->
+                                <td><span>{{item.salesName}}</span></td>ERNUM
+                                <!-- <td><span class="quantity-num">{{item.ORDBER}}个</span></td> -->
+                                <td class="countMoney"><span>${{item.copeMoney}}</span></td>
+                                <td><span>{{item.paymentType}}</span></td>
+                                <td class="pay-img" ng-if='item.image'>
+                                    <span style="position: relative; display: inline-block; width: 40px; height: 40px; margin-right: 10px;" ng-repeat="img in item.image.split(',')">
+                                        <a href="{{img | httpPrefix}}" target="_blank">
+                                            <img style="max-width: 40px; max-height: 40px; cursor: pointer;" src="{{img | httpPrefix}}" alt="" >
+                                        </a>
+                                        <!-- <img class="big-img" style="position: absolute; top: 0; left: 0; display: none;" src="" alt=""> -->
+                                    </span>
+                                </td>
+                                <td class="pay-pdf" ng-if='item.pdf'>
+                                    <span title="{{img | httpPrefix}}" style="position: relative; display: inline-block; width: 80px; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;" ng-repeat="img in item.pdf.split(',')">
+                                        <a href="{{img | httpPrefix}}" target="_blank">
+                                            {{img | httpPrefix}}
+                                        </a>
+                                        <!-- <img class="big-img" style="position: absolute; top: 0; left: 0; display: none;" src="" alt=""> -->
+                                    </span>
+                                </td>
+                                <td><span class="cut-word" style="display: inline-block; width: 100px; text-align: center;" ng-click="showFullMes(item)">{{item.message}}</span></td>
+                                <td ng-if="chargeStatus=='2'"><span>{{item.errorInfo}}</span></td>
+                                <!-- <td><span>已取消</span></td> -->
+                                <td class="relative">
+								<!-- <button ng-click="openImgFun(item)" type="button" class="ea-to-refuse" value="">查看</button> -->
+								<button ng-if="chargeStatus=='0'" ng-click="confirmReceive(item,$index)" type="button" class="ea-to-impl" value="">{{'100309' | translate}}</button>
+								<button ng-if="chargeStatus=='0'" ng-click="refuseReceive(item, $index)" type="button" class="ea-to-refuse" value="">{{'100336' | translate}}</button>
+									<!-- <dl id="show-img" class="left-num">
+										<img src="https://img.alicdn.com/imgextra/i2/61908958/TB2vcMcb80kpuFjy1zdXXXuUVXa_!!61908958.jpg">
+										<closeimg>关闭</closeimg>
+									</dl>
+									<section id="show-img">
+										<h3>拒绝理由</h3>
+										<textarea></textarea>
+									<closetext class="btn-cancel">取消</closetext><closetextt class="btn-determine">确定</closetextt>
+									</section> -->
+								</td>
+							</tr>
+							
+						</table>
+						<div ng-show="totalNum<1" style="text-align: center;">暂无数据</div>
+						<!-- 分页 -->
+                        <div class="page-box" ng-show="totalNum > 0">
+                            <div class="select-page-num">
+                                <select class="form-control" ng-model="pageSize" ng-change="getPageSize()">
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <span>每页</span>
+                            </div>
+                            <div class="total-num">
+                                共&nbsp;&nbsp;{{ totalNum }}&nbsp;&nbsp;条
+                            </div>
+                            <div class="page-index">
+                                <div class="pagination1">
+                                </div>
+                            </div>
+                            <div class="to-go">
+                                <span>跳转：</span>
+                                <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+                                <a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="getSpecifiedPage()">go</a>
+                            </div>
+                        </div>
+                </div>
+              </div>
+            </div>
+        <!-- </div> -->
+    <!-- </div> -->
+    </div>
+    <div ng-show="imgflag" style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;" class="img-wrap">
+        <div class="img-con">
+            <a class="img-link" ng-repeat="img in imgArr" href="{{img | httpPrefix}}" target="_blank">
+					<img ng-src="{{img | httpPrefix}}">
+				</a>
+            <div class="img-btns">
+                <button ng-click="closeFun()" class="img-cancelbtn">关闭</button>
+                <!-- <button class="img-confbtn">确定</button> -->
+            </div>
+        </div>
+    </div>
+    <!-- 询问是否核对完成的弹框 -->
+    <div ng-show="confirmReceiveFlag" style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;" class="isequalTc-wrap">
+        <div class="isequalTc-con">
+
+            <p>{{'100311' | translate}}<span>{{opeItem.paymentName}}</span>{{'100312' | translate}}<span>${{opeItem.copeMoney}}</span>?</p>
+            <div class="isequalTc-btns">
+                <button ng-click="cancelConfirmReceive()" class="isequalTc-cancelbtn">{{'100051' | translate}}</button>
+                <button ng-click="goConfirmReceive()" class="isequalTc-confirmbtn">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <!-- 拒绝的弹框 -->
+    <!-- <div ng-show="jjFlag" style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;" class="isequalTc-wrap">
+			<div class="jjTc-con">
+				<p>是否与客户沟通过本次转账无效?请谨慎操作!</p>
+				<div class="jjTc-btns">
+					<button ng-click="canceljjFun()" class="jjTc-cancelbtn">取消</button>
+					<button ng-click="confirmjjFun()" class="jjTc-confirmbtn">确定</button>
+				</div>
+			</div>
+		</div> -->
+    <!-- 收款异常 -->
+    <div ng-show="receiveErrpeFlag" style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;" class="isequalTc-wrap">
+        <div class="jjTc-con">
+            <!-- <p>是否与客户沟通过本次转账无效?请谨慎操作!</p> -->
+            <!-- <button class="wskx-btn">未收到款项</button>
+            <button ng-click="jeqsBtnFun()" class="jeqs-btn">金额缺少</button> -->
+            <div style="margin-top: 20px;">
+                <span style="font-size: 14px;">{{'100341' | translate}}：</span>
+                <select style="font-size: 14px; width: 150px; height: 30px;" ng-model="errorInfo">
+                    <option value="Payment Not Received">{{'100313' | translate}}</option>
+                    <option value="金额有误">金额有误</option>
+                    <!-- <option value="">金额缺少</option> -->
+                </select>
+            </div>
+            <div class="isequalTc-btns">
+                <button ng-click="canRefuseReceive()" class="isequalTc-cancelbtn">{{'100051' | translate}}</button>
+                <button ng-click="goRefuseReceive()" class="isequalTc-confirmbtn">{{'100050' | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <!-- 金额缺少 -->
+    <div ng-show="jeqsflag" class="jeqs-wrap" style="background: rgba(0,0,0,0.5);position: fixed;width: 100%;height: 100%;z-index: 999;left: 0;top: 0;">
+        <div class="jeqs-con">
+            <p>
+                <span>{{'100315' | translate}}:</span>
+                <input></input>
+            </p>
+            <button ng-click="jeqsconFun()">Confirm</button>
+        </div>
+    </div>
+    <!-- 选取两段时间之间插件 -->
+    <!--<script type="text/javascript" src="../js/jquery.min.js" ></script>-->
+    <!--<script type="text/javascript" src="../js/lyz.calendar.min.js"></script>-->
+    <script>
+    $(function() {
+
+        $("#txtBeginDate").calendar({
+            controlId: "divDate", // 弹出的日期控件ID，默认: $(this).attr("id") + "Calendar"
+            speed: 200, // 三种预定速度之一的字符串("slow", "normal", or "fast")或表示动画时长的毫秒数值(如：1000),默认：200
+            complement: true, // 是否显示日期或年空白处的前后月的补充,默认：true
+            readonly: true, // 目标对象是否设为只读，默认：true
+            upperLimit: new Date(), // 日期上限，默认：NaN(不限制)
+            lowerLimit: new Date("2011/01/01"), // 日期下限，默认：NaN(不限制)
+            callback: function() { // 点击选择日期后的回调函数
+                //alert("您选择的日期是：" + $("#txtBeginDate").val());
+            }
+        });
+        $("#txtEndDate").calendar();
+    });
+    </script>
+</body>
+
+</html>

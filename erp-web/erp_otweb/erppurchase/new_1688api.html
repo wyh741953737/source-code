@@ -1,0 +1,839 @@
+
+<div class="my-wrap">
+  <main class="my-main">
+    <section class="back-area mb-10">
+      <button class="bd br-4" ng-click="handleBack()">back</button>
+    </section>
+    <section class="status-area mb-10">
+      <span>标记:</span>
+      <select style="width: 120px;" ng-model="mark">
+        <option value="{{item.value}}" ng-repeat="item in markList">{{item.label}}</option>
+      </select>
+    </section>
+    <section class="status-area mb-10">
+        <span>标记备注:</span>
+        <input type="text" ng-model="signRemark" />
+    </section>
+    <section class="">
+      <!-- 批量关联 -->
+      <div class="ordnum-wrap" ng-show="plGuanLianFlag" style="z-index: 10005;">
+        <div class="ordnum-con" id="dragBox" style="height: auto;">
+          <p style="font-size: 18px;cursor:move;" class="title">关联1688变体</p>
+          <div class="ordncon-list">
+            <table class="table table-bordered">
+              <tr style="background-color: #f4f8fd;">
+                <td>SKU</td>
+                <td>图片</td>
+                <td>1688商品价格</td>
+                <td>1688库存</td>
+              </tr>
+              <tr ng-repeat="item in glBtsArr">
+                <td class="radio-td">
+                  <div class="check-box">
+                    <input type="radio" name="bt" ng-click="plCheckBtFun(item)">
+                    <label ng-class="{'act':item.isDefault}" for=""></label>
+                  </div>
+                  <p>{{item.stanSkuZw}}</p>
+                  <p style="padding-left: 21px;">{{item.sku}}</p>
+                </td>
+                <td style="position: relative;" ng-mouseenter="item.isOver = true;"
+                  ng-mouseleave="item.isOver = false;">
+                  <img class="small-img" ng-src="{{item.stanSkuImg}}" alt="">
+                  <img class="big-img" ng-class="{'top-150px':$index>3}" ng-show="item.isOver"
+                    ng-src="{{item.stanSkuImg}}" alt="">
+                </td>
+                <td>
+                  <span>{{item.sellPrice}}</span>
+                </td>
+                <td>{{ item.amountOnSale }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="bottom-btns">
+            <button class="close-numbtn" ng-click="plGuanLianFlag = false">{{'100066' | translate}}</button>
+          </div>
+
+        </div>
+      </div>
+      <!-- 变体列表 -->
+      <div style="height: auto;width: 880px;" ng-show="!isSingle">
+        <p style="font-size: 18px;">变体列表</p>
+        <div class="ordncon-list">
+          <table class="table table-bordered">
+            <tr style="background-color: #f4f8fd;">
+              <td>SKU</td>
+              <td>属性</td>
+              <td>图片</td>
+              <td>关联关系</td>
+              <td>采购价格</td>
+              <td>操作</td>
+            </tr>
+            <tr ng-repeat="item in btCheckedArr" ng-init="pIndex=$index">
+              <td class="radio-td">
+                <p style="min-width: 200px;">{{item.sku}}</p>
+              </td>
+              <td>
+                  <span ng-repeat="(key,val) in item.variantKeyMap" style="display: block;font-size: 12px;">
+                    {{key}}：{{val}}
+                </span>
+              </td>
+              <td style="position: relative;" ng-mouseenter="item.isOver = true;"
+                ng-mouseleave="item.isOver = false;">
+                <img class="small-img" ng-src="{{item.img}}" alt="">
+                <img class="big-img" ng-class="{'top-150px':$index>3}" ng-show="item.isOver" ng-src="{{item.img}}"
+                  alt="">
+              </td>
+              <td>
+                <div ng-repeat="glitem in item.glxzArr">
+                  <span>已关联: </span>
+                  <span>{{glitem.stanSkuZw}}</span>
+                  <span>{{glitem.sku}}</span>
+                  <span>单价: {{glitem.sellPrice}}</span>
+                  <img ng-click="delYglFun(glitem,pIndex)" style="cursor:pointer;"
+                    src="static/image/public-img/close.png" />
+                </div>
+              </td>
+              <td>
+                <span>￥{{item.costPrice}}</span>
+              </td>
+              <td>
+                <button style="width: 110px;" class="bianji-btn"
+                  ng-click="show1688BtFun(item,$index)">关联1688变体</button>
+                <button style="width: 110px;" class="bianji-btn" ng-click="openJxglFun($index)">继续关联</button>
+                <button style="width: 110px;" class="bianji-btn" ng-click="removeVariant($index)">移除此条</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="bottom-btns">
+          <button class="close-numbtn" ng-click="handleBack()">{{'100066' | translate}}</button>
+          <button class="sure-canbtn" ng-click="plSureGuanlianFun()">{{'100050' | translate}}</button>
+        </div>
+
+      </div>
+
+      <!-- 关联 -->
+      <div class="" style="height: auto;"  ng-show="isSingle">
+        <p style="font-size: 18px;">关联1688变体</p>
+        <div class="d-flex">
+          <p style="text-align: left;">当前SKU: {{sigleParams.sku}}</p>
+          <button ng-click="jxglFlag = true;">继续关联</button>
+        </div>
+        <div ng-repeat="item in glxzArr" style="margin:10px 0;text-align:left;">
+          <span>已关联: </span>
+          <span>{{item.stanSkuZw}}</span>
+          <span>{{item.sku}}</span>
+          <span>单价: {{item.sellPrice}}</span>
+          <img ng-click="delGlgxFun(item)" src="static/image/public-img/close.png" />
+        </div>
+        <div class="ordncon-list">
+          <table class="table table-bordered">
+            <tr style="background-color: #f4f8fd;">
+              <td>SKU</td>
+              <td>图片</td>
+              <td>1688商品价格</td>
+              <td>1688库存</td>
+            </tr>
+            <tr ng-repeat="item in glBtsArr">
+              <td class="radio-td">
+                <div class="check-box">
+                  <input type="radio" name="bt" ng-click="checkBtFun(item)">
+                  <label ng-class="{'act':item.isDefault}" for=""></label>
+                </div>
+                <p>{{item.stanSkuZw}}</p>
+                <p style="padding-left: 21px;">{{item.sku}}</p>
+              </td>
+              <td style="position: relative;" ng-mouseenter="item.isOver = true;"
+                ng-mouseleave="item.isOver = false;">
+                <img class="small-img" ng-src="{{item.stanSkuImg}}" alt="">
+                <img class="big-img" ng-class="{'top-150px':$index>3}" ng-show="item.isOver"
+                  ng-src="{{item.stanSkuImg}}" alt="">
+              </td>
+              <td>
+                <span>{{item.sellPrice}}</span>
+              </td>
+              <td>
+                <span>{{item.amountOnSale}}</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="bottom-btns">
+          <button class="close-numbtn" ng-click="handleBack()">{{'100066' | translate}}</button>
+          <button class="sure-canbtn" ng-click="sureGuanlianFun()">{{'100050' | translate}}</button>
+        </div>
+
+      </div>
+      <!-- 继续关联-->
+      <div class="ordnum-wrap" ng-show="jxglFlag" style="z-index:10005">
+        <div class="ordnum-con" style="height: auto;">
+          <p style="font-size: 18px;">选择链接</p>
+          <div class="ordncon-list">
+            <ul class="link-checkgroup">
+              <li ng-repeat="item in cgList">
+                <div class="check-box">
+                  <input type="radio" name="bt" ng-click="checkCgLinkFun(item)">
+                  <label for=""></label>
+                </div>
+                <a href="{{item.name}}" style="text-decoration:underline;color:#0094FF;word-break: break-all;"
+                  target="_blank">{{item.name}}</a>
+                <span ng-show="item.cpsClickUrl">(<a href="{{item.name}}" style="text-decoration:underline;color:#333;word-break: break-all;"
+                  target="_blank">{{item.cpsClickUrl}}</a><span class="rate">{{ item.ratio*100 }}%</span>)</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bottom-btns">
+            <button class="close-numbtn" ng-click="jxglFlag = false">{{'100066' | translate}}</button>
+            <button class="sure-canbtn" ng-click="linkQeryBtFun()">{{'100050' | translate}}</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<style>
+.my-wrap { height: 100vh; padding: 15px 15px 15px 230px; }
+.my-main { background: #fff; height: 100%; padding: 15px 15px 30px; }
+.back-area>button { background: #fff; padding: 4px 15px; font-size: 14px; color: #666;}
+.filter-area {min-height: 170px; padding: 10px;}
+
+.radio-td .check-box{ margin-left: 10px; }
+.radio-td .check-box input { padding: 0; width: 17px; }
+.table .radio-td .check-box label { background-image: url(../static/image/public-img/radiobutton1.png); }
+.table .radio-td .check-box .act { background-image: url(../static/image/public-img/radiobutton2.png); }
+
+.fs-14 {font-size: 14px;}
+.lh-30 {line-height: 30px;}
+.mb-20 {margin-bottom: 20px;}
+.mr-10 {margin-right: 10px;}
+.bd {border: 1px solid #eee;}
+.flex {display: flex;}
+.fxc {justify-content: center;}
+.fyc {align-items: center;}
+.fdc {flex-direction: column;}
+.fwp {flex-wrap: wrap;}
+.fg-1 {flex-grow: 1;}
+
+/*  */
+.viewgys-wrap,.ordnum-wrap,.errbtn-wrap{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10003;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.view-con,.ordnum-con{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  text-align: center;
+}
+.errtk-con{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 200px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  text-align: center;
+}
+.ywy-con{
+  height: 520px;
+  width: 260px;
+}
+.ywy-list{
+  height: 400px;
+  overflow-y: auto;
+}
+.head-li{
+  background-color: #F4F8FB;
+  height: 30px;
+  line-height: 30px;
+}
+.errtk-text{
+  height: 130px;
+}
+.err-textVal{
+  width: 300px;
+  height: 120px;
+  border: 1px solid #ececec;
+  text-indent: 12px;
+}
+.view-con th {
+  font-weight: normal;
+  text-align: center;
+  height: 30px;
+}
+.view-con .table>tbody>tr>td {
+  vertical-align: middle;
+}
+.caigou-tab-wrap {
+height: 380px;
+  overflow-y: auto;   
+}
+.tit-name{
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.tbody-ul{
+  /*border: 1px solid red;*/
+  background-color: #f4f8fd;
+  padding: 10px 0;
+  /*display: flex;
+  justify-content: space-between;*/
+}
+.tbody-ul span{
+  /*border: 1px solid red;*/
+  text-align: center;
+  display: inline-block;
+}
+.tbody-listul{
+  /*border: 1px solid blue; */
+  height: 350px;
+  overflow-y: auto; 
+}
+.tblist-li{
+  /*border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ececec;
+  padding: 15px 0;
+}
+.tblist-li p{
+  /*border: 1px solid pink; */
+  text-align: center;
+}
+.name-p{
+  width: 520px;
+  height: 20px;
+  overflow: hidden;
+}
+.star-p{
+  width: 130px;
+  overflow: hidden;
+}
+.bottom-btns button{
+  width: 76px;
+  height: 30px;
+  margin-right: 15px;
+  margin-top: 10px;
+  background: #f6f6f6;
+  border: 1px solid #cfcfcf;
+  color: #6b6b6b;
+  border-radius: 4px;
+}
+.bottom-btns .sure-canbtn{
+  background: #faa538;
+  color: #fff;
+  border: none;
+}
+.poplinkt {
+  display: inline-block;
+  font-size: 12px;
+  /*width: 60px;*/
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+  border: 1px solid #818181;
+  color: #333;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0 5px;
+}
+.poplinkt.active {
+  color: #fff;
+  background: #08aceb;
+  border: none;
+}
+.lashop_img .blank-b{
+  position: relative;
+}
+.lashop_img .s-img{
+  cursor: pointer;
+}
+.lashop_img .hide-bigimg{
+  width: auto;
+  height: 360px;
+  position: absolute;
+  left: 50px;
+  top: -10px;
+  background-color: #fff;
+  z-index: 9;
+  cursor: pointer;
+  /*border: 1px solid red;*/
+  max-width: none;
+  max-height: none;
+  display: none;
+}
+.lashop_img .hide-bigimg-active{
+  top: -220px;
+}
+.close-numbtn,.errtk-canbtn{
+  width: 76px;
+  height: 30px;
+  margin-top: 20px;
+  background: #f6f6f6;
+  border: 1px solid #cfcfcf;
+  color: #6b6b6b;
+  border-radius: 4px;
+}
+.errtk-canbtn{
+  margin-top: 0;
+}
+.errtk-surebtn{
+  width: 76px;
+  height: 30px;
+  margin-left: 30px;
+  background: #fff;
+  border: 1px solid #faa538;
+  color: #faa538;
+  border-radius: 4px;
+}
+.ordncon-list{
+  height: 400px;
+  /*border: 1px solid red;*/
+  /*overflow-y: scroll; */
+  overflow: auto;
+}
+/*变体表格*/
+.bt-list{
+  display: none;
+}
+.fun-div{
+  padding: 0 10px;
+  padding-top: 5px;
+  height: 40px;
+  background-color: #fff;
+}
+.fun-div .sku-inp{
+  width: 260px;
+  height: 30px;
+  text-indent: 12px;
+  vertical-align: top;
+}
+.fun-div .skusea-btn{
+  height: 30px;
+  padding: 0 10px;
+  background-color: #fff;
+  border: 1px solid #E0E0E0;
+  vertical-align: top;
+  border-left: none;
+}
+.fun-div .skusea-btn:hover{
+  color: #f99429;
+}
+.qk-btn{
+  width: 110px;
+  color: #5dbdf2;
+  float: right;
+  color: #5dbdf2;
+  float: right;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid #5dbdf2;
+  border-radius: 4px;
+  margin-left: 20px;
+}
+.fiexdbottom-btns{
+  margin-top: 20px;
+}
+.ea-list-table{
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: solid #eee 1px;
+  border-bottom: none;
+  font-size: 13px;
+  table-layout: fixed;
+  min-width: 952px;
+}
+.ea-list-table td span{
+  font-size: 12px;
+}
+.ea-list-table td p{
+  font-size: 12px;
+}
+.view-gys{
+  text-decoration:underline;
+  color:#0094FF;
+  font-size: 12px;
+}
+/*复选框*/
+.check-p{
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  float: left;
+  left: 15px;
+  margin-right: 5px;
+}
+.check-p input{
+  width: 17px;
+  height: 16px;
+  position: absolute;
+  top: 0;
+  left: 1px;
+  opacity: 0;
+  margin: 0;
+  z-index: 99;
+}
+.check-p input:checked + label {
+  background-image: url(static/image/public-img/multiple2.png);
+  background-size: 17px 16px;
+}
+.check-p input + label {
+  display: block;
+  width: 100%;
+  padding-left: 21px;
+  height: 16px;
+  line-height: 16px;
+  text-align: left;
+  background: url(static/image/public-img/multiple1.png) left center no-repeat;
+  background-size: 17px 16px;
+}
+.store-sel-need{
+  width: 100px;
+  height: 30px;
+  margin-left: 20px;
+}
+.red-color{
+  color: #e55264;
+}
+.ea-list-table td .you-jia{
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 3px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #fff;
+  background-color: #449d44;
+  margin-top: 4px;
+}
+.dikou-span{
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 3px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #fff;
+  background-color: #449d44;
+  margin-top: 4px;
+}
+.gysxq-czbtn{
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #29b3e8;
+}
+.gysxq-czscbtn{
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #818181;
+}
+.gysxq-czbtn:hover{
+  background-color:#29b3e8;
+  color: #fff;
+}
+.gysxq-czscbtn:hover{
+  background-color: #818181;
+  color: #fff;
+}
+.g-star{
+  background: url('static/image/public-img/iconstar_g.png');
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
+}
+.star {
+  background: url('static/image/public-img/iconstar_y.png');
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+}
+.set-star-right{
+  display: inline-block;
+}
+.set-star-right a{
+  width: 21px;
+  height: 21px;
+  cursor: default;
+  background-size: 21px 21px;
+}
+.set-star-right a.star{
+  background-size: 21px 21px;
+}
+.td-star{
+  cursor: pointer;
+}
+#gys-table select{
+  width: 100px;
+  height: 30px;
+}
+.table-con-box{
+  margin: 0;
+  /*margin-top: 123px;*/
+}
+.w130{
+  width: 130px;
+  height: 30px;
+  text-align: center;
+}
+.w100{
+  width: 100px;
+  height: 30px;
+  text-align: center;
+}
+.bianji-btn{
+  margin-top: 3px;
+  padding: 0 10px;
+  font-size: 14px;
+  height: 30px;
+  text-align: center;
+  background-color: #87CEFA;
+  border-radius: 4px;
+  color: #fff;
+}
+.thead-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 952px;
+  z-index: 99999;
+  border: 1px solid #e1e1e1;
+  border-bottom: none;
+  margin-top: 20px;
+}
+.th-group{
+  background: #F4F8FB;
+  text-align: center;
+  padding: 10px 0;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tit-box{
+  /*position: fixed;*/
+  left: 270px;
+  right: 21px;
+  z-index: 999;
+  background-color: #fff;
+}
+.ckgys-paixu{
+  display: inline-block;
+  position: relative;
+}
+.ckgys-paixu span{
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  position: absolute;
+  /*right: 15px;*/
+  margin: auto;
+  cursor: pointer;
+}
+.top-span{
+  border-bottom: 12px solid lightslategray;
+  top: -20px;
+}
+.down-span{
+  border-top: 12px solid lightslategray;
+  top: -1px;
+}
+.gjcg-liuyan{
+  color:#e55264;
+  cursor:pointer;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.green-color{
+  color: #00CD00;
+}
+.yellow-color{
+  color: #f1ca16;
+}
+.remark-box{
+  position: relative;
+  display: inline-block;
+}
+.remark-con{
+  position: absolute;
+  left: 10px;
+  top: -30px;
+  width: 450px;
+  display: none;
+  background-color: #fff;
+  box-shadow: 3px 3px 30px rgba(0,0,0,0.6);
+}
+.bot-remark{
+  top: -250px;
+}
+.qh-btn{
+  width: 70px;
+  color: #5dbdf2;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid #5dbdf2;
+  border-radius: 4px;
+  margin-left: 20px;
+}
+.que-huo-act{
+  background-color: #5dbdf2;
+  color: #fff;
+}
+.gys-szlianjie{
+  width: 550px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+  color: #0094FF;
+  text-decoration: underline;
+  margin: 0 auto;
+  vertical-align: top;
+  margin-left: 30px;
+}
+.hei535{
+  height: 535px;
+}
+.hei680{
+  height: 680px;
+}
+.cg-zhidinglink{
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 3px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #fff;
+  margin-top: 4px;
+}
+.guanlian-ul li{
+  display: flex;
+  justify-content: space-between;
+}
+.guanlian-ul li span{
+  width: 50%;
+}
+.small-img{
+  width: 40px;
+}
+.big-img{
+  width: 200px;
+  position: absolute;
+  right: 100%;
+  top: 0;
+}
+.top-150px{
+  top: -150px;
+}
+/* .table .check-box input {
+  padding: 0;
+  width: 17px;
+}
+.table .check-box input + label{
+  background-image: url(../static/image/public-img/radiobutton1.png);
+}
+.table .check-box input:checked + label {
+  background-image: url(../static/image/public-img/radiobutton2.png);
+} */
+.radio-td .check-box{
+margin-left: 10px;
+}
+.radio-td .check-box input {
+padding: 0;
+width: 17px;
+}
+.table .radio-td .check-box label {
+background-image: url(../static/image/public-img/radiobutton1.png);
+}
+.table .radio-td .check-box .act {
+background-image: url(../static/image/public-img/radiobutton2.png);
+}
+.link-checkgroup .check-box label {
+background-image: url(../static/image/public-img/radiobutton1.png);
+}
+.link-checkgroup .check-box  input:checked + label {
+background-image: url(../static/image/public-img/radiobutton2.png);
+}
+.dis-flex-wrap{
+display: flex;
+justify-content: space-between;
+}
+.edit-add-btn{
+color: #ff8d31;
+height: 30px;
+width: 76px;
+border-radius: 4px;
+font-size: 14px;
+background-color: #fff;
+border: 1px solid #ff8d31;
+}
+.d-flex{
+display: flex;
+justify-content: space-between;
+margin: 10px 0;
+}
+.d-flex button{
+height: 24px;
+border: 1px solid #08aceb;
+border-radius: 4px;
+padding: 0 10px;
+cursor: pointer;
+color: #08aceb;
+background: #fff;
+}
+#up-form {
+position: relative;
+display: inline-block;
+margin-bottom: 20px;
+}
+#upLoadInp {
+width: 75px;
+font-size: 0;
+border: 1px solid red;
+display: inline-block;
+height: 30px;
+position: absolute;
+/* right: 0; */
+opacity: 0;
+cursor: pointer;
+}
+#up-btn{
+background-color: #fff;
+border: 1px solid #5dbdf2;
+height: 30px;
+padding: 0 10px;
+border-radius: 4px;
+color: #5dbdf2;
+}
+.rate{
+  display: inline-block;
+  padding: 0 3px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #fff;
+  background-color: #F9AE08;;
+  margin-top: 4px;
+}
+</style>

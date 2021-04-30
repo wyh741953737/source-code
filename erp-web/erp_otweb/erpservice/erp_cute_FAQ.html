@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>提现</title>
+	<link rel="stylesheet" type="text/css" href="erp_otweb/css/erp_cute_chatFAQ.css" />
+</head>
+
+<body>
+	<div class="ea-content yzy-cute-content">
+		<div class="right-bar-wrap ea-right-content">
+			<!-- 顶部tab -->
+			<div id="top-tab" class="top-tab position-absolute" ng-init="init()" style="min-width: 1100px;">
+				<!-- 搜索区域 & 表头 -->
+				<div class="top-tab-bottom bg-white padding-lr-20px">
+					<!-- 搜索区域 -->
+					<div class="top-tab-search d-flex justify-content-between align-items-center">
+						<div class="d-flex-center">
+							<span>状态：</span>
+							<select class="search-select" name="" id="" ng-model="searchStatus">
+								<option value="">全部</option>
+								<option value="1">启用</option>
+								<option value="0">禁用</option>
+							</select>
+							<input ng-model="searchInput" placeholder="请输入问题/答案/创建人" class="search-input margin-left-20px"
+								type="text" ng-keyup="enterSearch($event)">
+							<span class="margin-left-20px">展示类型：</span>
+							<select class="search-select" name="" id="" ng-model="searchzslx">
+								<option value="">全部</option>
+								<option value="{{item.key}}" ng-repeat="item in industryFromType">{{item.name}}</option>
+							</select>
+							<span class="margin-left-20px">行业类型：</span>
+							<select class="search-select" name="" id="" ng-model="searchhylx">
+								<option value="">全部</option>
+								<option value="{{item.key}}" ng-repeat="item in industryTypeList">{{item.name}}</option>
+							</select>
+							<span class="margin-left-20px">展示顺序：</span>
+							<input style="width: 110px;" type="text" placeholder="请输入展示顺序" class="search-input" ng-model="searchzssx" ng-keyup="enterSearch($event)">
+							<button class="asj-btn-s2 search-btn search-input-btn margin-left-20px" ng-click="search()">搜索</button>
+						</div>
+						<button class="asj-btn-s2 search-btn" ng-click="addFn('add')">新增问题</button>
+					</div>
+
+					<!-- 表头 -->
+					<div class="tb-thead d-flex">
+						<div style="width: 3%" class="tb-thead-th">
+							<span>序号</span>
+						</div>
+						<div style="width: 5%" class="tb-thead-th">
+							<span>状态</span>
+						</div>
+						<div style="width: 6%" class="tb-thead-th">
+							<span>创建时间</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>问题</span>
+						</div>
+						<div style="width: 10%" class="tb-thead-th">
+							<span>答案</span>
+						</div>
+						<div style="width: 6%" class="tb-thead-th">
+							<span>关键字</span>
+						</div>
+						<div style="width: 5%" class="tb-thead-th">
+							<span>创建人</span>
+						</div>
+						<div style="width: 6%" class="tb-thead-th">
+							<span>展示类型</span>
+						</div>
+						<div style="width: 6%" class="tb-thead-th">
+							<span>行业类型</span>
+						</div>
+						<div style="width: 8%;" class="tb-thead-th zsk-sort-th">
+							<span>展示顺序</span>
+							<span
+								ng-click="sortFn(orderType === orderTypeModel.showDesc ? orderTypeModel.showAsc : orderTypeModel.showDesc)"
+								class="zsk-sort-icon"
+								ng-class="{'sort-desc': orderType === orderTypeModel.showDesc, 'sort-asc': orderType === orderTypeModel.showAsc}"></span>
+						</div>
+						<!-- ************ 2019-12-18 **************-->
+						<div style="width: 7%" class="tb-thead-th zsk-sort-th">
+							<span>浏览量</span>
+							<span
+								ng-click="sortFn(orderType === orderTypeModel.browseDesc ? orderTypeModel.browseAsc : orderTypeModel.browseDesc)"
+								class="zsk-sort-icon"
+								ng-class="{'sort-desc': orderType === orderTypeModel.browseDesc, 'sort-asc': orderType === orderTypeModel.browseAsc}"></span>
+						</div>
+						<div style="width: 7%" class="tb-thead-th zsk-sort-th">
+							<span>已解决</span>
+							<span
+								ng-click="sortFn(orderType === orderTypeModel.isSolveDesc ? orderTypeModel.isSolveAsc : orderTypeModel.isSolveDesc)"
+								class="zsk-sort-icon"
+								ng-class="{'sort-desc': orderType === orderTypeModel.isSolveDesc, 'sort-asc': orderType === orderTypeModel.isSolveAsc}"></span>
+						</div>
+						<div style="width: 7%" class="tb-thead-th zsk-sort-th">
+							<span>未解决</span>
+							<span
+								ng-click="sortFn(orderType === orderTypeModel.noSolveDesc ? orderTypeModel.noSolveAsc : orderTypeModel.noSolveDesc)"
+								class="zsk-sort-icon"
+								ng-class="{'sort-desc': orderType === orderTypeModel.noSolveDesc, 'sort-asc': orderType === orderTypeModel.noSolveAsc}"></span>
+						</div>
+						<!-- ************************************* -->
+						<div style="width: 14%" class="tb-thead-th">
+							<span>操作</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 内容区 -->
+			<div id="content-wrap" style="margin-top: 142px;" class="content-wrap bg-white padding-lr-20px">
+				<!-- 营外收入 -->
+				<div class="tb-tbody">
+					<div class="tb-tbody-tr" ng-repeat="question in questionList">
+						<div style="width: 3%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="cut-word">{{$index + 1}}</span></div>
+						<div style="width: 5%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="cut-word">{{question.industryStatus === 1 ? '启用' : "禁用"}}</span></div>
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="">{{question.createTime}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="hidden-three">{{question.industryQuestion}}</span>
+						</div>
+						<div style="width: 10%" class="tb-tbody-td border-r-td d-flex-center "><span
+								class="hidden-three">{{question.industryAnswer}}</span>
+						</div>
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex-center "><span
+								class="hidden-three">{{question.industryKeyword}}</span>
+						</div>
+						<div style="width: 5%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="cut-word">{{question.createLoginName}}</span>
+						</div>
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex flex-column justify-content-center">
+							<div ng-repeat="item in question.industryFrom track by $index" class="d-flex-center">{{changeType('CJ', item)}}</div>
+						</div>
+						<div style="width: 6%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="cut-word">{{changeType('business', question.industryType)}}</span></div>
+						<div style="width: 8%;" class="tb-tbody-td border-r-td d-flex-center">
+							<span class="cut-word">{{question.sort || '-'}}</span>
+						</div>
+						<div style="width: 7%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="cut-word">{{question.browseCount || 0}}</span>
+						</div>
+						<div style="width: 7%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="cut-word">{{question.isSolveCount || 0}}</span>
+						</div>
+						<div style="width: 7%" class="tb-tbody-td border-r-td d-flex-center"><span
+								class="cut-word">{{question.notSolveCount || 0}}</span>
+						</div>
+						<div style="width: 14%" class="tb-tbody-td d-flex-center">
+							<span class="tb-btn-default" ng-click="addFn('edit', question)">编辑</span>
+							<b class="tb-btn-long"></b>
+							<span class="tb-btn-default" ng-click="confirmFn('delete', question)">删除</span>
+							<b class="tb-btn-long"></b>
+							<span ng-show="question.industryStatus === 0" class="tb-btn-default"
+								ng-click="confirmFn('open', question)">启用</span>
+							<span ng-show="question.industryStatus === 1" class="tb-btn-default"
+								ng-click="confirmFn('close', question)">禁用</span>
+						</div>
+					</div>
+				</div>
+				<!-- 没有数据 -->
+				<div class="d-flex-center" style="padding: 10px" ng-show="!canShowPage">
+					<span>暂无数据</span>
+				</div>
+				<!-- 分页 -->
+				<div class="page-box" ng-show="canShowPage">
+					<div class="select-page-num">
+						<select class="form-control" ng-model="pageSize" ng-change="pagechange(pageSize)"
+							style="width: 65px;height: 31px;">
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="50">50</option>
+						</select>
+						<span>每页</span>
+					</div>
+					<div class="total-num">
+						共&nbsp;&nbsp;{{ totalCounts }}&nbsp;&nbsp;条
+					</div>
+					<div class="page-index">
+						<div class="pagegroup">
+							<a href="#">&lt;&lt;</a>
+							<a href="#">&lt;</a>
+							<a href="#">1</a>
+							<a href="#">2</a>
+							<a class="current" href="#">3</a>
+							<a href="#">4</a>
+							<a href="#">5</a>
+							<a href="#">6</a>
+							<a href="#">···</a>
+							<a href="#">&gt;</a>
+							<a href="#">&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="to-go">
+						<span>跳转：</span>
+						<input type="text" class="goyema form-control" placeholder="" ng-model="pageNum">
+						<a class="btn btn-default" href="javascript: void(0);" role="button" ng-click="pagenumchange()">go</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 新增问题弹窗 -->
+	<div class="erp-common-tan-v2-wrap yzy-cute-modal" ng-show="showFlag">
+		<div class="erp-common-tan-v2" style="width: 800px; height: initial;">
+			<!-- 关闭按钮 -->
+			<a class="tan-v2-close" href="javascript:void(0);" ng-click="showFlag=false;"><img
+					src="static/image/public-img/close-img.png"></a>
+			<!-- title -->
+			<div class="tan-v2-top">
+				<h6>{{modelItem.type === 'add' ? '新增' : "编辑"}}问题</h6>
+			</div>
+			<!-- 内容 -->
+			<div class="tan-v2-con padding-20px">
+				<div class="model-item">
+					<div>CJ展示类型:</div>
+					<div class="d-flex align-items-center check-box-zslx">
+						<div ng-repeat="item in modelItem.industryFromList" class="check-box-item d-flex-center">
+							<b ng-click="checkIndustryFrom(item.key)" class="cursor-pointer" ng-class="{'checked': item.checked}"></b>
+							<span>{{item.name}}</span>
+						</div>
+					</div>
+					<!-- <select class="model-select" name="" id="" ng-model="modelItem.industryFrom">
+						<option value="">请选择</option>
+						<option value="{{inft.key}}" ng-repeat="inft in industryFromType">{{inft.name}}</option>
+					</select> -->
+				</div>
+				<div class="model-item">
+					<div>行业类型:</div>
+					<select class="model-select" name="" id="" ng-model="modelItem.industryType">
+						<option value="">请选择</option>
+						<option value="{{intl.key}}" ng-repeat="intl in industryTypeList">{{intl.name}}</option>
+					</select>
+				</div>
+				<div class="model-item" style="z-index: 99999;">
+					<div>关联问题：</div>
+					<div class="position-relative">
+						<textarea ng-change="searchQuestionFn()" ng-focus="openDrop()" ng-blur="closeDrop()"
+							ng-model="searchQuestion" class="model-textarea" name="" id="" rows="1"></textarea>
+						<ul ng-show="modelItem.isDrop && searchRelevanceList.length > 0"
+							class="relevance-drop-wrap position-absolute bg-white">
+							<li ng-click="choseFn(item)" ng-repeat="item in searchRelevanceList" class="cursor-pointer">
+								{{item.industryQuestion}}</li>
+						</ul>
+					</div>
+					<div>
+						<div ng-repeat="relevance in modelItem.relevanceList track by $index"
+							class="d-flex align-items-center justify-content-between relevance-item">
+							<span>{{$index + 1}}. {{relevance.industryQuestion}}</span>
+							<b ng-click="deleteRelevance($index)" class="cursor-pointer"></b>
+						</div>
+					</div>
+				</div>
+				<div class="model-item">
+					<div>展示顺序:</div>
+					<textarea placeholder="请输入大于0且小于100的展示顺序" ng-model="modelItem.sort" class="model-textarea" name="" id=""
+						rows="1"></textarea>
+				</div>
+				<!-- <div class=""></div> -->
+				<div class="model-item">
+					<div>问题：</div>
+					<textarea ng-model="modelItem.industryQuestion" class="model-textarea" name="" id="" rows="1"></textarea>
+				</div>
+				<div class="model-item">
+					<div>答案：</div>
+					<div id="wang" style="width: 100%;"></div>
+					<!-- <textarea ng-model="modelItem.industryAnswer" class="model-textarea" name="" id="" rows="5"></textarea> -->
+				</div>
+				<div class="model-item" style="margin-top: 15px;">
+					<div>关键字：</div>
+					<textarea ng-model="modelItem.industryKeyword" class="model-textarea" name="" id="" rows="1"></textarea>
+				</div>
+			</div>
+			<!-- 底部 -->
+			<div class="tan-v2-bot">
+				<!-- 取消按钮（灰色） -->
+				<a href="javascript:void(0);" ng-click="showFlag=false;" class="qu-xiao-btn">取消</a>
+				<!-- 确认按钮（彩色） -->
+				<a href="javascript:void(0);" ng-click="sureAdd()" class="que-ding-btn">确定</a>
+			</div>
+		</div>
+	</div>
+	<!-- confirm 弹窗 -->
+	<div class="erp-common-tan-v2-wrap" ng-show="confrimItem.confirmFlag">
+		<div class="erp-common-tan-v2 erp-common-tan-confirm" style="width: 400px;height: 160px;">
+			<p>{{confrimItem.text}}</p>
+			<div class="tan-v2-bot">
+				<a href="javascript:void(0)" class="qu-xiao-btn" ng-click="confrimItem.confirmFlag=false">取消</a>
+				<a href="javascript:void(0)" class="que-ding-btn" ng-click="sureConfirm()">确定</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
