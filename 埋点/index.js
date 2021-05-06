@@ -71,3 +71,9 @@ boxList.forEach(box => io.observe(box)) // 这里订阅，等符合条件，执�
 
 
 // performanceObserver，nodejs和浏览器大都存在的。 window.performance和window.perfomanceObserver
+
+
+// entry.time 时间戳
+// rootBounds根元素位置
+// boundingClientRect目标元素的位置
+// intersectionRect交叉部分的位置信息
