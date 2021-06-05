@@ -1,0 +1,138 @@
+.cjLanguage {
+  display: inline-block;
+  height: 40px;
+  position: relative;
+  user-select: none;
+  cursor: pointer;
+  .languageTitle {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    color: #fff;
+  }
+  .arrow {
+    display: inline-block;
+    border: 4px solid transparent;
+    margin-left: 4px;
+    &.arrowUp {
+      border-bottom: 5px solid #fff;
+      border-top: none;
+    }
+    &.arrowDown {
+      border-top: 5px solid #fff;
+      border-bottom: none;
+    }
+  }
+  .dropdownMenu {
+    width: 240px;
+    background: #ffffff;
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    top: 40px;
+    transition: opacity 0.2s;
+    &.dropdownVisible {
+      height: 222px;
+      opacity: 1;
+    }
+    &.dropdownHide {
+      height: 0px;
+      opacity: 0;
+      overflow: hidden;
+    }
+    .outerBox {
+      padding: 18px;
+    }
+  }
+  .label {
+    height: 20px;
+    font-size: 14px;
+    color: #333333;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
+  .component {
+    width: 204px;
+    height: 36px;
+    border-radius: 4px;
+    border: 1px solid #e4e4e4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 10px;
+    margin-bottom: 10px;
+    .arrowUp {
+      border-bottom-color: #333333;
+    }
+    .arrowDown {
+      border-top-color: #333333;
+    }
+
+    .common() {
+      position: absolute;
+      left: 18px;
+      top: 82px;
+      width: 204px;
+      border: 1px solid #e4e4e4;
+      border-radius: 0px 0px 4px 4px;
+      background: #fff;
+      overflow-y: auto;
+      transition: opacity 0.2s;
+    }
+
+    .languageList {
+      .common();
+      top: 82px;
+    }
+    .currencyList {
+      .common();
+      top: 158px;
+    }
+    .arrowUp + .languageList,
+    .arrowUp + .currencyList {
+      max-height: 258px;
+      opacity: 1;
+    }
+    .arrowDown + .languageList,
+    .arrowDown + .currencyList {
+      max-height: 0px;
+      opacity: 0;
+    }
+    .selected {
+      display: flex;
+      align-items: center;
+    }
+    .languageItem {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      cursor: pointer;
+      &:hover {
+        background: #efefef;
+      }
+    }
+  }
+  .btn {
+    width: 204px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    background: #ff7700;
+    border-radius: 4px;
+  }
+  .flag {
+    width: 24px;
+  }
+  .right10 {
+    margin-right: 10px;
+  }
+  .empty {
+    width: 16px;
+    height: 16px;
+  }
+}
