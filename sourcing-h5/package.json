@@ -1,0 +1,66 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi generate tmp",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage",
+    "i18n-generate": "i18n-util --type generateDevLang --inputPath public/lang/local --watch",
+    "reportWorlds:master": "i18n-util --type push --env master",
+    "reportWorlds:release": "i18n-util --type push --env release",
+    "reportWorlds:prod": "i18n-util --type push --env prod",
+    "pullWorlds:master": "i18n-util --type pull --env master",
+    "pullWorlds:release": "i18n-util --type pull --env release",
+    "pullWorlds:prod": "i18n-util --type pull --env prod"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/pro-layout": "^6.5.0",
+    "@cckj/i18n-util": "^0.2.7",
+    "@umijs/preset-react": "1.x",
+    "antd-mobile": "^2.3.4",
+    "axios": "^0.21.1",
+    "better-scroll": "^2.2.1",
+    "concurrently": "^6.0.1",
+    "good-storage": "^1.1.1",
+    "i18next": "^20.2.1",
+    "i18next-browser-languagedetector": "^6.1.0",
+    "js-tracking-report": "^1.0.3",
+    "postcss-plugin-px2rem": "^0.8.1",
+    "react-i18next": "^11.8.12",
+    "react-uuid": "^1.0.2",
+    "rmc-notification": "^1.0.0",
+    "umi": "^3.4.7"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "@umijs/test": "^3.4.7",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "lint-staged": "^10.0.7",
+    "prettier": "^2.2.0",
+    "react": "17.x",
+    "react-dom": "17.x",
+    "typescript": "^4.1.2",
+    "yorkie": "^2.0.0"
+  }
+}
