@@ -1,0 +1,16 @@
+// 单行文字出现省略号
+.single-ellipsis() {
+  word-break: keep-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+// 指定多行文字后出现省略号
+.multi-ellipsis(@rows: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box; /* 将对象作为弹性伸缩盒子模型显示 */
+  -webkit-line-clamp: @rows; /* 控制最多显示几行 */
+  -webkit-box-orient: vertical; /* 设置或检索伸缩盒对象的子元素的排列方式 */
+}

@@ -1,0 +1,102 @@
+@import '../../colors.less';
+@import '../../mixin.less';
+
+.title {
+  padding: 10px 5px;
+}
+
+.btns {
+  margin-left: 10px;
+}
+
+.operate {
+  padding-left: 10px;
+  height: 32px;
+  line-height: 32px;
+}
+
+.name {
+  color: @grey;
+}
+
+.hide {
+  display: none;
+}
+
+.active {
+  animation: activeAnimation 2s;
+}
+
+@keyframes activeAnimation {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: @backThemeColor;
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+.historyExpand {
+  display: flex;
+  justify-content: space-around;
+}
+
+.consumable-item {
+  display: flex;
+  background: @backColor;
+  padding-left: 10px;
+  margin-bottom: 2px;
+
+  span {
+    &:first-child {
+      flex: auto;
+      color: @grey;
+      .single-ellipsis();
+    }
+
+    &:last-child {
+      flex: 0 0 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
+.details {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  > span {
+    color: #000000d9;
+    &:last-child {
+      margin-left: 20px;
+    }
+    > span {
+      color: #666;
+    }
+  }
+}
+.progress {
+  display: flex;
+  align-items: baseline;
+  // height: 100%;
+  font-size: 24px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.endCheckFace {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}

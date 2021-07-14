@@ -1,0 +1,103 @@
+@import '../../colors.less';
+.paddingContent {
+  padding: 20px;
+}
+
+[data-theme='compact'] .customCollapse .customPanel,
+.customCollapse .customPanel {
+  background: @backThemeColor;
+  border-radius: 2px;
+  margin-bottom: 24px;
+  border: 0px;
+  overflow: hidden;
+}
+
+// 折叠header样式
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .title {
+    width: 200px;
+    flex: none;
+  }
+
+  .content {
+    flex: 1;
+    text-align: right;
+    padding-right: 110px;
+    > span {
+      display: inline-block;
+      text-align: center;
+    }
+    > span.spanOne {
+      width: auto;
+      padding: 0 15px;
+      > span.colorGreen {
+        color: #a6e22e;
+        font-weight: bold;
+      }
+      > span.colorRed {
+        color: #ff4d4f;
+        font-weight: bold;
+      }
+    }
+    > span.spanTwo {
+      width: auto;
+    }
+  }
+}
+
+// 折叠详情
+.detail {
+  width: 100%;
+  height: 120px;
+  padding: 30px 20px 0 20px;
+  border-top: 1px solid #ccc;
+  > div.descript {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    color: #666666;
+    > p {
+      > span {
+        color: #989898;
+      }
+    }
+    .rule {
+      flex: 3;
+    }
+    .firstPrecedence {
+      flex: 1;
+    }
+    .specialCustomer {
+      width: 150px;
+      flex: none;
+    }
+    .customerName {
+      flex: 1;
+      display: flex;
+      .textName {
+        display: inline-block;
+        max-width: 400px;
+        height: 22px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #666666;
+      }
+    }
+  }
+}
+.operateAction {
+  position: absolute;
+  right: 20px;
+  top: 12px;
+  > .edit {
+    margin-right: 20px;
+  }
+}
+.labelSpan {
+  background: #ccc;
+  padding: 0 30px;
+}

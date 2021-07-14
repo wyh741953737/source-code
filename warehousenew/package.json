@@ -1,0 +1,75 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "npm run authUpload:test && umi dev ANALYZE=1",
+    "build": "npm run authUpload:test && umi build ANALYZE=1",
+    "build:pro": "npm run authUpload:production && cross-env UMI_ENV=production umi build ANALYZE=1",
+    "postinstall": "umi generate tmp",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage",
+    "authUpload:test": "authority --upload --ts --env=test",
+    "authUpload:release": "authority --upload --ts --env=release",
+    "authUpload:production": "authority --upload --ts --env=production"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.2.2",
+    "@ant-design/pro-layout": "^5.0.12",
+    "@cckj/cj-authority": "^2.0.14",
+    "@types/classnames": "^2.2.10",
+    "@types/crypto-js": "^3.1.47",
+    "@types/js-md5": "^0.4.2",
+    "@types/mockjs": "^1.0.3",
+    "@types/react-custom-scrollbars": "^4.0.7",
+    "@types/redux-logger": "^3.0.8",
+    "@types/uuid": "^8.3.0",
+    "@umijs/plugin-qiankun": "^2.20.0",
+    "@umijs/preset-react": "1.x",
+    "@umijs/test": "^3.2.19",
+    "antd": "4.10.0",
+    "axios": "^0.20.0",
+    "classnames": "^2.2.6",
+    "copy-to-clipboard": "^3.3.1",
+    "dexie": "^3.0.2",
+    "file-saver": "^2.0.5",
+    "immutable": "^4.0.0-rc.12",
+    "js-base64": "^3.4.5",
+    "js-md5": "^0.7.3",
+    "jszip": "^3.6.0",
+    "lint-staged": "^10.0.7",
+    "mobx": "^5.15.6",
+    "mobx-react": "^6.3.0",
+    "mockjs": "^1.1.0",
+    "moment": "^2.28.0",
+    "prettier": "^1.19.1",
+    "qs": "^6.9.4",
+    "react": "^16.12.0",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^16.12.0",
+    "react-to-print": "^2.11.0",
+    "redux-logger": "^3.0.6",
+    "umi": "^3.2.19",
+    "uuid": "^8.3.0",
+    "xlsx": "^0.16.6",
+    "yorkie": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.3",
+    "cross-env": "^7.0.3",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "file-loader": "^6.2.0",
+    "redux-devtools-extension": "^2.13.8"
+  }
+}

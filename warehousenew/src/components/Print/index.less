@@ -1,0 +1,39 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+
+  > span {
+    &:first-child {
+      flex: auto;
+      padding-right: 20px;
+      .single-ellipsis;
+    }
+
+    &:last-child {
+      flex: 0 60px;
+    }
+  }
+
+  .title {
+    margin-left: 10px;
+    font-size: 16px;
+  }
+
+  .message {
+    font-size: 12px;
+    margin-left: 5px;
+    color: gray;
+  }
+}
+
+.download {
+  padding: 0 5px;
+}
+
+// 单行文字出现省略号
+.single-ellipsis() {
+  word-break: keep-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

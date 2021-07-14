@@ -1,0 +1,71 @@
+@import '../../colors.less';
+.breadcrumb-view {
+  background: @backColor;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+
+  .head {
+    flex: 0 0 50px;
+    padding: 10px 15px;
+    background: white;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+    z-index: 1;
+    display: flex;
+
+    :global {
+      .ant-breadcrumb {
+        flex: auto;
+        line-height: 32px;
+      }
+    }
+
+    .warehouse {
+      flex: 0 0 230px;
+      margin-bottom: 0;
+    }
+    .user {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: black;
+      right: 0;
+      position: absolute;
+      padding-right: 32px;
+      > img {
+        width: 28px;
+        height: 28px;
+        border-radius: 28px;
+        margin: 0 10px;
+        border: none;
+      }
+    }
+  }
+
+  .body {
+    flex: auto;
+    overflow: auto;
+    .breadCrumb {
+      padding: 15px;
+      background: white;
+      font-size: 18px;
+      h4 {
+        padding-top: 10px;
+        font-weight: bold;
+      }
+    }
+    .container {
+      margin: 15px;
+      background: white;
+      min-height: 500px;
+      // height: 100%;
+      box-shadow: 1px 1px 4px @borderColor;
+      :global {
+        .ant-skeleton {
+          padding: 15px;
+        }
+      }
+    }
+  }
+}

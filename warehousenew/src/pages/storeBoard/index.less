@@ -1,0 +1,46 @@
+@import '../../colors.less';
+
+.store-board {
+  :global(.ant-tabs-nav-list) {
+    padding-left: 30px;
+  }
+}
+
+.table-title {
+  &-item {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 20px;
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      bottom: 3px;
+      right: 0;
+      width: 2px;
+      background: @borderColor;
+    }
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      &:after {
+        width: 0;
+      }
+    }
+
+    &-name {
+      color: @grey;
+    }
+
+    &-value {
+      font-weight: bold;
+      color: green;
+    }
+  }
+}

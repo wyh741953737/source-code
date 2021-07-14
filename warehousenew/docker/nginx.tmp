@@ -1,0 +1,52 @@
+worker_processes  2;
+
+events {
+    # 每个进程的最大并发数
+    worker_connections  1024;
+}
+
+http {
+
+    include            mime.types;
+    default_type       application/octet-stream;
+    sendfile           on;
+    keepalive_timeout  65;
+
+    # 配置一个服务
+    server {
+
+	# 监听的端口
+        listen 80;
+
+	# 虚拟主机名称(一般为域名)
+        server_name  localhost;
+
+	# 配置资源的本地路径，以及缺省路由自动默认响应文件
+        location / {
+          # if ($http_user_agent ~* "^(.*android.*)|(.*iphone.*)|(.*windows phone.*)|(.*iPad.*)$") {
+          #   root   /usr/share/nginx/www/m;
+          # }
+          root   /usr/share/nginx/www;
+          index  index.html index.htm;
+
+          try_files $uri $uri/ CONTEXT_PATH;
+        }
+
+        location /app {
+            proxy_pass http://erp.test.com;
+        }
+        location /payOrder {
+            proxy_pass http://erp.test.com;
+        }
+        location /cujiaLogisticsAdmin {
+            proxy_pass http://192.168.5.197:8057;
+        }
+        location /storehouse-sign-web {
+            proxy_pass http://master.storehouse-sign-web.cj.com;
+        }
+        location /storehouse {
+            proxy_pass http://master.storehouseweb.cj.com;
+        }
+
+    }
+}
