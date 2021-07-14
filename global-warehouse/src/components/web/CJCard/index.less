@@ -1,0 +1,203 @@
+.card {
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+
+  .content {
+    position: relative;
+    padding: 4px;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+    border: 1px solid transparent;
+    .publish {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      z-index: 1;
+      border-top: 12px solid #ff7700;
+      border-right: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-left: 12px solid #ff7700;
+      .icon {
+        font-size: 10px;
+        color: #fff;
+        display: inline-block;
+        transform: scale(1.1);
+        position: relative;
+        left: -9px;
+        top: -16px;
+      }
+    }
+    .warp {
+      width: 179px;
+      height: 179px;
+      overflow: hidden;
+      position: relative;
+      .image {
+        width: 100%;
+        height: 100%;
+        -webkit-transition: -webkit-transform 0.3s;
+        -moz-transition: -moz-transform 0.3s;
+        -o-transition: -o-transform 0.3s;
+        transition: transform 0.3s;
+      }
+      .radio {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        line-height: 1;
+        font-size: 30px;
+        transform: translate(-50%, -50%);
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+      }
+    }
+    .moveBox {
+      position: relative;
+      background-color: white;
+      -webkit-transition: -webkit-transform 0.3s;
+      -moz-transition: -moz-transform 0.3s;
+      -o-transition: -o-transform 0.3s;
+      transition: transform 0.3s;
+      .description {
+        width: 179px;
+        height: 40px;
+        margin: 8px 0 20px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        color: #333;
+        font-size: 14px;
+        font-weight: 400px;
+        line-height: 20px;
+      }
+      .description:hover {
+        color: #ff7700;
+      }
+      .lists {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 19px;
+        .count {
+          margin-right: 6px;
+          font-size: 12px;
+          color: #999999;
+        }
+        .icon {
+          flex: 1;
+          .cardImg {
+            max-width: 21px;
+            max-height: 19px;
+          }
+          .freeImg {
+            max-width: 14px;
+            max-height: 14px;
+            margin-right: 4px;
+          }
+        }
+        .collect {
+          .collectImg {
+            width: 15px;
+            height: 15px;
+          }
+        }
+      }
+      .salePrice {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        margin-top: 9px;
+        .nowPrice {
+          margin-right: 5px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #333;
+        }
+        .oldProce {
+          font-size: 10px;
+          color: #999999;
+        }
+      }
+      .viewInventory {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        .inventory {
+          height: 24px;
+          color: #ff7700;
+          line-height: 10px;
+          padding: 2px 3px;
+          border-radius: 4px;
+          border: 1px solid #ff7700;
+        }
+        .inventory:hover {
+          background: #ffe7e7;
+        }
+        .listBtn {
+          padding: 2px 15px;
+          font-size: 14px;
+          color: #fff;
+          background: #ff7700;
+          border-radius: 4px;
+        }
+        .listBtn:hover {
+          background: #ff9900;
+        }
+      }
+      .addQueue {
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        transform: translateY(100%);
+        line-height: 30px;
+        font-size: 14px;
+        color: #fff;
+        text-align: center;
+        background: #ff7700;
+        border-radius: 4px;
+        .queueIcon {
+          margin-right: 4px;
+          font-size: 14px;
+        }
+      }
+      .addQueue:hover {
+        background: #ff9900;
+      }
+    }
+  }
+  .listed {
+    border-color: #ff7700;
+  }
+  .content:hover {
+    height: 341px;
+    border: 1px solid #ff7700;
+
+    .warp {
+      overflow: hidden;
+      .image {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+      }
+    }
+    .moveBox {
+      transform: translateY(-40px);
+      .lists {
+        .collect {
+          color: #ff7700;
+        }
+      }
+    }
+  }
+}

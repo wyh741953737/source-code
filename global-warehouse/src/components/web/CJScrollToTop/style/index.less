@@ -1,0 +1,40 @@
+.toTop {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 160px;
+  right: 24px;
+  z-index: 1000;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.4s;
+
+  :global {
+    .toTopIcon {
+      font-size: 20px;
+      color: #999;
+      font-weight: 900;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.toTopShow {
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.4s;
+  &:hover {
+    background: #f3f3f3;
+    :global {
+      .toTopIcon {
+        color: #666;
+      }
+    }
+  }
+}

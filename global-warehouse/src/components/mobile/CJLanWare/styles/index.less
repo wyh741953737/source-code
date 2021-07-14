@@ -1,0 +1,128 @@
+.language_currency {
+  display: inline-block;
+}
+.mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: rgba(0, 0, 0, 0.3);
+}
+.lan_cur_list {
+  user-select: none;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 999;
+  transition: all ease 0.2s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  &.show {
+    top: 0;
+    opacity: 1;
+  }
+  &.hide {
+    top: 100%;
+    opacity: 0;
+    background: transparent;
+  }
+}
+.menus {
+  background: #fff;
+  width: 100%;
+  height: calc(100% - 44px);
+  display: flex;
+  flex-direction: column;
+  .menu_title {
+    height: 46px;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .title_text {
+    font-size: 16px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #333333;
+  }
+  .close_btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 8px;
+  }
+  .close_icon {
+    font-size: 14px;
+    color: #999;
+  }
+}
+.tabs {
+  flex: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e9e9e9;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ff7700;
+    transition: left ease 0.2s;
+    bottom: 12px;
+  }
+  &.tab_1 {
+    &::after {
+      left: calc(25% - 20px);
+    }
+  }
+  &.tab_2 {
+    &::after {
+      left: calc(75% - 20px);
+    }
+  }
+  .each_tab {
+    width: 50%;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    flex: none;
+    color: #666666;
+    &.active {
+      color: #333333;
+    }
+  }
+}
+
+.flg_list {
+  flex: auto;
+  .flg_item {
+    height: 50px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eeeeee;
+    .item_left {
+      flex: auto;
+    }
+    .item_right {
+      flex: none;
+    }
+  }
+}
