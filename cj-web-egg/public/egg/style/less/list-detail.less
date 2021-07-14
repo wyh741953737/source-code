@@ -1,0 +1,120 @@
+.contact-details-box{
+  display: none !important;
+}
+.list-warp {
+  min-height: calc(100% - 176px);
+  .content {
+    width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 25px;
+  }
+  .swiper-list-detail-banner{
+    .swiper-wrapper {
+      transition-timing-function: ease;
+    }
+    .swiper-button-next, .swiper-button-prev {
+      background-color: #000;
+      opacity: 0;
+      width: 30px;
+      height: 50px;
+      cursor: pointer;
+      &::after {
+        display: none;
+      }
+    }
+    
+    &:hover .swiper-button-prev, &:hover .swiper-button-next {
+      opacity: .4;
+      transition: .3s;
+      /*display: block;*/
+    }
+    
+    .swiper-button-next:hover, .swiper-button-prev:hover {
+      opacity: 1 !important;
+    }
+    
+    .swiper-button-prev {
+      left: 0;
+      border-radius: 0 2px 2px 0;
+      background: url('/egg/image/list-detail/prev_icon.svg') center center / cover;
+    }
+    
+    .swiper-button-next {
+      right: 0;
+      border-radius: 2px 0 0 2px;
+      background: url('/egg/image/list-detail/next_icon.svg') center center / cover;
+    }
+    
+    .swiper-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 20px!important;
+    }
+    
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      border: 2px solid #DEDEDE;
+      margin: 0 6px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all .8s;
+      -moz-transition: all .8s;
+      -webkit-transition: all .8s;
+      background-color: transparent;
+    }
+    
+    .swiper-pagination-bullet-active {
+      background: rgba(255, 255, 255, 1);
+      background-clip: content-box;
+      border: none;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+    }
+    .swiper-slide a.islink:hover{
+      cursor: pointer;
+    }
+    .swiper-slide a.unlink:hover{
+      cursor:default
+    }
+    &.shop{
+      max-height: 250px;
+    }
+  
+  }
+}
+.list-search-result {
+  margin: 12px 16px 0 16px;
+  color: #999;
+  line-height: 1;
+  font-size: 14px;
+  div {
+    word-break: break-all;
+  }
+}
+.other-list {
+  position: relative;
+  .tab-header {
+    margin-bottom: -12px;
+    left: 0;
+    width: 100%;
+    background: #f2f2f2;
+    > div {
+      width: 1200px;
+      margin: 0 auto;
+    }
+    &.fixed {
+      position: fixed;
+      z-index: 2;
+      top: 78px;
+    }
+  }
+  h1 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #333333;
+    line-height: 33px;
+    padding: 16px;
+    text-align: center;
+  }
+}

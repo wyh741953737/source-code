@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%;">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<script src="/static/js/public/jquery-3.0.0.min.js"></script>
+	<script src="/static/angular-1.5.8/angular.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" href="./css/shopify-design-phone.css">
+	<!-- <script src="dist/angular-popups.js"></script> -->
+	<script src="/static/layer/layer.js"></script>
+	<title>Document</title>
+</head>
+
+<body ng-app="app" ng-controller="shopifyphone" style="height: 100%;">
+	<designframe-shopifym parentctrl="parentctrl"></designframe-shopifym>
+</body>
+<script src="/static/js/public/base64.min.js"></script>
+<script src="/static/js/public/config.js"></script>
+<script src="/static/js/public/common.js"></script>
+<script>
+	var app = angular.module('app', ['service','cjCompnentModule']);
+	// 创建组件模块
+	angular.module('cjCompnentModule', []);
+	app.controller('shopifyphone', ['$scope','dsp', function ($scope,dsp) {
+		$scope.parentctrl = 'shopifym';
+		window.addEventListener('message', function (event) {
+			var flag = event.data.flag;
+			if (flag == 'gotdata') {
+				$scope.$broadcast('mdata',event.data.data);
+			}
+		})
+	}])
+</script>
+<script src="/static/components/design_frame2/design_frame.js"></script>
+<script src="./js/fabric.min.js"></script>
+<!-- cj 通用工具库 [上传图到OSS、播放视频、md5、base64、uuid] -->
+<script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+
+</html>

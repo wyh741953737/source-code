@@ -1,0 +1,190 @@
+<div class="mycj-home-box child-order" id="child-order">
+  <!--右侧内容-->
+  <div class="mycj-right-wrap" ng-class="{vip:vip == '1'}">
+    <div class="mycj-right-bar" style="margin-top: 0;">
+      <!--搜索部分-->
+      <div class="search-bar mb-2 w-100">
+        <div class="left-box">
+          <!--<a class="back" ng-href="{{'#/use-order/'+type}}">〈 Back</a>-->
+          <a class="back" ng-click="back()">〈 Back</a>
+          <span class="data-info">CJ order number:<span>{{orderNo}}</span></span>
+          <span class="data-info">{{title}}<span>{{num}}</span></span>
+        </div>
+        <div class="right-box">
+          <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="From">
+          -
+          <input id="cj-etime" class="Wdate data-inp" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="Now" readonly="">
+          <div>
+            <input type="text" placeholder="输入产品订单号" class="search-inp" ng-model="inputStr"
+              ng-keyup="enterSearch($event)">
+            <button class="search-btn btn-theme" ng-click="searchPro()">Search</button>
+          </div>
+        </div>
+      </div>
+      <!--table-->
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>CJ order number</th>
+              <th>Time</th>
+              <th>Store</th>
+              <th>Tracking number</th>
+              <th>Shipping info</th>
+              <th>Shipping method</th>
+              <th>Shipping Cost($)</th>
+              <th>Item quantity</th>
+              <!--<th>CJ产品成本($)</th>-->
+              <th>Amount($)</th>
+              <th>Packing quantity</th>
+              <th>Total amount($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(index,item) in dataList">
+              <td>{{item.ID}}</td>
+              <td>{{item.createDate | date:'yyyy-MM-dd'}}</td>
+              <td>{{item.STORE_NAME}}</td>
+              <td>{{item.TRACKINGNUMBER}}</td>
+              <td>{{item.SHIPPING_ADDRESS + item.shippingAddress2}}</td>
+              <td>{{item.LOGISTICSMODE}}</td>
+              <td>{{item.POSTAGE}}</td>
+              <td>{{item.ORDERNUM}}</td>
+              <!--<td>{{item.purchasePrice}}</td>-->
+              <td>{{item.SELLPRICE}}</td>
+              <td>{{item.num}}</td>
+              <td>{{item.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- page -->
+        <div class="asj-page-box" ng-show="dataList.length > 0" ng-cloak>
+          <div class="select-page-num">
+            <select class="form-control notranslate" ng-model="pageSize" ng-change="chanPageSize()">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <span>per page</span>
+          </div>
+          <div class="total-num">
+            {{totalNum}} Records Found
+          </div>
+          <div class="page-index">
+          </div>
+          <div class="to-go">
+            <span>Showing：</span>
+            <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+            <span>of {{totalNum}}</span>
+            <a class="btn btn-default" role="button" ng-click="chanPageNum()">Go</a>
+          </div>
+        </div>
+        <!--no-data-->
+        <div class="no-data" ng-show="dataList.length == 0" style="margin-top: 60px;text-align: center;">
+          <img src="./static/image/public-img/nodata_new.png">
+          <p style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">Sorry, The data is not
+            found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  #child-order .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #child-order .search-bar .right-box {
+    display: flex;
+    align-items: center;
+  }
+
+  #child-order .search-bar .Wdate {
+    width: 120px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 2px;
+    border: 1px solid rgba(224, 224, 224, 1);
+    margin: 0 10px;
+    font-size: 12px;
+  }
+
+  #child-order .search-bar .back {
+    font-size: 16px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+    cursor: pointer;
+  }
+
+  #child-order .data-info {
+    display: inline-block;
+    margin-left: 30px;
+    font-size: 16px;
+  }
+
+  #child-order .data-info span {
+    color: #DDA863;
+    margin-left: 5px;
+  }
+
+  #child-order table {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  #child-order .vip table th {
+    color: rgba(243, 219, 165, 1);
+  }
+
+  #child-order table th,
+  td {
+    border-right: none !important;
+    text-align: center;
+  }
+
+  #child-order table .img {
+    position: relative;
+  }
+
+  #child-order table .big {
+    position: absolute;
+    top: -90px;
+  }
+
+  #child-order table td {
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    padding: 10px 0;
+  }
+
+  #child-order table td a {
+    color: #DDA863;
+  }
+
+  #child-order table tbody tr {
+    border: 1px solid #F3F3F3;
+  }
+
+  #child-order table tbody tr .operating button {
+    /*box-shadow:0px -1px 3px 0px rgba(170,166,166,0.5);*/
+    border-radius: 4px;
+    border: 1px solid rgba(193, 193, 193, 1);
+    font-size: 14px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+    padding: 5px 10px;
+  }
+
+  .no-data {
+    text-align: center;
+  }
+</style>

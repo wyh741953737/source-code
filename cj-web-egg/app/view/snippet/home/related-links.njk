@@ -1,0 +1,123 @@
+<style>
+  .contact-details-box {
+    background-color: #40424C;
+    margin-top: 43px;
+    /* border-bottom: 1px solid rgba(255, 255, 255, .05); */
+  }
+  
+  .contact-details-box .content {
+    /* height: 63px;
+    display: flex;
+    align-items: center;
+    justify-content: center; */
+    color: #fff;
+    font-size: 14px;
+    /* width:1200px;
+    margin:0 auto; */
+  }
+  
+  .contact-details-box .item {
+    /* margin-right: 80px; */
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .contact-details-box .iconfont {
+    margin-right: 16px !important;
+    color: #fff;
+  }
+  .contact-details-box .foot-link-hover:hover {
+    color: #ff7700 !important;
+  }
+  .contact-details-box .foot-link-hover:hover .iconfont{
+    color: #ff7700 !important;
+  }
+  .contact-details-box .foot-link-hover:hover a{
+    color: #ff7700 !important;
+  }
+</style>
+<div class="related-links">
+  <div class="container-main d-flex" style="padding-top: 15px;">
+    <div class="links-box flex-fill d-flex" id="vue-related-links" v-cjdot cjdotshow='{"pageCode":"home", "eventType": 0, "buttonName": "首页底部链接","buttonType": 0}'>
+      <div v-if="!relatedLinksList.length" class="flex-fill d-flex">
+        {% for item in relatedLinks %}
+        {% if loop.index0 < 2 %}
+        <div class="links-item">
+          <h3>{{ item.title }}</h3>
+          {% for link in item.list %}
+          <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "{{link.title}}","buttonType": "0"}' href="{{ link.href }}" target="{{ link.target or '_blank' }}">{{ link.title | safe }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if loop.index0 == 2 %}
+        <div>
+          {% for item1 in item%}
+          {% set rightClass = 'links-top' %}
+          {% if loop.index0 == 1 %}
+          {% set rightClass = 'links-top links-bottom' %}
+          {% endif %}
+          <div class="{{rightClass}}">
+            {% for ele in item1 %}
+            <div class="links-item">
+              <h3>{{ ele.title }}</h3>
+              {% for link in ele.list %}
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "{{link.title}}","buttonType": "0"}' href="{{ link.href }}" target="{{ link.target or '_blank' }}">{{ link.title | safe }}</a>
+              {% endfor %}
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div v-else class="flex-fill d-flex">
+        <div v-for="(item, idx) in relatedLinksList">
+          <div v-if="idx < 2" class="links-item">
+            <h3>${ item.title }</h3>
+            <a v-for="link in item.list" v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": `${link.title}`,"buttonType": "0"}' v-bind:href="link.href | getTitleHref" target="_blank">${ link.title }</a>
+          </div>
+          <div v-if="idx === 2">
+            <div v-for="(item1, index) in item" :class="{'links-bottom': index === 1}" class="links-top">
+              <div v-for="ele in item1" class="links-item">
+                <h3>${ ele.title }</h3>
+                <a v-for="link in ele.list" v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": `${link.title}`,"buttonType": "0"}' v-bind:href="link.href | getTitleHref" target="_blank">${ link.title }</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <div class="qr-code" id="vue-qr-code">
+      <div class="scribe-btn" v-if="!logined" style="margin-bottom: 22px;" @click="subscribe"  v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Subscribe to our latest niches","buttonType": 0}'>
+        {{ i18next.t('footer-subscribe-to-our-latest-niches') }}
+      </div>
+      <div class="QRtext">{{ i18next.t('footer-scan-the-qr-code-to-download-cjdropshipping-for-mobile') }}</div>
+      <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "download CJDropshipping for Mobile","buttonType": "0"}' 
+       target="_blank" style="display: flex;justify-content: center;" href="https://app.cjdropshipping.com/cj_apk">
+        <img width="116" height="116" class="Code" src="/static/image/new-home/QR_code.png" alt="">
+      </a>
+    </div>
+    <div class="contact-details-box">
+      <div class="content">
+        <div class="" style="width: 280px;">
+          <a href="https://wa.me/8618067627100" class="iconfont iconwhatsapp foot-link-hover" target="_blank"></a>
+          <a href="https://www.facebook.com/cjdropshipping" class="iconfont iconFacebook foot-link-hover" target="_blank"></a>
+          <a href="https://twitter.com/cjdropshipping" class="iconfont icontuite foot-link-hover" target="_blank"></a>
+          <a href="https://www.youtube.com/channel/UC2Ac78gdQmqd_QgN978nOTw" class="iconfont iconyoutobe foot-link-hover" target="_blank"></a>
+          <a href="https://www.linkedin.com/in/andy-chou-58979591/" class="iconfont iconlinkdln foot-link-hover" target="_blank"></a>
+          <a href="https://www.pinterest.com/cjdropship" class="iconfont iconpinterest foot-link-hover" target="_blank"></a>
+          <a href="https://www.instagram.com/cjdropship/" class="iconfont iconinstagram foot-link-hover" target="_blank"></a>
+        </div>
+        <!-- <div class="item foot-link-hover"><i class="iconfont icondianhua" style="margin-right:10px;"></i><a href="tel:1(708)888-1326" style="color:#fff;">1（708）888-1326</a></div> -->
+        <!-- <div class="item foot-link-hover"><i class="iconfont iconyouxiang"  style="margin-right:10px;"></i><a href="mailto:support@cjdropshipping.com" style="color:#fff;">support@cjdropshipping.com</a></div> -->
+      </div>
+    </div>
+    </div>
+    
+  </div>
+</div>
+<script src="{{ PUBLIC_SCRIPT + '/footer-link.js' | VERSION }}"></script>

@@ -1,0 +1,276 @@
+<style>
+  .pos-relative {
+    /* position: relative; */
+  }
+  .if-un-login {
+    width: calc(100% - 40px);
+    height: 400px;
+    background: url(static/image/product-img/maoboli.png) 0 0 no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .if-un-login-content {
+    width: 200px;
+    height: 200px;
+    background: url(static/image/product-img/unlogin.png) -8px 0 no-repeat;
+    background-size: 200px 200px;
+  }
+  .if-un-login-tips {
+    padding: 4px 0 16px;
+    color: #666;
+    font-size: 14px;
+  }
+  .if-un-login-btn {
+    padding: 0 60px;
+    height: 36px;
+    line-height: 36px;
+    background: linear-gradient(270deg,rgba(249,145,42,1) 0%,rgba(250,100,0,1) 100%);
+    box-shadow: 0px 8px 14px -6px rgb(250 100 0);
+    cursor: pointer;
+    border-radius: 4px;
+    color: #fff;
+    user-select: none;
+  }
+  .if-un-login-btn:hover {
+    background: #ff7700;
+  }
+  
+  [ng-cloak] {
+    display: none;
+  }
+</style>
+
+<div class="pd-mid-info" id="moreMerchant">
+  <ul class="tabul justified clearfix">
+    <li ng-class="{actLi:isDescription}" ng-if="productType!='1'" ng-click="Description('Description')">
+      <span>Description</span>
+    </li>
+    <!-- productType 0: 正常商品， 3：包装商品， 7： 个性商品 -->
+    <li ng-class="{actLi:model}" ng-if="productType=='0'||productType=='3'||productType=='7'"
+      ng-click="Description('model')">
+      <span ng-if="consultingCount <= 99">Comment ({{ consultingCount }})</span>
+      <span ng-if="consultingCount > 99 && consultingCount < 999">Comment (99+)</span>
+      <span ng-if="consultingCount > 999">Comment (999+)</span>
+    </li>
+    <li ng-class="{actLi:isAdsSuggestion}" ng-if="xiaoShouJianYi" ng-click="Description('AdsSuggestion')">
+      <span>Ads Suggestion</span>
+    </li>
+    <li ng-class="{actLi:showReviews}" ng-click="Description('showReviews')">
+      <span ng-if="commentCount <= 1">Review ({{commentCount}})</span>
+      <span ng-if="commentCount > 1 && commentCount <=  99">Reviews ({{commentCount}})</span>
+      <span ng-if="commentCount > 99 && commentCount <= 999">Reviews (99+)</span>
+      <span ng-if="commentCount > 999">Reviews (999+)</span>
+    </li>
+  </ul>
+
+  <!-- Description: -->
+  <div ng-show="isDescription" style="margin-top: 10px;" class="pd-des-p">
+    <!--<span>Description: </span>-->
+    
+    <div class="pd-new-desc info-box">
+      <p class="title">Important Information:</p>
+      <div class="content">
+        <span class="content-label">Material:</span>
+        <span style="font-weight: unset !important;color: #333333;">
+          {{materialStr}}
+          </span>
+        </span>
+      </div>
+      <div ng-if="pageSizeList.length > 0">
+        <p style="font-size: 12px;color: rgba(51,51,51,1);font-weight: 600;font-family: PingFangSC-Semibold;">Package Size:</p>
+        <div class="pagesize-list-box">
+          <div class="pagesize-list-img" ng-show="pageSizeListAll.length > 7">
+            <img ng-if="!showMoreSize" ng-click="handleShowMore(true);" src="static/image/arrow/arrow-right.png" style="width: 16px; height: 17px;" alt="">
+            <img ng-if="showMoreSize" ng-click="handleShowMore(false)" src="static/image/arrow/arrow-down.png" style="width: 16px; height: 17px;" alt="">
+          </div>
+          <div class="pagesize-list-box-item" ng-repeat="item in pageSizeList">
+            {{item.long}} x {{item.width}} x {{item.height}} mm
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="pd-description" ng-cloak data-ng-bind-html="merchDesc" style="overflow: hidden;"></div>
+  </div>
+  <!-- Product counseling: -->
+  <div ng-cloak ng-show="!isDescription && !isAdsSuggestion" style="margin:10px 20px 0;" class="pd-des-p">
+    <!-- 商品咨询 -->
+    <div class="new-comment-box" ng-show="model">
+      <div class="new-comment-main">
+        <div class="new-comment-edit-before" ng-show="!showEdit" ng-cloak>
+          <input type="text" class="before-edit" placeholder="Leave a comment here. Your feedback is critical for our improvement. " ng-focus="handleFocusInput('review')" />
+          <button class="confirm-btn btn-not">Submit</button>
+        </div>
+        <div class="new-comment-edit" ng-show="showEdit" ng-cloak>
+          <div class="new-comment-edit-text-box">
+            <textarea 
+              ng-model="commentText" 
+              ng-change="handleCommentChange(commentText, 'review')"
+              ng-blur="handleBlurInput()"
+              id="new-comment-edit-text"  
+              class="new-comment-edit-text" 
+              placeholder="Leave a comment here. Your feedback is critical for our improvement. "
+            ></textarea>
+            <div class="rate-info">
+              <span style="color: #F34541;">*</span>
+              <span class="label">Rating:</span>
+              <div class="rate">
+                <rate rate-number="rateStar" read-only="false" from="textarea" ng-if="showEdit"></rate>
+              </div>
+              <span class="text-num notranslate" ng-class="{'notAllow': textNumber > 500}">{{textNumber}}/500</span>
+            </div>
+          </div>
+          <button class="confirm-btn" ng-class="{'btn-not': notSubmit}" ng-click="handleSubmitComments('problem')">Submit</button>
+        </div>
+        <div class="new-comment-review">
+          <div class="review-list reply-bottom" ng-repeat="(key, item) in productList.list" id="review-list{{key}}">
+            <div class="customer-review">
+              <div class="customer-top" id="customer-top{{key}}">
+                <div class="customer-avatar">
+                  <img ng-show="item.head" ng-src="{{item.head}}" alt="">
+                  <p class="user-head-firname" ng-show="!item.head">{{item.imageName}}</p>
+                </div>
+                <div class="customer-info">
+                  <div class="customer-name info-item customer-font">{{item.user_name}}</div>
+                  <div class="customer-rate info-item">
+                    <rate read-only="true" rate-number="item.score"></rate>
+                  </div>
+                </div>
+              </div>
+              <div class="customer-bottom">
+                <div class="customer-evaluation customer-font">{{item.content}}</div>
+                <div class="evalution-date">
+                  <span>{{item.craete_time}}</span>
+                  <span class="del" ng-if="item.isDeleted == 1" ng-click="del(item, $event, 'params')">
+                    <i class="iconfont iconshanchu delIcon"></i>
+                    Delete
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="cj-reply-box" ng-show="item.replyList && item.replyList.length > 0">
+              <div class="cj-reply">
+                <div class="customer-top" ng-repeat="(i, child) in item.replyList" ng-class="{'reply-top': i !== 0, 'reply-bottom': i <  item.replyList.length - 1 }">
+                  <div class="customer-avatar">
+                    <img ng-show="child.head" ng-src="{{child.head}}" alt="">
+                    <p class="user-head-firname" ng-show="!child.head">{{child.imageName}}</p>
+                  </div>
+                  <div class="customer-info">
+                    <div class="customer-name info-item customer-font">
+                      {{child.user_name == item.user_name ? item.user_name : child.user_name}}
+                      <span class="desc">replied to</span>
+                      {{child.user_name == item.user_name ? item.replyList[i+1].user_name : item.user_name}}
+                      :
+                    </div>
+                    <div class="customer-evaluation customer-font">{{child.content}}</div>
+                    <!-- cj回复的图片 -->
+                    <div class="customer-evaluation-img">
+                      <img 
+                        ng-src="{{img}}" 
+                        class="cj-reply-img" 
+                        alt="" 
+                        ng-repeat="img in child.imageList track by $index"
+                        ng-click="handleClickImg($index, child.imageList)"
+                        >
+                    </div>
+                    <div class="evalution-date">
+                      <span>{{child.craete_time | date : 'yyyy-MM-dd HH:mm'}}</span>
+                      <span class="del reply" ng-if="child.isReplay == 1" ng-click="handleShowReply(child)" ng-class="{'replied': replyItem == child}">
+                        <i class="iconfont iconchat replyIcon" ng-class="{'replied': replyItem == child}"></i>
+                        Reply
+                      </span>
+                      <span class="del" ng-if="child.isDeleted == 1"
+                      ng-click="del(child, $event, 'child')">
+                        <i class="iconfont iconshanchu delIcon"></i>
+                        Delete
+                      </span>
+                    </div>
+                  </div>
+                  <div class="new-comment-edit-before" ng-show="!showReply && replyItem == child" style="margin-top: 10px;padding-left: 54px;" ng-cloak>
+                    <input type="text" class="before-edit reply-text" placeholder="Replying to @CJ " ng-focus="handleFocusInput('reply')" style="width: 908px;" />
+                    <button class="confirm-btn btn-not">confirm</button>
+                  </div>
+                  <div class="new-comment-edit" ng-show="showReply && replyItem == child" style="margin-top: 10px;padding-left: 54px;" ng-cloak>
+                    <div class="new-comment-edit-text-box reply-text" style="width: 908px;">
+                      <textarea 
+                        ng-model="replyText" 
+                        ng-change="handleCommentChange(replyText, 'reply')"
+                        id="new-comment-reply-text"  
+                        class="new-comment-edit-text reply-text" 
+                        placeholder="Leave your reply here."
+                        ></textarea>
+                      <div class="text-bottom">
+                        <span class="text-num notranslate" ng-class="{'notAllow': replyTextNumber > 500}" style="font-weight: unset; font-family: unset;">{{replyTextNumber}}/500</span>
+                      </div>
+                    </div>
+                    <button class="confirm-btn" ng-class="{'btn-not': replyTextNumber > 500 || replyTextNumber < 1}" ng-click="handleSubmitComments('revert', item)">Submit</button>
+                  </div>
+                </div>
+                
+                <div class="view-more" ng-show="item.reply && item.reply.length > 2 && item.viewAll" >
+                  <span class="view-more-txt" ng-click="handleViewAllReply(item, key, $event)">
+                    View all {{item.reply.length}} replies
+                    <i class="iconfont iconxiangxia downIcon"></i>
+                  </span>
+                </div>
+                <div class="view-more" ng-show="item.reply && item.reply.length > 2 && !item.viewAll" style="width: 100%; height: 28px;" id="view-more{{key}}">
+                  <div class="pack-up view-more-txt"  ng-click="handleCloseAllReply(item, key, $event)" id="pack-up{{key}}">
+                    Collapse
+                    <i class="iconfont iconicon-test1 downIcon" style="font-size: 12px;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="new-comment-no-data" ng-show="reviewNoData">
+        <img src="/static/image/new-nodata/noComments.png" alt="">
+        <p>No comment yet.</p>
+      </div>
+      <div class="pops" ng-show="delShowTips" ng-cloak>
+        <div class="pop-ups-box">
+          <h3 class="popups-title">
+            <i class="iconfont closeIcon" ng-click="handlePopClose()">&#xe70d;</i>
+          </h3>
+          <p class="popups-content">{{ TipContent }}</p>
+          <div class="bottom-btn-box">
+            <button class="close-btn" ng-click="handlePopClose()">Cancel</button>
+            <button class="confirm-btn" ng-click="handlePopConfirm()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 销售建议: -->
+  <div ng-show="isAdsSuggestion" style="margin-top: 10px;" class="pd-des-p pos-relative">
+    <!-- <i class="Views" ng-show="!hasLogin" ng-click="showMore()"></i> -->
+    <!-- <div ng-class="{isViewAdsSuggestion:isViewAds}" class="salesAdviceStyle" style="overflow: hidden; margin:10px 20px;" id="pd-xiaoShouJianYi"
+      ng-bind-html="xiaoShouJianYi">
+    </div> -->
+    <div ng-show="hasLogin" ng-class="{isViewAdsSuggestion:isViewAds}" style="overflow: hidden; margin:10px 20px;" id="pd-xiaoShouJianYi">
+      <iframe srcdoc="{{ xiaoShouJianYi }}" id="salesIframe" frameborder="0"  width="100%"></iframe>
+    </div>
+    <div ng-show="!hasLogin" class="if-un-login">
+      <div class="if-un-login-content"></div>
+      <div class="if-un-login-tips">Sign in to your account.</div>
+      <div ng-click="goTologin()" class="if-un-login-btn">Sign in</div>
+    </div>
+  </div>
+  <!-- 评论 -->
+  <div ng-show="showReviews" style="margin-top: 10px;" class="pd-des-p">
+    <product-reviews product-id="productId"></product-reviews>
+  </div>
+  <page ng-show="model && productList.list.length>0"></page>
+  <!-- CJ评论回复图片幻灯片 -->
+  <div class="replySlideshow" ng-if="replySlideshow">
+    <div class="replySwiperCloseBox" ng-click="handleCloseReplySwiper($event)">
+      <i class="iconfont iconguanbi1 replySwiperClose"></i>
+    </div>
+    <swiper-reply list="imgList" index="imgIndex"></swiper-reply>
+  </div>
+  
+</div>

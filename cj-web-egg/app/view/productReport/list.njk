@@ -1,0 +1,96 @@
+{% block title %}
+<title>Winning Products 2021 - CJdropshipping</title>
+<meta name="description" property="og:description" content="Semimonthly winning product reports provided by CJdropshipping.">
+<meta name="keywords" content="best drop shipping products, best dropshipping products, dropshipping products, winning products dropshipping, dropshipping winning products, aliexpress winning products" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+{% endblock %}
+
+{% extends "layout/base.njk" %}
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/productReport.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "snippet/common-top.njk" %}
+<!-- <span>{{params.pageNum}}</span> -->
+
+<div class="productReport">
+  <div class="_box">
+    <div class="list" id="vue-productReport">
+      <div class="recommend-item d-flex">
+        <img src="{{ topProduct.imageSrc }}" />
+
+        <div class="content d-flex">
+          <div class="tit">{{ topProduct.title }}</div>
+          <div class="con">
+            {{ topProduct.content }}
+          </div>
+
+          <div class="tools d-flex align-items-center">
+            <a href="javascript:void(0)" class="btn-start" id="reading-pdf" data-id="{{ topProduct.id }}"
+              data-pdfurl="{{ topProduct.pdfUrl }}" @click="reading('top')">Start reading</a>
+            <span class="or">or</span>
+            <a href="javascript:void(0)" class="btn-download" id="download-pdf" data-id="{{ topProduct.id }}"
+              data-pdfurl="{{ topProduct.pdfUrl }}" @click="saveReportInfo('top')">Download
+              PDF</a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="reports">
+        <ul>
+          {% for item in productReportList %}
+          <li>
+            <a href="/productReport/detail/{{ item.id }}" target="_blank"
+              @click="makePoint({ point:6, productReportId: '{{ item.id }}' })">
+              <div class="cover">
+                <img src="{{ item.imageSrc }}" alt="">
+              </div>
+              <div class="tit">{{ item.title }}</div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+
+      <!-- 提交确认弹窗 -->
+      <!-- <div class="confirm-box f-center" v-show="confirmPop">
+        <div class="confirm-main">
+          <div class="confirm-title">
+            Do you wanna sign in?
+          </div>
+          <div class="confirm-btn-box">
+            <span @click="downloadPdf()" class="btn-cus no-btn">Cancel</span>
+            <span @click="goLogin()" class="btn-cus yes-btn btn-theme">Accept</span>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+
+    {% include "../snippet/common/page.njk" %}
+
+  </div>
+
+</div>
+
+<!-- 相关链接 -->
+{% include "../snippet/home/related-links.njk" %}
+<!-- 如果底部添加了related-links，必须引入这个js,用来Subscribe to our latest niches按钮逻辑，登录不出现 -->
+<script src="{{ PUBLIC_SCRIPT + '/qr-code.js' | VERSION }}"></script>
+
+<!-- 页面js -->
+<script src="{{ PUBLIC_SCRIPT + '/productReport.js' | VERSION }}"></script>
+
+<!-- page js -->
+<script src="{{ PUBLIC_SCRIPT + '/page.js' | VERSION }}"></script>
+
+{% endblock %}

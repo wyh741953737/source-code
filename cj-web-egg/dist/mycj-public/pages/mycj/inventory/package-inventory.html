@@ -1,0 +1,506 @@
+<loading-cart top="49" left="10" right="10" ng-if="loading"></loading-cart>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_4xpltyxlc4q.css">
+<div class="mycj-home-box package-inventory" id="package-inventory">
+  <!--右侧内容-->
+  <div class="mycj-right-wrap p-3" ng-class="{vip:vip == '1'}">
+    <!--tab-->
+    <div class="top-space-bar"></div>
+    <ul class="top-taps">
+      <li class="video tab-theme"><a href="#/my-inventory">Product Inventory</a></li>
+      <li class="video tab-theme active" style="width: 230px;"><a href="#/package-inventory">Connected Packaging Inventory</a></li>
+    </ul>
+    <div class="mycj-right-bar" style="margin-top: 0;">
+      <!--搜索部分-->
+      <div class="search-bar clearfix mb-2">
+        <input type="text" placeholder="Enter Product SKU" class="search-inp" ng-model="inputStr"
+          ng-keyup="enterSearch($event)">
+        <button class="search-btn btn-theme" ng-click="searchPro()">Search</button>
+        <div class="data-info">
+          Total Value ($):<span>{{'$'+totalPrice}}</span>
+        </div>
+        <div class="data-info">
+          Replenishment Quantity:<span>{{retrievalNum}}</span>
+        </div>
+        <div class="no-inventory-product-wrap" ng-click="hideZeroProduct()">
+          <i class="iconfont is-hide-icon" ng-if="isHideZero">&#xe68a;</i>
+          <i class="iconfont is-hide-icon" ng-if="!isHideZero">&#xe786;</i>
+          <p class="no-inventory-text">Out-of-Stock Product</p>
+        </div>
+        <!--  <div class="data-info">
+            库存天数:<span>5</span>
+          </div>-->
+      </div>
+      <!--table-->
+      <div class="table">
+        <table ng-show="dataList.length>0">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Packaging</th>
+              <th>Image</th>
+              <th>Material</th>
+              <th>Store</th>
+              <th>Size(mm)</th>
+              <th>Weight(g)</th>
+              <th>Connected Products</th>
+              <th>Used</th>
+              <th>Available Inventory</th>
+              <th>Ordered Quantity</th>
+              <th>Total Value ($)</th>
+              <th style="width: 100px;">Estimated Replenishment Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(index,item) in dataList">
+              <td>{{item.SKU}}</td>
+              <td style="width: 150px;"><span class="product-name">{{item.NAMEEN}}</span></td>
+              <td class="img">
+                <img ng-mouseenter="item.isOver = true;" ng-mouseleave="item.isOver = false;" class="small" width="50"
+                  height="50" ng-src="{{item.IMG}}" alt="">
+                <img ng-show="item.isOver" class="big" width="150" height="150" ng-src="{{item.IMG}}" alt="">
+              </td>
+              <td>{{meaterial(item.PACKINGKEY)}}</td>
+              <td>{{item.NAME || '-'}}</td>
+              <td>
+                <div>Length {{size(item,'long')}}</div>
+                <div>Width {{size(item,'width')}}</div>
+                <div>Height {{size(item,'height')}}</div>
+              </td>
+              <td>{{item.WEIGHT}}</td>
+              <td>
+                <a ng-href="{{'#/related-goods/'+item.ID+'/'+item.SHOPID+'/'+item.NAME}}"
+                  ng-click="">{{item.correlationNum}}</a>
+              </td>
+              <td>
+                <a ng-href="{{'#/use-order/use/'+item.ID+'/'+item.SHOPID}}">{{item.usedPackNum}}</a>
+              </td>
+              <td>{{item.goodNum}}</td>
+              <td>
+                <a ng-href="{{'#/use-order/order/'+item.ID+'/'+item.SHOPID}}">{{item.makePackNum}}</a>
+              </td>
+              <td>{{item.totalPrice}}</td>
+              <td>
+                <a ng-click="openEchart(item)" ng-show="item.Stockout !== '未知'"> In {{item.Stockout}} days</a>
+                <a ng-click="openEchart(item)" ng-show="item.Stockout == '未知'">Unknown Time</a>
+              </td>
+              <td class="operating">
+                <button class="cursor-pointer hoverClass" ng-click="goBuy(item)">Purchase</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- page -->
+        <page ng-show="dataList.length > 0"></page>
+        <!--no-data-->
+        <div class="no-data" ng-show="dataList.length == 0" style="margin-top: 60px;text-align: center;">
+          <img src="./static/image/public-img/nodata_new.png">
+          <p style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">Sorry, we cannot find any data.
+          </p>
+          <p ng-if="isHideZero" style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">You have hidden out-of-stock products.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--图表弹窗-->
+  <div class="chart-dialog" ng-show="chartDialog" ng-cloak>
+    <div class="content">
+      <span class="close" ng-click="chartDialog = false;">×</span>
+      <div id="main" style="min-height: 350px;width: 685px;"></div>
+      <span class="tips" ng-show="stockout == '未知'">Probably out of stock in Unknown time</span>
+      <span class="tips" ng-show="stockout != '未知'">Probably out of stock in {{stockout}} days</span>
+    </div>
+  </div>
+  <!--弹窗-->
+  <div id="add-store" ng-show="addDialog" class="ng-scope">
+    <div class="ASL-content clearfix">
+      <img class="closel" ng-click="close()" width="30" src="static/image/page/close-default.png" alt="">
+
+      <img class="proimg fl" ng-src="{{additem.IMG}}" alt="">
+
+      <div class="fr" style="width: 520px;margin-left:20px ;">
+        <h3 ng-attr-title="{{additem.NAMEEN}}">{{additem.NAMEEN}}</h3>
+        <p ng-bind-html="'SKU:' + additem.SKU"></p>
+        <!-- 商品阶梯价格 -->
+        <div class="specification-price" ng-show="discountStatusFlag === 1">
+          <div class="spec">
+            <p>MOQ:</p>
+            <p>Product Price:</p>
+          </div>
+          <div class="value">
+            <div class="value-item" ng-repeat="discountPrice in discountPriceAll track by $index">
+              <p ng-if="discountPrice.highNum >= 1">{{discountPrice.lowNum}} - {{discountPrice.highNum}}</p>
+              <p ng-if="discountPrice.highNum == -1"> > {{discountPrice.lowNum}} </p>
+              <p ng-if="discountPrice.type == 1" style="color: #FF7700;font-size: 16px;">{{discountPrice.lowPrice | exchangeRate:'float:2'}}&nbsp;-&nbsp;{{discountPrice.highPrice | exchangeRate:'float:2'}}</p>
+
+              <p ng-if="discountPrice.type == 2" style="color: #FF7700;font-size: 16px;">{{discountPrice.price | exchangeRate:'float:2'}}</p>
+            </div>
+        </div>
+    </div>
+
+    <!--图表弹窗-->
+    <div class="chart-dialog" ng-show="chartDialog" ng-cloak>
+        <div class="content">
+            <span class="close" ng-click="chartDialog = false;">×</span>
+            <div id="main" style="min-height: 350px;width: 685px;"></div>
+            <span class="tips" ng-show="stockout == '未知'">Probably out of stock in Unknown time</span>
+            <span class="tips" ng-show="stockout != '未知'">Probably out of stock in {{stockout}} days</span>
+        </div>
+    </div>
+    <!--弹窗-->
+    <div id="add-store" ng-show="addDialog" class="ng-scope">
+        <div class="ASL-content clearfix">
+            <img class="closel" ng-click="close()" width="30" src="static/image/page/close-default.png" alt="">
+
+            <img class="proimg fl" ng-src="{{additem.IMG}}" alt="">
+
+            <div class="fr" style="width: 520px;margin-left:20px ;">
+                <h3 ng-attr-title="{{additem.NAMEEN}}">{{additem.NAMEEN}}</h3>
+                <p ng-bind-html="'SKU:' + additem.SKU"></p>
+                <!-- 商品阶梯价格 -->
+                <div class="specification-price" ng-show="discountStatusFlag === 1">
+                    <div class="spec">
+                        <p>MOQ:</p>
+                        <p>Product Price:</p>
+                    </div>
+                    <div class="value">
+                        <div class="value-item" ng-repeat="discountPrice in discountPriceAll track by $index">
+                            <p ng-if="discountPrice.highNum >= 1">{{discountPrice.lowNum}} -
+                                {{discountPrice.highNum}}</p>
+                            <p ng-if="discountPrice.highNum == -1"> > {{discountPrice.lowNum}} </p>
+                            <p ng-if="discountPrice.type == 1" style="color: #FF7700;font-size: 16px;">
+                                {{discountPrice.lowPrice | exchangeRate:'float:2'}}&nbsp;-&nbsp;{{discountPrice.highPrice | exchangeRate:'float:2'}}</p>
+
+                            <p ng-if="discountPrice.type == 2" style="color: #FF7700;font-size: 16px;">
+                                {{discountPrice.price | exchangeRate:'float:2'}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="varientArr.length>0">
+                    <h3>Specifications:</h3>
+                    <select name="" id="" class="varient-sel" ng-repeat="items in varientArr track by $index"
+                            ng-model="items.val"
+                            ng-change="chanVariant(items.val, $index)" index="{{ $index }}">
+                        <option value="{{ item }}" ng-repeat="item in items.key track by $index">{{ item }}</option>
+                    </select>
+                </div>
+                <div class="clearfix">
+                    <h3>Quantilty:</h3>
+                    <div class="commodity fl clearfix">
+                        <div class="iteminner clearfix">
+                            <span class="minus" ng-click="minusOne(itemcount)">-</span>
+                            <input value="{{itemcount}}" ng-model="itemcount" onpaste="return false;"
+                                   ng-change="checkIsNum(itemcount)" ng-blur="blurQuantity()">
+                            <span class="plus" ng-click="plusOne(itemcount)">+</span>
+                        </div>
+                    </div>
+                    <p class="fl cart-price"
+                       ng-bind-html="'Price: ' + (currentVarientUnitPrice | exchangeRate:'float:2')"></p>
+                    <p class="fl cart-price" ng-bind-html="'Total: ' + ((totalPrice) | exchangeRate:'float:2')"></p>
+                </div>
+                <button class="sub ui-btn btn-theme" ng-click="addbuy($event)">Pay</button>
+                <p style="margin-top: 4px;color: #4A90E2;">* Please note that the shipping cost may increase when you
+                    use this package.</p>
+                <p style="color: #4A90E2;">* And you can click "pay" to have packaging inventory.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style type="text/css">
+    #package-inventory .search-bar {
+        display: flex;
+        align-items: center;
+    }
+
+    #package-inventory .data-info {
+        display: inline-block;
+        margin-left: 30px;
+        font-size: 16px;
+    }
+
+    #package-inventory .data-info span {
+        color: #DDA863;
+        margin-left: 5px;
+    }
+
+    #package-inventory table {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #package-inventory .vip table th {
+        color: rgba(243, 219, 165, 1);
+    }
+
+    #package-inventory table th,
+    td {
+        border-right: none !important;
+        text-align: center;
+    }
+
+    #package-inventory table td {
+        font-size: 12px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        padding: 10px 0;
+    }
+
+    #package-inventory table .img {
+        position: relative;
+    }
+
+    #package-inventory table .big {
+        position: absolute;
+        top: -90px;
+    }
+
+    #package-inventory table td a {
+        color: #FF7700;
+    }
+
+    #package-inventory table td a:hover {
+        color: #E56A00;
+    }
+
+    .vip #package-inventory table td a {
+        color: #DDA863;
+    }
+
+    .vip #package-inventory table td a:hover {
+        color: #C69658;
+    }
+
+    #package-inventory table tbody tr {
+        border: 1px solid #F3F3F3;
+    }
+
+    #package-inventory table tbody tr .operating button {
+        /*box-shadow:0px -1px 3px 0px rgba(170,166,166,0.5);*/
+        border-radius: 4px;
+        /*border: 1px solid rgba(193, 193, 193, 1);*/
+        font-size: 14px;
+        background: #FF7700;
+        font-family: PingFangSC-Medium;
+        font-weight: 500;
+        color: #ffffff;
+        padding: 5px 10px;
+    }
+
+    #package-inventory table tbody tr .operating button:hover {
+        background: #E56A00;
+        color: #ffffff;
+    }
+
+    .vip #package-inventory table tbody tr .operating button {
+        background: #DDA863;
+    }
+
+    .vip #package-inventory table tbody tr .operating button:hover {
+        background: #C69658;
+    }
+
+    .no-data {
+        text-align: center;
+    }
+
+    .chart-dialog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9;
+        background: rgba(0, 0, 0, 0.2);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chart-dialog .content {
+        text-align: center;
+        width: 760px;
+        height: 417px;
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0px 2px 24px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        padding: 20px 40px;
+        position: relative;
+    }
+
+    .chart-dialog .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #000;
+        font-size: 25px;
+        width: 30px;
+        height: 30px;
+        line-height: 1;
+        font-weight: initial;
+        opacity: .4;
+        cursor: pointer;
+    }
+
+    .chart-dialog .tips {
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        font-weight: 500;
+        color: rgba(253, 168, 76, 1);
+    }
+
+    .product-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    #add-store .ASL-content {
+        width: 800px;
+        height: fit-content;
+        border-radius: 4px;
+        padding: 20px;
+        color: #333333;
+        font-size: 16px;
+        font-family: Helvetica;
+    }
+
+    #add-store .ASL-content .proimg {
+        max-width: 200px;
+        max-height: 200px;
+        border: 1px solid #E4E4E4;
+    }
+
+    #add-store .ASL-content h3 {
+        color: #333333;
+        line-height: 35px;
+        font-size: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    #add-store .ASL-content select {
+        height: 30px;
+        border: 1px solid #CFD0D0;
+        min-width: 100px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    #add-store .commodity {
+        margin: inherit;
+    }
+
+    #add-store .commodity span {
+        width: 30px;
+    }
+
+    #add-store .commodity input {
+        width: 40px;
+    }
+
+    #add-store .cart-price {
+        font-size: 14px;
+        font-family: Helvetica;
+        margin-left: 20px;
+        color: #333;
+        line-height: 30px;
+    }
+
+    #add-store .sub {
+        width: 298px;
+        height: 30px;
+        background: rgba(242, 151, 72, 1);
+        border-radius: 2px;
+        color: #fff;
+        font-size: 14px;
+        font-family: Helvetica;
+        margin-top: 20px;
+        margin-left: 0;
+    }
+
+    #add-store .specification-price {
+        display: flex;
+        width: 510px;
+        height: 95px;
+        background: #FAFAFA;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 14px;
+        margin-top: 20px;
+        padding: 15px 10px;
+    }
+
+    #add-store .specification-price .spec {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-basis: 100px;
+    }
+
+    #add-store .specification-price .spec p {
+        color: #333;
+    }
+
+    #add-store .specification-price .value {
+        display: flex;
+        flex: 1;
+    }
+
+    #add-store .specification-price .value .value-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 130px;
+    }
+
+    #add-store .specification-price .value .value-item p {
+        color: #333;
+    }
+
+
+    .commodity {
+        font-size: 14px;
+        text-align: center;
+        margin: 35px 5px 20px 20px;
+        height: 35px;
+    }
+
+    .commodity span {
+        float: left;
+        width: 20px;
+        height: 30px;
+        line-height: 28px;
+        border: 1px solid #d4d4d4;
+        text-align: center;
+        margin-left: -1px;
+        cursor: pointer;
+    }
+
+    .commodity input {
+        float: left;
+        width: 30px;
+        font-size: 14px;
+        line-height: 28px;
+        margin-bottom: 2px;
+        text-align: center;
+        border: 1px solid #d4d4d4;
+        border-radius: 0;
+        margin-left: -1px;
+    }
+
+    .fl {
+        float: left;
+    }
+
+    .fr {
+        float: right;
+    }
+</style>

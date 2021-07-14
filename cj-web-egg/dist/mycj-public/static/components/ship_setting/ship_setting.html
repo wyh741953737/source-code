@@ -1,0 +1,203 @@
+<!-- <span>{{shipinfo}}</span> -->
+<!-- <p>{{proitem.shopMethod}}</p> -->
+<!-- <div class="pro-ship-method-wrap">
+  <div class="pro-ship-method-sel_click" ng-click="logisticsClick()">
+    {{proitem.shopMethod || 'Not set'}}
+  </div>
+</div> -->
+<div>
+  <span>{{proitem.shopMethod == null ? '--' : proitem.shopMethod}}</span><br>
+  <i class="iconfont iconshopifyshezhi tabIcon" ng-click="logisticsClick()" style="position: relative; top: 2px;"></i>
+</div>
+<div ng-if="proitem.wuliuRemark" class="asj-wuliu-tip-wrap" style="display: block; margin: 5px auto;">
+  <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+  <div class="asj-wuliu-tip-show new-wuliu-tip" ng-bind-html="proitem.wuliuRemark"></div>
+</div>
+<!-- 物流设置弹窗 -->
+<div class="connection-logistics" ng-show="logisListShow || selectLogisticsShow || notificationShow">
+  <!-- 物流数据 -->
+  <div class="logistics-wrap" ng-show="logisListShow">
+    <div class="logistics-header">
+      <span>Shipping Settings</span>
+      <i class="glyphicon glyphicon-remove" ng-click="closeLogistics()"></i>
+    </div>
+    <div class="add-logistics">
+      <div class="ship-from">
+        Shipping From:
+        <select class="select"
+        ng-model="seleWare"
+        ng-focus="focusSeleWare()"
+        ng-change="chanSeleWare()"
+        ng-options="item as item.areaEn for item in wareList"
+        >
+        <option value="">Please Select</option>
+        </select>
+      </div>
+      <button class="add-btn btn" ng-click="getLogistics()">Add Shipping Method</button>
+    </div>
+    <div class="logistics-box">
+      <div class="logistics-table">
+        <div class="thead">
+          <div class="tr">
+            <div class="th">Shipping Method</div>
+            <div class="th" ng-show="logiDiscountDisplay">Shipping Discount</div>
+            <div class="th">Country</div>
+            <div class="th">Priority Level</div>
+            <div class="th">Operation</div>
+          </div>
+        </div>
+        <div class="tbody">
+          <div class="tr" ng-repeat="(index,item) in getlogisticsList">
+            <div class="td">{{item.logiName}}</div>
+            <div class="td" ng-show="logiDiscountDisplay">{{item.logiDiscount}}% off</div>
+            <div class="td">
+              {{item.logiCoun.length > 0 ? item.logiCoun[0].counCode : 'All States'}}
+              <!-- 三角形按钮 --> <!-- 物流方式支持国家弹窗 -->
+              <span class="triangle_border_right" ng-click="getCountrylData(item)"></span>
+            </div>
+            <div class="td">
+              <!-- <span ng-show="item.editFlag">{{item.wuliuNameFlag?('Priority '+ (item.wuliuGradeTem)) : 'Not set'}}</span> -->
+              <span ng-show="item.editFlag">
+                {{item.wuliuNameFlag?item.wuliuGradeTem +
+                  (item.wuliuGradeTem%10==1?'st':item.wuliuGradeTem%10==2?'nd':item.wuliuGradeTem%10==3?'rd':'th') +
+                  ' Priority' : 'Not set'}}</span>
+              <select class="setwuliu-sele" ng-show="!item.editFlag" ng-model="item.wuliuGradeTem">
+                <option value="">Please select</option>
+                <option value="{{$index+1}}" ng-repeat="item1 in getlogisticsList">
+                  {{($index+1) + (($index+1)%10==1?'st':($index+1)%10==2?'nd':($index+1)%10==3?'rd':'th')}} Priority</option>
+              </select>
+            </div>
+            <div class="td">
+              <span ng-show="item.status == 'Save'" ng-click="editLogistics($index, item)">Edit</span>
+              <span ng-show="item.status == 'Edit'" ng-click="saveLogistics($index, item)">Save</span>
+              <span ng-show="item.status == 'Edit'" ng-click="cancelLogistics(item)">Cancel</span>
+              <span ng-show="item.status == 'Save'" ng-click="deleteLogistics($index, item)">Delete</span>
+            </div>
+          </div>
+        </div>
+        <div class="not-data" ng-show="getlogisticsList.length<1">
+          <img src="static/image/page/not_dsata.png" alt="">
+          No datas found
+        </div>
+      </div>
+      <div class="submit-btns">
+        <button class="cancel" ng-click="closeLogistics()">Cancel</button>
+        <button class="confirm btn" ng-click="submitLogistics()">Confirm</button>
+      </div>
+    </div>
+    <!-- 新增物流 -->
+    <div class="pop-box" ng-show="selectLogisticsShow">
+      <div class="select-logistics">
+        <div class="selecton-logistics-wrap">
+          <div class="selecton-logistics-header">
+            <span>Shipping Selection</span>
+          </div>
+          <div class="selecton-content-wrap">
+            <!-- <label>Shipping options:</label> -->
+            <div class="selecton-content">
+              <select ng-model="selValue" class="sel"
+              ng-options="item as item.nameEn for item in logisticsList"
+              >
+                <option value="">Please select</option>
+                <!-- <option value="{{item.enName}}" ng-repeat="item in logisticsList">{{item.enName}}</option> -->
+              </select>
+            </div>
+          </div>
+          <div class="submit-btns">
+            <button class="cancel" ng-click="canceSelllogistics()">Cancel</button>
+            <button class="confirm btn" ng-click="addSellogistics()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 取消提示 -->
+    <div class="pop-box" ng-show="notificationShow">
+      <div class="Notification-message">
+        <div class="message-wrap">
+          <div class="message-header">
+            <span>Notification</span>
+          </div>
+          <div class="message-content">
+            <p>The changes have not been saved. Are you sure to exit?</p>
+          </div>
+          <div class="submit-btns">
+            <button class="cancel" ng-click="candelMessage()">Cancel</button>
+            <button class="confirm btn" ng-click="confirmMessage()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 物流方式支持国家弹窗 -->
+    <div class="connection-logistics" style="background-color: rgba(0, 0, 0, .3);"
+      ng-show="nationalShow || selectCountryShow">
+      <!-- 国家数据 -->
+      <div class="logistics-wrap" ng-show="nationalShow" style="width: 650px; height: 470px;">
+        <div class="logistics-header">
+          <span>Countries supported by the logistics</span>
+          <!-- <i class="glyphicon glyphicon-remove" ng-click="closeNational()"></i> -->
+        </div>
+        <div class="add-logistics">
+          <button class="add-btn btn fl" style="margin-right: 20px;" ng-click="addCountry()">+ Add countries</button>
+          <button class="add-btn btn fl" ng-click="clearCountry()">Reselect</button>
+          <span class="fr" style="padding-top: 5px;">This logistics is available to following countries</span>
+        </div>
+        <div class="logistics-box">
+          <div class="logistics-table" style="height: 290px;">
+            <div class="thead">
+              <div class="tr">
+                <div class="th">Selected countries</div>
+                <div class="th">State abbreviation</div>
+                <div class="th">Operate</div>
+              </div>
+            </div>
+            <div class="tbody" style="max-height: 250px;">
+              <div class="tr" ng-repeat="logItem in curritem.logiCoun track by $index">
+                <div class="td">{{logItem.counName}}</div>
+                <div class="td">{{logItem.counCode}}</div>
+                <div class="td">
+                  <span ng-click="deleteCountry($index)">Delete</span>
+                </div>
+              </div>
+            </div>
+            <div class="not-data" ng-show="curritem.logiCoun.length < 1">
+              <img src="static/image/page/not_dsata.png" alt="">
+              No datas found
+            </div>
+          </div>
+          <div class="submit-btns">
+            <button class="cancel" ng-click="closeCountry()">Cancel</button>
+            <button class="confirm btn" ng-click="submitCountry()">Confirm</button>
+          </div>
+        </div>
+        <!-- 点击添加国家打开选择国家弹窗 -->
+        <div class="pop-box" ng-show="selectCountryShow">
+          <div class="select-logistics" style="width: 450px; height: inherit;">
+            <div class="selecton-logistics-wrap">
+              <div class="selecton-logistics-header">
+                <span>Select country</span>
+                <div style="font-size: 12px; margin-left: 300px;">
+                  <input type="checkbox" ng-checked="checkAllFlag" ng-click="checkAll()" />
+                  <span style="vertical-align: sub;">All</span>
+                </div>
+              </div>
+              <div class="selecton-content-wrap" style="height: 315px; overflow:auto">
+                <!-- <label>Shipping options:</label> -->
+                <div class="selecton-content" style="height: 100%;">
+                  <div ng-repeat="item in getCountryList" style="margin: 5px 0; text-align: left">
+                    <input type="checkbox" ng-checked="item.checked" ng-click="checkOne(item)" ng-if="item.countryfull" />
+                    <span style="vertical-align: sub;" ng-if="item.countryfull">{{item.countryfull}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="submit-btns">
+                <button class="cancel" ng-click="closeSelectCountry()">Cancel</button>
+                <button class="confirm btn" ng-click="addSelectCountry()">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

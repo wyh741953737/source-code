@@ -1,0 +1,302 @@
+<div class="mycj-home-box PC-wrap print-on-demand-wrap">
+  <div class="mycj-right-wrap PC-con p-3">
+    <div class="top-space-bar"></div>
+    <div class="mycj-right-bar PC-w1200 pro-connected pro-print-on-demand clearfix">
+      <div class="my-product-wrap">
+        <div class="search-box-wrap">
+          <div class="input-group search-box">
+            <input type="text" class="form-control" placeholder="Enter SKU/Product Name" ng-model="search" ng-keypress="enterSearch($event)">
+            <span class="input-group-btn">
+              <button class="search-btn btn-theme" type="button" ng-click="searchFun()" cjdot cjdotshow='{"eventType":2}'>Search</button>
+            </span>
+          </div>
+        </div>
+        <div class="table-connected">
+          <!-- 一条商品 -->
+          <div class="table-connected-top clearfix">
+            <div class="media-img">Image</div>
+            <div class="media-store">Store Name</div>
+            <div class="media-info">Your Product</div>
+            <div class="pro-price">Your Price</div>
+            <div class="center-btn">Action</div>
+            <div class="media-img">{{websiteName}} Image</div>
+            <div class="media-info">{{websiteName}} Product</div>
+            <div class="pro-price">{{websiteName}} Price</div>
+            <div class="pro-weight">Weight</div>
+            <div class="pro-ship-method">Shipping <br> From</div>
+            <div class="pro-ship-method">Shipping <br> Method</div>
+            <div class="pro-ship-cost">Shipping <br> Cost</div>
+            <div class="pro-amount">Amount</div>
+          </div>
+          <div class="cj-load-wrap">
+            <not-data ng-if="notDataFound"></not-data>
+            <!-- ------------- -->
+            <div class="media" ng-repeat="(index1,item) in conlist" ng-class="{'sold-out': '5' == item.SALESTATUS}">
+              <!-- ------------- -->
+              <div class="asj-pro-box">
+                <div class="media-img">
+                  <img class="media-object small-img" ng-src="{{item.image | IMG_SIZE: 75}}" alt="...">
+                  <img class="big-img" ng-src="{{item.image | IMG_SIZE: 400}}" alt="">
+                </div>
+                <div class="media-store">
+                  <p>{{item.shopName}}</p>
+                </div>
+                <div class="media-info">
+                  <h4 class="media-heading" title="{{item.title}}">{{item.title}}</h4>
+                  <p class="media-attr" title="{{item.tags}}">{{item.tags}}</p>
+                </div>
+                <div class="pro-price">${{item.prices}}</div>
+                <div class="center-btn">
+                  <img class="top-img" src="./static/image/page/connecteds.png" alt="">
+                  <button type="button" class="btn btn-default disconnect-btn"
+                    ng-click="disconnect(item, index1)">Disconnect</button>
+                  <a class="asj-drop-btn more-btn" href="javascript:void(0);" ng-click="showVarient(item, $index)"><img
+                      src="./static/image/public-img/to-down.png" alt=""></a>
+                </div>
+                <div class="media-img">
+                  <img class="media-object small-img" ng-src="{{item.BIGIMG | IMG_SIZE:75}}" alt="...">
+                  <img class="big-img" ng-src="{{item.BIGIMG | IMG_SIZE:400}}" alt="">
+                </div>
+                <div class="media-info">
+                  <h4 class="media-heading" title="{{item.NAMEEN}}"><a href="{{'product-detail.html?id=' + item.ID}}"
+                      target="_blank">{{item.NAMEEN}}</a></h4>
+                  <p class="media-attr" title="{{item.SKU}}">{{item.SKU}}</p>
+                  <!-- ------------- -->
+                  <div class="sold-out-txt" ng-class="{'active': ('5' == item['SALESTATUS'])}">Sold Out</div>
+                  <!-- ------------- -->
+                </div>
+                <div class="pro-price pro-price-right">
+                  <span ng-if="item.promoter=='1'">Service Fee</span>
+                  <span
+                    ng-class="{'line-through': item.SELLDISCOUNT > 0}">${{item.SELLPRICE.replace(' -- ', '-')}}</span>
+                  <br>
+                  <span ng-if="item.SELLDISCOUNT > 0">{{'$' + item.discountPrice.replace(' -- ', '-')}} <br>
+                    ({{item.SELLDISCOUNT}}% off)</span>
+                </div>
+                <div class="pro-weight">{{item.packweight.replace(' -- ', '-')}}g</div>
+                <div class="pro-ship-method">
+                  {{item.defaultArea || '--'}}
+                </div>
+                <div class="pro-ship-method">
+                  <div>{{item.LOGISTICS}}</div>
+                  <div ng-if="item.wuliuRemark" class="asj-wuliu-tip-wrap" style="display: block; margin: 5px auto;">
+                    <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+                    <div class="asj-wuliu-tip-show" ng-bind-html="item.wuliuRemark"></div>
+                  </div>
+                </div>
+                <div class="pro-ship-cost">
+                  <ship-caculate shipinfo="item.shipinfo"></ship-caculate>
+                </div>
+                <div class="pro-amount">
+                  ${{item.AMOUNTPRICE.replace(' -- ', '-')}}
+                  <div class="toast-wrap" ng-show="item.isProAmountTip != false">
+                    <i class="iconfont">&#xe745;</i>
+                    <div class="toast-box">
+                      Shipping cost not included.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="asj-varient-box" ng-repeat="(index2,itemV) in item.varientList">
+                <div class="media-img">
+                  <img class="media-object small-img" ng-src="{{(itemV.image || item.image) | IMG_SIZE:75}}" alt="...">
+                  <img class="big-img" ng-src="{{(itemV.image || item.image) | IMG_SIZE:400}}" alt="">
+                </div>
+                <div class="media-store">
+                  <p>{{itemV.shopName}}</p>
+                </div>
+                <div class="media-info">
+                  <h4 class="media-heading" title="{{itemV.title}}">{{itemV.title}}</h4>
+                  <p class="media-attr" title="{{itemV.tags}}">{{itemV.tags}}</p>
+                  <p class="media-attr" ng-show="itemV.shopId == 'BDFFD3B0-B438-4D09-B0F0-1971ECE9EB18'"
+                    title="{{itemV.vsku}}">{{itemV.vsku}}</p>
+                </div>
+                <div class="pro-price">${{itemV.prices}}</div>
+                <div class="center-btn">
+                  <img class="top-img" src="./static/image/page/connecteds.png" alt="">
+                  <button type="button" class="btn btn-default disconnect-btn"
+                    ng-click="disconnect(itemV,index1,index2)">Disconnect</button>
+                </div>
+                <div class="media-img">
+                  <img class="media-object small-img" ng-src="{{itemV.IMG | IMG_SIZE:75}}" alt="...">
+                  <img class="big-img" ng-src="{{itemV.IMG | IMG_SIZE:400}}" alt="">
+                </div>
+                <div class="media-info">
+                  <h4 class="media-heading" title="{{itemV.SKU}}">{{itemV.SKU}}</h4>
+                  <p class="media-attr" title="{{itemV.NAMEEN}}">{{itemV.NAMEEN}}</p>
+                </div>
+                <div class="pro-price pro-price-right">
+                  <span ng-if="item.promoter=='1'">Service Fee</span>
+                  <span
+                    ng-class="{'line-through': itemV.SELLDISCOUNT > 0}">${{itemV.SELLPRICE.replace(' -- ', '-')}}</span>
+                  <br>
+                  <span ng-if="itemV.SELLDISCOUNT > 0">{{'$' + itemV.discountPrice.replace(' -- ', '-')}} <br>
+                    ({{itemV.SELLDISCOUNT}}% off)</span>
+                </div>
+                <div class="pro-weight">{{itemV.PACKWEIGHT}}g</div>
+                <div class="pro-ship-method">
+                  {{item.defaultArea || '--'}}
+                </div>
+                <div class="pro-ship-method">{{itemV.LOGISTICS}}</div>
+                <div class="pro-ship-cost">
+                  <ship-caculate shipinfo="itemV.shipinfo"></ship-caculate>
+                </div>
+                <div class="pro-amount">
+                  ${{itemV.AMOUNTPRICE.replace(' -- ', '-')}}
+                  <div class="toast-wrap" ng-show="itemV.isProAmountTip != false">
+                    <i class="iconfont">&#xe745;</i>
+                    <div class="toast-box">
+                      Shipping cost not included.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="single-role-drop">
+                    <a class="asj-drop-btn hide-more" index="{{$index}}" ng-if="item.varientList != undefined"
+                      href="javascript:void(0);" ng-click="hideVarient(item, $index)"><img
+                        src="./static/image/public-img/to-up.png" alt=""></a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- 分页 -->
+        <page ng-show="conlist.length > 0"></page>
+      </div>
+    </div>
+  </div>
+</div>
+<!--关联商品弹窗弹窗-->
+<div id="product-connection" ng-show="tanchuang">
+  <div id="tanchuang-wrap">
+    <div class="xiala">
+      <span>SHIPPING METHOD </span>
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">1</a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">2</a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">3</a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">4</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="pro-title">Products Connection</div>
+    <p class="connect-warn">You have to connect your store product with {{websiteName}} existing one, then
+      {{websiteName}} platform will sync orders from your store.</p>
+    <div class="pend-connect-items">
+      <div class="product-item product-item-shop">
+        <div class="item-heading item-heading-left">Your Store Product</div>
+        <div class="item-body  item-body-left" style="cursor: pointer;" ng-repeat="(index1,item) in shopList"
+          ng-click="firstclick($event,index1,item)"
+          ng-class="first?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+          <div class="item-img">
+            <img ng-src="{{item.image}}" alt="">
+            <!--<img src="./static/image/home/pic1.png" alt="">-->
+          </div>
+          <div class="item-info">{{item.title}} <span>(Black）</span></div>
+          <div class="item-color">Black</div>
+          <div class="item-color">S</div>
+          <div class="item-price">USD {{item.price}}</div>
+        </div>
+      </div>
+      <div class="connect-icon">
+        <div class="item-body-middle" ng-repeat="(index3,item) in CJList" ng-show="arr.length>$index"><img
+            src="./static/image/page/connecteds.png" alt="" ng-click="Unlink(index3)"></div>
+      </div>
+      <div class="product-item  product-item-CJ">
+        <div class="item-heading item-heading-right">{{websiteName}} Product</div>
+        <div class="item-body item-body-right" style="cursor: pointer;" ng-repeat="(index2,item) in CJList"
+          ng-click="lastclick($event,index2,item)" ng-class="last?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+          <div class="item-img">
+            <img ng-src="{{item.IMG}}" alt="">
+            <!--<img src="./static/image/home/pic1.png" alt="">-->
+          </div>
+          <div class="item-info">{{item.NAMEEN}} <span>(Black）</span></div>
+          <div class="item-color">Black</div>
+          <div class="item-color">S</div>
+          <div class="item-price">USD {{item.SELLPRICE}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="tanchuangbtn">
+      <button class="tanchuangbtn1" style="cursor: pointer;" ng-click="closetanchuang()">Cancel</button>
+      <button class="tanchuangbtn2" style="cursor: pointer;" ng-click="goon()">Confirm</button>
+    </div>
+  </div>
+</div>
+<!--搜品弹窗-->
+<div id="sourcing-connection" ng-show="sourcetanchuang">
+  <div id="sourcing-tanchuang-wrap">
+    <div class="xiala">
+      <span>SHIPPING METHOD </span>
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" style="cursor: pointer;" id="dropdownMenu2"
+          data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">1</a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">2</a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">3</a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">4</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="pro-title">Products Connection</div>
+    <p class="connect-warn">You have to connect your store product with {{websiteName}} existing one, then
+      {{websiteName}} platform will sync orders from your store.</p>
+    <div class="pend-connect-items">
+      <div class="product-item">
+        <div class="item-heading">Sourcing Product</div>
+        <div class="item-body  item-body-left" style="cursor: pointer;" ng-repeat="item in sourcetccjlist"
+          ng-click="firstclick($event,$index,item)"
+          ng-class="first?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+          <div class="item-img"><img ng-src="{{item.img}}" alt=""></div>
+          <div class="item-info">{{item.NAME}} <span>(Black）</span></div>
+          <div class="item-color">Black</div>
+          <div class="item-color">S</div>
+          <div class="item-price">USD {{item.SELLPRICE}}</div>
+        </div>
+      </div>
+      <div class="connect-icon">
+        <div class="item-body-middle" ng-repeat="item in sourcetccjlist" ng-show="arr.length>$index"><img
+            src="./static/image/page/connecteds.png" alt=""></div>
+      </div>
+      <div class="product-item">
+        <div class="item-heading">Your Store Product</div>
+        <div class="item-body item-body-right" style="cursor: pointer;" ng-repeat="item in sourcetcshoplist"
+          ng-click="lastclick($event,$index,item)" ng-class="last?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+          <div class="item-img"><img ng-src="{{item.IMG}}" alt=""></div>
+          <div class="item-info">{{item.name}} <span>(Black）</span></div>
+          <div class="item-color">Black</div>
+          <div class="item-color">S</div>
+          <div class="item-price">USD {{item.price}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="tanchuangbtn">
+      <button class="tanchuangbtn1" style="cursor: pointer;" ng-click="closesourcetanchuang()">Cancel</button>
+      <button class="tanchuangbtn2" style="cursor: pointer;" ng-click="sourcegoon()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<loading-cart el="'.cj-load-wrap'" bottom="'#router-outlet-wrap'" ng-if="loading"></loading-cart>

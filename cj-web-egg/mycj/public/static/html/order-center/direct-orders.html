@@ -1,0 +1,722 @@
+<div class="content">
+
+    <div class="mycj-home-box">
+        <!-- 左边部分 -->
+        <div class="mycj-left-bar-wrap">
+            <mycj-leftbar navparamx="'DropShipping Center'" navparamy="'Imported Orders'"></mycj-leftbar>
+        </div>
+
+        <!-- 右边部分 -->
+        <div class="direct-right">
+            <!-- 导航 -->
+            <div class="order-status">
+                <div class="status-nav">
+                    <ul class="status-navul">
+                        <li><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="javascript:void(0)">Process
+								Required</a></li>
+                        <li><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="javascript:void(0)">Cart</a>
+                        </li>
+                        <li class="nav-li"><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="javascript:void(0)">Canceled</a></li>
+                        <li><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="javascript:void(0)">Refunded</a>
+                        </li>
+                    </ul>
+                    <div class="order-filter">
+                        <div class="search-order">
+                            <input placeholder="Input products name or order's number"></input><a class="search-btn" href="javascript:void(0)">Search</a>
+                            <a class="toggle-moresearch" id="ditect-searchmore" href="javascript:void(0)">
+                                <i id="toggle-logo1" style="font-size: 8px;" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <span class="filter-span">Filter</span>
+                            </a>
+                            <!-- filter后面的功能按钮 -->
+                            <a ng-click="addToCartFun()" class="deal-style awaiting-orders hide-abtn" href="javascript:void(0)">Add to Cart</a>
+                            <a class="deal-style reject-orders hide-abtn" href="javascript:void(0)">Cancel</a>
+                            <!-- <a id="export-orders" class="export-orders hide-abtn" href="javascript:void(0)">
+								<span>Export Orders</span>
+							</a> -->
+                            <a id="excel-orders" class="excel-orders hide-abtn" href="javascript:void(0)">
+                                <span>Import Excel Orders</span>
+                            </a>
+                            <a ng-click="fun()" class="sync-orders hide-abtn" href="javascript:void(0)">
+                                <span>Sync Orders</span>
+                                <img src="static/image/direct-orders/iconsync.png">
+                            </a>
+                        </div>
+                        <!-- 高级搜索部分 -->
+                        <div class="more-search" id="ditect-moresearch">
+                            <ul>
+                                <li class="first-line">
+                                    <span>Orders Type</span>
+                                    <select class="type-sel">
+										<option>All</option>
+									</select>
+                                    <span>Sku Number</span>
+                                    <input class="number-inp">
+                                    <span>Orders status</span>
+                                    <select class="status-sel">
+										<option>All</option>
+									</select>
+                                    <span>Shipping Method</span>
+										<select class="method-sel">
+											<option>All</option>
+										</select>
+								</li>
+								<li class="second-line">
+									<span>Ordered Data</span>
+                                    <input class="data-inp" placeholder="from">
+                                    <span class="line"></span>
+                                    <input placeholder="to">
+                                    <span class="buyer-name">Buyer Name</span>
+                                    <input class="buyer-inp">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 订单的处理部分 自动订单-->
+            <div class="deal-orders direct-deal-order">
+                <!-- <ul class="dealorder-ul"> -->
+                <!-- 订单处理方式 -->
+                <!-- <li class="cj-deal-way">
+                <a class="deal-style" href="javascript:void(0)">Bulk Process</a> 
+                <a class="deal-style awaiting-orders" href="javascript:void(0)">Add to Cart</a>
+						<a class="deal-style reject-orders" href="javascript:void(0)">Cancel</a>
+						<a id="export-orders" class="export-orders" href="javascript:void(0)">
+							<span>Export Orders</span>
+						</a>
+						<a id="excel-orders" class="excel-orders" href="javascript:void(0)">
+							<span>Import Excel Orders</span>
+						</a>
+						<a ng-click="fun()" class="sync-orders" href="javascript:void(0)">
+							<span>Sync Orders</span>
+							<img src="static/image/direct-orders/iconsync.png">
+						</a>
+                </li> -->
+                <!-- 分页 -->
+                <!-- <li class="deal-page">
+						<div class="zdcl-pages-db">
+							<select class="select-page-num ip-select-num1">
+								<option>1</option>
+								<option>3</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+							<span class="per-page">per page</span>
+							<span class="all-num-line">{{list.countNumber}}</span>
+							<span class="per-page">records found</span>
+						    <ul class="pagination pagination-demo1"></ul>
+						    <span class="per-page showing-tex">showing:</span>
+						    <input class="inp-num-go ip-num-go1"></input>
+						    <span class="per-page">of 8</span>
+						    <span class="jump-btn ip-jump-btn1">go</span>
+						</div>
+					</li> -->
+                <!-- </ul> -->
+                <!-- 订单的表格部分 自动订单的待处理订单 process required-->
+                <div class="orders-list" id="z-dcl-ord">
+                    <table class="orders-table dcl-ord">
+                        <thead>
+                            <tr>
+                                <th class="data-th" style="width: 126px;">
+                                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                    <span>System</span>
+                                </th>
+                                <th style="width: 108px;">Your Store</th>
+                                <th style="width: 128px;">
+                                    <select>
+										<option>Stores All</option>
+										<option>All</option>
+										<option>Some</option>
+									</select>
+                                </th>
+                                <th style="width: 116px;">
+                                    Order Number
+                                </th>
+                                <th style="width: 98px;">Store Amount</th>
+                                <th style="width: 96px;">Subtotal</th>
+                                <th style="width: 60px;">Quantity</th>
+
+                                <!-- <th style="width: 102px;">Paid On</th> -->
+                                <th style="width: 100px;">Shipping Info</th>
+                                <th style="width: 100px;">Shipping Cost</th>
+                                <th style="width: 140px;">Shipping Method</th>
+                            </tr>
+                        </thead>
+                        <tbody class="dcl-ord-tbody" ng-repeat="listName in orderList">
+                            <tr style="background-color: #ececec;" class="blank-tr">
+                                <td colspan="16"></td>
+                            </tr>
+                            <!-- <tr style="background-color: #ececec;height: 30px;">
+								<td colspan="16"></td>
+							</tr> -->
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                    <p class="dclord-sys-time">{{listName.date}}</p>
+                                </td>
+                                <td class="paid-time cshow-allsp" ng-cloak>
+                                    {{listName.shopifyDate}}
+                                </td>
+                                <td class="ord-cai">
+                                    <p class="store-name-p" ng-cloak>{{listName.STORE_NAME}}</p>
+                                    <p style="display: none;" class="split-pp"><img src="static/image/public-img/iconresolution.png" class="split-img"></p>
+                                    <p style="display: none;" class="order-id" ng-cloak>{{listName.ID}}</p>
+                                </td>
+                                <td class="order-num-td cshow-allsp" ng-cloak>
+                                    {{listName.ORDER_NUMBER}}
+                                </td>
+                                <!-- <td ><img class="product-showImg" src="static/image/home/pic1.png"></td> -->
+                                <!-- <td class="z-stord-wm">
+									<p class="st-price-num">USD </p>
+									<P class="st-weight-num" ng-cloak>{{listName.weight}}</P>
+								</td>
+								<td class="z-cjord-wm">
+									<p class="cj-price-num">USD </p>
+									<P class="cj-weight-num"></P>
+								</td> -->
+                                <td class="z-stord-wm cshow-allsp">
+                                    <p class="st-price-num" ng-cloak>USD: {{listName.SHOPIFYAMOUNT}}</p>
+                                    <P class="st-weight-num" ng-cloak><span id="ord-weight">{{listName.ORDERWEIGHT}}</span> g
+                                    </P>
+                                </td>
+                                <td class="z-cjord-wm cshow-allsp">
+                                    <p class="cj-price-num" ng-cloak>USD: <span ng-if="listName.LOGISTIC_NAME" ng-repeat="wlcost in listName.LOGISTICINFO" id="cj-a-money">{{(listName.LOGISTIC_NAME==wlcost.logisticName?wlcost.price:null)!=null?(listName.ORDER_AMOUNT+wlcost.price):null | number : 2}}</span>
+                                        <span id="cj-a-money" ng-if="listName.LOGISTIC_NAME==null"></span>  </p>
+                                    <P class="cj-weight-num" ng-cloak>{{listName.ORDERWEIGHT}} g</P>
+                                </td>
+                                <td class="cshow-allsp" ng-cloak>{{listName.ORDER_QUANTITY}}</td>
+                                <!-- <td>9-12 12:20</td> -->
+                                <td class="shipping-info cshow-allsp">
+                                    <p class="buyer-name" ng-cloak>{{listName.CUSTOMER_NAME}}</p>
+                                    <p class="detail-adress" ng-cloak>{{listName.SHIPPING_ADDRESS}}</p>
+                                    <p class="buyer-adress" title="{{listName.CITY}} {{listName.COUNTRY_CODE}} {{listName.COUNTRY}}">
+                                        <span ng-cloak>{{listName.CITY}}</span>
+                                        <span ng-bind='listName.COUNTRY_CODE'></span>
+                                        <span ng-cloak>{{listName.COUNTRY}}</span>
+
+                                    </p>
+                                    <p class="post-code"></p>
+                                    <p class="phone-num" ng-cloak>{{listName.PHONE}}</p>
+                                </td>
+                                <td class="ship-cost-td cshow-allsp">
+
+                                    <p ng-cloak ng-if="listName.LOGISTIC_NAME">
+                                        {{listName.POSTAGE}}
+                                    </p>
+                                    <!-- <p class="logis-info-wlprice" ng-cloak ng-if="listName.LOGISTIC_NAME==null&&listName.LOGISTICINFO" ng-repeat="wlcost in listName.LOGISTICINFO">
+										
+									</p> -->
+                                    <!-- <p class="logis-info-wlprice" ng-cloak>
+									</p> -->
+                                    <p class="logis-info-wlprice" ng-if="listName.LOGISTIC_NAME==null" ng-cloak>
+                                    </p>
+                                    <p class="logis-info-wlprice" ng-if="listName.LOGISTIC_NAME" ng-repeat="wlcost in listName.LOGISTICINFO" ng-cloak>
+                                        {{listName.LOGISTIC_NAME==wlcost.logisticName?wlcost.price:null}}
+                                    </p>
+                                    <!-- style="display: none;" -->
+                                    <p style="display: none;" class="dclord-amount" ng-cloak>{{listName.ORDER_AMOUNT}}
+                                    </p>
+                                </td>
+                                <td class="dcl-ord-wltd">
+                                    <p style="display: none;" ng-cloak class="dclord-wl-hide">
+                                        {{listName.LOGISTICINFO}}
+                                    </p>
+                                    <!-- <div>{{listName.LOGISTIC_NAME}}</div> -->
+                                    <select class="dcl-ord-selwl">
+										<!-- 如果请求过来有物流填入该物流 -->
+										<option ng-if="listName.LOGISTIC_NAME">{{listName.LOGISTIC_NAME}}</option>
+										<option ng-if="listName.LOGISTIC_NAME" ng-repeat="wl in listName.LOGISTICINFO"
+											ng-hide="wl.logisticName==listName.LOGISTIC_NAME">{{wl.logisticName}}
+										</option>
+										<option ng-if="listName.LOGISTIC_NAME==null">Please select</option>
+										<option ng-if="listName.LOGISTIC_NAME==null"
+											ng-repeat="wl in listName.LOGISTICINFO">{{wl.logisticName}}</option>
+										<!-- <option ng-if="listName.LOGISTIC_NAME==null&&listName.LOGISTICINFO" ng-repeat="wl in listName.LOGISTICINFO" ng-hide="wl.logisticName==listName.LOGISTIC_NAME">{{wl.logisticName}}</option> -->
+
+
+									</select>
+                                </td>
+                            </tr>
+                            <tr class="d-toggle-tr">
+                                <td class="d-tog-td" colspan="16">
+                                    <div class="d-toggle-div">
+                                        <table ng-repeat="pList in productList">
+                                            <tr id="fir-tr" ng-if="listName.ID == pList.CJOrderId">
+                                                <!-- ng-if="{listName.ID == pList.CJOrderId}" -->
+                                                <td rowspan="2" class="dt-img-td"><img src="static/image/home/pic1.png">
+                                                </td>
+                                                <td rowspan="2">
+                                                    <div ng-cloak>SKU: {{pList.SKU}}</div>
+                                                </td>
+                                                <td ng-cloak>Store Price: {{pList.SHOPIFYPRICE}}</td>
+                                                <td ng-cloak>Store Quantity: {{pList.QUANTITY}}</td>
+                                                <td ng-cloak>Store Amount: {{pList.SHOPIFYPRICE*pList.QUANTITY}}</td>
+                                                <!-- <td>{{listName.ID}}</td> -->
+                                                <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS}}</td>
+                                                <td style="display: none;" class="dcl-ordwlfs" ng-cloak>
+                                                    {{pList.LOGISTICS_TYPE}}</td>
+                                                <!-- <td class="dcl-sp-idtd">{{pList.CJOrderId}}</td> -->
+                                                <!-- <td class="shangpinbuquan" ng-if="listName.ORDER_QUANTITY !== pList.QUANTITY"></td> -->
+                                            </tr>
+                                            <tr ng-if="listName.ID == pList.CJOrderId">
+                                                <td ng-cloak>CJ Price: {{pList.PRICE}}</td>
+                                                <td ng-cloak>CJ Quantity: {{pList.QUANTITY}}</td>
+                                                <td ng-cloak>Subtotal: {{pList.PRICE*pList.QUANTITY}}</td>
+                                                <!-- <td>{{pList.CJOrderId}}</td> -->
+                                                <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS}}</td>
+                                                <!-- <td ng-if="listName.ORDER_QUANTITY !== pList.QUANTITY">zhegedingdan</td> -->
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                    <div ng-hide="dataFound" class="not-found-data">
+                        <img src="static/image/public-img/nodata.png">
+                    </div>
+                    <!-- 分页 -->
+                    <div class="zdcl-pages-db second-page-fun">
+                        <select id="dcl-sel" class="select-page-num ip-select-num2">
+							<!-- <option>5</option> -->
+							<option value="30">30</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+							<!-- <option value="3">200</option> -->
+						</select>
+                        <span class="per-page">per page</span>
+                        <span class="all-num-line" ng-cloak>{{list.countNumber}}</span>
+                        <span class="per-page">records found</span>
+                        <ul class="pagination pagination-demo1"></ul>
+                        <span class="per-page showing-tex">showing:</span>
+                        <input class="inp-num-go inp-num-go2">
+                        <span class="per-page">of</span>
+                        <span class="jump-btn ip-jump-btn2">go</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 订单的处理部分 待提交付款页面订单 awaiting submit-->
+            <div class="deal-orders direct-deal-order" id="dtj-orders">
+                <table class="orders-table dcl-ord" id="dfk-orders">
+                    <thead>
+                        <tr>
+                            <th class="data-th" style="width: 126px;">
+                                <img class="zchecked-all" src="static/image/direct-orders/multiple2.png">
+                                <span>System</span>
+                            </th>
+                            <th style="width: 108px;">Your Store</th>
+                            <th style="width: 128px;">
+                                <select>
+									<option>Stores All</option>
+									<option>All</option>
+									<option>Some</option>
+								</select>
+                            </th>
+                            <th style="width: 116px;">
+                                Order Number
+                            </th>
+                            <th style="width: 98px;">Store Amount</th>
+                            <th style="width: 96px;">Subtotal</th>
+                            <th style="width: 60px;">Quantity</th>
+
+                            <!-- <th style="width: 102px;">Paid On</th> -->
+                            <th style="width: 200px;">Shipping Info</th>
+                            <th style="width: 115px;">Shipping Method</th>
+                            <th style="width: 60px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="dcl-ord-tbody" ng-repeat="listName in orderList">
+                        <tr style="background-color: #ececec;" class="blank-tr">
+                            <td colspan="16"></td>
+                        </tr>
+                        <!-- <tr style="background-color: #ececec;height: 30px;">
+										<td colspan="16"></td>
+									</tr> -->
+                        <tr class="order-detail">
+                            <td class="order-time">
+                                <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple2.png">
+                            </td>
+                            <td class="paid-time cshow-allsp" ng-cloak>
+                                {{listName.date}}
+                            </td>
+                            <td class="ord-cai cshow-allsp">
+                                <p class="store-name-p" ng-cloak>{{listName.STORE_NAME}}</p>
+                                <!-- <p ng-show='flag'  ng-click="splitOrder()"><img src="static/image/public-img/iconresolution.png" class="split-img"></p> -->
+                                <p style="display: none;" class="order-id" ng-cloak>{{listName.ID}}</p>
+                            </td>
+                            <td class="order-num-td cshow-allsp" ng-cloak>
+                                {{listName.ORDER_NUMBER}}
+                            </td>
+                            <!-- <td ><img class="product-showImg" src="static/image/home/pic1.png"></td> -->
+                            <td class="dfk-stord-td cshow-allsp">
+                                <p class="dfk-stam">USD: <span class="dfk-st-money" ng-cloak>{{listName.SHOPIFYAMOUNT}}</span><span class="stam-span"></span></p>
+                                <P class="dfk-staw" ng-cloak>{{listName.ORDERWEIGHT}} g</P>
+                            </td>
+                            <td class="dfk-cjord-td cshow-allsp">
+                                <p class="dfk-cjam">USD: <span class="dfk-cj-money" ng-cloak>{{listName.AMOUNT}}</span><span class="cjam-span"></span></p>
+                                <P class="dfk-cjaw" ng-cloak>{{listName.ORDERWEIGHT}} g</P>
+                            </td>
+                            <td class="dfk-quantity cshow-allsp" ng-cloak>{{listName.ORDER_QUANTITY}}</td>
+                            <!-- <td>9-12 12:20</td> -->
+                            <td class="shipping-info cshow-allsp">
+                                <p class="buyer-name" ng-cloak>{{listName.CUSTOMER_NAME}}</p>
+                                <p class="detail-adress" ng-cloak>{{listName.SHIPPING_ADDRESS}}</p>
+                                <p class="buyer-adress">
+                                    <span ng-cloak>{{listName.CITY}}</span>
+                                    <span ng-bind='listName.COUNTRY_CODE'></span>
+                                    <span ng-cloak>{{listName.COUNTRY}}</span>
+
+                                </p>
+                                <p class="post-code" ng-cloak>{{listName.ZIP}}</p>
+                                <p class="phone-num" ng-cloak>{{listName.PHONE}}</p>
+                            </td>
+                            <td class="cart-wuliufs cshow-allsp" ng-cloak>
+                                <!-- E邮宝 -->
+                                {{listName.LOGISTIC_NAME}}
+                            </td>
+                            <td>
+                                <a class="d-cart-delbtn" href="javascript:void(0)">Delete</a>
+                            </td>
+                        </tr>
+                        <tr class="d-toggle-tr">
+                            <td colspan="16">
+                                <div class="d-toggle-div">
+                                    <table ng-repeat="pList in productList">
+                                        <tr ng-if="listName.ID == pList.CJOrderId">
+                                            <!-- ng-if="{listName.ID == pList.CJOrderId}" -->
+                                            <td rowspan="2" class="dt-img-td"><img src="static/image/home/pic1.png">
+                                            </td>
+                                            <td rowspan="2">
+                                                <div ng-cloak>SKU: {{pList.SKU}}</div>
+                                            </td>
+                                            <td ng-cloak>Store Price: {{pList.PRICE}}</td>
+                                            <td ng-cloak>Store Quantity: {{pList.QUANTITY}}</td>
+                                            <td ng-cloak>Store Amount: {{storeAllMoney}}</td>
+                                            <!-- <td>{{listName.ID}}</td> -->
+                                            <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS}}</td>
+                                            <td style="display: none;">{{pList.LOGISTICS_TYPE}}</td>
+                                        </tr>
+                                        <tr ng-if="listName.ID == pList.CJOrderId">
+                                            <td ng-cloak>CJ Price: {{pList.PRICE}}</td>
+                                            <td ng-cloak>CJ Quantity: {{pList.QUANTITY}}</td>
+                                            <td ng-cloak>Subtotal: {{storeAllMoney}}</td>
+                                            <!-- <td>{{pList.CJOrderId}}</td> -->
+                                            <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <!-- 底部功能条 -->
+                <div ng-hide="dataFound" class="not-found-data">
+                    <img src="static/image/public-img/nodata.png">
+                </div>
+                <div class="bottom-function-bar clearfix">
+                    <div class="pull-left combine-con">
+                        <!-- <div class="select-all pull-left"><input type="checkbox" name="" id="" class="as-checkbox"><label>all</label></div> -->
+                        <div class="num-of-order pull-left">
+                            <span class="total-num">Current Page <b class="page-all-num"></b> Orders</span>
+                            <span class="select-num">Selected <b class="page-selected-num"></b></span>
+                        </div>
+                        <!-- <button type="button" class="btn btn-primary comine-btn" ng-click="combineOrder()">Verify Combinable Orders</button> -->
+                    </div>
+                    <div class="pull-right">
+                        <div class="pull-left settle-con">
+                            <!-- <div class="shipping-type pull-right">
+							    		<label for="">Select Shipping</label>
+							    		<select ng-click="splitOrder()">
+							    			<option value="">国际E邮宝</option>
+							    			<option value="">4px</option>
+							    		</select>
+							    		</div> -->
+                            <div class="total-num pull-right">Final Amount (Included Shipping): <b class="awaiting-amount-money">95.90</b> USD</div>
+                        </div>
+                        <div class="pull-left">
+                            <a href="#/dropshipping-orders">
+                                <button type="button" class="confirm-btn">Confirm</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 订单处理部分 取消的订单 第三个导航对应的内容-->
+            <div class="deal-orders direct-deal-order">
+                <!-- <ul class="dealorder-ul">
+					<li class="cj-deal-way ipo-thid-navli">
+						<a class="export-orders" href="javascript:void(0)">
+							<span>Export Orders</span>
+						</a>
+					</li>
+				</ul> -->
+                <div class="orders-list">
+                    <table class="orders-table" id="cj-cancel-table">
+                        <thead>
+                            <tr>
+                                <th class="data-th data-th1" style="width: 126px;">
+                                    <img class="zchecked-all  style-img-chek" src="static/image/direct-orders/multiple1.png">
+                                    <span>Ordered Date</span>
+                                </th>
+                                <th style="width: 128px;">
+                                    <select>
+										<option>Stores All</option>
+										<option>all</option>
+										<option>some</option>
+									</select>
+                                </th>
+                                <th style="width: 116px;">
+                                    Order Number
+                                </th>
+                                <th style="width: 108px;">Images</th>
+                                <th style="width: 242px;">
+                                    <p class="product-descriptionp">Products Description</p>
+                                    <p class="product-descriptionp">（SKU/Attribute/Name）</p>
+                                </th>
+                                <th style="width: 96px;">Price</th>
+                                <th style="width: 60px;">Quantity</th>
+                                <th style="width: 98px;">Amount</th>
+                                <th style="width: 102px;">Paid On</th>
+                                <th style="width: 106px;">Action</th>
+                                <th style="width: 160px;">Shipping Info</th>
+                                <th style="width: 110px;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr class="order-checkbox">
+								<td colspan="16">
+									<img class="product-checked" src="static/image/direct-orders/multiple1.png">
+								</td>
+							</tr> -->
+                            <!-- <tr class="order-detail">
+								<td class="order-time">
+									<img class="product-checked wcheckbox" src="static/image/direct-orders/multiple1.png">
+								</td>
+								<td>
+									shopify fashion
+								</td>
+								<td>
+									701511176868
+								</td>
+								<td ><img class="product-showImg" src="static/image/home/pic1.png"></td>
+								<td class="prduct-description">
+									<ul>
+										<li>CCRTL-123SKLU</li>
+										<li class="light-li">Fashion style show style</li>
+										<li>(balck)</li>
+										<li class="remark"></li>
+									</ul>
+								</td>
+								<td>
+									<p>USD 2.92</p>
+									<P>105.000g</P>
+								</td>
+								<td>1</td>
+								<td>
+									<p>USD 2.92</p>
+									<P>105.000g</P>
+								</td>
+								<td class="order-time paidon-time"></td>
+								<td >
+									<a class="order-active" href="javascript:void(0)">Active</a>
+									<a class="order-note" href="javascript:void(0)">Note</a>
+								</td>
+								<td class="shipping-info">
+									<p class="buyer-name">buyer name</p>
+									<p class="descript">175 NE 16th st, B12</p>
+									<p class="buyer-adress">Glendora ,CA United States</p>
+									<p class="post-code">996778</p>
+									<p class="phone-num">15678901234</p>
+								</td>
+								<td >USD 2.92</td>
+							</tr> -->
+                        </tbody>
+                    </table>
+                    <div ng-hide="dataFound" class="not-found-data">
+                        <img src="static/image/public-img/nodata.png">
+                    </div>
+                    <!-- 分页 -->
+                    <!-- <div class="zdcl-pages-db second-page-fun">
+						<select class="select-page-num ip-select-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+						<span class="per-page">per page</span>
+						<span class="all-num-line"></span>
+						<span class="per-page">records found</span>
+					    <ul class="pagination pagination-demo1"></ul>
+					    <span class="per-page showing-tex">showing:</span>
+					    <input class="inp-num-go inp-num-go2"></input>
+					    <span class="per-page">of</span>
+					    <span class="jump-btn">go</span>
+					</div> -->
+                </div>
+            </div>
+
+            <!-- 订单处理部分 已付款订单  第四个状态对应的内容 -->
+            <div class="deal-orders direct-deal-order">
+                <!-- <ul class="dealorder-ul">
+					<li class="cj-deal-way  ipo-thid-navli">
+						<a class="export-orders" href="javascript:void(0)">
+							<span>Export Orders</span>
+						</a>
+					</li>
+				</ul> -->
+                <!-- 订单的表格部分 -->
+                <div class="orders-list">
+                    <table class="orders-table" id="refund-table">
+                        <thead>
+                            <tr>
+                                <th class="data-th data-th1" style="width: 126px;">
+                                    <img class="zchecked-all style-img-chek" src="static/image/direct-orders/multiple1.png">
+                                    <span>Ordered Date</span>
+                                </th>
+                                <th style="width: 128px;">
+                                    <select>
+										<option>Stores All</option>
+										<option>all</option>
+										<option>some</option>
+									</select>
+                                </th>
+                                <th style="width: 116px;">
+                                    Order Number
+                                </th>
+                                <th style="width: 108px;">Images</th>
+                                <th style="width: 242px;">
+                                    <p class="product-descriptionp">Products Description</p>
+                                    <p class="product-descriptionp">（SKU/Attribute/Name）</p>
+                                </th>
+                                <th style="width: 96px;">Price</th>
+                                <th style="width: 60px;">Quantity</th>
+                                <th style="width: 98px;">Amount</th>
+                                <th style="width: 102px;">Paid On</th>
+                                <!-- <th style="width: 106px;">Action</th> -->
+                                <th style="width: 160px;">Shipping Info</th>
+                                <th style="width: 110px;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr class="order-checkbox">
+								<td colspan="16">
+									<img class="product-checked" src="static/image/direct-orders/multiple1.png">
+								</td>
+							</tr> -->
+                            <!-- <tr class="order-detail">
+								<td class="order-time">
+									<img class="product-checked fcheckbox" src="static/image/direct-orders/multiple1.png">
+								</td>
+								<td>
+									shopify fashion
+								</td>
+								<td>
+									701511176868
+								</td>
+								<td ><img class="product-showImg" src="static/image/home/pic1.png"></td>
+								<td class="prduct-description">
+									<ul>
+										<li>CCRTL-123SKLU</li>
+										<li class="light-li">Fashion style show style</li>
+										<li>(balck)</li>
+										<li class="remark"></li>
+									</ul>
+								</td>
+								<td>
+									<p>USD 2.92</p>
+									<P>105.000g</P>
+								</td>
+								<td>1</td>
+								<td>
+									<p>USD 2.92</p>
+									<P>105.000g</P>
+								</td>
+								<td class="order-time paidon-time"></td>
+								<td class="shipping-info">
+									<p class="buyer-name">buyer name</p>
+									<p class="descript">175 NE 16th st, B12</p>
+									<p class="buyer-adress">Glendora ,CA United States</p>
+									<p class="post-code">996778</p>
+									<p class="phone-num">15678901234</p>
+								</td>
+								<td >USD 2.92</td>
+							</tr> -->
+                        </tbody>
+                    </table>
+                    <div ng-hide="dataFound" class="not-found-data">
+                        <img src="static/image/public-img/nodata.png">
+                    </div>
+                    <!-- 分页 -->
+                    <!-- <div class="zdcl-pages-db second-page-fun">
+						<select class="select-page-num ip-select-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+						<span class="per-page">per page</span>
+						<span class="all-num-line"></span>
+						<span class="per-page">records found</span>
+					    <ul class="pagination pagination-demo1"></ul>
+					    <span class="per-page showing-tex">showing:</span>
+					    <input class="inp-num-go inp-num-go2"></input>
+					    <span class="per-page">of</span>
+					    <span class="jump-btn">go</span>
+					</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 弹框1	 -->
+<script type="text/template" id="split-orders">
+    <div class="aplit-wrap-div">
+        <h5>Split Orders</h5>
+        <p>The following orders exceeded the carriable weight limits of your selected shipping methods. The orders had been split the automatically by the system. You can either confirm it or cancel it with reselect shipping methods. </p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Order Number</th>
+                    <th>SKU</th>
+                    <th>Unit Weight</th>
+                    <th>Quantity</th>
+                    <th>Gross Weight</th>
+                    <!-- <th>Package Quantity</th> -->
+                </tr>
+            </thead>
+            <tbody class="s-tbody">
+                <!-- <tr>
+							  				<td class="first-td">Origin</td>
+							  				<td class="s-ord-num">#41229</td>
+							  				<td class="split-sku">CTZLHSSL0001-Black </td>
+							  				<td>300.00g</td>
+							  				<td>2</td>
+							  				<td class="s-gross-weight">600.00g</td>
+							  				<td>1</td>
+							  			</tr> -->
+                <!-- <tr>
+							  				<td rowspan="2" class="first-td">Split</td>
+							  				<td>#41229</td>
+							  				<td class="split-sku">CTZLHSSL0001-Black </td>
+							  				<td class="split-weight">300.00g</td>
+							  				<td>1</td>
+							  				<td>300.00g</td>
+							  				<td rowspan="2">2</td>
+							  			</tr>
+							  			<tr>
+							  				<td>#41229</td>
+							  				<td class="split-sku">CTZLHSSL0001-Black </td>
+							  				<td class="split-weight">300.00g</td>
+							  				<td class="s-">1</td>
+							  				<td class="s-gross-w">300.00g</td>
+							  			</tr> -->
+            </tbody>
+        </table>
+        <p>Notice: Since the origin order had been split by two, you have to pay extra registration fee for the them.</p>
+    </div>
+</script>

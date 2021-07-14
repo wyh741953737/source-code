@@ -1,0 +1,634 @@
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_ajmwa5ln9ee.css">
+<div class="mycj-home-box regular-package" id="regular-package">
+  <!--左边导航-->
+  <!-- <div class="mycj-left-bar-wrap">
+    <mycj-leftbar navparamx="'mycj'" navparamy="'Custom Packaging'"></mycj-leftbar>
+  </div> -->
+  <!--右侧内容-->
+  <div class="mycj-right-wrap p-3" ng-class="{vip:vip == '1'}">
+    <div class="top-space-bar"></div>
+    <!--tab-->
+    <ul class="top-taps">
+      <!-- <li class="video tab-theme" ng-class="{active:type=='DESIGN'}" ng-click="chanPageType('DESIGN')"><a>Design Model</a></li> -->
+      <li class="video tab-theme" ng-class="{active:type=='ALL'}" ng-click="chanPageType('ALL')"><a>Pre-Designed Packaging</a>
+      </li>
+      <li class="video tab-theme" ng-class="{active:type=='MY'}" ng-click="chanPageType('MY')"><a>My Custom Packaging</a></li>
+    </ul>
+    <div class="mycj-right-bar">
+      <!--搜索部分-->
+      <div class="search-bar">
+        <div class="search-bar-box">
+          <input type="text" placeholder="Enter Packaging SKU or Packaging Title" class="search-inp" ng-model="inputStr"
+            ng-keyup="enterSearch($event)">
+          <button class="search-btn btn-theme" ng-click="searchPro()" cjdot cjdotshow='{"eventType":2}'>Search</button>
+        </div>
+      </div>
+       <!-- 材质选择 -->
+       <div class="packing-material-section">
+        <div class="packing-material-section_title">
+          Packaging Material:
+        </div>
+        <div class="packing-material-section_content">
+            <ul class="clearfix">
+              <li class="material_content--item  fl" ng-repeat="(index,item) in materialArr" ng-click="selectMaterial(item)">
+                <img src="{{
+                  item.isSelect
+                  ?'./static/image/public-img/checkbox-select-vip@2x.png'
+                  :'./static/image/public-img/checkbox_unchecked@2x.png'
+                }}" alt="" ng-show="vip == '1'">
+                <img src="{{
+                  item.isSelect
+                  ?'./static/image/public-img/checkbox-select-no-vip@2x.png'
+                  :'./static/image/public-img/checkbox_unchecked@2x.png'
+                }}" alt="" ng-show="vip == '0'">
+                <span>{{item.msgEn}}</span>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="product">
+        <ul class="product-list-panel">
+          <li class="product-item" ng-repeat="(index,item) in dataList" ng-cloak>
+            <!-- 2020.4.14隐藏删除 -->
+            <!-- <i class="iconfont product-del" ng-show="type=='MY'" ng-click="deleteFun(item,index,$event)">&#xe60b;</i> -->
+            <a href="javascript:void(0);" class="view-detail-a" ng-click="goTodetail(item)">
+              <img class="product-img" ng-src="{{item.BIGIMG | IMG_SIZE: 210:210}}"
+                title="{{(item.NAMEEN || item.nameEn) | fWordUpcase}}" ng-cloak>
+            </a>
+            <div class="info">
+              <h3 title="{{(item.NAMEEN || item.nameEn) | fWordUpcase}}" ng-cloak ng-click="goTodetail(item)">
+                {{(item.NAMEEN || item.nameEn) | fWordUpcase}}</h3>
+              <div class="listed clearfix">
+                <span class="price notranslate" ng-cloak title='{{item | priceProcessor | exchangeRate}}'>{{item | priceProcessor | exchangeRate}}</span>
+
+              </div>
+            </div>
+            <div class="design-icon" ng-show="item.customMessage && type == 'ALL'" ng-click="goTodetail(item)" href="javascript:void(0);" style="cursor: pointer;" ng-cloak>
+                  <img src="./static/image/public-img/pod@2x.png" alt="">
+            </div>
+            <!-- 购买按钮 -->
+            <div class="ui-btn btn-theme" style="width:198px;margin:0 6px;" ng-show="type=='ALL'||type=='MY'" ng-click="addDia(item.id,$event)">
+              Purchase
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- page -->
+      <page ng-show="dataList.length > 0"></page>
+      <!--no-data-->
+      <div class="no-data" ng-show="dataList.length == 0" style="margin-top: 60px;text-align: center;">
+        <img src="./static/image/public-img/nodata_new.png">
+        <p style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">Sorry, the data is not found. </p>
+      </div>
+    </div>
+  </div>
+  <!--cart-->
+  <!--<mycj-cart carttype="'0'"></mycj-cart>-->
+  <!--弹窗-->
+  <div id="add-store" ng-show="addDialog" class="ng-scope">
+    <div class="ASL-content clearfix">
+      <!-- <img class="closel" ng-click="close()" width="30" src="static/image/page/close-default.png" alt=""> -->
+      <i class="closel iconfont iconguanbi" ng-click="close()" style="font-size: 12px;"></i>
+
+      <img class="proimg fl" ng-src="{{additem.IMG | IMG_SIZE: 210:210}}" alt="">
+
+      <div class="fr" style="width: 520px;margin-left:20px ;">
+        <div class="title" ng-attr-title="{{additem.NAMEEN}}">{{additem.NAMEEN}}</div>
+        <p>SKU: {{additem.SKU}}</p>
+        <!-- 商品阶梯价格 -->
+        <div class="specification-price" ng-show="discountStatusFlag === 1">
+          <div class="spec">
+            <p>MOQ:</p>
+            <p>Product Price:</p>
+          </div>
+          <div class="value">
+            <div class="value-item" ng-repeat="discountPrice in discountPriceAll track by $index">
+              <p ng-if="discountPrice.highNum >= 1">{{discountPrice.lowNum}} - {{discountPrice.highNum}}</p>
+              <p ng-if="discountPrice.highNum == -1"> > {{discountPrice.lowNum}} </p>
+              <p ng-if="discountPrice.type == 1" style="color: #FF7700;font-size: 16px;">{{discountPrice.lowPrice | exchangeRate:'float:2'}}&nbsp;-&nbsp;{{discountPrice.highPrice | exchangeRate:'float:2'}}</p>
+
+              <p ng-if="discountPrice.type == 2" style="color: #FF7700;font-size: 16px;">{{discountPrice.price | exchangeRate:'float:2'}}</p>
+            </div>
+          </div>
+        </div>
+        <div ng-show="varientArr.length>0">
+          <h3>Specifications:</h3>
+          <select name="" id="" class="varient-sel" ng-repeat="items in varientArr track by $index" ng-model="items.val"
+            ng-change="chanVariant(items.val, $index)" index="{{ $index }}">
+            <option value="{{ item }}" ng-repeat="item in items.key track by $index">{{ item }}</option>
+          </select>
+        </div>
+        <div class="clearfix">
+          <h3>Quantity:</h3>
+          <div class="commodity fl clearfix">
+            <div class="iteminner clearfix">
+              <span class="minus" ng-click="minusOne(itemcount)">-</span>
+              <input value="{{itemcount}}" ng-model="itemcount" onpaste="return false;"
+                ng-change="checkIsNum(itemcount)" ng-blur="blurQuantity()">
+              <span class="plus" ng-click="plusOne(itemcount)" ng-style="{'background': itemcount >= 100000 && 'rgba(212,212,212, 0.5)'}">+</span>
+            </div>
+          </div>
+          <p class="fl cart-price">
+            <span>Price: </span>
+            <span ng-bind-html="currentVarientUnitPrice | exchangeRate:'float:2'"></span></p>
+          <p class="fl cart-price">
+             <span>
+               Total:
+             </span>
+            <!-- <span style="color:#FF7700">{{(variantItem.SELLPRICE*itemcount) | exchangeRate:'float:3'}}</span></p> -->
+             <span style="color:#FF7700" ng-bind-html="totalPrice | exchangeRate:'float:2'"></span></p>
+        </div>
+        <button class="sub ui-btn btn-theme" ng-click="addbuy($event)">Pay</button>
+        <p style="margin-top: 4px;color: #4A90E2;">* Please note that the shipping cost may increase when you use this package.</p>
+        <p style="color: #4A90E2;">* And you can click “pay” to have packaging inventory.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<loading-cart background="'transparent'" ng-if="loading" ng-cloak></loading-cart>
+<style type="text/css">
+  [ng-cloak] {
+    display: none;
+  }
+  #regular-package .product-item {
+    position: relative;
+  }
+
+  #regular-package .p-3.vip {
+   background: #F0EDE7;
+  }
+
+  #regular-package .search-bar {
+    display: block !important;
+    float: none !important;
+    padding-left: 5px;
+    padding-top: 20px;
+  }
+
+  #regular-package .search-bar .search-bar-box{
+   font-size: 0;
+  }
+
+  #regular-package .search-bar input{
+    font-size: 12px;
+  }
+
+  #regular-package .product ul {
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  #regular-package .product li {
+    width: 210px;
+    height: 330px;
+    border-radius: 2px;
+    display: inline-block;
+    position: relative;
+    margin: 0 20px 10px 5px;
+    transition: all .3s;
+    background-color: #fff;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  #regular-package .product li .tag {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../image/CJ-home/bestNum.png);
+    width: 20px;
+    height: 24px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  #regular-package .product li:hover {
+    /*box-shadow: 0px 0px 8px 0 rgba(216, 213, 213, 1);*/
+    box-shadow: 2px 2px 16px 0px rgba(216, 213, 213, 0.5);
+    /*border: none;*/
+    transition: all .3s;
+  }
+
+  #regular-package .product li a {
+    width: 210px;
+    height: 210px;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+    border:1px solid #E4E4E4
+  }
+
+  #regular-package .product li a img {
+    width: 210px;
+    height: 210px;
+    transition: all 0.3s;
+  }
+
+  #regular-package .product li a img:hover {
+    transform: scale(1.1);
+    transition: all 0.3s;
+  }
+
+  #regular-package .product li .isVideo {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 98px;
+    height: 25px;
+    background: rgba(255, 119, 0, 1);
+    border-radius: 0px 2px 0px 2px;
+    font-size: 12px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 25px;
+    text-align: center;
+  }
+
+  #regular-package .product li .info {
+    padding: 0 6px;
+  }
+
+  #regular-package .product li .info h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #333;
+    line-height: 20px;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 100%;
+  }
+
+  #regular-package .product li .info h3:hover {
+    color: #FF7700;
+  }
+
+  #regular-package .product li .info .info-txt {
+    margin: 3px auto 0 auto;
+    line-height: 30px;
+    text-align: right;
+  }
+
+  #regular-package .product li .info .price {
+    font-size: 14px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #333333;
+    line-height: 25px;
+    margin-right: 12px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  #regular-package .product li .info .Personalise {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../image/CJ-home/pod@2x.png);
+    width: 22px;
+    height: 19px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 40px;
+    margin-right: 4px;
+  }
+
+  #regular-package .product li .info .listed {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    text-align: left;
+  }
+
+  #regular-package .product li .info .Nwishlist {
+    width: 17px;
+    height: 15px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  #regular-package .product li .info .Ywishlist {
+    width: 17px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+  #regular-package .product li .info .listOrsource {
+    font-size: 14px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 22px;
+    width: auto;
+    margin-left: 5px;
+    padding: 0 5px;
+    height: 22px;
+    background: rgba(247, 142, 41, 1);
+    border-radius: 2px;
+    text-align: center;
+    vertical-align: middle;
+    float: right;
+    margin-top: 10px;
+    border: 1px solid rgba(247, 142, 41, 1);
+  }
+
+  #regular-package .product li .design-icon {
+    position: absolute;
+    bottom:44px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+  }
+
+  #regular-package .product li .design-icon img{
+    width: 22px;
+    height: 22px;
+  }
+
+  #regular-package .product li .info .listOrsource.org:hover {
+    opacity: 0.5;
+    background: #fff;
+  }
+
+  #regular-package .product li .info .listOrsource:hover {
+    background-color: #FFA200;
+  }
+
+  #regular-package .product li .info .listedNum {
+    float: left;
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    margin-right: 6px;
+  }
+
+
+  #regular-package .product li .purchase-btn{
+    margin:0 6px;
+    width: 198px;
+    height: 30px;
+    border:1px solid #FF7700;
+    background-color: #fff;
+    color: #FF7700;
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 4px;
+  }
+  #regular-package .product li .purchase-btn:hover{
+   background-color: #FF7700;
+   color: #FFFFFF;
+  }
+  .no-data {
+    text-align: center;
+  }
+
+  #add-store .ASL-content {
+    width: 800px;
+    height: fit-content;
+    border-radius: 4px;
+    padding: 20px;
+    color: #333333;
+    font-size: 16px;
+    font-family: Helvetica;
+  }
+
+  #add-store .ASL-content .proimg {
+    max-width: 210px;
+    max-height: 210px;
+    border:1px solid #E4E4E4;
+  }
+
+  #add-store .ASL-content  .title{
+    color: #333333;
+    line-height: 35px;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  #add-store .ASL-content h3 {
+    color: #333333;
+    line-height: 35px;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  #add-store .ASL-content select {
+    height: 30px;
+    border: 1px solid #CFD0D0;
+    min-width: 100px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  #add-store .commodity {
+    margin: inherit;
+  }
+
+  #add-store .commodity span {
+    width: 30px;
+  }
+
+  #add-store .commodity input {
+    width: 60px;
+  }
+
+  #add-store .cart-price {
+    font-size: 14px;
+    font-family: Helvetica;
+    margin-left: 20px;
+    color: #333;
+    line-height: 30px;
+  }
+
+  #add-store .sub {
+    width: 200px;
+    height: 38px;
+    line-height: 38px;
+    background: #F78E29;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    font-family: Helvetica;
+    margin-top: 20px;
+    margin-left: 0;
+  }
+
+
+  #add-store h3 {
+   font-weight: normal !important;;
+  }
+
+  #add-store .specification-price {
+    display: flex;
+    width: 510px;
+    height: 95px;
+    background: #FAFAFA;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    margin-top: 10px;
+    padding:15px 10px;
+  }
+
+  #add-store .specification-price .spec{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-basis: 100px;
+  }
+
+  #add-store .specification-price .spec p{
+    color:#333;
+  }
+
+  #add-store .specification-price .value{
+    display: flex;
+    flex:1;
+  }
+
+  #add-store .specification-price .value .value-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 130px;
+    word-break: break-word;
+    padding-right: 7px;
+  }
+
+  #add-store .specification-price .value .value-item p{
+    color:#333;
+  }
+
+
+
+  .commodity {
+    font-size: 14px;
+    text-align: center;
+    margin: 35px 5px 20px 20px;
+    height: 35px;
+  }
+
+  .commodity span {
+    float: left;
+    width: 20px;
+    height: 30px;
+    line-height: 28px;
+    border: 1px solid #d4d4d4;
+    text-align: center;
+    margin-left: -1px;
+    cursor: pointer;
+  }
+
+  .commodity input {
+    float: left;
+    width: 30px;
+    font-size: 14px;
+    line-height: 28px;
+    margin-bottom: 2px;
+    text-align: center;
+    border: 1px solid #d4d4d4;
+    border-radius: 0;
+    margin-left: -1px;
+  }
+
+  .fl {
+    float: left;
+  }
+
+  .fr {
+    float: right;
+  }
+
+  .regular-confirm {
+    line-height: 120px;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 10px;
+  }
+
+
+
+
+  @media screen and (min-width: 1160px) {
+    #regular-package .product .product-list-panel {
+      width: 892px;
+    }
+  }
+
+  @media screen and (min-width: 1260px) {
+    #regular-package .product .product-list-panel {
+      width: 1108px;
+    }
+  }
+
+  @media screen and (min-width: 1480px) {
+    #regular-package .product .product-list-panel {
+      width: 1342px;
+    }
+  }
+
+  @media screen and (min-width: 1700px) {
+    #regular-package .product .product-list-panel {
+      width: 1438px;
+    }
+  }
+
+  /* 材质选择 */
+  #regular-package .packing-material-section {
+    display: flex;
+    margin-bottom: 16px;
+    padding: 0 5px;
+  }
+
+  #regular-package .packing-material-section .packing-material-section_title{
+    margin-top: 16px;
+    width: 175px;
+    font-size: 16px;
+    color: #303133;
+  }
+
+  .packing-material-section .packing-material-section_content{
+    flex:1;
+  }
+
+  .packing-material-section .packing-material-section_content img{
+    width: 14px;
+    height: 14px;
+  }
+
+  .packing-material-section .material_content--item{
+    margin-top: 16px;
+    width: 147px;
+    font-size: 14px;
+  }
+
+  .packing-material-section .material_content--item .iconicon{
+    background:linear-gradient(135deg,rgba(242,215,161,1) 0%,rgba(223,173,101,1) 100%);
+  }
+</style>

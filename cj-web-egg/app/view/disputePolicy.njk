@@ -1,0 +1,202 @@
+{% extends "layout/base.njk" %}
+
+{% block title %}
+<title>Refund, Resend and Returns Policy - CJdropshipping</title>
+<meta name="description" content="This refund policy is to be used as a resource by dropshippers who work with CJdropshipping.com (“CJ”).">
+<meta name="keywords" content="Is CJ dropshipping good,How do I use CJ dropshipping, CJdropshipping return policy" />
+
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{{ detail.coverUrl }}" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+
+<!-- twitter share card -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:domain" content="cjdropshipping.com" />
+<meta name="twitter:title" property="og:title" itemprop="name"
+  content="{{ detail.title }}" />
+<meta name="twitter:description" property="og:description" itemprop="description"
+  content="The latest knowledge, news, courses of Dropshipping from worldwide to worldwide. Powered by CJdropshipping." />
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/dispute-policy.css' | VERSION }}">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "snippet/common-top.njk" %}
+
+
+<!-- 内容主区域 -->
+<div class="dispute-policy" id="vue-dispute-policy">
+  <div class="content">
+    <h3 class="title">Refund, Resend and Returns Policy</h3>
+    <div class="description">
+      <p>This refund policy is to be used as a resource by dropshippers who work with CJdropshipping.com (“CJ”).</p>
+      <p>Please review the following policies carefully.</p>
+    </div>
+    <div class="summary">
+      <p style="padding: 6px 0;">ALL DISPUTES SHALL BE OPENED ON CJ. OTHERWISE, CJ WILL BLOCK YOUR ACCOUNT PERMANENTLY. </p>
+      <p style="padding: 6px 0;">CJ offers a quicker dispute solution and will appreciate it a lot if you provide:</p>
+      <div class="some-items">
+        <p>
+          <span>a.&nbsp;</span>
+          <span>Photos or videos of the damaged item to prove damage. If the photo cannot prove the products are damaged, please upload the video.</span>
+        </p>
+        <p>
+          <span>b.&nbsp;</span>
+          <span>Screenshot of the e-mail or dispute received including name, date and content. In other words, a customer has sent the complaint (Through PayPal Dispute or other Gateway, e-mail, etc.).</span>
+        </p>
+        <p>
+          <span>c.&nbsp;</span>
+          <span>The products need to be returned to CJ if our Dispute Team asks for a return on the AS Service Center.</span>
+        </p>
+      </div>
+    </div>
+    <div class="information">
+      <p class="information-title">
+        <span>Except</span>
+        <span style="color: #333333;font-weight:600;">the important interpretation,</span>
+        <span> CJ will make Refund, Resend, or Accept the Return for any of the following cases:</span>
+      </p>
+
+      <!-- termsList列表 -->
+      {% for item in termsList %}
+      
+      {% set tremsListBoxClass = 'terms-list-box' %}
+      {% if loop.index0 == 0 %}
+      {% set tremsListBoxClass = 'terms-list-box top-border' %}
+      {% endif %}
+      <div class="{{ tremsListBoxClass }}">
+        <h3 class="trems-list-title canClickTerm" clickIndex="{{loop.index0}}">
+          <span clickIndex="{{loop.index0}}">{{ item.TITLE | safe }}</span>
+          <img src="/static/image/arrow/arrow-down1.png" class="trems-arrow" alt="" id="trems-arrow{{loop.index0}}">
+        </h3>
+        <div class="terms-list-more" id="clickTerm{{loop.index0}}">
+          <div class="terms-list-description">
+            {% for description in item.DESCRIPTION %}
+              <p>{{ description | safe }}</p>
+            {% endfor %}
+          </div>
+          <div class="terms-list-items">
+            {% for ele in item.POINTS %}
+              <div>
+                <p class="step">
+                  <!-- {{ele.STEP}} -->
+                  <span>{{ ele.STEP | safe }}</span>
+                  <span>{{ ele.CONTENT | safe }}</span>
+                </p>
+                <div style="padding-left: 24px;">
+                  {% for element in ele.ITEMS %}
+                    <p class="step">
+                      <span>{{ element.LABEL | safe }}</span>
+                      <span>{{ element.VALUE | safe }}</span>
+                    </p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div style="margin-top: 6px;" class="notes-box">
+            {% if item.NOTES.length > 0 %}
+              <p class="trems-list-title terms-list-notes">Notes:</p>
+              {% for note in item.NOTES %}
+                <p class="terms-list-notes step nopl">
+                  <!-- {{note.STEP}} -->
+                  <span>{{ note.STEP | safe }}</span>
+                  <span>{{ note.CONTENT | safe }}</span>
+                </p>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- interList -->
+    <div class="inter-box information">
+      <h3 class="inter-box-title">Important Interpretation</h3>
+      {% for item in interList %}
+
+      {% set tremsListBoxClass = 'terms-list-box' %}
+      {% if loop.index0 == 0 %}
+      {% set tremsListBoxClass = 'terms-list-box top-border' %}
+      {% endif %}
+      
+      {% set tremsArrowClass = 'trems-arrow' %}
+      {% if loop.index0 == 0 %}
+      {% set tremsArrowClass = 'trems-arrow top-border' %}
+      {% endif %}
+
+        <div class="{{ tremsListBoxClass }}">
+          <h3 class="trems-list-title canClickInter" clickIndex="{{loop.index0}}">
+            <!-- {{item.TITLE}} -->
+            <span clickIndex="{{loop.index0}}">{{ item.TITLE | safe }}</span>
+            <img src="/static/image/arrow/arrow-down1.png" class="{{ tremsArrowClass }}" alt="" id="information-trems-arrow{{loop.index0}}">
+          </h3>
+          <div class="terms-list-more" id="clickInter{{loop.index0}}">
+            <div class="terms-list-description">
+              {% for description in item.DESCRIPTION %}
+                <p>{{ description | safe }}</p>
+              {% endfor %}
+            </div>
+            
+            <div class="terms-list-items">
+              {% for ele in item.POINTS %}
+              <div>
+                <p class="step">
+                  <!-- {{ele.STEP}} -->
+                  <span>{{ ele.STEP | safe }}</span>
+                  <span>{{ ele.CONTENT | safe }}</span>
+                </p>
+                <div style="padding-left: 24px;">
+                  {% for element in ele.ITEMS %}
+                    <p class="step">
+                      <!-- {{element.LABEL}} -->
+                      <span>{{ element.LABEL | safe }}</span>
+                      <!-- {{element.VALUE}} -->
+                      <span>{{ element.VALUE | safe }}</span>
+                    </p>
+                  {% endfor %}
+                </div>
+              </div> 
+              {% endfor %}
+            </div>
+            
+            <div>
+              {% if item.NOTES.length > 0 %}
+                <p class="trems-list-title terms-list-notes">Notes:</p>
+                {% for note in item.NOTES %}
+                  <p class="terms-list-notes step nopl">
+                    <span>{{ note.STEP | safe }}</span>
+                    <span>{{ note.CONTENT | safe }}</span>
+                  </p>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <p class="contact-us">CJ always try to offer the best service. If you have any other questions, please feel free to <a href="https://chat.cjdropshipping.com/#/newChat" target="_blank" class="link">contact us</a>.
+    </p>
+  </div>
+</div>
+  
+
+
+
+<!-- 相关链接 -->
+{% include "./snippet/home/related-links.njk" %}
+<script src="{{ PUBLIC_SCRIPT + '/disputePolicy.js' | VERSION }}"></script>
+{% endblock %}
+
+

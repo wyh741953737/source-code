@@ -1,0 +1,17 @@
+{% from "../../macor/articleListWarp.njk" import articleListWarp %}
+
+{% set opt = {
+  articleList: articleList,
+  articleTitle: articleTitle,
+  route: '/article-details',
+  menuOpenIdx: menuOpenIdx,
+  menuActiveIdx: menuActiveIdx
+} %}
+<div class="popup-article">
+  {{ articleListWarp(opt) }}
+  {% if pageModule.totalNum > 8 %}
+    <div class="article-page">
+      {% include "./page.njk" %}
+    </div>
+  {% endif %}
+</div>

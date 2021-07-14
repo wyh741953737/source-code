@@ -1,0 +1,217 @@
+<!-- ioss 设置 -->
+<div class="profile-ioss">
+    <!-- 标题 -->
+    <div class="ioss-title">IOSS Options</div>
+    <!-- 默认设置 -->
+    <div class="default-setting">
+        <!-- 段落标题 -->
+        <div class="option-title">Default Setting</div>
+        <!-- radio 选择 -->
+        <div class="radio-item">
+            <div class="radio-label">
+                <input type="radio" id="no-ioss" value="1" ng-model="defaultSettingValue"
+                       ng-change="onSettingChange()">
+                <label for="no-ioss" class="custom-radio"></label>
+                <label for="no-ioss">No IOSS</label>
+            </div>
+            <div class="description">
+                The amount of the orders (shipping cost included) will be declared and recipients will be required by
+                the customs to pay VAT when parcels arrive in the destination countries of EU.
+            </div>
+        </div>
+        <div class="radio-item">
+            <div class="radio-label">
+                <input type="radio" id="my-ioss" value="2" ng-model="defaultSettingValue"
+                       ng-change="onSettingChange()">
+                <label for="my-ioss" class="custom-radio"></label>
+                <label for="my-ioss">Declare with my own IOSS</label>
+            </div>
+            <div class="description">
+                Please enter correct and valid IOSS IDs, which should be linked to corresponding destination countries.
+                IOSS ID will not be applied if the destination country is not linked to a correct IOSS ID.
+            </div>
+            <!-- 选择金额 -->
+            <div class="money-select" ng-show="defaultSettingValue === '2'">
+                <div class="amount-item" ng-class="{ selected: amountType === '1' }" ng-click="onChangeAmountType('1')">
+                    <!-- 右上角勾选 -->
+                    <div class="checked" ng-show="amountType === '1'">
+                        <div class="triangle"></div>
+                        <i class="iconfont iconduihao tick"></i>
+                    </div>
+
+                    <div class="amount-title">Declaration with your store order amount</div>
+                    <div class="amount-context">
+                        The amount of your store orders will be declared if available, otherwise, the amount of the CJ
+                        orders (shipping cost included) will be declared, and you will be charged for VAT upon your own
+                        IOSS ID. Orders valued above €150 will be declared with your IOSS ID while the recipient will be
+                        required to pay tariff and VAT.
+                    </div>
+                </div>
+                <div class="amount-item" ng-class="{ selected: amountType === '2' }" ng-click="onChangeAmountType('2')">
+                    <!-- 右上角勾选 -->
+                    <div class="checked" ng-show="amountType === '2'">
+                        <div class="triangle"></div>
+                        <i class="iconfont iconduihao tick"></i>
+                    </div>
+
+                    <div class="amount-title">Declaration with the CJ order amount (shipping cost included)</div>
+                    <div class="amount-context">
+                        The amount of the CJ orders (shipping cost included) will be declared, and you will be charged
+                        for VAT upon your own IOSS ID. Orders valued above €150 will be declared with your IOSS ID while
+                        the recipient will be required to pay tariff and VAT.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="radio-item">
+            <div class="radio-label">
+                <input type="radio" id="cj-ioss" value="3" ng-model="defaultSettingValue"
+                       ng-change="onSettingChange()">
+                <label for="cj-ioss" class="custom-radio"></label>
+                <label for="cj-ioss">Declare with CJ’s IOSS</label>
+            </div>
+            <!-- 选择金额 -->
+            <div class="money-select" ng-show="defaultSettingValue === '3'">
+                <div class="amount-item" ng-class="{ selected: amountType === '1' }" ng-click="onChangeAmountType('1')">
+                    <!-- 右上角勾选 -->
+                    <div class="checked" ng-show="amountType === '1'">
+                        <div class="triangle"></div>
+                        <i class="iconfont iconduihao tick"></i>
+                    </div>
+
+                    <div class="amount-title">Declaration with your store order amount</div>
+                    <div class="amount-context">
+                        The amount of your store orders will be declared if available, otherwise, the amount of the CJ
+                        orders (shipping cost included) will be declared, and you will be charged for VAT upon CJ's IOSS
+                        ID. CJ's IOSS ID is not applicable to orders valued above €150, and the recipient will be
+                        required to pay tariff and VAT.
+                    </div>
+                </div>
+                <div class="amount-item" ng-class="{ selected: amountType === '2' }" ng-click="onChangeAmountType('2')">
+                    <!-- 右上角勾选 -->
+                    <div class="checked" ng-show="amountType === '2'">
+                        <div class="triangle"></div>
+                        <i class="iconfont iconduihao tick"></i>
+                    </div>
+
+                    <div class="amount-title">Declaration with the CJ order amount (shipping cost included)</div>
+                    <div class="amount-context">
+                        The amount of the CJ orders (shipping cost included) will be declared, and you will be charged
+                        for VAT upon CJ's IOSS ID. CJ's IOSS ID is not applicable to orders valued above €150, and the
+                        recipient will be required to pay tariff and VAT.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 列表 -->
+    <div class="ioss-list">
+        <div class="ioss-list-title" ng-show="unLinkedList.length > 0">My IOSS Settings</div>
+        <!-- 信息以及操作栏 -->
+        <div class="info-bar">
+            <div class="add-button" ng-click="onAdd()" ng-show="unLinkedList.length > 0">
+                <i class="iconfont iconplus-"></i>
+                Add IOSS
+            </div>
+            <div class="ioss-list-title" style="padding-bottom: 0;" ng-show="unLinkedList.length === 0">My IOSS Settings</div>
+            <div class="number-info">
+                <div class="info-item">
+                    <span class="label">Linked Countries:</span>
+                    <span class="value">{{configTaxCountry}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Unlinked Countries:</span>
+                    <span class="ioss-tooltip">
+                        <span class="value unlink-country">{{nonConfigTaxCountry}}</span>
+                        <div class="ioss-tooltip-box tooltip-right" style="width: 320px;" ng-show="unLinkedList.length > 0">
+                            <div class="ioss-tooltip-content" style="max-width: 320px;">{{ unLinkedList.join(', ') }}</div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- 列表内容 -->
+        <div class="list-content">
+            <table class="ioss-table">
+                <thead>
+                <tr>
+                    <th style="width: 370px;">Description</th>
+                    <th style="width: 300px;">IOSS ID</th>
+                    <th style="width: 350px;">Destination Country</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(index, item) in iossList">
+                    <td style="width: 370px;">
+                        <div class="ioss-tooltip">
+                            <div class="td-content">{{item.iossName}}</div>
+                            <div class="ioss-tooltip-box tooltip-center">
+                                <div class="ioss-tooltip-content" style="max-width: 220px;">{{item.iossName}}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 300px;">
+                        <div class="td-content">
+                            {{item.iossSn}}
+                        </div>
+                    </td>
+                    <td style="width: 350px;">
+                        <div class="ioss-tooltip">
+                            <div class="td-content">{{item.countryCodeEnNameList.join(', ')}}</div>
+                            <div class="ioss-tooltip-box tooltip-center" style="width: 300px;">
+                                <div class="ioss-tooltip-content" style="max-width: 300px;">
+                                    {{item.countryCodeEnNameList.join(', ')}}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 180px;" class="td-action">
+                        <div>
+                            <div class="ioss-tooltip">
+                                <i class="iconfont iconshanchu1 action-icon delete" ng-click="onOpenDelete(item)"></i>
+                                <div class="ioss-tooltip-box tooltip-center">
+                                    <div class="ioss-tooltip-content">Delete</div>
+                                </div>
+                            </div>
+                            <div class="ioss-tooltip">
+                                <i class="iconfont iconbianji5 action-icon edit" ng-click="onEdit(item)"></i>
+                                <div class="ioss-tooltip-box tooltip-center">
+                                    <div class="ioss-tooltip-content">Edit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 列表没有数据的时候显示情景图 -->
+            <div class="no-data" ng-show="iossList.length === 0">
+                <img src="/static/image/profile/iossNoData.png" alt="">
+                <span>No data yet.</span>
+            </div>
+        </div>
+    </div>
+    <!-- 添加、编辑 IOSS 弹窗 -->
+    <edit-ioss close="closeIoss" ng-if="showIoss" callback="getSettingInfo" description="itemDescription"
+               ioss-id="itemIossId" country-code-list="itemCountryCodeList"
+               country-code-en-name-list="itemCountryCodeEnNameList" id="itemId" user-id="itemUserId"
+               is-edit="isEdit"
+               is-profile="true"
+    />
+    <!-- 删除 -->
+    <div class="delete-ioss-wrap" ng-if="showDelete">
+        <div class="delete-modal">
+            <div class="delete-header">
+                <i class='iconfont iconguanbi1 edit-close' ng-click='onCloseDelete()'></i>
+            </div>
+            <div class="delete-content">
+                Are you sure to delete the IOSS?
+            </div>
+            <div class="delete-footer">
+                <span class='product-btn ui-btn no-btn' ng-click='onCloseDelete()'>Cancel</span>
+                <span class='product-btn ui-btn btn-theme' ng-click='onDelete()'>Confirm</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+.tipsComponent {
+  position: relative;
+  cursor: pointer;
+}
+.tipsComponent::after {
+  display: none;
+  content: "";
+  position: absolute;
+  left: 8px;
+  bottom: 17px;
+  border-width: 14px 10px 10px 4px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.6) transparent transparent transparent;
+}
+.tipsComponent:hover::after {
+  display: inline-block;
+}
+.tipsComponent :global .app-tips {
+  display: none;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 12px;
+  border-radius: 4px;
+  position: absolute;
+  line-height: 20px;
+  top: -78px;
+}
+.tipsComponent:hover :global .app-tips {
+  display: inline-block;
+}

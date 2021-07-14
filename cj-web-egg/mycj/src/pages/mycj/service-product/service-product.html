@@ -1,0 +1,135 @@
+<div class="mycj-home-box PC-wrap service-product">
+  <div class="mycj-right-wrap PC-con p-3">
+    <div class="top-space-bar"></div>
+    <div class="mycj-right-bar PC-w1200 pro-skulist clearfix">
+      <div class="search-box-wrap">
+        <div class="input-group search-box">
+          <input type="text" class="form-control" placeholder="Enter SKU/Product Name" ng-model="skusearch" ng-keyup="enterSearch($event)">
+          <span class="input-group-btn">
+            <button class="search-btn btn-theme" type="button" ng-click="searchsku()">Search</button>
+          </span>
+        </div>
+      </div>
+
+      <div class="cj-load-wrap table-connected">
+        <not-data ng-if="notDataFound"></not-data>
+        <table class="SKUtable" style="width: 100%;" ng-show="skulist.length>0">
+          <thead>
+            <tr>
+              <td rowspan="2" style="width: 8%;">Date</td>
+              <td rowspan="2" style="width: 7.5%;">Images</td>
+              <td rowspan="2" style="width: 15.5%;">Name</td>
+              <td rowspan="2" style="width: 10.5%;">SKU</td>
+              <td colspan="3" style="width: 15%;">Inventory</td>
+              <td rowspan="2" style="width: 6%;">Service Fee</td>
+              <td rowspan="2" style="width: 5.5%;">Weight</td>
+              <td rowspan="2" style="width: 5.5%;">Shipping Method</td>
+              <td rowspan="2" style="width: 8%;">Shipping Cost</td>
+              <td rowspan="2" style="width: 6%;">Amount</td>
+              <td rowspan="2" style="width: 6.5%;">Sales</td>
+              <td rowspan="2" style="width: 6%;">Action</td>
+            </tr>
+            <tr>
+              <td style="width: 5%">China</td>
+              <td style="width: 5%">US</td>
+              <td style="width: 5%">TH</td>
+            </tr>
+          </thead>
+          <tbody ng-repeat="(index1,item) in skulist">
+            <tr>
+              <td class="td-date">{{item.CREATEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+              <td class="td-img">
+                <div class="td-img-box">
+                  <a href="{{'product-detail.html?id=' + item.ID + '&productType=1'}}" target="_blank"><img
+                      class="small-img" ng-src="{{'//'+(item.BIGIMG | IMG_SIZE: 75)}}" alt=""></a>
+                  <img class="big-img" ng-src="{{'//'+item.BIGIMG | IMG_SIZE: 400}}" alt="">
+                </div>
+              </td>
+              <td class="td-name"><a href="{{'product-detail.html?id=' + item.ID + '&productType=1'}}" target="_blank" class="td-name-theme"
+                  title="{{item.NAMEEN}}">{{item.NAMEEN}}</a></td>
+              <td class="td-sku">{{item.SKU}}</td>
+              <td><span>{{item.INVENTORCOUNTRY.China}}</span></td>
+              <td><span>{{item.INVENTORCOUNTRY.US}}</span></td>
+              <td><span>{{item.INVENTORCOUNTRY.TH}}</span></td>
+              <td class="td-price">
+                <span>${{(item.serviceFee + '').replace(' -- ', '-')}}</span>
+              </td>
+              <td><span>{{item.PACKWEIGHT.replace(' -- ', '-') + 'g'}}</span></td>
+              <td>
+                <div>{{item.shopMethod == null ? '--' : item.shopMethod}}</div>
+                <div ng-if="item.wuliuRemark" class="asj-wuliu-tip-wrap" style="display: block; margin: 5px auto;">
+                  <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+                  <div class="asj-wuliu-tip-show" ng-bind-html="item.wuliuRemark"></div>
+                </div>
+              </td>
+              <td class="td-ship-cost">
+                <ship-caculate shipinfo="item.shipinfo"></ship-caculate>
+              </td>
+              <td class="amount-price-td">
+                {{'$' + (item.AMOUNTPRICE + '').replace(' -- ', '-')}}
+                <div class="toast-wrap" ng-show="item.isProAmountTip != false">
+                  <i class="iconfont">&#xe745;</i>
+                  <div class="toast-box">
+                    Shipping cost not included.
+                  </div>
+                </div>
+              </td>
+              <td><span>{{item.salesVolume || 0}}</span></td>
+              <td class="td-btn action-btn">
+                <a href="{{'#/products-connection/service-connection/'+ item.SKU}}" target="_blank" class="connect-btn">Connect</a>
+                <br>
+                <a ng-if="!item.down" class="show-vlist" href="javascript:void(0);" ng-click="item.down = true;"><img
+                    src="./static/image/public-img/to-down.png" alt=""></a>
+                <a ng-if="item.down" class="show-vlist" href="javascript:void(0);" ng-click="item.down = false;"><img
+                    src="./static/image/public-img/to-up.png" alt=""></a>
+              </td>
+            </tr>
+            <tr style="background: #f8f8f8;" ng-repeat="(index2,item2) in item.stanProdcuts" ng-show="item.down">
+              <td class="td-date">{{item.CREATEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+              <td class="td-img">
+                <div class="td-img-box">
+                  <a href="{{'product-detail.html?id=' + item.ID + '&productType=1'}}" target="_blank"><img
+                      class="small-img" ng-src="{{item2.IMG || item2.BIGIMG}}" alt=""></a>
+                  <img class="big-img" ng-src="{{item2.IMG || item2.BIGIMG}}" alt="">
+                </div>
+              </td>
+              <td class="td-name"><a href="{{'product-detail.html?id=' + item.ID + '&productType=1'}}" target="_blank"
+                  title="{{item2.NAMEEN}}" class="td-name-theme">{{item2.NAMEEN}}</a></td>
+              <td class="td-sku">{{item2.SKU}}</td>
+              <!-- || item.INVENTORCOUNTRY.China -->
+              <td><span>{{item2.INVENTORCOUNTRY.China}}</span></td>
+              <!-- || item.INVENTORCOUNTRY.US -->
+              <td><span>{{item2.INVENTORCOUNTRY.US}}</span></td>
+              <td><span>{{item2.INVENTORCOUNTRY.TH}}</span></td>
+              <td class="td-price">
+                <span>${{(item2.serviceFee + '').replace(' -- ', '-')}}</span>
+              </td>
+              <td><span>{{(item2.PACKWEIGHT + '').replace(' -- ', '-') + 'g'}}</span></td>
+              <td><span>{{item2.shopMethod == null ? '--' : item2.shopMethod}}</span></td>
+              <td class="td-ship-cost">
+                <ship-caculate shipinfo="item.shipinfo"></ship-caculate>
+              </td>
+              <td class="amount-price-td">
+                {{'$' + (item2.AMOUNTPRICE + '').replace(' -- ', '-')}}
+                <div class="toast-wrap" ng-show="item2.isProAmountTip != false">
+                  <i class="iconfont">&#xe745;</i>
+                  <div class="toast-box">
+                    Shipping cost not included.
+                  </div>
+                </div>
+              </td>
+              <td><span>{{item2.salesVolume || 0}}</span></td>
+              <td class="td-btn"><a href="javascript:void(0);">--</a></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 分页 -->
+      <page ng-show="skulist.length > 0"></page>
+
+    </div>
+  </div>
+</div>
+<loading-cart top="'.table-connected'" ng-if="loading" left="12" right="12"></loading-cart>

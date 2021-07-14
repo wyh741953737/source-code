@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="./static/components/product_card_list/product_card_list.css" />
+
+<div class="new-product-card-box">
+  <div id='card-list-top'></div>
+  <div class="list">
+    <div class="item" ng-repeat="(index,item) in productlist track by $index" key='{{index}}' repeat-card-list>
+      <product-card width="236" data="item" class="new-product-card" isaddcartbtn="isaddcartbtn" add-cart-fun="addCartFun" purchase-list-in="purchaseListIn"></product-card>
+    </div>
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+  </div>
+  <div id='card-list-loading'></div>
+  <div id='card-list-footer' ng-show='footerShow'></div>
+  <div class="backTop" ng-click='backTop()' style="display: none;">
+    <i class="iconfont">&#xe703;</i>
+    <p>TOP</p>
+  </div>
+</div>

@@ -1,0 +1,596 @@
+{% block title %}
+<title>CJdropshipping - Dropshipping from Worldwide to Worldwide!</title>
+<meta name="description" property="og:description" content="One-stop solution for dropshipping: Global warehouses, fast shipping time, free sourcing, POD service, custom packaging, product photography.">
+<meta name="keywords" content="dropshipping, drop shipping, best dropshipping products, dropshipping products, aliexpress alternative, dropshipping suppliers, best dropshipping products, shopify dropshipping suppliers, oberlo chrome extension" />
+
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+
+<!-- twitter share card -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:domain" content="cjdropshipping.com" />
+<meta name="twitter:title" property="og:title" itemprop="name"
+  content="Dropshipping from Worldwide to Worldwide!" />
+<meta name="twitter:description" property="og:description" itemprop="description"
+  content="Sourcing and Dropshipping for Shopify, WooCommerce, Wish, eBay with Quality Products, Fast Shipping, Good Service." />
+<meta name="facebook-domain-verification" content="wlqx18sqvl3cb87p0n0mt4dukzzxay" />
+{% endblock %}
+
+{% from "macor/home.njk" import productGroup %}
+{% from "macor/home.njk" import productWrap %}
+{% from "macor/product.njk" import product %}
+{% from "macor/product.njk" import sourceProd %}
+
+{% macro hydrate(opt, params) %}
+<div v-if="!list.length" class="product-box" render="njk">
+  {% for prod in opt.data %}
+  {% if opt.source %}
+  {{ sourceProd(prod, params) }}
+  {% else %}
+  {{ product(prod, params) }}
+  {% endif %}
+  {% endfor %}
+</div>
+<div v-else class="product-box" render="vue">
+  {% if opt.source %}
+  <product-source v-for="(prod, idx) of list" :prod="prod" :key="idx" :img-Size="imgSize" />
+  {% else %}
+  <product-card
+    tracking='{"clickId": "{{ opt.tracking.clickId }}", "collectionId": "{{ opt.tracking.collectionId }}", "addToQueueId": "{{ opt.tracking.addToQueueId }}", "exposureId": "{{ opt.tracking.exposureId }}"}' v-for="(prod, idx) of list" :prod="prod" :key="idx" :img-Size="imgSize" title="{{ opt.title }}" />
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% extends "layout/base.njk" %}
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-card.css' | VERSION }}">
+
+{% endblock %}
+
+{% block body %}
+
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "snippet/common-top.njk" %}
+
+<!-- banner -->
+<div class="banner-wrap mt-2 mb-2">
+  <div class="container-main d-flex bg-white banner-box">
+    {% include "snippet/home/category.njk" %}
+    <div class="banner">
+      {% include "snippet/swiper.njk" %}
+    </div>
+    {% include "snippet/home/right-admin.njk" %}
+  </div>
+</div>
+
+<div>
+  <!-- 楼层 1 -->
+  {% macro supperDeal() %}
+  <div class="card-wrap">
+    <!-- <div class="inner-box product-card-add"> -->
+      <a href="list-detail.html?from=all&fromType=all&type=superdeal" class="first-img-box">
+        <img class="first-img" src="/egg/image/home/super-deal.png" style="width: 100%; height: 100%;object-fit: fill;" alt="">
+      </a>
+    <!-- </div> -->
+  </div>
+  <!-- <a style="width:0;" class="supper-deal flex-fill" href="list-detail.html?from=all&fromType=all&type=superdeal">
+  </a> -->
+  {% endmacro %}
+  {% set opt = {
+    floor: 1,
+    title: i18next.t('home-super-deals'),
+    data: [{ block: supperDeal() }].concat(floor1),
+    more: 'list-detail?otherListType=3'
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+    <div v-if="!list.length" class="product-box">
+      {% for prod in opt.data %}
+      {% if prod.block %}
+      {{ prod.block }}
+      {% else %}
+      {{ product(prod, productParams) }}
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div v-else v-cloak class="product-box" render="vue">
+      {{ supperDeal() }}
+      <product-card tracking='{"clickId": "005", "collectionId": "006", "addToQueueId": "007", "exposureId": "008"}' v-for="(prod, idx) of list" :prod="prod" :key="idx" title="{{ opt.title }}" />
+    </div>
+  {% endcall %}
+
+  <!-- 楼层 2 -->
+  {% set opt = {
+    floor: 2,
+    title: i18next.t('home-trending-products'),
+    data: floor2,
+    more: 'list-detail?otherListType=0',
+    tracking: {
+      clickId: "031",
+      collectionId: "032",
+      addToQueueId: "033",
+      exposureId: "034"
+    }
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+  {{ hydrate(opt, productParams) }}
+  {% endcall %}
+
+  <!-- 楼层 3 -->
+  {% set opt = {
+    floor: 3,
+    title: i18next.t('home-new-products'),
+    data: floor3,
+    more: 'list-detail?otherListType=1',
+    tracking: {
+      clickId: "009",
+      collectionId: "010",
+      addToQueueId: "011",
+      exposureId: "012"
+    }
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+  {{ hydrate(opt, productParams) }}
+  {% endcall %}
+
+  <!-- 楼层 4 -->
+  {% set opt = {
+    floor: 4,
+    title: i18next.t('home-hot-selling-categories'),
+    render: 'njk'
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+  <div class="d-flex" id="vue-floor-njk-4">
+    {% for cate in floor4 %}
+    <div class="hot-item-box">
+      <a
+        data-tracking-element-click='{"actionType": "sort_click", "elementId": "029", "list":[{"filedName": "sort_id", "fieldValue": "{{ cate.id }}"}]}'
+        data-tracking-element-view='{"actionType": "product_exposure", "elementId": "030", "list":[{"filedName": "sort_id", "fieldValue": "{{ cate.id }}"}]}'
+        href="{{ cate | HOTCATEGORY_LINK(categories) }}" class="hot-item">
+        <div class="img-box">
+          <img src="/egg/image/img_default.jpg" data-url="{{ cate.img | IMG_SIZE(280) }}" alt="{{ cate.name }}">
+        </div>
+        <h4 class="cateName">{{ cate.name }}</h4>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endcall %}
+
+  <!-- 楼层 5 -->
+  <!-- {% set opt = {
+    floor: 5,
+    title: i18next.t('Listable Products'),
+    data: floor5,
+    more: 'list-detail.html?from=all&fromType=list'
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+  {{ hydrate(opt, productParams) }}
+  {% endcall %} -->
+
+  <!-- 楼层 6 -->
+  <!-- <div class="floor-both-wrap d-flex container-main justify-content-between">
+    {% set opt = {
+      floor: '6 left',
+      title: i18next.t('common-us-warehouse'),
+      data: floor6_l,
+      IMG_SIZE: [270, 290],
+      more: 'list-detail?from=US&fromType=all'
+    } %}
+    {% call productWrap(opt, productParams['View More']) %}
+    {{ hydrate(opt, productParams) }}
+    {% endcall %}
+
+    {% set opt = {
+      floor: '6 right',
+      title: i18next.t('common-thailand-warehouse'),
+      data: floor6_r,
+      IMG_SIZE: [270, 290],
+      more: 'list-detail?from=TH&fromType=all'
+    } %}
+    {% call productWrap(opt, productParams['View More']) %}
+    {{ hydrate(opt, productParams) }}
+    {% endcall %}
+  </div> -->
+  <div class="swiper-global-warehouse">
+    {% set opt = {
+      floor: 'global-warehouse',
+      title: i18next.t('home-global-warehouses'),
+      data: floor_gw,
+      IMG_SIZE: [270, 290],
+      more: '/global-warehouses'
+    } %}
+    {% call productWrap(opt, productParams['View More']) %}
+    <div class="swiper-container" ref="swiperContainerDom">
+      <div v-if="!warehouseList.length" class="swiper-wrapper" :style='wrapperStyles' render="njk">
+        {% for item in opt.data %}
+          <div class="swiper-slide">
+            <div class="main">
+              <h3 v-cloak>
+                <a href="{{ item.link }}" target="_blank"> {{item.title}}
+                  <span class="go-warehouse-icon"><i class="iconfont" style="font-size: 14px;font-weight: 600">&#xe6e7;</i></span>
+                </a>
+              </h3>
+              <div class="product-box">
+                {% for prod in item.list %}
+                  {{ product(prod, productParams) }}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div v-else class="swiper-wrapper" :style='wrapperStyles' render="vue">
+        <div class="swiper-slide" :key="index" v-for="(item, index) of warehouseList">
+          <div class="main">
+            <h3 v-cloak style="cursor: pointer">
+{#              <a href="http://www.baidu.com">${item.areaVal}</a>#}
+              <a :href="item.link" target="_blank">${item.areaVal} <span class="go-warehouse-icon"><i class="iconfont" style="font-size: 14px;font-weight: 600">&#xe6e7;</i></span></a>
+            </h3>
+            <div class="product-box">
+              <product-card tracking='{"clickId": "013", "collectionId": "014", "addToQueueId": "015", "exposureId": "016"}' :prod="prod" :key="idx" v-for="(prod, idx) of item.list" :img-Size="imgSize" title="{{ opt.title }}" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="swiper-prev iconfont iconleft2" v-on:click="onPrev($event)" v-show="isPrev"></span>
+    <span class="swiper-next iconfont iconright2" v-on:click="onNext($event)" v-show="isNext"></span>
+    {% endcall %}
+  </div>
+
+  <!-- 楼层 7 -->
+  <!-- <div class="justify-content-quantity-4 floor-both-wrap"> -->
+  {% set opt = {
+    floor: '7 left',
+    title: i18next.t('home-video-products'),
+    data: floor7_l,
+    more: 'list-detail?otherListType=2',
+    tracking: {
+      clickId: "017",
+      collectionId: "018",
+      addToQueueId: "019",
+      exposureId: "020"
+    }
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+  {{ hydrate(opt, productParams) }}
+  {% endcall %}
+  <!-- </div> -->
+
+  <!-- 楼层 8 -->
+  {% set opt = {
+    floor: 8,
+    title: i18next.t('common-print-on-demand'),
+    data: floor8,
+    more: 'PrintonDemand.html',
+    tracking: {
+      clickId: "021",
+      collectionId: "022",
+      addToQueueId: "023",
+      exposureId: "024"
+    }
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+  {{ hydrate(opt, productParams) }}
+  {% endcall %}
+</div>
+<!-- 选品活动展示模块 -->
+{% if activityShowList.length >= 4 %}
+<div class="activity-show" id="vue-floor-njk-8">
+  <div class="container-main floor-box">
+    <div class="img-box">
+      {% for item in activityShowList %}
+        <a {{ item | _createLink }}
+          data-tracking-element-click='{"actionType": "banner_click", "elementId": "003", "list":[{"filedName": "bannerId", "fieldValue": "{{ item.id }}"}]}'
+          data-tracking-element-view='{"actionType": "banner_exposure", "elementId": "004", "list":[{"filedName": "bannerId", "fieldValue": "{{ item.id }}"}]}'
+          tracking-element-view='{"bannerId": "{{item.id}}"}' tracking-element-click='{"bannerId": "{{item.id}}"}'>
+          <img
+            src="/egg/image/img_default1.svg"
+{#            src="{{ item.webImg | IMG_SIZE(252, 211) }}"#}
+            alt=""
+            data-url="{{ item.webImg | IMG_SIZE(252, 211) }}"
+          />
+        </a>
+      {% endfor %}
+    </div>
+    <a href="/recommendations" target='_blank' class="view-vore-btn">
+      <span>
+        <i class="iconfont iconbianzu48"></i>
+        <p>{{productParams['View More']}}</p>
+      </span>
+    </a>
+  </div>
+</div>
+{% endif %}
+
+<!-- 楼层 9 -->
+<div class="vue-floor-9 mb-4" id="vue-floor-9">
+  {% set opt = {
+    floor: 9,
+    title: i18next.t('home-recommended-products')
+  } %}
+  {% call productWrap(opt, productParams['View More']) %}
+  <div class="product-box">
+    <product-card tracking='{"clickId": "025", "collectionId": "026", "addToQueueId": "027", "exposureId": "028"}' v-for="(prod, idx) of list" :prod="prod" :key="idx" title="{{ opt.title }}" />
+  </div>
+  {% endcall %}
+  <div class="mt-4" v-if="clickNum <= totalPages">
+    <div v-if="loading">
+      <load-bounce style="min-height:41px;" loading="true" />
+    </div>
+    <div class="view-more text-center" @click="viewMore" v-else>
+      <span>{{ i18next.t('common-view-more') }}</span>
+      <span class="icon iconfont iconxiangxia"></span>
+    </div>
+  </div>
+</div>
+
+<!-- 楼层指示 -->
+<div class="floor-indicate" id="vue-floor-indicate">
+  <div class="indicate-gruop" v-if="visible">
+    <div
+      class="indicate-item"
+      :class="[item.cls, { active: item.act }]"
+      v-for="(item, idx) of indicates"
+      @click="clickIndicate(item, idx)"
+      v-cloak
+    >
+      <div class="iconfont" :class="item.icon"></div>
+      <div v-if="item.cls=='back-top'">{{ i18next.t('home-top') }}</div>
+      <div v-if="item.title" class="tips">${ item.title }</div>
+    </div>
+  </div>
+</div>
+
+<!-- 厂商 LOGO -->
+<div id="vue-companylogo" class="cooperation bg-white">
+  <div class="floor-10">
+    <div class="white-content">
+      <div class="container-main pt-10 pb-10">
+        <div class="homepage-head" id="textOne">You sell-We source and ship for you!</div>
+        <div class="head-detail">
+          <div class="head-detail-center" id="textSeven">We will source for you with lower price and higher quality.</div>
+        </div>
+        <div class="head-img-content">
+          <div class="img-left-right">
+            <div class="small-img-content"><img src="{{ PUBLIC_IMG }}/homePage/head-left.png" alt="" id="img-one" class="small-img"></div>
+            <div class="left-right-text" id="textTwo">
+              <div class="text-head">Global Warehouses</div>
+              <div class="text-content">We already have warehouses in the United States, China, Germany, Thailand,  Indonesia, and more warehouses are coming soon. Excellent warehousing services are ready for you.</div>
+            </div>
+          </div>
+          <div class="img-center">
+            <div class="large-img-content"><img src="{{ PUBLIC_IMG }}/homePage/head-center.jpg" alt="" id="img-two" class="large-img"></div>
+            <div class="center-text" id="textThree">
+              Professional Dropshipping Service
+            </div>
+          </div>
+          <div class="img-left-right img-left-right-small" style="height: 355px">
+            <div class="small-img-content"><img src="{{ PUBLIC_IMG }}/homePage/head-right.png" id="img-three" alt="" class="small-img"></div>
+            <div class="left-right-text left-right-text-small" style="height: 171px" id="textFour">
+              <div class="text-head">Efficient Delivery</div>
+              <div class="text-content">You will have the nearest warehouse, the best shipping method, and the shortest processing and delivery time.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 万圣节，将car-link分离出来 -->
+    <div class="white-content">
+      <div class="container-main pt-10 pb-10">
+        <div class="car-link">
+          <div class="left-car-img">
+            <img src="{{ PUBLIC_IMG }}/homePage/car-img.png" class="car-img" id="img-four" alt="">
+            <img src="{{ PUBLIC_IMG }}/homePage/dash.png" class="dash-squar" alt="">
+          </div>
+          <div class="right-link">
+            <div class="right-link-head">
+              <input class="link-int" placeholder="Please enter the tracking number" id="tranNum" @keyup.enter="clicknow()"/>
+              <div class="link-btn" @click="clicknow()">Track Package</div>
+            </div>
+            <div class="right-link-body">
+              <a target="_blank" href="/calculation.html">
+                <div class="link-button" id="img-nine">
+                  <div class="link-icon"></div>
+                    <div class="link-text">Shipping Cost and Time ></div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="grey-content floor-11">
+      <div class="container-main pt-10 pb-10">
+        <div class="cooperation-link">
+          <div class="link-items">
+            {% for prod in coopList %}
+            <div class="singal-item">
+              <!-- <a href="{{prod.partnerUrl}}" target="_blank"> -->
+                <img src={{ prod.partnerLogo | IMG_SIZE(200) }} alt="" class="singal-item-img">
+              <!-- </a> -->
+            </div>
+            {% endfor %}
+            <!-- <div class="singal-item" v-for="(prod, idx) in coopList">
+              <img v-bind:src={{prod.partnerLogo}} alt="" class="singal-item-img">
+            </div> -->
+            <!-- <div class="singal-item">
+              <img src="{{ PUBLIC_IMG }}/homePage/shopify.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item">
+              <img src="{{ PUBLIC_IMG }}/homePage/commerce.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item">
+              <img src="{{ PUBLIC_IMG }}/homePage/amazon.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item singal-item-center">
+              <img src="{{ PUBLIC_IMG }}/homePage/ebay.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item singal-item-center">
+              <img src="{{ PUBLIC_IMG }}/homePage/excel.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item singal-item-center">
+              <img src="{{ PUBLIC_IMG }}/homePage/shipstation.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item">
+              <img src="{{ PUBLIC_IMG }}/homePage/shopmaster.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item">
+              <img src="{{ PUBLIC_IMG }}/homePage/lazada.png" alt="" class="singal-item-img">
+            </div>
+            <div class="singal-item">
+              <img src="{{ PUBLIC_IMG }}/homePage/shopee.png" alt="" class="singal-item-img">
+            </div> -->
+          </div>
+          <div class="cooperation-detail" id="textFive">
+            <div class="cooperation-detail-text">
+              <span>CJdropshipping</span><br><span>Partnership</span>
+            </div>
+            <div class="cooperation-btn-box">
+              <a target="_blank" href="/partnership/home"><button class="cooperation-btn Partner">Partner Network</button></a>
+              <a target="_blank" href="https://affiliate.cjdropshipping.com"><button class="cooperation-btn Affiliate">Affiliate Program</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="white-content floor-12">
+      <div class="container-main pt-10 pb-10">
+        <div class="put-cj">
+          <div class="put-cj-left">
+            <div class="left-title" id="textSix">
+              Put CJdropshipping into Your Pocket
+            </div>
+            <div class="left-link">
+              <div class="app-link-content" @click="appclick()">
+{#                <img src="{{ PUBLIC_IMG }}/homePage/apple-store.png" alt="" class="left-link-img">#}
+              </div>
+              <div class="google-link-content" @click="googleclick()">
+{#                <img src="{{ PUBLIC_IMG }}/homePage/google-play.png" alt="" class="left-link-img">#}
+              </div>
+            </div>
+            <div class="left-code">
+              <div class="left-code-content" id="img-eight">
+                <div class="left-code-text">Scan the QR code to download CJdropshipping for Mobile</div>
+                <div class="left-code-img">
+                  <img src="/static/image/new-home/QR_code.png" alt="" class="code-img">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="put-cj-right">
+            <div class="top-icon">
+              <svg width="57px" height="61px" viewBox="0 0 57 61" version="1.1" class="svg-star">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g transform="translate(-1404.000000, -11350.000000)" fill-rule="nonzero">
+                        <g transform="translate(360.000000, 9148.000000)">
+                            <g transform="translate(0.000000, 2137.000000)">
+                                <g transform="translate(1044.000000, 65.000000)">
+                                    <path d="M26.144,46.2787 C22.7436,50.7755 18.7265,54.4094 14.8914,58.2156 C14.442,58.6742 13.9645,59.1043 13.4617,59.5036 C12.3346,60.3698 10.5362,60.2313 9.6861,59.1703 C9.39146,58.8016 9.14351,58.2494 9.16927,57.7986 C9.21447,56.6049 9.37625,55.4186 9.65229,54.2565 C10.8325,49.6694 12.0802,45.1001 13.3232,40.5292 C13.4649,40.0059 13.3232,39.7338 12.8289,39.5632 C8.92937,38.1834 5.66259,35.6266 2.03193,33.7444 C0.832448,33.123 -0.0611295,32.194 0.00327235,30.6419 C0.0676742,29.0898 0.669832,28.1463 2.18972,27.6875 C4.7191,26.9243 7.20824,25.9357 9.93727,26.1982 C10.109,26.1952 10.28,26.1747 10.4476,26.137 C9.42849,24.6493 8.43831,23.2389 7.48033,21.7995 C6.79606,20.7771 6.14882,19.729 5.49514,18.6873 C4.92888,17.767 4.6753,16.6883 4.77223,15.6121 C4.85274,14.3241 5.66742,13.4579 6.94258,13.358 C8.46568,13.2373 9.8793,13.4498 11.2478,14.2758 C13.1606,15.4318 15.178,16.4123 17.3016,17.5474 C17.3016,17.0418 17.3016,16.7279 17.3016,16.4123 C17.3837,12.6657 17.4063,8.91591 17.5882,5.17416 C17.643,4.06001 18.0245,2.9201 18.4705,1.87679 C18.9745,0.701452 19.963,0.0848053 21.3235,0.00913311 C22.8305,-0.0761994 23.9769,0.430964 24.645,1.76086 C25.3519,3.16965 25.9669,4.62836 26.5674,6.08706 C27.6011,8.60034 28.7957,11.0138 30.5926,13.0827 C30.7648,13.2808 30.9323,13.482 31.045,13.614 C33.3393,11.9348 35.566,10.2716 37.8265,8.65509 C40.3526,6.84434 43.0753,5.325 45.9427,4.12602 C47.5528,3.45141 49.1145,3.738 49.8423,4.9069 C50.4992,5.96309 50.38,7.14808 49.9566,8.23808 C48.5957,11.8184 46.8692,15.2487 44.8044,18.4748 C43.7434,20.1074 42.676,21.7351 41.5956,23.3902 C43.6372,24.6139 45.7995,25.1613 48.0519,25.3915 C50.0247,25.5905 51.9555,26.09 53.7772,26.8728 C54.3629,27.1355 54.9206,27.4564 55.442,27.8308 C57.0633,28.9497 56.9297,32.0024 54.5903,32.6786 C49.6104,34.1276 44.6612,35.6669 39.6829,37.1175 C37.8136,37.6617 37.878,37.6005 37.8571,39.5567 C37.8136,44.0246 37.6768,48.4925 37.5786,52.9604 C37.5464,54.4867 37.5045,56.0195 37.4981,57.5377 C37.4981,58.6937 37.073,59.6566 35.9798,60.0397 C34.9864,60.3907 33.4971,60.4181 32.7388,59.3442 C32.1078,58.4843 31.5576,57.5681 31.0949,56.6071 C29.9679,54.1518 28.9648,51.6401 27.8394,49.1832 C27.3821,48.1914 26.7429,47.293 26.144,46.2787 Z M15.9089,49.9947 L16.0619,50.0896 C16.656,49.4923 17.2614,48.9047 17.8426,48.2944 C19.8358,46.2014 21.813,44.1228 22.9706,41.3712 C23.7515,39.5149 26.3259,39.2106 27.8007,40.6789 C29.7585,42.631 31.3609,44.9096 32.5359,47.4121 C32.6647,47.6842 32.8112,47.9467 32.9481,48.2172 L33.2346,48.1592 C33.2346,47.1529 33.2475,46.145 33.2346,45.1388 C33.1944,42.2745 33.1638,39.4102 33.0865,36.5475 C33.0479,35.0679 33.7837,34.1115 35.0186,33.4885 C35.6215,33.2002 36.2514,32.972 36.8991,32.8074 C39.3496,32.136 41.8098,31.5049 44.2586,30.8303 C44.8737,30.6612 45.4597,30.3859 46.2261,30.0961 C46.0885,30.031 45.9458,29.9772 45.7995,29.9351 C42.9416,29.6565 40.3994,28.4619 37.8893,27.1835 C36.7929,26.6248 36.2792,25.7506 36.2261,24.4802 C36.1537,22.7494 36.9506,21.3954 37.8104,20.0268 C39.4752,17.3767 41.1287,14.7185 42.771,12.0523 C42.8956,11.8222 43.0069,11.5851 43.1042,11.3423 C39.5831,13.482 36.1247,15.6024 33.3457,18.5875 C32.2429,19.7692 29.5525,19.7982 28.5156,18.4957 C26.4386,15.8729 24.2425,13.3435 22.9432,10.1959 C22.7162,9.64527 22.4506,9.11073 22.2026,8.56975 C22.0867,8.99535 22.0383,9.43651 22.0593,9.87711 C22.0674,13.6511 22.0593,17.4266 22.0963,21.2006 C22.1044,22.1119 21.7309,22.7285 20.9951,23.1906 C19.3077,24.2548 17.6365,24.1115 16.0313,22.8509 C15.1264,22.1376 14.1443,21.5258 13.196,20.8673 L12.9513,21.1491 C13.6661,21.9943 14.3649,22.8541 15.1007,23.6817 C15.6513,24.2999 16.305,24.8328 16.8122,25.4833 C17.9006,26.8776 17.337,29.1027 15.7705,29.6823 C13.7321,30.4374 11.6681,31.0766 9.44137,30.9285 C8.9165,30.8931 8.38196,31.0186 7.85225,31.0718 L7.78785,31.3809 C9.5911,32.3566 11.3815,33.3564 13.2008,34.3015 C14.4341,34.9455 15.7254,35.472 16.9522,36.1209 C17.7766,36.5588 18.4657,37.2044 18.485,38.2268 C18.521,39.027 18.461,39.8286 18.3063,40.6145 C17.8104,42.7784 17.2308,44.923 16.6785,47.074 C16.4274,48.0465 16.1649,49.0206 15.9089,49.9947 L15.9089,49.9947 Z"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+              </svg>
+            </div>
+            <div class="img-left-top" id="img-five"><img src="{{ PUBLIC_IMG }}/homePage/left-img.jpg" alt="" class="div-img"></div>
+            <div class="img-center" id="img-six"><img src="{{ PUBLIC_IMG }}/homePage/center-img.png" alt="" class="div-img"></div>
+            <div class="img-right-bottom" id="img-seven"><img src="{{ PUBLIC_IMG }}/homePage/right-img.jpg" alt="" class="div-img"></div>
+            <div class="bottom-icon">
+              <svg width="21px" height="38px" viewBox="0 0 21 38" version="1.1">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+                  <g transform="translate(-951.000000, -11957.000000)"  stroke-width="2">
+                    <g transform="translate(360.000000, 9148.000000)">
+                      <g transform="translate(0.000000, 2137.000000)">
+                        <g transform="translate(591.000000, 672.000000)">
+                          <g transform="translate(1.000000, 1.000000)">
+                            <path
+                              d="M2.23314784,-2.23820962e-13 C11.4230893,1.67349359 16.0180601,6.85361686 16.0180601,15.5403698 C16.0180601,28.5704992 1.82184647,20.4172441 0.478408325,16.8766276 C-0.865029825,13.3360111 0.560982022,8.11089745 5.51827598,11.3312685 C8.82313861,13.4781825 10.596678,21.4239252 10.8388942,35.1684966"
+                              id="-2"></path>
+                            <polyline stroke-linejoin="round"
+                              points="4.43815381 28.8011405 10.2951016 35.9062485 18.1660029 28.8011405"></polyline>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<!-- 客户评价 Evaluation -->
+<div class="home-evaluation-wrap floor-13">
+  <div class="container-main evaluation-wrap">
+    <div class="left-wrap">
+      <div class="title" id="title" style="min-width: 406px;">Reviews</div>
+      <div class="divider" >
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="desc"></div>
+      <!-- <a class="more" href="https://www.baidu.com" target="_blank">View More>></a> -->
+      <div class="btn-group">
+        <span class="btn-left swiper-button-prev"></span>
+        <span class="btn-right swiper-button-next"></span>
+      </div>
+    </div>
+    <div class="right-wrap">
+      <div class="swiper-wrap">
+        <div class="swiper-contain" id="swiper-evalute">
+            {% include "snippet/swiper-evalution.njk" %}
+        </div>
+        <div class="icon"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 万圣节活动出场动画 -->
+<!-- <div id="halloween" class="halloween-open-animation" banners='{{banners | dump}}'></div> -->
+
+<!-- 相关链接 -->
+{% include "snippet/home/related-links.njk" %}
+
+<!-- 授权 -->
+<div id="vue-auth-callback" v-cloak>
+  <!-- 授权失败 -->
+  <div id="isCJPub" v-show="authFailLayer">
+    <!-- 公用class：CJ-content -->
+    <!-- 操作失败class：operate-fail -->
+    <div class="CJ-content operate-fail">
+      <span class="close" @click="authFailLayer=false">×</span>
+      <!-- icon span视具体情况加或不加-->
+      <h3><span class="icon">!</span>{{ i18next.t('home-authorization-failed') }}</h3>
+      <p>
+        ${authFailMes}
+      </p>
+      <button class="btn1" @click="reAuthorize('ebay')">{{ i18next.t('home-reauthorize') }}</button>
+      <button class="btn2" @click="authFailLayer=false">{{ i18next.t('common-cancel') }}</button>
+    </div>
+  </div>
+</div>
+
+<!-- 埋点 -->
+
+
+<script src="{{ PUBLIC_SCRIPT + '/home.js' | VERSION }}"></script>
+{% endblock %}
+
+

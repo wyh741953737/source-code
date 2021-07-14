@@ -1,0 +1,44 @@
+{% block title %}
+<title>CJdropshipping</title>
+<meta name="description" property="og:description" content="Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High Quality Products and Faster Shipping.">
+<meta name="keywords" content="Dropshipping USA，Sourcing Dropshipping，Print on Demand，Fulfillment，Dropshipping Supplier" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% from "../macor/product.njk" import product %}
+
+{% macro hydrate(opt, params) %}
+<div v-if="!list.length" class="product-box" render="njk">
+  {% for prod in opt.data %}
+  {{ product(prod, params) }}
+  {% endfor %}
+</div>
+<div v-else class="product-box" render="vue">
+    <product-card v-for="(prod, idx) of list" :prod="prod" :key="idx" :img-Size="imgSize" title="{{ opt.title }}" />
+</div>
+{% endmacro %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-card.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/halloween-other.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+
+<div class="halloween-page-{{activityType}}-bg">
+    <div class="nice-pro-list" id="vue-activity-box">
+        {% set opt = {
+            data: list
+          } %}
+          {{ hydrate(opt, productParams) }}
+    </div>
+</div>
+
+
+<script src="{{ PUBLIC_SCRIPT + '/halloween.js' | VERSION }}"></script>
+
+{% endblock %}

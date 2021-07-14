@@ -1,0 +1,320 @@
+.editIoss :global .edit-ioss {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+  overflow: auto;
+}
+.editIoss :global .edit-ioss-modal {
+  width: 600px;
+  background: #FFFFFF;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  margin-top: -250px;
+  border-radius: 4px;
+}
+.editIoss :global .edit-ioss-modal .edit-header {
+  height: 50px;
+  padding: 0 20px;
+  background: #F9F8F8;
+  border-radius: 4px 4px 0px 0px;
+  text-align: center;
+}
+.editIoss :global .edit-ioss-modal .edit-header .edit-title {
+  font-size: 16px;
+  line-height: 50px;
+  font-weight: 500;
+  color: #333333;
+}
+.editIoss :global .edit-ioss-modal .edit-header .edit-close {
+  position: absolute;
+  right: 20px;
+  top: 14px;
+  z-index: 1;
+  cursor: pointer;
+  color: #999999;
+}
+.editIoss :global .edit-ioss-modal .edit-header .edit-close:hover {
+  color: #000000;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content {
+  min-height: 168px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item {
+  margin-top: 20px;
+  position: relative;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .eidt-ioss-item-label {
+  vertical-align: top;
+  display: inline-block;
+  width: 215px;
+  text-align: right;
+  padding-right: 20px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .eidt-ioss-item-label .label-title {
+  line-height: 32px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333333;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .eidt-ioss-item-label .label-title::before {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: "*";
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input {
+  display: inline-block;
+  width: 315px;
+  position: relative;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input input {
+  width: 300px;
+  height: 32px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  border: 1px solid #E4E4E4;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input input::-webkit-input-placeholder {
+  color: #999;
+  font-size: 14px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input input:-moz-placeholder {
+  font-size: 14px;
+  color: #999;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input input:-ms-input-placeholder {
+  color: #999;
+  font-size: 14px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area {
+  border-radius: 4px;
+  width: 300px;
+  border: 1px solid #E4E4E4;
+  cursor: pointer;
+  padding: 4px 0 0 16px;
+  min-height: 32px;
+  max-height: 146px;
+  overflow: auto;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area::-webkit-scrollbar {
+  width: 6px;
+  border-radius: initial;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 3px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 3px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-content {
+  display: flex;
+  width: 255px;
+  flex-wrap: wrap;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-content .select-placeholder {
+  color: #999;
+  padding: 2px 16px 4px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-content .selected-item {
+  height: 24px;
+  background: #F9F8F8;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 20px;
+  padding: 2px 8px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-content .selected-item:hover {
+  background: #F4F4F4;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-content .selected-item .close-btn-box {
+  transform: scale(0.7);
+  margin-left: 4px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-content .selected-item .iconfont {
+  cursor: pointer;
+  font-size: 12px;
+  color: #999;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-icon {
+  position: absolute;
+  right: 31px;
+  top: 0px;
+  display: inline-block;
+  color: #999999;
+  line-height: 34px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-area .select-icon .iconfont {
+  font-size: 14px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom {
+  position: relative;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option {
+  z-index: 100;
+  top: 8px;
+  position: absolute;
+  left: 0;
+  background: #FFFFFF;
+  width: 300px;
+  max-height: 234px;
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: auto;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option::-webkit-scrollbar {
+  width: 6px;
+  border-radius: initial;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 3px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 3px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-search-content {
+  padding: 12px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-search-content input {
+  width: 276px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item {
+  height: 32px;
+  cursor: pointer;
+  padding: 0 16px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item .label-icon {
+  padding-top: 7px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item .label-icon img {
+  width: 24px;
+  margin-right: 8px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item .item-font {
+  font-size: 14px;
+  line-height: 32px;
+  color: #757575;
+  font-weight: 400;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item .iconfont {
+  font-size: 12px;
+  line-height: 32px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item .option-select-icon {
+  float: right;
+  color: #FF7700;
+  display: block;
+  transform: scale(0.8);
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item .option-select-icon-vip {
+  color: #dda863;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .select-bottom .select-option .select-option-item:hover {
+  background: #FAFAFA;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .error {
+  border: 1px solid #FF4949;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item .edit-ioss-item-input .normal {
+  border: 1px solid #E4E4E4;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .notice-item {
+  position: relative;
+  margin: 6px 0 0 219px;
+  height: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #FF4949;
+  line-height: 12px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .eidt-ioss-item + .notice-item {
+  margin-top: 8px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-content .notice-item + .eidt-ioss-item {
+  margin-top: 16px;
+}
+.editIoss :global .edit-ioss-modal .leftAlign {
+  text-align: left;
+  padding: 15px 0;
+  padding-left: 30px;
+}
+.editIoss :global .edit-ioss-modal .rightAlign {
+  text-align: right;
+  padding-right: 30px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom {
+  margin-top: 15px;
+  box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 0px 0px 4px 4px;
+  padding: 0 20px;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .no-btn {
+  background: #F9F9F9;
+  border-radius: 4px;
+  border: 1px solid #E4E4E4;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .no-btn:hover {
+  background: #F5F5F5;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .product-total {
+  float: left;
+  font-size: 14px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .product-btn {
+  margin-top: 20px;
+  width: 80px;
+  height: 30px;
+  margin-right: 15px;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .profileBtn .btn-theme {
+  background: var(--color-theme-gradient-1) !important;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .profileBtn .btn-theme:hover {
+  background: var(--color-theme-1) !important;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .vipSaveBtn {
+  background: #f1d69e;
+  color: #333;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .vipSaveBtn:hover {
+  background: #fcd88f;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .commonSaveBtn {
+  color: #fff;
+  background: #f70;
+}
+.editIoss :global .edit-ioss-modal .edit-ioss-bottom .commonSaveBtn:hover {
+  background: #f90;
+}

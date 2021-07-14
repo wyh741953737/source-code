@@ -1,0 +1,319 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .review_container {}
+
+  /* 顶部单选 */
+  .topOption {
+    display: flex;
+    line-height: 16px;
+    height: 16px;
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    margin-right: 20px;
+  }
+
+  /* 选择评论星级 */
+  .starsOption {
+    background: rgba(248, 248, 248, 1);
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .starsContainer {
+    display: flex;
+  }
+
+  .starsContainer .star {
+    width: 88px;
+    height: 36px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 4px;
+    border: 1px solid rgba(217, 217, 217, 1);
+    font-size: 14px;
+    text-align: center;
+    font-weight: 400;
+    color: #666666;
+    line-height: 36px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .starsContainer .starActive {
+    border: 1px solid rgba(255, 119, 0, 1);
+    color: rgba(255, 119, 0, 1);
+    background-image: url('static/image/logos/rightHook.png');
+    background-size: 24px 24px;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+  }
+
+  .starsOption .info {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+    line-height: 17px;
+    margin-top: 10px;
+  }
+
+  /* 评论信息展示 */
+  .info_container {
+    height: 240px;
+    overflow-y: auto;
+    margin-top: 10px;
+    padding-bottom: 50px;
+  }
+
+  .reviewItem {
+    display: flex;
+    padding: 20px 0;
+    border-bottom: 1px solid #F3F3F3;
+  }
+
+  .reviewItem .left_user {
+    width: 200px;
+  }
+
+  .left_user .nickname {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .left_user .avatar {
+    width: 70px;
+    height: 70px;
+    margin-top: 20px;
+    border-radius: 4px;
+  }
+
+  .avatar img {
+    max-width: 70px;
+    max-height: 70px;
+  }
+
+  .reviewItem .right_info {
+    width: 640px;
+  }
+
+  .reviewItem .review_message {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 20px;
+  }
+
+  .imgList {
+    display: flex;
+    margin-top: 10px;
+  }
+
+  .imgList .imgItem {
+    margin-right: 10px;
+  }
+
+  .imgList .imgItem img {
+    max-width: 70px;
+    max-height: 70px;
+    cursor: pointer;
+  }
+
+  .reviewTime {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 17px;
+    margin-top: 10px;
+  }
+
+  .empty {
+    width: 100%;
+    height: 200px;
+    padding-top: 80px;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 21px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .close-icon {
+    margin: 0 auto;
+    margin-top: 35px;
+    display: block;
+    cursor: pointer;
+  }
+
+  /* 评分星星样式 start */
+  .right_info .staring>input {
+    position: absolute;
+    margin-right: -100%;
+    opacity: 0;
+  }
+
+  .right_info .staring>label {
+    position: relative;
+    float: right;
+    width: 18px;
+    height: 18px;
+    color: transparent;
+    background-image: url(static/image/goods/starIcon.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+
+
+  .right_info .staring>input:checked~ :not(.isModify),
+  .right_info .staring>input:focus~ :not(.isModify),
+  .right_info .staring>input:hover~ :not(.isModify) {
+    background-position: 0 -18px;
+  }
+
+  .right_info .staring>label.rated {
+    background-position: 0 -18px;
+  }
+
+  .right_info .staring>label:before {
+    display: none;
+    position: absolute;
+    content: " ";
+    width: 18px;
+    height: 18px;
+    background-image: url(static/image/goods/starIcon.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    bottom: 0;
+  }
+
+  .right_info .starTotal.staring>label {
+    width: 19px;
+    height: 19px;
+  }
+
+  .right_info .starTotal.staring {
+    height: 17px;
+    width: 130px;
+    display: inline-block;
+    margin: 0;
+  }
+
+  .right_info .starTotal.staring>label:before {
+    width: 19px;
+    height: 19px;
+  }
+
+  .right_info .starTotal.staring>label.rated {
+    background-position: 0 -19px;
+  }
+
+  /* 评分星星样式 end*/
+</style>
+<div class="review_container">
+
+  <div class="topOption">
+    <div class="title">Import Reviews:</div>
+
+    <div class="radio-box" ng-cloak style="margin: 0px;">
+      <input type="radio" name="isImported" value="0" ng-model="vm.isImport" ng-change="changeImported()">
+      <label for="">Yes</label>
+    </div>
+
+    <div class="radio-box" ng-cloak style="margin: 0px;margin-left: 28px;">
+      <input type="radio" name="isImported" value="1" ng-model="vm.isImport" ng-change="changeImported()">
+      <label for="">No</label>
+    </div>
+
+  </div>
+
+  <div ng-show="vm.isImport == '0'">
+    <div class="starsOption">
+      <div class="starsContainer">
+        <div class="star" ng-class="{'starActive': vm.starPool.five}" ng-click="handleStar('five')">5 Stars</div>
+        <div class="star" ng-class="{'starActive': vm.starPool.four}" ng-click="handleStar('four')">4 Stars</div>
+        <div class="star" ng-class="{'starActive': vm.starPool.three}" ng-click="handleStar('three')">3 Stars</div>
+        <div class="star" ng-class="{'starActive': vm.starPool.two}" ng-click="handleStar('two')">2 Stars</div>
+        <div class="star" ng-class="{'starActive': vm.starPool.one}" ng-click="handleStar('one')">1 Stars</div>
+      </div>
+      <div class="info">
+        Please note: The reviews are for reference and CJ will not be responsible for any reviews imported.
+      </div>
+    </div>
+
+    <div class="info_container" id="pull-review" ng-show="reviewList.length > 0">
+      <div ng-repeat="item in reviewList" class="reviewItem">
+        <div class="left_user">
+          <div class="nickname">
+            {{ item.userName }}
+          </div>
+          <!-- <div class="avatar">
+            <img src="{{item.avatar}}" alt="" srcset="">
+          </div> -->
+        </div>
+
+        <div class="right_info">
+          <div>
+            <div class="staring starTotal" style="width: 100px;">
+              <label for="rated5" ng-class="{'rated':5<=item.score}"></label>
+              <label for="rated4" ng-class="{'rated':4<=item.score}"></label>
+              <label for="rated3" ng-class="{'rated':3<=item.score}"></label>
+              <label for="rated2" ng-class="{'rated':2<=item.score}"></label>
+              <label for="rated1" ng-class="{'rated':1<=item.score}"></label>
+            </div>
+          </div>
+
+          <div class="review_message">
+            {{ item.body }}
+          </div>
+
+          <div class="imgList" ng-show="item.imglist.length > 0">
+            <div ng-repeat="img in item.imglist" class="imgItem">
+              <img src="{{img}}" alt="" srcset="" ng-click="handleImg(img)">
+            </div>
+          </div>
+
+          <div class="reviewTime">
+            {{ item.outDate }}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="empty" ng-show="reviewList.length == 0">
+      <div>
+        <img src="static/image/page/reviewEmpty.png" alt="">
+      </div>
+      <div>
+        Sorry, no reviews match your current selections.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="confirm-box" ng-show="bigImgVisible">
+    <div style="text-align: center;">
+      <img src="{{bigImg}}" alt="" style="max-width: 550px;max-height: 550px;">
+      <img src="static/image/icons/close-circle.svg" class="close-icon" ng-click="handleClose()"></img>
+    </div>
+
+  </div>
+
+
+
+</div>

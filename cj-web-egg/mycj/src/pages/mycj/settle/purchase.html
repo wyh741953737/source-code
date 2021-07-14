@@ -1,0 +1,359 @@
+<style>
+	.taxid{
+		margin-left: 77px;
+		min-width: 300px;
+		height: 32px;
+		border-radius: 4px;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		font-size: 14px;
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		padding: 0 8px;
+	}
+</style>
+<div class="settle-warp" ng-class="{'isVip': isVip}" ng-click="handleCloseWarehouse()">
+	<a class="back-btn text-theme text-theme-hover" ng-click="back()">&lt; Back</a>
+		<!-- 地址信息 -->
+		<div class="address-warp">
+			<div class="address-box" ng-show="shipType === '1'">
+				<div class="opt-box">
+					<a class="text-theme text-theme-hover" href="myCJ.html#/profile/address">Manage Addresses</a>
+				</div>
+				<div class="address-info-view">
+					<span class="left-btn iconfont iconzuofan icon-btn-hover" ng-class="{'disabled':pageNum === 0}" ng-click="handleLeftOrRight('left')"></span>
+					<div class="address-info-content">
+						<div class="address-info">
+							<div
+								class="address-info-item iconfont"
+								ng-style="{'width':addressWidth}"
+								ng-repeat="item in addressData track by $index"
+								ng-class="{'active':item.active,'border-theme':item.active}"
+								ng-click="handleChangeAddress(item)"
+							>
+								<div ng-class="{'address-default':item.isDefault === '1'}" style="width: 100%;">
+									<h3 ng-class="{'border-theme':item.active}" title='{{item.firstname}} {{item.lastname}}'>{{item.firstname}} {{item.lastname}}</h3>
+									<p class='address-info-ellipsis' title='{{item.address}}'>{{item.address}}</p>
+									<p class='address-info-ellipsis' title='{{item.addressNew}}'>{{item.addressNew}}</p>
+				          <p>{{item.city}}</p>
+				          <p>{{item.country}}</p>
+				          <p>{{item.phone}}</p>
+									<span class="text-theme edit-btn"
+									      ng-show="item.active"
+									      ng-click="handleEditAddress($event,item)">
+										Edit
+									</span>
+								</div>
+							</div>
+							<!-- add address -->
+							<div class="address-info-item text-theme" ng-style="{'width':addressWidth}" style="align-items: center;" ng-click="handleAddAddress()">Add New Address</div>
+						</div>
+					</div>
+					<span class="right-btn iconfont iconyoufan icon-btn-hover" ng-class="{'disabled':pageNum === totalPage}" ng-click="handleLeftOrRight('right')"></span>
+					<!-- 选择物流方式 -->
+					<div class="shipping-box" ng-if="addressData.length > 0">
+						<div class="select-box">
+							<span class="select-title mandatory">Shipping Method:</span>
+							<div 
+								title="" 
+								class="popoverWrapper" 
+								ng-style="{'bottom':tootipTopY}"
+								ng-show="showPopover"
+								ng-mouseenter="controlShowPopover(true); mouseIn = true"
+								ng-mouseleave="controlShowPopover(false); mouseIn = false; mouseLeave()"
+							>
+								<div class="popoverBody" ng-click="popoverClickHandle($event); viewModalHandle($event,logisticsRemind[currentShippingMethod])">
+									<div class="popoverBodyTop">
+										<i class="iconfont popoverIcon">&#xe6d0;</i>
+										<div class="popoverTxt">{{currentRemind}}</div>
+									</div>
+									<!-- 这里文案>=58 或者 文案条数>=2的时候才显示view all -->
+									<div 
+										ng-show="currentRemind.length > 58 || logisticsRemind[currentShippingMethod].length >= 2"
+										class="popoverBodyBottom"
+										ng-class="{'vipBottom':isVip, 'commonBottom':!isVip, 'underLine':mouseIn}"
+										ng-click="viewModalHandle($event,logisticsRemind[currentShippingMethod])"
+									>
+										<!-- 括号内数字根据条数>=2时显示 -->
+										View All ({{logisticsRemind[currentShippingMethod].length}})
+									</div>
+								</div>
+								<div class="bottomTriangle" />
+							</div>
+							<div class="select-wrap iconfont"
+								ng-style="{'pointer-events':shippingMethod.logisticName ? 'auto' : 'none'}"
+								ng-click="handleOpenLogistic()">
+								{{shippingMethod.logisticName ? shippingMethod.logisticName : 'No Shipping Method'}}
+								<div class="options-box" ng-show="isOpenLogistic">
+									<div
+										class="options iconfont"
+										title="{{item.logisticName}}"
+										ng-class="{'active':item.logisticName === shippingMethod.logisticName && !isVip,'vipActive': item.logisticName === shippingMethod.logisticName && isVip}"
+										ng-repeat="item in shippingData"
+										ng-click="handleChangeShipping(item)"
+										ng-mouseenter="showIcon = true; setCurrentMethodName(item.logisticName)" 
+                    ng-mouseleave="showIcon = false" 
+									>
+										<span class="val">{{item.logisticName}}</span>
+										<i 
+										  ng-show="!!logisticsRemind[item.logisticName]"
+											ng-mouseenter="getFirstOfRemind(logisticsRemind[item.logisticName],$event)"
+											ng-mouseleave="mouseLeave()" 
+											class="iconfont remind"
+											ng-class="{'icon':!isVip, 'vipIcon':isVip, 'activeIcon':item.logisticName === shippingMethod.logisticName}"
+										>
+											&#xe768;
+										</i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p class="tips">{{shippingTips}}</p>
+						<div class="aging-box" ng-show="aging">
+							<i class="iconfont icontishi2 aging-icon" ng-mouseover="showInfo=true" ng-mouseout="showInfo=false"></i>
+							<span>Estimated Delivery Time: {{aging}}</span>
+							<div class="info-show" ng-show="showInfo">The estimated delivery time is based on average time, not including the processing time.</div>
+						</div>
+					</div>
+
+					<!-- ioss选择 -->
+					<div class="select-box-ioss" ng-show="showIossSelect">
+						<div class="select-title iossTitle mandatory">IOSS Option:</div>
+						<div class="select-wrap iconfont" ng-click="iossSelectClickHandle()">
+							{{iossSelected.iossNumber === "" ? notShowNoIossOption ? '' : "No IOSS" : iossSelected.iossNumber}}
+							<div class="optionWrapper" ng-show="isOpenIossOption">
+								<div class="options-box">
+									<div class="options iconfont" title="{{item.iossNumber === '' ? 'No IOSS' : iossSelected.iossNumber}}"
+										ng-class="{'active':item.iossNumber === iossSelected.iossNumber && !isVip,'vipActive': item.iossNumber === iossSelected.iossNumber && isVip}"
+										ng-repeat="item in userIossOption" ng-click="handleChangeIoss(item)"
+										ng-show="item.iossNumber === '' ? !notShowNoIossOption : true"
+									>
+										<span class="val">{{item.iossNumber === "" ? "No IOSS" : item.iossNumber}}</span>
+										<span ng-show="item.isDefault == 1" class="val">(Default)</span>
+									</div>
+								</div>
+								<div class="addIoss" ng-show="isOpenIossOption && showAddIoss" ng-class="{'vipAddIoss':isVip,'commonAddIoss':!isVip}" ng-click="openIoss()">
+									<i class="iconfont iconbianzu21 addIcon"></i>
+									<span class="addButtonTxt">Add IOSS</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="iossNotice" ng-show="iossSelected.iossNumber === '' && showIossSelect">
+						According to the new European VAT e-commerce rules, declaration without IOSS will result in a delay in customs clearance and the recipient will be required to pay VAT, as the parcel will be detained when contact of the recipient is incorrect.
+					</div>
+					<div
+						class="shippingMethodModal"
+						ng-if="showShippingModal"
+						ng-click="maskClick($event)"
+					>
+						<div class="modalWrapper">
+							<div class="modalTitle">
+								Note
+							</div>
+							<div class="modalContentWrapper">
+								<div class="modalContentScroll">
+									<div class="item" ng-repeat="item in modalTxt">
+										<div ng-class="{'vipDian':isVip, 'commonDian':!isVip}" class="dian"/>
+										<div class="itemTxt">
+											{{item.content}}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modalBottom">
+								<button
+									ng-class="{'vipBtn':isVip ,'btnColor':!isVip}"
+									ng-click="modalOkHandle($event)"
+								>
+									OK
+								</button>
+							</div>
+						</div>
+					</div>
+					<!--税号-->
+					<div ng-show="showTaxid">
+						<label>
+							<span style="color: #666">Tax ID:</span>
+							<input type="text" maxlength="80" ng-model="taxid.text" ng-blur="lost()" class="taxid">
+						</label>
+					</div>
+
+					<div class="address-modefy-err fixedErr" ng-show="taxidErr.length>0">
+						<span class="address-modefy-move errText">Invalid tax ID. Please enter a valid tax ID.</span>
+						<div class="address-modefy-errtip">
+								<span class="checkIcon" ng-class="{icon: 1, iconfont: true}">&#xe70e;</span>
+								<div class="errtip-list">
+										<p class="errtip-item" ng-repeat="it in taxidErr">{{it.msgEn}}</p>
+								</div>
+						</div>
+					</div>
+					<div class="address-modefy-err fixedErr" ng-show="phoneErr.length > 0">
+						<span class="address-modefy-move errText">Invalid phone. Please enter a valid phone.</span>
+						<div class="address-modefy-errtip">
+								<span class="checkIcon" ng-class="{icon: 1, iconfont: true}">&#xe70e;</span>
+								<div class="errtip-list">
+										<p class="errtip-item" ng-repeat="it in phoneErr">{{it.msgEn}}</p>
+								</div>
+						</div>
+					</div>
+					<div class="address-modefy-err fixedErr" ng-show="zipErr.length > 0">
+						<span class="address-modefy-move errText">Invalid postcode. Please enter a valid postcode.</span>
+						<div class="address-modefy-errtip">
+								<span class="checkIcon" ng-class="{icon: 1, iconfont: true}">&#xe70e;</span>
+								<div class="errtip-list">
+									<p class="errtip-item" ng-repeat="it in zipErr">{{it.msgEn}}</p>
+								</div>
+						</div>
+					</div>
+					<div class="address-modefy-err fixedErr" ng-show="iossNumberErr.length > 0">
+						<span class="address-modefy-move errText">Invalid IOSS number. Please enter a valid IOSS number.</span>
+						<div class="address-modefy-errtip">
+								<span class="checkIcon" ng-class="{icon: 1, iconfont: true}">&#xe70e;</span>
+								<div class="errtip-list">
+									<p class="errtip-item" ng-repeat="it in iossNumberErr">{{it.msgEn}}</p>
+								</div>
+						</div>
+					</div>
+					<!-- 物流预计时效 -->
+				</div>
+			</div>
+			<div class="warehouse-box" ng-show="shipType === '2'">
+				<div class="select-box">
+					Select Warehouse:
+					<div class="select-wrap iconfont" ng-click="handleShowWarehouse()">
+						<span class="select-name">{{warehouseInfo.cjStorageName}}</span>
+						<div class="options-box" ng-show="isOpenWarehouse">
+							<!-- ng-hide="item.name == 'Jin Hua China'" -->
+							 <!-- ng-if="i!(item.id == '62cfedee247c4be1a0d497bfd2cf65ae' && loginName != 'anan')" 针对anan账号暂时放出金华-2仓 -->
+							<div
+								class="options iconfont tooltip"
+								ng-class="{'active':item.id === warehouseInfo.id && !isVip, 'vipActive':item.id === warehouseInfo.id && isVip, 'disableClick': item.disabled}"
+								ng-repeat="item in warehouseData"
+								ng-click="handleSelectWarehouse(item)"
+								ng-mouseover="handleMouseOver(item)"
+							>
+								<span>{{item.cjStorageName}}</span>
+								<span ng-show="item.disabled" class="tooltiptext">
+									Frankfurt, Hessen, Germany is unavailable currently.
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p class="tips">{{warehouseTips}}</p>
+			</div>
+		</div>
+		<!-- 商品信息 -->
+		<div class="prodcut-wrap">
+			<div class="title text-theme">
+				Order Information
+				<!-- <span style="margin-left:40px;color:#fc6d0e;font-size:14px;">Tips: Preorder Inventory will stock the products for you only, and you can use this inventory to deduct the product price in your next order.</span> -->
+			</div>
+
+			<div class="text-theme pre-order-tips">
+				<i class="iconfont icontishi2"></i>
+				<span>Preorder Inventory will stock the products for you only, and you can use this inventory to deduct the product price in your next order.</span>
+			</div>
+
+			<div class="product-table">
+				<div class="thead">
+					<div style="width: 40%;">Product Information</div>
+					<div class="td">Price</div>
+					<div class="td">Quantity</div>
+					<div class="td">Subtotal</div>
+				</div>
+				<div class="tbody">
+					<div class="item" ng-repeat="item in productData">
+						<div class="prodcut-info" style="width: 40%;">
+							<img ng-src="{{item.BIGIMG}}" alt="">
+							<div class="info">
+								<p class="product-name">{{item.NAMEEN}}</p>
+								<span class="sku">SKU:{{item.SKU}}</span>
+								<span ng-if="item.isGroupProduct" class="bundle-btn" ng-click="openBundle(item.groupProductList)">Bundle Products</span>
+							</div>
+						</div>
+						<div class="price td">
+							<ng-template ng-if="!item.nowPrice">
+								<p ng-class="{'crossed-price':item.discountPrice > 0 && item.SELLPRICE !== item.discountPrice}">{{'$'+item.SELLPRICE.toFixed(2)}}</p>
+								<p ng-if="item.discountPrice > 0 && item.SELLPRICE !== item.discountPrice">{{'$'+item.discountPrice.toFixed(2)}}</p>
+							</ng-template>
+							<ng-template ng-if="item.nowPrice">
+								{{'$'+(item.nowPrice-0).toFixed(2)}}
+								<del ng-if="item.SELLPRICE.toString().toFixed(2) !== item.nowPrice.toFixed(2)">{{'$'+item.SELLPRICE.toFixed(2)}}</del>
+							</ng-template>
+						</div>
+						<div class="td">{{item.itemcount}} 
+							<span>{{item.isGroupProduct ? '(Pieces:' + item.realQuantity + ')': '' }}</span>
+							<span ng-if="item.isGroupProduct" class='purchaseIcon'>
+								<tips ng-show="1" content="'The pieces refer to all products in the order. See more information on Bundle Products.'"
+										width="'260'"
+										placement="'bottomRight'">
+								</tips>
+							</div>
+						<div class="td text-theme">
+							<ng-template ng-if="!item.nowPrice">
+								${{(item.discountPrice > 0 ? item.discountPrice*item.itemcount : item.SELLPRICE*item.itemcount).toFixed(2)}}
+							</ng-template>
+							<ng-template ng-if="item.nowPrice">
+								${{(item.nowPrice*item.itemcount-0).toFixed(2)}}
+								<del ng-if="item.SELLPRICE.toString().toFixed(2) !== item.nowPrice.toFixed(2)">${{(item.SELLPRICE*item.itemcount).toFixed(2)}}</del>
+							</ng-template>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="total-box">
+				<p>
+					<span style="margin-right: 50px;">{{totalNum}} Unit<span ng-if="totalNum > 1">s</span></span>
+					<span>Product Price: {{'$' + productTotalPrice.toFixed(2)}}</span>
+				</p>
+				<p ng-hide="shipType === '2'">
+					<span>Shipping Cost: {{shippingPrice ? '$' + shippingPrice.toFixed(2) : '--'}}</span>
+				</p>
+				<p class="total-price text-theme">
+					Total Amount: {{calcTotalPrice()}}
+				</p>
+			</div>
+			<div class="sub-box">
+				<div
+					class="sub-btn btn-theme"
+					ng-class="{'no-logistics':shipType === '1' && !shippingPrice,'un-submit':isVerifyRule()}"
+					ng-click="handleSubmit()">
+					Submit
+					<div class="tips-box" ng-show="subErrInfo" ng-bind-html="subErrInfo"></div>
+				</div>
+			</div>
+		</div>
+	<!--组合商品详情弹窗-->
+	<bundle-products products="groupProductList" close="closeBundle" ng-if='bundleshow'/>
+	<!--edit-ioss弹窗-->
+	<edit-ioss close="closeIoss" ng-if='iossShow' callback="getUserIoss" country="addressInfo"/>
+	<!-- 新增或编辑地址弹窗 -->
+	<add-address parmas="addressParmas" ng-if="orderType !== 'package'"></add-address>
+	<!-- 选择私有库存的提示弹窗 -->
+	<div class="confirm-box f-center" ng-show="showWarehouseTips">
+		<div class="confirm-main">
+		  <div class="confirm-content">{{warehouseRuleTips}}</div>
+		  <div class="confirm-btn-box">
+			<span ng-click="handleRead()" class="yes-btn btn-theme">OK, I got it</span>
+		  </div>
+		</div>
+	</div>
+	<!-- 提交确认弹窗 -->
+	<div class="confirm-box f-center" ng-show="showCountryTip">
+		<div class="confirm-main">
+		  <div class="confirm-title">
+			{{holidayTips.title}}
+		  </div>
+		  <div class="confirm-content" ng-bind-html="holidayTips.content">
+		  </div>
+		  <div class="confirm-btn-box">
+			<span ng-click="showCountryTip=false" class="no-btn">Cancel</span>
+			<span ng-click="handleAccept()" class="yes-btn btn-theme">Accept</span>
+		  </div>
+		</div>
+	</div>
+</div>
+
+

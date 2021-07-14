@@ -1,0 +1,354 @@
+<div class="mycj-home-box order-pay">
+    <!-- 右边部分 -->
+    <div class="direct-right order-pay-right p-3">
+        <div class="cj-load-wrap table-connected p-2">
+            <div class="top-info" ng-show="type!=5">
+                <span class="ui-btn" ng-click="goBack()">Back</span>
+                {{orderObj.title}}
+            </div>
+            <div ng-show="type==1" class="order-pay-type1">
+                <div class="table-box">
+                    <table class="SKUtable">
+                        <thead>
+                        <tr>
+                            <th>Images</th>
+                            <th>SKU</th>
+                            <th>Order Quantity</th>
+                            <th>Purchase Quantity</th>
+                            <th>Total</th>
+                            <th>Deductible Quantity</th>
+                            <th>Amount Deductible</th>
+                            <th>Service Fees</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in succList track by $index">
+
+                            <td class="td-img">
+                                <div class="td-img-box">
+                                    <a href="{{'product-detail.html?id='}}" target="_blank">
+                                        <img class="small-img" ng-src="{{item.img | IMG_SIZE: 60}}" alt=""></a>
+                                    <img class="big-img" ng-src="{{item.img | IMG_SIZE: 400}}" alt="">
+                                </div>
+                            </td>
+                            <td>
+                                <p class="f-gray" ng-if="(item.SKU).substring(0,2)=='BZ'">Packaging</p>
+                                <span ng-class="{'f-org':(item.SKU).substring(0,2)=='BZ'}">{{item.SKU}}</span>
+                            </td>
+                            <td class="f-org" ng-click="showOrderDetail(item)">
+                                <span>{{item.orderNum}}</span></td>
+                            <td>
+                                {{item.buyNum || 0}}
+                            </td>
+                            <td>{{item.totalProductPrice}}USD</td>
+                            <td>
+                                {{item.totalDeductionNum}}
+                            </td>
+                            <td>
+                  <span ng-class="{'line-through':(item.SKU).substring(0,2)=='BZ'}"
+                        class="">{{item.totalOnProductPrice}}USD</span>
+                                <span class="f-org" ng-if="(item.SKU).substring(0,2)=='BZ'"> 0USD</span>
+                            </td>
+                            <td>
+                                {{item.totalServerPrice}}USD
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="total-box">
+                    <p class="total-item">
+                        <span class="total-item-title">Total Amount:</span>
+                        <span class="total-item-con">{{orderObj.allPrice}}USD</span>
+                    </p>
+                    <p class="total-item">
+                        <span class="total-item-title">Deduction:</span>
+                        <span class="total-item-con">{{orderObj.dikouPrice}}USD</span>
+                    </p>
+                    <!-- <p class="total-item">
+                                <span class="total-item-title">Shipping Cost:</span>
+                                <span class="total-item-con">{{orderObj.postage}}USD</span>
+                            </p> -->
+                    <p class="total-item">
+                        <span class="total-item-title">Service Fees:</span>
+                        <span class="total-item-con">{{orderObj.serverPrice}}USD</span>
+                    </p>
+                    <p class="total-item f-org">
+                        <span class="total-item-title">Payable Amount:</span>
+                        <span class="big total-item-con">{{orderObj.payPrice}}USD</span>
+                    </p>
+                    <div class="btn-group">
+                        <span class="ui-btn" ng-show="!isServer && !isPackagedGoods" ng-click="goSkipPay()">Skip</span>
+                        <span class="ui-btn sure" ng-click="goPay()">Confirm</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="type==2">
+                <div class="table-box">
+                    <table class="SKUtable">
+                        <thead>
+                        <tr>
+                            <td>Sub Order</td>
+                            <td>Payment Date</td>
+                            <td>Shipping Method</td>
+                            <td>Shipping Warehouse</td>
+                            <td>Purchase Quantity</td>
+                            <td>Total Value</td>
+                            <td>Deductible Quantity</td>
+                            <td>Amount Deductible</td>
+                            <td>Service Fees</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in succitemList track by $index">
+                            <td class="f-org" ng-click="showOrderDetailSKU(item)">
+                                {{item.id}}
+                            </td>
+                            <td>
+                                {{item.createDate.time | date: 'yyyy-MM-dd hh:mm:ss'}}
+                            </td>
+                            <td>
+                                {{item.logistic_name}}
+                            </td>
+                            <td class="f-org" ng-click="stockSearch(item)">
+                                {{item.storageName}}
+                            </td>
+                            <td>
+                                {{item.buyNum}}
+                            </td>
+                            <td>
+                                {{item.productPrice}}USD
+                            </td>
+                            <td ng-class="{'f-org':item.deductionNum==0}" ng-click="showNumTip(item.deductionNum)">
+                                {{item.deductionNum}}
+                            </td>
+                            <td>
+                                {{item.onProductPrice}}USD
+                            </td>
+                            <td>
+                                {{item.serverPrice}}USD
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-group">
+                    <span class="ui-btn" ng-click="type=1">Got it</span>
+                </div>
+            </div>
+            <div ng-show="type==3">
+                <div class="table-box">
+                    <table class="SKUtable">
+                        <thead>
+                        <tr>
+                            <td>SKU</td>
+                            <td>Payment Date</td>
+                            <td>Product Types</td>
+                            <td>Purchase Quantity</td>
+                            <td>Deductible Quantity</td>
+                            <td>Total Value</td>
+                            <td>Amount Deductible</td>
+                            <td>Service Fees</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in succitemSkuList track by $index">
+                            <td>
+                                {{item.SKU}}
+                            </td>
+                            <td>
+                                {{item.createDate.time | date: 'yyyy-MM-dd hh:mm:ss'}}
+                            </td>
+                            <td>
+                                {{item.property == 'COMMON' ? 'ordinary products' : 'non-ordinary products'}}
+                            </td>
+                            <td>
+                                {{item.buyNum || 0}}
+                            </td>
+                            <td>{{item.deductionNum}}</td>
+                            <td>
+                                {{item.productPrice}}USD
+                            </td>
+                            <td>
+                                {{item.onProductPrice}}USD
+                            </td>
+                            <td>
+                                {{item.serverPrice || '/'}}USD
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="type==4">
+                <div class="table-box">
+                    <table class="SKUtable">
+                        <thead>
+                        <tr>
+                            <td>Sub Order</td>
+                            <td>Payment Date</td>
+                            <td>Shipping Method</td>
+                            <td>Warehouse Deductible</td>
+                            <td>Purchase Quantity</td>
+                            <td>Deductible Quantity</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in erroritemList track by $index">
+                            <td>
+                                {{item.id}}
+                            </td>
+                            <td>
+                                {{item.createDate.time | date: 'yyyy-MM-dd hh:mm:ss'}}
+                            </td>
+                            <td>
+                                {{item.logistic_name}}
+                            </td>
+                            <td class="f-org" ng-click="stockSearch(item)">
+                                {{item.storageName}}
+                            </td>
+                            <td>
+                                {{item.buyNum}}
+                            </td>
+                            <td>
+                                {{item.deductionNum}}
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-group">
+                    <span class="ui-btn" ng-click="goBack()">Got it</span>
+                </div>
+            </div>
+            <div ng-show="type==5">
+                <div class="delete-top-info">
+                    <i class="iconfont"></i>
+                    <span class="text">The orders below cannot be shipped with USPS+ for inventory shortage in the US warehouse. You can delete them and continue to pay for other orders.</span>
+                    <!--泰国仓提示 <span class="text">The orders above cannot be placed for inventory shortage in the Thai warehosue. You can delete them and continue to pay for other orders.</span> -->
+                    <span class="del-btn" ng-click="delFun()">Delete and Continue</span>
+                    <span class="canle-btn" ng-click="goBack()">Cancel and Return</span>
+                </div>
+                <div class="table-box">
+                    <table class="SKUtable">
+                        <thead>
+                        <tr>
+                            <td>CJ Order Number</td>
+                            <td>Your Store Time System Time</td>
+                            <td>Store</td>
+                            <td>Shipping Method</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in stockoutList track by $index">
+                            <td>
+                                {{item.id}}
+                            </td>
+                            <td>
+                                {{item.createDate.time | date: 'yyyy-MM-dd hh:mm:ss'}}
+                            <td>
+                                {{item.storageName}}
+                            </td>
+                            <td>
+                                {{item.logistic_name}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert-shadow" ng-show="showTips" ng-cloak>
+    <div class="order-pay-alert">
+        <div class="order-pay-alert-main">
+            <div class="notice-title">
+                <i class="iconfont">&#xe626;</i>
+                notice
+            </div>
+            <div class="notice-content">
+                Deduction is not supported cause service products are personalized！
+            </div>
+            <div class="btn-group">
+                <span class="ui-btn" ng-click="showTips=false">Got it</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert-shadow" ng-show="showStorehouse" ng-cloak>
+    <div class="order-pay-alert">
+        <div class="order-pay-alert-main">
+            <p class="title">
+                {{SKUtitle}}
+            </p>
+            <div class="table-box">
+                <div class="table-th">
+                    <span>Warehouse</span>
+                    <span>Remaining Inventory</span>
+                    <span>Why choose it or not</span>
+                </div>
+                <div class="table-tr" ng-repeat="item in storageList track by $index">
+                    <span class="f-org">{{item.title}} Warehouse</span>
+                    <span>{{item.num}}</span>
+                    <span>{{item.reason}}</span>
+                </div>
+            </div>
+            <div class="btn-group">
+                <span class="ui-btn" ng-click="showStorehouse=false">Got it</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 检测订单余额 -->
+<div class="isdel-wrap" ng-show="showBalance">
+    <div class="isdel-con">
+        <p>You have <span class="f-org">{{balanceM}}</span>USD in your wallet, will you deduct it from this order
+            amount?
+        </p>
+        <div class="isdel-btns">
+            <button ng-click="noDkYeFun()" class="isdel-cabtn">No</button>
+            <button ng-click="deductMFun()" class="isdel-cobtn">Yes</button>
+        </div>
+    </div>
+</div>
+<!-- 私有库存未付款，已抵扣提示 -->
+<div class="alert-shadow" ng-show="unpayTip">
+    <div class="order-pay-alert">
+        <div class="order-pay-alert-main">
+            <p>Since the unpaid order has completed the private inventory deduction, </p>
+            <p> rest non-private inventory products will be shipped out from the same warehouse.</p>
+            <div class="btn-group">
+                <span class="ui-btn" ng-click="unpayTip=false">Got it</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--无法支付的订单列表提示-->
+<div class="isdel-wrap error-confirm" ng-show="errorShowFlag">
+    <div class="err-list">
+        <div class="err-head">Oops, something wrong. Please check reasons below.</div>
+        <table class="err-table">
+            <thead>
+            <tr>
+                <th width="50%">CJ Order Number</th>
+                <th>Reasons</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in logisticsReasonList">
+                <td>{{item.recordNum}}</td>
+                <td>{{item.message}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="footer-button">
+            <button ng-click="errorShowFlag=false">cancel</button>
+        </div>
+    </div>
+</div>

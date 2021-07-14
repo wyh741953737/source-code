@@ -1,0 +1,322 @@
+.leftBar {
+  display: block;
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  user-select: none;
+}
+.leftBar :global {
+  /* vip样式 */
+}
+.leftBar :global .mycj-left-bar {
+  position: relative;
+  padding-top: 77px;
+  height: 100%;
+  width: 240px;
+  background: #3a3b42;
+  color: #fff;
+  transition: 400ms;
+  z-index: 201;
+  padding-bottom: 240px;
+}
+.leftBar :global .mycj-left-bar.leftbar-light {
+  width: 65px;
+}
+.leftBar :global .mycj-left-bar.leftbar-light .title {
+  opacity: 0;
+}
+.leftBar :global .left-bar-list {
+  width: 100%;
+  transition: 0.5s;
+}
+.leftBar :global .left-bar-item {
+  position: relative;
+}
+.leftBar :global .left-bar-item.showicon .menu-child {
+  position: absolute;
+  left: 65px;
+  top: 0;
+  width: 240px;
+  z-index: 9;
+}
+.leftBar :global .left-bar-item.showicon .menu-child-show {
+  position: absolute;
+  left: 65px;
+  top: 0;
+  width: 240px;
+  z-index: 20;
+}
+.leftBar :global .menu-icon {
+  position: absolute;
+  right: 8px;
+  top: 24px;
+  cursor: pointer;
+}
+.leftBar :global .left-bar-title {
+  display: flex;
+  align-items: center;
+  position: relative;
+  line-height: 30px;
+  height: 50px;
+  padding: 10px 0 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  word-break: keep-all;
+  white-space: nowrap;
+  transition: 400ms;
+}
+.leftBar :global .left-bar-title:hover {
+  background: #18191C;
+}
+.leftBar :global .left-bar-title.hoverActive {
+  background: #000;
+}
+.leftBar :global .left-bar-title.active {
+  background: linear-gradient(315deg, #FF7700 0%, #FDA22C 100%);
+}
+.leftBar :global .left-bar-title .iconfont {
+  font-size: 30px;
+  margin-right: 10px;
+}
+.leftBar :global .left-bar-title .iconmycj::after {
+  content: '\e6fc';
+}
+.leftBar :global .left-bar-title .icondropshipping::after {
+  content: '\e6fe';
+}
+.leftBar :global .left-bar-title .iconcar::after {
+  content: '\e6ff';
+}
+.leftBar :global .left-bar-title .iconproducts::after {
+  content: '\e6fd';
+}
+.leftBar :global .left-bar-title .iconprint::after {
+  content: '\e701';
+}
+.leftBar :global .left-bar-title .iconauthorization::after {
+  content: '\e702';
+}
+.leftBar :global .cartSide {
+  position: relative;
+}
+.leftBar :global .popoverWrapper {
+  z-index: 100;
+  position: absolute;
+  right: -53px;
+  top: 9px;
+  width: 42px;
+  height: 34px;
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+  font-size: 14px;
+  line-height: 34px;
+  text-align: center;
+}
+.leftBar :global .popoverWrapper .triangle {
+  top: 15px;
+  left: -4px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 3px solid transparent;
+  border-right: 4px solid rgba(0, 0, 0, 0.75);
+  border-bottom: 3px solid transparent;
+}
+.leftBar :global .ui-select1 {
+  position: absolute;
+  right: 0px;
+  top: 15px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+.leftBar :global .ui-select1.active::after {
+  transform: rotate(-180deg);
+  transform-origin: 50%;
+  -webkit-transform-origin: 50%;
+  transition: transform 0.4s;
+}
+.leftBar :global .ui-select1:after {
+  color: #D9D9D9;
+  display: inline-block;
+  font-size: 14px;
+  z-index: 0;
+  line-height: 1;
+  font-family: "iconfont";
+  content: '\e700';
+}
+.leftBar :global .menu-child {
+  background: #2D2E34;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+}
+.leftBar :global .menu-child-show {
+  max-height: 999px;
+  background: #2D2E34;
+  transition: max-height 0.4s;
+}
+.leftBar :global .menu-child-item {
+  line-height: 50px;
+  font-size: 14px;
+  text-align: left;
+  position: relative;
+}
+.leftBar :global .menu-child-item:hover {
+  background: #18191C;
+}
+.leftBar :global .menu-child-item:hover .menu-thirdchild-list {
+  background: #2D2E34;
+}
+.leftBar :global .menu-child-item-title {
+  padding-left: 55px;
+  font-size: 14px;
+  display: block;
+  color: #fff;
+  position: relative;
+}
+.leftBar :global .menu-child-item-title-tip {
+  position: absolute;
+  z-index: 2;
+  bottom: 40px;
+  left: 20px;
+  right: 20px;
+  padding: 5px 10px;
+  color: white;
+  line-height: 1em;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.leftBar :global .menu-child-item-title-tip:after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid rgba(0, 0, 0, 0.8);
+}
+.leftBar :global .menu-child-item.active {
+  color: #fff;
+  background: linear-gradient(315deg, #FF7700 0%, #FDA22C 100%);
+}
+.leftBar :global .menu-thirdchild-item {
+  display: block;
+  color: #fff;
+  position: relative;
+}
+.leftBar :global .menu-thirdchild-item.active {
+  color: #fff;
+  background: linear-gradient(315deg, #FF7700 0%, #FDA22C 100%);
+}
+.leftBar :global .menu-thirdchild-item-title {
+  padding-left: 55px;
+  font-size: 14px;
+  position: relative;
+}
+.leftBar :global .menu-thirdchild-item-title .ui-select1 {
+  right: 10px;
+}
+.leftBar :global .menu-thirdchild-item-title:hover {
+  background: #18191C;
+}
+.leftBar :global .menu-thirdchild-item:hover .menu-thirdchild-list {
+  display: block;
+}
+.leftBar :global .menu-thirdchild-item-text {
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  padding-left: 55px;
+  cursor: pointer;
+}
+.leftBar :global .menu-thirdchild-item-text:hover {
+  background: #18191C;
+}
+.leftBar :global .menu-thirdchild-item-text.active {
+  color: #fff;
+  background: linear-gradient(315deg, #FF7700 0%, #FDA22C 100%);
+}
+.leftBar :global .thirdhide .menu-thirdchild-list {
+  position: absolute;
+  right: -240px;
+  top: 0;
+  background: #2D2E34;
+  width: 240px;
+}
+.leftBar :global .thirdhide .ui-select1 {
+  display: inline-block;
+  transform: rotate(-90deg);
+  right: 20px;
+}
+.leftBar :global .vipflag.mycj-left-bar {
+  background: #2B2B2B;
+  color: #F3DBA5;
+}
+.leftBar :global .vipflag .menu-thirdchild-item-title {
+  color: #F3DBA5;
+}
+.leftBar :global .vipflag .menu-thirdchild-item-title .icon-service {
+  top: 13px;
+}
+.leftBar :global .vipflag .menu-thirdchild-item-text {
+  color: #F3DBA5;
+}
+.leftBar :global .vipflag .menu-thirdchild-item-text.active {
+  background: linear-gradient(298deg, #F0D49C 0%, #FAE9BB 100%);
+  color: #3E1B00;
+}
+.leftBar :global .vipflag .ui-select1:after {
+  color: #F3DBA5;
+}
+.leftBar :global .vipflag .menu-child-item {
+  background: #262626;
+  color: #F3DBA5;
+}
+.leftBar :global .vipflag .menu-child-item.active {
+  background: linear-gradient(298deg, #F0D49C 0%, #FAE9BB 100%);
+  color: #3E1B00;
+}
+.leftBar :global .vipflag .menu-child-item.active .menu-child-item-title {
+  color: #3E1B00;
+}
+.leftBar :global .vipflag .menu-child-item.active .menu-child-item-title:hover {
+  background: linear-gradient(298deg, #F0D49C 0%, #FAE9BB 100%);
+  color: #3E1B00;
+}
+.leftBar :global .vipflag .menu-child-item:hover .menu-thirdchild-list {
+  background: #262626;
+}
+.leftBar :global .vipflag .menu-thirdchild-item {
+  display: block;
+}
+.leftBar :global .vipflag .menu-thirdchild-item.active {
+  background: linear-gradient(298deg, #F0D49C 0%, #FAE9BB 100%);
+  color: #3E1B00;
+}
+.leftBar :global .vipflag .menu-child-item-title {
+  color: #F3DBA5;
+}
+.leftBar :global .vipflag .menu-child-item-title:hover {
+  background: #000000;
+  color: #F3DBA5;
+}
+.leftBar :global .vipflag .left-bar-title.hoverActive {
+  background: #000;
+}
+.leftBar :global .vipflag .left-bar-title.active {
+  background: linear-gradient(298deg, #F0D49C 0%, #FAE9BB 100%);
+  color: #3E1B00;
+}

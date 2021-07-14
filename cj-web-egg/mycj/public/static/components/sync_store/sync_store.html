@@ -1,0 +1,18 @@
+<div class="cj-sync-store">
+    <button ng-hide="selectshopinfo.TYPE == 'ebay' && syncing" class="ui-btn btn-theme" style="border-radius: 3px;height: 28px;width: 120px;" ng-click="renovation()">Sync</button>
+    <div style="display: inline-block;position: relative;">
+        <button ng-show="selectshopinfo.TYPE == 'ebay' && syncing" class="ui-btn btn-theme" style="background: #ccc;color: #fff;border-radius: 3px;height: 28px;width: 120px; cursor: not-allowed;">
+            Sync
+        </button>
+        <div class="syncTips" ng-show="vm.synctip" ng-cloak>
+            <span class="syncTipsText">Please sync your store products before connecting them to CJ’s.</span>
+            <div class="syncTipsImg"></div>
+        </div>
+    </div>
+    
+    <!-- ng-show="syncing" -->
+    <span ng-show="selectshopinfo.TYPE == 'ebay' && syncing" style="font-size: 12px; color: #999;">Syncing Store {{syncingebaystore.NAME}}, {{syncingebaystore.syncResult}}...</span>
+    <div class="pop_ups">
+        <pop-ups content="content" ng-show="showPopUps"></pop-ups>
+    </div>
+</div>

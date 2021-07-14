@@ -1,0 +1,368 @@
+<div class="mycj-home-box PC-wrap connection-sourcing">
+  <!-- 右侧部分 -->
+  <div class="mycj-right-wrap PC-con">
+    <div class="top-space-bar"></div>
+    <div class="mycj-right-bar PC-w1200 pend-connect clearfix">
+      <div class="asj-back-to">
+        <a href="#/products-connection/connected">&lt; Back</a>
+      </div>
+      <!-- 默认图片展示 -->
+      <div class="asj-default-imgbox" ng-show="connectType==0 && noData">
+        <img ng-show="isVip()" class="default-img" src="static/image/page/source_def_vip.png">
+        <img ng-show="!isVip()" class="default-img" src="static/image/page/source_def.png">
+        <p class="default-msg noData-default-msg">You do not have any purchasing history.</p>
+        <a class="mycj-btn-noData" href="#/add-sourcing////">Post Sourcing Request{{$scope.isVip()}}</a>
+      </div>  
+      <div class="asj-default-imgbox" ng-show="connectType==1 && noData">
+        <img class="default-img" src="static/image/page/source_default.png">
+        <p class="default-msg">Sorry, No data found. </p>
+        <!-- <a class="mycj-btn-default" href="#/add-sourcing">Post Sourcing Request</a> -->
+      </div>
+      <!-- 左侧内容 -->
+      <div class="pro-list pro-FAS" ng-hide="noData">
+        <h3 ng-if="connectType==0">Products from Sourcing</h3>
+        <h3 ng-if="connectType==1">Service Products</h3>
+        <div class="input-group search-box input-search">
+          <input type="text" class="form-control" placeholder="Enter SKU/Products Name" ng-model="searchinfosource" id="serch-store-inp"
+            ng-keyup="enterSearchSource($event)">
+          <span class="input-group-btn">
+            <button class="search-btn btn-theme" type="button" ng-click="searchsource()">Search</button>
+          </span>
+        </div>
+        <div style="height: 119px;"></div>
+        <div
+          ng-class="{'cj-load-wrap-right':true, 'table-PFAS': sourcelist.length>0,'table-PFAM': sourcelist.length==0}">
+          <!-- 一条商品 -->
+          <div 
+            ng-class="{'media2': item.flag}" 
+            ng-repeat="(index,item) in sourcelist"
+            class="media"
+            ng-click="sourcematch3($index,item)"
+            >
+            <div class="media-left" style="display: block;">
+              <img class="media-object small-img" ng-src="{{item.BIGIMG || '#'}}"
+                err-src="static/image/public-img/default.jpg" alt="...">
+              <img class="big-img" ng-src="{{item.BIGIMG}}" alt="">
+            </div>
+            <div class="media-body">
+              <div class="media-info">
+                <!-- <div class="after-match">
+                  <h4 class="media-heading">
+                    <a href="{{'/product-detail.html?id='+item.ID+'&productType='+item.PRODUCTTYPE}}" target="_blank" class="titlelink">{{item.NAMEEN}}</a>
+                  </h4>
+                  <p class="media-attr">{{item.SKU}}</p>
+                </div> -->
+                <div class="newMediaTitle">
+                  <a href="{{'/product-detail.html?id='+item.ID+'&productType='+item.PRODUCTTYPE}}" target="_blank" class="titlelink" title="{{item.NAMEEN}}">{{item.NAMEEN}}</a>
+                </div>
+                <div class="newMediacontent">
+                  <div class="newMediaShopName newMediaText" title="{{item.SKU}}">SKU: {{item.SKU}}</div>
+                  <div class="newMediaPrice">
+                    <span ng-if="connectType==0">USD {{item.SELLPRICE}}</span>
+                    <span ng-if="connectType==1">USD {{item.serviceFee}}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="pro-price" ng-if="connectType==0">USD {{item.SELLPRICE}}</div>
+              <div class="pro-price" ng-if="connectType==1">USD {{item.serviceFee}}</div> -->
+              <div class="right-btn">
+                <!-- <div class="ui-btn btn-theme" ng-click="sourcematch3($index,item)" style="width:100%;min-width: auto;">{{item.flag?'Unpin':'PIN'}}</div>
+                <div class="ui-btn btn-theme" ng-click="sourcematch2(item,$index)" style="width:100%;min-width: auto;margin-top:10px;">Match</div> -->
+                <button ng-click="sourcematch2(item,$index)" class="newMediaMatch">Match</button>
+              </div>
+            </div>
+
+            <div class="mediawindow" ng-show="item.win">
+              <p>title:</p>
+              <p> <span ng-class="it.flag?classarr[it.classindex]:'normal'" ng-repeat="(index2,it) in item.cla "
+                  ng-click="searchinfo(it,index,index2)">{{it.classname}}<b
+                    ng-click="deletesearchinfo(it,$event,index,index2)" ng-show="it.flag">x</b></span></p>
+              <p>tags:</p>
+              <p> <span ng-class="it.flag?classarr[it.tagindex]:'normal'" ng-repeat="(index2,it) in item.tagsarr "
+                  ng-click="searchinfo2(it,index,index2)">{{it.tagname}}<b
+                    ng-click="deletesearchinfo2(it,$event,index,index2)" ng-show="it.flag">x</b></span></p>
+              <p style="position: absolute;bottom: 5px;right: 14px">
+                <button ng-click="cancle($index)"
+                  style="background:#F9F9F9;border: 1px solid #E4E4E4;color:#666666; margin-right: 10px;">Cancel</button>
+                <button ng-click="item.win=false;item.flag=true;sourcematch(item,$index)">Confirm</button>
+              </p>
+            </div>
+
+
+          </div>
+          <!-- <div style="position: static;" ng-hide="sourcelist.length>0" class="not-found-data">
+                      <img src="static/image/public-img/nodata.png" style="width: 100%;">
+                  </div> -->
+        </div>
+        <!-- hasSourceData -->
+        <div class="page-box" ng-show="sourcelist.length > 0">
+          <div class="total-items">{{sourceProTotalpage}} records found</div>
+          <div class="page-index" id="page3">
+          </div>
+          <div class="to-go">
+            <span>Showing: </span>
+            <input type="text" class="form-control" placeholder="" ng-change="numberInput('right', rightPageNum)" ng-model="rightPageNum">
+            <a class="btn btn-default" role="button" ng-click="changeFun('right')">go</a>
+          </div>
+        </div>
+      </div>
+      <!-- 右侧内容 -->
+      <div class="pro-list pro-CAM" ng-hide="noData">
+        <h3>Products from Authorized Stores</h3>
+        <div class="input-group search-box input-search">
+          <select class="form-control select-store input-search-store" ng-model="inputshopinfo" ng-change="searchshopcommodity(inputshopinfo, 'input')" ng-options="item as item.NAME for ($index,item) in shopinputlist"></select>
+          <input type="text" class="form-control" placeholder="Product Name" ng-model="searchinfoshop"
+            ng-keyup="enterSearchShop($event)" maxlength="1000">
+          <span class="input-group-btn">
+            <button class="search-btn btn-theme" type="button" ng-click="shopsearch()">Search</button>
+          </span>
+          
+        </div>
+        <div class="input-group search-box input-search store-select">
+          <select class="form-control select-store" ng-model="selectshopinfo" ng-change="syncshopcommodity(selectshopinfo)" ng-options="item as item.NAME for ($index,item) in shopselectlist"></select>
+          <span class="input-group-btn">
+            <sync-store storeinfo="storeinfo" synctip="true" style="display: inline-block;" ng-if="storeinfo.TYPE != 'amazon'"></sync-store>
+            <button class="search-btn btn-theme" type="button" ng-click="advancedSearch()" ng-show="storeinfo.TYPE == 'amazon'">Advanced Search</button>
+          </span>
+          <button class="specificSyncBtn" ng-click="handleSpecificSync()">Specific Sync</button>
+        </div>
+        <div class="title-mayConnectProduct">You may want to connect:</div>
+        <div class="cj-load-wrap-left table-PFAM">
+          <div class="medias-PFAM">
+            <!-- 一条商品 -->
+            <!-- sourceshoplist -->
+            <div class="media" ng-repeat="item in shop">
+              <div class="media-left">
+                <img class="media-object small-img" ng-src="{{item.image || '#'}}"
+                  err-src="static/image/public-img/default.jpg" alt="...">
+                <img class="big-img" ng-src="{{item.image}}" alt="">
+              </div>
+              <div class="media-body">
+                <div class="media-info">
+                  <!-- <h4 class="media-heading">{{item.title}}</h4>
+                  <p ng-if="item.tags != ''" class="media-attr">{{item.tags}}</p>
+                  <p class="media-attr">Store name: {{item.shopName}}</p> -->
+                  <div class="newMediaTitle" title="{{item.title}}">
+                    {{item.title}}
+                  </div>
+                  <div class="newMediaTags newMediaText" ng-if="item.tags != ''" title="{{item.tags}}">{{item.tags}}</div>
+                  <div class="newMediacontent">
+                    <div class="newMediaShopName newMediaText" title="{{item.shopName}}">Store name: {{item.shopName}}</div>
+                    <div class="newMediaPrice">
+                      <ng-template ng-if="item.nowPrice">
+                        {{item.nowPrice}}
+                        <del>USD {{item.prices}}</del>
+                      </ng-template>
+                      <span ng-if="!item.nowPrice">USD {{item.prices}}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="pro-price">
+                  <ng-template ng-if="item.nowPrice">
+                    {{item.nowPrice}}
+                    <del>USD {{item.prices}}</del>
+                  </ng-template>
+                  <span ng-if="!item.nowPrice">USD {{item.prices}}</span>
+                </div> -->
+                <div class="right-btn">
+                  <!-- <div class="ui-btn btn-theme" style="width:100%;min-width: auto;" ng-click="sourceconnect(item,$index)">Connect</div> -->
+                  <button class="newMediaMatch" ng-click="sourceconnect(item,$index)">Connect</button>
+                </div>
+              </div>
+            </div>
+            <!-- <div style="position: static;" ng-hide="shop.length>0" class="not-found-data">
+                          <img src="static/image/public-img/nodata.png" style="width: 100%;">
+                      </div> -->
+          </div>
+        </div>
+        <div class="page-box" ng-show="shop.length>0">
+          <div class="total-items">{{storeProTotalNum}} records</div>
+          <div class="page-index" id="page1">
+          </div>
+          <div class="to-go">
+            <span>Showing: </span>
+            <input type="text" class="form-control" placeholder="" ng-change="numberInput('left', leftPageNum)" ng-model="leftPageNum">
+            <a class="btn btn-default" role="button" ng-click="changeFun('left')">go</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--搜品弹窗-->
+<div class="confirm-box" ng-show="tanchuang">
+  <div class="confirm-main" style="max-width: 1000px;max-height: initial;">
+    <i class="iconfont confirm-close" ng-click="tanchuang = false"></i>
+    <div class="confirm-title">Products Connection</div>
+    <div class="confirm-content" style="max-height: initial;width: 1000px;text-align: initial;">
+      <p class="connect-warn" style="text-align: center;padding-bottom: 20px;">You have to connect your store product
+        with CJ existing one, then CJ platform will sync
+        orders from your store.</p>
+      <div class="pend-connect-items">
+        <div class="product-item">
+          <div class="item-heading" ng-if="connectType==0">Sourcing Product</div>
+          <div class="item-heading" ng-if="connectType==1">Service Product</div>
+          <div class="item-body  item-body-left" style="cursor: pointer;" ng-repeat="(index1,item) in CJList"
+            ng-click="lastclick($event,index1,item)"
+            ng-class="last?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+            <div class="item-img">
+              <img ng-src="{{item.IMG}}" alt="">
+            </div>
+            <div style="width: 60%">
+              <span class="item-title" title="{{item.NAMEEN}}">{{item.NAMEEN}}</span>
+              <span class="item-title" title="{{item.SKU}}">{{item.SKU}}</span>
+              <span class="item-title" title="{{formateVariantkey(item.VARIANTKEY)}}">
+                {{formateVariantkey(item.VARIANTKEY)}}
+              </span>
+            </div>
+            <!-- <div class="item-color" style="width: 23%">{{item.VARIANTKEY}}</div> -->
+            <div class="item-price" style="width: 15%;text-align: center">
+              <span>${{item.SELLPRICE}}</span>
+            </div>
+          </div>
+        </div>
+        <div title="Disconnect" class="connect-icon" style="margin-top: 28px">
+          <div class="item-body-middle" ng-repeat="(index3,item) in shopList" ng-show="arr.length>$index"
+            style="cursor: pointer;"><img src="./static/image/page/connecteds.png" alt="" ng-click="Unlink(index3)">
+          </div>
+        </div>
+        <div class="product-item">
+          <div class="item-heading">Your Store Product</div>
+          <div class="item-body item-body-right" style="cursor: pointer;" ng-repeat="(index2,item) in shopList"
+            ng-click="firstclick($event,index2,item)"
+            ng-class="first?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+            <div class="item-img">
+              <img ng-src="{{item.image==''?matchitem.image:item.image}}" alt="">
+            </div>
+            <div style="width: 60%">
+              <span class="item-title" title="{{matchitem.title}}">{{matchitem.title}}</span>
+              <span class="item-title" style="font-size: 12px;" ng-show="item.type == 'Brightpearl'">{{item.sku}}</span>
+              <span class="item-title item-variants" style="font-size: 12px;" title="{{item.title}}">{{item.title}}</span>
+            </div>
+            <div class="item-color" style="width: 23%">
+              <!-- <p style="font-size: 12px;">{{item.title}}</p> -->
+              <!-- <p style="font-size: 12px;" ng-show="item.type == 'Brightpearl'">{{item.sku}}</p> -->
+            </div>
+            <div class="item-price" style="width: 15%;text-align: center">
+              <p>${{item.price}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="xiala">
+        <label for="">Shipping From:</label>
+        <select name="" class="ship-from-sele" style="border:1px solid #ececec;border-radius: 3px; margin-right: 50px;"
+          ng-model="seleWare" ng-change="chanSeleWare(seleWare)" ng-options="item as item.areaEn for item in wareList">
+        </select>
+        <label for="">Shipping Method:</label>
+        <select name="" id="" style="border:1px solid #ececec;border-radius: 3px;"
+          ng-options="item as item.nameEn for item in wuliulist" ng-model="wuliuway" ng-change="getwuliuway(wuliuway)">
+          <option value="">Please select</option>
+        </select>
+        <div ng-if="remark" class="asj-wuliu-tip-wrap" style="margin: 5px;">
+          <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+          <div class="asj-wuliu-tip-show" ng-bind-html="remark"></div>
+        </div>
+        <!-- <sapn style="font-size: 14px;color: red;margin-left: 5px;">{{remark}}</sapn> -->
+      </div>
+      <div class="Authorization" ng-show="matchitem.shopType == 'shopify'">
+        <div class="sel choice" style="margin-right: 100px;">
+          <p class="fausebox1" ng-show="isFause1">
+            CJ Fulfillment Service: If you choose 'Yes', the connected products in your store will be managed only by CJ
+            and you can decide later whether to have your inventory managed by CJ as well. If you choose 'No', the
+            connected products and their inventory
+            will be managed by yourself.
+          </p>
+          <b class="iconfont asj-wuliu-tip-icon" ng-mouseleave="isFause1 = false;"
+            ng-mouseenter="isFause1 = true;">&#xe626;</b>
+          <span>Enable CJ's Fulfillment Service:</span>
+          <label class="radio"><input name="ServiceRadio" type="radio" value="1" ng-checked="true" ng-model="Service"
+              ng-disabled="!syncInventory" ng-change="isLevels = true;" /><i></i>Yes </label>
+          <label class="radio"><input name="ServiceRadio" type="radio" value="0" ng-model="Service"
+              ng-change="isLevels = false;" /><i></i>No
+          </label>
+        </div>
+        <div class="sel choice" ng-show="isLevels">
+          <div class="fausebox2" ng-show="isFause2">
+            Sync CJ's Inventory: If you choose 'Yes', the inventory of the connected products in your store will be
+            managed only by CJ. If you choose 'No', then it will be managed by yourself.
+          </div>
+          <b class="iconfont asj-wuliu-tip-icon" ng-mouseleave="isFause2 = false;"
+            ng-mouseenter="isFause2 = true;">&#xe626;</b>
+          <span>Sync CJ's Inventory Levels:</span>
+          <label class="radio"><input name="LevelsRadio" type="radio" value="1" ng-checked="true" ng-model="Levels" /><i></i>Yes </label>
+          <label class="radio"><input name="LevelsRadio" type="radio" value="0" ng-model="Levels" /><i></i>No </label>
+        </div>
+        <p style="margin-top: 15px;color: #666;font-size: 14px;padding-left: 18px;" ng-hide="syncInventory">The inventory sync is off.
+          You can enable it to start.</p>
+      </div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="closesourcetanchuang()" class="no-btn">Cancel</span>
+      <span ng-click="sourcegoon()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+
+<!-- 高级同步弹窗 -->
+<div class="advancedSynchronizationModal" ng-show="showspecificSync">
+  <div class="advancedSynchronizationBox">
+    <h3 class="advancedSynchronizationHead">
+      <span>Specific Sync</span>
+      <i class="iconfont iconguanbi1 advancedSynchronizationIcon" ng-click="handleCancelSync()"></i>
+    </h3>
+    <div class="advancedSynchronizationMain">
+      <div class="advancedSynchronizationItem">
+        <span class="advancedSynchronizationLabel">Store：</span>
+        <select class="storeNameSelect" ng-model="specificSyncStore" ng-options="item as item.NAME for ($index,item) in shopselectlist" ng-change="handleSelectSpecificSyncStore(specificSyncStore)"></select>
+      </div>
+      <div class="advancedSynchronizationItem" ng-show="showSelectDate">
+        <span class="advancedSynchronizationLabel" ng-show="specificSyncStore && specificSyncStore.TYPE != 'shopee'">Date：</span>
+        <span class="advancedSynchronizationLabel" ng-show="specificSyncStore && specificSyncStore.TYPE == 'shopee'">Update Time：</span>
+        <wui-date format="yyyy-mm-dd" placeholder="Start" btns="{'ok':'Confirm','now':'Now'}"
+          ng-model="startTime" position="top" class="cj-date" ></wui-date>
+          <span class="link">-</span>
+          <wui-date format="yyyy-mm-dd" placeholder="End" btns="{'ok':'Confirm','now':'Now'}"
+          ng-model="endTime" position="top" class="cj-date"></wui-date>
+      </div>
+      <div class="advancedSynchronizationItem" ng-show="showProductName">
+        <span class="advancedSynchronizationLabel">Product：</span>
+        <input type="text" ng-model="productName" class="productNameInput" placeholder="Product Name" maxlength="1000">
+      </div>
+      <div ng-show="showProductSKU">
+        <div class="advancedSynchronizationItem sku-div">
+          <span class="advancedSynchronizationLabel">SKU：</span>
+          <div class="skuList">
+            <div ng-repeat="(i, skuItem) in SKUList track by $index">
+              <input type="text" ng-model="SKUList[i]" class="skuItem" placeholder="Please enter your Lazada SKU" maxlength="200">
+              <i class="iconfont icontianjia skuAddIcon" ng-click="handleAddSKU()" ng-show="$index == 0"></i>
+              <i class="iconfont iconjianqu skuReduceIcon" ng-click="handleReduceSKU($index)" ng-show="$index !== 0"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="advancedSynchronizationBottom">
+      <button class="advancedSynchronizationBtn cancleBtn" ng-click="handleCancelSync()">Cancel</button>
+      <button class="advancedSynchronizationBtn confirmBtn" ng-click="handleSpecificSyncConfirm()">Sync</button>
+    </div>
+  </div>
+</div>
+
+<!-- 进度条 -->
+<div class="progressBar">
+  <progress-bar></progress-bar>
+</div>
+
+<!-- 更新引导 -->
+<div class="advancedSynchronizationModal" ng-show="showUpdateGuide">
+  <div class="updateGuide"></div>
+  <div class="updateGuideLine"></div>
+  <div class="updateGuideImg">
+    <!-- <img src="/egg/image/connection/exam1.svg" alt=""> -->
+  </div>
+  <i class="iconfont iconguanbi1 updateCloseIcon" ng-click="handleCloseGuide()"></i>
+</div>
+
+<!-- 高级搜索 -->
+<syncproductmodal storeinfo="storeinfo" visible="advancedFlag" init-callback="initSyncCallback(advancedSearch)" selectshopinfo="selectshopinfo" searchshopcommodity="searchshopcommodity" shopselectlist="shopselectlist"></syncproductmodal>

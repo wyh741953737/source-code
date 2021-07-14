@@ -1,0 +1,1626 @@
+<div class="content">
+    <div class="mycj-home-box drop-ord-wrap">
+        <!-- 左边部分 -->
+        <div class="mycj-left-bar-wrap">
+            <mycj-leftbar navparamx="'DropShipping Center'" navparamy="'DropShipping Orders'"></mycj-leftbar>
+        </div>
+        <!-- 右边部分 -->
+        <div class="d-direct-right">
+            <!-- 导航 -->
+            <div class="order-status">
+                <div class="status-nav">
+                    <ul class="status-navul">
+                        <li><a class="orderstatus-nav drop-orderstatus-nav" href="#/dropshipping-orders">Awaiting Payment</a></li>
+                        <li><a class="orderstatus-nav drop-orderstatus-nav" href="#/drop-proce">Processing</a></li>
+                        <li><a class="orderstatus-nav drop-orderstatus-nav" href="#/drop-dispat">Dispatched</a></li>
+                        <li><a class="orderstatus-nav drop-orderstatus-nav" href="#/drop-complet">Completed</a></li>
+                        <li><a class="orderstatus-nav drop-orderstatus-nav" href="#/drop-close">Closed</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 代发订单对应的订单状态导航对应的页面 -->
+            <!-- 代发订单的处理部分 待付款-->
+            <div class="dropshippingStatus-nav">
+                <!-- 订单的处理部分 待付款-->
+                <div class="deal-orders">
+                    <ul class="dealorder-ul">
+                        <!-- 订单搜索 导出部分 -->
+                        <li class="seachExport">
+                            <input placeholder="Input orders number"></input><a class="search-btn" href="javascript:void(0)">Search</a>
+                            <!-- <a class="export-orders" href="javascript:void(0)">Export Orders</a> -->
+                        </li>
+                        <!-- 分页 -->
+                        <!-- <li class="deal-page">
+							<div class="pages-db">
+								<select class="select-page-num select-page-num1">
+									<option>1</option>
+									<option>3</option>
+									<option>10</option>
+									<option>20</option>
+								</select>
+								<span class="per-page">per page</span>
+								<span class="all-num-line" ng-bind="erpordTnum"></span>
+								<span class="per-page">records found</span>
+							    <ul class="pagination pagination-demo"></ul>
+							    <span class="per-page showing-tex">showing:</span>
+							    <input class="inp-num-go inp-num-go1"></input>
+							    <span class="per-page">of</span>
+							    <span class="jump-btn jump-btn1">go</span>
+							</div>
+						</li> -->
+                    </ul>
+                    <!-- 订单的表格部分 -->
+                    <div class="orders-list">
+                        <table class="orders-table" id="await-table">
+                            <thead>
+                                <tr>
+                                    <th class="check-th" style="width: 140px;">
+                                        <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                        <span>Ordered Date</span>
+                                    </th>
+                                    <th style="width: 240px;">
+                                        Order Number
+                                    </th>
+                                    <th style="width: 120px;">Quantity</th>
+                                    <th style="width: 228px;">
+                                        <p>Grand Total</p>
+                                        <p>(Purchased)</p>
+                                    </th>
+                                    <th style="width: 246px;">Status</th>
+                                    <th style="width: 390px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="cjdrop-await-pay" ng-repeat="awaitpay in cjdropawaitpList">
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16"></td>
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                        <p class="dord-date-time" ng-cloak>{{awaitpay.date}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="cj-order-num" ng-cloak>{{awaitpay.ORDERNUMBER}}</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p ng-cloak>USD {{awaitpay.ORDERMONEY}}</p>
+                                    </td>
+                                    <td class="orderStatus-td">
+                                        <p>Awaiting Payment</p>
+                                    </td>
+                                    <td class="subpay-td">
+                                        <a class="viewSub-orders beforpay-wiewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <a class="pay-link" href="#/payment">pay</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 20px;margin-left: -12px;" ng-hide="dataFound" class="not-found-data">
+                            <img src="static/image/public-img/nodata.png">
+                        </div>
+                        <!-- 分页 -->
+                        <div class="pages-db second-page">
+                            <select class="select-page-num select-page-num2">
+								<option>1</option>
+								<option>3</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+                            <span class="per-page">per page</span>
+                            <span class="all-num-line"></span>
+                            <span class="per-page">records found</span>
+                            <ul class="pagination pagination-demo"></ul>
+                            <span class="per-page showing-tex">showing:</span>
+                            <input class="inp-num-go inp-num-go2"></input>
+                            <span class="per-page">of</span>
+                            <span class="jump-btn jump-btn2">go</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 代发订单的处理部分 备货中 processing-->
+            <div class="dropshippingStatus-nav">
+                <div class="deal-orders">
+                    <ul class="dealorder-ul">
+                        <!-- 订单搜索 导出部分 -->
+                        <li class="seachExport">
+                            <input placeholder="Input orders number"><a class="search-btn" href="javascript:void(0)">Search</a>
+                            <a class="export-orders" href="javascript:void(0)">Export Orders</a>
+                        </li>
+                        <!-- 分页 -->
+                        <!-- <li class="deal-page"></li> -->
+                    </ul>
+                    <!-- 订单的表格部分 -->
+                    <div class="orders-list">
+                        <table class="orders-table" id="proce-table">
+                            <thead>
+                                <tr>
+                                    <th class="check-th" style="width: 140;">
+                                        <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                        <span>Ordered Date</span>
+                                    </th>
+                                    <th style="width: 240;">
+                                        Order Number
+                                    </th>
+                                    <th style="width: 120;">Quantity</th>
+                                    <th style="width: 228;">
+                                        <p>Grand Total</p>
+                                        <p>(Purchased)</p>
+                                    </th>
+                                    <th style="width: 246;">Status</th>
+                                    <th style="width: 390;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16">
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                   
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Processing</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders afterpay-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <a class="pay-link" href="javascript:void(0)">pay</a>
+                                    </td>
+                                </tr>
+                                <!-- 第二个订单 -->
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16">
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                   
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Processing</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders afterpay-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <!-- <a class="pay-link" href="javascript:void(0)">pay</a> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="pages-db second-page">
+                            <select class="select-page-num select-page-num2">
+								<option>1</option>
+								<option>3</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+                            <span class="per-page">per page</span>
+                            <span class="all-num-line"></span>
+                            <span class="per-page">records found</span>
+                            <ul class="pagination pagination-demo1"></ul>
+                            <span class="per-page showing-tex">showing:</span>
+                            <input class="inp-num-go">
+                            <span class="per-page">of</span>
+                            <span class="jump-btn">go</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 代发订单的处理部分 已发货-->
+            <div class="dropshippingStatus-nav">
+                <div class="deal-orders">
+                    <ul class="dealorder-ul">
+                        <!-- 订单搜索 导出部分 -->
+                        <li class="seachExport">
+                            <input placeholder="Input orders number"><a class="search-btn" href="javascript:void(0)">Search</a>
+                            <a class="export-orders" href="javascript:void(0)">Export Orders</a>
+                        </li>
+                        <!-- 分页 -->
+                        <!-- <li class="deal-page"></li> -->
+                    </ul>
+                    <!-- 订单的表格部分 -->
+                    <div class="orders-list">
+                        <table class="orders-table" id="disp-table">
+                            <thead>
+                                <tr>
+                                    <th class="check-th" style="width: 140;">
+                                        <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                        <span>Ordered Date</span>
+                                    </th>
+                                    <th style="width: 240;">
+                                        Order Number
+                                    </th>
+                                    <th style="width: 120;">Quantity</th>
+                                    <th style="width: 228;">
+                                        <p>Grand Total</p>
+                                        <p>(Purchased)</p>
+                                    </th>
+                                    <th style="width: 246;">Status</th>
+                                    <th style="width: 390;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16"><img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                    </td>
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Dispatched</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders afterpay-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <!-- <a class="pay-link" href="javascript:void(0)">pay</a> -->
+                                    </td>
+                                </tr>
+                                <!-- 第二个订单 -->
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16"><img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                    
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Dispatched</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders afterpay-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <!-- <a class="pay-link" href="javascript:void(0)">pay</a> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="pages-db second-page">
+                            <select class="select-page-num select-page-num2">
+								<option>1</option>
+								<option>3</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+                            <span class="per-page">per page</span>
+                            <span class="all-num-line"></span>
+                            <span class="per-page">records found</span>
+                            <ul class="pagination pagination-demo1"></ul>
+                            <span class="per-page showing-tex">showing:</span>
+                            <input class="inp-num-go"></input>
+                            <span class="per-page">of</span>
+                            <span class="jump-btn">go</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 代发订单的处理部分 交易成功-->
+            <div class="dropshippingStatus-nav">
+                <div class="deal-orders">
+                    <ul class="dealorder-ul">
+                        <!-- 订单搜索 导出部分 -->
+                        <li class="seachExport">
+                            <input placeholder="Input orders number"><a class="search-btn" href="javascript:void(0)">Search</a>
+                            <a class="export-orders" href="javascript:void(0)">Export Orders</a>
+                        </li>
+                        <!-- 分页 -->
+                        <!-- <li class="deal-page"></li> -->
+                    </ul>
+                    <!-- 订单的表格部分 -->
+                    <div class="orders-list">
+                        <table class="orders-table" id="comp-table">
+                            <thead>
+                                <tr>
+                                    <th class="check-th" style="width: 140;">
+                                        <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                        <span>Ordered Date</span>
+                                    </th>
+                                    <th style="width: 240;">
+                                        Order Number
+                                    </th>
+                                    <th style="width: 120;">Quantity</th>
+                                    <th style="width: 228;">
+                                        <p>Grand Total</p>
+                                        <p>(Purchased)</p>
+                                    </th>
+                                    <th style="width: 246;">Status</th>
+                                    <th style="width: 390;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16"><img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                    </td>
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Completed</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders afterpay-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <!-- <a class="pay-link" href="javascript:void(0)">pay</a> -->
+                                    </td>
+                                </tr>
+                                <!-- 第二个订单 -->
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16"><img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                    
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Completed</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders afterpay-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <!-- <a class="pay-link" href="javascript:void(0)">pay</a> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="pages-db second-page">
+                            <select class="select-page-num select-page-num2">
+								<option>1</option>
+								<option>3</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+                            <span class="per-page">per page</span>
+                            <span class="all-num-line"></span>
+                            <span class="per-page">records found</span>
+                            <ul class="pagination pagination-demo1"></ul>
+                            <span class="per-page showing-tex">showing:</span>
+                            <input class="inp-num-go">
+                            <span class="per-page">of</span>
+                            <span class="jump-btn">go</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 代发订单的处理部分 交易关闭-->
+            <div class="dropshippingStatus-nav">
+                <div class="deal-orders">
+                    <ul class="dealorder-ul">
+                        <!-- 订单搜索 导出部分 -->
+                        <li class="seachExport">
+                            <input placeholder="Input orders number"></input><a class="search-btn" href="javascript:void(0)">Search</a>
+                            <a class="export-orders" href="javascript:void(0)">Export Orders</a>
+                        </li>
+                        <!-- 分页 -->
+                        <!-- <li class="deal-page"></li> -->
+                    </ul>
+                    <!-- 订单的表格部分 -->
+                    <div class="orders-list">
+                        <table class="orders-table" id="close-table">
+                            <thead>
+                                <tr>
+                                    <th class="check-th" style="width: 140;">
+                                        <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                        <span>Ordered Date</span>
+                                    </th>
+                                    <th style="width: 240;">
+                                        Order Number
+                                    </th>
+                                    <th style="width: 120;">Quantity</th>
+                                    <th style="width: 228;">
+                                        <p>Grand Total</p>
+                                        <p>(Purchased)</p>
+                                    </th>
+                                    <th style="width: 246;">Status</th>
+                                    <th style="width: 390;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <!-- <tr class="select-tr">
+									<td colspan="16"><img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+								</tr> -->
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                    </td>
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Closed</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders closed-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <!-- <a class="pay-link" href="javascript:void(0)">pay</a> -->
+                                    </td>
+                                </tr>
+                                <!-- 第二个订单 -->
+                                <tr class="blank-tr">
+                                    <td colspan="16"></td>
+                                </tr>
+                                <tr class="order-detail">
+                                    <td class="order-time">
+                                        <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"></td>
+                                    </td>
+                                    <td>
+                                        <p>CT002 MOA 018 20170801 Order 44</p>
+                                        <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                                    </td>
+                                    <td>
+                                        89
+                                    </td>
+                                    <td class="allMoney-td">
+                                        <p>USD 822.40</p>
+                                    </td>
+                                    <td class="Dispatched-td">
+                                        <p>Closed</p>
+                                    </td>
+                                    <td class="subpay-td" style="text-align: center;padding:0;">
+                                        <a class="viewSub-orders closed-viewsub" href="javascript:void(0)">View Sub-Orders</a>
+                                        <!-- <a class="pay-link" href="javascript:void(0)">pay</a> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 分页 -->
+                        <div class="pages-db second-page">
+                            <select class="select-page-num select-page-num2">
+								<option>1</option>
+								<option>3</option>
+								<option>10</option>
+								<option>20</option>
+							</select>
+                            <span class="per-page">per page</span>
+                            <span class="all-num-line"></span>
+                            <span class="per-page">records found</span>
+                            <ul class="pagination pagination-demo1"></ul>
+                            <span class="per-page showing-tex">showing:</span>
+                            <input class="inp-num-go"></input>
+                            <span class="per-page">of</span>
+                            <span class="jump-btn">go</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 查看全部子订单 -->
+            <div class="sub-orders awaitpay-subOrders">
+                <ul class="dealorder-ul">
+                    <!-- 订单处理方式 -->
+                    <li class="suborder-title">
+                        <span class="sub-ordernum">Order  Number: CT002 MOA 018 20170801 Order 44</span>
+                        <span class="sub-ordertit">View Sub-Orders</span>
+                    </li>
+                    <!-- 分页 -->
+                    <!-- <li class="deal-page"></li> -->
+                </ul>
+                <!-- 订单的表格部分 -->
+                <div class="orders-list">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th class="check-th" style="width: 130;">
+                                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                    <span>Ordered Date</span>
+                                </th>
+                                <!-- <th style="width: 90;">Ordered Data</th> -->
+                                <th style="width: 128;">
+                                    <select>
+										<option>Stores All</option>
+										<option>all</option>
+										<option>some</option>
+									</select>
+                                </th>
+                                <th style="width: 116;">
+                                    Order Number
+                                </th>
+                                <!-- <th style="width: 116;">Ordered Data</th> -->
+                                <th style="width: 108;">Images</th>
+                                <th style="width: 242px;">
+                                    <p class="product-descriptionp">Products Description</p>
+                                    <p class="product-descriptionp">（SKU/Attribute/Name）</p>
+                                </th>
+                                <th style="width: 96;">Price</th>
+                                <th style="width: 60;">Quantity</th>
+                                <th style="width: 98;">Amount</th>
+                                <!-- <th style="width: 120;">Country</th> -->
+                                <th style="width: 102;">Paid On</th>
+                                <th style="width: 106;">Action</th>
+                                <th style="width: 142;">Shipping info</th>
+                                <th style="width: 138;">Shipping method</th>
+                                <!-- <th style="width: 214;">Buyer Name</th>
+								<th style="width: 124;">Phone Number</th>
+								<th style="width: 110;">Address</th>
+								<th style="width: 124;">Post Code</th> -->
+                                <th style="width: 110;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show style</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="cancel-orders" href="javascript:void(0)">Cancel Orders</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="cancel-orders" href="javascript:void(0)">Cancel Orders</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                    <!-- 分页 -->
+                    <div class="pages-db second-page">
+                        <select class="select-page-num select-page-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+                        <span class="per-page">per page</span>
+                        <span class="all-num-line"></span>
+                        <span class="per-page">records found</span>
+                        <ul class="pagination pagination-demo1"></ul>
+                        <span class="per-page showing-tex">showing:</span>
+                        <input class="inp-num-go">
+                        <span class="per-page">of</span>
+                        <span class="jump-btn">go</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 备货中 processing的子订单 -->
+            <div class="sub-orders processing-subOrders">
+                <ul class="dealorder-ul">
+                    <!-- 订单处理方式 -->
+                    <li class="suborder-title">
+                        <span class="sub-ordernum">Order  Number: CT002 MOA 018 20170801 Order 44</span>
+                        <span class="sub-ordertit">View Sub-Orders</span>
+                    </li>
+                    <!-- 分页 -->
+                    <!-- <li class="deal-page"></li> -->
+                </ul>
+                <!-- 订单的表格部分 -->
+                <div class="orders-list">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th class="check-th" style="width: 130;">
+                                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                    <span>Ordered Date</span>
+                                </th>
+                                <!-- <th style="width: 90;">Ordered Data</th> -->
+                                <th style="width: 128;">
+                                    <select>
+										<option>Stores All</option>
+										<option>all</option>
+										<option>some</option>
+									</select>
+                                </th>
+                                <th style="width: 116;">
+                                    Order Number
+                                </th>
+                                <!-- <th style="width: 116;">Ordered Data</th> -->
+                                <th style="width: 108;">Images</th>
+                                <th class="pd-sk-name" style="width: 242;">Products Description（SK/Attribute/Name）</th>
+                                <th style="width: 96;">Price</th>
+                                <th style="width: 60;">Quantity</th>
+                                <th style="width: 98;">Amount</th>
+                                <!-- <th style="width: 120;">Country</th> -->
+                                <th style="width: 102;">Paid On</th>
+                                <th style="width: 106;">Action</th>
+                                <th style="width: 142;">Shipping info</th>
+                                <!-- <th style="width: 138;">Shipping method</th>
+								<th style="width: 214;">Buyer Name</th>
+								<th style="width: 124;">Phone Number</th>
+								<th style="width: 110;">Address</th> -->
+                                <th style="width: 124;">Post Code</th>
+                                <th style="width: 110;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="order-track" href="javascript:void(0)">Track Orders</a>
+                                    <a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="order-track" href="javascript:void(0)">Track Orders</a>
+                                    <a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                    <!-- 分页 -->
+                    <div class="pages-db second-page">
+                        <select class="select-page-num select-page-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+                        <span class="per-page">per page</span>
+                        <span class="all-num-line"></span>
+                        <span class="per-page">records found</span>
+                        <ul class="pagination pagination-demo1"></ul>
+                        <span class="per-page showing-tex">showing:</span>
+                        <input class="inp-num-go"></input>
+                        <span class="per-page">of</span>
+                        <span class="jump-btn">go</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 已发货 processing的子订单 -->
+            <div class="sub-orders dispatched-subOrders">
+                <ul class="dealorder-ul">
+                    <!-- 订单处理方式 -->
+                    <li class="suborder-title">
+                        <span class="sub-ordernum">Order  Number: CT002 MOA 018 20170801 Order 44</span>
+                        <span class="sub-ordertit">View Sub-Orders</span>
+                    </li>
+                </ul>
+                <!-- 订单的表格部分 -->
+                <div class="orders-list">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th class="check-th" style="width: 130;">
+                                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                    <span>Ordered Date</span>
+                                </th>
+                                <!-- <th style="width: 90;">Ordered Data</th> -->
+                                <th style="width: 128;">
+                                    <select>
+										<option>Stores All</option>
+										<option>all</option>
+										<option>some</option>
+									</select>
+                                </th>
+                                <th style="width: 116;">
+                                    Order Number
+                                </th>
+                                <!-- <th style="width: 116;">Ordered Data</th> -->
+                                <th style="width: 108;">Images</th>
+                                <th class="pd-sk-name" style="width: 242;">Products Description（SK/Attribute/Name）</th>
+                                <th style="width: 96;">Price</th>
+                                <th style="width: 60;">Quantity</th>
+                                <th style="width: 98;">Amount</th>
+                                <!-- <th style="width: 120;">Country</th> -->
+                                <th style="width: 102;">Paid On</th>
+                                <th style="width: 106;">Action</th>
+                                <th style="width: 142;">Shipping info</th>
+                                <!-- <th style="width: 138;">Shipping method</th>
+								<th style="width: 214;">Buyer Name</th>
+								<th style="width: 124;">Phone Number</th>
+								<th style="width: 110;">Address</th> -->
+                                <th style="width: 124;">Post Code</th>
+                                <th style="width: 110;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="order-track" href="javascript:void(0)">Track Orders</a>
+                                    <a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="order-track" href="javascript:void(0)">Track Orders</a>
+                                    <a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                    <!-- 分页 -->
+                    <div class="pages-db second-page">
+                        <select class="select-page-num select-page-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+                        <span class="per-page">per page</span>
+                        <span class="all-num-line"></span>
+                        <span class="per-page">records found</span>
+                        <ul class="pagination pagination-demo1"></ul>
+                        <span class="per-page showing-tex">showing:</span>
+                        <input class="inp-num-go"></input>
+                        <span class="per-page">of</span>
+                        <span class="jump-btn">go</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 交易成功 completed的子订单 -->
+            <div class="sub-orders completed-subOrders">
+                <ul class="dealorder-ul">
+                    <!-- 订单处理方式 -->
+                    <li class="suborder-title">
+                        <span class="sub-ordernum">Order  Number: CT002 MOA 018 20170801 Order 44</span>
+                        <span class="sub-ordertit">View Sub-Orders</span>
+                    </li>
+                    <!-- 分页 -->
+                    <!-- <li class="deal-page"></li> -->
+                </ul>
+                <!-- 订单的表格部分 -->
+                <div class="orders-list">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th class="check-th" style="width: 130;">
+                                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                    <span>Ordered Date</span>
+                                </th>
+                                <!-- <th style="width: 90;">Ordered Data</th> -->
+                                <th style="width: 128;">
+                                    <select>
+										<option>Stores All</option>
+										<option>all</option>
+										<option>some</option>
+									</select>
+                                </th>
+                                <th style="width: 116;">
+                                    Order Number
+                                </th>
+                                <!-- <th style="width: 116;">Ordered Data</th> -->
+                                <th style="width: 108;">Images</th>
+                                <th class="pd-sk-name" style="width: 242;">Products Description（SK/Attribute/Name）</th>
+                                <th style="width: 96;">Price</th>
+                                <th style="width: 60;">Quantity</th>
+                                <th style="width: 98;">Amount</th>
+                                <!-- <th style="width: 120;">Country</th> -->
+                                <th style="width: 102;">Paid On</th>
+                                <th style="width: 106;">Action</th>
+                                <th style="width: 142;">Shipping info</th>
+                                <!-- <th style="width: 138;">Shipping method</th>
+								<th style="width: 214;">Buyer Name</th>
+								<th style="width: 124;">Phone Number</th>
+								<th style="width: 110;">Address</th> -->
+                                <th style="width: 124;">Post Code</th>
+                                <th style="width: 110;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="order-track" href="javascript:void(0)">Track Orders</a>
+                                    <a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <td>
+                                    <a class="order-track" href="javascript:void(0)">Track Orders</a>
+                                    <a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+                                </td>
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                    <!-- 分页 -->
+                    <div class="pages-db second-page">
+                        <select class="select-page-num select-page-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+                        <span class="per-page">per page</span>
+                        <span class="all-num-line"></span>
+                        <span class="per-page">records found</span>
+                        <ul class="pagination pagination-demo1"></ul>
+                        <span class="per-page showing-tex">showing:</span>
+                        <input class="inp-num-go"></input>
+                        <span class="per-page">of</span>
+                        <span class="jump-btn">go</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 交易关闭子订单部分 -->
+            <div class="sub-orders closed-subOrders">
+                <ul class="dealorder-ul">
+                    <!-- 订单处理方式 -->
+                    <li class="suborder-title">
+                        <span class="sub-ordernum">Order  Number: CT002 MOA 018 20170801 Order 44</span>
+                        <span class="sub-ordertit">View Sub-Orders</span>
+                    </li>
+                    <!-- 分页 -->
+                    <!-- <li class="deal-page"></li> -->
+                </ul>
+                <!-- 订单的表格部分 -->
+                <div class="orders-list">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th class="check-th" style="width: 130;">
+                                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                    <span>Ordered Date</span>
+                                </th>
+                                <!-- <th style="width: 90;">Ordered Data</th> -->
+                                <th style="width: 128px;">
+                                    <select>
+										<option>Stores All</option>
+										<option>all</option>
+										<option>some</option>
+									</select>
+                                </th>
+                                <th style="width: 116px;">
+                                    Order Number
+                                </th>
+                                <!-- <th style="width: 116;">Ordered Data</th> -->
+                                <th style="width: 108px;">Images</th>
+                                <th class="pd-sk-name" style="width: 242px;">Products Description（SK/Attribute/Name）</th>
+                                <th style="width: 96px;">Price</th>
+                                <th style="width: 60px;">Quantity</th>
+                                <th style="width: 98px;">Amount</th>
+                                <!-- <th style="width: 120;">Country</th> -->
+                                <th style="width: 102px;">Paid On</th>
+                                <!-- <th style="width: 106;">Action</th> -->
+                                <th style="width: 142px;">Shipping info</th>
+                                <!-- <th style="width: 138;">Shipping method</th>
+								<th style="width: 214;">Buyer Name</th>
+								<th style="width: 124;">Phone Number</th>
+								<th style="width: 110;">Address</th> -->
+                                <th style="width: 124px;">Post Code</th>
+                                <th style="width: 110px;">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <!-- <td >
+									<a class="order-track" href="javascript:void(0)">Track Orders</a>
+									<a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+								</td> -->
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+                            <tr class="blank-tr">
+                                <td colspan="18"></td>
+                            </tr>
+                            <tr class="order-detail">
+                                <td class="order-time">
+                                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                                </td>
+                                <td>
+                                    shopify fashion
+                                </td>
+                                <td>
+                                    701511176868
+                                </td>
+                                <td><img class="product-showImg" src="static/image/home/pic1.png"></td>
+                                <td class="prduct-description">
+                                    <ul>
+                                        <li>CCRTL-123SKLU</li>
+                                        <li class="fashion-style">Fashion style show</li>
+                                        <!-- <li>style</li> -->
+                                        <li>(balck)</li>
+                                        <li class="remark"></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                    <P>105.000g</P>
+                                </td>
+                                <!-- <td class="unite-state">Unite State</td> -->
+                                <td class="order-time"></td>
+                                <!-- <td >
+									<a class="order-track" href="javascript:void(0)">Track Orders</a>
+									<a class="order-refunds" href="javascript:void(0)">Apply for Refunds</a>
+								</td> -->
+                                <td class="shipping-info">
+                                    <p class="buyer-name">buyer name</p>
+                                    <p class="detail-adress">175 NE 16th st, B12</p>
+                                    <p class="buyer-adress">Glendora ,CA United States</p>
+                                    <p class="post-code">996778</p>
+                                    <p class="phone-num">15678901234</p>
+                                </td>
+                                <td>
+                                    <p class="price-num">EMS</p>
+                                </td>
+                                <!-- <td >
+									<p class="price-num">Agnes Tsang</p>
+								</td>
+								<td >
+									<p class="price-num">15839468897</p>
+								</td>
+								<td>
+									<p class="price-num">175 NE 16th St, B12 , Glendora ,CA</p>
+								</td>
+								<td >
+									<p class="price-num">91740</p>
+								</td> -->
+                                <td>
+                                    <p class="price-num">USD 2.92</p>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                    <!-- 分页 -->
+                    <div class="pages-db second-page">
+                        <select class="select-page-num select-page-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+                        <span class="per-page">per page</span>
+                        <span class="all-num-line"></span>
+                        <span class="per-page">records found</span>
+                        <ul class="pagination pagination-demo1"></ul>
+                        <span class="per-page showing-tex">showing:</span>
+                        <input class="inp-num-go"></input>
+                        <span class="per-page">of</span>
+                        <span class="jump-btn">go</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 分页 -->
+            <!-- 分页 -->
+            <!-- <div class="pages-fun">
+				<select class="select-page-num">
+					<option>1</option>
+					<option>3</option>
+					<option>10</option>
+					<option>20</option>
+				</select>
+				<span class="every-page">每页</span>
+				<span class="every-page gong">共</span>
+				<span class="all-num-line"></span>
+				<span class="every-page">条</span>
+			    <span id="demo3-text"></span>
+			    <div id="pages-fun"></div>
+			    <span class="every-page">跳转:</span>
+			    <input class="inp-num-go"></input>
+			    <span class="jump-btn">go</span>
+			</div> -->
+            <!-- <div class="pages-db">
+				<select class="select-page-num">
+					<option>1</option>
+					<option>3</option>
+					<option>10</option>
+					<option>20</option>
+				</select>
+					<span class="every-page">每页</span>
+					<span class="every-page gong">共</span>
+					<span class="all-num-line"></span>
+					<span class="every-page">条</span>
+				    <ul class="pagination pagination-demo"></ul>
+				    <span class="every-page">跳转:</span>
+				    <input class="inp-num-go"></input>
+				    <span class="jump-btn">go</span>
+			</div> -->
+
+        </div>
+    </div>
+</div>

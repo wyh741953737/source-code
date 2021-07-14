@@ -1,0 +1,300 @@
+ <div class="asj-mycj-lyaer-wrap" ng-show="printProFlag">
+    <div class="asj-mycj-lyaer print-box">
+        <div class="print-box-load" ng-show="isLoad">
+            <img src="/static/layer/skin/default/loading-2.gif" alt="">
+        </div>
+        <div class="print-box-title">
+                My Designs
+                <i class="iconfont close" ng-click="printProFlag=false">&#xe617;</i>
+        </div>
+        <div class="print-box-main">
+            <div class="print-box-left">
+                <div class="print-box-left-cont">
+                    <div class="area-list-box">
+                        <div class="area-list" id="areaList">
+                            <span class="area-item" ng-if="areaItem.podType!=2" ng-repeat="(index,item) in areaList track by $index" ng-class="{curr:index==areaType}" ng-click="changeType(item,index)">{{item.areaName}}</span>
+                            <span  class="area-item" ng-if="areaItem.podType==2">Simplified Overall</span>
+                        </div>
+                        <i class="iconfont tip" ng-show="isshowMore" ng-click="showMoreArea()">&#xe611;</i>
+                    </div>
+                    <div class="print-canvas-box" ng-repeat="(index,item) in areaList track by $index" ng-show="index==areaType" id="printCanvas">
+                        <div ng-show="item.backImgList.length>0">
+                            <img src="{{item.backImgList[corlorIndex].imgsrc | IMG_SIZE: 500:500}}" alt="">
+                        </div>
+                        <div ng-show="item.backImgList.length==0">
+                            <img src="{{item.img}}" alt="">
+                        </div>
+                        <canvas height="500" width="500" id="canvas{{item.oindex}}"></canvas>
+                    </div>
+                </div>
+                <!-- 背景图提前加载 -->
+                <div class="print-canvas-box ng-hide" ng-repeat="(index,item) in areaList track by $index">
+                    <div ng-if="item.backImgList.length>0" ng-repeat="(indexChild,itemChild) in item.backImgList track by $index"> 
+                        <canvas height="500" width="500" id="canvasimg{{index}}{{indexChild}}"></canvas>
+                    </div>
+                    <div ng-if="item.backImgList.length==0"> 
+                        <canvas height="500" width="500" id="canvasimg{{index}}"></canvas>
+                    </div>
+                </div>
+                
+                <div class="tips">
+                    <p class="tips-title" ng-show="areaItem.podType!=2">Printable Area</p>
+                    <p class="tips-title" ng-show="areaItem.podType==2">Overall Type is Only Available with LIST to store instead of Designing, it is for preview purpose.</p>
+                    <!-- <p class="tips-detail">打印质量：<span class="green">普通/75 DPI</span></p> -->
+                </div>
+                <div class="print-range-box" ng-show="areaItem.podType!=2">
+                    <input type="range" ng-model="operaObj.scale" ng-change="changeScale()" min=0.1 max=2 step=0.1 class="print-range">
+                    <div class="center-line"></div>
+                </div>
+                <div class="opera-type" ng-show="areaItem.podType!=2">
+                    <div class="opera-rotate">
+                        <span class="title">Rotate：</span>
+                        <div class="print-opera-num"> 
+                            <span class="reduce" ng-click="reduceAngle()">
+                                <i class="iconfont">&#xe603;</i>
+                            </span>
+                            <input class="num" type="text" ng-model="operaObj.angle" ng-blur="blurAngel()" ng-change="numberInput('anglel')">
+                            <span class="add" ng-click="addAngle()">
+                                <i class="iconfont">&#xe606;</i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="opera-move">
+                        <i class="iconfont" ng-click="alignCenterFun()">&#xe615;</i>
+                        <i class="iconfont middle" ng-click="middleCenterFun()">&#xe615;</i>
+                        <span class="opera-reset" ng-click="resetFun()">Reset</span>
+                    </div>
+                </div>
+            </div>
+            <div class="print-box-right">
+                <div class="print-tab-list" ng-show="areaItem.podType!=2">
+                    <span class="print-tab-item" ng-click="showType=1" ng-class="{curr:showType==1||showType==3}">Design Layer</span>
+                    <span class="print-tab-item" ng-click="showType=2" ng-class="{curr:showType==2}">Product Information</span>
+                </div>
+                <div class="pring-right-main" ng-show="showType==1">
+                    <div class="print-select ui-select" ng-show="areaList[0].backImgList.length>0">
+                        <p class="title">Select Color</p>
+                        <select ng-model="corlorIndex" ng-change="changeColor()">
+                            <option ng-repeat="(index,item) in areaList[0].backImgList track by $index" value={{index}}>{{item.color}}</option>
+                        </select>
+                    </div>
+                    <div class="pring-right-color-box add-text" ng-show="areaItem.podType==1">
+                        <div class="info-item">
+                            <p class="title">Add Text</p>
+                            <textarea class="textarea" name="" ng-change="textInput()" maxlength="50" ng-model="fontObj.val" placeholder="Please enter the text" id="" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="pring-easy" ng-show="areaItem.podType==2">
+                        <div class="pring-easy-item">
+                            <p class="title">Refer to Sketch</p>
+                            <div class="pring-easy-item-main">
+                                <img src="{{areaItem.imgicon}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="print-level" ng-show="areaItem.podType==3||areaItem.podType==4||areaItem.podType==5">
+                        <p class="title">
+                            Layer<span class="right">{{layerList.length}}/20</span>
+                        </p>
+                        <div class="print-level-list" ng-show="layerList.length>0">
+                            <div class="print-level-item" ng-repeat="(index,item) in layerList track by $index"  ng-class="{curr:item.isShow}">
+                                <div class="main" ng-click="chooseFun(index)">
+                                    <img class="img" ng-if="item.type=='Picture'" src="{{item.imgsrc}}" alt="">
+                                    <div class="text" ng-if="item.type=='Text'">Content</div>
+                                    <div class="detail">
+                                        <p class="detail-title" title="{{item.title}}">
+                                            <i class="icon">{{item.type}}</i>
+                                            {{item.title}}
+                                        </p>
+                                        <!-- <p>打印质量：<span class="green">{{item.info}}</span></p> -->
+                                    </div>
+                                </div>
+                                <div class="opera-list" ng-show="item.isShow">
+                                    <span class="opera-item" ng-click="moveUp(index)">
+                                        <i class="iconfont">&#xe612;</i>
+                                        <span class="tips">Move Up Layer</span>
+                                    </span>
+                                    <span class="opera-item" ng-click="moveDown(index)" >
+                                        <i class="iconfont">&#xe614;</i>
+                                        <span class="tips">Move Down Layer</span>
+                                    </span>
+                                    <span class="opera-item" ng-if="item.type=='Text'" ng-click="editItem(index)">
+                                        <i class="iconfont">&#xe610;</i>
+                                        <span class="tips">Edit Layer</span>
+                                    </span>
+                                    <!-- <span class="opera-item" ng-if="item.type=='Picture'">
+                                        <input class="file" type="file" onchange="angular.element(this).scope().changeItem(this.files)" accept=".jpg,.png,.jpeg,.bmp">
+                                        <i class="iconfont">&#xe60f;</i>
+                                    </span> -->
+                                    <span class="opera-item">
+                                        <button ng-click="copyFun(index)">Copy</button>
+                                        <i class="iconfont">&#xe60c;</i>
+                                        <span class="tips">Copy Layer</span>
+                                    </span>
+                                    <span class="opera-item" ng-click="resetFun(index)">
+                                        <i class="iconfont">&#xe650;</i>
+                                        <span class="tips">Reset Layer</span>
+                                    </span>
+                                    <span class="opera-item" ng-click="delItem(index)">
+                                        <i class="iconfont">&#xe60b;</i>
+                                        <span class="tips">Cancel Layer</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="print-level-nodata" ng-show="layerList.length==0">
+                            Nothing Changed
+                        </div>
+                        <div class="print-btn-group level-group" ng-show="layerList.length<20">
+                            <span class="ui-btn" ng-show="areaList[areaType].podType==4||areaList[areaType].podType==5">Upload Image
+                                <input class="file" type="{{uploadImgType}}" onchange="angular.element(this).scope().upLoadItemImg(this.files)" accept=".jpg,.png,.jpeg,.bmp">
+                            </span>
+                            <span class="ui-btn" ng-show="areaList[areaType].podType==1||areaList[areaType].podType==3||areaList[areaType].podType==5" ng-click="showAddText()">Add Text</span>
+                        </div>
+                    </div>
+                    
+                    <div class="print-btn-group all" ng-show="areaItem.podType!=2">
+                        <span class="ui-btn" ng-click="printProFlag=false">Cancel</span>
+                        <span class="ui-btn org" ng-click="showType=2">Save</span>
+                    </div>
+                </div>
+                <div class="pring-right-main info" ng-show="showType==2">
+                    <div class="info-item">
+                        <p class="title">Product Title</p>
+                        <input type="text" ng-model="sendData.printItemName" class="input" ng-change="printItemNameInput()" placeholder="Please enter product title">
+                    </div>
+                    <div class="info-list">
+                        <div class="info-item" ng-repeat="(index,item) in varientArr track by $index">
+                            <div class="title">Available {{item.name}}
+                                <span class="all">
+                                    <!-- <i class="iconfont" ng-show="!item.checkAll" ng-click="checkAllFun(index)">&#xe63e;</i> 
+                                    <i class="iconfont curr" ng-show="item.checkAll" ng-click="removeCheckAllFun(index)">&#xe63d;</i> -->
+                                    <i class="iconfont iconweigouxuan iconHover" ng-show="!item.checkAll" ng-click="checkAllFun(index)"></i> 
+                                    <i class="iconfont iconyigouxuan1 curr" ng-show="item.checkAll" ng-click="removeCheckAllFun(index)"></i>
+                                    Select All
+                                </span>
+                            </div>
+                            <div class="check-list">
+                                <span class="check-item" ng-class="{'disable':itemChild.disable}" ng-repeat="(indexChild,itemChild) in item.key track by $index">
+                                    <!-- <i class="iconfont" ng-show="!itemChild.check" ng-click="checkFun(index,indexChild)">&#xe63e;</i>
+                                    <i class="iconfont curr" ng-show="itemChild.check" ng-click="removeCheckFun(index,indexChild)">&#xe63d;</i> -->
+                                    <i class="iconfont iconweigouxuan iconHover" ng-show="!itemChild.check" ng-click="checkFun(index,indexChild)"></i>
+                                    <i class="iconfont iconyigouxuan1 curr" ng-show="itemChild.check" ng-click="removeCheckFun(index,indexChild)"></i>
+                                    {{itemChild.val}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="title">Product Description</div>
+                        <textarea class="textarea"  ng-model="sendData.description" placeholder="Please enter the text" id="" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="print-select ui-select" ng-show="productType!=3">
+                        <p class="title">Shipping Method</p>
+                        <select name="" ng-model="sendData.shopMethod">
+                            <option value="Please Select">Please Select</option>
+                            <option ng-repeat="(index,item) in postlist track by $index" value="{{item.enName}}" >{{item.enName}}</option>
+                        </select>
+                    </div>
+                    <div class="print-btn-group all">
+                        <span class="ui-btn" ng-click="printProFlag=false">Cancel</span>
+                        <span class="ui-btn org" ng-click="saveFun()">Save</span>
+                    </div>
+                </div>
+                <div class="pring-right-main pring-right-color" ng-show="showType==3">
+                    <div class="mask"></div>
+                    <div class="pring-right-color-box">
+                        <div class="info-item">
+                            <p class="title">Add Text</p>
+                            <textarea class="textarea" name="" ng-change="textInput()" maxlength="50" ng-model="fontObj.val" placeholder="Please enter the text" id="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="print-select ui-select">
+                            <p class="title">Select Font</p>
+                            <select name="" ng-model="fontObj.fontFamily" ng-change="changeFontStyle()">
+                                <option ng-repeat="(index,item) in fontList track by $index" value="{{item}}">{{item}}</option>
+                            </select>
+                        </div>
+                        <div class="print-select ui-select">
+                            <p class="title">Select Text Color</p>
+                            <div class="select" ng-click="isshowColor=!isshowColor">
+                                <span class="square" ng-style="{background:fontObj.fill}"></span>{{fontObj.colorName}}
+                            </div>
+                            <ul class="color-list" ng-show="isshowColor">
+                                <li class="color-item" ng-repeat="(index,item) in colorListTxt track by $index" ng-style="{background:item.color}" ng-click="changeTextColor(item)"></li>
+                            </ul>
+                        </div>
+                        <div class="opera-list">
+                            <div class="opera-item">
+                                <p class="title">Font Size</p>
+                                <div class="print-opera-num">
+                                    <span class="reduce" ng-click="reduceFont('size')">
+                                        <i class="iconfont">&#xe603;</i>
+                                    </span>
+                                    <input class="num" type="text" ng-model="fontObj.fontSize" ng-blur="fontBlur('size')" ng-change="numberInput('size')">
+                                    <span class="add" ng-click="addFont('size')">
+                                        <i class="iconfont">&#xe606;</i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="opera-item">
+                                <p class="title">Font Space</p>
+                                <div class="print-opera-num">
+                                    <span class="reduce" ng-click="reduceFont('space')">
+                                        <i class="iconfont">&#xe603;</i>
+                                    </span>
+                                    <input class="num" ng-model="fontObj.charSpacing" type="text" ng-blur="fontBlur('space')" ng-change="numberInput('space')">
+                                    <span class="add" ng-click="addFont('space')">
+                                        <i class="iconfont">&#xe606;</i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="opera-item">
+                                <p class="title">Rotate</p>
+                                <div class="print-opera-num">
+                                    <span class="reduce" ng-click="reduceFont('angle')">
+                                        <i class="iconfont">&#xe603;</i>
+                                    </span>
+                                    <input class="num" ng-model="fontObj.angle" type="text" ng-blur="fontBlur('angle')" ng-change="numberInput('anglef')">
+                                    <span class="add" ng-click="addFont('angle')">
+                                        <i class="iconfont">&#xe606;</i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="opera-item">
+                                <p class="title">Edge Pixel</p>
+                                <div class="print-opera-num">
+                                    <span class="reduce" ng-click="reduceFont('stroke')">
+                                        <i class="iconfont">&#xe603;</i>
+                                    </span>
+                                    <input class="num" ng-model="fontObj.strokeWidth" type="text" ng-blur="fontBlur('stroke')" ng-change="numberInput('stroke')">
+                                    <span class="add" ng-click="addFont('stroke')">
+                                        <i class="iconfont">&#xe606;</i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="print-btn-group">
+                            <span class="ui-btn org" ng-click="addTextFun()">Save</span>
+                            <span class="ui-btn" ng-click="showType=1">Cancel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- design成功 -->
+<div id="isCJPub" ng-show="designSuccLayer" ng-cloak>
+    <div class="CJ-content">
+        <span class="close" ng-click="designSuccLayer=false">×</span>
+        <h3>Saved Successfully</h3>
+        <p>
+            {{designText}}
+            <br>
+            <a target="_blank" href="{{designHref}}">View</a>
+        </p>
+        <!-- <button class="btn1" ng-click="dosomething()">执行</button> -->
+        <button class="btn2" ng-click="designSuccLayer=false">Confirm</button>
+    </div>
+</div>

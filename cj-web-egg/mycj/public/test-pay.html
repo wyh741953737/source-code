@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="/favicon.ico"/>
+  <title>pay</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    button{
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+    .header {
+      height: 80px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    .header img {
+      height: 40px;
+    }
+    .content{
+      width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .content .amount{
+      display: flex;
+      align-items: center;
+    }
+    .content .amount input{
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      padding: 0 8px;
+      width: 200px;
+      font-size: 14px;
+      height: 30px;
+      margin-left: 10px;
+    }
+    .content .amount button{
+      width: 100px;
+      color: #fff;
+      height: 32px;
+      padding: 0 15px;
+      border-radius: 4px;
+      background-color: #ff8d31;
+      font-size: 14px;
+      border: none;
+      outline: none;
+      margin-left: 15px;
+      cursor: pointer;
+    }
+    .content .authorize{
+      display: flex;
+      align-items: center;
+      height: 120px;
+      justify-content: space-evenly;
+    }
+    .content .authorize .sign-in{
+      width: 76px;
+      height: 30px;
+      background: #f6f6f6;
+      border: 1px solid #cfcfcf;
+      color: #6b6b6b;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .content .authorize .register{
+      background-color: #ff8d31;
+      color: #fff;
+      border-radius: 4px;
+      width: 76px;
+      height: 30px;
+      font-size: 14px;
+    }
+    .content .un_authorize{
+      height: 100%;
+      text-align: center;
+    }
+    .content .un_authorize .unbind-btn{
+      width: 80%;
+      color: #fff;
+      height: 32px;
+      padding: 0 15px;
+      border-radius: 4px;
+      background-color: #ff4d4f;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+    .content .un_authorize .v-code{
+      display: flex;
+      height: 32px;
+      width: 80%;
+      margin: 15px auto 15px auto;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .content .un_authorize .v-code input{
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      padding: 0 8px;
+      width: calc(100% - 130px);
+      font-size: 14px;
+      height: 32px;
+    }
+    .content .un_authorize .v-code span{
+      font-size: 14px;
+
+    }
+    .content .un_authorize .v-code button{
+      height: 32px;
+      padding: 0 15px;
+      border-radius: 4px;
+      background-color: #fff;
+      border: 1px solid #d9d9d9;
+      font-size: 14px;
+      color: rgba(0,0,0,0.65);
+    }
+    .content .un_authorize .paynnerPay-btn{
+      width: 80%;
+      color: #fff;
+      height: 32px;
+      padding: 0 15px;
+      border-radius: 4px;
+      background-color: #ff8d31;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+  </style>
+
+  <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <!-- Google Tag Manager -->
+  <script>
+    ; (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+  </script>
+  <!-- End Google Tag Manager -->
+  <!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'AW-965740562');
+  </script>
+  <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<body ng-app="testPay" ng-controller="testPayCtr" ng-cloak>
+<div class="header">
+  <img src="static/image/public-img/logo_app.png" alt="">
+</div>
+<div class="content">
+ <!-- <div class="amount">
+    USD
+    <input type="text" placeholder="Enter the amount" ng-keyup="money()" ng-model="ordmoney">
+    <button ng-click="paynnerPay()">Pay</button>
+  </div>-->
+
+  <div class="authorize" ng-show="!isAuthorize">
+    <button ng-click="signInOrRegister('0')" class="sign-in">Sign in</button>
+    <button ng-click="signInOrRegister('1')" class="register">Register</button>
+  </div>
+  <div class="un_authorize" ng-show="isAuthorize">
+    <button style="background-color: #2e8ded" ng-click="refreshInformation()" class="unbind-btn">Update user information</button>
+    <button ng-click="unbind()" class="unbind-btn">Unbind</button>
+    <div class="v-code">
+      <input type="text" placeholder="Enter the amount" ng-keyup="money()" ng-model="ordmoney">
+      USD
+    </div>
+    <div class="v-code">
+      <input type="text" ng-model="code" placeholder="Enter the verification code"/>
+      <button ng-show="!isGetCode" ng-click="getCode()">Send code</button>
+      <span ng-show="isGetCode">Resend in {{num+'s'}}</span>
+    </div>
+    <button ng-click="paynnerPay()" class="paynnerPay-btn">Pay</button>
+  </div>
+</div>
+</body>
+
+<!-- paynner 支付方式-->
+<!--<div class="paynner_dia" ng-show="isShowPaynnerDia" ng-cloak>
+  <div class="isag-con ispayby-yecon">
+    <span class="close" ng-click="isShowPaynnerDia = false">×</span>
+    <div class="authorize" ng-show="!isAuthorize">
+      <button ng-click="signInOrRegister('0')" class="sign-in">Sign in</button>
+      <button ng-click="signInOrRegister('1')" class="register">Register</button>
+    </div>
+    <div class="un_authorize" ng-show="isAuthorize">
+      <button ng-click="unbind()" class="unbind-btn">Unbind</button>
+      <div class="v-code">
+        <input type="text" placeholder="Enter the verification code"/>
+        <button ng-click="getCode()">Send code</button>
+      </div>
+      <button ng-click="paynnerPay()" class="paynnerPay-btn">Pay</button>
+    </div>
+  </div>
+</div>-->
+</html>
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/js/public/config.js"></script>
+<script src="static/js/public/common.js"></script>
+<script src="static/js/public/base64.min.js"></script>
+<script src="static/layer/layer.js"></script>
+<script src="./test-pay.js"></script>

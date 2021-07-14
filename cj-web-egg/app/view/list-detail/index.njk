@@ -1,0 +1,75 @@
+{% block title %}
+<title>Search on CJdropshipping</title>
+<meta name="description" property="og:description" content="Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High Quality Products and Faster Shipping.">
+<meta name="keywords" content="Drop Shipping USA，Sourcing Drop Shipping，Print on Demand，Fulfillment，Drop Shipping Supplier" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% from "../macor/product.njk" import product %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-card.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/list-detail.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-warp.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/search-page.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+{% set opt = {
+  data: list
+} %}
+{% set bannerList = [
+  { img_url: '/egg/image/list-detail/banner-1.png', link: 'https://youtu.be/SZGGdrjL7ng' },
+  { img_url: '/egg/image/list-detail/banner-2.jpg', link: 'https://app.cjdropshipping.com/productReport/list' },
+  { img_url: '/egg/image/list-detail/banner-3.png', link: 'https://app.cjdropshipping.com/blog/post/how-to-choose-the-best-shipping-method-delivery-time-shipping-costs-comparison-under-the-quarantine?fromUrl=http%3A%2F%2Fapp.cjdropshipping.cn%2Fblog%2Flist%2F1' }
+] %}
+<div class="list-warp">
+  <div class="content">
+    <div class="other-list" id="vue-other-list">
+      {% if isOtherListType == true %}
+        <div class="tab-header" v-cloak>
+          <div>
+            <h1>${titles && titles[otherListType]}</h1>
+            <div class="category-tab">
+              <swiper-tab :data='tabData'></swiper-tab>
+            </div>
+          </div>
+        </div>
+        {% include "../snippet/product-warp.njk" %}
+      {% endif %}
+    </div>
+    {% if isOtherListType == false %}
+      {% include "./swiper.njk" %}
+    {% endif %}
+    <div id="vue-product-list">
+      {% if isOtherListType == false %}
+        <div class="filter" v-cloak>
+          <list-filter :filter='filter'></list-filter>
+        </div>
+        <div class="list-search-result" v-if='this.cjListParams.keyWord'>
+          <div v-if='productList.length > 1'>
+            Search results for "${this.cjListParams.keyWord}"
+          </div>
+          <div v-else-if='productList.length === 1'>
+            Search result for "${this.cjListParams.keyWord}"
+          </div>
+          <div v-else>
+            There is no search result for "${this.cjListParams.keyWord}"
+          </div>
+        </div>
+        {% include "../snippet/product-warp.njk" %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script src="{{ PUBLIC_SCRIPT + '/list-detail.js' | VERSION }}"></script>
+<!-- page js -->
+<!-- <script src="{{ PUBLIC_SCRIPT + '/page.js' | VERSION }}"></script> -->
+<!-- 埋点 -->
+<script src="{{ PUBLIC_SCRIPT + '/tracking.js' | VERSION }}"></script>
+{% endblock %}

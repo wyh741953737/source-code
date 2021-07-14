@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="Sourcing and Dropshipping for Shopify, WooCommerce, Wish, eBay with Quality Products, Fast Shipping, Good Service."/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+	<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+	<meta property="og:image:width" content="1200px" />
+	<meta property="og:image:height" content="900px" />
+	<title>Shipping Cost Calculation</title>
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="static/css/myCJ-ShippingCalculation.css"/>
+	<!--公共底部-->
+	<link rel="stylesheet" type="text/css" href="static/components/headerandfooters/common-footer.css">
+	<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="static/angular-1.5.8/angular.min.js"></script>
+	<script src="static/layer/layer.js"></script>
+	<script src="static/js/public/base64.min.js"></script>
+	<script src="static/js/public/config.js"></script>
+	<script src="static/js/public/common.js"></script>
+	<!-- <script src="https://chat.cjdropshipping.com/javascripts/chat.js"></script> -->
+	<style type="text/css">
+		.ea-right-content{
+			min-width: 1200px;
+			width: auto;
+		}
+		.ea-freight-calculation .ea-freight1 table td:nth-child(odd){
+			width: 150px;
+		}
+		.table-con-box-div{
+			height: 500px;
+		}
+	</style>
+
+	<!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+			style="display:none;visibility:hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager -->
+	<script>
+		; (function (w, d, s, l, i) {
+			w[l] = w[l] || [];
+			w[l].push({
+				'gtm.start':
+					new Date().getTime(), event: 'gtm.js'
+			});
+			var f = d.getElementsByTagName(s)[0],
+				j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+	</script>
+	<!-- End Google Tag Manager -->
+	<!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'AW-965740562');
+	</script>
+	<!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<body ng-app="calcul-app" ng-controller="home-calcul">
+	<div class="loading-box">
+		<span>loading...</span>
+	</div>
+
+	<div style="width:0px;height:0px;overflow:hidden;"><img src="static/image/public-img/shareimg.jpg"></div>
+	<div class="home-wrap">
+		<!-- 头部 -->
+		<commonheader-guest></commonheader-guest>
+		<!-- 中间内容部分 -->
+		<div class="ea-right-content">
+				<div class="ea-freight-calculation">
+				<div class="ea-freight1" style="position: relative;">
+					<h3 style=" margin-bottom: 7px;">Shipping Cost Calculation</h3>
+					<div class="table-con-box" style="margin-bottom: 15px;margin-left: 50px;">
+					<table class="ea-list-table ea-erp-cs" style="border: none;">
+						<tr>
+							<td>Shipping Method</td>
+							<td>
+								<select ng-model="logisticsMode" ng-change="logisticsMode1(logisticsMode)">
+									<option value="">All</option>
+									<option ng-repeat="item in logistics" value="{{item.enName}}">{{item.enName}}</option>
+							</select>
+							</td>
+							<td>Destination Country</td>
+							<td>
+								<select ng-model="countryDestination" ng-change="countryDestination1(countryDestination)" ng-cloak>
+								<option ng-if="isallFlag" ng-repeat="item in nation" value="{{item.ALPHA_2_CODE}}">{{item.NAME_EN}}（{{item.ALPHA_2_CODE}}）</option>
+								<option ng-if="isallFlag==false" ng-repeat="item in filterCountry" value="{{item.country}}">
+									{{item.countryfull}}
+								</option>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Shipped From</td>
+							<td>
+								<select ng-model="exportingCountry" ng-init="exportingCountry='中国'" ng-change="exportingCountry1(exportingCountry)">
+								<option value="中国">China</option>
+								<option value="美国">USA</option>
+								<option value="泰国">Thailand</option>
+							</select>
+							</td>
+							<td>Weight(g)</td>
+							<td>
+								<input id="weight" type="number" ng-model="weightNum" ng-change="weightNum1(weightNum)"/>
+							</td>
+						</tr>
+					</table>
+					</div>
+					 <!-- 属性start -->
+			    <div class="search-by serch-by-property clearfix">
+
+			        <div class="search-by-con">
+			        	<div class="serch-by-name">Attribute：</div>
+			            <div class="check-box w80">
+			                <input type="checkbox" value="COMMON" ng-click="getPropertyInfo($event)">
+			                <label for="">Ordinary</label>
+			            </div>
+			            <div class="check-box w90">
+			                <input type="checkbox" value="ELECTRONIC" ng-click="getPropertyInfo($event)">
+			                <label for="">Electronic</label>
+			            </div>
+			            <div class="check-box w130">
+			                <input type="checkbox" value="BATTERY" ng-click="getPropertyInfo($event)">
+			                <label for="">Battery Contains</label>
+			            </div>
+			            <div class="check-box w100">
+			                <input type="checkbox" value="IS_ELECTRICITY" ng-click="getPropertyInfo($event)">
+			                <label for="">Pure Battery</label>
+			            </div>
+			            <div class="check-box w125">
+			                <input type="checkbox" value="HAVE_LIQUID" ng-click="getPropertyInfo($event)">
+			                <label for="">Liquid Contains</label>
+			            </div>
+			            <div class="check-box w80">
+			                <input type="checkbox" value="HAVE_STIVE" ng-click="getPropertyInfo($event)">
+			                <label for="">Powder</label>
+			            </div>
+			            <div class="check-box w70">
+			                <input type="checkbox" value="HAVE_CREAM" ng-click="getPropertyInfo($event)">
+			                <label for="">Cream</label>
+			            </div>
+			            <div class="check-box w140">
+			                <input type="checkbox" value="HAVE_MAGNETISM" ng-click="getPropertyInfo($event)">
+			                <label for="">Magnetic Contains</label>
+			            </div>
+			            <div class="check-box w60">
+			                <input type="checkbox" value="EDGE" ng-click="getPropertyInfo($event)">
+			                <label for="">Sharp</label>
+			            </div>
+						<div class="check-box w125">
+							<input type="checkbox" value="NO_ENTRY" ng-click="getPropertyInfo($event)">
+							<label for="">Customs Ban</label>
+						</div>
+						<div class="check-box w125">
+							<input type="checkbox" value="CLONE" ng-click="getPropertyInfo($event)">
+							<label for="">Imitation Brand</label>
+						</div>
+						<div class="check-box w125">
+							<input type="checkbox" value="OVERSIZE" ng-click="getPropertyInfo($event)">
+							<label for="">Oversize</label>
+						</div>
+						<div class="check-box w60">
+							<input type="checkbox" value="THIN" ng-click="getPropertyInfo($event)">
+							<label for="">Thin</label>
+						</div>
+						<div class="check-box w60">
+							<input type="checkbox" value="FLAT" ng-click="getPropertyInfo($event)">
+							<label for="">Flat</label>
+						</div>
+			            <div class="check-box w60">
+			                <input type="checkbox" value="PROOERTY" ng-click="getPropertyInfo($event)">
+			                <label for="">Other</label>
+			            </div>
+			            <div style="display: block;margin-top: 72px;">
+				            <div class="volume-div">
+				            	<span>Length:</span>
+				            	<input type="number" ng-model="pLength"></input>cm
+				            	<span style="margin-left: 15px;">Width:</span>
+				            	<input type="number" ng-model="pWidth"></input>cm
+				            	<span style="margin-left: 15px;">Height:</span>
+				            	<input type="number" ng-model="pHeight"></input>cm
+				            	<!-- <span>(unit:CM)</span> -->
+				            </div>
+				            <button ng-click="countBtn()" class="btn-f60" style="margin-left: 20px;">Count</button>
+				        </div>
+			        </div>
+
+
+			    </div>
+			    <!-- 属性end -->
+			    <!-- <div class="div-btn-f60"><input type="button" value="Count" class="btn-f60" ng-click="countBtn()"></div> -->
+				</div>
+
+				<div class="ea-freight2">
+					<h3>Result</h3>
+					<div class="table-con-box" style="margin: 0;">
+						<table class="ea-list-table ea-erp-cs" style="border: none;">
+							<thead style="background-color: #5e5f64;">
+								<tr>
+									<td>Sort</td>
+									<td>Shipping Method</td>
+									<td>Shipping Cost Amount</td>
+									<td>Delivery Time</td>
+								</tr>
+							</thead>
+						</table>
+						<div class="table-con-box-div">
+							<ul ng-repeat="item in countResult" ng-cloak>
+								<li ng-bind="$index+1" style="width: 97px;">1</li>
+								<li style="width: 410px;">{{item.logisticName}}</li>
+								<li style="width: 532px;">
+									${{item.price}}
+									<span ng-if="item.cast=='1'" class="pFlag">Oversize</span>
+								</li>
+								<li style="width: 321px; padding-left: 25px;">{{item.aging}}&nbsp;Day(s)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<!-- 底部 -->
+		<common-footer></common-footer>
+		<!-- <div class="footer">
+			<div class="footer-con-wrap">
+			<div class="forfoo-con">
+				<a href="https://cjdropshipping.com/term-of-use/">Term of Use</a>
+				<a href="https://cjdropshipping.com/privacy-policy/">Privacy Policy</a>
+				<a href="https://cjdropshipping.com/faq/">Help</a>
+				<span><span class="copyright-logo">©</span>2019 CJDropshipping.com All Rights Reserved.</span>
+			</div>
+			</div>
+		</div> -->
+	</div>
+	<script src="static/js/home/home-calculation.js"></script>
+	<!--公共底部-->
+	<script src="static/components/headerandfooters/common-footer.js"></script>
+	<script src="static/components/headerandfooters/commonheader-guest.js"></script>
+	<script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+</html>

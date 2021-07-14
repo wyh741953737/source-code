@@ -1,0 +1,282 @@
+.card-wrap {
+  padding: 4px;
+  width: 16.6666%;
+  font-size: 14px;
+}
+.card-wrap:not([class*="source"]):hover .inner-box {
+  border-color: var(--color-primary);
+}
+.card-wrap:not([class*="source"]):hover .move-box {
+  transform: translateY(-40px);
+}
+.card-wrap:hover img {
+  transform: scale(1.1);
+}
+.card-wrap:hover .first-img {
+  transform: scale(1.1);
+}
+.card-wrap .first-img-box {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.card-wrap .inner-box {
+  padding: 4px;
+  border: 1px solid transparent;
+  overflow: hidden;
+  position: relative;
+}
+.card-wrap .detail-anchor {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+.card-wrap img {
+  border: 1px solid #f4f4f4;
+  height: 190px;
+  object-fit: contain;
+  max-width: 100%;
+  transition: var(--transition-medium);
+}
+.card-wrap .isVideo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  line-height: 1;
+  font-size: 30px;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
+.card-wrap .move-box {
+  position: relative;
+  padding-top: 8px;
+  background-color: white;
+  transition: var(--transition-fast);
+}
+.card-wrap .desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  font-size: 14px;
+  text-align: left;
+}
+.card-wrap .list-collect {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-font3);
+}
+.card-wrap .list-collect .list {
+  margin-top: 4px;
+  font-size: 12px;
+}
+.card-wrap .list-collect .list .personalise {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(/static/image/CJ-home/pod@2x.png);
+  width: 22px;
+  height: 19px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 40px;
+  margin-left: 6px;
+  position: initial;
+}
+.card-wrap .list-collect .list .freeShip {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(/static/image/CJ-home/freeShip.svg);
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: -2px;
+  line-height: 40px;
+  margin-left: 6px;
+  position: relative;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.card-wrap .list-collect .list .shipModel {
+  position: absolute;
+  left: -42px;
+  bottom: 20px;
+  width: 96px;
+  height: 29px;
+  text-align: center;
+}
+.card-wrap .list-collect .list .shipModel .long-text {
+  width: 100%;
+  height: 26px;
+  padding: 0 7px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.64);
+  line-height: 26px;
+  font-size: 12px;
+  border-radius: var(--size-radius-small);
+  color: white;
+}
+.card-wrap .list-collect .list .shipModel .long-text:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 26px;
+  left: 42px;
+  border-left: solid 6px transparent;
+  border-top: solid 6px rgba(0, 0, 0, 0.64);
+  border-right: solid 6px transparent;
+}
+.card-wrap .list-collect .collect {
+  cursor: pointer;
+}
+.card-wrap .list-collect .collect .solid {
+  display: none;
+}
+.card-wrap .list-collect .collect .hollow {
+  display: initial;
+}
+.card-wrap .list-collect .collect:hover,
+.card-wrap .list-collect .collect.active {
+  color: var(--color-primary);
+}
+.card-wrap .list-collect .collect.active .solid {
+  display: initial;
+}
+.card-wrap .list-collect .collect.active .hollow {
+  display: none;
+}
+.card-wrap .price {
+  margin-top: 10px;
+}
+.card-wrap .theme-price {
+  font-size: 14px;
+  color: #f70;
+  font-weight: bold;
+}
+.card-wrap .origin-price {
+  color: #999;
+  font-size: 12px;
+  margin-left: 5px;
+}
+.card-wrap .btns {
+  position: relative;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  line-height: 22px;
+  text-align: center;
+}
+.card-wrap .btns .btn-item {
+  border-radius: var(--size-radius-small);
+  border: 1px solid #FF7700;
+  cursor: pointer;
+}
+.card-wrap .btns .view-inventory {
+  padding: 0 7px;
+  color: #FF7700;
+}
+.card-wrap .btns .view-inventory:hover {
+  color: #FF9900;
+  background: rgba(255, 153, 0, 0.1);
+  border: 1px solid #FF9900;
+}
+.card-wrap .btns .inventory {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 9px);
+  width: 100%;
+  padding: 0 7px;
+  background-color: rgba(0, 0, 0, 0.64);
+  line-height: 29px;
+  font-size: 12px;
+  border-radius: var(--size-radius-small);
+  color: white;
+}
+.card-wrap .btns .inventory .arrow {
+  position: absolute;
+  left: 4px;
+  bottom: -6px;
+  font-size: 0;
+  line-height: 0;
+  border-width: 6px;
+  border-color: rgba(0, 0, 0, 0.64);
+  border-bottom-width: 0;
+  border-style: dashed;
+  border-top-style: solid;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.card-wrap .btns .list {
+  padding: 0 11px;
+  background-color: var(--color-primary);
+  color: white;
+}
+.card-wrap .btns .list:hover {
+  border-color: var(--color-primary-opacity1);
+  background-color: var(--color-secondary);
+}
+.card-wrap .add-queue {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding-top: 10px;
+  transform: translateY(100%);
+}
+.card-wrap .add-queue .btn-add {
+  line-height: 30px;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  background-color: var(--color-primary);
+  border-radius: var(--size-radius-small);
+  cursor: pointer;
+}
+.card-wrap .add-queue .btn-add:hover {
+  background-color: var(--color-secondary);
+}
+.card-wrap .add-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  z-index: 1;
+  overflow: hidden;
+}
+.card-wrap .add-icon .iconfont {
+  font-size: 10px;
+  color: #fff;
+  display: inline-block;
+  transform: scale(0.7);
+  position: relative;
+  left: -1px;
+  top: -4px;
+}
+.card-wrap .add-icon .add-icon-bg {
+  background: #f70;
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  left: -17px;
+  top: -17px;
+  transform: rotate(-45deg);
+  z-index: -1;
+}
+.card-wrap .product-card-add {
+  border-color: #F70;
+}
+.justify-content-between .floor-box {
+  width: 50%;
+}
+
+/*# sourceMappingURL=maps/product-card.css.map */

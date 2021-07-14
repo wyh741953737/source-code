@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.min.css">
+{% if EGG_ENV === 'local' %}
+<script src="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.js"></script>
+{% else %}
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/swiper-5.3.6/swiper.min.js"></script>
+{% endif %}
+
+{% if ongoingList.length > 0 %}
+  <div class="swiper-container swiper-container-recommendations">
+    <div class="swiper-wrapper">
+      {% for item in ongoingList %}
+      <div class="swiper-slide">
+        <a {{ item | _createLink }} tracking-element-click='{"bannerId": "{{item.id}}"}' tracking-element-view='{"bannerId": "{{item.id}}"}' class="a-img">
+          <img src="{{ item.webImg | IMG_SIZE(280, 233) }}" alt="" />
+        </a>
+      </div>
+      {% endfor %}
+      {% if ongoingList.length < 4 %}
+        <div class="placeholder-bg">Coming soon...</div>
+      {% endif %}
+    </div>
+  </div>
+  {% if ongoingList.length > 4 %}
+    <div class="swiper-pagination"></div>
+  {% endif %}
+  {% if ongoingList.length > 4 %}
+    <div class="swiper-navigation">
+      <div class="prev navigation iconfont iconleft"></div>
+      <div class="next navigation iconfont iconright"></div>
+    </div>
+  {% endif %}
+{% else %}
+<div class="default">
+  <div>
+    <img src="/egg/image/comingSoon.png" />
+    <p>Coming soon...</p>
+  </div>
+</div>
+{% endif %}
+
+<script>
+  const swiperImg = new Swiper('.swiper-container-recommendations', {
+    speed: 500,
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+    spaceBetween: 18,
+    autoplay: false,
+    simulateTouch: false,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    // 如果需要前进后退按钮
+    navigation: {
+      prevEl: '.prev',
+      nextEl: '.next',
+    },
+  })
+
+</script>

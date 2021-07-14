@@ -1,0 +1,224 @@
+<div class="content drop-processed">  
+  <!-- 新老版本切换 -->
+  <version-control></version-control>
+  <div class="mycj-home-box drop-ord-wrap">
+    <!-- 右边部分 -->
+    <div class="d-direct-right p-3">
+      <!-- 导航 -->
+      <ul class="top-taps">
+        <li class="tab-theme drop" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">{{'('+awaitNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==1">{{'('+dropprocessNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+dropprocessedNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==3">{{'('+completeNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==4">{{'('+closedNum+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <!-- 代发订单的处理部分 备货中 processing-->
+      <div class="dropshippingStatus-nav">
+        <div class="deal-orders">
+          <ul class="dealorder-ul">
+            <!-- 订单搜索 导出部分 -->
+            <li class="seachExport">
+              <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="From"></input>
+              <span class="line">-</span>
+              <input id="cj-etime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="Now"></input>
+
+              <input class="ord-search-inp" placeholder="Enter Order Number"></input><span ng-click="searchOrdNumFun()"
+                class="search-btn btn-theme" href="javascript:void(0)" cjdot cjdotshow='{"eventType": 2}'>Search</span>
+
+              <a ng-click="showFilter=!showFilter" class="toggle-moresearch">
+                <i class="iconfont glyphicon-triangle-bottom"
+                  ng-class="{'glyphicon-triangle-top':showFilter}"></i>
+                <span class="filter-span">Filter</span>
+              </a>
+              <div class="more-search-list" ng-show="showFilter">
+                <div class="maybe-top">
+                  <span class="title">Your Ordered Date</span>
+                  <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="filter-startdate"
+                    placeholder="from" />
+                  <span class="line">-</span>
+                  <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="filter-enddate"
+                    placeholder="to" />
+
+                </div>
+                <div class="maybe-bottom">
+                  <span class="title">Your Product Title</span>
+                  <input type="text" ng-model="filterObj.storeProductName" class="input" />
+                  <span class="title">{{websiteName}} Product Title</span>
+                  <input type="text" ng-model="filterObj.cjProductName" class="input" />
+                  <span class="title">Buyer Name</span>
+                  <input type="text" ng-model="filterObj.buyerName" class="input" />
+                  <span class="title">Weight</span>
+                  <input type="number" ng-model="filterObj.weight" class="input short" />
+                  <span class="title">SKU</span>
+                  <input type="text" ng-model="filterObj.sku" class="input" />
+
+                  <button class="more-search-btn btn-theme" ng-click="advanceSearch()">Search</button>
+                </div>
+              </div>
+              <!-- <a class="export-orders" href="javascript:void(0)">Export Orders</a> -->
+            </li>
+            <!-- 分页 -->
+            <!-- <li class="deal-page"></li> -->
+          </ul>
+          <!-- 订单的表格部分 -->
+          <div class="orders-list">
+            <table class="orders-table" id="proce-table">
+              <thead>
+                <tr>
+                  <th class="check-th">
+                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                    <span>Bulk {{websiteName}} Order Number</span>
+                  </th>
+                  <th>
+                    <p>Paid Time</p>
+                  </th>
+                  <th>
+                    Order Quantity
+                  </th>
+                  <th>
+                    <p>Grand Total</p>
+                    <p>(Purchased)</p>
+                  </th>
+                  <th>
+                    <div>Status</div>
+                    <div class="second-status">
+                      <span class="second-status-item">Processed</span>
+                      <span class="second-status-item">Completed</span>
+                      <span class="second-status-item">Closed</span>
+                    </div>
+                  </th>
+                  <th>Disputed</th>
+                  <th>Operation</th>
+                </tr>
+              </thead>
+              <tbody class="cjdrop-await-pay" ng-repeat="awaitpay in cjdropawaitpList">
+                <tr class="blank-tr">
+                  <td colspan="16"></td>
+                </tr>
+                <tr class="order-detail">
+                  <td id="cj-dord-num" class="order-time">
+                    <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                    <p class="dord-date-time">{{awaitpay.ID}}</p>
+                  </td>
+                  <td ng-cloak>
+                    <p>{{awaitpay.paymentDate}}</p>
+                  </td>
+                  <td>
+                    <p class="cj-order-num" ng-cloak>{{awaitpay.ORDERNUMBER}}</p>
+                    <span style="display: none" class="await-ord-num" ng-cloak>{{awaitpay.ID}}</span>
+                  </td>
+                  <td class="allMoney-td notranslate">
+                    <p class="awa-money-p" ng-if="awaitpay.ORDERMONEYReality"
+                      ng-class="{'line-throu':awaitpay.ORDERMONEY!=awaitpay.ORDERMONEYReality}" ng-cloak>
+                      {{awaitpay.ORDERMONEYReality}}</span>USD</p>
+                    <p class="awa-money-p green"
+                      ng-if="awaitpay.ORDERMONEYReality&&awaitpay.ORDERMONEY!=awaitpay.ORDERMONEYReality"><span
+                        class="awa-muord-money" ng-cloak>{{awaitpay.ORDERMONEY}}</span>USD</p>
+                    <p class="awa-money-p" ng-if="!awaitpay.ORDERMONEYReality"><span class="awa-muord-money"
+                        ng-cloak>{{awaitpay.ORDERMONEY}}</span>USD</p>
+                  </td>
+                  <!-- <td>
+										<p>{{awaitpay.paymentDate}}</p>
+									</td> -->
+                  <td class="orderStatus-td">
+                    <!-- <p>Processing</p> -->
+                    <!-- <span>{{awaitpay.done}}/{{awaitpay.ORDERNUMBER}}</span> -->
+                    <span ng-if="awaitpay.inProgress==0" class="order-status-td">{{awaitpay.inProgress }}</span>
+                    <a ng-click="gotozifun(awaitpay,'12')" ng-show="awaitpay.inProgress>0" class="order-status-td yellow">{{awaitpay.inProgress }}</a>
+                    <span ng-if="awaitpay.resolve==0" class="order-status-td">{{awaitpay.resolve}}</span>
+                    <a ng-click="gotozifun(awaitpay,'7')" ng-show="awaitpay.resolve>0" class="order-status-td yellow">{{awaitpay.resolve}}</a>
+                    <span ng-if="awaitpay.closeOrder==0" class="order-status-td">{{awaitpay.closeOrder}}</span>
+                    <a ng-click="gotozifun(awaitpay,'13')" ng-if="awaitpay.closeOrder>0" class="order-status-td yellow">{{awaitpay.closeOrder}}</a>
+                  </td>
+                  <td class="orderStatus-td">
+                    <span ng-if="awaitpay.jiufen!=0" ng-click="gotozifun(awaitpay,'disputed')"
+                      style="cursor:pointer;text-decoration:underline;color: #3385ff;display: inline-block;width: 80px;text-align: center;border-right: 1px solid #ececec">{{awaitpay.jiufen}}</span>
+                    <span ng-if="awaitpay.jiufen==0" class="order-status-td">{{awaitpay.jiufen}}</span>
+                  </td>
+                  <!-- <td class="subpay-td proce-viewsubord"> -->
+                  <!-- <a class="viewSub-orders beforpay-wiewsub" href="javascript:void(0)">View Sub-Orders</a> -->
+                  <!-- <a class="pay-link">pay</a> -->
+                  <!-- <span style="display: none;" class="await-ord-num" ng-cloak>{{awaitpay.ID}}</span> -->
+                  <!-- </td> -->
+                  <td>
+                    <button ng-click="exportOrdFun(awaitpay)" class="export-btn btn-theme1">Export Order</button>
+                    <button class="view-invoice-btn" ng-hide="isHideInvoiceFlag" target="_blank" ng-click="invoiceFun(awaitpay.ID)">View
+                      Invoice</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div ng-hide="dataFound" class="not-found-data1">
+              <img src="static/image/public-img/nodata.png">
+            </div>
+            <!-- 分页 -->
+            <page ng-show="cjdropawaitpList.length > 0"></page>
+            <!-- <div class="zdcl-pages-db second-page" ng-show="cjdropawaitpList.length>0">
+              <select id="drop-sel-num" class="select-page-num select-page-num2">
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <span class="per-page">per page</span>
+              <span class="all-num-line">{{erpordTnum}}</span>
+              <span class="per-page">records found</span>
+              <ul class="pagination pagination-demo1"></ul>
+              <span class="per-page showing-tex">showing:</span>
+              <input id="await-mu-inp" class="inp-num-go inp-num-go2"></input>
+              <span class="per-page">of</span>
+              <span id="await-mu-go" class="jump-btn jump-btn2">go</span>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 是否导出母订单 -->
+<div class="confirm-box" ng-show="dcordFlag">
+  <div class="confirm-main">
+    <div class="confirm-content">
+     Are you sure export order?
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="exportQxFun()" class="no-btn">Cancel</span>
+      <span ng-click="exportSureFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- <div class="isdel-wrap" ng-show="dcordFlag">
+  <div class="isdel-con">
+    <p>Are you sure export order?</p>
+    <div class="isdel-btns">
+      <button ng-click="exportQxFun()" class="isdel-cabtn">Cancel</button>
+      <button ng-click="exportSureFun()" class="isdel-cobtn">Confirm</button>
+    </div>
+  </div>
+</div> -->
+<!-- 导出母订单返回的excel链接 -->
+<div class="confirm-box" ng-show="dcordCallbackFlag">
+  <div class="confirm-main">
+    <div class="confirm-content">
+      <a ng-click="closeLinkFun()" href="{{excelHref}}">{{excelHref}}</a>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="closeLinkFun()" class="no-btn">Cancel</span>
+    </div>
+  </div>
+</div>
+<!-- closeOrderModal 老订单页面提示去新订单页面弹窗 -->
+<close-order-modal></close-order-modal>
+<!-- <div class="isdel-wrap confirm-box" ng-show="dcordCallbackFlag">
+  <div class="isdel-con">
+    <a ng-click="closeLinkFun()" href="{{excelHref}}">{{excelHref}}</a>
+    <div class="isdel-btns">
+      <button ng-click="closeLinkFun()" class="isdel-cabtn">Cancel</button>
+    </div>
+  </div>
+</div> -->

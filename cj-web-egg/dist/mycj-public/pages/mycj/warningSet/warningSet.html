@@ -1,0 +1,48 @@
+
+   
+    <div class="warn-set-wrap">
+        <div class="set-header">Inventory Alert Setting</div>
+        <div class="set-body">
+            <ul>
+                <li>
+                    <label>Safety Stock: </label>
+                    <select class="inventory-select" ng-change="chaneInventory(selectedInventory)" ng-model="selectedInventory">
+                        <option value="{{ item.value }}" ng-repeat="item in inventoryOptions">{{item.label}}</option>
+                    </select>
+                </li>
+                <li>
+                    <div class="prompt-msg">
+                        <div class="input-inventory" ng-show="selectedInventory==0">
+                            <input type="text" ng-change="inputChange(inputValue)" ng-trim="false" placeholder="Please input inventory quantity" ng-model="inputValue" />
+                            <div class="unit">Piece</div>
+                        </div>
+                        <div class="msg-content" ng-bind="text"></div>
+                    </div>
+                </li>
+                <li>
+                    <label>Alert Me: </label>
+                    <select class="frequency-select"  ng-change="chanePrompt(selectedPrompt)" ng-model="selectedPrompt">
+                        <option value="{{item.value}}" ng-repeat="item in promptOptions">{{item.label}}</option>
+                    </select>
+                </li>
+                <li class="interactive">
+                    <button class="cancel" ng-click="cancelSet()">Cancel</button>
+                    <button class="submit" ng-click="submitSet()">Save</button>
+                </li>
+            </ul>
+        </div>
+        <div class="confirm-out-model" ng-show="showOutConfirmModel">
+            <div class="out-settting-message">
+                  <div class="close"><i class="iconfont iconguanbi" ng-click="cancelOut()"></i></div>
+                  <div class="message-content">
+                    <p>Are you sure to cancel your modification on the Private Inventory Alert settings?</p>
+                  </div>
+                  <div class="setting-confirm">
+                    <button class="outCancel" ng-click="cancelOut()">Cancel</button>
+                    <button class="outConfirm" ng-click="confirmOut()">Confirm</button>
+                  </div>
+            </div>
+        </div>
+    </div>
+     
+ 

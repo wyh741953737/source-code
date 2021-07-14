@@ -1,0 +1,117 @@
+{% block title %}
+<title>{{ detailContext.title }}</title>
+<meta name="description" property="og:description" content="Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High Quality Products and Faster Shipping.">
+<meta name="keywords" content="{{ detailContext.hotWords }}" />
+
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% from "../macor/articleListWarp.njk" import articleListWarp %}
+{% from "../macor/articleListWarp.njk" import vueArticleListWarp %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/tutorial.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+
+<div class="tutorial-warp">
+  <div class="tutorial-article-details">
+    <div class="content">
+      <div class="back">
+        <a href="/help-center">&lt; Help Center</a>
+      </div>
+      <div class="lf" id="vue-detail-context">
+        <div class="left">
+          {% include "./common/detailsMenu.njk" %}
+        </div>
+        <div class="right">
+          <div class="main-warp details-popup-article marginBottom30" :class="popupArticleClass">
+            <span class="close" @click='close()'>
+              <i class="iconfont iconguanbi1"></i>
+            </span>
+            {{vueArticleListWarp()}}
+            <list-page :page="pageData" v-show="this.pageData.totalNum > 8" />
+          </div>
+          <div class="main-warp details-main">
+            <div class="heade">
+              <h3>{{detailContext.title}}</h3>
+              <div class="info">
+                <div>
+                  <span>
+                    <i class="iconfont iconliulanliang"></i>
+                    {{detailContext.skimCount}}
+                  </span>
+                  <span>
+                    {{detailContext.readTime}} mins article
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    Date Created: {{detailContext.createAt | dateFormat}}
+                  </span>
+                  <span>
+                    Last Edited: {{detailContext.uploadTime | dateFormat}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div v-if="!context" class="details-content" @click="clickDetails($event)" render="njk">
+              {{detailContext.context | safe}}
+            </div>
+            <div v-else class="details-content" @click="clickDetails($event)" render="vue" v-html='context'>
+            </div>
+            <div class="vote">
+              <button class="great" count="{{detailContext.validCount}}" @click="voteClick($event, true)">
+                <span>{{detailContext.validCount or 0}}</span>
+                <div id="vote_great" class="vote-svg"></div>
+              </button>
+              <button class="trample" count="{{detailContext.unvalidCount}}" @click="voteClick($event, false)">
+                <div id="vote_trample" class="vote-svg"></div>
+                <span>{{detailContext.unvalidCount or 0}}</span>
+              </button>
+            </div>
+          </div>
+          {% if detailContext.list.length > 0 %}
+            {% set opt = {
+              articleList: detailContext.list,
+              articleTitle: 'Related Tutorials',
+              col2: 'col2',
+              route: '/article-details'
+            } %}
+          {% else %}
+            {% set opt = {
+              articleList: popularList,
+              articleTitle: 'Related Tutorials',
+              col2: 'col2',
+              route: '/article-details'
+            } %}
+          {% endif %}
+          <div class="main-warp">
+            {{ articleListWarp(opt) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 相关链接 -->
+{% include "snippet/home/related-links.njk" %}
+<!-- 如果底部添加了related-links，必须引入这个js,用来Subscribe to our latest niches按钮逻辑，登录不出现 -->
+<script src="{{ PUBLIC_SCRIPT + '/qr-code.js' | VERSION }}"></script>
+
+<script src="{{ PUBLIC_SCRIPT + '/tutorial.js' | VERSION }}"></script>
+
+{% endblock %}

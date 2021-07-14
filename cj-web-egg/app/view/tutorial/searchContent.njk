@@ -1,0 +1,71 @@
+{% from "../macor/articleListWarp.njk" import articleListWarp %}
+{% from "../macor/faqListWarp.njk" import faqListWarp %}
+
+<div class="tutorial-search-content content">
+  <div class="back">
+    <a href="/help-center">
+      &lt; Help Center
+    </a>
+  </div>
+  {% if searchContentList.length > 0 %}
+    <div class="main-warp">
+      <div class="list">
+        <ul class="article-ul"> 
+          {% for item in searchContentList %}
+            {% if searchType === 'content' %}
+              <li>
+                <a href="/article-details/{{item.id}}">
+                  <div class="title">
+                    <h4>{{item.title}}</h4>
+                  </div>
+                  <div class="text">
+                    {{item.context | SIMPLE_TEXT | safe}}
+                  </div>
+                </a>
+              </li>
+            {% elif searchType === 'faq' %}
+              <li>
+                <div class="title">
+                  <h4>{{item.title}}</h4>
+                </div>
+                <div class="faqText">
+                  {{item.context | safe}}
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        {% if pageModule.totalNum > 8 %}
+          {% include "./common/page.njk" %}
+        {% endif %}
+      </div>
+    </div>
+  {% else %}
+    <div class="main-warp">
+      <div class="noData">
+        <img src="/egg/image/tutorial/noData.png" alt="">
+        {% if searchType == 'content' %}
+          <p>Oops, no results found. You may go through these popular tutorials.</p>
+        {% elif searchType == 'faq' %}
+          <p>Oops, no results found. You may go through these frequently asked questions.</p>
+        {% endif %}
+      </div>
+    </div>
+    <br/>
+    <div class="main-warp">
+      {% if searchType === 'content' %}
+        {% set opt = {
+          articleList: popularList,
+          articleTitle: 'Popular Tutorials',
+          col2: 'col2',
+          route: '/article-details'
+        } %}
+        {{ articleListWarp(opt) }}
+      {% elif searchType === 'faq' %}
+        <div id='vue-faq' class="nodata-faq">
+          {{ faqListWarp(faqList) }}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>

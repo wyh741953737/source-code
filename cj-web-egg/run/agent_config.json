@@ -1,0 +1,632 @@
+{
+  "config": {
+    "session": {
+      "maxAge": 86400000,
+      "key": "EGG_SESS",
+      "httpOnly": true,
+      "encrypt": true
+    },
+    "security": {
+      "domainWhiteList": [],
+      "protocolWhiteList": [],
+      "defaultMiddleware": "csrf,hsts,methodnoallow,noopen,nosniff,csp,xssProtection,xframe,dta",
+      "csrf": {
+        "enable": true,
+        "type": "ctoken",
+        "ignoreJSON": false,
+        "useSession": false,
+        "cookieName": "csrfToken",
+        "sessionName": "csrfToken",
+        "headerName": "x-csrf-token",
+        "bodyName": "_csrf",
+        "queryName": "_csrf",
+        "refererWhiteList": [],
+        "ignore": [
+          "/app",
+          "/cj",
+          "/browser"
+        ]
+      },
+      "xframe": {
+        "enable": true,
+        "value": "SAMEORIGIN"
+      },
+      "hsts": {
+        "enable": false,
+        "maxAge": 31536000,
+        "includeSubdomains": false
+      },
+      "dta": {
+        "enable": true
+      },
+      "methodnoallow": {
+        "enable": true
+      },
+      "noopen": {
+        "enable": true
+      },
+      "nosniff": {
+        "enable": true
+      },
+      "referrerPolicy": {
+        "enable": false,
+        "value": "no-referrer-when-downgrade"
+      },
+      "xssProtection": {
+        "enable": true,
+        "value": "1; mode=block"
+      },
+      "csp": {
+        "enable": false,
+        "policy": {}
+      },
+      "ssrf": {
+        "ipBlackList": null,
+        "checkAddress": null
+      },
+      "_protocolWhiteListSet": "<Set>"
+    },
+    "helper": {
+      "shtml": {}
+    },
+    "jsonp": {
+      "limit": 50,
+      "callback": [
+        "_callback",
+        "callback"
+      ],
+      "csrf": false
+    },
+    "onerror": {
+      "errorPageUrl": "",
+      "appErrorFilter": null,
+      "templatePath": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-onerror\\lib\\onerror_page.mustache"
+    },
+    "i18n": {
+      "defaultLocale": "en_US",
+      "dirs": [],
+      "queryField": "locale",
+      "cookieField": "locale",
+      "cookieDomain": "",
+      "cookieMaxAge": "1y"
+    },
+    "watcher": {
+      "type": "development",
+      "eventSources": {
+        "default": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-watcher\\lib\\event-sources\\default",
+        "development": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-watcher\\lib\\event-sources\\development"
+      }
+    },
+    "customLogger": {
+      "scheduleLogger": {
+        "consoleLevel": "NONE",
+        "file": "egg-schedule.log"
+      },
+      "notFoundLogger": {
+        "file": "D:\\project\\cj\\cj-web-egg\\logs\\cj-web-egg\\notFound.log",
+        "contextFormatter": "<Function contextFormatter>"
+      }
+    },
+    "schedule": {
+      "directory": []
+    },
+    "multipart": {
+      "mode": "stream",
+      "autoFields": false,
+      "defaultCharset": "utf8",
+      "fieldNameSize": 100,
+      "fieldSize": "100kb",
+      "fields": 10,
+      "fileSize": "10mb",
+      "files": 10,
+      "fileExtensions": [],
+      "whitelist": null,
+      "tmpdir": "C:\\Users\\ADMINI\\x7e1\\AppData\\Local\\Temp\\egg-multipart-tmp\\cj-web-egg",
+      "cleanSchedule": {
+        "cron": "0 30 4 * * *"
+      }
+    },
+    "development": {
+      "watchDirs": [],
+      "ignoreDirs": [],
+      "fastReady": false,
+      "reloadOnDebug": true,
+      "overrideDefault": false,
+      "overrideIgnore": false
+    },
+    "logrotator": {
+      "filesRotateByHour": null,
+      "hourDelimiter": "-",
+      "filesRotateBySize": null,
+      "maxFileSize": 52428800,
+      "maxFiles": 10,
+      "rotateDuration": 60000,
+      "maxDays": 31
+    },
+    "static": {
+      "prefix": "",
+      "dir": [
+        "D:\\project\\cj\\cj-web-egg\\dist\\public",
+        "D:\\project\\cj\\cj-web-egg\\dist\\mycj-public"
+      ],
+      "dynamic": true,
+      "preload": false,
+      "buffer": false,
+      "maxFiles": 1000
+    },
+    "view": {
+      "root": "D:\\project\\cj\\cj-web-egg\\app\\view",
+      "cache": false,
+      "defaultExtension": ".njk",
+      "defaultViewEngine": "nunjucks",
+      "mapping": {
+        ".njk": "nunjucks"
+      },
+      "variable": {
+        "PUBLIC": "/egg",
+        "PUBLIC_LIBS": "/egg/libs",
+        "PUBLIC_STYLE": "/egg/style",
+        "PUBLIC_SCRIPT": "/egg/script",
+        "PUBLIC_IMG": "/egg/image"
+      }
+    },
+    "nunjucks": {
+      "autoescape": true,
+      "throwOnUndefined": false,
+      "trimBlocks": false,
+      "lstripBlocks": false,
+      "cache": false
+    },
+    "httpProxy": {
+      "/app": {
+        "target": "http://192.168.5.172:8085"
+      },
+      "/cj": {
+        "target": "http://192.168.5.158:8080",
+        "changeOrigin": true,
+        "secure": false
+      },
+      "/browser/*": {
+        "target": "http://192.168.5.197:12800",
+        "changeOrigin": true
+      },
+      "/push": {
+        "target": "http://192.168.3.27:31180",
+        "changeOrigin": true
+      }
+    },
+    "cors": {
+      "origin": "*",
+      "allowMethods": "GET,HEAD,PUT,POST,DELETE,PATCH"
+    },
+    "env": "local",
+    "name": "cj-web-egg",
+    "keys": "<String len: 10>",
+    "cookies": {},
+    "proxy": true,
+    "maxIpsCount": 0,
+    "maxProxyCount": 0,
+    "protocolHeaders": "x-forwarded-proto",
+    "ipHeaders": "x-forwarded-for",
+    "hostHeaders": "",
+    "pkg": {
+      "name": "cj-web-egg",
+      "version": "1.0.0",
+      "main": "index.js",
+      "author": "草鞋没号 <308487730@qq.com>",
+      "license": "MIT",
+      "scripts": {
+        "devs": "npm run before-dev && concurrently -c=blue,green,yellow -n=\"egg \",gulp,mycj -p=[{name}] \"npm run egg-dev\" \"npm run gulp\"",
+        "dev": "npm run before-dev && concurrently -c=blue,green,yellow -n=\"egg \",gulp,mycj -p=[{name}] \"npm run egg-dev\" \"npm run gulp\" \"npm run cj-dev\" --hot",
+        "test": "npm run before-test && npm run cj-build && npm run gulp",
+        "testnew": "npm run before-testnew && npm run cj-build && npm run gulp",
+        "cn": "npm run before-cn && npm run cj-build && npm run gulp",
+        "build-cn": "npm run before-cn && npm run cj-build && npm run gulp",
+        "build": "npm run before-start && npm run cj-build && npm run gulp",
+        "start-frontend": "egg-scripts start --title=server-cjseo",
+        "start": "npm run egg-start",
+        "stop": "npm run egg-stop",
+        "egg-dev": "egg-bin dev",
+        "egg-start": "egg-scripts start --daemon --title=server-cjseo",
+        "egg-stop": "egg-scripts stop --title=server-cjseo",
+        "gulp": "node script/gulp.js",
+        "before-dev": "node script/before.js --env=development",
+        "before-test": "node script/before.js --env=test",
+        "before-testnew": "node script/before.js --env=testnew",
+        "before-cn": "node script/before.js --env=production-cn",
+        "before-start": "node script/before.js --env=production",
+        "-mycj-s-": "---------mycj脚本---------s",
+        "cj-dev": "npm run cj-start",
+        "cj-start": "node mycj/script/before.js --env=development && node mycj/script/build.js --watch",
+        "cj-build": "node mycj/script/before.js && node mycj/script/build.js && node mycj/script/after.js",
+        "-mycj-e-": "---------mycj脚本---------e",
+        "i18n-push:test": "i18n-util --type push --env test",
+        "i18n-push:production": "i18n-util --type push --env production",
+        "i18n-pull:test": "i18n-util --type pull --env test",
+        "i18n-pull:production": "i18n-util --type pull --env production",
+        "i18n-generate": "i18n-util --type generateDevLang --inputPath public/lang/local --watch"
+      },
+      "dependencies": {
+        "@cckj/js-tracking-report": "^1.1.1",
+        "@rollup/plugin-babel": "^5.3.0",
+        "axios": "^0.19.2",
+        "babel-polyfill": "^6.26.0",
+        "cckj-i18n-util": "^0.2.9",
+        "egg": "^2.26.0",
+        "egg-alinode": "^2.0.1",
+        "egg-cors": "^2.2.3",
+        "egg-scripts": "^2.13.0",
+        "egg-view-nunjucks": "^2.2.0",
+        "i18next": "^19.4.5",
+        "js-base64": "^3.5.2",
+        "js-cookie": "^2.2.1",
+        "jsencrypt": "^3.0.0-rc.1",
+        "jwt-decode": "^3.1.2",
+        "lottie-web": "^5.7.0",
+        "module-alias": "^2.2.2",
+        "serialize-javascript": "^5.0.1"
+      },
+      "devDependencies": {
+        "@babel/core": "^7.8.6",
+        "@babel/plugin-external-helpers": "^7.8.3",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/preset-env": "^7.8.6",
+        "@rollup/plugin-alias": "^3.0.1",
+        "@rollup/plugin-commonjs": "^11.0.2",
+        "@rollup/plugin-json": "^4.0.2",
+        "@rollup/plugin-node-resolve": "^7.1.1",
+        "babel-loader": "^8.0.6",
+        "babel-preset-latest": "^6.24.1",
+        "chalk": "^3.0.0",
+        "cj-lang-build": "^1.0.7",
+        "clean-webpack-plugin": "^3.0.0",
+        "concurrently": "^5.1.0",
+        "copy-webpack-plugin": "^5.1.1",
+        "css-loader": "^3.4.2",
+        "egg-bin": "^4.14.1",
+        "egg-http-proxy": "^1.0.0",
+        "file-loader": "^5.1.0",
+        "glob": "^7.1.6",
+        "gulp": "^4.0.2",
+        "gulp-changed": "^4.0.2",
+        "gulp-clean": "^0.4.0",
+        "gulp-less": "^4.0.1",
+        "gulp-rename": "^2.0.0",
+        "gulp-rev": "^9.0.0",
+        "gulp-rev-collector": "^1.3.3",
+        "gulp-rollup-each": "^3.0.2",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-util": "^3.0.8",
+        "html-loader": "^0.5.5",
+        "html-webpack-plugin": "^3.2.0",
+        "less": "^3.11.1",
+        "less-loader": "^5.0.0",
+        "md5": "^2.2.1",
+        "mini-css-extract-plugin": "^0.9.0",
+        "optimist": "^0.6.1",
+        "ora": "^4.0.3",
+        "rollup": "^2.0.2",
+        "rollup-plugin-vue": "^5.1.7",
+        "style-loader": "^1.1.3",
+        "through2": "^3.0.1",
+        "url-loader": "^3.0.0",
+        "vue-template-compiler": "^2.6.11",
+        "webpack": "^4.42.0",
+        "webpack-merge": "^4.2.2",
+        "webpack-stats-plugin": "^0.3.1"
+      },
+      "_moduleAliases": {
+        "@root": "."
+      }
+    },
+    "baseDir": "D:\\project\\cj\\cj-web-egg",
+    "HOME": "C:\\Users\\Administrator",
+    "rundir": "D:\\project\\cj\\cj-web-egg\\run",
+    "dump": {
+      "ignore": "<Set>"
+    },
+    "confusedConfigurations": {
+      "bodyparser": "bodyParser",
+      "notFound": "notfound",
+      "sitefile": "siteFile",
+      "middlewares": "middleware",
+      "httpClient": "httpclient"
+    },
+    "notfound": {
+      "pageUrl": ""
+    },
+    "siteFile": {
+      "/favicon.ico": "<Buffer len: 1150>"
+    },
+    "bodyParser": {
+      "enable": true,
+      "encoding": "utf8",
+      "formLimit": "1mb",
+      "jsonLimit": "1mb",
+      "textLimit": "1mb",
+      "strict": true,
+      "queryString": {
+        "arrayLimit": 100,
+        "depth": 5,
+        "parameterLimit": 1000
+      },
+      "onerror": "<Function onerror>"
+    },
+    "logger": {
+      "dir": "D:\\project\\cj\\cj-web-egg\\logs\\cj-web-egg",
+      "encoding": "utf8",
+      "env": "local",
+      "level": "INFO",
+      "consoleLevel": "INFO",
+      "disableConsoleAfterReady": false,
+      "outputJSON": false,
+      "buffer": true,
+      "appLogName": "cj-web-egg-web.log",
+      "coreLogName": "egg-web.log",
+      "agentLogName": "egg-agent.log",
+      "errorLogName": "common-error.log",
+      "coreLogger": {
+        "consoleLevel": "WARN"
+      },
+      "allowDebugAtProd": false,
+      "type": "agent"
+    },
+    "httpclient": {
+      "enableDNSCache": false,
+      "dnsCacheLookupInterval": 10000,
+      "dnsCacheMaxLength": 1000,
+      "request": {
+        "timeout": 5000
+      },
+      "httpAgent": {
+        "keepAlive": true,
+        "freeSocketTimeout": 4000,
+        "maxSockets": 9007199254740991,
+        "maxFreeSockets": 256
+      },
+      "httpsAgent": {
+        "keepAlive": true,
+        "freeSocketTimeout": 4000,
+        "maxSockets": 9007199254740991,
+        "maxFreeSockets": 256
+      }
+    },
+    "meta": {
+      "enable": true,
+      "logging": false
+    },
+    "coreMiddleware": [
+      "meta",
+      "siteFile",
+      "notfound",
+      "bodyParser",
+      "overrideMethod"
+    ],
+    "workerStartTimeout": 600000,
+    "serverTimeout": null,
+    "cluster": {
+      "listen": {
+        "path": "",
+        "port": 7000,
+        "hostname": ""
+      }
+    },
+    "clusterClient": {
+      "maxWaitTime": 60000,
+      "responseTimeout": 60000
+    },
+    "onClientError": null,
+    "middleware": [
+      "authorize",
+      "routerFilter",
+      "cookie",
+      "language"
+    ],
+    "routerFilter": {
+      "ignore": [
+        "/static",
+        "/egg"
+      ]
+    },
+    "language": {
+      "onlyPath": [
+        "/",
+        "/home.html",
+        "/blog/pathto"
+      ]
+    },
+    "currency": {
+      "currency": "USD",
+      "NAME": "美元",
+      "rate": 1,
+      "symbol": "$"
+    },
+    "coreMiddlewares": "~config~coreMiddleware",
+    "appMiddlewares": "~config~middleware",
+    "appMiddleware": "~config~middleware"
+  },
+  "plugins": {
+    "onerror": {
+      "enable": true,
+      "package": "egg-onerror",
+      "name": "onerror",
+      "dependencies": [],
+      "optionalDependencies": [
+        "jsonp"
+      ],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-onerror",
+      "version": "2.1.0"
+    },
+    "session": {
+      "enable": true,
+      "package": "egg-session",
+      "name": "session",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-session",
+      "version": "3.2.0"
+    },
+    "i18n": {
+      "enable": true,
+      "package": "egg-i18n",
+      "name": "i18n",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-i18n",
+      "version": "2.1.1"
+    },
+    "watcher": {
+      "enable": true,
+      "package": "egg-watcher",
+      "name": "watcher",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-watcher",
+      "version": "3.1.1"
+    },
+    "multipart": {
+      "enable": true,
+      "package": "egg-multipart",
+      "name": "multipart",
+      "dependencies": [],
+      "optionalDependencies": [
+        "schedule"
+      ],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-multipart",
+      "version": "2.10.3"
+    },
+    "security": {
+      "enable": true,
+      "package": "egg-security",
+      "name": "security",
+      "dependencies": [],
+      "optionalDependencies": [
+        "session"
+      ],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-security",
+      "version": "2.8.0"
+    },
+    "development": {
+      "enable": true,
+      "package": "egg-development",
+      "name": "development",
+      "dependencies": [
+        "watcher"
+      ],
+      "optionalDependencies": [],
+      "env": [
+        "local"
+      ],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-development",
+      "version": "2.7.0"
+    },
+    "logrotator": {
+      "enable": true,
+      "package": "egg-logrotator",
+      "name": "logrotator",
+      "dependencies": [
+        "schedule"
+      ],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-logrotator",
+      "version": "3.1.0"
+    },
+    "schedule": {
+      "enable": true,
+      "package": "egg-schedule",
+      "name": "schedule",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-schedule",
+      "version": "3.6.6"
+    },
+    "static": {
+      "enable": true,
+      "package": "egg-static",
+      "name": "static",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-static",
+      "version": "2.2.0"
+    },
+    "jsonp": {
+      "enable": true,
+      "package": "egg-jsonp",
+      "name": "jsonp",
+      "dependencies": [],
+      "optionalDependencies": [
+        "security"
+      ],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-jsonp",
+      "version": "2.0.0"
+    },
+    "view": {
+      "enable": true,
+      "package": "egg-view",
+      "name": "view",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-view",
+      "version": "2.1.3"
+    },
+    "nunjucks": {
+      "enable": true,
+      "package": "egg-view-nunjucks",
+      "name": "nunjucks",
+      "dependencies": [
+        "security",
+        "view"
+      ],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-view-nunjucks",
+      "version": "2.2.0"
+    },
+    "httpProxy": {
+      "enable": true,
+      "package": "egg-http-proxy",
+      "name": "httpProxy",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-http-proxy",
+      "version": "1.0.1"
+    },
+    "cors": {
+      "enable": true,
+      "package": "egg-cors",
+      "name": "cors",
+      "dependencies": [],
+      "optionalDependencies": [],
+      "env": [],
+      "from": "D:\\project\\cj\\cj-web-egg\\config\\plugin.js",
+      "path": "D:\\project\\cj\\cj-web-egg\\node_modules\\egg-cors",
+      "version": "2.2.3"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block title %}
+  <!-- 覆盖头部信息 自定义内容 -->
+  {% endblock %}
+
+  {% include "./head.njk" %}
+  {% block head %}
+  <!-- 这里是你的模板自定义的 head 内容 -->
+  {% endblock %}
+</head>
+<body>
+  {% block body %}
+  <!-- 这里是你的模板自定义的 body 内容 -->
+  {% endblock %}
+  {% include "./footer-copyright.njk" %}
+  <script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+  <!-- 埋点 -->
+  <script src="{{ PUBLIC_SCRIPT + '/tracking.js' | VERSION }}"></script>
+</body>
+</html>

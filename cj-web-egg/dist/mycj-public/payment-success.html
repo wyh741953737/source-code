@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<!-- <link rel="stylesheet" type="text/css" href="/dsp_server/static/css/reset.css"> -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="static/css/reset.css">
+	<title>Payment Success</title>
+	<style type="text/css">
+		.ps-wrap{
+			width: 100%;
+			min-height: 800px;
+			/*height: 100%;*/
+			/*border: 1px solid red;*/
+			position: relative;
+		}
+		.ps-con{
+			width: 400px;
+			margin: 0 auto;
+			/*border: 1px solid blue;*/
+			text-align: center;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%,-50%);
+		}
+		.ps-suc-p{
+			font-size: 26px;
+			color: #7a7a7a;
+			margin: 30px 23px;
+		}
+		.ps-suc-textp{
+			font-size: 18px;
+			color: #605757;
+
+		}
+		.ps-suc-time{
+			color: #ff7700;
+		}
+	</style>
+
+	<!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+			style="display:none;visibility:hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager -->
+	<script>
+		; (function (w, d, s, l, i) {
+			w[l] = w[l] || [];
+			w[l].push({
+				'gtm.start':
+					new Date().getTime(), event: 'gtm.js'
+			});
+			var f = d.getElementsByTagName(s)[0],
+				j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+	</script>
+	<!-- End Google Tag Manager -->
+	<!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'AW-965740562');
+	</script>
+	<!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<body>
+	<div class="ps-wrap">
+		<div class="ps-con">
+			<!-- <div class="ps-img"> -->
+				<!-- <img src="/dsp_server/static/image/login/iconsuccess.png"> -->
+				<!-- <img src="static/image/login/iconsuccess.png"> -->
+				<img src="static/image/public-img/PCpaysuccess.png">
+				<p class="ps-suc-p">Payment  Successful</p>
+				<p class="ps-suc-textp">
+					<span class="ps-suc-span">Enter the main interface after</span>
+					<span class="ps-suc-time">5</span>
+  					<span class="ps-suc-span">seconds...</span>
+				</p>
+			<!-- </div> -->
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="static/js/public/jquery-3.0.0.min.js"></script>
+<!-- <script type="text/javascript" src="/dsp_server/static/js/public/jquery-3.0.0.min.js"></script> -->
+<script type="text/javascript">
+	var type = location.href.split('?')[1] ? location.href.split('?')[1].replace('type=','') : 0;
+	console.log(type);
+	var timer = 5;
+	var timer1 = setInterval(function () {
+		timer--;
+		$('.ps-suc-time').html(timer);
+		if (timer==0) {
+			timer = 0;
+			clearTimeout(timer1)
+			const orderversion = localStorage.getItem('orderversion') ?? '2';
+			if (type == 1) {
+				location.href = 'myCJ.html#/purchase-history';
+			} else {
+				const _href = orderversion == '2' ? 'newmycj/dropshipping/orderManage' : 'myCJ.html#/drop-proce';
+				location.href = _href;
+			}
+		}
+	},1000);
+</script>
+</html>
+<script type="text/javascript">
+    function googleTranslateElementInit2() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            autoDisplay: false
+        }, 'google_translate_element2');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2" async="async"></script>

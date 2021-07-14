@@ -1,0 +1,458 @@
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_d25b02o8asp.css">
+<style>
+    .content {
+        background: #F2F3F5;
+        padding: 30px;
+    }
+
+    .bottom-content1 {
+        height: calc(100% - 85px);
+    }
+
+    .bottom-content2 {
+        height: auto;
+    }
+
+    .table-search-title {
+        display: inline-block;
+        margin: 0;
+    }
+
+    table tr td {
+        width: auto;
+    }
+
+    .title-icon {
+        display: inline-block;
+        margin: 0;
+        position: relative;
+    }
+
+    .title-icon img {
+        cursor: pointer;
+        margin-left: 10px;
+        line-height: 22px;
+        margin-top: -4px;
+    }
+
+    .title-icon:hover .notice-1 {
+        display: block;
+        top: 25px;
+    }
+
+    .ticket-title-close {
+        /* width:14px;
+        height: 14px; */
+        color: #666;
+        float: right;
+        /*font-size: 20px;*/
+        cursor: pointer;
+    }
+
+    .sa-list .tb-storelist td {
+        width: 14%;
+    }
+
+    .search-btn:hover {
+        opacity: 0.8;
+    }
+
+    .search-btn:hover{
+        background: #E56A00;
+    }
+
+    .editInformation-textarea {
+        padding: 20px;
+    }
+
+    .editInformation-textarea::-webkit-input-placeholder {
+        font-size: 14px;
+        color: #999;
+        line-height: 20px;
+    }
+
+    .evaluate-box {
+        height: 490px;
+    }
+
+    .hover-none:hover {
+        color: #666;
+        cursor: default;
+    }
+
+    .actLine {
+        height: 1px;
+        width: 694px;
+        margin-left: 21px;
+        background: linear-gradient(to right, #f4f4f4 0%, #ff7700 40%, #f4f4f4 100%);
+    }
+
+    .cj-content-wrp .right-content .router-outlet {
+        padding: 24px;
+    }
+
+    .sa-list {
+        margin: 0 auto;
+    }
+
+    .content-padding {
+        height: 100%;
+        padding: 20px;
+    }
+
+    .src_components_not-found_not-data__notData {
+        height: initial;
+        padding-top: 100px;
+    }
+
+    .img-preview-wrap img {
+        max-width: 60%;
+    }
+
+    .asj-page-box {
+        margin: 20px 0 0 0;
+    }
+
+</style>
+
+<div class="content-padding ticket-list" cjdot cjdotshow='{"pageCode":"ticketList", "eventType": 2}'>
+    <div class="sa-list table-search-box">
+        <div class="table-title-box">
+            <h3 class="table-search-title">Ticket List</h3>
+            <span class="title-icon">
+        <!-- <img class="promptImg" src="./static/image/ticket-list/tixing_2.png" alt="" /> -->
+        <i class="iconfont icontixing_2 promptIcon"></i>
+        <span class="notice-1">Dear customer, if we don't receive your reply within 48 hours, the ticket will be
+          automatically closed. Please reply as soon as possible! If your problem is not solved, please resubmit the
+          ticket. Thanks for your understanding and cooperation! <b></b> </span>
+      </span>
+        </div>
+
+        <div class="function-bar clearfix">
+            <div class="search-bar">
+                <input type="text" class="search-inp search-radius-none" placeholder="Please enter the ticket number/subject"
+                       ng-model="inputStr">
+                <button class="search-btn search-radius-btn" ng-click="listSearch()">
+          <span>
+            <i class="iconfont iconsousuo"></i>
+          </span>
+                </button>
+                <button class="search-btn btn-radius submit" ng-click="typeShow1()">Submit Ticket</button>
+            </div>
+            <div class="transfer-wrap">
+            </div>
+        </div>
+
+        <table class="tb-storelist">
+            <thead>
+            <tr>
+                <th width="180">Date</th>
+                <th width="180">Ticket Number</th>
+                <th width="180">Type</th>
+                <th width="180">Subject</th>
+                <th width="360">Status</th>
+                <th width="360">Last Updated</th>
+                <th width="360">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in listArr">
+                <td>{{item.FIRSTISSUEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                <td>{{item.SERIAL}}</td>
+                <td>{{item.TYPE}}</td>
+                <td>{{item.SUBJECT}}</td>
+                <td class="listStatus red-font" ng-if="item.STATUS=='0'">Closed</td>
+                <td class="listStatus main-font" ng-if="item.STATUS=='1'">Awaiting CJ Reply</td>
+                <td class="listStatus await-font" ng-if="item.STATUS=='2'">
+                    <div class="AwaitingYourReply">
+                        Awaiting Your Reply
+                        <div class="suspend-box" ng-show="item.issueTimeout">
+                            <i class="iconfont icontishi3"></i>
+                            <div class="suspend">
+                                It will be closed automatically at {{item.issueTimeout.time | date:"yyyy-MM-dd HH:mm:ss"}}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="notice-2">
+                      <img style="cursor: pointer;" class="fauseImg" src="./static/image/public-img/fause.svg" alt="" />
+                      <p class="notice-2-con">
+                        It will be closed automatically at {{item.issueTimeout.time | date:"yyyy-MM-dd HH:mm:ss"}}
+                        <b></b>
+                      </p>
+                    </div> -->
+                </td>
+                <td class="listStatus green-font" ng-if="item.STATUS=='3'">Completed</td>
+                <td class="listStatus deepgrey-font" ng-if="item.STATUS=='4'">On Hold</td>
+                <td class="listStatus grey-font" ng-if="item.STATUS=='5'">Expired</td>
+                <td class="grey-font">{{item.ISSUEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+
+
+                <!-- <td ng-click="listViewTicket()">
+                  <button class="center-block sure-btn" id={{item.ID}} ng-click="typeShow(item)">View Ticket</button>
+                </td> -->
+                <td>
+                    <div style="display: flex;justify-content: center;align-items: center;padding: 25px;">
+                        <!-- <button class="center-block sure-btn" id={{item.ID}} ng-click="typeShow(item)" style="margin-right: 10px;">View Ticket</button> -->
+                        <button class="center-block sure-btns" id={{item.ID}} ng-click="listViewTicket(item)"
+                                style="margin-left: 0;">View Ticket
+                        </button>
+                        <button class="center-block sure-btns rev" ng-click="Evaluate(item)"
+                                ng-show="item.STATUS!='4' && item.STATUS!='1' && item.STATUS!='2' && !item.estimate"
+                                style="margin-left: 10px;">Review
+                        </button>
+                        <button class="center-block sure-btns hover-none" ng-show="item.estimate"
+                                style="margin-left: 10px;background: #F4F4F4;border: none;">Reviewed
+                        </button>
+                    </div>
+                </td>
+
+
+            </tr>
+            </tbody>
+        </table>
+        <page ng-show="listArr.length > 0"></page>
+        <!-- <not-data ng-if="listArr.length === 0"></not-data> -->
+        <div class="no-data" ng-show="listArr.length === 0" style="width: 1200px; height: 520px;"></div>
+        <loading-bounce load="loading"></loading-bounce>
+    </div>
+
+</div>
+
+
+<!-- Ticket Detail弹框 -->
+<div ng-show="isDetail" class="detailAlert TicketAlert">
+    <div ng-class="replyBtnShow?'ticket-detail ticket-maxHeight':'ticket-detail'">
+        <div class="ticket-detial-title">Ticket Review
+            <span class="ticket-title-close" ng-click="closeTicket()">
+                <i class="iconfont">&#xe70d;</i>
+            </span>
+        </div>
+
+        <div ng-class="replyBtnShow?'bottom-content bottom-content1':'bottom-content'">
+            <p class="bottom-content-title" title="{{subject}} (Type of Issue)">{{subject}} ({{showType}}) </p>
+            <ul class="bottom-content-list">
+                <div class="bottom-content-subtitle" title="Ticket Number: {{ ticketNum }}">
+                    <span class="content-subtitle-font">Ticket Number: {{ticketNum}}</span>
+                    <span class="content-subtitle-font">|</span>
+                    <!--                    <span class="content-subtitle-font">{{type}}</span>-->
+                    <!--                    <span class="content-subtitle-font">|</span>-->
+                    <span class="content-subtitle-font red-font" ng-if="status=='0'">Closed</span>
+                    <span class="content-subtitle-font main-font" ng-if="status=='1'">Awaiting CJ Reply</span>
+                    <span class="content-subtitle-font glad-font" ng-if="status=='2'">Awaiting Your Reply</span>
+                    <span class="content-subtitle-font green-font" ng-if="status=='3'">Completed</span>
+                    <span class="content-subtitle-font deepgrey-font" ng-if="status=='4'">On Hold</span>
+                    <span class="content-subtitle-font grey-font" ng-if="status=='5'">Expired</span>
+                </div>
+                <!--                <div class="closeAlert-btn" ng-show="replyBtnShow">-->
+                <!--                    <button class="closeTicket" ng-click="cancelFun()">Close Ticket</button>-->
+                <!--                </div>-->
+                <label class="alert-splite"></label>
+                <li class="content-item" ng-repeat="detail in detailData">
+                    <div class="content-item-top">
+                        <div class="content-item-img">
+                            <img ng-src="{{detail.AVATAR}}" ng-if="detail.AVATAR&&detail.STATUS=='0'">
+                            <img src="static/image/public-img/shareimg.jpg" ng-if="detail.STATUS=='1'">
+                            <div class="content-item-fontImg" ng-show="!detail.AVATAR && detail.STATUS!='1'">
+                                <p ng-if="detail.STATUS=='0'" class="pull-right" ng-show="!detail.AVATAR">{{detail.OPERATOREN.slice(0, 1).toUpperCase()}}</p>
+                                <p ng-if="detail.STATUS=='1'" class="pull-right" ng-show="!detail.AVATAR">{{detail.OPERATOREN.slice(0, 1).toUpperCase()}}</p>
+                            </div>
+
+                        </div>
+                        <div class="content-item-font">
+                            <div class="item-font-name" ng-show="detail.STATUS=='0'">{{detail.OPERATOREN}}</div>
+                            <div class="item-font-name" ng-show="detail.STATUS=='1'">CJ Dropshipping</div>
+                            <!-- <a href="" class="btn btn-primary btn-sm" style="margin-left: 15px;cursor: default;" ng-show="detail.STATUS=='1'">CJ Management Team</a> -->
+                            <div class="item-font-content" ng-bind-html="detail.MESSAGE"></div>
+                        </div>
+                        <!--                        <div class="content-item-date">{{ detail.MESSAGEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</div>-->
+                    </div>
+                    <div class="content-item-bottom">
+                        <div class="item-bottom-img" ng-show="detail.ATTACHMENT.length>0">
+                            <div class="show-img-content" ng-repeat="imgs in detail.ATTACHMENT">
+                                <!--                                <img ng-src="{{imgs}}" ng-click="dpreviewImg($event)">-->
+                                <img ng-src="{{'https://'+imgs.replace('https://','')}}">
+                                <div class="show-img-mask" ng-click="downloadImgs('https://'+imgs.replace('https://',''))">
+                                    <i class="iconfont maskIcon">&#xe779;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!--     搜品工单展示提示信息       -->
+            <div class="ticket-tips" ng-show="status==='2' && isErpCall && businessType === '5'">
+                <span class="red-start">*</span>Note: No reply within 8 hours will be considered as acceptance and the sourcing result will be handled accordingly.
+            </div>
+            <div class="ticket-tips" ng-show="status==='2'&& !isVip && businessType === '5' && !isErpCall">
+                <span class="red-start">*</span>Note: No reply within 8 hours will be considered as acceptance and the sourcing result will be handled accordingly.
+            </div>
+            <div class="ticket-tips" ng-show="status==='2' && isVip && businessType === '5' && !isErpCall">
+                <span class="red-start">*</span>Note: No reply within 24 hours will be considered as acceptance and the sourcing result will be handled accordingly.
+            </div>
+            <!-- replyBtnShow -->
+            <div class="awaiting-content" ng-show="replyBtnShow">
+                <div class="editInformation">
+                    <p class="editInformation-font">Message:</p>
+                    <textarea class="editInformation-textarea" name="message" id="kmessage"
+                              ng-blur="textAreaChange($event)"
+                              ng-model="textString"
+                              maxlength="1000"
+                              placeholder="Please note that we will stop processing this order when you open a dispute"></textarea>
+                    <p class="editInformation-font">Attachments:</p>
+                    <!-- <div class="uploadImg-content">
+                        <div class="uploadImg-content-img">
+                            <img src="./static/image/ticket-list/uploadImg.png" alt="">
+                        </div>
+                        <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" ng-model="documentupload2" id="file" multiple onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display:inline-block; margin: 0;width: 100%;opacity: 0;height: 114px;position: absolute;top: 0;left: 0;font-size: 0;cursor: pointer;" ng-click="df($event)">
+                            <input type="hidden">
+                        </form>
+                    </div> -->
+                    <div class="res-upload-div" style="margin-bottom: 5px;">
+                        <form class="pull-left ng-pristine ng-valid" action="" method="post"
+                              enctype="multipart/form-data">
+                            <input type="file" class="upimg-inp ng-pristine ng-untouched ng-valid ng-empty"
+                                   ng-model="documentupload2" id="file" accept="image/*" multiple=""
+                                   onchange="angular.element(this).scope().upLoadImg4(this.files)"
+                                   style="display: none;">
+                        </form>
+                        <label class="up-bg-div upload" for="file"
+                               style="background: #fff;border: 1px dashed rgba(0,0,0,0.15);">
+                            <div class="up-bg-img">
+                                <!--                                <img src="./static/image/ticket-list/uploadImg.png" style="width:37px;height: 32px;">-->
+                                <i class="iconfont">&#xe6df;</i>
+                            </div>
+                            <p style="color: #999;">Upload</p>
+                        </label>
+                        <li class="picture-preview-item" ng-repeat="imge in imgArr track by $index">
+                            <!-- <img ng-src="{{imge}}" ng-click="previewImg($event)"> -->
+                            <img class="img-url" ng-src="{{imge}}">
+                            <!--                                    <img src="./static/image/fileType/doc.svg" alt="">-->
+                            <div class="closeImg" ng-click="deleteImg($index)">
+                                <i class="iconfont close-icon">&#xe6ee;</i>
+                                <!--                                        <img src="./static/image/dropShipping/close.png" alt="">-->
+                            </div>
+                        </li>
+                        <!--                        <div class="uploadImg-picture-preview">-->
+                        <!--                            <ul class="picture-preview-list">-->
+                        <!--                                <li class="picture-preview-item" ng-repeat="imge in imgArr track by $index">-->
+                        <!--                                    &lt;!&ndash; <img ng-src="{{imge}}" ng-click="previewImg($event)"> &ndash;&gt;-->
+                        <!--                                    <img class="img-url" ng-src="{{imge}}">-->
+                        <!--&lt;!&ndash;                                    <img src="./static/image/fileType/doc.svg" alt="">&ndash;&gt;-->
+                        <!--                                    <div class="closeImg" ng-click="deleteImg($index)">-->
+                        <!--                                        <i class="iconfont close-icon">&#xe6ee;</i>-->
+                        <!--&lt;!&ndash;                                        <img src="./static/image/dropShipping/close.png" alt="">&ndash;&gt;-->
+                        <!--                                    </div>-->
+                        <!--                                </li>-->
+                        <!--                            </ul>-->
+                        <!--                        </div>-->
+                    </div>
+                    <p class="editInformation-font editInformation-font1">
+                        <span style="color:#FF6010 ">*</span>
+                        10 files at most; png, jpg, and jpeg; 5M a file at most.</p>
+                </div>
+            </div>
+            <!-- Evaluate -->
+            <!-- <div class="awaiting-content" ng-show="EvaluateShow"> -->
+            <div class="awaiting-content" style="padding: 24px;" ng-show="estimate">
+                <div class="editInformation">
+                    <div class="editInformation-textarea" style="height: auto;overflow: hidden;margin-bottom: 0;">
+                        <div class="evaluate-left">
+                            Customer Review：<span class="evaluate-left-pinjia evaluate-left-status"
+                                                  ng-show="estimate=='非常好'">Good</span>
+                            <span class="evaluate-left-pinjia evaluate-left-status"
+                                  ng-show="estimate=='一般'">Average</span>
+                            <span class="evaluate-left-pinjia evaluate-left-status" ng-show="estimate=='不好'">Poor</span>
+                            <p class="evaluate-left-pinjia">{{estimateExplain}}</p>
+                        </div>
+                        <div class="evaluate-right">
+                            {{estimateDate.time | date:"yyyy-MM-dd HH:mm:ss"}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-btn" ng-show="replyBtnShow" style="box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05)">
+                <!-- <button class="alert-btn-cancel" ng-click="isDetail = false" ng-show="!replyBtnShow">cancel</button> -->
+                <!--                <button class="alert-btn-cancel" ng-click="cancelFun()" ng-show="replyBtnShow">Close</button>-->
+                <button class="alert-btn-cancel"  ng-click="closeTicket()" ng-show="replyBtnShow">Close</button>
+                <button class="alert-btn-confirm" ng-click="endFun()" ng-show="replyBtnShow" style="width: 100px;">
+                    Finished
+                </button>
+                <button class="alert-btn-confirm" ng-click="replyFun()" ng-show="replyBtnShow" style="width: 100px;margin-right:20px">
+                    Reply
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 图片预览 -->
+<div class="img-preview-wrap" ng-click="previewWrapFun()">
+    <img ng-src="{{previewSrc}}" class="center-block">
+</div>
+
+<!-- close -->
+<div class="detailAlert closeAlert" ng-show="isClose">
+    <div class="ticket-detail close-box">
+        <p class="closeAlert-font">Are you sure to {{closeWord}} this ticket?</p>
+        <div class="bottom-btn alert-cl-btn">
+            <button class="alert-btn-cancel alert-close-btn" ng-click="cancelYesFun()"
+                    ng-show="closeWord=='close'">Yes
+            </button>
+            <button class="alert-btn-confirm alert-close-btn" ng-click="cancelNoFun()"
+                    ng-show="closeWord=='close'">No
+            </button>
+
+            <button class="alert-btn-cancel alert-close-btn" ng-click="endYesFun()"
+                    ng-show="closeWord=='Finished'">Yes
+            </button>
+            <button class="alert-btn-confirm alert-close-btn" ng-click="endNoFun()"
+                    ng-show="closeWord=='Finished'">No
+            </button>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- 评价 -->
+<div ng-show="isEvaluate" class="detailAlert TicketAlert">
+    <div class="ticket-detail ticket-maxHeight evaluate-box">
+        <div class="ticket-detial-title">Ticket Detail
+            <!-- <span class="ticket-title-close" ng-click="isEvaluate = false">x</span> -->
+            <span class="ticket-title-close" ng-click="cancelEvaluate()">×</span>
+        </div>
+        <div class="top-splite"></div>
+        <!-- <img src="./static/image/ticket-list/line1.svg">
+        <img src="./static/image/ticket-list/line2.svg"> -->
+        <div class="bottom-content bottom-content2">
+            <p class="bottom-evaluate-title">We're glad to hear that you are happy with our service. Would you mind
+                leaving a review or your idea below?</p>
+            <!-- <div ng-class="lineStatus?'evalate-solider actLine':'evalate-solider'"></div> -->
+            <div class="pinjiaBox">
+                <div class="evlate-pinjiaBox" ng-repeat="item in evaluateTab" ng-click="choseEvaluate(item)">
+                    <!-- <img ng-src="{{item.active?item.actUrl:item.url}}" ng-class="{'img-active': item.active}" alt="" class="pinjiaImg"> -->
+                    <p style="height: 60px;">
+                        <i class="{{item.icon}}" ng-class="{'img-active': item.active}"></i>
+                    </p>
+                    <p class="item-name" ng-class="item.active?'activeFonts evlate-good':'evlate-good'">
+                        {{item.name}}</p>
+                </div>
+            </div>
+
+            <div class="awaiting-content" style="background-color: #fff;">
+                <!-- <div class="editInformation"> -->
+                <textarea class="editInformation-textarea" name="message"
+                          placeholder="Type here if you have any advice or suggestions."
+                          ng-model="elvaluateMes"></textarea>
+                <!-- </div> -->
+            </div>
+        </div>
+        <div class="bottom-btn">
+            <button class="alert-btn-cancel" ng-click="cancelEvaluate()" style="width: 100px;">cancel</button>
+            <button class="alert-btn-confirm" ng-click="confirmEvaluate()" style="width: 100px;">confirm</button>
+        </div>
+    </div>
+</div>

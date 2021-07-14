@@ -1,0 +1,53 @@
+.bg-after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(114deg, transparent 4%, rgba(255, 255, 255, .599), transparent 94%);
+  transform: translateX(-100%);
+  animation: skeleton-animate 790ms infinite ease-in-out;
+}
+
+.skeleton {
+  display: inline-block;
+  padding: 14px;
+  box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background: #fff;
+  width: 240px;
+
+  :global {
+    .img {
+      padding-bottom: 64%;
+      border-radius: 4px;
+      background: #e5e5e5;
+      overflow: hidden;
+      position: relative;
+      &::after {
+        .bg-after;
+      }
+    }
+    .text {
+      display: block;
+      margin: 14px 0;
+      border-radius: 9px;
+      height: 14px;
+      background: #e5e5e5;
+      overflow: hidden;
+      position: relative;
+      &::after {
+        .bg-after;
+      }
+      &:nth-of-type(1) {
+        width: 34%;
+      }
+      &:nth-of-type(2) {
+        width: 79%;
+      }
+      &:nth-of-type(3) {
+        width: 59%;
+      }
+    }
+  }
+}

@@ -1,0 +1,263 @@
+<style>
+  .btn-disabled{
+    position: relative;
+    width: 70px;
+    display: inline-block;
+    height: 30px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 4px;
+    line-height: 30px;
+    background-color: gray;
+    color: #fff;
+  }
+  .btn-disabled .fausebox {
+    position: absolute;
+    width: 400px;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    white-space: initial;
+    left: -40px;
+    top: 37px;
+    z-index: 10;
+  }
+  .btn-disabled .fausebox:after {
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 0px 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent #40424C;
+    top: -8px;
+    left: 90px;
+  }
+</style>
+<div class="content await-payment-child">
+  <div class="mycj-home-box drop-ord-wrap">
+    <!-- 右边部分 -->
+    <div class="d-direct-right p-3">
+      <!-- 导航 -->
+      <ul class="top-taps">
+        <li class="tab-theme drop" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">{{'('+awaitNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==1">{{'('+dropprocessNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+dropprocessedNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==3">{{'('+completeNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==4">{{'('+closedNum+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <!-- 代发订单对应的订单状态导航对应的页面 -->
+      <!-- 代发订单的处理部分 待付款-->
+
+      <!-- 查看全部子订单 -->
+      <div class="sub-orders awaitpay-subOrders">
+
+        <ul class="dealorder-ul">
+          <!-- 订单处理方式 -->
+          <li class="suborder-title">
+            <a class="ui-btn btn-theme1" href="javascript:window.history.back();">Back</a>
+            <span class="sub-ordernum">Bulk {{websiteName}} Order Number: {{muordId}}</span>
+            <!-- <span class="sub-ordertit">View Sub-Orders</span> -->
+            <input class="ord-search-inp" placeholder="Enter Order Number"></input><a ng-click="ordNumSearchFun()" cjdot cjdotshow='{"eventType": 2}'
+              class="search-btn btn-theme" href="javascript:void(0)">Search</a>
+            <!-- <span ng-click="isDelOrdFun()" class="ui-btn btn-theme">Delete</span> -->
+            <span
+              class="btn-disabled"
+              ng-mouseenter="disableTip = true;"
+              ng-mouseleave="disableTip = false;">
+              Delete
+              <div class="fausebox" ng-show="disableTip">
+                Inventory locked. Orders cannot be deleted here.<br/>
+                Please go to the Fresh Version to cancel the Bulk CJ Order.<br/>
+                Besides, you can pay for those orders on the Fresh Version where the system will remove out-of-stock orders.
+              </div>
+            </span>
+            <!-- <button ng-click="isDelOrdFun()" class="drophomezi-btn btn-theme">Delete</button> -->
+          </li>
+          <!-- 分页 -->
+          <!-- <li class="deal-page"></li> -->
+        </ul>
+
+        <!-- 订单的表格部分 -->
+        <div class="orders-list">
+          <table class="orders-table" id="zawait-tab">
+            <thead>
+              <tr>
+                <th class="check-th" style="width: 130px;">
+                  <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                  <span>{{websiteName}} Order Number</span>
+                </th>
+                <th style="width: 108px;">
+                  <p>Your Store Time</p>
+                  <p>System Time</p>
+                </th>
+                <th style="width: 128px;">
+                  Store
+                  <!-- <select>
+                  <option>Stores All</option>
+                  <option>all</option>
+                  <option>some</option>
+                </select> -->
+                </th>
+                <th style="width: 116px;">
+                  Order Number
+                </th>
+                <!-- <th style="width: 96px;">CJ Price</th> -->
+                <!-- <th style="width: 60px;">Quantity</th> -->
+                <!-- <th style="width: 98px;">CJ Subtotal</th> -->
+                <!-- <th style="width: 102px;">Paid On</th> -->
+                <th style="width: 142px;">Shipping Info</th>
+                <th style="width: 118px;">Shipping Method</th>
+                <th style="width: 110px;">{{websiteName}} Shipping Cost</th>
+                <th style="width: 110px;">Items Quantity</th>
+                <th style="width: 110px;">
+                  {{websiteName}} Products 
+                  <div 
+                    ng-mouseenter="showProducts = true" 
+                    ng-mouseleave="showProducts = false" 
+                    ng-show = 'showUseCouponsIcon' 
+                    id = 'use-coupons' 
+                    class = "iconfont use-coupons"
+                    ng-class = "isVip == 1 ? 'vipCustomer' : 'averageCustomer'"
+                  >&#xe755;
+                    <p ng-show="showProducts" class="showPrompt">
+                      Discount has been applied to the following order(s). Please go to My CJ > Dropshipping Orders to view details.
+                    </p>
+                    <div class="triangle" ng-show="showProducts"></div>
+                  </div>
+                </th>
+                <th style="width: 110px;">
+                  Total Amount
+                  <div 
+                    ng-mouseenter="showTotalAmount = true" 
+                    ng-mouseleave="showTotalAmount = false" 
+                    class = "iconfont use-coupons"
+                    ng-class = "isVip == 1 ? 'vipCustomer' : 'averageCustomer'"
+                    ng-show = 'showUseCouponsIcon'
+                  >&#xe755;
+                    <p ng-show="showTotalAmount" class="showPrompt">
+                      Discount has been applied to the following order(s). Please go to My CJ > Dropshipping Orders to view details.
+                    </p>
+                    <div class="triangle" ng-show="showTotalAmount"></div>
+                  </div>
+                </th>
+                <!-- <th style="width: 110px;">Action</th> -->
+              </tr>
+            </thead>
+            <tbody ng-repeat="alist in awaitpayList">
+              <tr class="blank-tr">
+                <td colspan="18"></td>
+              </tr>
+              <tr class="order-detail">
+                <td id="cj-zdord-num" class="order-time">
+                  <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                  <p class="dord-date-time" style="display: none;" ng-cloak>{{alist.ID}}</p>
+                  <p ng-cloak>
+                    <copy-ordnum ordnum="alist.ID" parmas="alist" stuindex="0"></copy-ordnum>
+                  </p>
+                </td>
+                <td ng-cloak>
+                  <p>{{ alist.CREATED_AT.time | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+                  <p>{{ alist.createDate.time | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+                </td>
+                <td ng-cloak>
+                  {{alist.STORE_NAME}}
+                </td>
+                <td class="zi-order-num" ng-cloak>
+                  <copy-ordnum ordnum="alist.ORDER_NUMBER" parmas="alist" stuindex="0"></copy-ordnum>
+                  <!-- <div ng-mouseenter="copyFlag = true;" ng-mouseleave="copyFlag = false;">
+                    <div ng-show="copyFlag">
+                      <button ng-click="copyFun()" class="copy-btn">Copy</button>
+                    </div>
+                    <a ng-click="hrefLinkFun(alist)" href="javascript:void(0)">{{alist.ORDER_NUMBER}}</a>
+                  </div> -->
+                </td>
+                <td class="shipping-info">
+
+                  <p title="{{alist.CUSTOMER_NAME}}" class="buyer-name" ng-cloak>{{alist.CUSTOMER_NAME}}</p>
+                  <p title="{{alist.SHIPPING_ADDRESS}}" class="detail-adress" ng-cloak>{{alist.SHIPPING_ADDRESS}}</p>
+                  <p title="{{alist.shippingAddress2}}" class="post-code" ng-cloak>{{alist.shippingAddress2}}</p>
+                  <p class="buyer-adress"
+                    title="{{alist.CITY}} {{alist.PROVINCE}} {{alist.ZIP}} {{alist.COUNTRY_CODE}}">
+                    <span ng-cloak>{{alist.CITY}}</span>
+                    <span class="post-code" ng-cloak>{{alist.PROVINCE}}</span>
+                    <span class="post-code" ng-cloak>{{alist.ZIP}}</span>
+                    <span ng-cloak>{{alist.COUNTRY_CODE}}</span>
+
+                  </p>
+
+                  <p class="phone-num" ng-cloak>{{alist.PHONE}}</p>
+                  <p ng-if="alist.taxidExtend" title="{{alist.taxidExtend}}" class="taixd-text" ng-cloak>Tax ID:
+                    {{alist.taxidExtend}}</p>
+                </td>
+                <td>
+                  <p class="price-num" ng-cloak>{{alist.LOGISTIC_NAME}}</p>
+                </td>
+                <td ng-cloak>
+	                {{alist.POSTAGE}}USD
+	                <tips ng-show="alist.isContainPack === 1" content="'Including $'+ alist.packPrice.toFixed(2) +' for customized package'"
+                        width="'250'"
+                        placement="'bottomRight'">
+	                </tips>
+                </td>
+                <td ng-cloak>{{alist.ORDER_QUANTITY}}</td>
+                <td>
+                  <p class="price-num">{{alist.couponOrderAmount ? alist.couponOrderAmount : alist.ORDER_AMOUNT}}USD</p>
+                </td>
+                <td>
+                  <p class="price-num">{{alist.couponAmount ? alist.couponAmount : alist.AMOUNT}}USD</p>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+          <div ng-hide="zdataFound" class="not-found-data1">
+            <img src="static/image/public-img/nodata.png">
+          </div>
+          <!-- 分页 -->
+          <page ng-show="awaitpayList.length > 0"></page>
+          <!-- <div class="zdcl-pages-db second-page" ng-show="awaitpayList.length>0">
+            <select id="await-zsel" class="select-page-num select-page-num2">
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <span class="per-page">per page</span>
+            <span class="all-num-line">{{zcountNum}}</span>
+            <span class="per-page">records found</span>
+            <ul class="pagination pagination-demo2"></ul>
+            <span class="per-page showing-tex">showing:</span>
+            <input id="z-inp-val" class="inp-num-go"></input>
+            <span class="per-page">of</span>
+            <span id="z-search-btn" class="jump-btn">go</span>
+          </div> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- 是否删除订单 -->
+<div class="confirm-box" ng-show="deleteFlag">
+  <div class="confirm-main">
+    <div class="confirm-content">
+      Are you sure to move this orders to Canceled?
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="deleteFlag=false" class="no-btn">Cancel</span>
+      <span ng-click="deleteSureFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>

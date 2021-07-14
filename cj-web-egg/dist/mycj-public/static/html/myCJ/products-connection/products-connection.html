@@ -1,0 +1,138 @@
+<div class="PC-wrap">
+	<div class="top-taps clearfix">
+		<ul>
+
+            <li class="active pend-connect"><a href="#/products-connection/pending-connection">Automatic Connection</a></li>
+            <li class="pend-connect"><a href="#/products-connection/sourcing-connection">Sourcing Connection</a></li>
+            <li class="connect"><a href="#/products-connection/connected">Connected</a></li>
+			<li class="connect"><a href="#/products-connection/SKUlist">SKU List</a></li>
+            <li class="connect"><a href="#/products-connection/privategoods">Private Goods</a></li>
+            <li class="connect"><a href="#/products-connection/history">History</a></li>
+		</ul>
+	</div>
+	<div class="PC-con">
+		<div ng-include="conSrc"></div>
+	</div>
+</div>
+<!--关联商品弹窗弹窗-->
+<div  id="product-connection" ng-show="tanchuang">
+    <div id="tanchuang-wrap">
+    <div class="xiala" >
+        <span>SHIPPING METHOD </span><div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#">1</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#">2</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#">3</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#">4</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+
+    <div class="pro-title">Products Connection</div>
+    <p class="connect-warn">You have to connect your store product with CJ existing one, then CJ platform will sync orders from your store.</p>
+    <div class="pend-connect-items">
+        <div class="product-item product-item-shop">
+          <div class="item-heading item-heading-left">Your Store Product</div>
+          <div class="item-body  item-body-left" style="cursor: pointer;" ng-repeat="(index1,item) in shopList" ng-click="firstclick($event,index1,item)" ng-class="first?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+            <div class="item-img">
+                <img ng-src="{{item.image}}" alt="">
+                <!--<img src="./static/image/home/pic1.png" alt="">-->
+            </div>
+            <div class="item-info">{{item.title}} <span>(Black）</span></div>
+              <div class="item-color">Black</div>
+              <div  class="item-color">S</div>
+            <div class="item-price">USD {{item.price}}</div>
+          </div>
+        </div>
+        <div class="connect-icon"><div class="item-body-middle" ng-repeat="(index3,item) in CJList" ng-show="arr.length>$index"><img src="./static/image/page/connecteds.png" alt="" ng-click="Unlink(index3)" ></div></div>
+        <div class="product-item  product-item-CJ" >
+          <div class="item-heading item-heading-right">CJ  Product</div>
+          <div class="item-body item-body-right" style="cursor: pointer;" ng-repeat="(index2,item) in CJList" ng-click="lastclick($event,index2,item)" ng-class="last?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+            <div class="item-img">
+                <img ng-src="{{item.IMG}}" alt="">
+                <!--<img src="./static/image/home/pic1.png" alt="">-->
+            </div>
+            <div class="item-info">{{item.NAMEEN}} <span>(Black）</span></div>
+              <div class="item-color">Black</div>
+              <div class="item-color">S</div>
+            <div class="item-price">USD {{item.SELLPRICE}}</div>
+          </div>
+        </div>
+        
+
+    </div>
+        <div class="tanchuangbtn">
+            <button class="tanchuangbtn1" style="cursor: pointer;" ng-click="closetanchuang()">Cancel</button>
+            <button class="tanchuangbtn2" style="cursor: pointer;" ng-click="goon()">Confirm</button>
+        </div>
+    </div>
+</div>
+<!--搜品弹窗-->
+<div  id="sourcing-connection" ng-show="sourcetanchuang">
+    <div id="sourcing-tanchuang-wrap">
+        <div class="xiala" >
+            <span>SHIPPING METHOD </span><div class="dropdown">
+            <button type="button" class="btn dropdown-toggle" style="cursor: pointer;" id="dropdownMenu2" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">1</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">2</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">3</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">4</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+
+        <div class="pro-title">Products Connection</div>
+        <p class="connect-warn">You have to connect your store product with CJ existing one, then CJ platform will sync orders from your store.</p>
+        <div class="pend-connect-items">
+            <div class="product-item">
+                <div class="item-heading">Sourcing Product</div>
+                <div class="item-body  item-body-left" style="cursor: pointer;" ng-repeat="item in sourcetccjlist" ng-click="firstclick($event,$index,item)" ng-class="first?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+                    <div class="item-img"><img ng-src="{{item.img}}" alt=""></div>
+                    <div class="item-info">{{item.NAME}} <span>(Black）</span></div>
+                    <div class="item-color">Black</div>
+                    <div  class="item-color">S</div>
+                    <div class="item-price">USD {{item.SELLPRICE}}</div>
+                </div>
+            </div>
+            <div class="connect-icon"><div class="item-body-middle" ng-repeat="item in sourcetccjlist" ng-show="arr.length>$index"><img src="./static/image/page/connecteds.png" alt=""  ></div></div>
+            <div class="product-item" >
+                <div class="item-heading">Your Store Product</div>
+                <div class="item-body item-body-right" style="cursor: pointer;" ng-repeat="item in sourcetcshoplist" ng-click="lastclick($event,$index,item)" ng-class="last?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+                    <div class="item-img"><img ng-src="{{item.IMG}}" alt=""></div>
+                    <div class="item-info">{{item.name}} <span>(Black）</span></div>
+                    <div class="item-color">Black</div>
+                    <div class="item-color">S</div>
+                    <div class="item-price">USD {{item.price}}</div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="tanchuangbtn">
+            <button class="tanchuangbtn1" style="cursor: pointer;" ng-click="closesourcetanchuang()">Cancel</button>
+            <button class="tanchuangbtn2" style="cursor: pointer;" ng-click="sourcegoon()">Confirm</button>
+        </div>
+    </div>
+</div>

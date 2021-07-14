@@ -1,0 +1,59 @@
+<!-- head 标签中通用部分 -s- -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/reset-css-5.0.1/reset.css">
+<link rel="stylesheet" href="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/normalize.css-8.0.1/normalize.css">
+<link rel="stylesheet" href="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/bootstrap-4.4.1/bootstrap.min.css">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/global.css' | VERSION }}">
+<!--PWA server-work离线缓存-->
+<link rel="manifest" href="/manifest.json" />
+<script src="/serverWork.js"></script>
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_8xfrfpn0il4.css">
+{% if EGG_ENV_DEV %}
+<script src="{{ PUBLIC_LIBS }}/i18next-19.4.5/i18next.js"></script>
+<script src="{{ PUBLIC_LIBS }}/jquery-3.4.1/jquery.js"></script>
+<script src="{{ PUBLIC_LIBS }}/vue-2.6.11/vue.js"></script>
+{% else %}
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/i18next-19.4.5/i18next.min.js"></script>
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/jquery-3.4.1/jquery.min.js"></script>
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/vue-2.6.11/vue.min.js"></script>
+{% endif %}
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/layer/layer.js"></script>
+<script>
+  window.LNG = `{{ translation | safe }}`
+  window.categoryList = `{{ categoryList | safe }}`
+</script>
+
+<!-- // skyWalking 监控-->
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/skyWalking.js"></script>
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/skyWalking/init.js"></script>
+
+<!-- lottie -->
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/lottie/lottie.js"></script>
+
+<script src="{{ PUBLIC_SCRIPT + '/global.js' | VERSION }}"></script>
+<script src="{{ PUBLIC_SCRIPT + '/cjTool.js' | VERSION }}"></script>
+<script>
+  // 将一些模板变量抛给 js
+  const PUBLIC = '{{ PUBLIC }}';
+  const PUBLIC_LIBS = '{{ PUBLIC_LIBS }}';
+  const PUBLIC_IMG = '{{ PUBLIC_IMG }}';
+  const PUBLIC_SCRIPT = '{{ PUBLIC_SCRIPT }}';
+  const PUBLIC_STYLE = '{{ PUBLIC_STYLE }}';
+
+  // egg 环境变量
+  const EGG_ENV = '{{ EGG_ENV }}';
+  const EGG_ENV_DEV = '{{ EGG_ENV_DEV }}';
+
+  const IS_PROD = "{{ IS_PROD }}"
+</script>
+
+<!-- google oneOne Tap sign-in -->
+<script async src="https://accounts.google.com/gsi/client"></script>
+<!-- google oneOne Tap sign-in -->
+<script src="/static/js/public/commonScriptImport.js"></script>
+
+{% include "../snippet/prodEffect.njk" %}
+<!-- head 标签中通用部分 -e- -->

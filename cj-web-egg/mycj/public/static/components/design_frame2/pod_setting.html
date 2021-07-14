@@ -1,0 +1,149 @@
+<div class="asj-mycj-lyaer-wrap" ng-show="showPodSetting">
+    <div class="asj-mycj-lyaer podset-box" ng-class="{vip:isVip}">
+        <div class="podset-top">
+            <div class="podset-title">
+                <span>POD Setting</span>
+                <i class="iconfont iconreviewclose closeIcon" ng-click="handleClose()"></i>
+            </div>
+            <div class="pod-setting">
+                <div>
+                    <span class="label">POD</span>
+                    <div class="updateBox">
+                        <i class="iconfont icongengxin1 updateIcon"></i>
+                        <div class="updateText">
+                            <div class="updateTitle">Update POD Feature</div>
+                            <p class="content">The POD feature will be updated after your store Re-authorized to CJ.</p>
+                            <button class="updateBtn" ng-click="handleReauthorize()">Reauthorize</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding-top: 20px;">
+                    <div id="podSwitch" class="podSwitch" ng-class="{'openFlag': openFlag}">
+                        <div class="podSwitchCircle" ng-click="handleSwitch()"></div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="switchOpenBox" ng-show="openFlag">
+            <div class="podset-main">
+                <div>
+                    <div class="podset-main-tips">
+                        <h3 class="podTitle">Language</h3>
+                        <p class="txt">The above languages are available currently. If you have other needs, please contact our agents.</p>
+                        <ul class="podset-choose-list">
+                            <li class="podset-choose-item" ng-repeat="item in languageList" ng-click="chooseLanguage(item)">
+                                <i class="iconfont iconicon checked" ng-show="item==podObj.language"></i>
+                                <i class="iconfont iconzizhanghuweixuanzhong notChecked" ng-show="item!=podObj.language"></i>
+                                <span class="itemName">{{item}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3 class="podTitle btnBox">Button</h3>
+                    <div class="podset-btn-box">
+                        
+                        <div class="podset-btn" ng-style="{width:podObj.width+'%',height:podObj.height,'line-height':podObj.height-podObj.frameSize*2+'px','background-color':podObj.backColor,color:podObj.textColor,'font-size':podObj.textSize+'px','border-width':podObj.frameSize+'px','border-color':podObj.frameColor,'border-radius':podObj.fillet+podObj.filletUnit,'margin':podObj.margin}">
+                            Design
+                        </div>
+                    </div>
+                    <ul class="podset-set-list">
+                        <li class="podset-set-item ui-px">
+                            <label class="item-label">Frame Size:</label>
+                            <div class="item-box">
+                                <input type="text" maxlength="3" ng-model="podObj.frameSize" ng-change="frameSizeChange()" class="input">
+                            </div>
+                        </li>
+                        <li class="podset-set-item ui-select1">
+                            <label class="item-label">Frame Color:</label>
+                            <div class="item-box">
+                                <span class="item-color" ng-style="{'background-color':podObj.frameColor}"></span>
+                                <input type="color" class="input-color" ng-model="podObj.frameColor" >
+                            </div>
+                        </li>
+                        <li class="podset-set-item ui-percent">
+                            <label class="item-label">Width:</label>
+                            <div class="item-box">
+                                <input type="text" maxlength="3" ng-model="podObj.width" ng-change="widthChange()" class="input">
+                            </div>
+                        </li>
+                        <li class="podset-set-item ui-percent">
+                            <label class="item-label">Height:</label>
+                            <div class="item-box">
+                                <input type="text" maxlength="3" ng-change="heightChange()" ng-model="podObj.height" class="input">
+                            </div>
+                        </li>
+                        <li class="podset-set-item">
+                            <label class="item-label">Fillet:</label>
+                            <div class="item-box">
+                                <div class="item-main ui-px" ng-class="{'ui-px':podObj.filletUnit=='px','ui-percent':podObj.filletUnit=='%'}">
+                                    <input type="text" maxlength="3" ng-model="podObj.fillet" ng-change="filletChange()" class="input">
+                                </div>
+                                <div class="item-choose" ng-click="unitShow=true">
+                                    <i class="iconfont">&#xe616;</i>
+                                </div>
+                                <ul class="item-choose-list" ng-show="unitShow">
+                                    <li class="item-choose-item" ng-repeat="item in unitList" ng-click="chooseUnit(item)" ng-class="{active:item==podObj.filletUnit}">
+                                        <i class="iconfont">{{item}}</i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="podset-set-item ui-px">
+                            <label class="item-label">Text Size:</label>
+                            <div class="item-box">
+                                <input type="text" maxlength="3" ng-change="textSizeChange()" ng-blur="textSizeblur()" ng-model="podObj.textSize" class="input">
+                            </div>
+                        </li>
+                        <li class="podset-set-item ui-select1">
+                            <label class="item-label">Background Color:</label>
+                            <div class="item-box">
+                                <span class="item-color" ng-style="{'background-color':podObj.backColor}"></span>
+                                <input type="color" ng-model="podObj.backColor" class="input-color">
+                            </div>
+                        </li>
+                        <li class="podset-set-item ui-select1">
+                            <label class="item-label">Text Color:</label>
+                            <div class="item-box">
+                                <span class="item-color" ng-style="{'background-color':podObj.textColor}"></span>
+                                <input type="color" ng-model="podObj.textColor" class="input-color">
+                            </div>
+                        </li>
+                        <li class="podset-set-item">
+                            <label class="item-label">Margin:</label>
+                            <div class="item-box">
+                                <span class="item-name">{{marginObj.name}}</span>
+                                <div class="item-choose" ng-click="marginObj.show=true">
+                                    <i class="iconfont">&#xe616;</i>
+                                </div>
+                                <ul class="item-choose-list" ng-show="marginObj.show">
+                                    <li class="item-choose-item" ng-repeat="item in marginList" ng-class="{active:marginObj.name==item.name}" ng-click="changeMargin(item)">{{item.name}}</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="podset-btn-group">
+                <button class="ui-btn cancelBtn" ng-click="handleClose()">Cancel</button>
+                <button class="ui-btn confirmBtn" ng-click="comfirmFun()">Confirm</button>
+            </div>
+        </div>
+        <div class="switchOpenBox" ng-show="!openFlag">
+            <div class="podset-btn-group noShadow">
+                <button class="ui-btn cancelBtn" ng-click="handleClose()">Cancel</button>
+            </div>
+        </div>
+        
+
+    </div>
+    <div id="isCJPub" ng-show="addPODFail" ng-cloak>
+        <div class="new-operate-fail">
+          <span class="close" ng-click="addPODFail=false;">
+            <i class="iconfont">&#xe70d;</i>
+          </span>
+          <h3><span class="icon">!</span>Added failed</h3>
+          <p>The POD feature will be activated after your store Re-authorized to CJ. </p>
+          <button class="btn1" ng-click="ReauthAfterAddFail()">Reauthorize</button>
+        </div>
+      </div>
+</div>

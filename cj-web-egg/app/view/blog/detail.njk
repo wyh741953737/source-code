@@ -1,0 +1,77 @@
+{% extends "layout/base.njk" %}
+
+{% block title %}
+<title>{{ detail.title }}</title>
+<meta name="description" content="The latest knowledge, news, courses of Dropshipping from worldwide to worldwide. Powered by CJdropshipping.">
+
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{{ detail.coverUrl }}" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+
+<!-- twitter share card -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:domain" content="cjdropshipping.com" />
+<meta name="twitter:title" property="og:title" itemprop="name"
+  content="{{ detail.title }}" />
+<meta name="twitter:description" property="og:description" itemprop="description"
+  content="The latest knowledge, news, courses of Dropshipping from worldwide to worldwide. Powered by CJdropshipping." />
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/blog.css' | VERSION }}">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "snippet/common-top.njk" %}
+<div class="blog detail">
+  <!-- m站 app访问时不生成html-->
+  {% if openFrom == "normal" %}
+  <div class="m-tit">
+    <a href="{{url}}" class="back iconfont">&#xe6db;</a>
+    cjdropshipping
+  </div>
+  {% endif %}
+
+  <div class="_box">
+    <div class="asj-back-to">
+      <a href="{{ fromUrl }}" class="ghost-btn">&lt; Back</a>
+    </div>
+
+    <div class="container-con">
+      <p class="tit">{{ detail.title }}</p>
+      <p class="createAt">
+        <span>Create Date: {{ detail.createAt }}</span>
+        <span class="lastEdited">Last Edited: {{ detail.updateAt }}</span>
+      </p>
+
+      <div class="editor-html">{{ detail.content | safe }}</div>
+
+
+      {% if detail.downloadFiles.length > 0 %}
+      <div class="files-box">
+        <span class="files-download">Files Download: </span>
+
+        {% for item in detail.downloadFiles %}
+        <a href="{{ item.url }}" class="download" download>{{ item.name }}</a>
+        {% else %}
+        <span>empty</span>
+        {% endfor %}
+
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+<!-- 相关链接 -->
+{% include "../snippet/home/related-links.njk" %}
+
+<script src="{{ PUBLIC_SCRIPT + '/blog.js' | VERSION }}"></script>
+{% endblock %}

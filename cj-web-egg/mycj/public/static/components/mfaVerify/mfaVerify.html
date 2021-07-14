@@ -1,0 +1,89 @@
+<div class="mfa-bind-wrap">
+    <div class="mfa-bind-main" >
+
+
+        <!--上-start-->
+        <div class="mfa-bind-header">
+            <div class="title">
+                {{vm.shortTitle}}
+            </div>
+            <div class="short-desc">
+                {{vm.shortDescPrefix}}<span id="user">{{user}}</span>{{vm.shortDescSuffix}}
+            </div>
+            <div ng-if="vm.showQrFlag" class="tip">
+                Please use <span class="anchor" ng-mouseenter="isEntered()"
+                                 ng-mouseleave="isLeaved()">Google Authenticator</span>
+                app to scan the QR code and enter 6-digit code.
+                <div class="qr-code-block-wrapper"  ng-if="downloadQrCodeFlag" ng-style="{'top':mainStyle}">
+                    <div class="triangle-top"></div>
+                    <div class="qr-code-block">
+                        <div class="qr-code-item">
+                            <div class="qr-code">
+                                <img class="qr-code-image" src="../static/image/authorize/android.png"/>
+                            </div>
+                            <span>Android Download</span>
+                        </div>
+                        <div class="qr-code-item">
+                            <div class="qr-code">
+                                <img class="qr-code-image" src="../static/image/authorize/ios.png"/>
+                            </div>
+                            <span>IOS Download</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--上-end-->
+        <!--中-start-->
+        <div class="mfa-bind-content">
+            <div class="{{qrBlockClass}}"><img src="{{qrCode}}" class="{{qrClass}}"/></div>
+            <div ng-if="vm.showQrFlag" class="secret">
+                <span>Secret:&nbsp</span>
+                <span class="secret-code" id="secret-code">{{secretKey}}</span>
+                <div class="copyButton" data-clipboard-target="#secret-code">
+                    <img src="../static/image/authorize/copy.png" class="copyIcon"/>
+                </div>
+            </div>
+            <div ng-if="!vm.showQrFlag" class="tip-authorize">
+                Please go to <span class="anchor" ng-mouseenter="isEntered(1)"
+                                 ng-mouseleave="isLeaved(1)">Google Authenticator</span>
+                app and enter 6-digit code.
+                <div class="qr-code-block-wrapper"  ng-if="downloadQrCodeFlag" >
+                    <div class="triangle-top-authorize"></div>
+                    <div class="qr-code-block">
+                        <div class="qr-code-item">
+                            <div class="qr-code">
+                                <img class="qr-code-image" src="../static/image/authorize/android.png"/>
+                            </div>
+                            <span>Android Download</span>
+                        </div>
+                        <div class="qr-code-item">
+                            <div class="qr-code">
+                                <img class="qr-code-image" src="../static/image/authorize/ios.png"/>
+                            </div>
+                            <span>IOS Download</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--中--end-->
+        <!--下--start-->
+        <div class="mfa-bind-footer">
+            <div class="input-block">
+                <input  class="auth-code" ng-class="{'border-color': matchError}" ng-model="auth_code" type="tel" placeholder="Please enter the code"
+                       maxlength="6" ng-keypress="keyDown($event)" ng-change="isNumber()"/>
+                <div  style="margin-top: 10px;"><span ng-cloak ng-show="matchError" class="error-prompt">The code does not match.</span></div>
+            </div>
+            <div class='next-button' ng-style="{'margin-top':nextButtonStyle}" ng-click="linkNow()">{{vm.buttonName}}</div>
+            <div ng-if="!vm.showQrFlag" class="contact-line">If you cannot offer the MFA code,<span ng-click="goToContact()" class="contact-link"> please
+                    contact CJ agents for help.</span></div>
+        </div>
+        <!--下--end-->
+
+        <div ng-click="backFronter()">
+            <a href="javascript:void(0);" class="returnBtn"></a>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,742 @@
+<style>
+  .online-wrap {
+    position: absolute;
+    top: 181px;
+    left: 1px;
+  }
+
+  p.online-content {
+    width: 178px;
+    height: 44px;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 1px 2000px;
+  }
+
+  .img1 {
+    position: absolute;
+    top: 26px;
+    left: 220px;
+  }
+
+  .img2 {
+    position: absolute;
+    top: 80px;
+    left: 245px;
+  }
+
+  .img3 {
+    position: absolute;
+    top: -10px;
+    left: 190px;
+  }
+
+  p.online-notice {
+    width: 600px;
+    color: #fff;
+    position: absolute;
+    top: 145px;
+    left: 300px;
+  }
+
+  p.know {
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 50px;
+    width: 100px;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    top: 210px;
+    left: -190px;
+    cursor: pointer;
+  }
+
+  .clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  .seachExport {
+    overflow: initial !important;
+  }
+
+  .TrackingInfo {
+    float: right;
+    font-size: 14px;
+    line-height: 30px;
+    position: relative;
+  }
+
+  .TrackingInfo label {
+    cursor: pointer;
+  }
+
+  .TrackingInfo label b {
+    cursor: default;
+  }
+
+  .TrackingInfo label input {
+    vertical-align: middle;
+    margin: -2px 5px 1px 5px;
+    cursor: pointer;
+  }
+
+  .TrackingInfo .fausebox1,
+  .TrackingInfo .fausebox2 {
+    width: 500px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+  }
+
+  .TrackingInfo .fausebox1:after,
+  .TrackingInfo .fausebox2:after {
+    content: '';
+    border-color: #40424C #fff #fff #fff;
+    border-style: solid;
+    border-width: 8px 6px 0 6px;
+    height: 0;
+    width: 0;
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  .TrackingInfo .fausebox2:after {
+    position: absolute;
+    left: 481px;
+    bottom: -8px;
+  }
+
+  .TrackingInfo .fausebox1:after {
+    position: absolute;
+    left: 257px;
+    bottom: -8px;
+  }
+
+  .TrackingInfo .fausebox1 {
+    position: absolute;
+    right: 0;
+    top: -54px;
+  }
+
+  .TrackingInfo .fausebox2 {
+    position: absolute;
+    right: 0;
+    top: -54px;
+  }
+
+  .seachExport {
+    overflow: initial;
+  }
+
+  .no-btn {
+    background: #ececec;
+    border-color: #ececec !important;
+    position: relative;
+  }
+
+  .d-direct-right.vip tbody .order-detail .subpay-td .no-btn:hover {
+    background: #ececec !important;
+    border-color: #ececec !important;
+    cursor: default;
+  }
+
+  .no-btn .fausebox {
+    position: absolute;
+    width: 200px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    white-space: initial;
+    left: -40px;
+    top: 37px;
+    z-index: 10;
+  }
+  .btn-theme3-disabled{
+    position: relative;
+  }
+  .btn-theme3-disabled .fausebox {
+    position: absolute;
+    width: 300px;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    white-space: initial;
+    left: -40px;
+    top: 37px;
+    z-index: 10;
+  }
+  .btn-theme3-disabled .fausebox:after {
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 0px 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent #40424C;
+    top: -8px;
+    left: 90px;
+  }
+  .no-btn .fausebox:after {
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 0px 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent #40424C;
+    top: -8px;
+    left: 90px;
+  }
+  .pay-link {
+    position: relative;
+  }
+  .pay-link .fausebox {
+    position: absolute;
+    width: 270px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    white-space: initial;
+    left: -40px;
+    top: 37px;
+    z-index: 10;
+  } 
+  .pay-link .fausebox:after {
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 0px 8px 8px;
+    border-style: solid;
+    border-color: transparent transparent #40424C;
+    top: -8px;
+    left: 90px;
+  }
+
+  .bzsp-color {
+    color: #ec971f;
+  }
+
+  .line-through {
+    text-decoration: line-through;
+  }
+</style>
+<div class="content drop-await-payment">
+  <!-- 新老版本切换 -->
+  <version-control></version-control>
+  <div class="mycj-home-box drop-ord-wrap">
+    <!-- 右边部分 -->
+    <div class="d-direct-right p-3">
+      <!-- 导航 -->
+      <ul class="top-taps">
+        <li class="tab-theme drop" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">{{'('+awaitNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==1">{{'('+dropprocessNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+dropprocessedNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==3">{{'('+completeNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==4">{{'('+closedNum+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <!-- 代发订单对应的订单状态导航对应的页面 -->
+      <!-- 代发订单的处理部分 待付款-->
+      <div class="dropshippingStatus-nav">
+        <!-- 订单的处理部分 待付款-->
+        <div class="deal-orders clearfix">
+          <ul class="dealorder-ul">
+            <!-- 订单搜索 导出部分 -->
+            <li class="seachExport clearfix">
+              <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="From" ></input>
+              <span class="line">-</span>
+              <input id="cj-etime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="Now"></input>
+
+              <input class="ord-search-inp" placeholder="Enter Order Number"></input><span ng-click="searchOrdNumFun()"
+                class="search-btn btn-theme" href="javascript:void(0)" cjdot cjdotshow='{"eventType": 2}'>Search</span>
+              <div class="TrackingInfo clearfix">
+                <div class="fausebox1" ng-show="isFause1">
+                  The tracking numbers will be synced into your stores BEFORE orders dispatched.
+                </div>
+                <div class="fausebox2" ng-show="isFause2">
+                  The tracking numbers will be synced into your stores AFTER orders dispatched.
+                </div>
+                <span>Uploading tracking numbers:</span>
+                <label>
+                  <input name="LevelsRadio" type="radio" value="0" ng-model="fulfillmentStatus"
+                    class="ng-pristine ng-untouched ng-valid ng-not-empty" ng-change="TrackingInfoChange()">
+                  Sync Before Dispatching
+                  <b style="color:#ff8d31; cursor: pointer;" class="iconfont" ng-mouseleave="isFause1 = false;"
+                    ng-mouseenter="isFause1 = true;">&#xe626;</b>
+                </label>
+                <label style="margin-left: 15px;">
+                  <input name="LevelsRadio" type="radio" value="1" ng-model="fulfillmentStatus"
+                    class="ng-pristine ng-untouched ng-valid ng-not-empty" ng-change="TrackingInfoChange()">
+                  Sync After Dispatching
+                  <b style="color:#ff8d31; cursor: pointer;" class="iconfont" ng-mouseleave="isFause2 = false;"
+                    ng-mouseenter="isFause2 = true;">&#xe626;</b>
+                </label>
+              </div>
+            </li>
+            <!-- 分页 -->
+          </ul>
+          <!-- 订单的表格部分 -->
+          <div class="orders-list">
+            <table class="orders-table" id="await-table">
+              <thead>
+                <tr>
+                  <th class="check-th" style="width: 160px;text-align: left;">
+                    <img class="zchecked-all" style="margin-left:12px;" src="static/image/direct-orders/multiple1.png">
+                    <span>Bulk {{websiteName}} Order Number</span>
+                  </th>
+                  <th style="width: 108px;">
+                    <p>System Time</p>
+                  </th>
+                  <th style="width: 240px;">
+                    Order Quantity
+                  </th>
+                  <!-- <th style="width: 120px;">Quantity</th>  -->
+                  <th style="width: 228px;">
+                    <p>Grand Total</p>
+                    <p>(Purchased)</p>
+                  </th>
+                  <th style="width: 246px;">Status</th>
+                  <th style="width: 390px;">Action</th>
+                </tr>
+              </thead>
+              <tbody class="cjdrop-await-pay" ng-repeat="awaitpay in cjdropawaitpList">
+                <tr class="blank-tr">
+                  <td colspan="16"></td>
+                </tr>
+                <!-- <tr class="select-tr">
+									<td colspan="16"></td>
+								</tr> -->
+                <tr class="order-detail">
+                  <td id="cj-dord-num" class="order-time d-flex align-items-center" style="padding:0;">
+                    <img class="product-checked zcheckbox" style="position: unset;transform: none;margin-left:12px;margin-right:3px;" src="static/image/direct-orders/multiple1.png">
+                    <!-- <p class="dord-date-time" ng-cloak>{{awaitpay.date}}</p> -->
+                    <p class="dord-date-time">{{awaitpay.ID}}</p>
+                  </td>
+                  <td ng-cloak>
+                    <p>{{awaitpay.date}}</p>
+                  </td>
+                  <td ng-click="ziordFun(awaitpay)" class="await-mu-quantity">
+                    <p class="cj-order-num" ng-cloak>{{awaitpay.ORDERNUMBER}}</p>
+                    <!-- <img title="custome message" src="static/image/public-img/iconnote.png"> -->
+                  </td>
+                  <!-- <td ng-cloak>
+										
+									</td> -->
+                  <td class="allMoney-td">
+                    <p class="awa-money-p" ng-if="awaitpay.ORDERMONEYReality"
+                      ng-class="{'line-throu':(awaitpay.ORDERMONEY!=awaitpay.ORDERMONEYReality)||(awaitpay.serverPrice!=0)}"
+                      ng-cloak>{{awaitpay.ORDERMONEYReality}}</span>USD</p>
+                    <p class="awa-money-p green"
+                      ng-if="(awaitpay.ORDERMONEYReality&&awaitpay.ORDERMONEY!=awaitpay.ORDERMONEYReality)||(awaitpay.serverPrice!=0)">
+                      <span class="awa-muord-money" ng-cloak>{{awaitpay.ORDERMONEY}}</span>USD
+                    </p>
+                    <p class="awa-money-p" ng-if="!awaitpay.ORDERMONEYReality"><span class="awa-muord-money"
+                        ng-cloak>{{awaitpay.ORDERMONEY}}</span>USD</p>
+                  </td>
+                  <td class="orderStatus-td">
+                    
+                    <p ng-if="awaitpay.STATUS=='3'">
+                      Awaiting Payment
+                      <tips ng-show="awaitpay.paymentSign == '1'" content="'Your payment transaction failed. Please check it and try again.'"
+                          width="'266'"
+                          placement="'bottomRight'">
+                      </tips>
+                    </p>
+                    <p ng-if="awaitpay.STATUS=='4'">Payment is being processed.</p>
+                  </td>
+                  <td class="subpay-td" style="overflow: initial;">
+
+                    <!-- <a class="viewSub-orders beforpay-wiewsub" href="javascript:void(0)">View Sub-Orders</a> -->
+                    <a
+                      ng-if="awaitpay.STATUS=='3'"
+                      ng-click="countryTipFun(awaitpay,$index)"
+                      class="pay-link btn-theme"
+                      ng-mouseenter="payLinkTip = true;"
+                      ng-mouseleave="payLinkTip = false;"
+                      cjstat
+                      cjstatshow='{"pageCode":"myCJ", "eventType": 1, "buttonName": "Pay"}'
+                    >
+                      Pay
+                      <div class="fausebox" ng-show="payLinkTip">
+                        Note: Payment process has been upgraded. 
+                      </div>
+                    </a>
+                    <!-- <a ng-if="awaitpay.STATUS=='3' && awaitpay.ORDERMONEYReality == awaitpay.ORDERMONEY"
+                      ng-click="deletMuFun(awaitpay)" class="dh-dele-btn" href="javascript:void(0)">Delete</a> -->
+                    <a ng-if="awaitpay.STATUS=='3' && awaitpay.ORDERMONEYReality == awaitpay.ORDERMONEY"
+                    ng-mouseenter="disableTip = true;" ng-mouseleave="disableTip = false;"
+                    class="btn-theme3 btn-theme3-disabled" href="javascript:void(0)">
+                      Delete
+                      <div class="fausebox" ng-show="disableTip">
+                        Inventory locked.<br/>
+                        The order cannot be deleted here. Please go to the Fresh Version to cancel it.
+                      </div>
+                    </a>
+                    <a ng-if="awaitpay.STATUS=='3' && awaitpay.ORDERMONEYReality != awaitpay.ORDERMONEY"
+                      ng-mouseenter="isfausebox = true;" ng-mouseleave="isfausebox = false;" class="dh-dele-btn no-btn"
+                      href="javascript:void(0)">
+                      Delete
+                      <b style="color:#ff8d31; font-size: 12px;" class="iconfont">&#xe626;</b>
+                      <div class="fausebox" ng-show="isfausebox">
+                        The price of this bulk order has been revised so it cannot be deleted, or you can ask your agent
+                        for help.
+                      </div>
+                    </a>
+                    <a ng-if="awaitpay.STATUS=='4'" class="btn-theme3 btn-theme3-disabled">Pay</a>
+                    <a ng-if="awaitpay.STATUS=='4'" class="btn-theme3 btn-theme3-disabled" href="javascript:void(0)">
+                      Delete
+
+                    </a>
+
+                    <!-- ng-click="invoiceFun(awaitpay.ID)" -->
+                    <!--<a class="dh-dele-btn" target="_blank" href="{{'invoice.html?id='+awaitpay.ID}}">View Invoice</a>-->
+                    <a class="dh-dele-btn" ng-hide="isHideInvoiceFlag" ng-click="invoiceFun(awaitpay.ID)">View Invoice</a>
+                    <a class="export-btn btn-theme2" ng-click="exportOrder(awaitpay)">Export order</a>
+                    <span style="display: none;" class="await-ord-num" ng-cloak>{{awaitpay.ID}}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div ng-hide="dataFound" class="not-found-data1">
+              <img src="static/image/public-img/nodata.png">
+            </div>
+            <!-- 分页 -->
+            <page ng-show="cjdropawaitpList.length > 0"></page>
+            <!-- <div class="zdcl-pages-db second-page" ng-show="cjdropawaitpList.length>0">
+              <select id="drop-sel-num" class="select-page-num select-page-num2">
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <span class="per-page">per page</span>
+              <span class="all-num-line">{{erpordTnum}}</span>
+              <span class="per-page">records found</span>
+              <ul class="pagination pagination-demo1"></ul>
+              <span class="per-page showing-tex">showing:</span>
+              <input id="await-mu-inp" class="inp-num-go inp-num-go2"></input>
+              <span class="per-page">of</span>
+              <span id="await-mu-go" class="jump-btn jump-btn2">go</span>
+            </div> -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 是否删除母订单 -->
+<div class="isdel-wrap" ng-show="isdelFlag">
+  <div class="isdel-con">
+    <p>Are you sure to delete this bulk dropshipping order?</p>
+    <div class="isdel-btns">
+      <button ng-click="cancelDelFun()" class="isdel-cabtn">Cancel</button>
+      <button ng-click="sureDeletMuFun()" class="isdel-cobtn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 检测订单 -->
+<div class="isdel-wrap" ng-show="isDkFlag">
+  <div class="isdel-con">
+    <p>You have <span style="color: #f9aa57;">{{balanceM}}</span>USD in your wallet, will you deduct it from this order
+      amount?</p>
+    <div class="isdel-btns">
+      <button ng-click="noDkYeFun()" class="isdel-cabtn">No</button>
+      <button ng-click="deductMFun()" class="isdel-cobtn">Yes</button>
+    </div>
+  </div>
+</div>
+<!--无法支付的订单列表提示-->
+<div class="isdel-wraps error-confirm" ng-show="errorShowFlag">
+  <div class="err-list">
+    <div class="err-head">Oops, something wrong. Please check reasons below.</div>
+    <table class="err-table">
+      <thead>
+      <tr>
+        <th width="50%">CJ Order Number</th>
+        <th>Reasons</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in logisticsReasonList">
+        <td>{{item.recordNum}}</td>
+        <td>{{item.message}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="footer-button">
+      <button ng-click="errorShowFlag=false">cancel</button>
+    </div>
+  </div>
+</div>
+<!-- 检测库存 -->
+<div class="layui-layer-shade" ng-show="iskcFlag">
+  <div class="isdel-con iskc-con" style="width: 680px;">
+    <p class="deckc-titp">We found you have stocks in our warehouse, please check detail below. Do you want to deduct
+      the inventory and without paying product price for this order or skip without deduction?</p>
+    <div class="tab-divlist">
+      <table class="iskc-tab">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Sku</th>
+            <!-- <th>Your Stocks</th> -->
+            <th>Deduct Quantity</th>
+            <th>service fee</th>
+            <th>Amount Deduction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in inventoryList" ng-cloak>
+            <td>
+              <span class="blank-span" ng-mouseenter="showImg(item,$index)" ng-mouseleave="hideImg(item,$index)">
+                <img class="sp-smallimg sp-smallimg1" ng-if="item.cjImage" ng-src="{{item.cjImage}}">
+                <img class="sp-smallimg sp-smallimg1" ng-if="item.image&&!item.cjImage" ng-src="{{item.image}}">
+                <!-- <img ng-show="isShow" class="hide-bigimg" ng-src="{{item.cjImage}}"> -->
+              </span>
+            </td>
+            <td>
+              <p class="bzsp-color" ng-if="item.SKU.substring(0,4)=='BZSP'">(Pack Product)</p>
+              <p ng-class="{'bzsp-color':item.SKU.substring(0,4)=='BZSP'}">{{item.SKU}}</p>
+            </td>
+            <!-- <td>{{item.optValue}}</td> -->
+            <td>{{item.quantity}}</td>
+            <td>{{item.serverPrice}}USD</td>
+            <td><span
+                ng-class="{'line-through':item.SKU.substring(0,4)=='BZSP'}">{{(item.quantity*item.price) | number:2}}USD</span>
+              <span class="bzsp-color" ng-show="item.SKU.substring(0,4)=='BZSP'">0USD</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="isdel-btns">
+      <span style="margin-right: 30px;">Gross Service Fee: <em style="color:#ff8d31;">{{totalServerPrice}}</em></span>
+      <span style="margin-right: 30px;">Deduct Total: <em style="color:#ff8d31;">{{totalPrivace}}</em></span>
+      <button ng-click="skipKcFun()" class="isdel-cabtn">Skip</button>
+      <button ng-click="sureDecuentFun()" class="isdel-cobtn">Deduct</button>
+    </div>
+  </div>
+</div>
+<!--新手指导 -->
+<div class="zzc">
+  <div class="online-wrap">
+    <p class="online-content" id="online-content1"></p>
+    <img class="img1" src="static/image/Newbie/arrow4.png" alt="" />
+    <img class="img2" src="static/image/Newbie/star4.png" alt="" />
+    <img class="img3" src="static/image/Newbie/embellish.png" alt="" />
+    <p class="online-notice">“You will be located here once dropshipping orders submitted, you can pay for the drop
+      shipping orders here. Once the payment issued, then we will take care of everything else, tracking numbers will be
+      automatically fulfilled to your stores.”</p>
+    <p class="know" style="top: 230px;left: 450px;width: 200px">I am good.</p>
+  </div>
+</div>
+
+<!-- 是否导出订单 -->
+<div class="isdel-wrap" ng-show="dcordFlag">
+  <div class="isdel-con">
+    <p>Are you sure export orders?</p>
+    <div class="isdel-btns">
+      <button ng-click="dcordFlag=false;" class="isdel-cabtn">Cancel</button>
+      <button ng-click="goActexportOrder()" class="isdel-cobtn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 供应商订单有没有库存的 是否移除询问框 -->
+<div class="isdel-wrap" ng-show="inventotyTipFlag">
+  <div class="isdel-con">
+    <p>Are you sure to delete {{noInventoryArr.length}} order<span ng-if="noInventoryArr.length>1">s</span> with no inventory and pay for the remaining orders?</p>
+    <div class="isdel-btns">
+      <button ng-click="inventotyTipFlag=false;" class="isdel-cabtn">No</button>
+      <button ng-click="sureDelNoinvenOrd()" class="isdel-cobtn">Yes</button>
+    </div>
+  </div>
+</div>
+<!-- 导出订单返回的excel链接 -->
+<div class="isdel-wrap" ng-show="dcordCallbackFlag">
+  <div class="isdel-con">
+    <a ng-click="closeLinkFun()" href="{{excelHref}}">{{excelHref}}</a>
+    <div class="isdel-btns">
+      <button ng-click="dcordCallbackFlag=false;" class="isdel-cabtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="alert-shadow" ng-show="showOrderDetail" ng-cloak>
+  <div class="order-pay-alert">
+    <div class="order-pay-alert-main">
+      <p class="title">
+        You cannot place this order because the service products above cannot be totally deducted！
+      </p>
+      <div class="table-box">
+        <div class="table-th">
+          <span>SKU</span>
+          <span>Product Types</span>
+          <span>Purchase Quantity</span>
+          <span>Deductible Quantity</span>
+        </div>
+        <div class="table-tr" ng-repeat="item in undeductionList track by $index">
+          <span class="f-org" ng-click="goOrderDetail(item,$index)">{{item.SKU}}</span>
+          <span>{{item.type}}</span>
+          <span>{{item.buyNum}}</span>
+          <span>{{item.totalDeductionNum}}</span>
+        </div>
+      </div>
+      <div class="btn-group">
+        <span class="ui-btn btn-theme" ng-click="showOrderDetail=false">Got it</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="confirm-box f-center" ng-show="showCountryTip">
+  <div class="confirm-main">
+    <div class="confirm-title">
+      {{holidayTips.title}}
+    </div>
+    <div class="confirm-content" ng-bind-html="holidayTips.content">
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="showCountryTip=false" class="no-btn">Cancel</span>
+      <span ng-click="payFun()" class="yes-btn btn-theme">Accept</span>
+    </div>
+  </div>
+</div>
+
+<!-- 支付包装商品库存不足提示 -->
+<div class="confirm-box" ng-show="inventoryModal">
+  <div class="confirm-main inventory-tips">
+    <i class="iconfont confirm-close" ng-click="inventoryModal = false"></i>
+    <div class="confirm-title">Insufficient Inventory</div>
+    <div class="confirm-content">
+      <div class="tips d-flex">
+		    <i class="iconfont icontixing_2"></i>
+		    <div style="margin-left:5px;">
+          Sorry, the packaging is currently unavailable. The possible reasons are:<br/>
+          1. You didn’t purchase private inventory of packaging. Please purchase it or contact your agent;<br/>
+          2. Your packaging are not stocked yet. Please wait;<br/>
+          3. The products and packaging are not stocked in the same warehouse. Please contact your agent.
+        </div>
+	    </div>
+      <div class="tabs">
+		     <!--	 <span ng-class="{'active': inventoryTabActive === '1'}" ng-click="handleTabActive('1')">Product</span>-->
+		     <span class="active">Package</span>
+	     </div>
+	    <table class="table">
+				<thead>
+				<tr>
+					<th>CJ Order Number</th>
+					<th>Your Order Number</th>
+					<th style="width: 160px;">Package SKU</th>
+					<th style="width: 160px;">Product SKU</th>
+					<th>Purchase Quantity</th>
+					<th>Remaining Inventory</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="item in packageList">
+					<td>{{item.cjOrderId}}</td>
+					<td>{{item.orderNum}}</td>
+					<td>{{item.packSku}}</td>
+					<td>{{item.productSku}}</td>
+					<td>{{item.quantity}}</td>
+					<td>{{item.currentInventory}}</td>
+				</tr>
+				</tbody>
+	    </table>
+    </div>
+    <div class="confirm-btn-box">
+	    <button class="opt btn-theme" href="javascript:void (0);" ng-click="handleSkip()">Remove the Package</button>
+    </div>
+  </div>
+</div>
+
+<!-- 服务商品库存不足提示 -->
+<div class="confirm-box" ng-show="serviceGoodsModal">
+  <div class="confirm-main inventory-tips">
+    <i class="iconfont confirm-close" ng-click="handleCloseServiceGoods()"></i>
+    <div class="confirm-title">Insufficient Service Products</div>
+    <div class="confirm-content">
+      <div class="tips d-flex">
+		    <i class="iconfont icontixing_2"></i>
+		    <div style="margin-left:5px;">
+          Sorry, payment failed. There are no enough service products.
+        </div>
+	    </div>
+	    <table class="table">
+				<thead style="display: block;">
+          <tr>
+            <th class="block-width">CJ Order Number</th>
+            <th style="width:250px; padding: 10px 0;">SKU</th>
+            <th class="block-width">Quantity</th>
+          </tr>
+				</thead>
+				<tbody class="invent-tbody">
+          <tr ng-repeat="item in inventoryShortage" style="display: block;">
+            <td class="block-width">{{item.orderId}}</td>
+            <td style="width:250px; padding: 10px 0;">{{item.sku}}</td>
+            <td class="block-width">{{item.quantity}}</td>
+          </tr>
+				</tbody>
+	    </table>
+    </div>
+    <div class="confirm-btn-box">
+	    <button class="opt btn-theme" href="javascript:void (0);" ng-click="handleCloseServiceGoods()">Close</button>
+    </div>
+  </div>
+</div>
+<!-- 购物车提交过来的订单金额为0订单的提示 -->
+<!-- <div class="isdel-wrap">
+  <div class="isdel-con">
+    <p>Are you sure to delete {{noInventoryArr.length}} orders with no inventory and pay for the remaining orders?</p>
+    
+  </div>
+</div> -->
+<div class="confirm-box import-cart-modal" ng-show="addCartResonFlag">
+  <div class="confirm-main">
+    <div class="confirm-title resmestitle">
+      Tips:
+    </div>
+	  <i class="iconfont confirm-close" ng-click="addCartResonFlag = false;"></i>
+    <div class="confirm-content resmescon">
+      {{addCartResonText}}
+    </div>
+  </div>
+</div>
+<!-- closeOrderModal 老订单页面提示去新订单页面弹窗 -->
+<close-order-modal></close-order-modal>

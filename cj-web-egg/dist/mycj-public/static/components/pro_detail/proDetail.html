@@ -1,0 +1,848 @@
+<style>
+  .proDetailPrompt {
+    color: var(--color-theme-1);
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .proDetailPrompt:hover {
+    color: var(--color-theme-1-1);
+  }
+
+  .proDetailPromptInfo{
+    color: var(--color-theme-1) !important;
+    font-size:14px !important;
+    line-height: 20px !important;
+    cursor: pointer;
+    font-weight: 400 !important;
+    /* text-decoration:underline; */
+  }
+  .proDetailPromptInfo:hover{
+    color: var(--color-theme-1-1) !important;
+  }
+  .proWarenNotice{
+    color: var(--color-theme-1);
+  }
+  .proWarenNotice:hover{
+    color: var(--color-theme-1-1);
+  }
+  .freeShipContainer{
+    padding-top: 20px;
+    height: 67px;
+    margin-left: 24px;
+  }
+
+  .prodetail-freeShip{
+    width: 125px;
+    height: 25px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex:1;
+  }
+  .prodetail-freeShip .freeShipIcon{
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+  }
+  .prodetail-freeShip .freeShipText{
+    width: 100px;
+    height: 25px;
+    background: rgba(255, 96, 16, 0.2);
+    color: #FF6010;
+    text-align: center;
+    line-height: 25px;
+  }
+  .pop-ups-modal.addToSkulistLayer {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+.pop-ups-modal.addToSkulistLayer .pop-ups-box {
+  width: 360px;
+  padding:  20px 20px 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.pop-ups-modal.addToSkulistLayer .pop-ups-box .popups-title {
+  font-size: 16px !important;
+  color: #333333;
+  height: 22px;
+  line-height: 22px;
+  position: relative;
+  background-color: unset;
+  text-align: left;
+}
+.pop-ups-modal.addToSkulistLayer .pop-ups-box .popups-title .closeIcon {
+  font-size: 14px;
+  color: #666666;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.pop-ups-modal.addToSkulistLayer .pop-ups-box .popups-content {
+  font-size: 14px;
+  line-height: 20px;
+  word-break: keep-all;
+  color: #666666;
+  padding: 0;
+  margin-top: 10px;
+  text-align: left;
+}
+.pop-ups-modal.addToSkulistLayer .pop-ups-box .bottom-btn-box {
+  width: 100%;
+  text-align: right;
+  margin-top: 20px;
+}
+.pop-ups-modal.addToSkulistLayer .pop-ups-box .bottom-btn-box button {
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.pop-ups-modal.addToSkulistLayer .pop-ups-box .bottom-btn-box .close-btn {
+  color: #666666;
+  border: 1px solid #E4E4E4;
+  background: #F9F9F9;
+  margin-right: 15px;
+}
+
+.pop-ups-modal.addToSkulistLayer .pop-ups-box .bottom-btn-box .confirm-btn {
+  color: #fff;
+  background: linear-gradient(90deg, #FFCC75 0%, #F78E29 100%);
+}
+
+.platform-sele-select {
+  width: 180px;
+  height: 26px;
+  color: #666;
+  font-size: 14px;
+  border: 1px solid #eee;
+}
+.platform-title {
+  display: block;
+  width: 127px;
+}
+.shopee-tips-icon {
+  color: var(--color-theme-1);
+}
+.vip .shopee-tips-icon {
+  color: var(--color-theme-1-vip);
+}
+.pd-midr-tul .plat-form {
+  display: flex;
+  margin-bottom: 4px;
+}
+.shopee-tips-content {
+  margin-left: 5px;
+  font-size: 14px;
+  line-height: 22px;
+}
+.shopee-store-located {
+  margin-right: 13px;
+  text-align: right;
+  width: 127px;
+}
+.shopee-tipsItem {
+  margin-left: 132px;
+}
+.pd-midr-tul .pd-midr-seclet .method-span {
+  width: 80%;
+  text-align: right;
+  position: absolute;
+  right: 20px;
+}
+</style>
+<!-- 中间的内容部分 -->
+<div style="position: relative; z-index: 3;" ng-show="$parent.hasMerchData">
+  <!--视频-->
+  <div cjvideo ng-cloak class="video clearfix video_box" id="{{($index+1)+'_video_box'}}"
+    ng-repeat="item in videoList track by $index" repeat-finish on-finish-render-filters>
+    <!-- <video id="my-video"
+                            src="https://cc-west-usa.oss-us-west-1.aliyuncs.com/15306336/338209605760.mp4"
+                            class="video-js zzz" controls preload="auto" width="440" height="297"
+                            data-setup="{techOrder: ['flash','html5']}">
+                            <source class="vvv"
+                                src="https://cc-west-usa.oss-us-west-1.aliyuncs.com/15306336/338209605760.mp4"
+                                data-index="{{$index}}" data-url="{{videosrc(item.watermarkViewUrl)}}" type="video/mp4">
+                        </video> -->
+
+
+    <!-- 之前的 video 位置 -->
+    <div style="float:left;" class="prism-player" id="{{'J_prismPlayer'+($index+1)}}"></div>
+    <!-- <div class="Introduce">
+            <span>Video ID:</span>
+            <p>{{item.videoNumber}}</p>
+            <span>Note:</span>
+            <p ng-show="item.isFree == '0'">This video is available to be downloaded without watermark
+                and
+                high resolution version, you can purchase this video if you want it.</p>
+            <p ng-show="item.isFree == '1'">This video is available to be downloaded without watermark and
+                high-resolution version! Please <a
+                    href="https://www.facebook.com/pg/CjDropshipping/reviews/?ref=page_internal"
+                    target="_blank">recommend
+                    us on Facebook</a> before downloading. Your recommendation
+                will encourage us to roll out more services for free!</p>
+
+
+            <button ng-show="item.isFree == '0'" ng-click="Download(item)">Download</button>
+            <button ng-show="item.isFree == '1'" class="Free" ng-click="Download(item)">Free
+                Download<i></i>
+            </button>
+        </div> -->
+  </div>
+  <!-- 图片以及详情 -->
+  <div class="pd-mid-id clearfix" id="pd-mid-id">
+    <!-- 左边的部分 -->
+    <div class="pd-mid-l">
+      <!-- 大图部分 -->
+      <div class="mid-l-big">
+        <!-- ng-hide="podProduct" -->
+        <div class="box" id="zoom-box">
+          <!-- 图片 -->
+          <div class="smallBox" id="smallBox" ng-show="smallBoxType === 'image'">
+            <img id="merch-big-img">
+            <div class="mask" id="mask"></div>
+            <i title="Download Images" class="download-icon iconfont" ng-click="downloadImg()"
+            cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "Download Images"}'>&#xe66b;</i>
+          </div>
+          <!-- 视频 -->
+          <div class="smallBox" id="smallBoxVideo" ng-show="smallBoxType === 'video'">
+            <!-- <div ng-cloak class="video clearfix" ng-repeat="item in videoList track by $index" repeat-finish
+                    on-finish-render-filters> -->
+            <!-- <div style="float:left;" class="prism-player" id="J_prismPlayer1"></div> -->
+            <!-- </div> -->
+          </div>
+        </div>
+        <canvas class="canvas-show" id="canvas-show" width="440" height="440"></canvas>
+      </div>
+      <div class="bigBox" id="bigBox"><img id="bigBox-img"></div>
+      <!-- 小图部分 -->
+      <div class="mid-l-smll swiper-container no-scroll-swiper" id="topNav">
+        <div class="mid-ls-row swiper-wrapper" id="video-swiper-wrapper" style="width: max-content;margin: 0;">
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+      <!-- 分享 -->
+      <!-- 商品分享  xiaoy  219-7-20 -->
+      <section class="share-area" ng-if="productType=='0'||productType=='4'">
+        <div class="share-fenxiao" ng-if="hasAfficateToken" data-clipboard-target="#fooLink">
+          <i class="iconfont" style="font-size: 26px;margin-right: 10px;">&#xe752;</i>
+           <span>Referral Link</span>
+          <span class="secret-code" style="opacity: 0;position: absolute;z-index: -1;" id="fooLink">{{afficateLink}}</span>
+          <div style="margin:0 20px;">|</div>
+        </div>
+        <div class="share-area-item" ng-mouseenter="shareShow=true" ng-mouseleave="shareShow=false">
+          <i class="iconfont share-icon" style="font-size: 26px;">&#xe62a;</i>
+          <div class="share-btn">
+            Share
+            <div class="share-wrap" ng-show="shareShow" ng-cloak>
+              <img cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "facebook"}' src="static/image/CJ-home/facebook.svg" alt="" srcset="" width="30" height="30" style="margin-right: 10px" ng-click="shareInfo('facebook')">
+              <img cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "twitter"}' src="static/image/CJ-home/twitter.svg" alt="" srcset="" width="30" height="30" ng-click="shareInfo('twitter')">
+              <span class="arrow-up"></span>
+            </div>
+          </div>
+        </div>
+        <div style="margin:0 20px;">|</div>
+        <div class="share-area-item" ng-mouseenter="ProMerchEnter($event)" ng-mouseleave="ProMerchLeave($event)" ng-click="Merch(merchFlag, detailId, $event,fromType=='CommentList'?'CommentList':'')" cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"},{"key":"collectType","value":"{{collectType}}"}], "eventType": 1, "buttonName": "Wishlist"}'  ng-cloak>
+            <img class="pd-collect-img"  src="/egg/image/favorites/love_product.png" ng-if="merchanisCollect == 0" width="24" height="24">
+          <img class="pd-collect-img"  src="/egg/image/favorites/love_product_click.png" width="24" height="24"
+            ng-if="merchanisCollect == 1"
+            >
+          <p>Wishlist</p>
+        </div>
+        <div style="margin:0 20px;" ng-show="shopData.name && defaultPlan > 1">|</div>
+        <div class="share-area-item contact-supplier-section" ng-show="shopData.name && defaultPlan > 1"
+          ng-click="conTactFun()">
+          <i class="iconfont contact-supplier-icon">&#xe62e;</i>
+          <!-- <div class="contact-supplier">Contact Supplier</div> -->
+        </div>
+        <!-- <div class="share-area-item blue" ng-show="shopData.name && defaultPlan > 1" ng-click="conTactFun()">
+                                    <i class="iconfont">&#xe62e;</i> Contact Supplier
+                                </div> -->
+      </section>
+      <!-- 视频部分介绍 -->
+      <div class="video-introduce" ng-show="smallBoxType !== 'image'">
+        <p class="video-introduce-item"><span style="color:#333;">Video ID:</span> {{currentVideo.videoNumber}}</p>
+
+        <p class="video-introduce-item" ng-show="currentVideo.isFree == '0'"><span style="color:#333;">Note:</span> This
+          video is available to be downloaded without watermark
+          and
+          high resolution version, you can purchase this video if you want it.</p>
+        <p class="video-introduce-item" ng-show="currentVideo.isFree == '1'"><span style="color:#333;">Note:</span> This video is available to be downloaded without the watermark and in high-resolution. Please <a href="https://www.facebook.com/pg/CjDropshipping/reviews/?ref=page_internal" target="_blank">recommend us on Facebook</a> before downloading. Your recommendation will encourage us to roll out more services to you for free!
+          
+        </p>
+
+        <!-- <a id="downLoadBtn" href="http://192.168.5.243:8087/tool/downLoad/byVideoId?videoId={{item.watermarkViewUrl}}&fileName={{item.videoName}}.mp4" download=""><button ng-show="item.isFree == '0'" ng-click="Download(item)">Download</button></a> -->
+
+        <!-- <button class="video-download-btn" ng-show="currentVideo.isFree == '0'" ng-click="Download(currentVideo)">Download</button> -->
+
+        <!-- hover时下载图片提前加载，避免切换时会闪动 -->
+        <img src="./static/image/product-img/download_hover.png" alt="" hidden>
+
+        <div ng-show="currentVideo.isFree == '0'" class="free">
+          <div class="video-download-btn" ng-click="Download(currentVideo)" cjstat cjstatshow='{"pageCode":"Video", "eventType": 1, "buttonName": "Download","buttonType": 0}'>
+            <div class="download-icon"></div>
+            <span>Download</span>
+          </div>
+        </div>
+        <div ng-show="currentVideo.isFree == '1'" class="free">
+          <div class="video-download-btn" ng-click="Download(currentVideo)" cjstat cjstatshow='{"pageCode":"Video", "eventType": 1, "buttonName": "Free Download","buttonType": 0}'>
+            <div class="download-icon"></div>
+            <span>Free Download</span>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!-- 右边的部分 -->
+    <div class="pd-mid-r">
+      <p id="pd-merchName" class="cotton-p" ng-cloak>{{ merchName }}</p>
+      <ul class="pd-midr-tul">
+        <li ng-if="productType!='1'">
+          <!-- 如果是包装商品 且有区间价格的话 则显示区间价格 -->
+          <ng-template ng-if="productType =='3' && discountStatusFlag == 1">
+            <div class="product-price-item-section">
+              <div class="specification-price">
+                <div class="spec">
+                  <p>Quantity:</p>
+                  <p>Product Price:</p>
+                </div>
+                <div class="value">
+                  <div class="value-item" ng-repeat="discountPrice in discountPriceAll track by $index">
+                    <p ng-if="discountPrice.highNum >= 1">{{discountPrice.lowNum}} - {{discountPrice.highNum}}</p>
+                    <p ng-if="discountPrice.highNum == -1"> > {{discountPrice.lowNum}} </p>
+                    <p ng-if="discountPrice.type == 1" style="color: #FF7700;font-size: 22px;word-wrap: break-word;">
+                      {{discountPrice.lowPrice | exchangeRate:'float:2'}}&nbsp;-&nbsp;{{discountPrice.highPrice | exchangeRate:'number:2'}}
+                    </p>
+                    <p ng-if="discountPrice.type == 2" style="color: #FF7700;font-size: 22px;word-wrap: break-word;">
+                      {{discountPrice.price | exchangeRate:'float:2'}}</p>
+                  </div>
+                </div>
+
+              </div>
+              <small style="padding-left:122px;color: #999;" ng-cloak ng-show="updatePriceDate">Price Updated on
+                {{updatePriceDate | date : 'MMMM d, y'}}</small>
+            </div>
+          </ng-template>
+          <!-- 如果是其他产品时 只显示一个价格 -->
+          <ng-template ng-if="discountStatusFlag != 1">
+            <div class="product-price-item">
+              <div style="display: flex;">
+                <p style="display: flex; flex-wrap: nowrap; align-items: center;">
+                  <span class="pd-span1 item-label">Product Price:</span>
+                  <ng-template ng-if="nowPrice.indexOf('-')>-1" style="flex:1">
+                    <!-- 当前是区间价格，就是未选择变体 -->
+                    <span class="prodetail-price price-value notranslate">{{nowPrice | exchangeRate}}</span>
+                    <span class="line-through notranslate" id="merch-price" ng-cloak>{{merchPrice.replace(' -- ','-') | exchangeRate}}
+                    </span>
+                  </ng-template>
+                  <ng-template ng-if="!nowPrice" style="flex:1">
+                    <span class="price-value notranslate" ng-class="{'line-through': sellDiscount<100, 'pd-price-span1': true}"
+                      id="merch-price" ng-cloak>{{merchPrice.replace(' -- ','-') | exchangeRate}}</span>
+                    <span class="pd-price-span2 price-value notranslate" ng-if="sellDiscount<100"
+                      ng-cloak>{{merchPriceDis.replace(' -- ','-') | exchangeRate}}</span>
+                    <span class="pd-price-span3 price-value notranslate" ng-if="sellDiscount<100" ng-cloak>({{100 - sellDiscount}}%
+                      off)</span>
+                  </ng-template>
+                  <ng-template ng-if="nowPrice && (nowPrice+'').indexOf('-')==-1" style="flex:1">
+                    <!-- 选择变体，并且有促销价格 -->
+                    <span class="prodetail-price price-value notranslate">{{nowPrice | exchangeRate}}</span>
+                    <span class="line-through price-value notranslate" id="merch-price"
+                      ng-cloak>{{merchPrice.replace(' -- ','-') | exchangeRate}}</span>
+                  </ng-template>
+                </p>
+                <div class="freeShipContainer" ng-if="productdetail.addMarkStatus == 1 && productdetail.PRODUCTTYPE == '5'">
+                  <div class="prodetail-freeShip">
+                    <img src="static/image/CJ-home/freeShip.svg" class="freeShipIcon"></img>
+                    <div class="freeShipText">Free Shipping</div>
+                  </div>
+                </div>
+              </div>
+              
+              <small style="color: #999;margin: 20px 0 0 127px;display: block;" ng-cloak ng-show="updatePriceDate">Price Updated on
+                {{updatePriceDate | date : 'MMMM d, y'}}</small>
+            </div>
+          </ng-template>
+        </li>
+        <li class="clearfix" ng-cloak>
+          <div class="vitem" ng-repeat="(index,item) in varientArr" style="display: flex;">
+            <span class="name item-label">{{ item.name | fWordUpcase }}:</span>
+            <div class="items item-value">
+              <span ng-if="item.name=='color' || item.name=='Color'" ng-repeat="(indexv,itemv) in item.keyObj "
+                ng-class="{'gray':itemv.disable, 'curr':item.currKey==itemv.name}"
+                ng-click="changeVariant(item,itemv,index)" class="colorBox">
+                <img title="{{itemv.name}}" style="height: 50px;" src="{{itemv.img | IMG_SIZE: 50:50 }}" />
+              </span>
+              <span ng-if="!(item.name=='color' || item.name=='Color')" ng-repeat="(indexv,itemv) in item.keyObj "
+                ng-class="{'gray':itemv.disable, 'curr':item.currKey==itemv.name}"
+                ng-click="changeVariant(item,itemv,index)">{{itemv.name}}</span>
+            </div>
+          </div>
+        </li>
+        <!-- customMessage -->
+        <li class="clearfix" ng-cloak ng-show="podColor">
+          <div class="pd-bt-title">
+            <span class="pd-span1 left-span item-label">{{ 'POD Color' }}:</span>
+            <select name="" class="change-color" id="pod-color-sele" index="{{ $index }}">
+              <!-- <option value="">Please Select</option> -->
+              <option value="{{ item.value }}" ng-repeat="item in podColor.colors track by $index">
+                {{ item.nameEn }}
+              </option>
+            </select>
+          </div>
+        </li>
+        <!-- 2020.06.10 pod商品展示隐藏，这个展示，这边只是 pod1 的商品有，后期的都没这个属性 ，以后这块会去掉-->
+        <!-- <li class="clearfix" ng-cloak ng-show="podZone">
+                    <div class="pd-bt-title">
+                        <span class="pd-span1 left-span">{{ 'POD Zone' }}:</span>
+                        <a style="font-size: 12px; color: #666;" href="javascript:void(0);" ng-click="showPodZone(1)"
+                            ng-show="podZone.front && podZone.front.editimgurl">Front-{{podZone.front.podtype=='pic'?'Custom Image':(podZone.front.podtype=='text'?'Custom Text':(podZone.front.podtype=='picandtext'?'Custom Image&Text':''))}}</a>
+                        <a style="font-size: 12px; color: #666;" href="javascript:void(0);" ng-click="showPodZone(0)"
+                            ng-show="podZone.back && podZone.back.editimgurl">Back-{{podZone.back.podtype=='pic'?'Custom Image':(podZone.back.podtype=='text'?'Custom Text':(podZone.back.podtype=='picandtext'?'Custom Image&Text':''))}}</a>
+                    </div>
+                </li> -->
+        
+        <!-- 产品左卫说直接不展示服务费 -->
+        <li ng-if="productType=='1'" style="display: none;">
+          <p>
+            <span class="pd-span1">Service Fee:</span>
+            <span class="pd-price-span1" id="merch-price" ng-cloak>{{merchPrice | exchangeRate}}</span>
+          </p>
+        </li>
+        <li ng-cloak ng-show="productType!=='3'">
+          <!-- <p ng-cloak>
+                        <span class="pd-span1">Shipping From:</span>
+                        <select name="" id="" class="ship-from-sele" ng-model="seleWare"
+                            ng-change="chanSeleWare(seleWare)">
+                            <option value="{{item.tag}}" ng-repeat="item in wareList track by $index">
+                                {{item.name}}
+                            </option>
+                        </select>
+                    </p> -->
+          <ship-from ng-if="hasMerchData"
+            proinfo="{id: detailId, type: 'product', defaultInventory: defaultInventory, productType}"
+            frompage="'product-detail'"></ship-from>
+        </li>
+        <li ng-show="productType!=='3'" class="plat-form">
+            <span class="platform-title">Platform:</span>
+            <select
+              class="platform-sele-select"
+              ng-model="platformItem"
+              ng-options="item for item in platFormList"
+              ng-change="changePlatform()"
+            ></select>
+            <span class="shopee-store-located" ng-show="platformCountryList.length > 0">Store Located:</span>
+            <select 
+              class="platform-sele-select"
+              ng-model="platformCountryItem"
+              ng-options="item as item.nameEn for item in platformCountryList"
+              ng-change="changePlatformCountry()"
+              ng-show="platformCountryList.length > 0"
+            ></select>
+        </li>
+        <div class="d-flex shopee-tipsItem" ng-show="platformItem == 'Shopee' && platformCountryItem.nameEn != 'International' && platformCountryItem.nameEn">
+          <i class="iconfont shopee-tips-icon">&#xe674;</i>
+          <p class="shopee-tips-content">We will ship from {{platformCountryItem.nameEn}}. </p>
+        </div>
+
+        <li class="ship-method-li clearfix" ng-cloak ng-show="productType!='3'">
+          <p class="clearfix" style="display: inline-block;">
+            <span class="pd-span1 item-label">Shipping Method:</span>
+            <!-- <select class="pd-midr-seclet">
+                                        <option>United States  e-packet(5-15days)</option>
+                                    </select> -->
+            <div class="pd-midr-seclet" href="javascript:void(0)" ng-click="choseShipMethod()" id="show-ship-method">
+              <span class="country-span" ng-cloak style="width: 50%;">{{shipCountryName}}</span>
+              <span class="method-span" ng-cloak ng-show="merchShipMethod">
+                {{merchShipMethod + (merchShipDays ? ' (' + merchShipDays + ')' : '')}}
+              </span>
+              <span class="method-span" ng-cloak ng-show="!merchShipMethod">--</span>
+              <span class="caret"></span>
+            </div>
+          </p>
+        </li>
+        <div class="border-line-dash"></div>
+        <li ng-cloak ng-show="productType!='3'">
+          <p ng-cloak>
+            <span class="pd-span1 item-label-long">Shipping Cost:</span>
+            <span ng-bind="shipCost | exchangeRate" class="item-label-long-value notranslate"
+              ng-class="{'line-through': shipDiscount > 0, 'pd-shipcost-span1': true}" id="ship-cost"></span>
+            <span class="pd-shipcost-span2 item-label-long-value notranslate" ng-show="shipDiscount > 0"
+              ng-bind="shipCostDis | exchangeRate"></span>
+            <span class="pd-shipcost-span3 item-label-long-value notranslate" ng-show="shipDiscount > 0"
+              ng-bind="'(' + shipDiscount + '%off)'"></span>
+            <span class="notranslate" style="color: #999;" ng-show="noShipMethodMes" ng-bind="'(' + noShipMethodMes + ')'"></span>
+          </p>
+        </li>
+        <li class="pro-quantity-li clearfix">
+          <div>
+            <span class="pd-span1 item-label-long">
+              Quantity:
+            </span>
+            <p class="clearfix notranslate">
+              <span class="minus" ng-click="minusOne()" ng-class="{'noClick': procount < 2}">
+                <i class="iconfont" style="font-size: small;">&#xe6de;</i>
+              </span>
+              <input ng-model="procount" ng-change="chanProNum()" class="pro-num-inp" ng-blur="handleNumBlur()">
+              <span class="plus" ng-click="plusOne()">
+                <i class="iconfont" style="font-size: small;">&#xe6df;</i>
+              </span>
+            </p>
+            <div class="right">
+              <p class="overweight-tip" ng-show="overWeight" ng-cloak>The total weight exceed the maximum carrying
+                capacity, please reduce the quantity or change other shipping methods.</p>
+            </div>
+          </div>
+        </li>
+        <li ng-show="productType!=3">
+          <p>
+            <span class="pd-span1 item-label-long">Total Dropshipping Price:</span>
+            <span class="pd-money-span4 " ng-cloak ng-show="productType!=3">
+              <span ng-if="!nowPriceTotal" class="item-label-long-value notranslate">{{amountPrice | exchangeRate}}</span>
+              <ng-template ng-if="nowPriceTotal">
+                <span class="prodetail-price item-label-long-value notranslate">{{nowPriceTotal|exchangeRate}}</span>
+              </ng-template>
+
+            </span>
+            <span class="pd-money-span4 item-label-long-value" ng-cloak
+              ng-show="productType=='3'">{{p3Total() | exchangeRate}}</span>
+          </p>
+        </li>
+        <li ng-cloak ng-show="productType!='3'">
+          <span class="pd-span1 item-label-long">Inventory:</span>
+          <span class="pd-num-span merch-inventory item-label-long-value" id="merch-inventory"
+            ng-cloak>{{merchInventory}}</span>
+          <div class="pd-num-btn" ng-show="inventoryList.length>0">
+             <i class="iconfont iconprompt icontishi2 proWarenNotice"></i>
+            <div class="inventory-show-more" style="background:rgba(0, 0, 0, 0.5);border-radius:4px;">
+              <div class="triangle" style="border-color: rgba(0, 0, 0, 0.75) transparent transparent transparent;"></div>
+              <ul class="show-more-list">
+                <li class="show-more-item" ng-repeat="item in inventoryList track by $index">
+                  <span>{{item.areaEn}}</span>
+                  <span ng-show='seleWare.countryCode !== "CN" || seleWare.countryCode === "CN" && inventoryType == "0"' class="num">{{item.num}}</span>
+                  <span ng-show='seleWare.countryCode === "CN" && inventoryType == "1"' class="num">{{item.realNum}}</span>
+                  <span ng-show='seleWare.countryCode === "CN" && inventoryType == "2"' class="num">{{item.virtualNum}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- <span class="pd-num-span" id="merch-inventory">{{ merchInv}}</span>	 -->
+        </li>
+        <li ng-if="productType=='0'" ng-cloak>
+          <span class="pd-span1 item-label-long">Processing Time:</span>
+          <span class="pd-num-span merch-inventory item-label-long-value">
+            <span style="margin-right: 10px;" ng-show='seleWare.countryCode !== "CN" || seleWare.countryCode === "CN" && inventoryType != "1"' 
+                ng-cloak class="item-label-long-value">{{ merchBuyTime > 1 ? '1-' + merchBuyTime + ' days' : merchBuyTime + ' day' }}</span>
+            <span style="margin-right: 10px;" ng-show='seleWare.countryCode === "CN" && inventoryType == "1" && merchInventory != 0' 
+                ng-cloak class="item-label-long-value">{{ merchBuyTime - 3 < 2 ? '1-2 days' : merchBuyTime - 3 + ' day' }}</span>
+                <span style="margin-right: 10px;" ng-show='seleWare.countryCode === "CN" && inventoryType == "1" && merchInventory == 0' 
+                ng-cloak class="item-label-long-value">{{ merchBuyTime > 1 ? '1-' + merchBuyTime + ' days' : merchBuyTime + ' day' }}</span>
+            <div class="pd-num-btn">
+              <i class="iconfont iconprompt proDetailPrompt"></i>
+              <div class="inventory-show-more" style="left: -30px;">
+                <div class="triangle" style="border-color: rgba(0, 0, 0, 0.75) transparent transparent transparent;left: 35px;"></div>
+                <div class="show-more-list" style="width: 390px;padding: 10px; background:rgba(0,0,0,0.75); cursor: auto;">
+                  <span style="color: #fff;font-size: 14px;line-height: 20px; font-weight: 400;">
+                    You can <span class="proDetailPromptInfo" ng-click="openPrompt()">have your private inventory at CJ warehouses</span> to preorder inventory and prevent products from lack of stock. 
+                  </span>
+                </div>
+              </div>
+            </div>
+          </span>
+        </li>
+        <li ng-if="productType == '5' || productType == '4'" ng-cloak>
+          <span class="pd-span1 item-label-long">Processing Time:</span>
+          <span class="pd-num-span merch-inventory item-label-long-value">
+            1-3 days
+          </span>
+        </li>
+        <li ng-cloak ng-show="productType!='3'">
+          <span class="pd-span1 item-label-long">Weight:</span>
+          <span class="pd-weight item-label-long-value" id="merch-weight"
+            ng-cloak>{{(curShowWeight+'').replace(' -- ','-')}}g</span>
+          <!-- <span class="pd-weight">{{ merchWeight }} g</span> -->
+        </li>
+        <li>
+          <span class="pd-span1 item-label-long">SKU:</span>
+          <span id="merch-sku" class="item-label-long-value" ng-cloak>{{merchSku}}</span>
+          <!-- <span id="merch-sku">{{ merchSku }}</span> -->
+        </li>
+        <li class="pro-attr-li">
+          <span class="pd-span1 item-label-long">Product Attributes:</span>
+          <span class="item-label-long-value" ng-cloak>
+            <!-- <b ng-repeat="item in merchAttr track by $index">
+              {{item}}
+              <b ng-if="$index !== merchAttr.length-1">,</b>
+            </b> -->
+            <b>{{merchStr}}</b>
+          </span>
+        </li>
+
+        <li class="pro-attr-li" ng-if="productType != 3">
+          <span class="pd-span1 item-label-long">Material:</span>
+          <span class="item-label-long-value" ng-cloak>
+            <!-- <b ng-repeat="item in materialArr track by $index">
+              {{item}}
+              <b ng-if="$index !== materialArr.length-1">,</b>
+            </b> -->
+            <b>{{materialStr}}</b>
+          </span>
+        </li>
+
+        <li class="pro-attr-li" ng-if="productType!='1'">
+          <ng-template ng-if="productType=='0'||productType=='4'">
+            <ng-template ng-if="!isPrivateMerch">
+              <ng-template ng-if="isAut != 1">
+                <span class="item-label-long">Lists:</span>
+                <span class="item-label-long-value">{{listsNum||0}}</span>
+              </ng-template>
+            </ng-template>
+          </ng-template>
+        </li>
+        
+
+        <div class="border-line-dash"></div>
+
+        <li class="btn-li clearfix" ng-if="productType!='1'">
+          <p class="collect-list" ng-if="productType=='0'||productType=='4' ||productType=='5'">
+            <a cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "List"}' class="pd-listing new-list-color" href="javascript:void(0)" ng-show="!zwjtype" ng-click="goActList(detailId)"
+              ng-cloak>List</a>
+            <a class="pd-listing" href="javascript:void(0);" ng-click="toConnectPage()"
+              ng-show="zwjtype=='0' || zwjtype=='1'" ng-cloak>Connect</a>
+            <a class="pd-listing bold" href="javascript:void(0)" ng-click="goActList(detailId)"
+              ng-show="zwjtype=='2' || zwjtype=='1'" ng-cloak>List</a>
+            <!-- <ng-template ng-if="!isPrivateMerch">
+                            <span ng-if="listsNum>1">{{listsNum}} Lists</span>
+                            <span ng-if="listsNum && listsNum < 2">{{listsNum||0}} List</span>
+                        </ng-template> -->
+          </p>
+          <p class="collect-list" ng-cloak ng-show="productType=='0'||productType=='4' ||productType=='5'">
+            <a class="pd-listing" href="javascript:void(0)" cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "Photography Request"}' ng-click="handleMediaShootingRequest()"
+              ng-hide="podProduct || productType=='4' || productType=='5'" ng-cloak>Photography Request</a>
+            <a title="This action is for EXCEL dropshipping order processing." class="pd-listing"
+              cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "Add to SKU List"}'
+              href="javascript:void(0)" ng-hide="podProduct || customerDesignPro" ng-click="addTosku();" ng-cloak>Add
+              to SKU List</a>
+            <a cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "Design"}' class="pd-listing" ng-show="podProduct && productType!='4'" ng-click="addToDesign(detailId)" ng-cloak>Design</a>
+          </p>
+          <p class="collect-list" ng-show="productType=='3'">
+            <a class="pd-listing" ng-show="podProduct" ng-click="addToDesign(detailId)" ng-cloak>Design</a>
+          </p>
+          <p class="collect-list disable-posireat"
+            ng-show="(productType=='0'||productType=='4') && !podProduct && !customerDesignPro">
+            <a cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "Add to Cart"}' ng-show="!disableAddToCart" class="pd-listing" ng-click="showAddToCart()" ng-cloak>Bulk Purchase</a>
+            <button ng-show="disableAddToCart" ng-mouseenter="showAddToCartTips=true"
+              ng-mouseleave="showAddToCartTips=false" disable="disabled" class="pd-listing disable-add" ng-cloak>Bulk Purchase</button>
+            <span ng-show="showAddToCartTips" class="disable-tips">
+              {{disableAddToCartMsg}}
+            </span>
+          </p>
+        </li>
+        <li class="btn-li" ng-if="productType!='1'">
+          <div class="autho-tips" ng-if="(productType!='1') && isPrivateMerch" ng-cloak>
+            This product is visible to you only now. However, we will make this product public 
+            if you don't get any sales or stop selling it for a long time. 
+            Please read our <a href="https://cjdropshipping.com/privacyPolicy" target="_blank">privacy policy</a>.
+          </div>
+          <div class="autho-tips" ng-if="customerDesignPro" ng-cloak>
+            This product is only visible to you, and you own the copyright. CJ will neither
+            display this
+            product on the platform nor sell to any other dropshippers.
+          </div>
+          <div class="service-pro-tip" ng-cloak ng-if="productType=='1'">
+            Service Product: You probably have your own inventory in CJ warehouse, we will
+            charge you <a href="https://cjdropshipping.com/2018/03/28/cjdropshipping-service-fee/"
+              target="_blank">service
+              fee</a>.
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- ng-if="productdetail" 加载到商品详情数据，再加载datail-tab组件 -->
+  <detail-tab ng-if="productdetail" productdetail="productdetail"></detail-tab>
+</div>
+<div ng-show="nodata" style="width: 100%; margin: 0 auto; text-align: center; padding-top: 80px;" ng-cloak>
+  <img src="./static/image/public-img/store-new.png" style="width: 240px; height: 240px;" alt="">
+  <p ng-show="nodata.type=='0'" style="margin-top: 20px; color: #999999; font-size: 14px;">Sorry, we cannot find any data.</p>
+  <p ng-show="nodata.type=='1'" style="margin-top: 20px; color: #999999; font-size: 14px;">The current product requires permission. Please
+    <a href="{{'login.html?target=' + detailIdBase}}">log in</a> first.</p>
+  <p ng-show="nodata.type=='2'" style="margin-top: 20px; color: #999999; font-size: 14px;">Sorry, you do not have the permission to view this product. Please contact your agent!</p>
+  <p ng-show="nodata.type=='3'" style="margin-top: 20px; color: #999999; font-size: 14px;">Sorry, the product is removed.</p>
+</div>
+<design-frame2 parentctrl="parentctrl" ng-if="podVersion==2"></design-frame2>
+<design-frame parentctrl="parentctrl" ng-if="podVersion==1"></design-frame>
+<quick-list ng-if="hasMerchData" parentscope="parentscope"></quick-list>
+<ship-method frompage="'pro-detail'"></ship-method>
+<div id="add-store" ng-cloak ng-show="DownDialog" class="ng-scope Downvideo">
+  <div class="ASL-content">
+    <!-- <img class="closel" ng-click="DownDialog = false;" width="30" src="static/image/page/close-default.png" alt=""> -->
+    <i class="iconfont iconguanbi new-close-icon" ng-click="DownDialog = false;"></i>
+    <h3>Please purchase this video before downloading:</h3>
+    <div class="tool1 toolbox">
+      <div ng-click="price1(copyrightPrice)" ng-class="{act:isact1}" class="price tool1">
+        <div class="label">
+          <span>BUY OUT</span>
+        </div>
+        <strong>{{copyrightPrice | exchangeRate}}</strong>
+      </div>
+      <span class="tooltiptext">PAY TO OWN THE VIDEO, THE VIDEO WILL BE REMOVED FROM THIS PAGE.</span>
+    </div>
+    
+    <div class="tool2 toolbox">
+      <div ng-click="price2(notCopyrightPrice)" ng-class="{act:isact2}" class="price">
+        <div class="tag">
+          <p>What a Bargain!</p>
+        </div>
+        <div class="label">
+          <span>UNLIMITED USE</span>
+        </div>
+        <strong>{{notCopyrightPrice | exchangeRate}}</strong>
+      </div>
+      <span class="tooltiptext">PAY TO USE THE VIDEO.</span>
+    </div>
+    <button ng-click="payClick()">Pay</button>
+  </div>
+</div>
+<div id="add-store" ng-cloak ng-show="isPayDalog" class="ng-scope Paycg">
+  <div class="ASL-content">
+    <img class="closel" ng-click="isPayDalog = false;" width="30" src="static/image/product-img/close.png" alt="">
+    <img class="cglogo" src="static/image/product-img/paysucc.png" alt="">
+    <span>Paid Successfully</span>
+    <button ng-click="DownloadVideo()">Download</button>
+  </div>
+</div>
+<div id="add-store" ng-cloak ng-show="isAddSku" class="ng-scope Downvideo Logistics">
+  <div class="ASL-content">
+    <img class="closel" ng-click="isAddSku = false;" width="30" src="static/image/page/close-default.png" alt="">
+    <h3>Please select a shipping method for this product.</h3>
+    <select ng-model="Logistics" ng-options="item as item.enName for item in LogisticsData">
+      <option value="">Please Select</option>
+    </select>
+    <button ng-click="AddSku()">Add</button>
+  </div>
+</div>
+<!-- 购物车 -->
+<div ng-show="showAddCart" class="layer-box">
+  <div class="layer-main clearfix">
+    <img class="close" ng-click="showAddCart=false" width="30" src="static/image/page/close-default.png" alt="">
+
+    <img class="proimg fl" src="{{curVarientImg}}" alt="">
+    <div class="fr">
+      <h3 class="title">{{merchName}}</h3>
+      <p class="f-gray">SKU: {{merchSku}}</p>
+      <div>
+        <h3 class="select-title">Specifications:</h3>
+        <select name="" class="select" ng-repeat="(index,item) in varientArr track by $index" ng-model="item.currKey"
+          ng-change="changeVariant(item,item.key,index)" index="{{ $index }}">
+          <option value="{{itemChild.name}}" ng-repeat="itemChild in item.keyObj track by $index"
+            ng-show="!itemChild.disable">{{itemChild.name}} </option>
+        </select>
+      </div>
+      <div class="clearfix">
+        <h3>Quantity:</h3>
+        <div class="commodity">
+          <div class="iteminner notranslate">
+            <span class="commodity-item minus" ng-click="minusOne()">-</span>
+            <input class="commodity-item" ng-model="procount" onpaste="return false;" ng-change="chanProNum()">
+            <span class="commodity-item plus" ng-click="plusOne()">+</span>
+          </div>
+        </div>
+        <p class="cart-price">Total:
+          <ng-template ng-if="nowPrice">
+            <span>{{nowPrice | exchangeRate}}</span>
+          </ng-template>
+          <ng-template ng-if="!nowPrice">
+            <span class="notranslate" ng-class="{'line-through': sellDiscount<100, 'pd-price-span1': true}" id="merch-price"
+              ng-cloak>{{merchPrice.replace(' -- ','-') | exchangeRate}}</span>
+            <span class="pd-price-span2 notranslate" ng-if="sellDiscount<100"
+              ng-cloak>{{merchPriceDis.replace(' -- ','-') | exchangeRate}}</span>
+            <span class="pd-price-span3 notranslate" ng-if="sellDiscount<100" ng-cloak>({{100 - sellDiscount}}%
+              off)</span>
+          </ng-template>
+
+          <!--                    <span ng-if="!nowPrice">{{merchPrice.replace(' &#45;&#45; ','-') | exchangeRate}}</span>-->
+        </p>
+        <!-- <p class="cart-price">Total:
+                    <span>{{amountPrice.replace(' -- ','-') | exchangeRate}}</span>
+                </p> -->
+      </div>
+      <button cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}], "eventType": 1, "buttonName": "Add"}' class="sub" ng-click="addToCart()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- 手动关联 -->
+<!-- <div class="addToSkulistLayer" ng-show="addToSkulistLayer" ng-cloak>
+  <div class=" CJ-content">
+    <span class="close" ng-click="addToSkulistLayer=false">×</span>
+    <h3>Add to SKU List</h3>
+    <p class="content">
+      Are you sure to add to SKU list?
+    </p>
+    <button cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}] ,"eventType": 1, "buttonName": "Confirm","eventType":1}' class="btn1" ng-click="goAddToSkulist()">Confirm</button>
+    <button class="btn2" ng-click="addToSkulistLayer=false">Cancel</button>
+  </div>
+</div> -->
+
+<!-- 新手动关联弹窗，不用组件是因为这里的确认键有埋点 -->
+<div class="pop-ups-modal addToSkulistLayer" ng-show="addToSkulistLayer" ng-cloak>
+  <div class="pop-ups-box">
+    <h3 class="popups-title">
+      Add to SKU List
+      <i class="iconfont closeIcon" ng-click="addToSkulistLayer=false">&#xe70d;</i>
+    </h3>
+    <p class="popups-content">Are you sure to add to SKU list?</p>
+    <div class="bottom-btn-box">
+      <button class="close-btn" ng-click="addToSkulistLayer=false">Cancel</button>
+      <button cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"detailId","value":"{{detailId}}"}] ,"eventType": 1, "buttonName": "Confirm","eventType":1}' class="confirm-btn" ng-click="goAddToSkulist()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- 媒体拍摄要求 -->
+<div class="confirm-box media-shooting-request" ng-cloak ng-show="isShowPhotography">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="isShowPhotography = false"></i>
+    <div class="confirm-title">Photography Request</div>
+    <div class="confirm-content">
+      <div class="item-box">
+        <span class="label-t">Type:</span>
+        <div class="item" ng-click="handelSelectPhotographyType('video')">
+          <i ng-class="{'active':photographyType === 'video'}"></i>Video
+        </div>
+        <div class="item" ng-click="handelSelectPhotographyType('photo')">
+          <i ng-class="{'active':photographyType === 'photo'}"></i>Photo
+        </div>
+      </div>
+      <div class="item-box">
+        <span class="label-t">Shooting Instructions:</span>
+        <textarea ng-model="instructions" placeholder="Please add your shooting requirements here"></textarea>
+      </div>
+      <div class="item-box">
+        Are you sure to post photography request to us?<br />
+        Please keep in mind that you can only send at most {{totalCount}} requests per day.
+        Currently the request limit is {{remainingCount}}.
+      </div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="isShowPhotography = false" class="no-btn">Cancel</span>
+      <span ng-click="handlePhotographyConfirm()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>

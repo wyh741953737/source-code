@@ -1,0 +1,325 @@
+<div class="content import-all">
+  <div class="mycj-home-box directorders-wrap">
+    <!-- 右边部分 -->
+    <div class="direct-right p-3">
+      <ul class="top-taps">
+        <li class="tab-theme import" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">{{'('+impprocessNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==1">{{'('+cartNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+incompleteNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==3">{{'('+cancelNum+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="back-wrap" ng-show="isupdateFlag">
+        <div class="progress">
+          <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="60"
+            aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+            0%
+          </div>
+        </div>
+      </div>
+      <!-- 导航 -->
+      <div class="order-status">
+        <p class="ord-resonp" ng-click="noOrdResonFun()">
+          You don't have an order synchronized? Click here Click here
+          <span class="glyphicon glyphicon-question-sign" id="reson-btn"></span>
+        </p>
+        <div class="status-nav">
+          <div class="order-filter">
+            <div class="search-order">
+              <!-- <span class="ord-sea-span">My CJ Ordered Data</span> -->
+              <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="From"></input>
+              <span class="line">-</span>
+              <input id="cj-etime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="Now"></input>
+
+              <input class="ord-search-inp" placeholder="Enter Order Number"></input><span ng-click="ordnumSearch()"
+                class="search-btn" href="javascript:void(0)">Search</span>
+              <a class="toggle-moresearch" id="ditect-searchmore" href="javascript:void(0)">
+                <i id="toggle-logo1" style="font-size: 8px;" class="glyphicon glyphicon-triangle-bottom"></i>
+                <span class="filter-span">Filter</span>
+              </a>
+              <!-- filter后面的功能按钮 -->
+              <!-- <a ng-click="addProceFun()" class="deal-style add-to-pro" href="javascript:void(0)">Reprocess</a>
+          <a ng-click="cxlqordFun()" class="deal-style add-to-pro" href="javascript:void(0)">Update</a>
+          <a ng-click="bulkCancelFun()" class="deal-style add-to-pro" href="javascript:void(0)">Cancel</a> -->
+
+              <!-- <span ng-show="timeFlag" id="_h">00:</span> -->
+              <!-- <span id="_m"></span>
+          <span id="_s"></span> -->
+            </div>
+            <!-- 高级搜索部分 -->
+            <div class="more-search" id="ditect-moresearch">
+              <ul>
+                <li class="first-line">
+                  <div class="maybe-top">
+                    <span>Orders Type</span>
+                    <select class="type-sel">
+                      <option>All</option>
+                      <option>Shopify Imported</option>
+                      <option>Excel Imported</option>
+                    </select>
+
+                    <span>Your Ordered Date</span>
+                    <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="y-ord-sdate"
+                      placeholder="from"></input>
+                    <span class="line">-</span>
+                    <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="y-ord-edate"
+                      placeholder="to"></input>
+                  </div>
+                  <!-- </br ng-if="windowWidth"> -->
+                  <div class="maybe-bottom">
+                    <span>Your Product Title</span>
+                    <input id="y-pro-name"></input>
+
+                    <span>CJ Product Title</span>
+                    <input id="cj-pro-name"></input>
+
+                    <span class="buyer-name">Buyer Name</span>
+                    <input class="buyer-inp"></input>
+
+                    <button id="tj-search-btn">Search</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 订单的处理部分 自动订单-->
+      <div class="deal-orders direct-deal-order">
+
+        <!-- 订单的表格部分 自动订单的待处理订单 process required-->
+        <div class="orders-list" id="z-dcl-ord">
+          <table class="orders-table dcl-ord">
+            <thead>
+              <tr>
+                <th class="data-th fir-th" style="width: 136px;">
+                  <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                  <span>CJ Order Number</span>
+                  <img class="showsp-img" src="static/image/public-img/up.png">
+                </th>
+                <th style="width: 108px;">
+                  <p>Your Store Time</p>
+                </th>
+                <!-- <th style="width: 108px;">Your Store</th> -->
+                <th style="width: 128px;">
+                  <select id="dcl-sel-store">
+                    <option>Stores All</option>
+                    <!-- <option>All</option>
+                <option>Some</option> -->
+                    <option ng-repeat="item in shops" value="{{item.id}}">{{item.name}}</option>
+                  </select>
+                </th>
+                <th style="width: 116px;">
+                  Your Order Number
+                </th>
+                <th style="width: 98px;">Store Amount</th>
+                <th style="width: 60px;">Quantity</th>
+
+                <!-- <th style="width: 102px;">Paid On</th> -->
+                <th style="width: 100px;">Shipping Info</th>
+                <!-- <th style="width: 100px;">Shipping Cost</th> -->
+                <!-- <th style="width: 60px;">Action</th> -->
+              </tr>
+            </thead>
+            <tbody class="dcl-ord-tbody" ng-repeat="listName in ordersList" repeat-finish>
+              <tr style="background-color: #ececec;" class="blank-tr">
+                <td colspan="16"></td>
+              </tr>
+              <tr class="order-detail" ng-class="{'gray':listName.order.operateover=='y'}">
+                <td id="cj-ord-num" class="order-time">
+                  <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                  <p class="is-keep" style="display: none;">{{listName.order.operateover}}</p>
+                  <!-- <p class="dclord-sys-time">{{listName.date}}</p> -->
+                  <p class="dclord-sys-time">{{listName.order.ID}}</p>
+                </td>
+                <td class="paid-time cshow-allsp" ng-cloak>
+                  <p>{{listName.order.shopifyDate}}</p>
+                </td>
+                <!-- <td class="paid-time cshow-allsp" ng-if="listName.order.STORE_NAME =='Excel Imported'" ng-cloak>
+                <p>Excel Imported</p>
+                <p>{{listName.order.date}}</p>
+            </td> -->
+                <td class="ord-cai">
+                  <p class="store-name-p" ng-cloak>{{listName.order.STORE_NAME}}</p>
+                  <p style="display: none;" class="split-pp">
+                    <!-- <img src="static/image/public-img/iconresolution.png" class="split-img"> -->
+                  </p>
+                  <p style="display: none;" class="order-id" ng-cloak>{{listName.order.ID}}</p>
+                </td>
+                <td class="order-num-td cshow-allsp" ng-cloak>
+                  {{listName.order.ORDER_NUMBER}}
+                </td>
+                <td class="z-stord-wm cshow-allsp">
+                  <p class="st-price-num" ng-cloak>{{listName.order.SHOPIFYAMOUNT}}USD</p>
+                </td>
+                <td class="cshow-allsp" ng-cloak>{{listName.order.ORDER_QUANTITY}}</td>
+                <td class="shipping-info cshow-allsp">
+                  <p class="buyer-name" title="{{listName.order.CUSTOMER_NAME}}" ng-cloak>
+                    {{listName.order.CUSTOMER_NAME}}</p>
+                  <p class="detail-adress" title="{{listName.order.SHIPPING_ADDRESS}}" ng-cloak>
+                    {{listName.order.SHIPPING_ADDRESS}}</p>
+                  <p title="{{listName.order.shippingAddress2}}" ng-cloak>{{listName.order.shippingAddress2}}</p>
+                  <p class="buyer-adress"
+                    title="{{listName.order.CITY}} {{listName.order.PROVINCE}} {{listName.order.ZIP}} {{listName.order.COUNTRY_CODE}}">
+                    <span ng-cloak>{{listName.order.CITY}}</span>
+                    <span ng-cloak>{{listName.order.PROVINCE}}</span>
+                    <span class="post-code" ng-cloak>{{listName.order.ZIP}}</span>
+                    <span ng-cloak>{{listName.order.COUNTRY_CODE}}</span>
+
+                  </p>
+
+                  <p class="phone-num" ng-cloak>{{listName.order.PHONE}}</p>
+                </td>
+                <!-- <td>
+              <button>Cancel</button>
+            </td> -->
+              </tr>
+              <tr class="d-toggle-tr">
+                <td class="d-tog-td" colspan="16">
+                  <div class="d-toggle-div">
+                    <table class="d-toggle-tab" ng-repeat="pList in listName.product">
+                      <tr id="fir-tr">
+                        <!-- ng-if="{listName.ID == pList.CJOrderId}" -->
+                        <td class="dt-img-td">
+                          <span class="blank-span">
+                            <img class="sp-smallimg" ng-src="{{pList.image}}">
+                            <img class="hide-bigimg" ng-src="{{pList.image}}">
+                          </span>
+                        </td>
+                        <td class="product-name">
+                          <p>
+                            Your Product Title:
+                            <p>{{pList.SHIPPING_NAME}}</p>
+                          </p>
+                        </td>
+                        <td ng-cloak>Store Price: {{pList.SHOPIFYPRICE}}USD</td>
+                        <td ng-cloak>Store Quantity: {{pList.QUANTITY}}</td>
+                        <td ng-cloak>Store Amount: {{pList.SHOPIFYPRICE*pList.QUANTITY}}USD</td>
+                        <!-- <td>{{listName.ID}}</td> -->
+                        <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS}}g</td>
+                        <td style="display: none;" class="dcl-ordwlfs" ng-cloak>{{pList.LOGISTICS_TYPE}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+          <div ng-hide="dataFound" class="not-found-data">
+            <img src="static/image/public-img/nodata.png">
+          </div>
+          <!-- 分页 -->
+          <div class="zdcl-pages-db second-page-fun">
+            <select id="dcl-sel" class="select-page-num ip-select-num2">
+              <!-- <option>5</option> -->
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <!-- <option value="3">200</option> -->
+            </select>
+            <span class="per-page">per page</span>
+            <span class="all-num-line" ng-cloak>{{pcountN}}</span>
+            <span class="per-page">records found</span>
+            <ul class="pagination pagination-demo1"></ul>
+            <span class="per-page showing-tex">showing:</span>
+            <input class="inp-num-go inp-num-go2"></input>
+            <span class="per-page">of</span>
+            <span class="jump-btn ip-jump-btn2">go</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="ordtc-wrap" ng-show="proceTcFlag">
+      <div class="reproce-con">
+        <h1>Reprocess</h1>
+        <p>
+          You are adding the incomplete orders to reprocess.
+        </p>
+        <p>
+          Order Quantity: {{allSelNum}}
+        </p>
+        <div class="protc-btns">
+          <button class="qd-btn" ng-click="addKeepProceSureFun()">Continue and KEEP the unconnected products!</button>
+          <button class="qd-btn" ng-click="addRemoveProceSureFun()">Continue and REMOVE the unconnected
+            products!</button>
+          <button class="qx-btn" ng-click="addProceQxFun()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!-- 弹框 -->
+    <div class="ordtc-wrap" ng-show="keepFlag">
+      <div class="keep-con">
+        <!-- <p>
+      There are <span style="color: #ff8d31;">{{keepedNum}}</span> orders had been submitted. You need not reprocess them. If you want to get these orders to be processable and they had been connected, then you can select these orders and update them.
+    </p> -->
+        <p>
+          You had selected <span style="color: #ff8d31;">{{allSelNum}}</span> orders and <span
+            style="color: #ff8d31;">{{allSelNum-keepedNum}}</span> will go to process required. And <span
+            style="color: #ff8d31;">{{keepedNum}}</span> will be
+          unable to reprocess. Because <span style="color: #ff8d31;">{{keepedNum}}</span> of them had been operated
+          before!
+        </p>
+        <div class="tc-btns">
+          <button class="qx-btn" ng-click="keepQxFun()">Cancel</button>
+          <button class="qd-btn" ng-click="keepSureFun()">Confirm</button>
+        </div>
+      </div>
+    </div>
+    <!-- 删除弹框 -->
+    <div class="ordtc-wrap" ng-show="removeFlag">
+      <div class="remove-con">
+        <p>
+          Are you sure to remove them?
+        </p>
+        <div class="tc-btns">
+          <button class="qx-btn" ng-click="removeQxFun()">Cancel</button>
+          <button class="qd-btn" ng-click="removeSureFun()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="noOrdResonFlag">
+  <div class="editmess-con">
+    <div class="editmess-top">
+      <label>Please enter the order number in your shop.</label>
+      <input class="shop-ordnum-inp" ng-model="shopOrdNum"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="noOrdQxFun()" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="noOrdSureFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单展示后台返回原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="resResonFlag">
+  <div class="editmess-con">
+    <div class="editmess-top">
+      <p class="no-ordres-reson"></p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="closeResReasonFun()" class="edit-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- 批量删除 -->
+<div class="ordtc-wrap" ng-show="bulkDelFlag">
+  <div class="remove-con">
+    <p>
+      Are you sure to remove them?
+    </p>
+    <div class="tc-btns">
+      <button class="qx-btn" ng-click="bulkDelFun()">Cancel</button>
+      <button class="qd-btn" ng-click="bulkSureDelFun()">Confirm</button>
+    </div>
+  </div>
+</div>

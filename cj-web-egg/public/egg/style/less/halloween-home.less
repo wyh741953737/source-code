@@ -1,0 +1,555 @@
+@import './halloween-common.less';
+
+.halloween {
+  height: auto;
+  min-width: 1310px;
+  background: ~'url(/egg/image/halloween/home-halloween-bg.jpg) no-repeat 0px 116px / cover, url(/egg/image/halloween/home-hallowee-slide.jpg) 0px 0px / 100%';
+  background-color: #1D062F;
+  position: relative;
+
+  .avatar-box {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      background:~' url(/egg/image/halloween/avatar-border.png)  no-repeat 0 0 / cover';
+      width: 50px;
+      height: 50px;
+      left: -1px;
+      top: -1px;
+    }
+    img {
+      position: relative;
+    }
+  }
+  .welcome {
+    color: #fff;
+  }
+  .not-login .avatar-box {
+    &::before {
+      width: 58px;
+      height: 58px;
+    }
+  }
+
+  .banner-box .admin .level .h6 {
+    color: #FFFFFF;
+  }
+
+  .banner-box {
+    .category {
+      .cate1-item{
+        color: #989898;
+        > a {
+          color: inherit;
+        }
+        &:hover {
+          color: #FA6F08;
+        }
+      }
+      .cate1-child {
+        background-color: rgba(29, 6, 47, 0.9);
+      }
+      .cate2-anchor {
+        border-bottom: 1px solid #9A8FA0;
+      }
+      .cate3-anchor:hover {
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 20px;
+          height: 18px;
+          vertical-align: -4px;
+          background:~' url(/egg/image/halloween/cate3-anchor-hover.png)  no-repeat 0px 0px / 100%';
+          margin-right: 10px;
+        } 
+      }
+      a, [class$="-anchor"], [class="anchor"] {
+        color: #E6E4E9;
+      }
+      a:hover, [class$="-anchor"]:hover, [class="anchor"]:hover {
+        color: #FA6F08;
+      }
+    }
+    .swiper-pagination-bullet {
+      border: 2px solid rgba(255, 255, 255, 1);
+      opacity: 0.5;
+    }
+    .swiper-pagination-bullet-active {
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+      opacity: 1;
+      background: #FFFFFF;
+    }
+    .info-item {
+      border: 1px solid #5D1B7E;
+      background: rgba(93, 27, 126, 0.32);
+      .value {
+        color: #AB6DEC;
+      }
+      &:hover {
+        background: rgba(170, 0, 255, 0.32);
+        .title {
+          color: #C2C2C2!important;
+        }
+        .value {
+          color: #A54EFF!important;
+        }
+      }
+    }
+  }
+
+  .container-main {
+    background: rgba(29, 6, 47, .5) !important;
+  }
+  
+  .banner-box .admin .btn-gruop a {
+    color: #fff;
+    border: 1px solid #733193;
+  }
+  .banner-box .admin .btn-gruop a.signin {
+    background: rgba(93, 27, 126, 0.31);
+  }
+  .banner-box .admin .btn-gruop a:hover {
+    background: #5D1B7E !important;
+  }
+
+  .banner-box .category .title {
+    background: rgba(93, 27, 126, 1);
+  }
+
+  .banner-box .admin .account .name {
+    color: #fff;
+  }
+
+
+  .banner-box .knowledge .title {
+    color: #fff;
+  }
+
+  .banner-box .knowledge .list-item {
+    &::after {
+      background-color: rgba(120, 47, 157, 1);
+    }
+    a {
+      color: rgba(152, 152, 152, 1)
+
+    }
+  }
+  // .banner-box .category .cate1-item {
+  //   a {
+  //     color: rgba(152, 152, 152, 1) !important;
+  //   }
+  //   color: rgba(152, 152, 152, 1);
+  // }
+  .halloween-wrap {
+    width: 1310px;
+    margin: 100px auto 0;
+    position: relative;
+    padding-bottom: 42px;
+    background:~' url(/egg/image/halloween/home-halloween-wrap-topbg.png)  no-repeat 0px 0px / 100.2%';
+    padding-top: 0;
+    overflow: hidden;
+    .container-main {
+      background: none !important;
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      top: 521px;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 521px);
+      background: ~'url(/egg/image/halloween/home-halloween-wrap-centerbg.png) repeat-y 2px 514px / 100%';
+      z-index: -2;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 2px;
+      width: 100%;
+      height: 330px;
+      background: ~'url(/egg/image/halloween/home-halloween-wrap-footerbg.png) no-repeat 0 0 / 100%';
+      z-index: -1;
+    }
+  }
+  .floor-box {
+    border-radius: 5px;
+    border: 1px solid #FF7700;
+    position: relative;
+    padding: 0 10px 30px;
+    .floor-top {
+      justify-content: flex-end;
+      border: none;
+      padding: 0;
+      .left {
+        display: none;
+      }
+      .right {
+        a {
+          color: #fff;
+        }
+      }
+      .more {
+        color: #fff;
+      }
+      .right:hover * {
+        color: var(--color-primary);
+      }
+    }
+    .product-box {
+      justify-content: space-between;
+      padding: 0;
+    }
+    .flex-fill {
+      width: 16% !important;
+      flex: none !important;
+      background: url(/egg/image/home/super-deal.png) no-repeat center center / 100% 98%;
+    }
+    &::before {
+      position: absolute;
+      content: '';
+      display: block;
+    }
+  }
+  .card-wrap {
+    width: 16%;
+    img {
+      border: none;
+    }
+    // .inner-box {
+    //   border: none;
+    // }
+    .move-box {
+      background: #241F39;
+    }
+    .desc {
+      color: #fff;
+    }
+    .price {
+      font-size: 20px;
+      color: #FFFFFF;
+      line-height: 28px;
+    }
+    &:not([class*="source"]) {
+      &:hover {
+        .move-box {
+          transform: translateY(-42px);
+        }
+      }
+    }
+  }
+  .floor-1 {
+    margin-top: 240px !important;
+    &::before {
+      width: 300px;
+      height: 165px;
+      top: -202px;
+      left: 494px;
+      background: url(/egg/image/halloween/home-hallow-title-super.png) no-repeat center / cover;
+    }
+  }
+  .floor-2 {
+    margin-top: 240px !important;
+    &::before {
+      width: 393px;
+      height: 165px;
+      top: -210px;
+      left: 419px;
+      background: url(/egg/image/halloween/home-hallow-title-trending.png) no-repeat center / cover;
+    }
+  }
+  .floor-3 {
+    margin-top: 232px !important;
+    &::before {
+      width: 368px;
+      height: 165px;
+      top: -207px;
+      left: 442px;
+      background: url(/egg/image/halloween/home-hallow-title-new.png) no-repeat center / cover;
+    }
+  }
+  .floor-4 {
+    margin-top: 240px !important;
+    padding: 30px 6px 30px;
+    &::before {
+      width: 440px;
+      height: 165px;
+      top: -208px;
+      left: 381px;
+      background: url(/egg/image/halloween/home-hallow-title-hot.png) no-repeat center / cover;
+    }
+    .hot-item {
+      h4 {
+        color: #fff;
+        padding: 20px 0 0;
+      }
+    }
+    .floor-top{
+      display: none;
+    }
+  }
+  .floor-5 {
+    margin-top: 240px !important;
+    &::before {
+      width: 396px;
+      height: 165px;
+      top: -212px;
+      left: 420px;
+      background: url(/egg/image/halloween/home-hallow-title-listable.png) no-repeat center / cover;
+    }
+  }
+  .floor-both-wrap .floor-box {
+    padding: 0 10px;
+    &.floor-6.left {
+      margin-top: 167px !important;
+      &::before {
+        width: 409px;
+        height: 147px;
+        top: -167px;
+        left: 170px;
+        background: url(/egg/image/halloween/home-hallow-title-us.png) no-repeat center / cover;
+      }
+    }
+    &.floor-6.right {
+      margin-top: 167px !important;
+      &::before {
+        width: 485px;
+        height: 147px;
+        top: -167px;
+        left: 95px;
+        background: url(/egg/image/halloween/home-hallow-title-warehouse.png) no-repeat center / cover;
+      }
+    }
+    &.floor-7.left {
+      margin-top: 167px !important;
+      &::before {
+        width: 279px;
+        height: 148px;
+        top: -170px;
+        left: 239px;
+        background: url(/egg/image/halloween/home-hallow-title-video.png) no-repeat center / cover;
+      }
+    }
+    &.floor-7.right {
+      margin-top: 167px !important;
+      &::before {
+        width: 300px;
+        height: 148px;
+        top: -167px;
+        left: 219px;
+        background: url(/egg/image/halloween/home-hallow-title-Sourcing.png) no-repeat center / cover;
+      }
+    }
+    .card-wrap {
+      margin-bottom: 30px;
+      .move-box {
+        padding: 5% 0;
+      }
+      .btns {
+        padding: 0;
+        .view-inventory {
+          padding: 0 5px;
+        }
+      }
+    }
+    .card-wrap {
+      &:not([class*="source"]) {
+        &:hover {
+          .move-box {
+            transform: translateY(-55px);
+          }
+        }
+      }
+    }
+  }
+  .floor-8 {
+    margin-top: 240px !important;
+    &::before {
+      width: 415px;
+      height: 165px;
+      top: -207px;
+      left: 424px;
+      background: url(/egg/image/halloween/home-hallow-title-demand.png) no-repeat center / cover;
+    }
+  }
+  .floor-9 {
+    margin-top: 240px !important;
+    padding-top: 30px;
+    .floor-top {
+      display: none;
+    }
+    &::before {
+      width: 500px;
+      height: 165px;
+      top: -220px;
+      left: 338px;
+      background: url(/egg/image/halloween/home-hallow-title-recommended.png) no-repeat center / cover;
+    }
+    .card-wrap .move-box{
+      background: #1D062F;
+    }
+  }
+  .cooperation, .home-evaluation-wrap {
+    .container-main {
+      background: #2E184A!important;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      padding: 30px 20px;
+    }
+  }
+  .cooperation {
+    .container-main {
+      .homepage-head {
+        color: #fff;
+        margin-top: 10px;
+        opacity: 0.9;
+      }
+      .head-detail .head-detail-center {
+        color: #fff;
+        opacity: 0.9;
+      }
+      .head-img-content {
+        padding: 0 0 62px 0;
+        background: url(/egg/image/halloween/big-bcg.png) no-repeat;
+        .img-animation{
+          border-radius: 14px 14px 0 0;
+        }
+      }
+      .car-link {
+        height: auto;
+        padding: 0;
+        .right-link .right-link-body .link-button {
+          background: none;
+        }
+      }
+      .cooperation-link {
+        background: none;
+        padding: 0;
+        height: auto;
+        .cooperation-detail {
+          color: #fff;
+          opacity: 0.9;
+        }
+      }
+      .put-cj {
+        padding: 0;
+        height: auto;
+        .left-title, .left-code-text {
+          color: #fff !important;
+          opacity: 0.9;
+        }
+        svg {
+          g {
+            stroke: #fff;
+          }
+        }
+        .svg-star {
+          g {
+            fill: #fff;
+            stroke: none;
+          }
+        }
+      }
+    }
+    &.bg-white {
+      background: none!important;
+    }
+    .white-content, .grey-content {
+      background: none;
+    }
+  }
+  .home-evaluation-wrap {
+    background: none;
+    height: auto;
+    .container-main {
+      height: 460px;
+      padding: 50px 20px 0px;
+    }
+    .evaluation-wrap {
+      .title {
+        color: #fff;
+        opacity: 0.9;
+      }
+      .right-wrap .swiper-wrap .icon {
+        background-image: url(/egg/image/halloween/evalute-icon.png);
+        opacity: 0.4;
+      }
+    }
+    .swiper-slide-text {
+      background: none;
+      color: #fff;
+    }
+  }
+  .contact-details-box, .copyright {
+    background: none;
+    border: none;
+  }
+  .related-links{
+    padding: 40px 0 20px;
+    background: none;
+    border: none;
+    .container-main {
+      background: none!important;
+    }
+  }
+  .contact-details-box {
+    margin-bottom: 26px;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -1px;
+    width: 100%;
+    height: 590px;
+    background: ~'url(/egg/image/halloween/home-hallow-footer-bg.jpg) #2E1B48 no-repeat left bottom / 100%';
+    z-index: -1;
+  }
+  .floor-indicate {
+    .indicate-gruop {
+      width: 66px;
+      background: #19072C;
+      border: 2px solid #3F2264;
+      .indicate-item {
+        height: 44px;
+      }
+    }
+    .iconfont {
+      line-height: 44px;
+    }
+    .back-top {
+      padding-top: 0;
+      .iconfont {
+        line-height: 23px;
+      }
+    }
+    .indicate-item {
+      margin-bottom: 0px;
+    }
+    .indicate-item.active, .indicate-item:hover {
+      background: #5D1B7E !important;
+      color: #fff;
+    }
+  }
+}
+
+.halloween .halloween-open-animation {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 100001;
+}
+
+.halloween .halloween-open-animation svg {
+  vertical-align: bottom;
+  margin-top: 63px;
+  #halloween-start-btn, #halloween-close-btn {
+    cursor: pointer;
+  }
+}

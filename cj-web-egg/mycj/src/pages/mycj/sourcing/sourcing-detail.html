@@ -1,0 +1,294 @@
+<style>
+	.vip #viewProductup  {
+		background: #FFFFFF;
+		color: rgba(216, 168, 99, 1) !important; 
+	  	border-color: rgba(216, 168, 99, 1) !important;
+	}
+	.vip #viewProductup:hover {
+		color: #ffffff !important;
+		background-color: rgba(198, 150, 88, 1) !important;
+	}
+	:not(.vip) #viewProductup {
+		background: #FFFFFF;
+		color: #ff7700;
+		border-color: #ff7700;
+	}
+	:not(.vip) #viewProductup:hover {
+		color: #ffffff !important;
+		background-color: rgba(229, 106, 0, 1);
+	}
+	.vip #hover1:hover {
+		background: rgba(198, 150, 88, 1) !important;
+	}
+	:not(.vip) #hover1:hover {
+		background: rgba(255, 106, 0, 1);
+	}
+	.vip #hover2:hover {
+		background: rgba(198, 150, 88, 1) !important;
+	}
+	:not(.vip) #hover2:hover {
+		background: rgba(255, 106, 0, 1);
+	}
+	.vip #viewProductDe {
+		color: rgba(216, 168, 99, 0.5);
+	  	border-color: rgba(216, 168, 99, 0.5);
+	}
+	.vip #viewProductDe:hover {
+		background: #FFFFFF;
+		color: rgba(216, 168, 99, 0.5);
+		border-color: rgba(216, 168, 99, 0.5);
+	}
+	:not(.vip) #viewProductDe {
+		color: rgba(229, 106, 0, 0.5);
+		border-color: rgba(229, 106, 0, 0.5);
+	}
+	:not(.vip) #viewProductDe:hover {
+		background: #ffffff;
+		color: rgba(229, 106, 0, 0.5);
+		border-color: rgba(229, 106, 0, 0.5);
+	}
+</style>
+<div class="sourcing-detail" ng-click="selectReason = false; $event.stopProPagation();">
+	<!-- 内容部分 -->
+	<div class="hnj-back-to" style="line-height: 40px;">
+		<a href="#/sourcing">
+			< Back </a>
+	</div>
+	<div class="seachdetail-con">
+		<div class="seachdetail-top">
+			<span>
+				Sourcing Style: <span ng-bind="sourceStyle"></span>
+			</span>
+			<span ng-hide="sourcecontent.sourcetype=='2'" class="sourceId">Sourcing ID: <span ng-bind="sourcecontent.number"></span></span>
+			<span ng-show="sourcecontent.sourcetype=='2'" class="sourceId">Sourcing ID: <span ng-bind="sourcecontent.NUMBER"></span></span>
+			<span ng-if="!sourcecontent.ate" class="updateDate">
+				Updated Date: <span class="notranslate">{{UpdateTime}}</span>
+			</span>
+			<span ng-if="sourcecontent.ate" class="updateDate">Updated Date: <span class="notranslate">{{sourcecontent.ate}}</span></span>
+		</div>
+		<div class="manager-box" style="margin:32px 0;">
+			<div class="product-status success" ng-show="sourcecontent.status=='3'||(sourcecontent.sourcetype=='2' && sourcecontent.status=='2')">
+				<div>
+					<div class="sourcing-status">
+						<h3 class="center-block">Sourcing Success</h3>
+						<div class="show-status up" ng-if="salestatus === '3'" style="margin-left: 16px;">
+							<span>Product Status: Published</span>
+						</div>
+						<div class="show-status down" ng-if="salestatus === '5' || salestatus === '0'" style="margin-left: 16px;">
+							<span>Product Status: Removed</span>
+						</div>
+					</div>
+					<h4 class="center-block" style="margin-top:24px;">Congratulations. We sourced this product for you. You can start dropshipping this product now. Please contact our agent if you have any queries about this product.</h4>
+					<p style="display: flex; margin-top:64px;">
+						<button class="toDetail ui-btn btn-line-theme" id="viewProductup" ng-click="succeed(sourcecontent,false)" ng-show="salestatus === '3'">View Product Details</button>
+						<button class="toDetail ui-btn btn-line-theme" id="viewProductDe" ng-show="salestatus === '5' || salestatus === '0'" disabled>View Product Details</button>
+						<button class="listBtn ui-btn btn-theme" id="hover1" ng-click="succeed(sourcecontent,true)" ng-show="sourcecontent.sourcetype!=0 && salestatus == '3'">List</button>
+						<button class="listBtn ui-btn btn-theme" ng-show="sourcecontent.sourcetype!=0 && alreadyPublish==false && (salestatus === '5' || salestatus === '0')" disabled>List</button>
+						<button class="listBtn ui-btn btn-theme" id="hover2" ng-click="toConnectPage()" ng-show="sourcecontent.sourcetype==0 && salestatus == '3'">Connect</button>
+						<button class="listBtn ui-btn btn-theme" ng-show="sourcecontent.sourcetype==0 && alreadyConnect==false && (salestatus === '5' || salestatus === '0')"disabled>Connect</button>
+					</p>
+				</div>
+
+
+				<div class="product-show-img" ng-click="salestatus === '5' || salestatus === '0' || succeed(sourcecontent,false)">
+					<img ng-src="{{bigimg}}" />
+					<!-- <div class="proName">
+								<div class="_text">{{sourcecontent.productName}}</div>
+							</div> -->
+				</div>
+			</div>
+			<div class="product-status"
+				ng-show="sourcecontent.status=='1' || sourcecontent.status=='8'|| sourcecontent.status=='5'">
+				<h3 class="center-block" style="padding-left: 96px;">Pending…</h3>
+				<h4 class="center-block" style="margin: 24px 0 0 0; padding-left: 96px;">We are trying our best to find the products you are interested in.Please wait patiently.</h4>
+			</div>
+			<div class="product-status" ng-show="(sourcecontent.sourcetype!='2' && sourcecontent.status=='2')||(sourcecontent.sourcetype=='2' && sourcecontent.status=='0')">
+				<div>
+					<h3 class="center-block" style="padding-left: 96px; width: 290px;">Sourcing Failed</h3>
+					<h4 class="center-block" style="margin: 24px 0 0 0; padding-left: 96px;">Unfortunately, we have tried our best to source the product you are interested in but failed. You can either post a new sourcing request or source similar ones from our marketplace.</h4>
+					<h4 style="margin:24px 0 0 0; padding-left: 96px;" class="center-block">
+						<span style="color:#AE0000">Reason:</span>
+						<span ng-bind-html="sourcecontent.failExplain"></span>
+					</h4>
+					<h4 style="margin:24px 0 0 0; padding-left: 96px;" class="center-block" ng-if="!sourcecontent.skuList.error">
+						<span style="color:#000; padding-top: 7px;">Related Product:</span>
+						<div class="sku-tag-box">
+							<a target="_blank" class="notranslate sku-tag" ng-repeat="(key, item) in sourcecontent.skuList track by $index"
+								href="/product-detail.html?id={{ item }}&push_id=&fromType=">
+								{{key}}
+							</a>
+						</div>
+						<!-- <a ng-bind-html="sourcecontent.xiangSiLianJie"
+							class="text-theme click-here" style="font-size:14px;"></a> -->
+					</h4>
+				</div>
+			</div>
+		</div>
+		<!-- user部分 -->
+		<div class="manager-box">
+			<!-- 产品详情部分 -->
+			<div class="product-detail">
+				<ul class="pro-ul">
+					<li class="sd-c-li1">
+						<p class="detail-p1" style="width: 100%;">
+							<span class="gray-span detail-span1">Product Title:</span>
+							<span id="sdc-productname" class="light-span detail-span2">{{sourcecontent.productName}}</span>
+						</p>
+
+					</li>
+					<li>
+						<p class="detail-p6">
+							<span class="gray-span" ng-if="sourcecontent.sourcetype=='0'">Store Name:</span>
+							<span class="light-span detail-span2" ng-if="sourcecontent.sourcetype=='0'">
+								{{sourcecontent.ShopName==undefined?'-':sourcecontent.ShopName}}
+							</span>
+							<span class="gray-span">Store Price:</span>&nbsp;
+							<!-- <span class="gray-span">Target Dropshipping Price（included shipping）:</span> -->
+							<span id="sdc-dropprice" class="light-span detail-span2">
+								<span>USD</span>
+								<span>{{sourcecontent.price?sourcecontent.price:'-'}}</span>
+								</span>&nbsp;&nbsp;
+							<span class="gray-span">Included Shipping to Main Country: </span>
+							<span id="sdc-sku"
+								class="light-span detail-span6">{{sourcecontent.country?sourcecontent.country:'-'}}</span>
+						</p>
+					</li>
+
+					<li>
+						<p>
+							<span class="gray-span">Sourcing URL:</span>
+							<span ng-show="!sourcecontent.sourceUrl">-</span>
+							<a ng-show="sourcecontent.sourceUrl" ng-href={{sourcecontent.sourceUrl}} target="view_window">
+								<span id="sdc-souurl" class="light-span detail-span2">{{sourcecontent.sourceUrl}}</span>
+							</a>
+						</p>
+					</li>
+					<li ng-if="sourcecontent.productUrl">
+						<p>
+							<span class="gray-span">Product URL:</span>
+							<span ng-show="!sourcecontent.productUrl">-</span>
+							<a ng-show="sourcecontent.productUrl" ng-href={{sourcecontent.productUrl}} target="view_window">
+								<span id="sdc-souurl" class="light-span detail-span2">{{sourcecontent.productUrl}}</span>
+							</a>
+						</p>
+					</li>
+					<li class="image-li">
+						<p>
+							<span class="gray-span">Images:</span>
+						<ul ng-if="sourcecontent.imageUrl!='https://'">
+							<li ng-repeat="item in sourcecontent.imageUrl track by $index">
+								<img class="first-img" ng-src={{item}}>
+							</li>
+						</ul>
+						<span ng-if="sourcecontent.imageUrl=='https://'">-</span>
+						</p>
+					</li>
+					<li class="note-li">
+						<p class="detail-p10">
+							<span class="gray-span">Description:</span>
+							<span ng-show="!sourcecontent.description">-</span>
+						</p>
+						<p style="margin-top: 10px;">
+							{{sourcecontent.description}}
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- Manager部分 -->
+
+	</div>
+
+	<!-- 搜品评论 仅在搜品成功状态显示 -->
+	<div class="sourcing-result" ng-class="{'isVip': vip == 1}" ng-show="sourcecontent.status=='3'||(sourcecontent.sourcetype=='2' && sourcecontent.status=='2')">
+		<div class="result-info">
+			<div class="head">Existing Product</div>
+			<div class="info-box">
+				<div class="img-box" ng-click="succeed(sourcecontent,false)">
+					<img src="{{bigimg}}" alt="">
+				</div>
+				<p class="title" ng-click="succeed(sourcecontent,false)">
+					<span class="title-desc">{{productNameEn}}</span>
+				</p>
+			</div>
+		</div>
+		<div class="sourcing-review" ng-show="showReview.whetherToComment && !isReviewd">
+			<div class="head">*Waiting for Review</div>
+			<div style="width: 100%; display: flex;">
+				<div class="main" style="flex: 1;">
+					<div class="new-rate">
+						<span style="color: #F34541;">*</span>
+						<span class="desc">Rating (Product as expected)</span>
+						<rate read-only="false" rate-number="rateStar" font-size="28" ng-if="!isReviewd"></rate>
+					</div>
+					<!-- 评论低于4星时显示原因 和输入框， 为必填内容-->
+					<div class="reason" ng-show="rateStar && rateStar < 4">
+						<span style="color: #F34541;">*</span>
+						<span class="desc">Reason: </span>
+						<div class="select-reason">
+							<div class="select-box" ng-click="handleShowOptionBox($event)">
+								<input placeholder="Please select the reason." readonly class="selected" ng-model="selectItem.name"></input>
+								<i class="iconfont iconbianzu101 selectIcon" ng-show="!selectReason"></i>
+								<i class="iconfont iconbianzu12 selectIcon" ng-show="selectReason"></i>
+							</div>
+							<div class="option-box" ng-show="selectReason">
+								<div class="option-item" ng-Click="handleSelectItem(r)" ng-repeat="r in reasonList">{{r.name}}</div>
+							</div>
+						</div>
+						<div class="textarea" ng-show="selectItem.id == '5'">
+							<div class="new-comment-edit-text-box">
+								<textarea 
+									ng-model="commentText" 
+									ng-change="handleCommentChange(commentText)"
+									id="new-comment-edit-text"  
+									class="new-comment-edit-text" 
+									placeholder="Please leave your review here and we will improve it."
+									></textarea>
+									<span class="text-num" ng-class="{'notAllow': textNumber > 500}">{{textNumber}}/500</span>
+							</div>
+							
+						</div>
+					</div>
+					<!-- <button class="submit" ng-class="{'btn-not': notSubmit}" ng-click="handleSubmit()">Submit</button> -->
+				</div>
+				<div style="width: 108px;position: relative;">
+					<button class="submit" ng-class="{'btn-not': notSubmit}" ng-click="handleSubmit()">Submit</button>
+				</div>
+				
+			</div>
+			
+		</div>
+		<div class="sourcing-review fail-reason" ng-show="!showReview.whetherToComment && !isReviewd">
+			{{showReview.reason}} 
+		</div>
+		<div class="sourcing-review" ng-if="isReviewd">
+			<div class="main">
+				<div class="new-rate">
+					<span style="color: #F34541;">*</span>
+					<span class="desc">Rating (Product as expected)</span>
+					<rate read-only="true" rate-number="rateStar" font-size="28"></rate>
+				</div>
+				<div class="reason" ng-show="review.reason || review.text">
+					<span style="color: #F34541;">*</span>
+					<span class="desc" style="margin-right: 0;">Reason: </span>
+					<span class="content">{{review.reason}}{{review.text}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 推荐 -->
+	<div class="recommendList">
+		<p class="pd-relat-p" ng-cloak ng-show="likeList.length > 0">Recommended Products</p>
+		<div class="pd-commodity-show" ng-show="likeList.length > 0" ng-cloak>
+			<i class="iconfont left-icon" ng-click="pageLike()">&#xe69c;</i>
+			<div class="ProWarp" style="min-height: 371px;">
+				<div class="fx-wrap product-detail-list">
+					<product-card ng-repeat="(index,item) in likeList" ng-cloak data="item" width='225'>
+					</product-card>
+				</div>
+			</div>
+			<i class="iconfont right-icon" ng-click="pageLike()">&#xe6a1;</i>
+		</div>
+	</div>
+</div>

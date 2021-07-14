@@ -1,0 +1,57 @@
+<div>
+  <div class="_add_address_btn" ng-click="addNewFun()">Add New Address</div>
+  <!-- 默认地址 -->
+  <div class="address-box">
+    <div class="ship-address">
+      <!-- 其它收货地址 -->
+      <div class="select-ship" id="other-address">
+        <div class="select-ship-cont">
+          <div class="manage-list">
+            <div class="manage-item" ng-class="{default:item.isDefault == 1}" ng-repeat="item in addressList">
+              <div class="manage-item-default" ng-if="item.isDefault == 1">Default Shipping Address</div>
+              <p class="manage-item-name">First Name: {{item.firstname}}</p>
+              <p class="manage-item-name">Last Name: {{item.lastname}}</p>
+              <div class="manage-item-cont">
+                <p class="manage-item-info">Phone Number: {{fromErpNotAdmin ? '**********' : item.phone}}</p>
+                <p class="manage-item-info">Address1: {{fromErpNotAdmin ? '**********' : item.address}}</p>
+                <p class="manage-item-info" ng-if="item.addressNew">Address2: {{fromErpNotAdmin ? '**********' : item.addressNew}}</p>
+                <div class="manage-item-info d-flex">
+                  <span class="manage-item-info-item">City: {{item.city}}</span>
+                  <span class="manage-item-info-item">Postcode: {{item.zip}}</span>
+                </div>
+                <div class="manage-item-info d-flex">
+                  <span class="manage-item-info-item">Province: {{item.province}}</span>
+                  <span class="manage-item-info-item">Country: {{item.country}}</span>
+                </div>
+              </div>
+              <div class="manage-item-edit-box">
+                <span class="btn default" ng-if="item.isDefault != 1" ng-click="setDefaultAddress(item,$event)">Set as Default Address</span>
+                <span class="btn edit" ng-click="edit(item)">Edit</span>
+                <span class="btn delete" ng-if="item.isDefault != 1" ng-click="isdelAdressFun(item)">Delete</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 新增或编辑地址弹窗 -->
+<add-address parmas="addressParmas"></add-address>
+
+<!-- 询问是否删除地址 -->
+<div class="confirm-box address-delete-warp" ng-show="isdelAddressFlag">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="isdelAddressFlag=false"></i>
+    <div class="confirm-title">Delete</div>
+    <div class="confirm-content">
+      <i class="iconfont iconjinggaotishi text-theme"></i> Are you sure to delete this address?
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="isdelAddressFlag=false" class="no-btn">Cancel</span>
+      <span ng-click="deleteAddress()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<style>
+    .copy-btn {
+        background-color: #666 !important;
+        color: #fff !important;
+        width: 40px !important;
+        height: 20px !important;
+        line-height: 20px !important;
+        font-size: 12px !important;
+    }
+
+    .orange-color {
+        color: #f90;
+    }
+</style>
+<div ng-mouseenter="copyFlag = true;" ng-mouseleave="copyFlag = false;">
+    <div ng-show="copyFlag">
+        <button ng-click="copyFun(ordNum)" class="copy-btn">Copy</button>
+    </div>
+    <a ng-click="hrefLinkFun(item)" class="orange-color" href="javascript:void(0)">{{ordNum}}</a>
+</div>

@@ -1,0 +1,180 @@
+<link rel="stylesheet" href="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.min.css">
+{% if EGG_ENV === 'local' %}
+<script src="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.js"></script>
+{% else %}
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/swiper-5.3.6/swiper.min.js"></script>
+{% endif %}
+
+{% if swiperList.length > 0 %}
+<div class="swiper-container swiper-container-hot-img">
+  <div class="swiper-wrapper">
+    {% for item in swiperList %}
+    <div class="swiper-slide">
+      <div class="slide-main">
+        <div class="imgBox">
+          <a href="/product-detail.html?id={{item.productId}}&push_id=&fromType=">
+            <img src="{{item.bigImg}}" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="swiper-container swiper-container-hot-text">
+  <div class="swiper-wrapper">
+    {% for item in swiperList %}
+    <div class="swiper-slide swiper-no-swiping">
+      <div class="slide-main">
+        <div class="text">
+          <div>
+            <a href="/product-detail.html?id={{item.productId}}&push_id=&fromType=">
+              <h3 data-swiper-parallax="-800" data-swiper-parallax-opacity="0" data-swiper-parallax-duration='900'>
+                {{item.nameEn}}
+              </h3>
+              <p  data-swiper-parallax="-600" data-swiper-parallax-opacity="0" data-swiper-parallax-duration='1100'>
+                {{item.details}}
+              </p>
+              <span class="list" data-swiper-parallax="-400" data-swiper-parallax-opacity="0"  data-swiper-parallax-duration='1400'>
+                {% if item.num > 1 %}
+                Lists:
+                {% endif %}
+                {% if item.num < 2 %}
+                List:
+                {% endif %}
+                {{item.num}}
+              </span>
+              <span class="price" data-swiper-parallax="-200" data-swiper-parallax-opacity="0"  data-swiper-parallax-duration='1500'>
+                {{item.sellPrice}}
+              </span>
+              <span class="btn-view-more" data-swiper-parallax="-100" data-swiper-parallax-opacity="0"  data-swiper-parallax-duration='1600'>
+                Start Design
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<div class="default">
+  <img src="/egg/image/printonDemand/default.png" />
+  <div>
+    <div>
+      <h3>Print on Demand</h3>
+      <p>The most touching word in the world is "Unique"  </p>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<script>
+  const EXCHANGE_RATE = (price, arg0) => {
+    if (typeof window === 'undefined') {
+      // 服务端(可以通过cookie实现，比较繁琐，暂时不管)
+      return `$${price}`;
+    }
+
+    // 处理垃圾后台的脏数据
+    const priceProcessor = price => typeof price === 'string'
+      ? price.replace(' -- ', '-')
+      : price;
+
+    const tmp = CJ_.$cookie.get('currency');
+    const currency = tmp ? CJ_.cookieParser(tmp) : CJ_.config.currency;
+
+    /** 
+     * 汇率、币种符号、千分号
+     * @args Array 'number:len' | 'symbol' | 'float:len' 只返回金额部分，只返回符号部分，保留数字长度
+     * 如果只想要金额 | exchangeRate: 'number'
+     * 如果只想要符号 | exchangeRate: 'symbol'
+     * 如果想要小数金额不带符号 | exchangeRate: 'number:4' 默认2
+     * 如果想要小数金额带符号 | exchangeRate: 'float:4' 默认2
+     * @return 默认返回例: $1.44 (符号+两个长度小数)
+     */
+    var rate = currency.rate;
+    var symbol = currency.symbol;
+    var _price = priceProcessor(price);
+    var floatLen = 2;
+
+    if (/(number|float)(:\d)?/.test(arg0)) {
+      const arr = arg0.split(':');
+      if (/\d/.test(arr[arr.length - 1])) {
+        floatLen = arr[arr.length - 1];
+      }
+    }
+
+    if (!rate || !price) return price;
+
+    try {
+      if (/-/.test(_price)) {
+        var arr1 = _price.split('-').map(p => (p * rate).toFixed(floatLen));
+        _price = arr1.join('-');
+      } else {
+        _price = (_price * rate).toFixed(floatLen); // 保留两位小数点
+      }
+      // ---- 19-10-19 加入千分号 ----
+      _price = _price.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      // -----------------------------
+    } catch (e) {
+      console.warn('汇率转换报错\n', e, '\n', price);
+      return '--';
+    }
+
+    if (/NaN/.test(_price)) {
+      console.warn('NaN 价格 ->', price);
+    }
+
+    // return `${symbol}${/NaN/.test(_price) ? '--' : _price}`;
+
+    if (/NaN/.test(_price)) {
+      return '--';
+    }
+    if (arg0 === 'symbol') {
+      return symbol;
+    }
+    if (/number(:\d)?/.test(arg0)) {
+      return _price;
+    }
+
+    return symbol + _price;
+  }
+  const swiperImg = new Swiper('.swiper-container-hot-img', {
+    loop: true, // 循环模式选项
+    delay: 5000,
+    speed: 2000,
+    autoplay: {
+      disableOnInteraction: false,
+    },
+    // 如果需要前进后退按钮
+    navigation: {
+      nextEl: '.button-hot-next',
+      prevEl: '.button-hot-prev',
+    },
+  })
+  const swiperText = new Swiper('.swiper-container-hot-text', {
+    loop: true, // 循环模式选项
+    speed: 2000,
+    parallax : true,
+    noSwiping : true,
+  })
+  swiperImg.controller.control = [swiperText]
+
+  const prices = []
+  for (let index = 0; index < $('.swiper-container-hot-text .price').length; index++) {
+    prices.push($('.swiper-container-hot-text .price')[index].innerHTML)
+  }
+  function rate() {
+    for (let index = 0; index < prices.length; index++) {
+      const text = EXCHANGE_RATE(prices[index])
+      $('.swiper-container-hot-text .price')[index].innerHTML = text
+    }
+  }
+  rate()
+  window.addEventListener('currency-rate/setSwiper', ev => {
+    rate()
+  });
+</script>
+<!-- swiper -e- -->

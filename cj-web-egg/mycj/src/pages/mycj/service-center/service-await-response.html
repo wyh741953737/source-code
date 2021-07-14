@@ -1,0 +1,643 @@
+<style type="text/css">
+  .orders-table .warn-border {
+    border: 1px solid #F13F14;
+  }
+
+  .warn-img {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .marl20 {
+    margin-left: 24px;
+  }
+
+  .prism-big-play-btn {
+    left: calc(50% - 32px) !important;
+    bottom: calc(50% - 32px) !important;
+  }
+
+  .waiting-res {
+    position: relative;
+    padding-left: 30px;
+    margin-left: 20px;
+  }
+
+  .waiting-res::before {
+    content: '';
+    background: url('static/image/direct-orders/multiple1.png') no-repeat center center;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 5px;
+    top: 2px;
+  }
+
+  .waiting-res.checked::before {
+    background: url('static/image/direct-orders/multiple2.png') no-repeat center center;
+  }
+
+  .video-ul {
+    display: flex;
+  }
+
+  .disputecenter-wrap .replybox .video-ul .img-show {
+    position: relative;
+    justify-content: space-around;
+    padding: 0;
+    margin-right: 10px;
+  }
+
+  .upload_video_wrap {
+    width: 104px;
+    height: 104px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.02);
+    position: relative;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .upload-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 104px;
+    height: 104px;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .close-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .uplod-img-box {
+    display: inline-block;
+    border: 1px solid #ccc;
+    width: 104px;
+    height: 104px;
+    position: relative;
+    border-radius: 5px;
+  }
+
+  .img-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .upload-hint i {
+    color: red;
+    font-style: normal;
+  }
+  .preview-wrap{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 999;
+	background-color: rgba(0,0,0,0.3);
+  }
+  .preview-wrap .pre-bigImg{
+		height: 350px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform:translate(-50%,-50%);
+	}
+</style>
+
+<div class="mycj-home-box service-await-response">
+  <!-- 右边部分 -->
+  <div class="aftersale-right p-3">
+    <ul class="top-taps">
+      <li class="tab-theme drop" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+        <a href="{{item.href}}">{{item.name}}
+          <span class="notranslate" ng-if="$index==0">(<span style="color: red"
+            title="{{afterNum4}} order(s) need to be processed as soon as possible.">{{afterNum4}}</span>/<span>{{afterNum1}}</span>)</span></a>
+          <span class="notranslate" ng-if="$index==1">{{'('+afterNum2+')'}}</span>
+          <span class="notranslate" ng-if="$index==2">{{'('+afterNum3+')'}}</span>
+        </a>
+      </li>
+    </ul>
+    <div class="order-status">
+      <a href="#/after-sale-return" class="ui-btn btn-theme return">Return</a>
+      <div class="status-nav">
+        <div class="order-filter" id="order-2">
+          <div class="search-order">
+            <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+              placeholder="From">
+            <span class="line">-</span>
+            <input id="cj-etime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+              placeholder="Now">
+
+            <input class="ord-search-inp" ng-keypress="enterSearch($event)" placeholder="Enter order number" ng-model="searchval"></input><span
+              class="search-btn btn-theme" href="javascript:void(0)" ng-click="search()" cjdot cjdotshow='{"eventType":2}'>Search</span>
+            <select class="selJfLx">
+              <option value="">All</option>
+              <option value="No Tracking Information Found">No Tracking Information Found</option>
+              <option value="Tracking Information Frozen">Tracking Information Frozen</option>
+              <option value="Tracking Information Error">Tracking Information Error</option>
+              <option value="Order Returned">Order Returned</option>
+              <option value="Products Short">Products Short</option>
+              <option value="Defective Products">Defective Products</option>
+              <option value="Received Incorrect Products">Received Incorrect Products</option>
+              <option value="Order Not Received">Order Not Received</option>
+              <option value="Lack Of Inventory">Lack of Inventory</option>
+              <option value="Unfilled Orders Cancellation">Unfilled Orders Cancellation</option>
+            </select>
+            <span class="waiting-res" ng-class="waitingResBtn ? 'checked' : ''" ng-if="ordstatus==1"
+              ng-click="filterBtnHandle()">Waiting For My Response</span>
+            <!-- <button class="afsel-copylinkbtn afsel-ordfitbtn">Copy Link</button>
+                    <button ng-click="setStoreFun()" class="afsel-settingbtn afsel-ordfitbtn">Setting</button> -->
+          </div>
+          <!-- �߼��������� -->
+          <div class="more-search">
+            <ul>
+              <li class="first-line">
+                <span>Orders Type</span>
+                <select class="type-sel">
+                  <option>All</option>
+                </select>
+                <span>Sku Number</span>
+                <input class="number-inp"></input>
+                <span>Orders status</span>
+                <select class="status-sel">
+                  <option>All</option>
+                </select>
+                <span>Shipping Method</span>
+                <select class="method-sel">
+                  <option>All</option>
+                </select>
+              </li>
+              <li class="second-line">
+                <span>Ordered Data</span>
+                <input class="data-inp" placeholder="from"></input>
+                <span class="line"></span>
+                <input placeholder="to"></input>
+                <span class="buyer-name">Buyer Name</span>
+                <input class="buyer-inp"></input>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- awaiting cj response ��һ������-->
+    <div class="deal-orders aftersale-deal-order">
+      <!-- �����ı�񲿷� -->
+      <div class="orders-list">
+        <table class="orders-table" id="cj-response-table">
+          <thead>
+            <tr>
+              <th class="data-th middle-th" style="position: relative;">
+                <img style="position: absolute;top: 50%;left:10px;transform: translateY(-50%);" class="zchecked-all"
+                  src="static/image/direct-orders/multiple1.png">
+                <p style="margin-left: 20px">Order Number</p>
+                <!-- <p style="margin-left: 20px">Bulk CJ Order Number</p> -->
+              </th>
+              <!-- <th>
+                        <p>Your Store Time</p>
+                        <p>System Time</p>
+                    </th> -->
+              <th class="middle-th">
+                {{websiteName}} Order Number
+                <p ng-if="ordstatus==2">Resend Order Number</p>
+              </th>
+              <th class="middle-th">Tracking Number</th>
+              <th class="middle-th">
+                Dispute Type
+              </th>
+              <th class="middle-th">
+                Expected Solution
+              </th>
+              <th class="middle-th">
+                Created Date
+              </th>
+              <th ng-if="ordstatus==1" class="large-th">
+                Response
+              </th>
+              <th class="small-th">Status</th>
+              <th class="small-th">Operation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="order-detail" ng-repeat="item in ordersList">
+              <td class="order-time notranslate">
+                <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                <p class="customer-ordid" ng-cloak>
+                  <copy-ordnum ordnum="item.orderNumber" parmas="item" stuindex="1" leftindex="2"></copy-ordnum>
+                </p>
+                <!-- <p ng-click="hrefLinkFun(item)" class="customer-ordid" ng-cloak>{{item.orderNumber}}</p> -->
+              </td>
+              <td ng-cloak style="position: relative;">
+                <span title="You have an order waiting shipping again, pls process asap."
+                  ng-if="item.status=='2'&&!item.money" style="color: #f99429; cursor: pointer;"
+                  class="iconfont">&#xe626;</span>
+                <span title="We are going to refund you for this order, please check the detail by clicking View."
+                  ng-if="item.status=='2'&&item.money" style="color: #f99429; cursor: pointer;"
+                  class="iconfont">&#xe626;</span>
+                <!-- <img title="You have an order waiting shipping again, pls process asap."
+                                  class="warn-img" ng-if="item.status=='2'&&!item.money"
+                                  src="static/image/public-img/warn.png"> -->
+                <!-- <img title="We are going to refund you for this order, please check the detail by clicking View."
+                                  class="warn-img" ng-if="item.status=='2'&&item.money"
+                                  src="static/image/public-img/warn.png"> -->
+                <!-- <p ng-class="{'marl20':item.status=='2'}">{{item.ID}}</p> -->
+                <p ng-class="{'marl20':item.status=='2'}">
+                  <copy-ordnum ordnum="item.ID" parmas="item" stuindex="1" leftindex="2"></copy-ordnum>
+                </p>
+                <p ng-class="{'marl20':item.status=='2'}" ng-if="item.disputeOrder">
+                  {{item.disputeOrder+'D'}}</p>
+                <!-- <img ng-if="item.status=='2'" src="static/image/public-img/waring.png"> -->
+              </td>
+              <td>
+                <p>{{item.TRACKINGNUMBER}}</p>
+                <p ng-if="item.NEWTRACKINGNUMBER" class="green">{{item.NEWTRACKINGNUMBER}}</p>
+              </td>
+              <td>{{item.type}}</td>
+              <td>
+                <p class="yellow" ng-if="item.expectResult=='1'">Refund</p>
+                <p class="green" ng-if="item.expectResult=='2'">Resend</p>
+              </td>
+              <td ng-cloak>
+                {{ item.createDate.year+1900}}-{{item.createDate.month+1}}-{{item.createDate.date}}
+                {{item.createDate.hours}}:{{item.createDate.minutes}}:{{item.createDate.seconds}}
+              </td>
+              <td ng-if="ordstatus==1">
+                <P ng-if="item.responseType=='CJ'&&item.status!='6'" class="yellow" ng-cloak>Waiting
+                  your response</P>
+                <P ng-if="item.responseType=='ERP'&&item.status!='6'" class="green" ng-cloak>Waiting CJ
+                  confirmation</P>
+                <P ng-if="item.responseType=='supplier'&&item.status!='6'" class="green" ng-cloak>Waiting Supplier
+                  confirmation</P>
+                <p class="green" ng-if="item.status=='6'">Waiting {{websiteName}} response</p>
+              </td>
+              <td ng-cloak ng-if="ordstatus==1">
+                <p class="blue" ng-if="item.status=='1'">Reviewing</p>
+                <p class="yellow" ng-if="item.status=='2'&&item.money">Refund Confirmation</p>
+                <p class="yellow" ng-if="item.status=='2'&&!item.money">Resend Confirmation</p>
+                <p class="green" ng-if="item.status=='3'">Completed</p>
+                <p class="afred" ng-if="item.status=='4'">Refuse</p>
+                <p class="green" ng-if="item.status=='5'">Closed</p>
+                <p class="green" ng-if="item.status=='6'">Waiting Resend</p>
+                <p class="green" ng-if="item.status=='60'">Payment is being processed.</p>
+                <p class="green" ng-if="item.status=='61'">Payment is being processed.</p>
+              </td>
+              <td ng-cloak ng-if="ordstatus==2">
+                <p class="blue" ng-if="item.status=='1'">Reviewing</p>
+                <p class="yellow" ng-if="item.status=='2'&&item.money">Refund Confirmation</p>
+                <p class="yellow" ng-if="item.status=='2'&&!item.money">Resend Confirmation</p>
+                <p class="green" ng-if="item.status=='3'">Completed</p>
+                <p class="afred" ng-if="item.status=='4'">Refuse</p>
+                <p class="green" ng-if="item.status=='5'">Closed</p>
+                <p class="green" ng-if="item.status=='11'">Completed</p>
+              </td>
+              <td ng-cloak ng-if="ordstatus==3">
+                <p class="green">Closed</p>
+              </td>
+              <!--  <td>
+                            <p class="price-num" ng-cloak>USD {{qian(item.PRICE,item.QUANTITY)}}</p>
+                            <P ng-cloak>105.000g</P>
+                        </td> -->
+              <td>
+                <!-- dispute_mediation_status 纠纷调解状态 1 正在进行中 2 纠纷调解结束 4 供应商或cj拒绝纠纷 -->
+                <!-- <button class="operation-btn btn-theme1" ng-click="ticket(item,$index)">View</button>
+                <button class="operation-btn btn-theme1" ng-if="isShowResolution(item.dispute_mediation_status, item.supplierId, item.status, item.createDate.time)" ng-click="disputeResolution(item,$index)">Dispute Resolution</button>
+                <button class="operation-btn btn-theme1" ng-if="item.dispute_mediation_status" ng-click="showMediationDetail(item,$index)">Mediation Details</button> -->
+
+                <a href="javascript:void(0)" class="ui-btn btn-line-theme" ng-click="ticket(item,$index)">View</a>
+                <a href="javascript:void(0)" class="ui-btn btn-line-theme" ng-if="isShowResolution(item.dispute_mediation_status, item.supplierId, item.status, item.createDate.time)" ng-click="disputeResolution(item,$index)">Dispute Resolution</a>
+                <a href="javascript:void(0)" class="ui-btn btn-line-theme" ng-if="item.dispute_mediation_status" ng-click="showMediationDetail(item,$index)">Mediation Details</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- ��ҳ -->
+      <div class="pagecomp-box">
+        <page ng-show="totalNum > 0"></page>
+      </div>
+      <!-- <div class="af-pages-db second-page-fun" ng-show="totalNum>0">
+        <select class="select-page-num ip-select-num2" ng-model="pageSize" ng-change="changePageSize()">
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <span class="per-page">per page</span>
+        <span class="all-num-line" ng-cloak>{{totalNum}}</span>
+        <span class="per-page">records found</span>
+        <ul class="pagination pagination-demo1"></ul>
+        <span class="per-page showing-tex">showing:</span>
+        <input class="inp-num-go inp-num-go2" ng-model="pageNum"></input>
+        <span class="per-page">of {{countPage}}</span>
+        <span class="jump-btn ip-jump-btn2" ng-click="toSpecifiedPage()">go</span>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- �Ҳ໮��Ticket -->
+  <div class="disputecenter-wrap">
+    <ul>
+      <li>
+        <div class="hnj-detail">
+          <div class="title" style="height: 0;padding:15px;">
+            <div class="ticket-btns" style="width: 25px;right: 0px;">
+              <button ng-click="closeTicket()" type="button" class="pull-left close"><span>&times;</span></button>
+            </div>
+          </div>
+          <div class="scollBox" style="height: 400px;overflow: auto;">
+            <div class="content">
+              <div class="head" style="height: 40px;">
+                <table class="" border="1" style="height: 30px;line-height: 30px;width: 100%;">
+                  <tbody>
+                    <tr>
+                      <td ng-bind-html="'Type: ' + nowType" style="font-size: 12px;"></td>
+                      <td ng-bind-html="'Refund Type: ' + refundTypeList[refundType]" style="font-size: 12px;"></td>
+                      <td ng-bind-html="'Dispute Number: D' + itemId" style="font-size: 12px;"></td>
+                      <td ng-bind-html="'Date :' + tdetailDate" style="font-size: 12px;border-right:1px solid #ececec"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ul>
+                <li ng-repeat="(index1,detail) in detailData track by index1">
+
+                  <div class="left">
+                    <p ng-show="detail.userName=='0'" class="pull-right"
+                      style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 35px;height: 80px;width: 80px;"
+                      ng-bind="cusNameFir"></p>
+                    <p ng-show="detail.userName=='1'" class="pull-right"
+                      style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;">
+                      <img style="width: 60px;position: relative;top: -5px;" src="static/image/login/loginuser.png"
+                        alt="" />
+                    </p>
+                  </div>
+                  <div class="right">
+                    <div class="user-msg">
+                      <!-- <h4 ng-show="detail.userName=='0'">{{userName}}</h4> -->
+                      <span ng-show="detail.userName=='0'" style="font-weight: bold;font-size: 16px;">{{userName}} ||
+                        Customer</span>
+                      <span ng-show="detail.userName!='0' && !supplierId" style="font-weight: bold;font-size: 16px;">Dispute Operation
+                        Team ||
+                        {{websiteName}} Dropshipping</span>
+                      <span ng-show="detail.userName!='0' && supplierId" style="font-weight: bold;font-size: 16px;">Dispute Operation
+                        Supplier ||
+                        {{detail.userName}}</span>
+                      <span class="pull-right" style="font-size: 14px;color:#ccc;">{{detail.date}}</span>
+                      <span ng-show="$last && detail.userName!='0' && !supplierId  && disputeStatus == '0'" class="pull-right" style="font-size: 14px;color:#5A8DEE; float:right">
+                        <i class="iconfont" style="margin-right: 8px; vertical-align: middle;">&#xe762;</i> Awaiting payment confirmation from <span class='notranslate'>{{disputeStatusName}}</span>.
+                      </span>
+                      <span ng-show="$last && detail.userName!='0' && !supplierId  && disputeStatus == '2'" class="pull-right" style="font-size: 14px;color:#E02020; float:right">
+                        <i class="iconfont" style="margin-right: 8px; vertical-align: middle;">&#xe761;</i>Payment via <span class='notranslate'>{{disputeStatusName}}</span> failed. Please try again.
+                      </span>
+                    </div>
+                    <div class="user-content">
+                      {{detail.remark}}
+                      <p class="user-content-text" ng-if="detail.allowableRefund">${{detail.allowableRefund}} has been refunded before.</p> 
+                      <div class="img-box" ng-show="detail.image.length>0 || detail.videoUrl.length>0">
+                        <div class="mr10" ng-click="viewBigImg(imgs)" ng-repeat="imgs in detail.image track by $index">
+                          <img ng-src="{{imgs}}" style="height: 100px;width:100px;">
+                        </div>
+                        <div class="mr10" ng-repeat="(index2,item) in detail.videoUrl track by index2">
+                          <div class="prism-player" id="{{'J_prismPlayer' + (index1 + 1) + '_' + (index2 + 1)}}">
+                          </div>
+                        </div>
+                      </div>
+                      <p class="user-selresult" ng-if="$last&&tkMoney&&jfStatus === '2' && tkMoney">
+                        Refund Amount: <span class="jfmoney-span">{{tkMoney}}</span>USD
+                        <!-- <button ng-click="cusDisAgreeFun()" class="tknobtn">NO</button>
+                        <button ng-click="cusAgreeFun()" class="tkagreebtn">Agree</button> -->
+                      </p>
+                      <p class="user-selresult" ng-if="$last&&tkMoney&&jfStatus !== '2'">
+                        We agreed to your refund request. And <span class="jfmoney-span">{{tkMoney}}USD</span> has been returned to your {{refundPlatformName(detail.platformName)}}.
+                      </p>
+                      <div class="resend-replaycon" ng-if="$last&&disputeOrder&&hasCreat">
+                        <!-- &&ordstatus==1&&jfStatus!='6' 同意纠纷-->
+                        <div class="resendrecon-top">
+                          <div class="resendctop-left">
+                            <p>
+                              <span>Name:</span>
+                              <span>{{recoCustomerName}}</span>
+                            </p>
+                            <p>
+                              <span>Address1:</span>
+                              <span>{{recoShippingAddress}}</span>
+                            </p>
+                            <p>
+                              <span>Address2:</span>
+                              <span>{{recoShippingAddress2}}</span>
+                            </p>
+                          </div>
+                          <div class="resendctop-right">
+                            <p>
+                              <span>City:</span>
+                              <span>{{recoCity}}</span>
+                            </p>
+                            <p>
+                              <span>Province:</span>
+                              <span>{{recoProvin}}</span>
+                            </p>
+                            <p>
+                              <span>Postcode:</span>
+                              <span>{{recoZip}}</span>
+                            </p>
+                            <p>
+                              <span>Country:</span>
+                              <span>{{recoCountrycode}}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="resend-list">
+                          <table class="reco-table">
+                            <thead>
+                              <tr>
+                                <th>Picure</th>
+                                <th>Product Title</th>
+                                <th>SKU</th>
+                                <th>Quantity</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="item in productList">
+                                <td class="reco-imgtd">
+                                  <span class="blank-span">
+                                    <img class="sp-smallimg" ng-src="{{item.image || item.cjImage}}">
+                                    <img class="hide-bigimg" src="{{item.image  || item.cjImage}}">
+                                  </span>
+                                </td>
+                                <td>
+                                  <p class="reco-product-name">{{item.cjProductName}}
+                                  </p>
+                                </td>
+                                <td>
+                                  <p class="reco-product-name">{{item.sku}}</p>
+                                </td>
+                                <td>{{item.quantity}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="resendrecon-btns" ng-if="jfStatus!='6'&&ordstatus==1&&(!stripeStatus||(stripeStatus&&stripeStatus>3))" style="overflow: hidden;">
+                          <span>Shipping Method:</span>
+                          <span>{{logisticName}}</span>
+                          <span style="margin-left: 30px;" ng-show="replacementFreight&&replacementFreight>0">A shipping
+                            cost of <span style="color:#f99429;">{{replacementFreight}}USD</span> is
+                            needed for this resending order.</span>
+                          <button ng-hide="jfStatus =='60'||jfStatus == '61' || disputeStatus == '0' || disputeStatus == '1'" ng-click="bfAgreeFun()" class="tkagreebtn">Agree</button>
+                          <button ng-hide="jfStatus =='60'||jfStatus == '61' || disputeStatus == '0' || disputeStatus == '1'" ng-click="cusDisAgreeFun()" class="tknobtn">NO</button>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="replybox" ng-hide="jfStatus=='2'|| jfStatus=='6'|| ordstatus!=1">
+                <li style="border: none;">
+                  <div class="right">
+                    <div class="form-group">
+                      <!-- <label for="exampleInputFile" style="font-weight: bold;margin-bottom: 10px;">Add more
+                        information</label> -->
+                      <label for="exampleInputFile" style="font-weight: bold;margin-bottom: 10px;">Message</label>
+
+                      <textarea ng-model="replyText" style="height: 100px;margin-bottom: 15px;" name="message"
+                        id="kmessage" class="form-control"></textarea>
+
+                      <!-- ����ϴ������Ĺ��� -->
+                      <div class="form-group file" style="margin-bottom: 0;">
+                        <label style="margin-bottom: 10px;font-weight: bold;"
+                          for="exampleInputFile">Attachments</label><br>
+                        <div class="upload-hint">
+                          <p><i>*</i>Allowed Image Extensions: .jpg, .gif, .jpeg, .png.</p>
+                          <p><i>*</i>Allowed Video Extensions: .mp4, .avi, .wmv, .flv, .mpg, .mov</p>
+                        </div>
+                        <div style="width: 100%;height: 100px;position: relative;">
+                          <div class="uplod-img-box" ng-hide="hideUpImgFlag">
+                            <img class="img-img" src="static/image/dropShipping/image.png">
+                            <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                              <input type="file" name="file" title="" class="upload-imgsinp" ng-model="documentupload2"
+                                id="file" multiple onchange="angular.element(this).scope().upLoadImg4(this.files)"
+                                style="display:inline-block; margin: 0;width: 104px;height: 104px;opacity: 0;position: absolute;top: 0;left: 0;font-size: 0;cursor: pointer;"
+                                ng-click="df($event)">
+                              <input type="hidden">
+                            </form>
+                          </div>
+
+                          <div class="img"
+                            style="left: 0px;width: auto;height:100%;vertical-align: middle;position: absolute;left: 114px;top: 0px;">
+                            <ul>
+                              <li ng-click="viewBigImg(imge)" style="margin-right: 10px;"
+                                ng-repeat="imge in imgArr track by $index">
+                                <img class="close-img" src="static/image/dropShipping/close.png" alt=""
+                                  ng-click="delImg($index, $event)">
+                                <img ng-src="{{imge}}"
+                                  style="width:110px;height:auto;margin-right: 10px;cursor:pointer;">
+                                <!-- <div class="img-shade">
+                                                                    <span class="pull-left" ng-click="previewImg($event)" style="margin-top: 72px;">Preview</span>
+                                                                    <span class="pull-right" ng-click="deleteImg($index)" style="margin-top: 72px;">Delete</span>
+                                                                </div> -->
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                          <ul class="video-ul">
+                            <li class="upload-img upload_video_wrap" ng-hide="hideUpVideoFlag">
+                              <img src="static/image/dropShipping/video.png">
+                              <input type="file" multiple ng-model="documentupload2" title="" class="upload-file"
+                                onchange="angular.element(this).scope().upLoadImg5(this.files)">
+                            </li>
+                            <li class="img-show" ng-repeat="item in videoArr track by $index">
+                              <img class="close-img" src="static/image/dropShipping/close.png" alt=""
+                                ng-click="delVideo($index)">
+                              <div class="prism-player" id="{{'J_prismPlayer'+($index+1)}}"></div>
+                            </li>
+                          </ul>
+
+                        </div>
+
+                        <!-- </div> -->
+                        <!-- <div class="form-group">
+                                                  <p>(Allowed File Extensions: .jpg, .gif, .jpeg, .png)</p>
+                                              </div> -->
+                      </div>
+
+                    </div>
+                    <div class="from-group">
+                      <div class="center-block btns">
+                        <a href="" class="btn btn-success" ng-click="closeJfFun()">Close</a>
+                        <a href="" style="margin-left: 20px;" class="btn btn-primary" ng-click="replyFun()">Reply</a>
+                        <!-- <a href="" class="btn btn-success" ng-click="endFun()">End</a> -->
+                      </div>
+                    </div>
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- ͼƬ��Ԥ�� -->
+  <div class="preview-wrap" ng-show="viewImgFlag" ng-click="closePreImg()" style="cursor: pointer;">
+    <img class="pre-bigImg" ng-src="{{bigImgSrc}}">
+  </div>
+  <!-- �ͻ���ͬ���˿� -->
+  <div class="disAgree-wrap" ng-show="disAgreeFlag">
+    <div class="disAgree-con">
+      <textarea ng-model="refuseCause" class="disAgree-text"></textarea>
+      <div class="disAgree-btns">
+        <button ng-click="qxjjFun()" class="disAgree-cancel-btn">Cancel</button>
+        <button ng-click="sureDisAgreeFun()" class="disAgree-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <!-- �رվ��� -->
+  <div class="disAgree-wrap" ng-show="closeJfFlag">
+    <div class="disAgree-con closedispute-con">
+      <p>Are you sure to close the dispute?</p>
+      <div class="disAgree-btns">
+        <button ng-click="qxCloseFun()" class="disAgree-cancel-btn">Cancel</button>
+        <button ng-click="sureCloseFun()" class="disAgree-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <div class="com-tan-wrap mediate-box" ng-show="mediateControl">
+    <div class="common-tan-sty1" style="height: 400px;">
+      <div class="title">Complaint handling details</div>
+      <div class="head">
+        <div>time</div>
+        <div>Handling situation</div>
+      </div>
+      <div style="overflow-y: scroll; height: 260px;">
+        <div class="list" ng-repeat="i in mediateList">
+          <div>{{i.createdate | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+          <div>{{i.messages}}</div>
+        </div>
+      </div>
+      <div class="tan-btns">
+        <a href="javascrip:void(0);" ng-click="closeMediate()">close</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+{% if pastList.length > 0 %}
+  <div>
+    {% for item in pastList %}
+      <a {{ item | _createLink }} class="a-img" tracking-element-view='{"bannerId": "{{item.id}}"}' tracking-element-click='{"bannerId": "{{item.id}}"}'>
+        <img src="{{ item.webImg | IMG_SIZE(280, 233) }}" alt="" />
+      </a>
+    {% endfor %}
+  </div>
+  <p>
+    Coming soon...
+  </p>
+{% else %}
+<div class="default">
+  <div>
+    <img src="/egg/image/comingSoon.png" />
+    <p>Coming soon...</p>
+  </div>
+</div>
+{% endif %}

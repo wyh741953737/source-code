@@ -1,0 +1,86 @@
+<!-- List 商品卡片 -->
+{% macro product(prod, params) %}
+<div class="card-wrap">
+  <div class="inner-box {{ prod.productId }}">
+    <a href="{{ prod | GOODSDETAIL_LINK }}" class="detail-anchor">
+      {% if prod.IMG_SIZE %}
+      <img src="{{ '/egg/image/img_default.jpg' | IMG_SIZE(prod.IMG_SIZE[0], prod.IMG_SIZE[1]) }}" alt="{{ prod.nameVal }}">
+      {% else %}
+      <img src="{{ '/egg/image/img_default.jpg' | IMG_SIZE(179, 190) }}" alt="{{ prod.nameVal }}">
+      {% endif %}
+    </a>
+    <div class="move-box">
+      <a href="{{ prod | GOODSDETAIL_LINK }}" class="desc detail-anchor">{{ prod.nameVal | INIT_UPPERCASE }}</a>
+      <div class="list-collect">
+        <span class="list">
+          {% if prod.isAut != 1 %}
+          <div style="display: inline-block;">
+            <span>{{ params['Lists'] }}:</span>
+            <span>{{ prod.num }}</span>
+          </div>
+          {% endif %}
+          {% if prod.IMG_SIZE %}
+          <i class="freeShip"></i>
+          {% endif %}
+        </span>
+        
+        <div class="collect" onclick="clickCollect(this, '{{ prod.productId }}')">
+          <span class="iconfont icontianjiashoucangzhihou solid"></span>
+          <span class="iconfont icontianjiashoucang hollow"></span>
+        </div>
+      </div>
+      <div class="price">{{ prod | GET_PRICE | EXCHANGE_RATE }}</div>
+      <div class="btns">
+        <div class="btn-item view-inventory">
+          <span>{{ params['View Inventory'] }}</span>
+          <span class="inventory"></span>
+        </div>
+      <div class="btn-item list">{{ params['List'] }}</div>
+      </div>
+      <div class="add-queue">
+        <div class="btn-add">+ {{ params['Add to Queue'] }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+<!-- Source 商品卡片 -->
+{% macro sourceProd(prod, params) %}
+<div class="card-wrap source">
+  <div class="inner-box">
+    <a href="{{ prod | GOODSDETAIL_LINK }}" class="detail-anchor">
+      {% if prod.IMG_SIZE %}
+      <img src="{{ '/egg/image/img_default.jpg' | IMG_SIZE(prod.IMG_SIZE[0], prod.IMG_SIZE[1]) }}" alt="{{ prod.nameVal }}">
+      {% else %}
+      <img src="{{ '/egg/image/img_default.jpg' | IMG_SIZE(179, 190) }}" alt="{{ prod.nameVal }}">
+      {% endif %}
+    </a>
+    <div class="move-box">
+      <a href="{{ prod | GOODSDETAIL_LINK }}" class="desc detail-anchor">{{ prod.nameVal | INIT_UPPERCASE }}</a>
+      <div class="list-collect">
+        <span class="list">
+          <!-- <span>Lists:</span> -->
+        </span>
+        {% if prod.isCollect==1 %}
+        <span class="collect iconfont active icontianjiashoucangzhihou"></span>
+        {% else %}
+        <span class="collect iconfont icontianjiashoucang"></span>
+        {% endif %}
+      </div>
+      <div class="price">{{ prod | GET_PRICE | EXCHANGE_RATE }}</div>
+      <div class="btns">
+        <!-- <div class="btn-item view-inventory">
+          <span>View Inventory</span>
+          <span class="inventory"></span>
+        </div>
+        <div class="btn-item list">List</div> -->
+        <div class="btn-item list">{{ params['Source'] }}</div>
+      </div>
+      <div class="add-queue">
+        <div class="btn-add">+ {{ params['Add to Queue'] }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}

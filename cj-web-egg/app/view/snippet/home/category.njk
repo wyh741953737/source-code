@@ -1,0 +1,36 @@
+<div class="category" id="vue-banner-wrap" >
+  <div class="title">{{ i18next.t('category-all-categories') }}</div>
+  <ul class="cate1-group">
+    {% for cate1 in categories %}
+    <li class="cate1-item">
+      <span class="icon-{{ loop.index }} iconfont {{ icons[loop.index - 1] }}"></span>
+      <a  v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "{{ cate1.nameVal }}","buttonType": 0}'
+        class="cate1-anchor" href="{{ cate1 | CATEGORY_LINK([cate1]) }}">
+        {{ cate1.nameVal }}
+      </a>
+      <div class="cate1-child">
+        <ul class="cate2-group">
+          {% for cate2 in cate1.children %}
+          <li class="cate2-item">
+            <a v-cjstat='{"pageCode":"home", "eventType":1, "buttonName":"{{cate2.nameVal}}", "buttonType":1 }'
+            class="cate2-anchor" href="{{ cate2 | CATEGORY_LINK([cate1, cate2]) }}">
+              {{ cate2.nameVal }}
+            </a>
+            <ul class="cate3-group">
+              {% for cate3 in cate2.children %}
+              <li class="cate3-item">
+                <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName":`{{cate3.nameVal}}`,"buttonType": 1}' 
+                class="cate3-anchor" href="{{ cate3 | CATEGORY_LINK([cate1, cate2, cate3]) }}">
+                  {{ cate3.nameVal }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

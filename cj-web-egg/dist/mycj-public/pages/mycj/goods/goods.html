@@ -1,0 +1,116 @@
+<div class="content mycj-goods" id="goods">
+  <div class="mycj-home-box">
+    <div class="mycj-right-wrap p-3">
+      <div class="top-space-bar"></div>
+      <div class="mycj-right-bar">
+        <div class="favorite-header clearfix d-flex align-items-center">
+          <div class="d-flex align-items-center">
+            <span>Category:</span>
+            <select style="margin-left:10px;height:40px;font-size:14px;line-height: 40px;border:1px solid #EEEEEE" ng-model="selectedItem" ng-change="changesearch()">
+              <option value="">All</option>
+              <option ng-repeat='item in categoryList' ng-bind-html="item.nameEn" value="{{item.id}}">{{item.nameEn}}</option>
+            </select>
+          </div>
+          <div class="search-bar clearfix">
+            <input type="text" class="search-inp border-light-theme" ng-model="searchStr"
+              ng-keyup="enterSearch($event)">
+            <button class="search-btn btn-theme" ng-click="search()">Search</button>
+          </div>
+        </div>
+        <p class="sum" ng-show="!isRecommendation">
+          <!-- <span class="text-theme">{{totalNum}}</span> -->
+	        <!-- {{totalNum > 1 ? 'records found' : 'record found'}} -->
+          <span class="text-theme" ng-bind-html="totalNum"></span>
+          <span ng-bind-html="totalText"></span>
+        </p>
+        <p class="title" ng-show="isRecommendation">
+          Products Recommendation
+        </p>
+        <div class="pd-related-con clearfix" id="pic-box">
+          <div class="PrintContent">
+            <div class="clearfix hasListData" ng-show="isRecommendation">
+              <product-card-list ng-if="proList.length>0" productlist="proList"  isaddcartbtn="true" add-cart-fun="addDia" purchase-list-in="true"></product-card-list>
+            </div>
+            <ul class="clearfix hasListData" ng-show="!isRecommendation">
+              <li ng-repeat="(index,item) in proSearchList" ng-click="goTodetail(item)" ng-cloak>
+                <a href="javascript:void(0);" class="view-detail-a">
+                  <img class="product-img" ng-src="{{item.bigImg | IMG_SIZE: 234:220}}"
+                    title="{{(item.english || item.nameEn) | fWordUpcase}}" ng-cloak>
+                </a>
+                <span ng-show="item.isHaveVideo == 'HAVE_VIDEO'" class="videoIcon iconfont" ng-cloak></span>
+                <div class="info">
+                  <h3 title="{{(item.NAMEEN || item.nameEn) | fWordUpcase}}" ng-cloak>{{(item.NAMEEN ||
+                    item.nameEn) | fWordUpcase}}</h3>
+                  <p class="info-txt clearfix">
+                    <span ng-show="item.isAut != 1"><span class="listedNum" ng-cloak>List<span ng-if="item.num>1">s</span>: {{item.num}}</span></span>
+                    <i ng-show="item.isPersonalized == '1'" class="Personalise" ng-click="Personalise(item)"
+                      ng-cloak></i>
+                    <img class="Nwishlist" src="static/image/CJ-home/icon_love@2x.png" ng-if="item.isCollect == 0"
+                      ng-click="collectMerch(item.flag, item.id, $event)" ng-mouseenter="MerchEnter($event)"
+                      ng-mouseleave="MerchLeave($event)" ng-cloak>
+                    <img class="Ywishlist" src="static/image/CJ-home/icon_wishlist_click@2x.png"
+                      ng-if="item.isCollect == 1" ng-click="collectMerch(item.flag, item.id, $event)" ng-cloak>
+                  </p>
+                  <div class="listed clearfix">
+                    <span class="price text-theme" title="{{item | priceProcessor | exchangeRate}}" ng-cloak>
+                      {{item | priceProcessor | exchangeRate}}
+                    </span>
+                    <a class="listOrsource ui-btn btn-theme" href="javascript:void(0);" ng-click="addDia(item.id,$event)" ng-cloak>Bulk Purchase</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- 分页 -->
+        <page ng-show="!isRecommendation && (proSearchList.length > 0)" />
+      </div>
+    </div>
+  </div>
+  <!--购物车-->
+  <mycj-cart fbatype="fbaType" carttype="'1'"></mycj-cart>
+  <!--弹窗-->
+  <div id="add-store" ng-show="addDialog" class="add-store">
+    <div class="ASL-content clearfix">
+      <img class="closel" ng-click="close()" width="30" src="static/image/page/close-default.png" alt="">
+
+      <img class="proimg fl" ng-src="{{additem.BIGIMG | IMG_SIZE: 200}}" alt="">
+
+      <div class="fr" style="width: 385px;">
+        <h3 ng-attr-title="{{additem.NAMEEN}}">{{additem.NAMEEN}}</h3>
+        <p>SKU:{{'\u00A0'}}<span class="notranslate">{{additem.SKU}}</span></p>
+        <div ng-show="varientArr.length>0">
+          <h3>Specifications:</h3>
+          <select name="" id="" class="varient-sel" ng-repeat="items in varientArr track by $index" ng-model="items.val"
+            ng-change="chanVariant(items.val, $index)" index="{{ $index }}">
+            <option value="{{ item }}" ng-repeat="item in items.key track by $index">{{ item }}</option>
+          </select>
+        </div>
+        <div class="clearfix">
+          <h3>Quantity:</h3>
+          <div class="commodity fl clearfix">
+            <div class="iteminner clearfix">
+              <span class="minus" ng-click="minusOne(itemcount)">-</span>
+              <input value="{{itemcount}}" ng-model="itemcount" onpaste="return false;" ng-blur="checkIsNum(itemcount)">
+              <span class="plus" ng-click="plusOne(itemcount)">+</span>
+            </div>
+          </div>
+          <div class="fl cart-price">
+	          Price:
+	          <span ng-if="!variantItem.nowPrice">{{variantItem.SELLPRICE | currency}}</span>
+            <ng-template ng-if="variantItem.nowPrice">
+              <span>{{variantItem.nowPrice | currency}}</span>
+              <del ng-if="toFixed2(variantItem.SELLPRICE) !== toFixed2(variantItem.nowPrice)">{{variantItem.SELLPRICE | currency}}</del>
+            </ng-template>
+          </div>
+          <div class="fl cart-price">
+	          Total: <span>{{toFixed2((variantItem.nowPrice ? variantItem.nowPrice : variantItem.SELLPRICE) * itemcount) | exchangeRate}}</span>
+          </div>
+        </div>
+        <button class="sub ui-btn btn-theme" ng-click="addbuy($event)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<loading-cart el="'.pd-related-con'" ng-if="loading"></loading-cart>

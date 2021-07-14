@@ -1,0 +1,940 @@
+<style>
+  .online-wrap{
+      position: absolute;
+      top: 50px;
+      left: 100px;
+  }
+  p.online-content{
+      width: 226px;
+      height: 44px;
+      cursor: pointer;
+      border-radius: 50px;
+      box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 1px 2000px;
+  }
+  .img1{
+      position: absolute;
+      top: 60px;
+      left: -45px;
+  }
+  .img2{
+      position: absolute;
+      top: 100px;
+      left: -33px;
+  }
+  .img3{
+      position: absolute;
+      top: -10px;
+      left: 230px;
+  }
+  p.online-notice{
+      width: 600px;
+      color: #fff;
+      position: absolute;
+      top: 170px;
+      left: -300px;
+  }
+
+  p.know{
+      border: 1px solid #fff;
+      color: #fff;
+      border-radius: 50px;
+      width: 100px;
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      position: absolute;
+      top: 210px;
+      left: -190px;
+      cursor: pointer;
+  }
+  @media screen and (max-width: 1300px){
+      p.online-notice{
+          left: -150px;
+      }
+  }
+  .SelfManagement,.CJManagement{
+      height:27px;
+      background:var(--color-bg-14);
+      border-radius:2px;
+      border:1px solid var(--color-line-1);
+      font-size:12px;
+      font-family:PingFangSC-Regular;
+      font-weight:400;
+      color:var(--color-font-1);
+      margin: 10px 0 0 10px;
+      padding: 0 8px;
+  }
+  .SelfManagement:hover,.CJManagement:hover{
+      background-color: var(--color-bg-14-1);
+      color: var(--color-font-1);
+      border-color: var(--color-line-1);
+  }
+  .PC-wrap .pro-connected .media .media-img .small-img{
+      max-width: 69%;
+      max-height: 100%;
+      height: auto;
+      border: 1px solid #eee;
+      display: inline-block;
+  }
+  .PC-wrap .pro-connected .media .media-img{
+      text-align: center;
+      line-height: 76px;
+  }
+  .perform-services .confirm-content {
+      font-size:14px;
+      font-family:PingFangSC-Regular;
+      font-weight:400;
+      color:rgba(102,102,102,1);
+      text-align: left;
+      width: 500px;
+  }
+  .perform-services .confirm-content .txt {
+      display: block;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #F0F0F0;
+      padding-bottom: 15px;
+  }
+  .perform-services .confirm-content label {
+      margin-right: 10px;
+  }
+  .perform-services .confirm-content input {
+      vertical-align: middle;
+      margin: -2px 5px 1px 5px;
+  }
+  .perform-services .confirm-content span {
+      color: #333;
+  }
+  .perform-services .confirm-content div {
+      padding-bottom: 8px;
+  }
+  .perform-services .confirm-content div span{
+  width: 255px;
+  text-align: right;
+  display: inline-block;
+  }
+  .perform-services .confirm-content .excl{
+    color: #F70;
+  }
+  .vip .perform-services .confirm-content .excl{
+    color: #DDA863;
+  }
+  .perform-services .confirm-content div p{
+  font-size: 12px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  line-height: 17px;
+  width: 266px;
+  /* height: 47px; */
+  position: absolute;
+  top: 35px;
+  border-radius: 3px;
+  padding: 7px;
+  text-align: left;
+  z-index: 1;
+  left: 150px;
+  }
+  .perform-services .confirm-content div p:after{
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 10px solid #ddd;
+  position: absolute;
+  top: -10px;
+  left: 232px;
+  }
+  .center-btn .tag{
+      text-align: center;
+  }
+  .center-btn .tag span{
+      color: #fff;
+      padding: 0 5px;
+      border-radius: 10px;
+      line-height: 20px;
+      display: block;
+      margin: 5px auto 0 auto;
+      width: 102px;
+  }
+  .center-btn .tag span:nth-child(1){
+      background-color: #337ab7;
+  }
+  .center-btn .tag span:nth-child(2){
+      background-color: #f99429;
+  }
+  .SelfManagement:disabled{
+    color: var(--color-font-2);
+    background: rgba(249,249,249,0.5);
+    border: 1px solid var(--color-line-8);
+    cursor: no-drop;
+    opacity: 0.5;
+  }
+  .opt-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .PC-wrap .search-box-wrap{
+    overflow: initial;
+  }
+  .right-btns{
+    display: flex;
+  }
+  .btn-box{
+    position: relative;
+  }
+  .right-btns .tips-box{
+    width: 228px;
+    border-radius: 4px;
+    position: absolute;
+    text-align: left;
+    background-color: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 12px;
+    z-index: 1;
+    padding: 8px;
+    line-height: 22px;
+    top: 35px;
+    right: 0;
+    display: none;
+  }
+  .right-btns .tips-box:before{
+    content: '';
+    width: 0;
+    height: 0;
+    border-width: 0 5px 5px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0,0,0,0.75);
+    position: absolute;
+    top: -5px;
+    left: 50%;
+  }
+  .right-btns .btn-box:hover .tips-box{
+    display: block;
+  }
+
+  .perform-services .choice{
+  position: relative;
+  }
+  .perform-services .choice .radio{
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  padding-left: 25px;
+  cursor: pointer;
+  }
+  .perform-services .choice .radio input{
+  position: absolute;
+  left: -9999px;
+  }
+  .perform-services .choice .radio i{
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 17px;
+  height: 17px;
+  outline: 0;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  border-radius: 50%;
+  transition: border-color .3s;
+  -webkit-transition: border-color .3s;
+  }
+  .perform-services .choice .radio input:checked+i{
+  border-color: #f70;
+  }
+  .perform-services .choice .radio input:hover+i{
+  border-color: #f70;
+  }
+  .perform-services .choice .radio input+i:after{
+  position: absolute;
+  content: '';
+  top: 3px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #f70;
+  opacity: 0;
+  transition: opacity .1s;
+  -webkit-transition: opacity .1s;
+  }
+  .perform-services .choice .radio input:checked+i:after{
+  opacity: 1;
+  }
+  .vip .perform-services .choice{
+  position: relative;
+  }
+  .vip .perform-services .choice .radio{
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  padding-left: 25px;
+  cursor: pointer;
+  }
+  .vip .perform-services .choice .radio input{
+  position: absolute;
+  left: -9999px;
+  }
+  .vip .perform-services .choice .radio i{
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 0;
+  width: 17px;
+  height: 17px;
+  outline: 0;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  border-radius: 50%;
+  transition: border-color .3s;
+  -webkit-transition: border-color .3s;
+  }
+  .vip .perform-services .choice .radio input:checked+i{
+  border-color: #DDA863;
+  }
+  .vip .perform-services .choice .radio input:hover+i{
+  border-color: #DDA863;
+  }
+  .vip .perform-services .choice .radio input+i:after{
+  position: absolute;
+  content: '';
+  top: 3px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #DDA863;
+  opacity: 0;
+  transition: opacity .1s;
+  -webkit-transition: opacity .1s;
+  }
+  .vip .perform-services .choice .radio input:checked+i:after{
+    opacity: 1;
+  }
+  .inventory-tips {
+    width: 854px;
+    max-width: initial;
+  }
+  .inventory-tips .confirm-content {
+    text-align: left;
+  }
+  .inventory-tips .confirm-content .tips {
+    color: #FF4949;
+  }
+  .inventory-tips .confirm-content .tabs {
+    margin: 20px 0;
+  }
+  /* .inventory-tips .confirm-content .tabs span {
+    cursor: pointer;
+    margin-right: 30px;
+    color: #333;
+    font-size: 14px;
+    padding-bottom: 5px;
+  } */
+  .inventory-tips .confirm-content .tabs .active {
+    color: #f70;
+    border-bottom: 2px solid #f70;
+  }
+  .inventory-tips .confirm-content .table {
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 4px 4px 0 0;
+  }
+  .inventory-tips .confirm-content .table thead {
+    background: initial;
+  }
+  .inventory-tips .confirm-content .table thead th {
+    color: #333;
+    background-color: #F2F3F5;
+    border-right: 1px solid #F0EDE7;
+    font-weight: normal;
+    width: 200px;
+  }
+  .inventory-tips .confirm-content .table td {
+    padding: 5px 0;
+    font-size: 12px;
+    text-align: center;
+    border-left: 1px solid #F3F3F3;
+    border-right: 1px solid #F3F3F3;
+    border-bottom: 1px solid #F3F3F3;
+  }
+  .inventory-tips .confirm-content .table td img {
+    width: 50px;
+    height: 50px;
+  }
+  .inventory-tips .confirm-btn-box {
+    box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05);
+    z-index: 9999;
+  }
+  .inventory-tips .confirm-btn-box .opt {
+    text-decoration: underline;
+    font-size: 14px;
+  }
+  .vip .tabs .active {
+    color: #DDA863 !important;
+    border-bottom: 2px solid #DDA863 !important;
+  }
+  .vip .table th {
+    background-color: #F0EDE7 !important;
+  }
+  :not(.vip) .media-heading a:hover {
+    color: var(--color-theme-1);
+  }
+  .vip .media-heading a:hover {
+    color: var(--color-theme-1-vip);
+  }
+</style>
+<div class="mycj-home-box PC-wrap mycj-connection" cjdot cjdotshow='{"eventType":2}'>
+  <div class="mycj-right-wrap PC-con p-3">
+    <div class="top-space-bar"></div>
+      <div class="mycj-right-bar PC-w1200 pro-connected clearfix">
+        <thead class="my-product-wrap clearfix">
+          <div class="search-box-wrap">
+              <div class="input-group search-box">
+                  <input type="text" class="form-control" placeholder="Enter SKU/Product Name" ng-model="consearchinfo" ng-keypress="enterSearch($event)" >
+                  <span class="input-group-btn">
+                      <button class="search-btn btn-theme" type="button" ng-click="searchshop()">Search</button>
+                </span>
+              </div>
+              <div class="right-btns">
+                <div class="btn-box">
+                  <a class="purchase-btn" href="#/products-connection/pending-connection">Add Automatic Connection</a>
+                  <div class="tips-box">
+                    Add Automatic Connection:<br/>
+                    Connect your store products with CJ products quickly.
+                  </div>
+                </div>
+                <div class="btn-box">
+                  <!-- ng-if="iscj=='1' || affModel=='1' || affModel == '4'" -->
+                  <a ng-cloak class="purchase-btn" href="#/products-connection/sourcing-connection">Add Sourcing Connection</a>
+                  <div class="tips-box">
+                    Add Sourcing Connection:<br />
+                    Connect your sourcing products with your store products quickly.
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="opt-box">
+            <select class="form-control select-store" ng-model="selectshopinfo" ng-change="searchshopconnect(selectshopinfo)" ng-options="item as item.rNAME for ($index,item) in shopselectlist" ng-cloak>
+              <!-- <option value=''>All Stores</option> -->
+          </select>
+            <div>
+              <button class="SelfManagement" ng-click="bulkConnection()" ng-disabled="!isConnection">Packaging Connection</button>
+              <button class="SelfManagement" ng-show="packStatus==1" ng-click="bulkRemoveConnection()" ng-disabled="!isConnection">Remove Connection</button>
+              <button class="SelfManagement" ng-click="fulfillmentFun()" ng-disabled="showFlag.length == 0">CJ Fulfillment</button>
+            </div>
+          </div>
+          <div class="table-connected">
+              <!-- 一条商品 -->
+              <div class="table-connected-top clearfix">
+                <div class="table-connected-top-inner">
+                  <div class="checked-box">
+                    <i class="iconfont" ng-class="isCheckAll ? 'iconicon':'iconzizhanghuweixuanzhong'" ng-click="chechedAll()"></i>
+                  </div>
+                  <div class="media-img">Image</div>
+                  <div class="media-store">Store Name</div>
+                  <div class="media-info">Your Product</div>
+                  <div class="pro-price">Your Price</div>
+                  <div class="center-btn">Action</div>
+                  <div class="media-img">{{websiteName}} Image</div>
+                  <div class="media-info" style="text-align: center">{{websiteName}} Product</div>
+                  <div class="pro-price">{{websiteName}} Price</div>
+                  <div class="pro-weight">Weight</div>
+                  <div class="pro-ship-method">Shipping <br> From</div>
+                  <div class="pro-ship-method">Shipping <br> Method</div>
+                  <div class="pro-ship-cost">Shipping <br> Cost</div>
+                  <div class="pro-amount">Amount</div>
+                 <div class="pro-operating">Action</div>
+                </div>
+              </div>
+              <div class="cj-load-wrap">
+                <not-data ng-if="notDataFound"></not-data>
+              <!-- ------------- -->
+              <div class="media" ng-class="('5' == item['SALESTATUS']) ? 'sold-out' : ''" ng-repeat="(index1,item) in conlist">
+              <!-- ------------- -->
+                <!-- 商品列表 -->
+                <div class="asj-pro-box">
+                  <div class="checked-box">
+                    <i class="iconfont" ng-class="item.ischeck ? 'iconicon':'iconzizhanghuweixuanzhong'" ng-show="item.ACCVID" ng-click="checkPro(item,index1)"></i>
+                  </div>
+                  <div class="media-img">
+                      <img class="media-object small-img" ng-src="{{item.image ||'./static/image/public-img/default.jpg'}}" onerror="javascript:this.src='./static/image/public-img/default.jpg';this.onerror = null;" alt="...">
+                      <img class="big-img" ng-src="{{item.image}}" alt="">
+                  </div>
+                  <div class="media-store"><p>{{item.shopName}}</p></div>
+                  <div class="media-info">
+                      <h4 class="media-heading" title="{{item.title}}">{{item.title}}</h4>
+                      <!-- <p class="media-attr" title="{{item.tags}}">{{item.tags}}</p> -->
+                  </div>
+                  <div class="pro-price">{{item.currency?item.currency:'$'}}{{item.prices}}</div>
+                  <div class="center-btn">
+                      <img class="top-img" src="./static/image/page/connecteds.png" alt="">
+                      <button type="button" class="btn btn-default disconnect-btn" ng-click="disconnect(item, index1)">Disconnect</button>
+                      <a class="asj-drop-btn more-btn" href="javascript:void(0);" ng-click="showVarient(item, $index)"><img src="./static/image/public-img/to-down.png" alt=""></a>
+                      <!-- <a class="asj-drop-btn more-btn" href="javascript:void(0);" ng-click="showVarient(item, $index)">&gt;&gt;</a> -->
+                  </div>
+                  <div class="media-img">
+                      <img class="media-object small-img" ng-src="{{item.BIGIMG}}" alt="...">
+                      <img class="big-img" ng-src="{{item.BIGIMG}}" alt="">
+                  </div>
+                  <div class="media-info">
+                      <h4 class="media-heading" title="{{item.NAMEEN}}"><a href="{{'product-detail.html?id=' + item.ID}}" target="_blank">{{item.NAMEEN}}</a></h4>
+                      <p class="media-attr" title="{{item.standard}}">{{item.SKU}}</p>
+                      <!-- ------------- -->
+                      <div class="sold-out-txt" ng-class="{'active': ('5' == item['SALESTATUS'])}">Sold Out</div>
+                      <div class="sold-out-txt" ng-class="{'active': ('5' != item['SALESTATUS'] && item['isSoldOut']=='1')}">Sold Out(partially)</div>
+                      <!-- ------------- -->
+                  </div>
+                  <div class="pro-price pro-price-right">
+                      <span ng-if="item.promoter=='1'">Service Fee</span>
+                      <span ng-class="{'line-through': item.SELLDISCOUNT > 0}">${{item.SELLPRICE.replace(' -- ', '-')}}</span>
+                      <br>
+                      <span ng-if="item.SELLDISCOUNT > 0">{{'$' + item.discountPrice.replace(' -- ', '-')}} <br> ({{item.SELLDISCOUNT}}% off)</span>
+                  </div>
+                  <div class="pro-weight">{{item.packweight.replace(' -- ', '-')}}g</div>
+                  <div class="pro-ship-method">
+                      {{item.defaultArea || '--'}}
+                  </div>
+                  <div class="pro-ship-method">
+                    <ship-setting proitem="item" listtype="'connect'" proindex="index1"></ship-setting>
+                  </div>
+                  <div class="pro-ship-cost">
+                      <ship-caculate proinfo='item' shipinfo="item.shipinfo"></ship-caculate>
+                  </div>
+                  <div class="pro-amount">
+                    ${{item.AMOUNTPRICE.replace(' -- ', '-')}}
+                    <div class="toast-wrap" ng-show="item.isProAmountTip != false">
+                      <i class="iconfont">&#xe745;</i>
+                      <div class="toast-box">
+                        Shipping cost not included.
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 商品的关联操作 -->
+                  <!-- <div class="pro-operating operating">
+                    <div ng-show="!item.packVid">
+                      <button ng-click="batchAssociation(item)">Packaging Connection</button>
+                    </div>
+                    <div ng-show="item.packVid">
+                      <button ng-click="viewPackaging(item)">View Packaging</button>
+                      <button ng-click="unBind(item)">Remove Connection</button>
+                    </div>
+                  </div> -->
+
+                  <div class="operation-dropdown" ng-mouseenter="show_modal = true" ng-mouseleave="show_modal = false">
+                    <div class="operation-dropdown-btn">
+                        Action
+                      <span class="caret"></span>
+                    </div>
+                    <ul class="operation-dropdown-menu" ng-show="show_modal">
+                      <li ng-click="batchAssociation(item)"><a>Packaging Connection</a></li>
+                      <li ng-click="viewPackaging(item)"><a>View Packaging</a></li>
+                      <li ng-click="unBind(item,false)"><a>Remove Packaging</a></li>
+                    </ul>
+                  </div>
+
+                </div>
+                <!-- 如果展开，显示该商品下所有的变体的值时 -->
+                <div class="asj-varient-box" ng-repeat="(index2,itemV) in item.varientList">
+                  <div class="checked-box">
+                    <i class="iconfont" ng-class="itemV.ischeck ? 'iconicon':'iconzizhanghuweixuanzhong'" ng-show="itemV.ACCVID" ng-click="cheched(itemV,index2)"></i>
+                  </div>
+                  <div class="media-img">
+                      <!-- <i ng-show="itemV.vsku && itemV.ACCVID" ng-class="{check:itemV.ischeck}" ng-click="cheched(itemV,index2)"></i> -->
+                      <img class="media-object small-img" ng-src="{{itemV.image || item.image||''}}" alt="...">
+                      <img class="big-img" ng-src="{{itemV.image || item.image}}" alt="">
+                  </div>
+                  <div class="media-store"><p>{{itemV.shopName}}</p></div>
+                  <div class="media-info">
+                      <h4 class="media-heading" title="{{itemV.title}}">{{itemV.title}}</h4>
+                      <p class="media-attr" title="{{itemV.tags}}">{{itemV.tags}}</p>
+                      <p class="media-attr" ng-show="itemV.shopId == 'BDFFD3B0-B438-4D09-B0F0-1971ECE9EB18'" title="{{itemV.vsku}}">{{itemV.vsku}}</p>
+                  </div>
+                  <div class="pro-price">{{itemV.currency?itemV.currency:'$'}}{{itemV.prices}}</div>
+                  <div class="center-btn">
+                      <img class="top-img" src="./static/image/page/connecteds.png" alt="">
+                      <button type="button" class="btn btn-default disconnect-btn" ng-click="disconnect(itemV,index1,index2)">Disconnect</button>
+                      <div class="tag" ng-show="itemV.inventoryItemStatus == '1'">
+                          <span>Fulfilled Service</span>
+                      </div>
+                      <div class="tag" ng-show="itemV.inventoryItemStatus == '2'">
+                          <span>Fulfilled Service</span>
+                          <span>{{websiteName}} Management</span>
+                      </div>
+                  </div>
+                  <div class="media-img">
+                      <img class="media-object small-img" ng-src="{{itemV.IMG||'./static/image/public-img/default.jpg'}}" alt="...">
+                      <img class="big-img" ng-src="{{itemV.IMG}}" alt="">
+                  </div>
+                  <div class="media-info">
+                      <h4 class="media-heading" title="{{itemV.SKU}}">{{itemV.SKU}}</h4>
+                      <!-- <p class="media-attr" title="{{itemV.NAMEEN}}">{{itemV.NAMEEN}}</p> -->
+                      <!-- 展示变体属性 -->
+                      <div class="tooltip" role="tooltip">
+                        <div class="varient-box">{{itemV.varientStr}}</div>
+                        <span class="tooltiptext">
+                          {{itemV.varientStr}}
+                        </span>
+                      </div>
+                      <div class="sold-out-txt" ng-class="{'active': ('5' == item['SALESTATUS'] || itemV['isSoldOut']=='1')}">Sold Out</div>
+                      <!-- <h4 class="media-heading" title="{{itemV.NAMEEN}}">{{itemV.NAMEEN}}</h4> -->
+                      <!-- <p class="media-attr" title="{{itemV.standard}}">{{itemV.SKU}}</p> -->
+                  </div>
+                  <div class="pro-price pro-price-right">
+                      <span ng-if="item.promoter=='1'">Service Fee</span>
+                      <span ng-class="{'line-through': itemV.SELLDISCOUNT > 0}">${{itemV.SELLPRICE.replace(' -- ', '-')}}</span>
+                      <br>
+                      <span ng-if="itemV.SELLDISCOUNT > 0">{{'$' + itemV.discountPrice.replace(' -- ', '-')}} <br> ({{itemV.SELLDISCOUNT}}% off)</span>
+                  </div>
+                  <div class="pro-weight">{{itemV.PACKWEIGHT}}g</div>
+                  <div class="pro-ship-method">
+                    <div>
+                      {{itemV.defaultArea || '--'}}
+                    </div>
+                    <div>
+                      <i class="iconfont" style="cursor: pointer; color: #999999;" ng-click="initSettingLogistic(itemV,item,index1)">&#xe70f;</i>
+                    </div>
+                  </div>
+                  <div class="pro-ship-method">{{itemV.LOGISTICS}}</div>
+                  <div class="pro-ship-cost">
+                      <ship-caculate proinfo='itemV' shipinfo="itemV.shipinfo"></ship-caculate>
+                  </div>
+                  <div class="pro-amount">
+                    ${{itemV.AMOUNTPRICE.replace(' -- ', '-')}}
+                    <div class="toast-wrap" ng-show="itemV.isProAmountTip != false">
+                      <i class="iconfont">&#xe745;</i>
+                      <div class="toast-box">
+                        Shipping cost not included.
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 变体的关联操作 -->
+                  <!-- <div class="pro-operating operating">
+                    <div ng-show="!itemV.packVid">
+                      <button ng-click="associatedPackaging(itemV)">Connect packing</button>
+                    </div>
+                    <div ng-show="itemV.packVid">
+                      <button ng-click="viewPackaging(itemV)">View Packaging</button>
+                      <button ng-click="unBind(itemV)">Remove Connection</button>
+                    </div>
+                  </div> -->
+                  <div class="operation-dropdown" ng-mouseenter="show_modal = true" ng-mouseleave="show_modal = false">
+                    <div class="operation-dropdown-btn">
+                        Action
+                      <span class="caret"></span>
+                    </div>
+                    <ul class="operation-dropdown-menu" ng-show="show_modal">
+                      <li><a ng-click="associatedPackaging(itemV)">Packaging connection</a></li>
+                      <li><a ng-click="viewPackaging(itemV)">View Packaging</a></li>
+                      <li><a ng-click="unBind(itemV,true)">Remove Connection</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- 折起按钮 -->
+                <div class="single-role-drop">
+                    <a class="asj-drop-btn hide-more" index="{{$index}}" ng-if="item.varientList != undefined"
+                        href="javascript:void(0);" ng-click="hideVarient(item, $index)">
+                        <img src="./static/image/public-img/to-up.png" alt="">
+                    </a>
+                </div>
+              </div>
+              </div>
+          </div>
+
+          <!-- 分页 -->
+          <page ng-show="conlist.length>0" ng-cloak></page>
+    </div>
+  </div>
+</div>
+<!--关联商品弹窗弹窗-->
+<div id="product-connection" ng-show="tanchuang">
+  <div id="tanchuang-wrap">
+      <div class="xiala">
+          <span>SHIPPING METHOD </span>
+          <div class="dropdown">
+              <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                  <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">1</a>
+                  </li>
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">2</a>
+                  </li>
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">3</a>
+                  </li>
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">4</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="pro-title">Products Connection</div>
+      <p class="connect-warn">You have to connect your store product with {{websiteName}} existing one, then {{websiteName}} platform will sync orders from your store.</p>
+      <div class="pend-connect-items">
+          <div class="product-item product-item-shop">
+              <div class="item-heading item-heading-left">Your Store Product</div>
+              <div class="item-body  item-body-left" style="cursor: pointer;" ng-repeat="(index1,item) in shopList" ng-click="firstclick($event,index1,item)" ng-class="first?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+                  <div class="item-img">
+                      <img ng-src="{{item.image}}" alt="">
+                      <!--<img src="./static/image/home/pic1.png" alt="">-->
+                  </div>
+                  <div class="item-info">{{item.title}} <span>(Black）</span></div>
+                  <div class="item-color">Black</div>
+                  <div class="item-color">S</div>
+                  <div class="item-price">USD {{item.price}}</div>
+              </div>
+          </div>
+          <div class="connect-icon">
+              <div class="item-body-middle" ng-repeat="(index3,item) in CJList" ng-show="arr.length>$index"><img src="./static/image/page/connecteds.png" alt="" ng-click="Unlink(index3)"></div>
+          </div>
+          <div class="product-item  product-item-CJ">
+              <div class="item-heading item-heading-right">{{websiteName}} Product</div>
+              <div class="item-body item-body-right" style="cursor: pointer;" ng-repeat="(index2,item) in CJList" ng-click="lastclick($event,index2,item)" ng-class="last?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+                  <div class="item-img">
+                      <img ng-src="{{item.IMG}}" alt="">
+                      <!--<img src="./static/image/home/pic1.png" alt="">-->
+                  </div>
+                  <div class="item-info">{{item.NAMEEN}} <span>(Black）</span></div>
+                  <div class="item-color">Black</div>
+                  <div class="item-color">S</div>
+                  <div class="item-price">USD {{item.SELLPRICE}}</div>
+              </div>
+          </div>
+      </div>
+      <div class="tanchuangbtn">
+          <button class="tanchuangbtn1" style="cursor: pointer;" ng-click="closetanchuang()">Cancel</button>
+          <button class="tanchuangbtn2" style="cursor: pointer;" ng-click="goon()">Confirm</button>
+      </div>
+  </div>
+</div>
+<!--搜品弹窗-->
+<div id="sourcing-connection" ng-show="sourcetanchuang">
+  <div id="sourcing-tanchuang-wrap">
+      <div class="xiala">
+          <span>SHIPPING METHOD </span>
+          <div class="dropdown">
+              <button type="button" class="btn dropdown-toggle" style="cursor: pointer;" id="dropdownMenu2" data-toggle="dropdown">
+                  <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">1</a>
+                  </li>
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">2</a>
+                  </li>
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">3</a>
+                  </li>
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="#">4</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="pro-title">Products Connection</div>
+      <p class="connect-warn">You have to connect your store product with {{websiteName}} existing one, then {{websiteName}} platform will sync orders from your store.</p>
+      <div class="pend-connect-items">
+          <div class="product-item">
+              <div class="item-heading">Sourcing Product</div>
+              <div class="item-body  item-body-left" style="cursor: pointer;" ng-repeat="item in sourcetccjlist" ng-click="firstclick($event,$index,item)" ng-class="first?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+                  <div class="item-img"><img ng-src="{{item.img}}" alt=""></div>
+                  <div class="item-info">{{item.NAME}} <span>(Black）</span></div>
+                  <div class="item-color">Black</div>
+                  <div class="item-color">S</div>
+                  <div class="item-price">USD {{item.SELLPRICE}}</div>
+              </div>
+          </div>
+          <div class="connect-icon">
+              <div class="item-body-middle" ng-repeat="item in sourcetccjlist" ng-show="arr.length>$index"><img src="./static/image/page/connecteds.png" alt=""></div>
+          </div>
+          <div class="product-item">
+              <div class="item-heading">Your Store Product</div>
+              <div class="item-body item-body-right" style="cursor: pointer;" ng-repeat="item in sourcetcshoplist" ng-click="lastclick($event,$index,item)" ng-class="last?(item.flag?'orange':'gray'):(item.flag?'orange':'')">
+                  <div class="item-img"><img ng-src="{{item.IMG}}" alt=""></div>
+                  <div class="item-info">{{item.name}} <span>(Black）</span></div>
+                  <div class="item-color">Black</div>
+                  <div class="item-color">S</div>
+                  <div class="item-price">USD {{item.price}}</div>
+              </div>
+          </div>
+      </div>
+      <div class="tanchuangbtn">
+          <button class="tanchuangbtn1" style="cursor: pointer;" ng-click="closesourcetanchuang()">Cancel</button>
+          <button class="tanchuangbtn2" style="cursor: pointer;" ng-click="sourcegoon()">Confirm</button>
+      </div>
+  </div>
+</div>
+<!--新手指导-->
+<div class="zzc">
+  <div class="online-wrap">
+      <p class="online-content" id="online-content1" ng-click="jump()"></p>
+      <img class="img1" src="static/image/Newbie/arrow.png" alt=""/>
+      <img class="img2" src="static/image/Newbie/star.png" alt=""/>
+      <img class="img3" src="static/image/Newbie/embellish.png" alt=""/>
+      <p class="online-notice">“Click “Add Automatic Connection“ and start the variant connection step by step, please note the variants is the clue from your store to {{websiteName}}. We ship the products basing on this clue.”</p>
+      <p class="know" style="top: 240px;left: -70px;width: 200px">I am good.</p>
+  </div>
+</div>
+<!--履行服务/库存管理弹窗-->
+<div class="confirm-box perform-services" ng-show="isCJManagement">
+    <div class="confirm-main">
+        <i class="iconfont confirm-close" ng-click="isCJManagement = false;"></i>
+        <div class="confirm-title">{{websiteName}} Fulfillment</div>
+        <div class="confirm-content">
+            <span class="txt">This feature is only applied to Shopify.</span>
+            <div class="choice">
+                <span>Fulfilled by {{websiteName}}:</span>
+                <label class="radio"><input name="fulfilRadio" type="radio" value="1" ng-checked="true"
+                        ng-disabled="showFlag[0].shopType == 'shopify' && !syncInventory" ng-model="fulfil" /><i></i>Yes </label>
+                <label class="radio"><input name="fulfilRadio" type="radio" value="0" ng-model="fulfil" /><i></i>No </label>
+                <i class="iconfont excl" ng-mouseenter="isTips1 = true;" ng-mouseleave="isTips1 = false;">&#xe6ce;</i>
+                <p ng-show="isTips1">Orders of the product can only be fulfilled by {{websiteName}}.</p>
+            </div>
+            <div class="choice" ng-show="fulfil == '1'">
+                <span>Inventory Managed by {{websiteName}}:</span>
+                <label class="radio"><input name="LevelsRadio" type="radio" value="1" ng-checked="true" ng-model="Levels" /><i></i>Yes </label>
+                <label class="radio"><input name="LevelsRadio" type="radio" value="0" ng-model="Levels" /><i></i>No </label>
+                <i class="iconfont excl" ng-mouseenter="isTips2 = true;" ng-mouseleave="isTips2 = false;">&#xe6ce;</i>
+                <p ng-show="isTips2">Inventory of the product can only be managed by {{websiteName}}.</p>
+            </div>
+            <p style="font-size: 14px;padding-left: 55px;"
+                ng-show="showFlag[0].shopType == 'shopify' && !syncInventory ">
+                {{fulfil=='1'?'The inventory sync is off. You can enable it to continue.':'The inventory sync is off. You can enable it to start.'}}
+            </p>
+        </div>
+        <div class="confirm-btn-box">
+            <span ng-click="isCJManagement = false;" class="no-btn">No</span>
+            <span ng-click="YCJManagement()" class="yes-btn btn-theme">Yes</span>
+        </div>
+    </div>
+</div>
+<!-- View Packaging 提示 -->
+<div class="confirm-box" ng-show="viewPackagingModal">
+    <div class="confirm-main inventory-tips">
+      <i class="iconfont confirm-close" ng-click="closeViewPackagingModal()" style="cursor: pointer;"></i>
+      <div class="confirm-title">View Packaging</div>
+      <div class="confirm-content" style="min-height: 400px;">
+        <div class="tabs">
+          <label for="select_variant">Select Variant </label>
+          <select id="select_variant" class="singleSelect" style="width:380px;height: 30px;" ng-change="onSelectPackaging()" ng-model="selectedVid">
+                <option value=""  ng-selected=''>Select Product SKU</option>
+                <option ng-value="variant.vid" ng-selected="variant == selectedVid" ng-repeat="(index,variant) in proStandList track by $index">{{variant.sku}}</option>
+            </select>
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th style="width: 160px;">SKU</th>
+            <th>Packaging Name</th>
+            <th style="width: 60px;">Image</th>
+            <th style="width: 100px;">Material</th>
+            <th>Size(mm)</th>
+            <th>Weight(g)</th>
+            <th>Applied to Order</th>
+            <th>Remaining Inventory</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-show="vidCheckedList.length > 0" ng-repeat="(index,vidItem) in vidCheckedList track by $index">
+            <td>{{vidItem.sku}}</td>
+            <td>{{vidItem.name}}</td>
+            <td> <img ng-src="{{vidItem.imgUrl}}" alt="" width="40" height="40"></td>
+            <td>{{vidItem.packKey && vidItem.packKey.toLowerCase() === 'kapian' ? 'card' : vidItem.packKey}}</td>
+            <td>{{formateSize(vidItem.size)}}</td>
+            <td>{{vidItem.weight}}</td>
+            <td>{{vidItem.packType == 1 ? 'Yes' : 'No'}}</td>
+            <td>{{vidItem.remain}}</td>
+          </tr>
+          <tr ng-show="vidCheckedList.length == 0">
+            <td colspan="8" style="height: 50px;">There is no package connected for the product.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- 取消关联弹框 -->
+  <div class="confirm-box connected-disconnect-popup" ng-show="disconnectPopup">
+    <div class="confirm-main">
+      <i class="iconfont confirm-close" ng-click="disconnectCancelFun()"></i>
+      <div class="confirm-title" style="background-color: #fff;">
+        <!-- 标题 -->
+      </div>
+      <div class="confirm-content" style="font-size: 14px;color: #666;text-align: left;">
+        It may remove all the connection of the product, including the packaging connection.
+      </div>
+      <div class="confirm-btn-box">
+        <span ng-click="disconnectCancelFun()" class="no-btn">Cancel</span>
+        <span ng-click="disconnectConfirmFun()" class="yes-btn btn-theme">Confirm</span>
+      </div>
+    </div>
+  </div>
+
+<!-- 修改默认物流弹框 -->
+<div class="confirm-box logistic-setting-popup" ng-show="settingLogisticVisible">
+  
+  <div class="confirm-main">
+    <i ng-click="settingLogisticVisible=false;" class="iconfont confirm-close"></i>
+    <div class="confirm-title"></div>
+    <div class="confirm-content">
+      <div class="logistic-setting-item">
+        <span class="item-title">Shipping From:</span>
+        <select ng-model="currentCountry" ng-change="changeCountry(currentCountry)" ng-options="item.countryCode as item.areaEn for item in settingCountry">
+        </select>
+      </div>
+      <div class="logistic-setting-item">
+        <span class="item-title">Shipping Method:</span>
+        <select ng-model="currentLogistic" ng-options="l.nameEn for l in settingLogisticList"></select>
+      </div>
+    </div>
+    <div class="confirm-btn-box">
+      <span class="no-btn" ng-click="settingLogisticVisible=false;">Cancel</span>
+      <span class="yes-btn btn-theme" ng-click="submitChangeLogistic()">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 批量删除弹框 -->
+<div class="confirm-box" ng-show="batchDeletePopup">
+  <div class="confirm-main">
+    <div class="confirm-title" style="background-color: #fff;">
+    </div>
+    <div class="confirm-content" style="font-size: 14px;color: #666;">
+      Are you sure to bulk remove the packaging connection? Once removed, those packagings will not be connected with those products.
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="batchDeletePopup=false" class="no-btn">No</span>
+      <span ng-click="batchDeleteConfirmFun()" class="yes-btn btn-theme">Yes</span>
+    </div>
+  </div>
+</div>
+<!-- 店铺授权过期要重新授权弹框 -->
+<div class="confirm-box" ng-show="storeAutoExpirePopup">
+  <div class="confirm-main">
+    <i ng-click="closeStoreAutoExpire()" class="iconfont confirm-close"></i>
+    <div class="confirm-title" style="background-color: #fff;border-bottom: 0 none;">
+    </div>
+    <div class="confirm-content" style="font-size: 14px;color: #666;">
+      The store is deactivated. Please reauthorize your store.
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="closeStoreAutoExpire()" class="no-btn">Later</span>
+      <span ng-click="storeAutoExpireConfirmFun()" class="yes-btn btn-theme">Authorize</span>
+    </div>
+  </div>
+</div>
+<!-- 弹框 -->
+<div class="pop_ups">
+  <pop-ups content="content" ng-show="showPopUps"></pop-ups>
+</div>
+
+<loading-cart background="'transparent'" top="180" ng-if="loading"></loading-cart>

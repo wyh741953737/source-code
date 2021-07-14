@@ -1,0 +1,25 @@
+<div class="menu main-warp">
+  <div>
+    <ul>
+      {% for item in menuList %}
+        {% set openIdx = loop.index0 %}
+        <li class="{{'sub-menu-height-auto' if (menuOpenIdx != '' and openIdx == menuOpenIdx) else '' }} sub-menu-li">
+          <span class="sub-menu-title" @click="toggleShow($event)" i='{{openIdx}}'>
+            {{item.categoryName}}
+            <i class="iconfont iconbianzu101"></i>
+          </span>
+          <div class="sub-menu">
+            {% if item.list.length > 0 %}
+              {% for items in item.list %}
+                <a href="javascript:;" class="{{'active' if (menuOpenIdx != '' and openIdx == menuOpenIdx and loop.index0 == menuActiveIdx) else '' }} sub-menu-a" id="{{items.id}}" openIdx="{{openIdx}}" menuActiveIdx={{loop.index0}} articleTitle="{{item.categoryName}} > {{items.categoryName}}" @click="clickMenu($event)">
+                  <em>{{items.categoryName}}</em>
+                </a>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+</div>

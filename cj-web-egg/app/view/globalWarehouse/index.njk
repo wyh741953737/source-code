@@ -1,0 +1,72 @@
+{% block title %}
+<title>CJ Global Warehouses - CJdropshipping</title>
+<meta name="description" property="og:description" content="3-5 Days free shipping. Find a local supplier for your dropshipping store. Dropship from worldwide to worldwide.">
+<meta name="keywords" content="dropshipping suppliers, small business wholesale suppliers, aliexpress suppliers,free dropshipping suppliers, spocket, usa wholesalers, usa wholesale, dropship suppliers in usa, drop shipping suppliers usa" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% from "../macor/product.njk" import product %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-card.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-warp.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/search-page.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/global-warehouse.css' | VERSION }}">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+{% set opt = {
+  data: list
+} %}
+
+<div class="global-warehouse" id="vue-global-warehouse">
+  <div class="banner">
+    <h1>{{ i18next.t('Global Warehouses') }}</h1>
+    <p>{{ i18next.t('Our Professional and Effective Services') }}</p>
+  </div>
+  <div class="warp">
+    <div class="booth">
+      <div class="booth-col">
+        <a href="{{banner_list[0].linkUrl}}">
+          <img src="{{banner_list[0].img | IMG_SIZE(544)}}" alt="">
+        </a>
+      </div>
+      <div class="booth-col">
+        <a href="{{banner_list[1].linkUrl}}">
+          <img src="{{banner_list[1].img | IMG_SIZE(264)}}" alt="">
+        </a>
+        <a href="{{banner_list[2].linkUrl}}">
+          <img src="{{banner_list[2].img | IMG_SIZE(264)}}" alt="">
+        </a>
+      </div>
+      <div class="booth-col">
+        <a href="{{banner_list[3].linkUrl}}">
+          <img src="{{banner_list[3].img | IMG_SIZE(264)}}" alt="">
+        </a>
+        <a href="{{banner_list[4].linkUrl}}">
+          <img src="{{banner_list[4].img | IMG_SIZE(264)}}" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="porduct-warp" v-cloak>
+      <div class="filter">
+        <list-filter :filter='filter'></list-filter>
+      </div>
+      {% include "../snippet/product-warp.njk" %}
+    </div>
+  </div>
+</div>
+
+
+<script src="{{ PUBLIC_SCRIPT + '/globalWarehouse.js' | VERSION }}"></script>
+
+{% endblock %}

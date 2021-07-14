@@ -1,0 +1,404 @@
+<style type="text/css">
+  #sdc-souurl:hover {
+    color: #f88f29;
+  }
+
+  #selectPrice {
+    text-align: center;
+  }
+
+  #selectPrice .ASL-content .act {
+    border: 2px solid rgba(247, 157, 45, 1) !important;
+  }
+
+  #selectPrice .ASL-content .price {
+    width: 220px;
+    height: 68px;
+    border-radius: 2px;
+    border: 2px solid rgba(214, 214, 214, 1);
+    line-height: 68px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  #selectPrice .ASL-content .price span {
+    width: 65px;
+    height: 66px;
+    background: rgba(237, 237, 237, 1);
+    font-size: 12px;
+    font-family: SourceSansPro-Regular;
+    color: rgba(0, 0, 0, 1);
+    line-height: 15px;
+    float: left;
+    text-align: center;
+    padding: 14px 0;
+  }
+
+  #selectPrice .ASL-content .act:before {
+    content: '';
+    background: url(/static/image/product-img/tag.png) no-repeat top right !important;
+    width: 32px;
+    height: 29px;
+    display: block;
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+  }
+
+  #selectPrice .ASL-content .price .tag {
+    width: 100px;
+    height: 16px;
+    background: rgba(247, 157, 45, 1);
+    -moz-transform: skewX(25deg);
+    -ms-transform: skewX(25deg);
+    -webkit-transform: skewX(25deg);
+    transform: skewX(25deg);
+    position: absolute;
+    right: -4px;
+    font-family: SourceSansPro-Bold;
+    color: rgba(255, 255, 255, 1);
+  }
+
+  #selectPrice .ASL-content .price .tag p {
+    -moz-transform: skewX(-25deg);
+    -ms-transform: skewX(-25deg);
+    -webkit-transform: skewX(-25deg);
+    transform: skewX(-25deg);
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+  }
+
+  #selectPrice .ASL-content .price strong {
+    float: left;
+    text-align: center;
+    width: 140px;
+  }
+
+  #selectPrice button {
+    width: 220px;
+    height: 40px;
+    border-radius: 2px;
+    color: #fff;
+    display: block;
+    padding: initial;
+    margin: 30px auto;
+  }
+
+  #add-store {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 10002;
+  }
+
+  #add-store .ASL-content {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    padding: 25px;
+    margin: auto;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #fff;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
+  }
+
+  #add-store .ASL-content .closel {
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    cursor: pointer;
+  }
+
+  #add-store .ASL-content h3 {
+    font-size: 13px;
+    font-family: SourceSansPro-Semibold;
+    color: rgba(51, 51, 51, 1);
+    line-height: 18px;
+  }
+
+  #add-store .ASL-content .price {
+    width: 220px;
+    height: 68px;
+    border-radius: 2px;
+    border: 2px solid rgba(214, 214, 214, 1);
+    margin: auto;
+    line-height: 68px;
+    margin-top: 20px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #add-store .ASL-content button {
+    width: 220px;
+    height: 40px;
+    background: rgba(247, 157, 45, 1);
+    border-radius: 2px;
+    color: #fff;
+    display: block;
+    margin: 30px auto;
+  }
+
+  #add-store .ASL-content .price .tag {
+    width: 100px;
+    height: 16px;
+    background: rgba(247, 157, 45, 1);
+    -moz-transform: skewX(25deg);
+    -ms-transform: skewX(25deg);
+    -webkit-transform: skewX(25deg);
+    transform: skewX(25deg);
+    position: absolute;
+    right: -4px;
+    font-family: SourceSansPro-Bold;
+    color: rgba(255, 255, 255, 1);
+  }
+
+  #add-store .ASL-content .price .tag p {
+    -moz-transform: skewX(-25deg);
+    -ms-transform: skewX(-25deg);
+    -webkit-transform: skewX(-25deg);
+    transform: skewX(-25deg);
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    color: #fff;
+  }
+
+  #add-store .ASL-content .price span {
+    width: 65px;
+    height: 66px;
+    background: rgba(237, 237, 237, 1);
+    font-size: 12px;
+    font-family: SourceSansPro-Regular;
+    color: rgba(0, 0, 0, 1);
+    line-height: 15px;
+    float: left;
+    text-align: center;
+    padding: 14px 0;
+  }
+
+  #add-store .ASL-content .price strong {
+    float: left;
+    text-align: center;
+    width: 140px;
+  }
+
+  #add-store .ASL-content .act {
+    border: 2px solid rgba(247, 157, 45, 1);
+  }
+
+  #add-store .ASL-content .act:before {
+    content: '';
+    background: url(/static/image/product-img/tag.png) no-repeat top right;
+    width: 32px;
+    height: 29px;
+    display: block;
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+  }
+</style>
+
+<div class="seachdetail-wrap video-demand-detail" style="min-height: 800px;">
+  <!-- 内容部分 -->
+  <div class="hnj-back-to">
+    <a href="javascript:history.go(-1);">
+      &lt; Back</a> </div>
+  <div class="seachdetail-header">
+    <p class="pull-left">
+      Product Type:
+      <span ng-bind-html='handleTypeText(sourcecontent.sourcetype)'></span>
+      <!-- {{sourcecontent.sourcetype=="0"?"Store's":sourcecontent.sourcetype=="1"?"Individual":sourcecontent.sourcetype=="2"?"CJ's":"--"}} -->
+    </p>
+    <p>Request ID:{{'\u00A0'}}<span class="notranslate">{{sourcecontent.number}}</span></p>
+  </div>
+
+  <!-- user部分 -->
+  <div class="manager-box">
+    <!-- 用户名字部分 -->
+    <div class="user-name">
+      <div class="user">
+        <span class="user-img">{{userImg}}</span>
+      </div>
+      <span class="manager-span">Name: </span>
+      <span class="name-span">{{username}}</span>
+      <span id="sdc-time" class="manager-time" ng-if="sourcecontent.updateDate">{{sourcecontent.updateDate}}</span>
+    </div>
+    <!-- 产品详情部分 -->
+    <div class="product-detail">
+      <ul>
+        <li class="sd-c-li1 li-1">
+          <p class="detail-p1" style="width: 100%;">
+            <span class="gray-span detail-span1">Product Title:</span>
+            <span id="sdc-productname" class="light-span detail-span2">{{sourcecontent.productName}}</span>
+          </p>
+        </li>
+        <li class="li-1" ng-if="sourcecontent.sourcetype=='0'">
+          <p class="detail-p1">
+            <span class="gray-span">Store Name:</span>
+            <span
+              class="light-span detail-span2">{{sourcecontent.shopName || '-'}}</span>
+          </p>
+        </li>
+        <li class="li-1">
+          <p>
+            <span class="gray-span">Product URL:</span>
+            <a id="sdc-souurl" target="_blank" ng-href="{{sourcecontent.producteUrl}}"
+              class="light-span detail-span2" ng-bind-html="sourcecontent.producteUrl? sourcecontent.producteUrl: '-'"></a>
+          </p>
+        </li>
+        <li class="li-1">
+          <p class="detail-p9">
+            <span class="gray-span">Images:</span>
+            <ul ng-if="sourcecontent.imageUrl!='https://'">
+              <li ng-repeat="item in sourcecontent.imageUrl track by $index" style="float: left;margin-right: 30px;margin-bottom: 10px">
+                <img class="first-img" ng-src={{item}}>
+              </li>
+            </ul>
+            <span ng-if="sourcecontent.imageUrl=='https://'">-</span>
+          </p>
+        </li>
+        <li class="note-li li-1">
+          <p class="detail-p10">
+            <span class="gray-span">Description:</span>
+            <span id="sdc-description"
+              class="light-span detail-span2" ng-bind-html="sourcecontent.description? sourcecontent.description: '-'"></span>
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Manager部分 -->
+  <div class="manager-box" style="margin-bottom: 20px;">
+    <!-- 客服名字部分 -->
+    <div class="manager-name">
+      <span id="sdm-name" class="name-span" style="margin-left: 30px ">Photography Request Status</span>
+    </div>
+    <!-- 产品详情部分 -->
+    <div class="product-detail">
+	    <div class="status-box"><span>Status:</span>{{orderStatusEnums[sourcecontent.status].value}}</div>
+	    <div class="specification"><span>Specification:</span>{{orderStatusEnums[sourcecontent.status].describtion}}</div>
+	    <div class="specification">
+        <span>Order Number:</span>
+        <span ng-bind-html="sourcecontent.mediaOrderId? sourcecontent.mediaOrderId: '-'"></span>
+	    </div>
+      <div id="selectPrice" ng-show="sourcecontent.status =='16'">
+        <div class="ASL-content">
+	        <div class="package-1" ng-click="price1(sourcecontent.copyrightPrice)" ng-class="{active:isact1}">
+		        <span class="amount">{{sourcecontent.copyrightPrice | currency}}</span>
+		        <span class="tag">What a Bargain!</span>
+	        </div>
+	        <div class="package-2" ng-click="price2(sourcecontent.notCopyrightPrice)" ng-class="{active:isact2}">
+		       	<span class="amount">{{sourcecontent.notCopyrightPrice | currency}}</span>
+	        </div>
+          <button class="btn-theme" ng-click="payClick()">Pay</button>
+        </div>
+      </div>
+      <button class="download-btn btn-theme" ng-click="hadleDownload(sourcecontent)" ng-show="sourcecontent.status =='18'">Download</button>
+    </div>
+
+<!-- 
+    <div class="product-detail" ng-show="sourcecontent.status =='14'">
+	    <div class="status-box"><span>Status:</span>Pending</div>
+	    <div class="specification"><span>Specification:</span>We are reviewing your request and will get back to you in 2 working days.</div>
+	    <div class="specification">
+        <span>Order Number:</span>
+        <span ng-bind-html="sourcecontent.mediaOrderId? sourcecontent.mediaOrderId: '-'"></span>
+	    </div>
+    </div>
+
+    <div class="product-detail" ng-show="sourcecontent.status =='15'">
+	    <div class="status-box"><span>Status:</span>Rejected</div>
+	    <div class="specification">
+		    <span>Specification:</span>
+		    Unfortunately, we are unable to shot video for this product. Sorry for your inconvenience. Please contact our agent for more information.
+	    </div>
+	    <div class="specification">
+		    <span>Order Number:</span>
+        <span ng-bind-html="sourcecontent.mediaOrderId? sourcecontent.mediaOrderId: '-'"></span>
+	    </div>
+    </div>
+
+    <div class="product-detail" ng-show="sourcecontent.status =='16'">
+	    <div class="status-box"><span>Status:</span>Quoted</div>
+	    <div class="specification">
+		    <span>Specification:</span>
+		    Please pay for your request first, and we will start to shoot it once we receive your payment. 
+	    </div>
+	    <div class="specification">
+		    <span>Order Number:</span>
+        <span ng-bind-html="sourcecontent.mediaOrderId? sourcecontent.mediaOrderId: '-'"></span>
+	    </div>
+
+      <div id="selectPrice">
+        <div class="ASL-content">
+	        <div class="package-1" ng-click="price1(sourcecontent.copyrightPrice)" ng-class="{active:isact1}">
+		        <span class="amount">{{sourcecontent.copyrightPrice | currency}}</span>
+		        <span class="tag">What a Bargain!</span>
+	        </div>
+	        <div class="package-2" ng-click="price2(sourcecontent.notCopyrightPrice)" ng-class="{active:isact2}">
+		       	<span class="amount">{{sourcecontent.notCopyrightPrice | currency}}</span>
+	        </div>
+          <button class="btn-theme" ng-click="payClick()">Pay</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-detail" ng-show="sourcecontent.status =='17'">
+	    <div class="status-box"><span>Status:</span>Processing</div>
+	    <div class="specification">
+		    <span>Specification:</span>
+		    Thanks for your payment. We're shooting the video/photos for you and will update the status once it's done.
+	    </div>
+	    <div class="specification">
+		    <span>Order Number:</span>
+        <span ng-bind-html="sourcecontent.mediaOrderId? sourcecontent.mediaOrderId: '-'"></span>
+	    </div>
+    </div>
+
+    <div class="product-detail" ng-show="sourcecontent.status =='18'">
+	    <div class="status-box"><span>Status:</span>Completed</div>
+	    <div class="specification">
+		    <span>Specification:</span>
+		    <div style="width: 80%;">
+			    Congratulation! Your photography request is completed. Please click the "Download" button below to save the video/photos.
+		    </div>
+	    </div>
+	    <div class="specification">
+		    <span>Order Number:</span>
+        <span ng-bind-html="sourcecontent.mediaOrderId? sourcecontent.mediaOrderId: '-'"></span>
+	    </div>
+      <button class="download-btn btn-theme" ng-click="hadleDownload(sourcecontent)">Download</button>
+    </div> -->
+  </div>
+</div>
+
+<!--价格弹窗-->
+<div id="add-store" ng-cloak ng-show="DownDialog" class="ng-scope Downvideo">
+  <div class="ASL-content">
+    <img class="closel" ng-click="DownDialog = false;" width="30" src="/static/image/page/close-default.png" alt="">
+    <h3>Please select the type of purchase:</h3>
+    <div ng-click="price1(sourcecontent.copyrightPrice)" ng-class="{act:isact1}" class="price">
+      <div class="tag">
+        <p>What a Bargain!</p>
+      </div>
+      <span>With Copyright</span>
+      <strong>{{sourcecontent.copyrightPrice | currency}}</strong>
+    </div>
+    <div ng-click="price2(sourcecontent.notCopyrightPrice)" ng-class="{act:isact2}" class="price">
+      <span>Without Copyright</span>
+      <strong>{{sourcecontent.notCopyrightPrice | currency}}</strong>
+    </div>
+    <button ng-click="payClick()">Pay</button>
+  </div>
+</div>

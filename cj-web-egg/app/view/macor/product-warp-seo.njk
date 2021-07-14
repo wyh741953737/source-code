@@ -1,0 +1,54 @@
+{% from "./product.njk" import product %}
+
+{% macro noData(noDataType) %}
+  {% if noDataType === 'searchNoData' %}
+  <div class="sourcing-noData">
+    <img src="/egg/image/list-detail/list-nodata.png" />
+    <div class="tips">Didn’t find what you want? Post a sourcing request to CJ, and we will find the product for you within 48 hours.</div>
+    <a class="go-sourcing-btn" href="/myCJ.html#/add-sourcing////">Sourcing</a>
+    <a class='how-to-sourcing' href="//app.cjdropshipping.com/blog/post/how-to-post-sourcing-request-on-app-cjdropshipping-com/" target="_blank">How to post a sourcing request?</a> 
+  </div>
+  {% elif noDataType === 'gwNoData' %}
+  <div class="sourcing-noData">
+    <img src="/egg/image/global-warehouse/list-nodata.png" />
+    <div class="tips">Sorry,the data is not found.</div>
+  </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro productWrap(opt, noDataType, productParams) %}
+<div class="product-warp">
+  <div v-if="seo" render="njk">
+    <div class="product-box">
+      {% for prod in opt.data %}
+        {{ product(prod, productParams) }}
+      {% else %}
+        {{noData(noDataType)}}
+      {% endfor %}
+    </div>
+  </div>
+  <!-- <div class="cj-load-percent" v-else-if="loading">
+    <div>
+      <img src="/egg/image/loading_percent.gif" alt="">
+      <p>Loading, please wait a moment!</p>
+    </div>
+  </div> -->
+  <div v-else>
+    <div v-if="!productList.length" render="njk">
+      {{noData(noDataType)}}
+    </div>
+    <div v-else render="vue">
+      <div v-if="passTracking" class="product-box">
+        <product-card 
+          :tracking='"{\"clickResult\":\"003\", \"exposureId\":\"004\", \"searchKey\":\"" + params.keyWord + "\", \"productNum\":\"" + productNum + "\"}"'
+          v-for="(prod, idx) of productList" :prod="prod" :key="idx" :img-Size="imgSize" title="{{ opt.title }}" />
+      </div>
+      <div v-else class="product-box">
+        <product-card 
+          tracking='{"collectionId": "001", "addToQueueId": "002", "exposureId":"003"}'
+          v-for="(prod, idx) of productList" :prod="prod" :key="idx" :img-Size="imgSize" title="{{ opt.title }}" />
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}

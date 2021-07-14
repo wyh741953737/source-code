@@ -1,0 +1,328 @@
+<div class="content">
+    <div class="mycj-home-box directorders-wrap">
+        <!-- 左边部分 -->
+        <div class="mycj-left-bar-wrap">
+            <mycj-leftbar navparamx="'DropShipping Center'" navparamy="'Imported Orders'"></mycj-leftbar>
+        </div>
+        <!-- 右边部分 -->
+        <div class="direct-right">
+            <!-- 导航 -->
+            <div class="order-status">
+                <div class="status-nav">
+                    <ul class="status-navul">
+                        <li><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="#/direct-orders">Process Required <span class="notranslate" ng-cloak>{{'('+impprocessNum+')'}}</span></a></li>
+                        <li><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="#/imp-cart">Cart <span class="notranslate" ng-cloak>{{'('+cartNum+')'}}</span></a></li>
+                        <li><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="#/imp-incomp">Incomplete Orders <span class="notranslate" ng-cloak>{{'('+incompleteNum+')'}}</span></a></li>
+                        <li class="nav-li"><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="#/imp-cancel">Canceled <span class="notranslate" ng-cloak>{{'('+cancelNum+')'}}</span></a></li>
+                        <li><a class="orderstatus-nav direct-orders-ctrltatus-nav" href="#/imp-refund">Refunded <span class="notranslate" ng-cloak>{{'('+refundNum+')'}}</span></a></li>
+                    </ul>
+                    <div class="order-filter">
+                        <div class="search-order">
+                            <!-- <span class="ord-sea-span">My CJ Ordered Data</span> -->
+                            <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="From"></input>
+                            <span class="line">-</span>
+                            <input id="cj-etime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" placeholder="Now"></input>
+
+                            <input placeholder="Input products name or order's number"></input><a class="search-btn" href="javascript:void(0)">Search</a>
+                            <a class="toggle-moresearch" id="ditect-searchmore" href="javascript:void(0)">
+                                <i id="toggle-logo1" style="font-size: 8px;" class="glyphicon glyphicon-triangle-bottom"></i>
+                                <span class="filter-span">Filter</span>
+                            </a>
+                            <!-- filter后面的功能按钮 -->
+                            <!-- <a ng-click="addToCartFun()" class="deal-style awaiting-orders hide-abtn" href="javascript:void(0)">Add to Cart</a>
+							<a class="deal-style reject-orders hide-abtn" href="javascript:void(0)">Cancel</a> -->
+                            <!-- <a id="export-orders" class="export-orders hide-abtn" href="javascript:void(0)">
+								<span>Export Orders</span>
+							</a> -->
+                            <!-- <a id="excel-orders" class="excel-orders hide-abtn" href="javascript:void(0)">
+								<span>Import Excel Orders</span>
+							</a>
+							<a ng-click="fun()" class="sync-orders hide-abtn" href="javascript:void(0)">
+								<span>Sync Orders</span>
+								<img src="static/image/direct-orders/iconsync.png">
+							</a> -->
+                        </div>
+                        <!-- 高级搜索部分 -->
+                        <div class="more-search" id="ditect-moresearch">
+                            <ul>
+                                <li class="first-line">
+                                    <div class="maybe-top">
+                                        <span>Orders Type</span>
+                                        <select class="type-sel">
+											<option>All</option>
+											<option>Automatic Imported</option>
+											<option>Excel Imported</option>
+										</select>
+
+
+                                        <span>Your Ordered Date</span>
+                                        <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="y-ord-sdate" placeholder="from"></input>
+                                        <span class="line">-</span>
+                                        <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="y-ord-edate" placeholder="to"></input>
+                                    </div>
+                                    <!-- </br ng-if="windowWidth"> -->
+                                    <div class="maybe-bottom">
+                                        <span>Your Product Title</span>
+                                        <input id="y-pro-name"></input>
+
+                                        <span>CJ Product Title</span>
+                                        <input id="cj-pro-name"></input>
+
+                                        <span class="buyer-name">Buyer Name</span>
+                                        <input class="buyer-inp"></input>
+
+                                        <button id="tj-search-btn">Search</button>
+                                    </div>
+                                </li>
+                                <!-- <li class="second-line">
+									<span>Ordered Data</span>
+									<input class="data-inp" placeholder="from"></input>
+									<span class="line"></span>
+									<input placeholder="to"></input>
+									
+								</li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 订单处理部分 已付款订单  第四个状态对应的内容 -->
+            <div class="deal-orders direct-deal-order">
+                <!-- <ul class="dealorder-ul">
+					<li class="cj-deal-way  ipo-thid-navli">
+						<a class="export-orders" href="javascript:void(0)">
+							<span>Export Orders</span>
+						</a>
+					</li>
+				</ul> -->
+                <!-- 订单的表格部分 -->
+                <div class="orders-list">
+                    <table class="orders-table" id="refund-table">
+                        <thead>
+                            <tr>
+                                <th class="data-th fir-th" style="width: 136px;">
+                                    <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                                    <span>CJ Order Number</span>
+                                    <img class="showsp-img" src="static/image/public-img/up.png">
+                                </th>
+                                <th style="width: 108px;">
+                                    <p>Your Store Time</p>
+                                    <p>System Time</p>
+                                </th>
+                                <th style="width: 128px;">
+                                    <select id="dcl-sel-store">
+										<option>Stores All</option>
+										<!-- <option ng-repeat="item in shops" value="{{item.id}}">{{item.name}}</option> -->
+									</select>
+                                </th>
+                                <th style="width: 116px;">
+                                    Your Order Number
+                                </th>
+                                <th style="width: 98px;">Store Amount</th>
+                                <th style="width: 60px;">Quantity</th>
+
+                                <th style="width: 100px;">Shipping Info</th>
+                                <th style="width: 100px;">Shipping Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr class="order-checkbox">
+								<td colspan="16">
+									<img class="product-checked" src="static/image/direct-orders/multiple1.png">
+								</td>
+							</tr> -->
+                            <!-- <tr class="order-detail">
+								<td class="order-time">
+									<img class="product-checked fcheckbox" src="static/image/direct-orders/multiple1.png">
+								</td>
+								<td>
+									shopify fashion
+								</td>
+								<td>
+									701511176868
+								</td>
+								<td ><img class="product-showImg" src="static/image/home/pic1.png"></td>
+								<td class="prduct-description">
+									<ul>
+										<li>CCRTL-123SKLU</li>
+										<li class="light-li">Fashion style show style</li>
+										<li>(balck)</li>
+										<li class="remark"></li>
+									</ul>
+								</td>
+								<td>
+									<p>USD 2.92</p>
+									<P>105.000g</P>
+								</td>
+								<td>1</td>
+								<td>
+									<p>USD 2.92</p>
+									<P>105.000g</P>
+								</td>
+								<td class="order-time paidon-time"></td>
+								<td class="shipping-info">
+									<p class="buyer-name">buyer name</p>
+									<p class="descript">175 NE 16th st, B12</p>
+									<p class="buyer-adress">Glendora ,CA United States</p>
+									<p class="post-code">996778</p>
+									<p class="phone-num">15678901234</p>
+								</td>
+								<td >USD 2.92</td>
+							</tr> -->
+                        </tbody>
+                    </table>
+                    <div ng-hide="dataFound" class="not-found-data">
+                        <img src="static/image/public-img/nodata.png">
+                    </div>
+                    <!-- 分页 -->
+                    <div class="zdcl-pages-db second-page-fun">
+                        <select id="dcl-sel" class="select-page-num ip-select-num2">
+							<!-- <option>5</option> -->
+							<option value="30">30</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+							<option value="200">200</option>
+							<option value="500">500</option>
+						</select>
+                        <span class="per-page">per page</span>
+                        <span class="all-num-line" ng-cloak>0</span>
+                        <!-- {{list.countNumber}} -->
+                        <span class="per-page">records found</span>
+                        <ul class="pagination pagination-demo1"></ul>
+                        <span class="per-page showing-tex">showing:</span>
+                        <input class="inp-num-go inp-num-go2"></input>
+                        <span class="per-page">of</span>
+                        <span class="jump-btn ip-jump-btn2">go</span>
+                    </div>
+                    <!-- 分页 -->
+                    <!-- <div class="zdcl-pages-db second-page-fun">
+						<select class="select-page-num ip-select-num2">
+							<option>1</option>
+							<option>3</option>
+							<option>10</option>
+							<option>20</option>
+						</select>
+						<span class="per-page">per page</span>
+						<span class="all-num-line"></span>
+						<span class="per-page">records found</span>
+					    <ul class="pagination pagination-demo1"></ul>
+					    <span class="per-page showing-tex">showing:</span>
+					    <input class="inp-num-go inp-num-go2"></input>
+					    <span class="per-page">of</span>
+					    <span class="jump-btn">go</span>
+					</div> -->
+
+                    <!-- <div class="svc-ord-wrap">
+						<button id="bulk-svc-smethod">Bulk Change Shipping Method</button>
+						<table class="orders-table" id="copy-ord">
+							<thead>
+								<tr>
+									<th class="data-th data-th1" style="width: 126px;">
+										<img class="zchecked-all style-img-chek" src="static/image/direct-orders/multiple1.png">
+										<span>Imported Date</span>
+									</th>
+									<th style="width: 128px;">
+										Status
+									</th> 
+									<th style="width: 116px;">
+										Order Created Date
+									</th>
+									<th style="width: 108px;">Order Number</th>
+									<th style="width: 242px;">
+										<p class="product-descriptionp">SKU</p>
+										<p class="product-descriptionp">Quantity</p>
+									</th>
+									<th style="width: 96px;">CJ Price</th>
+									<th style="width: 60px;">Shipping Method</th>
+									<th style="width: 98px;">Shipping Cost</th>
+									<th style="width: 102px;">CJ Amount</th>
+									<th style="width: 160px;">Product Title</th>
+									<th style="width: 110px;">Customer Name</th>
+
+									<th style="width: 96px;">Address 1</th>
+									<th style="width: 60px;">Address 2</th>
+									<th style="width: 98px;">City</th>
+									<th style="width: 102px;">Province</th>
+									<th style="width: 160px;">ZIP</th>
+									<th style="width: 110px;">Country</th>
+									<th style="width: 160px;">Shipping Phone Number</th>
+									<th style="width: 110px;">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+						<div class="csv-btns">
+							<button class="csv-can-btn">Cancel</button>
+							<button class="csv-sub-btn">Submit</button>
+							<button class="csv-save-btn">Save</button>
+						</div>
+					</div> -->
+                    <!-- 粘贴复制订单数据的界面 -->
+                    <!-- <div class="copy-ord-wrap">
+						<div class="cow-head">
+							<ul>
+								<li class="cow-li1">
+									<p>Order Created Date</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li2">
+									<p>Order Number</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li3">
+									<p>SKU</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li1">
+									<p>Quantity</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li2">
+									<p>Product Title</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li3">
+									<p>Customer Name</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li1">
+									<p>Address 1</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li2">
+									<p>Address 2</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li3">
+									<p>City</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li1">
+									<p>Province</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li2">
+									<p>ZIP</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li3">
+									<p>Country</p>
+									<textarea></textarea>
+								</li>
+								<li class="cow-li3">
+									<p>Shipping Phone Number</p>
+									<textarea></textarea>
+								</li>
+							</ul>
+						</div>
+					</div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

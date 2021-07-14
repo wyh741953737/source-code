@@ -1,0 +1,29 @@
+{% if pageModule.pageNum <= pageModule.totalPage %}
+<div class="asj-page-box" id="vue-page">
+  <div class="select-page-num" v-show="showPageSize">
+    <select class="form-control notranslate" v-model="skipPageSize" v-on:change="changePageSize">
+      {{ pageModule.pagesizeList | safe }}
+    </select>
+    <span>per Page</span>
+  </div>
+  <div class="total-num">
+    {% if pageModule.totalNum <= 1 %}
+      {{ pageModule.totalNum + ' Record Found' }}
+    {% else %}
+      {{ pageModule.totalNum + ' Records Found' }}
+    {% endif %}
+  </div>
+  <div class="page-index">
+    {{ pageModule.pageLinks | safe }}
+  </div>
+  <div class="to-go">
+    <span>Showing: </span>
+    <input type="text" v-model="skipPage" class="form-control" v-on:change="handleInputPage()"  placeholder="">
+    <span>of {{ pageModule.totalPage }}</span>
+    <a style="margin-top: -4px; line-height: 26px;" class="btn btn-default" id="goBtn" role="button" v-on:click="changeFun">Go</a>
+  </div>
+</div>
+<script>
+  const egg_totalPageNumber = "{{ pageModule.totalPage }}";
+</script>
+{% endif %}

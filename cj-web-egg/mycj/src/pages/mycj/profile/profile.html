@@ -1,0 +1,31 @@
+<!-- content -->
+<div class="cj-user-profile-box-overflow">
+  <div class="content cj-user-profile-box">
+<!--    <div class="cj-user-profile-space"></div>-->
+    <div class="mycj-home-box cj-user-profile-contain">
+      <div class="pro-head-stu">
+        <ul class="pro-head-ul">
+          <li class="pro-head-li" ng-repeat="item in tabList" ng-click="changeTab(item)" :ng-class="{'pro-head-active':item.active}">{{item.name}}</li>
+        </ul>
+      </div>
+      <div class="mycj-profile-wrap">
+        <div class="mycj-right-bar">
+          <!-- Registration info 模块 -->
+          <profile-info ng-if="tabType==1" callback="infoCallback"></profile-info>
+          <!-- 地址管理模块 -->
+          <profile-address ng-if="tabType==2"></profile-address>
+          <!-- 发票管理模块 -->
+          <profile-invoice ng-if="tabType==3"></profile-invoice>
+          <!-- 发票管理模块 -->
+          <profile-email ng-if="tabType==4"></profile-email>
+          <!-- 安全设置模块 -->
+          <!-- <profile-password ng-if="tabType==5"></profile-password> -->
+          <profile-security ng-if="tabType == 5" ></profile-security>
+          <!-- ioss 设置 -->
+          <profile-ioss ng-if="tabType == 6"></profile-ioss>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

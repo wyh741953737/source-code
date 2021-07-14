@@ -1,0 +1,32 @@
+<div class="progressBoxs" ng-class="{'isVip': isVip == 1}">
+  <!-- 同步中 展开-->
+  <div class="progressModal" ng-show="showProgress">
+    <div class="progressBox">
+      <div class="progressHead">Syncing</div>
+      <!-- 最外层容器宽度 -->
+      <div class="progress">
+        <!-- 进度条外层 -->
+        <div class="progressOuter">
+          <!-- 进度条内层 -->
+          <div class="progressInner" id="progressInner"></div>
+        </div>
+        <span class="progressText" id="progressText"></span>
+      </div>
+      <p class="progressTips">Products in store: -{{shopName}}  being synced... Please wait a moment.</p>
+      <div class="hideBtnBox">
+        <button class="hideBtn" ng-click="handleHide()">Hide</button>
+      </div>
+    </div>
+  </div>
+  <!-- 同步中 收起 -->
+  <div style="right: 20px; bottom: 100px; position: absolute;" class="circleProgress" id="circleProgressDrag">
+    <div style="display: flex;" ng-if="showCircleProgress && circleProgressList.length > 0" ng-cloak>
+      <progress-circle ng-repeat="item in circleProgressList track by item.shopId" shopid="item.shopId" percentage="item.percentage" finished="item.finished"></progress-circle>
+      <div class="closeCircleBox" ng-show="circleProgressListAll.length > 1">
+        <i class="iconfont iconzhankai closeCircleIcon" ng-click="handleCloseCircle(true)" ng-show="!showCloseCircle"></i>
+        <i class="iconfont iconshouqi closeCircleIcon" ng-click="handleCloseCircle(false)" ng-show="showCloseCircle"></i>
+      </div>
+    </div>
+    
+  </div> 
+</div>

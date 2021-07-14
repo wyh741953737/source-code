@@ -1,0 +1,43 @@
+{% block title %}
+<title>CJ Recommendations</title>
+<meta name="description" property="og:description" content="Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High Quality Products and Faster Shipping.">
+<meta name="keywords" content="Dropshipping USA，Sourcing Dropshipping，Print on Demand，Fulfillment，Dropshipping Supplier" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/recommendations.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+<div class="recommendations-warp">
+  <h1 id='vue-recommendations'>
+    CJ Recommendations
+  </h1>
+  <div class="item-box">
+    <h3 class="title">
+      Ongoing
+    </h3>
+    <div class="main">
+      {% include "./swiper.njk" %}
+    </div>
+  </div>
+  <div class="item-box">
+    <h3 class="title">
+      Past Recommendations
+    </h3>
+    <div class="main past-list">
+      {% include "./past.njk" %}
+    </div>
+  </div>
+</div>
+<!-- 埋点 -->
+<!-- {% include "snippet/eventTracking.njk" %} -->
+
+<script src="{{ PUBLIC_SCRIPT + '/recommendations.js' | VERSION }}"></script>
+
+{% endblock %}

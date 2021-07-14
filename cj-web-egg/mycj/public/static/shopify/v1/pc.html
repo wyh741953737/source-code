@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="../../../static/js/public/jquery-3.0.0.min.js"></script>
+  <script src="../../../static/angular-1.5.8/angular.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../../static/css/reset.css">
+  <link rel="stylesheet" href="./css/shopify-design.css">
+  <!-- <script src="dist/angular-popups.js"></script> -->
+  <script src="../../../static/layer/layer.js"></script>
+  <title>Document</title>
+</head>
+<body ng-app="app" ng-controller="shpifyDesign" style="height: 100%;">
+  <div class="asj-mycj-lyaer-wrap" ng-show="printProFlag">
+    <div class="asj-mycj-lyaer print-step-1">
+      <img ng-click="cancel();" src="./img/close_20x20.png" alt="" class="close-btn">
+      <div class="img-box">
+        <div class="img-cvs-wrap" ng-hide="showBack" ng-style="{'height': imgHeight + 'px' || '400px'}">
+          <!-- <img class="print-big-img" src="./static/image/page/800-700.jpg" alt=""> -->
+          <!-- ng-show="imgData" -->
+          <canvas class="print-pro" id="preview-front-cvs" width="400" height="400"></canvas>
+        </div>
+        <div class="img-cvs-wrap" ng-show="showBack" ng-style="{'height': imgHeight + 'px' || '400px'}">
+          <!-- <img class="print-big-img" src="./static/image/page/800-700.png" alt=""> -->
+          <!-- ng-show="imgData" -->
+          <canvas class="print-pro" id="preview-back-cvs" width="400" height="400"></canvas>
+        </div>
+        <p class="bot-btn">
+          <a href="javascript:void(0);" ng-class="{'current':!showBack}" ng-click="showBack=false;">{{language.front}}</a>
+          <a href="javascript:void(0);" ng-show="editBack" ng-class="{'current':showBack}"
+            ng-click="showBack=true;">{{language.back}}</a>
+        </p>
+      </div>
+      <div class="detail-box">
+        <h5 class="clearfix">
+          <a href="javascript:void(0);" title="{{printItemName}}" ng-hide="editProName">{{printItemName}}</a>
+          <!-- <input type="text" ng-model="printItemName" ng-show="editProName" ng-blur="editProName=false;"
+            ng-keyup="saveProName($event)"> -->
+        </h5>
+        <!-- <div class="variant-box" ng-repeat="item in varientArr track by $index">
+                  <p>{{item.name}}</p>
+                  <select ng-model="item.val" ng-change="chanVariant(item.val, $index)" index="{{ $index }}">
+                      <option value="{{item2}}" ng-repeat="(index2,item2) in item.key track by index2">{{item2}}</option>
+                  </select>
+              </div> -->
+        <div class="variant-box" style="margin-top: 10px;" ng-show="podColor">
+          <p>{{language.podColor}}:</p>
+          <select ng-model="podColorVal" ng-change="chanPodColor()" ng-options="item as item.nameEn for item in podColor.colors">
+            </option>
+          </select>
+          <!-- <select ng-model="podColorVal" ng-change="chanPodColor()">
+            <option value="{{item.value}}" ng-repeat="item in podColor.colors track by $index">{{item.nameEn}}</option>
+          </select> -->
+        </div>
+        <div class="right-img-box" ng-show="!showBack && (frontPodType=='pic' || frontPodType=='picandtext')">
+          <button class="add-pic-btn" ng-click="doInput(1)" ng-show="!imgData && gotFrontData">{{language.addPicture}}</button>
+          <span class="img-data" ng-show="imgData">
+            <img ng-src="{{imgData}}" alt="">
+            <b class="edit" ng-click="editImg()"><img src="./img/edit_32x32.png" alt=""></b>
+            <b class="delete" ng-click="deleteImg()"><img src="./img/delete_32x32.png" alt=""></b>
+          </span>
+        </div>
+        <div class="right-img-box" ng-show="showBack && (backPodType=='pic' || backPodType=='picandtext')">
+          <button class="add-pic-btn" ng-click="doInput(0)" ng-show="imgDataBack && gotBackData">{{language.addPicture}}</button>
+          <span class="img-data" ng-show="imgDataBack">
+            <img ng-src="{{imgDataBack}}" alt="">
+            <b class="edit" ng-click="editImg(0)"><img src="./img/edit_32x32.png" alt=""></b>
+            <b class="delete" ng-click="deleteImg(0)"><img src="./img/delete_32x32.png" alt=""></b>
+          </span>
+        </div>
+        <div class="text-box" ng-show="!showBack && (frontPodType=='text' || frontPodType=='picandtext') && gotFrontData">
+          <div class="title">
+            <span style="margin-right: 20px;">{{language.text}}</span>
+            <!-- <div class="text-color">
+              <i class="cj-text-icon-pencil" id="front-color-value" ng-style="{'color':frontColorValue}"></i>
+              <div class="text-color-droplist">
+                <ul class="w-e-block">
+                  <li class="w-e-item" ng-repeat="item in colorList" ng-click="chanTextColor(item)"><i
+                      ng-style="{'color':item}" class="cj-text-icon-pencil"></i></li>
+                </ul>
+              </div>
+            </div> -->
+            <!-- <div class="text-color">
+              <span>{{frontFontItem.show || 'H'}}</span>
+              <div class="text-color-droplist" style="width: 50px;">
+                <ul class="w-e-block">
+                  <li class="w-e-item" ng-repeat="item in fontSizeList" ng-style="{'font-size':item.size}"
+                    ng-click="chanFontSize(item)">{{item.show}}</li>
+                </ul>
+              </div>
+            </div> -->
+          </div>
+          <textarea class="edit-text" ng-change="printText($event)" ng-model="printVal"></textarea>
+          <!-- <div class="font clearfix">
+            <span class="left">Font:</span>
+            <div class="font-list">
+              <span class="font-name" ng-style="{'font-family':fontName}"
+                ng-click="showFontList = !showFontList">{{fontName}}</span>
+              <span class="caret"></span>
+              <ul ng-show="showFontList">
+                <li ng-repeat="item in fontList" ng-hide="fontName==item" ng-style="{'font-family': item}"
+                  ng-click="chageFont(item)">{{item}}</li>
+              </ul>
+            </div>
+          </div> -->
+        </div>
+        <div class="text-box" ng-show="showBack && (backPodType=='text' || backPodType=='picandtext') && gotBackData">
+          <div class="title">
+            <span style="margin-right: 20px;">{{language.text}}</span>
+            <!-- <div class="text-color">
+              <i class="cj-text-icon-pencil" id="back-color-value" ng-style="{'color':backColorValue}"></i>
+              <div class="text-color-droplist">
+                <ul class="w-e-block">
+                  <li class="w-e-item" ng-repeat="item in colorList" ng-click="chanTextColor(item)"><i
+                      ng-style="{'color':item}" class="cj-text-icon-pencil"></i></li>
+                </ul>
+              </div>
+            </div> -->
+            <!-- <div class="text-color">
+              <span>{{backFontItem.show || 'H'}}</span>
+              <div class="text-color-droplist" style="width: 50px;">
+                <ul class="w-e-block">
+                  <li class="w-e-item" ng-repeat="item in fontSizeList" ng-style="{'font-size':item.size}"
+                    ng-click="chanFontSize(item)">{{item.show}}</li>
+                </ul>
+              </div>
+            </div> -->
+          </div>
+          <textarea class="edit-text" ng-change="printText($event)" ng-model="printValBack"></textarea>
+          <!-- <div class="font clearfix">
+            <span class="left">Font:</span>
+            <div class="font-list">
+              <span class="font-name" ng-style="{'font-family':fontNameBack}"
+                ng-click="showFontListBack = !showFontListBack">{{fontNameBack}}</span>
+              <span class="caret"></span>
+              <ul ng-show="showFontListBack">
+                <li ng-repeat="item in fontList" ng-hide="fontNameBack==item" ng-style="{'font-family': item}"
+                  ng-click="chageFont(item)">{{item}}</li>
+              </ul>
+            </div>
+          </div> -->
+        </div>
+        <button class="submit-btn" ng-click="save()">{{language.save}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="asj-mycj-lyaer-wrap" ng-show="upLoadImg" style="background: rgba(0,0,0,0);">
+    <div class="asj-mycj-lyaer print-step-1 print-step-2">
+      <div class="clearfix">
+        <div class="img-box">
+          <canvas class="print-pro" id="preview-cvs" width="400" height="400"></canvas>
+        </div>
+        <div class="detail-box">
+          <canvas id="cut-img-cvs" width="400" height="400"></canvas>
+          <div class="mark" id="mark">
+            <div class="mark-inner" id="mark-inner"></div>
+            <span class="resize resize-big" id="mark-resize-big">+</span>
+            <span class="resize resize-small" id="mark-resize-small">-</span>
+          </div>
+        </div>
+      </div>
+      <p class="top-btns">
+        <span class="delete-icon" ng-click="deleteImg()"><img src="./img/delete_32x32.png"
+            alt=""></span>
+        <span class="check-icon" ng-click="checkImg()"><img src="./img/check_32x32.png" alt=""></span>
+      </p>
+    </div>
+  </div>
+  <div class="asj-mycj-lyaer-wrap" ng-show="upLoadImgBack">
+    <div class="asj-mycj-lyaer print-step-1 print-step-2">
+      <p class="top-btns">
+        <span class="delete-icon" ng-click="deleteImg(0)"><img src="./img/delete_32x32.png"
+            alt=""></span>
+        <span class="check-icon" ng-click="checkImg(0)"><img src="./img/check_32x32.png"
+            alt=""></span>
+      </p>
+      <div class="img-box">
+        <canvas class="print-pro" id="preview-cvs-back" width="400" height="400"></canvas>
+      </div>
+      <div class="detail-box">
+        <canvas id="cut-img-cvs-back" width="400" height="400"></canvas>
+        <div class="mark" id="mark-back">
+          <div class="mark-inner" id="mark-back-inner"></div>
+          <span class="resize resize-big" id="mark-back-resize-big">+</span>
+          <span class="resize resize-small" id="mark-back-resize-small">-</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <canvas style="display: none;" id="upimg-res-front"></canvas>
+  <canvas style="display: none;" id="upimg-res-back"></canvas>
+  <img id="front_img_ori" ng-src="{{frontShowImgSrc}}" alt="" style="display:none;">
+  <!-- <img id="back_img_ori" ng-src="{{backShowImgSrc}}" alt="" style="display:none;"> -->
+</body>
+<!-- <script src="../../../static/layer/layer.js"></script> -->
+<script src="../../../static/js/public/base64.min.js"></script>
+<script src="../../../static/js/public/config.js"></script>
+<script src="../../../static/js/public/common.js"></script>
+<script src="./js/shopify-design.js?v=20190904"></script>
+</html>

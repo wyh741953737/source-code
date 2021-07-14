@@ -1,0 +1,72 @@
+<!-- Advanced Search -->
+<div class="confirm-box" ng-show="vm.visible">
+  <div class="confirm-main" style="max-width: 1100px;max-height: initial;">
+    <i class="iconfont confirm-close" ng-click="vm.visible = false"></i>
+    <div class="confirm-title">Advanced Search</div>
+    <div class="confirm-content advanceSearch-pop" style="text-align: initial;padding: 20px 20px;">
+      <!-- 第一行 -->
+      <div class="d-flex align-items-center" style="width: 100%;margin-bottom: 16px;">
+        
+        <select class="form-control select-store" disabled="true" ng-model="vm.selectshopinfo" ng-change="vm.searchshopcommodity(vm.selectshopinfo)" ng-options="item as item.NAME for ($index,item) in vm.shopselectlist"></select>
+
+        <div class="d-flex align-items-center">
+          <span style="margin-right:6px;">Country</span>
+          <select class="form-control country" ng-model="advanceObj.data.country" ng-options="item as item for ($index,item) in amazonCountrys">
+            <option value="">Select country</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 第二行 -->
+      <div class="d-flex align-items-center" style="width: 100%;margin-bottom: 16px;">
+        <!-- <select class="form-control" ng-model="advanceObj.data.type">
+          <option value="">Select date type</option>
+          <option value="1">Product release time</option>
+          <option value="2">Product update time</option>
+        </select> -->
+        
+        <!-- <wui-date format="yyyy-mm-dd" placeholder="startTime" btns="{'ok':'Confirm','now':'Now'}" ng-model="advanceObj.data.startTime" position="bottom" class="cj-date dateSelect">
+        </wui-date>
+        <span class="line">-</span>
+        <wui-date format="yyyy-mm-dd" placeholder="endTime" btns="{'ok':'Confirm','now':'Now'}" ng-model="advanceObj.data.endTime" position="bottom" class="cj-date dateSelect" style="margin-right:15px;">
+        </wui-date> -->
+
+        <input type="text" class="form-control searchProductName" placeholder="Product name" ng-model="advanceObj.data.productName">
+        <div class="ui-btn btn-theme search-btn" ng-click="searchAmazonProduct()">Search</div>
+      </div>
+
+      <!-- tit -->
+      <div class="Result-tit">Results</div>
+
+      <!-- result -->
+      <ul class="result-ul clearfix" ng-show='resultProducts.length > 0' id="pull-products">
+        <li ng-repeat="i in resultProducts" ng-click="checkItem(i)">
+          <img ng-src="{{i.productImage || '#'}}" err-src="/static/image/public-img/default.jpg" class="preview" />
+          <div class="hover"></div>
+          <img class="product-checked zcheckbox checkbox-k" ng-if="i.checked" ng-src="{{vip == 0 ? '/static/image/direct-orders/_check.png' : '/static/image/direct-orders/vip_check.png'}}" />
+          <div class="product-name line-clamp2">{{ i.productName }}</div>
+          <div class="product-store">Store name: amazon</div>
+          <div class="product-price">$ {{ i.productPrice || 0.0 }}</div>
+        </li>
+      </ul>
+
+      <!-- <page ng-show="resultProducts.length > 0"></page> -->
+
+      <!--no-data-->
+      <div class="no-data" ng-show="resultProducts.length == 0" style="text-align: center;">
+        <img src="/static/image/public-img/nodata_new.png">
+        <p style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">Sorry, The data is not
+          found.</p>
+      </div>
+
+
+    </div>
+    <div class="confirm-btn-box d-flex justify-content-between align-items-center" style="position: initial;padding:0 10px;">
+      <div class="d-flex justify-content-center align-items-center">
+        <img class="product-checked zcheckbox" style="width:16px;height:16px;" ng-src="{{allChecked ? (vip == 0 ? '/static/image/direct-orders/_check.png' : '/static/image/direct-orders/vip_check.png') : '/static/image/direct-orders/check.png'}}" ng-click="checkAll()">
+        <span style="margin-left:10px;">All</span>
+      </div>
+      <div ng-click="SnycStore()" class="ui-btn btn-theme">Snyc</div>
+    </div>
+  </div>
+</div>

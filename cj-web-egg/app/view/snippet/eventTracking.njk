@@ -1,0 +1,53 @@
+<!-- <script src="{{ PUBLIC_SCRIPT + '/eventTracking.js' | VERSION }}"></script> -->
+<script>
+  // const eventTracking = EventTracking({
+  //   postUrl: 'cj/banner/bannerBuriedPoint',
+  //   dataName: { // 埋点属性名。不知道为啥，用data-tracking-element-view，swiper会把属性自动删除，见鬼
+  //     elementView: 'tracking-element-view',
+  //     elementClick: 'tracking-element-click',
+  //   },
+  //   processData: (attrData, type) => {
+  //     if (type === 'tracking-element-view') {
+  //       let objKey = {}
+  //       let data = []
+  //       attrData.forEach(item => {
+  //         if (!objKey.hasOwnProperty(item.bannerId)) {
+  //           objKey[item.bannerId] = {
+  //             bannerId: item.bannerId,
+  //             num: 1
+  //           };
+  //         } else {
+  //           objKey[item.bannerId] = {
+  //             bannerId: item.bannerId,
+  //             num: ++objKey[item.bannerId].num
+  //           };
+  //         }
+  //       });
+  //       data = Object.values(objKey)
+  //       return {
+  //         list: data,
+  //         type: 1
+  //       }
+  //     } else if (type === 'tracking-element-click') {
+  //       return {
+  //         list: [{
+  //           ...attrData,
+  //           num: 1
+  //         }],
+  //         type: 0
+  //       }
+  //     }
+  //   },
+  //   viewConditions: (attrData, maxNum) => {
+  //     let numCount = 0
+  //     attrData.list.forEach(item => {
+  //       numCount += item.num
+  //     })
+  //     // 超过一定数量埋点，上报后会删除这一批
+  //     if (numCount >= maxNum) {
+  //       return true
+  //     }
+  //     return false
+  //   }
+  // })
+</script>

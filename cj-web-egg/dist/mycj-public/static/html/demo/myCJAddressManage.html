@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>myCj-地址管理</title>
+	<!--<link rel="stylesheet" type="text/css" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css">-->
+	<!--<link rel="stylesheet" type="text/css" href="./css/reset.css">-->
+	<!--<link rel="stylesheet" type="text/css" href="./css/myCJ2.css">-->
+	<link rel="stylesheet" type="text/css" href="./static/css/myCJAddressManage.css">
+</head>
+
+<body>
+
+
+	<!-- content -->
+	<div class="content">
+
+		</div>
+		<div class="mycj-home-box">
+			<div class="mycj-profile-wrap">
+				<div class="mycj-right-bar">
+					<div class="user-info clearfix" style="border-bottom: none">
+						<div class="profile-tit">Profile</div>
+						<div class="avatar pull-left">
+							<img src="./static/image/home/pic1.png">
+						</div>
+						<div class="other-info pull-left">
+							<div class="capital-info clearfix">
+								<div class="user-name">
+									<span>TOM</span>
+								</div>
+								<div class="handle-box clearfix">
+										<div class="handle-btn"><a href="#/profile">Registration Info</a> </div>
+										<div class="handle-btn checked-btn">Address Management</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="block address-manage">
+						<div class="block-title">Address Management</div>
+						<!-- 地址 -->
+						<div class="address-box">
+							<div class="ship-address">
+								<div class="select-ship clearfix">
+									<div class="select-ship-tit">Default Shipping Address:</div>
+									<div class="select-ship-cont">
+										<div class="old-address">
+											<ul>
+												<li class="clearfix">
+													<div class="address-right">
+														<p>agnes Tang</p>
+														<p>175 NE 16th St ,B12</p>
+														<p>dsfdsaf</p>
+														<p>91740</p>
+														<p>1335545646</p>
+														<button class="edit" ng-click="edit()">Modify</button>
+													</div>
+													<div class="address-left">
+														<span class="checked"></span>
+														Set as default shipping address
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="select-ship clearfix">
+									<div class="select-ship-tit">Other Shipping Address:</div>
+									<div class="select-ship-cont">
+										<div class="old-address">
+											<ul>
+
+												<li class="clearfix" ng-repeat="item in address">
+													<div class="address-right">
+														<p>{{item.firstname}} {{item.lastname}}</p>
+														<p>{{item.country}}</p>
+														<p>{{ item.city}}</p>
+														<p>91740</p>
+														<p>{{item.phone}}</p>
+														<button class="edit"  ng-click="edit(item)" >Modify</button>
+													</div>
+													<div class="address-left" ng-click="defaultaddress(item)">
+														<span></span>
+														Set as default shipping address
+													</div>
+												</li>
+												<li class="clearfix">
+													<div class="address-right">
+														<!-- 点修改后方框内容改为此代码块start -->
+														<div class="new-address">
+															<ul>
+																<li>
+																	<input type="text" placeholder="First name" class="w164" ng-model="addfirstname">
+																	<input type="text" placeholder="Last name" class="w148" ng-model="addlastname">
+																</li>
+																<li>
+																	<input type="text" placeholder="address" class="w328"  ng-model="addaddress">
+																	<input type="text" placeholder="apt,suite,etc.(optional)" class="w164">
+																</li>
+																<li>
+																	<input type="text" placeholder="city" class="w164" ng-model="addcity">
+																</li>
+																<li>
+																	<select name="" id="" placeholder="country" class="w164" ng-model="addcountry">
+																		<option value="中国">country</option>
+																	</select>
+																	<select name="" id="" class="w164"></select>
+																	<input type="text" placeholder="" class="w164">
+																</li>
+																<li>
+																	<input type="text" placeholder="phone" class="w164" ng-model="addphone">
+																</li>
+															</ul>
+														</div>
+														<!-- 点修改后方框内容改为此代码块end -->
+														<button class="editing" ng-click="add()">Add</button>
+													</div>
+												</li>
+											</ul>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!--&lt;!&ndash; footer &ndash;&gt;-->
+	<!--<div class="footer">-->
+		<!--&lt;!&ndash; 备案号 &ndash;&gt;-->
+		<!--<div class="forfoo-con">-->
+			<!--<span>Privacy Policy</span>-->
+			<!--<a href="javascript:void(0);">Help</a>-->
+			<!--<span>-->
+				<!--<span class="copyright-logo">©</span>2019 CJDropshipping.com All Rights Reserved.</span>-->
+		<!--</div>-->
+	<!--</div>-->
+	<!--//弹窗-->
+	<div class='addresstanchuang' ng-show="addresstanchuang">
+		<div class="new-address">
+			<ul>
+				<li>
+					<input type="text" placeholder="First name" class="w164" value="{{edititem.firstname}}" ng-model="firstname">
+					<input type="text" placeholder="Last name" class="w148" value="{{edititem.lastname}}" ng-model="lastname">
+				</li>
+				<li>
+					<input type="text" placeholder="address" class="w328" ng-model="address">
+					<input type="text" placeholder="apt,suite,etc.(optional)" class="w164">
+				</li>
+				<li>
+					<input type="text" placeholder="city" class="w164" value="{{edititem.city}}" ng-model="city">
+				</li>
+				<li>
+					<select name="" id="" placeholder="country" class="w164" ng-model="country">
+						<option value="{{edititem.country}}">{{edititem.country}}</option>
+					</select>
+					<select name="" id="" class="w164"></select>
+					<input type="text" placeholder="" class="w164" >
+				</li>
+				<li>
+					<input type="text" placeholder="phone" class="w164" value="{{edititem.phone}}" ng-model="phone">
+				</li>
+			</ul>
+			<!-- 点修改后方框内容改为此代码块end -->
+			<button class="query" ng-click="query()">Confirm</button>
+		</div>
+
+	</div>
+</body>
+
+</html>

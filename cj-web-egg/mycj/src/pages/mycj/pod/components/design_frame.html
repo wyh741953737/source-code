@@ -1,0 +1,258 @@
+<div class="asj-mycj-lyaer-wrap" ng-show="printProFlag">
+    <div class="asj-mycj-lyaer print-step-1">
+        <img ng-click="cancelPrint();" src="./static/image/public-img/close_20x20.png" alt="" class="close-btn">
+        <div class="img-box">
+            <div class="img-cvs-wrap" ng-hide="showBack" style="height: 400px;">
+                <!-- <img class="print-big-img" src="./static/image/page/800-700.jpg" alt=""> -->
+                <!-- ng-show="imgData" -->
+                <canvas class="print-pro" id="preview-front-cvs" width="400" height="400" ></canvas>
+            </div>
+            <div class="img-cvs-wrap" ng-show="showBack" style="height: 400px;">
+                <!-- <img class="print-big-img" src="./static/image/page/800-700.png" alt=""> -->
+                <!-- ng-show="imgData" -->
+                <canvas class="print-pro" id="preview-back-cvs" width="400" height="400" ></canvas>
+            </div>
+            <p class="bot-btn">
+                <a href="javascript:void(0);"  ng-class="{'current':!showBack}" ng-click="showBack=false;">Front</a>
+                <a href="javascript:void(0);" ng-show="editBack" ng-class="{'current':showBack}" ng-click="showBack=true;">Back</a>
+            </p>
+        </div>
+        <div class="detail-box">
+            <h5 class="clearfix">
+                <a href="javascript:void(0);" title="{{printItemName}}" ng-hide="editProName">{{printItemName}}</a>
+                <input type="text" ng-model="printItemName" ng-show="editProName" ng-blur="editProName=false;" ng-keyup="saveProName($event)">
+            </h5>
+            <!-- <div class="variant-box" ng-repeat="item in varientArr track by $index">
+                <p>{{item.name}}</p>
+                <select ng-model="item.val" ng-change="chanVariant(item.val, $index)" index="{{ $index }}">
+                    <option value="{{item2}}" ng-repeat="(index2,item2) in item.key track by index2">{{item2}}</option>
+                </select>
+            </div> -->
+            <div class="variant-box" style="margin-top: 10px;" ng-show="podColor">
+                <p>POD Color:</p>
+                <select ng-model="podColorVal" ng-change="chanPodColor()">
+                    <option value="{{item.value}}" ng-repeat="item in podColor.colors track by $index">{{item.nameEn}}</option>
+                </select>
+            </div>
+            <div class="right-img-box" ng-show="!showBack && (frontPodType=='pic' || frontPodType=='picandtext')">
+                <button class="add-pic-btn" ng-click="doInput(1)" ng-hide="imgData">Add Picture</button>
+                <span class="img-data" ng-show="imgData">
+                    <img ng-src="{{imgData}}" alt="">
+                    <b class="edit" ng-click="editImg()"><img src="./static/image/public-img/edit_32x32.png" alt=""></b>
+                    <b class="delete" ng-click="deleteImg()"><img src="./static/image/public-img/delete_32x32.png" alt=""></b>
+                </span>
+            </div>
+            <div class="right-img-box" ng-show="showBack && (backPodType=='pic' || backPodType=='picandtext')">
+                <button class="add-pic-btn" ng-click="doInput(0)" ng-hide="imgDataBack">Add Picture</button>
+                <span class="img-data" ng-show="imgDataBack">
+                    <img ng-src="{{imgDataBack}}" alt="">
+                    <b class="edit" ng-click="editImg(0)"><img src="./static/image/public-img/edit_32x32.png" alt=""></b>
+                    <b class="delete" ng-click="deleteImg(0)"><img src="./static/image/public-img/delete_32x32.png" alt=""></b>
+                </span>
+            </div>
+            <div class="text-box" ng-show="!showBack && (frontPodType=='text' || frontPodType=='picandtext')">
+                <div class="title">
+                    <span style="margin-right: 20px;">Text</span>
+                    <div class="text-color">
+                        <i class="cj-text-icon-pencil" id="front-color-value" ng-style="{'color':frontColorValue}"></i>
+                        <div class="text-color-droplist">
+                            <!-- <p class="text-color-title">文字颜色</p> -->
+                            <ul class="w-e-block">
+                                <li class="w-e-item" ng-repeat="item in colorList" ng-click="chanTextColor(item)"><i ng-style="{'color':item}" class="cj-text-icon-pencil"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-color">
+                        <span>{{frontFontItem.show || 'H'}}</span>
+                        <div class="text-color-droplist" style="width: 50px;">
+                            <!-- <p class="text-color-title">文字颜色</p> -->
+                            <ul class="w-e-block">
+                                <li class="w-e-item" ng-repeat="item in fontSizeList" ng-style="{'font-size':item.size}" ng-click="chanFontSize(item)">{{item.show}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="edit-text" ng-change="printText($event)" ng-model="printVal"></textarea>
+                <div class="font clearfix">
+                    <span class="left">Font:</span>
+                    <div class="font-list">
+                        <span class="font-name" ng-style="{'font-family':fontName}" ng-click="showFontList = !showFontList">{{fontName}}</span>
+                        <span class="caret"></span>
+                        <ul ng-show="showFontList">
+                            <li ng-repeat="item in fontList" ng-hide="fontName==item" ng-style="{'font-family': item}" ng-click="chageFont(item)">{{item}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="text-box" ng-show="showBack && (backPodType=='text' || backPodType=='picandtext')">
+                <div class="title">
+                    <span style="margin-right: 20px;">Text</span>
+                    <div class="text-color">
+                        <i class="cj-text-icon-pencil" id="back-color-value" ng-style="{'color':backColorValue}"></i>
+                        <div class="text-color-droplist">
+                            <!-- <p class="text-color-title">文字颜色</p> -->
+                            <ul class="w-e-block">
+                                <li class="w-e-item" ng-repeat="item in colorList" ng-click="chanTextColor(item)"><i ng-style="{'color':item}" class="cj-text-icon-pencil"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-color">
+                        <span>{{backFontItem.show || 'H'}}</span>
+                        <div class="text-color-droplist" style="width: 50px;">
+                            <!-- <p class="text-color-title">文字颜色</p> -->
+                            <ul class="w-e-block">
+                                <li class="w-e-item" ng-repeat="item in fontSizeList" ng-style="{'font-size':item.size}" ng-click="chanFontSize(item)">{{item.show}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="edit-text" ng-change="printText($event)" ng-model="printValBack"></textarea>
+                <div class="font clearfix">
+                    <span class="left">Font:</span>
+                    <div class="font-list">
+                        <span class="font-name" ng-style="{'font-family':fontNameBack}" ng-click="showFontListBack = !showFontListBack">{{fontNameBack}}</span>
+                        <span class="caret"></span>
+                        <ul ng-show="showFontListBack">
+                            <li ng-repeat="item in fontList" ng-hide="fontNameBack==item" ng-style="{'font-family': item}" ng-click="chageFont(item)">{{item}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <button class="submit-btn" ng-click="choseVariant()">Next</button>
+        </div>
+    </div>
+</div>
+<div class="asj-mycj-lyaer-wrap" ng-show="upLoadImg" style="background: rgba(0,0,0,0);">
+    <div class="asj-mycj-lyaer print-step-1 print-step-2">
+        <div class="clearfix">
+            <div class="img-box">
+                <canvas class="print-pro" id="preview-cvs" width="400" height="400"></canvas>
+            </div>
+            <div class="detail-box">
+                <canvas id="cut-img-cvs" width="400" height="400"></canvas>
+                <div class="mark"id="mark">
+                    <div class="mark-inner" id="mark-inner"></div>
+                    <span class="resize resize-big" id="mark-resize-big">+</span>
+                    <span class="resize resize-small" id="mark-resize-small">-</span>
+                </div>
+            </div>
+        </div>
+        <p class="top-btns">
+            <span class="delete-icon" ng-click="deleteImg()"><img src="./static/image/public-img/delete_32x32.png" alt=""></span>
+            <span class="check-icon" ng-click="checkImg()"><img src="./static/image/public-img/check_32x32.png" alt=""></span>
+        </p>
+    </div>
+</div>
+<div class="asj-mycj-lyaer-wrap" ng-show="upLoadImgBack">
+    <div class="asj-mycj-lyaer print-step-1 print-step-2">
+        <p class="top-btns">
+            <span class="delete-icon" ng-click="deleteImg(0)"><img src="./static/image/public-img/delete_32x32.png" alt=""></span>
+            <span class="check-icon" ng-click="checkImg(0)"><img src="./static/image/public-img/check_32x32.png" alt=""></span>
+        </p>
+        <div class="img-box">
+            <canvas class="print-pro" id="preview-cvs-back" width="400" height="400"></canvas>
+        </div>
+        <div class="detail-box">
+            <canvas id="cut-img-cvs-back" width="400" height="400"></canvas>
+            <div class="mark" id="mark-back">
+                <div class="mark-inner" id="mark-back-inner"></div>
+                <span class="resize resize-big" id="mark-back-resize-big">+</span>
+                <span class="resize resize-small" id="mark-back-resize-small">-</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="asj-mycj-lyaer-wrap" ng-show="choseVariantFlag">
+    <div class="asj-mycj-lyaer chose-variant-box">
+        <img ng-click="choseVariantFlag=false;" src="./static/image/public-img/close_20x20.png" alt="" class="close-btn">
+        <h6>Select variants</h6>
+        <div class="variant-box-wrap">
+            <div class="title">
+                <input type="text" ng-model="printItemName">
+            </div>
+            <div class="variant-box" ng-repeat="(index1,item) in varientArr track by index1">
+                <div class="top-line clearfix">
+                    <span>{{item.name}}</span>
+                    <div class="check-box">
+                        <input type="checkbox" name="" ng-model="item.checkAll" ng-change="checkAll(index1)">
+                        <label for=""></label>
+                    </div>
+                    <span>All</span>
+                </div>
+                <ul class="clearfix">
+                    <li ng-repeat="(index2,item2) in item.key track by index2">
+                        <div class="check-box">
+                            <input type="checkbox" name="" ng-model="item2.check" ng-change="checkOne(item2, index1)">
+                            <label for=""></label>
+                        </div>
+                        <span>{{item2.val}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="variant-box" ng-show="podColor">
+                <div class="top-line clearfix">
+                    <span>POD Color:</span>
+                    <div class="check-box">
+                        <input type="checkbox" name="" ng-model="checkAllColor" ng-change="checkColor('all')">
+                        <label for=""></label>
+                    </div>
+                    <span>All</span>
+                </div>
+                <ul class="clearfix">
+                    <li ng-repeat="item in podColor.colors track by $index">
+                        <div class="check-box">
+                            <input type="checkbox" name="" ng-model="item.check" ng-change="checkColor('one', item)">
+                            <label for=""></label>
+                        </div>
+                        <span>{{item.nameEn}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="description-box">
+                <span class="top">Description:</span>
+                <div id="editor-desc"></div>
+            </div>
+            <div class="logistics-box">
+                <label for="">Shipping Method:</label>
+                <select name="" id="" style="border:1px solid #ececec;border-radius: 3px; width: 240px;" ng-options="item as item.enName for item in wuliulist" ng-model="wuliuway" ng-change="getwuliuway()">
+                    <option value="">Please select</option>
+                </select>
+                <div ng-if="remark" class="asj-wuliu-tip-wrap" style="margin: 5px;">
+                    <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+                    <div class="asj-wuliu-tip-show" ng-bind-html="remark"></div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-btns">
+            <a href="javascript:void(0);" class="btn1" ng-click="choseVariantFlag=false;printProFlag=true;">Back</a>
+            <a href="javascript:void(0);" class="btn2" ng-click="submit()">Submit</a>
+        </div>
+    </div>
+</div>
+<canvas style="display: none;" id="upimg-res-front"></canvas>
+<canvas style="display: none;" id="upimg-res-back"></canvas>
+<canvas style="display: none;" id="final-front"></canvas>
+<canvas style="display: none;" id="final-back"></canvas>
+<div id="isCJPub" ng-show="addDesignFail" ng-cloak>
+    <div class="CJ-content operate-fail">
+        <span class="close" ng-click="addDesignFail=false;cancelPrint();">×</span>
+        <h3><span class="icon">!</span>Submit failed</h3>
+        <p>Please try again or contact your agent.</p>
+        <button class="btn1" ng-click="Resubmit()">Try again</button>
+    </div>
+</div>
+<!-- <img ng-repeat="item in imgTest" src="{{item}}" alt=""> -->
+<!-- design成功 -->
+<div id="isCJPub" ng-show="designSuccLayer" ng-cloak>
+    <div class="CJ-content">
+        <span class="close" ng-click="designSuccLayer=false">×</span>
+        <h3>Saved Successfully</h3>
+        <p>
+            The product you designed has been added. You can find it in My CJ > Print on Demand > My Design.
+            <br>
+            <a target="_blank" href="myCJ.html#/pod/design-myself">View</a>
+        </p>
+        <!-- <button class="btn1" ng-click="dosomething()">执行</button> -->
+        <button class="btn2" ng-click="designSuccLayer=false">Confirm</button>
+    </div>
+</div>

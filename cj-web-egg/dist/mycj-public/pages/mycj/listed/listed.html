@@ -1,0 +1,353 @@
+<div cjdot cjdotshow='{"pageCode":"products-connection/history", "eventType": 2}' class="mycj-home-box PC-wrap mycj-listed">
+  <div class="mycj-right-wrap PC-con p-3">
+    <div class="top-space-bar"></div>
+    <ul class="top-taps">
+      <li class="tab-theme connect" ng-class="{'active':status=='-1'}"><a href="#/products-connection/history">Listed</a></li>
+      <li class="tab-theme connect" ng-class="{'active':status=='0'}"><a href="#/products-connection/history/0">Queue</a></li>
+      <li class="tab-theme connect" ng-class="{'active':status=='1'}"><a href="#/products-connection/history/1">On Listing</a>
+      </li>
+      <li class="tab-theme connect" ng-class="{'active':status=='2'}"><a href="#/products-connection/history/2">Listing
+          Failed</a></li>
+    </ul>
+    <div class="mycj-right-bar PC-w1200 pro-skulist pro-listed clearfix">
+      <div class="search-box-wrap" ng-hide="status=='0' || status=='1'" ng-cloak>
+        <div class="input-group search-box">
+          <input type="text" class="form-control" placeholder="Enter SKU/Product Name" ng-model="listedsearch" ng-keyup="enterSearch($event)"
+          cjdot cjdotshow='{"eventType":2}' >
+          <span class="input-group-btn">
+            <button class="search-btn btn-theme" type="button" ng-click="listedpagenum=1;getListedPost()" >Search</button>
+          </span>
+        </div>
+        <select class="form-control select-store" ng-model="shopId" ng-change="listedpagenum=1;getListedPost()" ng-cloak>
+          <option value="">All Stores</option>
+          <option value="{{item.ID}}" ng-repeat="item in shopList">{{item.NAME+' - '+item.TYPE}}</option>
+        </select>
+      </div>
+
+      <div class="opera-box" ng-show="status=='0' || status=='2'">
+        <div class="opera-box-left">
+          <span class="number"><span class="notranslate">{{listCheckLen}}</span> item<span ng-show="listCheckLen>1">s</span> selected</span>
+          <span class="selectAll" ng-click="checkAll('all')">
+            <ng-template ng-show="!checkAllList">Select all items</ng-template>
+            <ng-template ng-show="checkAllList">Cancel all items</ng-template>
+          </span>
+        </div>
+        <div class="opera-box-right">
+          <div class="ui-btn btn-theme1 start-list-btn" ng-click="startList()">
+            <div style="display: inline-block;">{{status=='0'?'Start Listing':'Relist'}}</div>
+            <i class="iconfont">&#xe674;</i>
+            <div class="list-tips-pop relist-tips" ng-class="{relist:status=='2'}">
+              Please make sure none of items to relist are in your store before submitting, otherwise the listing will fail.
+            </div>
+          </div>
+          <div class="ui-btn btn-theme1" ng-click="editPriceFun()">Bulk Editing</div>
+          <div class="ui-btn btn-theme1" ng-click="banchList()">Remove</div>
+        </div>
+      </div>
+      <div class="list-progress-box" ng-show="status=='1'&&listedList.length>0">
+        <span class="list-progress-title">Listing</span>
+        <div class="progress">
+          <div class="progress-bar" ng-style="{width: progressLength+'%'}">
+
+          </div>
+        </div>
+        <span class="progress-text">{{progressLength}}%</span>
+      </div>
+
+      <div class="cj-load-wrap table-connected">
+        <table class="SKUtable mt-3" style="width: 100%;" ng-show="listedList.length>0">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width: 3%;" ng-cloak ng-if="status=='0' || status=='2'">
+                <span class="check-btn" ng-class="{check:check_All}" ng-click="checkAll()"></span>
+                <!-- <div class="check-box">
+                  <input type="checkbox" name="" ng-model="check_All" ng-change="checkAll()">
+                  <label for=""></label>
+                </div> -->
+              </th>
+              <th rowspan="2" style="width: 3%;" ng-if="status=='1'">
+                status
+              </th>
+              <th rowspan="2" style="width: 7%;">Images</th>
+              <th rowspan="2" style="width: 9%;" ng-hide="status=='0'">Store Name</th>
+              <th rowspan="2" style="width: 9%;">Name</th>
+              <th rowspan="2" style="width: 6%;">SKU</th>
+
+              <th colspan="2" style="width: 16%;">
+                <div class="th-price">Price</div>
+                <div class="th-price">
+                  <span class="th-price-item">{{websiteName}} Price</span>
+                  <span class="th-price-item">Your Price</span>
+                </div>
+              </th>
+              <th rowspan="2" style="width: 7%;" ng-show="status=='-1'">Weight</th>
+              <th rowspan="2" style="width: 6%;" ng-hide="status=='0'">Shipping From</th>
+              <th rowspan="2" style="width: 6%;" ng-hide="status=='0'">Shipping Method</th>
+              <th rowspan="2" style="width: 10%;" ng-show="status=='-1'">Shipping Cost</th>
+              <th rowspan="2" style="width: 8%;" ng-show="status=='-1'">Amount</th>
+              <th rowspan="2" style="width: 5%;" ng-cloak ng-show="status=='-1'">Sales</th>
+              <th rowspan="2" style="width: 7%;" ng-cloak>Action</th>
+              <th rowspan="2" style="width: 10%;" ng-show="status=='2'">Fail Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in listedList track by $index">
+              <td class="td-check" ng-cloak ng-if="status=='0' || status=='2'">
+                <span class="check-btn" ng-class="{check:item.check}" ng-click="checkOne(item,index)"></span>
+                <!-- <div class="check-box">
+                  <input type="checkbox" name="" ng-model="item.check" ng-change="checkOne(item,index)">
+                  <label for=""></label>
+                </div> -->
+              </td>
+              <td ng-if="status=='1'">
+                <span class="load-status" ng-if="item.status==1">
+                  <i class="iconfont">&#xe673;</i>
+                </span>
+                <span class="success-status" ng-if="item.status==2">
+                  <i class="iconfont">&#xe672;</i>
+                </span>
+                <span class="fail-status" ng-if="item.status==3">
+                  <i class="iconfont">&#xe624;</i>
+                </span>
+              </td>
+              <td class="td-img">
+
+                <div class="td-img-box">
+                  <a href="{{'product-detail.html?id=' + item.PID}}" target="_blank"><img class="small-img"
+                      ng-src="{{item.BIGIMG | IMG_SIZE: 80}}" alt=""></a>
+                  <img class="big-img" ng-src="{{item.BIGIMG | IMG_SIZE: 400}}" alt="">
+                </div>
+              </td>
+              <td class="td-name" ng-hide="status=='0'"><span>{{item.SHOPNAME || '--'}}</span></td>
+              <td class="td-name">
+                <div class="favFreeConatiner" ng-if="item.addMarkStatus == 1 && item.productType == '5'">
+                  <div class="listed-freeShip">
+                    <img src="static/image/CJ-home/freeShip.svg" class="freeShipIcon"></img>
+                    <div class="freeShipText">Free Shipping</div>
+                  </div>
+                </div>
+                <a href="{{'product-detail.html?id=' + item.PID}}" target="_blank"
+                  title="{{item.NAMEEN}}">{{item.NAMEEN}}</a>
+              </td>
+              <td class="td-sku"><span>{{item.pSku}}</span></td>
+
+              <td>
+                <ng-template ng-if="item.nowPrice">
+                  <span>{{'$' + item.nowPrice.replace(' -- ', '-')}}</span>
+                  <del>{{'$' + item.SELLPRICE.replace(' -- ', '-')}}</del>
+                </ng-template>
+                <span ng-if="!item.nowPrice">{{'$' + item.SELLPRICE.replace(' -- ', '-')}}</span>
+              </td>
+              <td>
+                <span
+                  ng-show="status=='-1'">{{item.ACCPRICE ? ((item.currency || '$') + item.ACCPRICE.replace(' -- ', '-')) : '--'}}</span>
+                <span
+                  ng-show="status=='0'||status=='1'||status=='2'">{{item.customer_price ? ((item.currency || '$') + item.customer_price.replace(' -- ', '-')) : '--'}}</span>
+                <!-- <input type="text" style="border: 1px solid #e5e5e5; width: 70px; text-align: center;"
+                                  ng-show="status=='0'" ng-model="item.ACCPRICE"> -->
+              </td>
+              <td ng-show="status=='-1'"><span>{{(item.PACKWEIGHT + '').replace(' -- ', '-') + 'g'}}</span></td>
+              <td ng-hide="status=='0'">{{item.defaultArea || '--'}}</td>
+              <td ng-hide="status=='0'">
+                <div>{{(item.LOGISTICS == '' || item.LOGISTICS == null) ? '--' : item.LOGISTICS}}</div>
+                <div ng-if="item.wuliuRemark" class="asj-wuliu-tip-wrap" style="display: block; margin: 5px auto;">
+                  <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+                  <div class="asj-wuliu-tip-show" ng-bind-html="item.wuliuRemark"></div>
+                </div>
+              </td>
+              <td class="td-ship-cost" ng-show="status=='-1'">
+                <ship-caculate proinfo='item' shipinfo="item.shipinfo"></ship-caculate>
+              </td>
+              <td ng-show="status=='-1'">
+                {{'$' + (item.AMOUNTPRICE + '').replace(' -- ', '-')}}
+                <div class="toast-wrap" ng-show="item.isProAmountTip != false">
+                  <i class="iconfont">&#xe745;</i>
+                  <div class="toast-box">
+                    Shipping cost not included.
+                  </div>
+                </div>
+              </td>
+              <td ng-cloak ng-show="status=='-1'"><span>{{item.SALES || 0}}</span></td>
+              <td class="td-btn" ng-cloak>
+                <span class="ui-btn btn-theme3" ng-click="listeddelet(item, $index)" style="margin-right: 10px;"
+                  ng-show="status!='1'">Delete</span>
+                <span class="ui-btn btn-theme3" ng-click="listNowFun(item)" ng-show="status=='0'">List Now</span>
+                <span class="ui-btn btn-theme3" ng-show="status=='1'">Editable on Shopify</span>
+              </td>
+              <td ng-show="status=='2'">{{item.listed_fail_message}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div class="mycj-nodata" ng-show="noListedData">   
+        <div class="nodata-cont">
+            <img ng-if="!isVip" class="img1" src="/static/image/new-nodata/noProductsYet.png" alt="">
+            <img ng-if="isVip" class="img1" src="/static/image/new-nodata/noProductsYet-VIP.png" alt="">
+            <p class="store-nodata-tip">Sorry, we cannot find any data.</p>
+            <a class="btn1" href="/list-detail?from=all&fromType=list">List</a>
+        </div>
+      </div>
+      <!-- 分页 -->
+      <page ng-show="hasListedData && status!=1" ng-cloak></page>
+    </div>
+  </div>
+</div>
+<!-- <edit-frame></edit-frame> -->
+<!-- 确认提交批量刊登 -->
+
+<div class="confirm-box" ng-show="confirmBanListFlag">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="confirmBanListFlag=false"></i>
+    <div class="confirm-title">
+      Prompt
+    </div>
+    <div class="confirm-content">
+      {{banListItems.length == 1 ? '1 product' : banListItems.length + ' products'}} selected, are you sure to list them?
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="confirmBanListFlag=false" class="no-btn">Cancel</span>
+      <span ng-click="goActBanList()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 确认删除 -->
+<!-- <div class="confirm-box" ng-show="confirmDelLayer">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="confirmDelLayer=false"></i>
+    <div class="confirm-title">
+      Prompt
+    </div>
+    <div class="confirm-content">
+      Are you sure to delete it?
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="confirmDelLayer=false" class="no-btn">No</span>
+      <span ng-cloak ng-show="status=='-1'" ng-click="doDelete()" class="yes-btn btn-theme">Yes</span>
+      <span ng-cloak ng-show="status=='0' || status=='2'" ng-click="doDelete2()" class="yes-btn btn-theme">Yes</span>
+    </div>
+  </div>
+</div> -->
+<!-- 弹框 -->
+<div class="pop_ups" ng-if="confirmDelLayer" ng-cloak>
+  <pop-ups content="content" title="title" ></pop-ups>
+</div>
+
+<div class="authorizationExpiredPromptBox" ng-show="authorizationExpired">
+  <div class="authorizationExpiredPromptmain">
+    <div class="head">
+      <i class="iconfont iconguanbi1 authorizationExpiredClose" ng-click="handleCancelAuthorization()"></i>
+    </div>
+    <div class="content">
+      Deleting Failed. Your store is no longer authorized. Please reauthorize your store first.
+    </div>
+    <div class="btnBox">
+      <button class="cancel btn" ng-click="handleCancelAuthorization()">Cancel</button>
+      <button class="confirm btn" ng-click="handleConfirmAuthorization()">Reauthorize</button>
+    </div>
+  </div>
+</div>
+
+<!-- fangjie批量刊登=============================== -->
+<!-- 批量刊登设置价格弹窗 start-->
+<div class="confirm-box" ng-show="showEditPriceDialog">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="showEditPriceDialog=false"></i>
+    <div class="confirm-title">
+      Pricing Rules
+    </div>
+    <div class="confirm-content edit-price">
+      <div class="your-price" ng-class="{'price-check':!priceCheck}"
+          ng-mousedown="priceCheck=false" >
+          <span class="check-icon iconfont"></span>
+          Your Price = CJ Price
+          <select name="" id="" ng-model="listPriceObj.flag" ng-change="changePriceFun()">
+              <option value="2">x</option>
+              <option value="1">+</option>
+          </select>
+          <input type="text" placeholder="" ng-model="listPriceObj.price" ng-change="changePriceFun()">
+          <div class="list-tips-icon">
+              <div class="list-tips-pop">
+                Set up your price mark up by addition or multiplication.
+              </div>
+          </div>
+      </div>
+      <div class="fixed-price" ng-class="{'price-check':priceCheck}"
+          ng-mousedown="priceCheck=true" >
+          <span class="check-icon iconfont"></span>
+          Fixed Price <input type="text" placeholder="" ng-model="listPriceObj.fixedPrice" ng-change="changeFiexdPriceFun()">
+      </div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="showEditPriceDialog=false" class="no-btn">Cancel</span>
+      <span ng-click="confirmPriceFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 批量刊登设置价格弹窗 end-->
+
+<!-- 刊登弹窗 statr -->
+<div class="confirm-box" ng-show="showStartListDialog">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="showStartListDialog=false"></i>
+    <div class="confirm-title">
+      Listing
+    </div>
+    <div class="confirm-content">
+      <div class="list-elect-store">
+        <p class="tit">Store:</p>
+        <div class="cont">
+          <select ng-options="item as item.NAME group by value.group for item in shopList" ng-model="shopItem"
+            ng-change="changeListFun(this,item)">
+            <option value="" ng-hide="shopItem.ID">Please select</option>
+          </select>
+          <div class="check-box" style="width: auto; display: inline-block;" ng-cloak>
+              <input type="checkbox" id="taxable" name="taxable" ng-model="queueParams.taxable">
+              <label for="taxable">Charge Tax</label>
+          </div>
+        </div>
+        
+      </div>
+      <div class="list-elect-category">
+          <p class="tit">Product Type:</p>
+          <div class="cont" ng-show="categoryType==='select'">
+              <select ng-options="item as item.name for item in categoryList" ng-model="categoryItem" >
+                  <option value="" ng-hide="categoryItem">Please select</option>
+              </select>
+              <button ng-click="categoryType='input';queueParams.productType='';">Add New</button>
+          </div>
+          <div class="cont" ng-show="categoryType==='input'">
+              <input ng-model="queueParams.productType" placeholder="Please add new">
+              <button ng-click="newCategory()">Confirm</button>
+              <button ng-click="categoryType='select';queueParams.productType='';">Cancel</button>
+          </div>
+      </div>
+      <div class="list-elect-collection">
+        <p class="tit">Collections:</p>
+        <shopify-collections></shopify-collections>
+      </div>
+      <div class="list-elect-shipp">
+          <p class="tit">Shipping Method:</p>
+          <div class="cont">
+            <select ng-options="item as item.nameEn for item in shippingList" ng-model="shippingItem">
+                <option value="" ng-hide="shippingItem">Please select</option>
+            </select>
+          </div>
+      </div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="showStartListDialog=false" class="no-btn">Cancel</span>
+      <span ng-click="listConfirmFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+
+<!-- on listing 30s倒计时弹框 -->
+<div class="refresh-box" ng-show="listCountdownObj.isShow">
+  <div class="refresh-main">
+      <i class="iconfont close-btn" ng-click="closeCountdownFun()">&#xe617;</i>
+      <p>The system will refresh automatically after {{listCountdownObj.time}} seconds!</p>
+      <span class="refresh-btn" ng-click="getListedPost()">Auto Refresh</span>
+  </div>
+</div>
+<loading-cart background="'transparent'" top="'.SKUtable'" ng-if="isloading"></loading-cart>

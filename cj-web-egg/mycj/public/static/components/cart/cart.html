@@ -1,0 +1,334 @@
+<!--购物车-->
+<div class="cart_rt clearfix" ng-class="{'click':isclick}" ng-style="{'height':cartHeight}">
+  <div class="bt">
+    <div class="cart" ng-mouseleave="isblock = false;" ng-mouseenter="isblock = true;" ng-click="cartClick()">
+      <span ng-show="isblock" class="shopp">Shopping Cart</span>
+      <img id="cart" width="27" src="static/image/goods/cart_rt.png" alt="">
+      <span ng-show="buylist.length>0" class="num text-theme" ng-class="{'hundred':buylist.length >= 99}">{{ buylist.length >= 99 ? '99+' : buylist.length }}</span>
+    </div>
+  </div>
+  <div class="cart_list">
+    <p class="clearfix top">
+      <b ng-click="AllChecked()" ng-show="!checked" class="fl checked"></b>
+      <img width="18" ng-click="AllChecked()" ng-show="checked" class="fl checked"
+           src="static/image/goods/checked2.png" alt="">
+      <span class="fl">Select All</span>
+      <!--<span class="fr">Full screen view</span>-->
+    </p>
+    <ul id="cart_list_ul">
+      <li ng-repeat="item in buylist track by $index">
+        <b ng-click="cldChecked(item)" ng-show="!item.checked" class="fl checked"></b>
+        <img width="18" ng-click="cldChecked(item)" ng-show="item.checked" class="fl checked"
+             src="static/image/goods/checked2.png" alt="">
+        <img class="fl proimg" width="100" ng-src="{{item.BIGIMG | IMG_SIZE: 100}}" alt="">
+        <p class="fl content">
+          <span ng-attr-title="{{item.NAMEEN}}">{{item.NAMEEN}}</span>
+          <span ng-attr-title="{{item.SKU}}">{{item.SKU}}</span>
+        </p>
+        <div class="commodity fl">
+          <div class="iteminner clearfix">
+            <span class="minus" ng-click="minusOne(item.itemcount,$index)">-</span>
+            <input value="{{item.itemcount}}" ng-model="item.itemcount"
+                   onpaste="return false;"
+                   ng-blur="checkIsNum(item.itemcount,$index)">
+            <span class="plus" ng-click="plusOne(item.itemcount,$index)">+</span>
+          </div>
+        </div>
+        <!--<span class="fl num">{{item.itemcount}}</span>-->
+        <span class="fl price">
+          <span ng-if="!item.nowPrice || +item.nowPrice == +item.SELLPRICE">{{item.SELLPRICE | currency}}</span>
+          <ng-template ng-if="item.nowPrice && +item.nowPrice!=+item.SELLPRICE">
+            {{item.nowPrice | currency}}<br>
+            <del>{{item.SELLPRICE | currency}}</del>
+          </ng-template>
+        </span>
+        <img class="del" src="static/image/home/icondelete.png" alt="" ng-click="delbuy(item,$index)">
+      </li>
+    </ul>
+    <div class="Clearing clearfix">
+      <button ng-show="carttype === '1'" class="fr view ui-btn btn-line-theme" ng-click="viewCart()">Full Screen View</button>
+      <p class="clearfix">
+        <span class="fl"><span style="font-size: 22px;" class="text-theme">{{sum || 0}}</span> selected</span>
+        <span class="fr">Total: <span class="text-theme">{{total | currency}}</span></span>
+      </p>
+      <div class="cart_btn">
+        <button class="Check preorder-btn" ng-click="cartSub('2')">Preorder Inventory</button>
+        <button class="Check bulk-btn" ng-click="cartSub('1')">Bulk Purchase</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .fl {
+    float: left;
+  }
+
+  .fr {
+    float: right;
+  }
+
+  .preorder-btn{background-color:#F78E29;}
+  .preorder-btn:hover{background-color:#F09001;}
+
+  .bulk-btn{background-color: #FF7700;}
+  .bulk-btn:hover{background-color: #FF9900;}
+
+  .vip .preorder-btn{background-color:#DFAD65;}
+  .vip .preorder-btn:hover{background-color:#A17C4E;}
+
+  .vip .bulk-btn{background-color: #D29236;}
+  .vip .bulk-btn:hover{background-color: #865C20;}
+
+  .cart_rt {
+    width: 550px;
+    /*height: calc(100% - 150px);*/
+    position: fixed;
+    right: -530px;
+    top: 80px;
+    transition: 0.3s ease;
+    z-index: 2;
+  }
+
+  .click {
+    transition: 0.3s ease;
+    right: 0;
+  }
+
+  .cart_rt .cart_list {
+    width: 530px;
+    background-color: #fff;
+    height: 100%;
+    float: left;
+  }
+
+  .cart_rt .bt {
+    width: 20px;
+    background-color: #3A3B42;
+    height: 100%;
+    float: left;
+    position: relative;
+  }
+
+  .cart {
+    cursor: pointer;
+    width: 70px;
+    height: 60px;
+    background-color: #3A3B42;
+    position: absolute;
+    position: absolute;
+    right: 0;
+    top: 40%;
+    border-radius: 4px;
+    line-height: 60px;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.3s ease-in 0.3s, width 0.3s ease;
+    overflow: hidden;
+  }
+
+  .cart:hover {
+    width: 170px;
+    background: #f70;
+    color: #fff;
+  }
+
+  .vip .cart:hover{
+    background: linear-gradient(135deg, #f2d7a1 0%, #dfad65);
+  }
+
+  .cart:hover .cart .shopp {
+    display: inline-block;
+  }
+
+  .cart .shopp {
+    font-size: 14px;
+  }
+
+  .cart .num {
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    border-radius: 50%;
+    background-color: #fff;
+    /* color: #F29748; */
+    font-size: 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: Helvetica;
+  }
+
+  .cart .num.hundred{
+    width: 27px;
+    border-radius: 8px;
+  }
+
+  .cart_rt .cart_list .top {
+    height: 50px;
+    background-color: #e6e6e6;
+    font-size: 14px;
+    font-family: Helvetica;
+    color: #333333;
+    padding-right: 30px;
+	  display: flex;
+	  align-items: center;
+  }
+
+  .cart_rt .cart_list b {
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+  }
+
+  .cart_rt .cart_list .checked {
+    margin: 0 10px 0 10px;
+  }
+
+  .cart_rt .cart_list ul {
+    background-color: #e6e6e6;
+    height: calc(100% - 210px);
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .cart_rt .cart_list ul li {
+    width: 530px;
+    height: 140px;
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 20px 10px 20px 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .cart_rt .cart_list ul li .proimg {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+  }
+
+  .cart_rt .cart_list ul li .checked {
+    margin: 0 15px 0 0;
+  }
+
+  .cart_rt .cart_list ul li .content {
+    width: 140px;
+    line-height: 20px;
+  }
+
+  .cart_rt .cart_list ul li .content span {
+    display: block;
+    font-size: 14px;
+    color: #333333;
+    word-break: break-all;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .cart_rt .cart_list ul li .content span:nth-child(2) {
+    color: #666666;
+  }
+
+  .cart_rt .cart_list ul li .num {
+    color: #666666;
+    font-size: 14px;
+    font-family: Helvetica;
+    width: 85px;
+    text-align: center;
+  }
+
+  .cart_rt .cart_list ul li .price {
+    color: #333333;
+    font-size: 14px;
+    font-family: Helvetica;
+    width: 80px;
+    text-align: center;
+  }
+
+  .cart_rt .cart_list .Clearing {
+    height: 160px;
+    width: 530px;
+    position: absolute;
+    bottom: 0;
+    padding: 0 20px;
+    background-color: #E6E6E6;
+  }
+
+  .cart_rt .cart_list .Clearing .view {
+    width: 140px;
+    height: 30px;
+    border-radius: 2px;
+    /* color: #F29748;
+    border: 1px solid #F29748;
+    background-color: #E6E6E6; */
+    margin-top: 15px;
+  }
+
+  .cart_rt .cart_list .Clearing p {
+    margin-top: 55px;
+    color: #333333;
+    font-size: 16px;
+    font-family: Helvetica;
+    line-height: 20px;
+  }
+
+  .cart_rt .cart_list .Clearing p span:nth-child(2) span {
+    font-size: 22px;
+  }
+
+  .cart_rt .cart_list .Clearing .Check {
+    width: 240px;
+    height: 48px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 18px;
+    font-family: Helvetica;
+    margin-top: 17px;
+  }
+
+  .cart_rt .cart_list .cart_btn {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .commodity {
+    font-size: 14px;
+    text-align: center;
+    margin: 0 5px 0 20px;;
+    height: 35px;
+  }
+
+  .commodity span {
+    float: left;
+    width: 20px;
+    height: 30px;
+    line-height: 28px;
+    border: 1px solid #d4d4d4;
+    text-align: center;
+    margin-left: -1px;
+    cursor: pointer;
+  }
+
+  .commodity input {
+    float: left;
+    width: 30px;
+    font-size: 14px;
+    line-height: 28px;
+    margin-bottom: 2px;
+    text-align: center;
+    border: 1px solid #d4d4d4;
+    border-radius: 0;
+    margin-left: -1px;
+  }
+
+  .cart_rt .cart_list ul li .del {
+    cursor: pointer;
+    width: 20px;
+  }
+</style>

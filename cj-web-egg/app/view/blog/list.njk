@@ -1,0 +1,93 @@
+{% extends "layout/base.njk" %}
+
+{% block title %}
+<title>Blogs for Dropshippers from Starters to Be Elites.</title>
+<meta name="description" content="The latest dropshipping knowledge, news, courses, winning product recommendations for dropshippers. ">
+<meta name="keywords" content='what is dropshipping, how to do dropshipping, how to start dropshipping, free dropshipping course, dropshipping course, free dropshipping, is dropshipping profitable' />
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/blog.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "snippet/common-top.njk" %}
+<!-- <span>{{params.pageNum}}</span> -->
+<div class="blog list">
+  <div class="banner">
+    <div class="search-box flex aic">
+      <input type="text" id="title-ipt" placeholder="What are you looking for" onkeyup="searchEnter()" />
+      <div class="submit-btn flex aic jcc" onclick="searchA()">
+        <i class="iconfont">&#xe66f;</i>
+      </div>
+    </div>
+  </div>
+
+
+  <div v-cjdot cjdotshow='{"eventType": 2}' class="post-list">
+    <ul>
+      {% for item in blog.list %}
+      <li class="flex">
+        <a href="/blog/post/{{ item.id }}{{ detailUrl }}" target="_blank" class="flex">
+          <div class="img-hover">
+            <img src="{{ item.coverUrl }}" alt="" class="cover">
+          </div>
+
+          <div class="con">
+            <div class="tit">{{ item.title }}</div>
+            <div class="desc">{{ item.desc |  safe}}</div>
+            <div class="createDate">Create Date: {{ item.createAt }}</div>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% if blog.list.length == 0 %}
+    <div class="empty-ul">{{ i18next.t('Sorry, we cannot find any data.') }}</div>
+    {% endif %}
+
+    {% include "../snippet/common/page.njk" %}
+  </div>
+</div>
+
+<!-- 相关链接 -->
+{% include "../snippet/home/related-links.njk" %}
+
+<!-- jq分页插件 -->
+<script src="/static/js/public/jqPaginator.js"></script>
+<script>
+  // $('.asj-page-box').hide()
+  window.onload = function () {
+    $('#title-ipt').val($("<div>").html('{{ blog.title }}').text())
+  }
+
+  // 查询title文章
+  function searchA() {
+    const ipt = $('#title-ipt')
+    let title = ipt.val()
+    title = title.trim()
+    location.href = location.pathname + '?title=' + title
+  }
+
+  // title搜索框回车键
+  function searchEnter() {
+    e = event.keyCode;
+    if (e == 13) {
+      searchA()
+    }
+  }
+</script>
+<script src="{{ PUBLIC_SCRIPT + '/blog.js' | VERSION }}"></script>
+
+<!-- page js -->
+<script src="{{ PUBLIC_SCRIPT + '/page.js' | VERSION }}"></script>
+{% endblock %}

@@ -1,0 +1,134 @@
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/search-filter.css' | VERSION }}">
+
+<div class="filter-wrap" id="vue-search-filter">
+  {% if kcType.includes(0) %}
+    <!-- 首页关键词搜索进来-显示推荐关键词 -->
+    <div class="keyword-category">
+      <div class="filter-label">{{keywordTitle}}:</div>
+      <div class="kc-wrap">
+        <div class="keyword-content" :class="isMore && 'more'">
+          <div class="keyword-box">
+            {% for item in searchFilter.keywordList %}
+              <a href="{{item.url}}" class="filter-span {{'active' if item.isActive else ''}}">
+                {{item.name}}
+              </a>
+            {% endfor %}
+          </div>
+          <button class="keyword-more" @click="showMore()" v-show="isShowMore">${isMore ? 'Less' : 'More'}</button>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% if kcType.includes(1) %}
+    <!-- 首页类目点击进来-显示面包屑类目 -->
+    <div class="keyword-category">
+      <div class="filter-label">You are in:</div>
+      <div class="kc-wrap">
+        <div class="category-content">
+          {% for item in searchFilter.categoryList %}
+            <div class="select-item">
+              <a class="filter-span" href="{{item | SEARCHKEYWORD_LINK(searchFilter.queryObj, loop.index0)}}">
+                {{ item.nameEn if item.nameEn else item.name }}
+                {{ "" if (loop.index0 === searchFilter.categoryList.length - 1) else "  > " }}
+                {% if searchFilter.categoryList.length < 3 and loop.index0 === searchFilter.categoryList.length - 1 %}
+                  <i class="iconfont iconxiangxia"></i>
+                {% endif %}
+              </a>
+              {% if searchFilter.categoryList.length < 3 and loop.index0 === searchFilter.categoryList.length - 1 %}
+                <ul class="select-ul">
+                  {% for items in item.children %}
+                    <li>
+                      <a href="{{items | SEARCHKEYWORD_SUB_LINK(searchFilter.queryObj)}}">
+                        {{items.nameEn}}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <div class="filter-by">
+    <div class="filter-label">Filter by:</div>
+    {% if isFilterWarehouse %}
+      <div class="filter-item select-item">
+        <span class="filter-span active">
+          {{searchFilter.warehouseList[searchFilter.warehouseCur].areaEn}}
+          <i class="iconfont iconxiangxia"></i>
+        </span>
+        <ul class="select-ul">
+          {% for item in searchFilter.warehouseList %}
+            <li class="{{'active' if (loop.index0 === searchFilter.warehouseCur) else ''}}">
+              <a href="{{item.url}}">
+                {{item.areaEn}}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    <div class="filter-item select-item">
+      <span class="filter-span active">
+        {{searchFilter.prodTypeList[searchFilter.prodTypeCur].name}}
+        <i class="iconfont iconxiangxia"></i>
+      </span>
+      <ul class="select-ul">
+        {% for item in searchFilter.prodTypeList %}
+          <li class="{{'active' if (loop.index0 === searchFilter.prodTypeCur) else ''}}">
+            <a href="{{item.url}}">
+              {{item.name}}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="filter-item">
+      <span class="filter-span">
+        Price
+      </span>
+      <div class="filter-price-group">
+        <input @input="onInputMin" class="filter-input" placeholder="Min" v-model="minNum">
+        <span>-</span>
+        <input @input="onInputMax" class="filter-input" placeholder="Max" v-model="maxNum">
+        <button class="confirm-btn" @click="clickPriceConfirm()">Confirm</button>
+      </div>
+    </div>
+    <label class="filter-item">
+      <input @change="onCheckboxShip" type="checkbox" class="checkbox" v-model="checkedShipping">
+      <span>Free Shipping</span>
+    </label>
+  </div>
+  {% if isSortby %}
+    <div class="filter-by">
+      <div class="filter-label">Sort by:</div>
+      <div class="filter-item">
+        <a href="{{searchFilter.sortData.BestMatch | SEARCHSORT_LINK(searchFilter.queryObj)}}" class="filter-span {{'active' if (searchFilter.sortData.feildType == 0) else ''}}">Best Match</a>
+      </div>
+      <div class="filter-item">
+        <a href="{{searchFilter.sortData.Lists | SEARCHSORT_LINK(searchFilter.queryObj)}}" class="sort filter-span {{'active' if (searchFilter.sortData.feildType == 1) else ''}}">
+          Lists
+          <div class="sortIcon">
+            <i class="iconfont iconxia2 {{'active' if (searchFilter.sortData.isAsc == 0) else ''}}"></i>
+          </div>
+        </a>
+      </div>
+      <div class="filter-item">
+        <a href="{{searchFilter.sortData.Price | SEARCHSORT_LINK(searchFilter.queryObj)}}" class="sort filter-span {{'active' if (searchFilter.sortData.feildType == 2) else ''}}">
+          Price
+          <div class="sortIcon">
+            <i class="iconfont iconshang1 {{'active' if (searchFilter.sortData.isAsc == 1) else ''}}"></i>
+            <i class="iconfont iconxia2 {{'active' if (searchFilter.sortData.isAsc == 0) else ''}}"></i>
+          </div>
+        </a>
+      </div>
+      <div class="filter-item">
+        <a href="{{searchFilter.sortData.Newest | SEARCHSORT_LINK(searchFilter.queryObj)}}" class="filter-span {{'active' if (searchFilter.sortData.feildType == 3) else ''}}">Newest</a>
+      </div>
+    </div>
+  {% endif %}
+  
+</div>
+<script src="{{ PUBLIC_SCRIPT + '/search-filter.js' | VERSION }}"></script>

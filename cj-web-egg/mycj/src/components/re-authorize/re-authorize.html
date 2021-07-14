@@ -1,0 +1,15 @@
+<div class="re-authorize-modal" ng-class="{'isVip': vip == '1'}">
+    <div class="re-authorize-box">
+        <div class="re-authorize-title">
+            <i class="iconfont prompt-icon">&#xe77f;</i>
+            <span class="re-authorize-title-1">Store Re-authorization Notice</span>
+            <i class="iconfont closeIcon" ng-click="handleClose()">&#xe70d;</i>
+            <p class="re-authorize-title-2">Please re-authorize your Lazada store ASAP.</p>
+        </div>
+        <div div class="re-authorize-border"></div>
+        <div class="re-authorize-content" ng-repeat="item in expireList track by $index">
+            <div class="token-msg" ng-show="item.expireTime > 0 && item.expireTime <= 72">Token of {{item.shopName}}-Lazada will expire in {{item.expireTime}} hours ：<a ng-class="{'vip': vip == '1' }" class="authorize-now" ng-click="authorizeNow(item.shopName)">Authorize Now</a></div>
+            <div class="token-msg" ng-show="item.expireTime == 0">Token of {{item.shopName}}-Lazada was expired ：<a ng-class="{'vip': vip == '1' }" class="authorize-now" ng-click="authorizeNow(item.shopName)">Authorize Now</a></div>
+        </div>
+    </div>
+</div>

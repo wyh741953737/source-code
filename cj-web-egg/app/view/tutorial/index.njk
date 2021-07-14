@@ -1,0 +1,79 @@
+{% block title %}
+<title>{{ seoInfo.title }}</title>
+<meta name="description" property="og:description" content={{ seoInfo.description }}>
+<meta name="keywords" content={{ seoInfo.keywords }} />
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/tutorial.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+
+<div class="tutorial-warp">
+  <div class="banner">
+    <div class="search-box" id="vue-tutorial-search">
+			<span class="title">What are you looking for?</span>
+			<div class="search-input">
+				<input type="text" placeholder="Search by words" v-model="keyWord" v-on:keyup.enter="searchClick()">
+				<button class="button" @click="searchClick()"><i class="iconfont iconsousuo"></i></button>
+			</div>
+		</div>
+  </div>
+  <nav>
+    <div class="content">
+      {% if navType === 'content' or navType === 'faq' %}
+        <!-- content -->
+        <a href="/help-center?navType=content" class="tab-li {{'active' if navType === 'content' else ''}}">
+          <i class="iconfont iconcontent"></i>
+          <span>Content</span>
+        </a>
+        <a href="/help-center?navType=faq" class="tab-li {{'active' if navType === 'faq' else ''}}">
+          <i class="iconfont iconFAQweijihuo"></i>
+          <span>FAQs</span>
+        </a>
+      {% elif navType === 'search' %}
+        <!-- 搜索 -->
+        <a href="/help-center?navType=search&searchType=content&keyWord={{keyWord}}" class="tab-li {{'active' if searchType === 'content' else ''}}">
+          <i class="iconfont iconcontent"></i>
+          <span>Content</span>
+        </a>
+        <a href="/help-center?navType=search&searchType=faq&keyWord={{keyWord}}" class="tab-li {{'active' if searchType === 'faq' else ''}}">
+          <i class="iconfont iconFAQweijihuo"></i>
+          <span>FAQ</span>
+        </a>
+      {% endif %}
+    </div>
+  </nav>
+  {% if navType === 'content' %}
+    <!-- content -->
+    {% include "./content.njk" %}
+  {% elif navType === 'faq' %}
+    <!-- FAQ -->
+    {% include "./FAQ.njk" %}
+  {% elif navType === 'search' %}
+    <!-- 搜索 -->
+    {% include "./searchContent.njk" %}
+  {% endif %}
+</div>
+
+<!-- 相关链接 -->
+{% include "snippet/home/related-links.njk" %}
+<!-- 如果底部添加了related-links，必须引入这个js,用来Subscribe to our latest niches按钮逻辑，登录不出现 -->
+<script src="{{ PUBLIC_SCRIPT + '/qr-code.js' | VERSION }}"></script>
+
+
+<script src="{{ PUBLIC_SCRIPT + '/tutorial.js' | VERSION }}"></script>
+
+{% endblock %}

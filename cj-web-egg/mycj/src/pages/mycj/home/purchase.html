@@ -1,0 +1,189 @@
+<div class="mycj-home-box mycj-home-purchase">
+  <div class="mycj-right-wrap p-3">
+    <div class="mycj-right-bar">
+      <div class="asj-back-to">
+        <a ng-click="back()">&lt; Back</a>
+      </div>
+      <div class="block pay-box">
+        <!-- 商品列表 -->
+        <div class="purchase-list pay-wares-list clearfix">
+          <div class="commodity-item" ng-repeat="item in list track by $index" style="padding: 10px;">
+            <div class="commodity-item-1">
+              <img ng-src="{{item.BIGIMG | IMG_SIZE: 80 }}" alt="Product">
+            </div>
+            <div class="commodity-item-2">
+              <p class="item-2-name">{{item.NAMEEN}}</p>
+              <p>
+                <span>{{item.SKU}}</span>
+              </p>
+            </div>
+            <div class="commodity-item-3" ng-style="{'line-height': item.discountPrice>0?'40px':'80px'}">
+              <p><span
+                  ng-style="{'text-decoration': item.discountPrice>0?'line-through':'normal'}">${{item.SELLPRICE}}</span>
+              </p>
+              <p ng-show="item.discountPrice>0">${{item.discountPrice}}</p>
+            </div>
+            <div class="commodity-item-4">×</div>
+            <div class="commodity-item-5">{{item.itemcount}}</div>
+            <div class="commodity-item-6">
+              ${{(item.discountPrice>0 ? item.discountPrice*item.itemcount : item.SELLPRICE*item.itemcount).toFixed(2)}}
+            </div>
+          </div>
+        </div>
+        <!-- 小计 -->
+        <div class="subtotal-box">
+          <div class="subtotal-detail clearfix">
+            <div class="subtotal-num">{{totalcount()}} Units</div>
+            <div class="subtotal-price">
+              <span class="xiaoji">Amount:</span>
+              <span class="totalprice">${{totalprice()}}</span></div>
+          </div>
+        </div>
+        <!-- 地址 -->
+        <div class="address-box">
+          <div class="receive-type">
+            <div ng-hide="orderType === 'package'">
+              <button ng-class="wholesaleFlag?'direct-ship':'stock'" ng-click="zhifa()">Ship to Address Below</button>
+              <button ng-show="!isSupplier" ng-class="!wholesaleFlag?'direct-ship':'stock'" ng-click='ruku()'>Keep the
+                Items in CJ Warehouse</button>
+            </div>
+            <span class="selectwarehouse" style="margin-left: 50px;" ng-show="!wholesaleFlag">Select Warehouse: </span>
+            <div class="selectWare" ng-show="!wholesaleFlag">
+              <span class="wareCon">{{classStorage(warehouse)}} <b></b></span>
+              <div class="wareDrop">
+                <ul>
+                  <li ng-class="{gray:vip !='1' && (ww.storageEnName.trim()=='USAStorage') }"
+                    ng-click="selectWareFun(ww)" data-id="{{ww.id}}" ng-repeat="ww in warehouselist"
+                    ng-show="ww.storageEnName!='ThaStorage'"><span>{{classStorage(ww)}} <span
+                        ng-show="ww.storageEnName.trim() =='USAStorage'" class="icon-USAvip"></span></span></li>
+                </ul>
+              </div>
+              <p ng-show="iswarehouse"
+                style="display: block;font-size: 14px;color: #fc6d0e;line-height: 30px;max-width: 400px;">No optional
+                warehouse for the attribute of the products. Please contact your agent for more details.</p>
+            </div>
+            <div class="ware-tip-con" ng-show="wareTipFlag" ng-mouseenter="tipTextFlag = true;"
+              ng-mouseleave="tipTextFlag = false;">
+              <img class="ware-tip-img" src="static/image/public-img/iconnote.png">
+              <div class="ware-tip-text" ng-show="tipTextFlag">
+                <p ng-show="tipType=='shenZhen'">We prefer to get the electronic, liquid and cosmetic items in Shenzhen warehouse, China.</p>
+                <p ng-show="tipType=='yiWu'">We prefer to get the non-electronic, non-liquid or non-cosmetic items in Yi
+                  Wu China warehouse.</p>
+              </div>
+            </div>
+          </div>
+          <div class="ship-address" ng-show="wholesaleFlag">
+            <div class="select-ship clearfix">
+              <div class="select-ship-tit">Shipping Address: </div>
+              <div class="select-ship-cont">
+                <div class="old-address">
+                  <ul>
+                    <li class="clearfix" ng-repeat="item in addresslist">
+                      <div class="address-left" ng-click="getaddress(item,$index)">
+                        <span ng-class="item.isDefault==1?'checked':''"></span>
+                      </div>
+                      <div class="address-right">
+                        <p>{{item.firstname}} {{item.lastname}}</p>
+                        <p>{{item.address}}</p>
+                        <p>{{item.city}}</p>
+                        <p>{{item.country}}</p>
+                        <p>{{item.phone}}</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="new-address">
+                  <ul>
+                    <li class="clearfix">
+                      <div class="address-left" ng-click="usenewaddress()">
+                        <span ng-class="newaddress?'checked':''"></span>
+                      </div>
+                      <div class="address-right">
+                        Ship to New Address
+                      </div>
+                    </li>
+
+                    <li ng-show="newaddress">
+                      <input type="text" placeholder="First name" class="w164" ng-model="firstname">
+                      <input type="text" placeholder="Last name" class="w148" ng-model="lastname">
+                    </li>
+                    <li ng-show="newaddress">
+                      <input type="text" placeholder="address 1" class="w328" ng-model="addressInp">
+                    </li>
+                    <li ng-show="newaddress">
+                      <input type="text" placeholder="address 2" class="w328" ng-model="addressInp2">
+                    </li>
+                    <li ng-show="newaddress">
+                      <select id="seladr" name="" placeholder="country" class="w164" ng-model="addCountry"
+                        ng-change="chingeCoun(addCountry)">
+                        <option value="">country</option>
+                        <option ng-repeat="item in countrylist" value="{{item}}">{{item.nameEn}}</option>
+                      </select>
+                      <input type="text" placeholder="province" class="w164" ng-model="province">
+                      <input type="text" placeholder="city" class="w164" ng-model="city">
+                    </li>
+                    <li ng-show="newaddress">
+                      <input type="text" placeholder="phone" class="w164" ng-model="phone">
+                      <input type="text" placeholder="zip" class="w164"  ng-model="zip" ng-blur="handleChangeZip()">
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="select-ship clearfix">
+              <div class="select-ship-tit">Shipping Method: </div>
+              <div class="select-ship-cont">
+                <div class="selection">
+                  <select name="" ng-options="item as item.logisticName for item in wuliulist" ng-model="wuliuway"
+                    ng-change="chingeship(wuliuway)">
+                  </select>
+                  <div class="asj-wuliu-tip-wrap" ng-if="remark"><span
+                      class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+                    <div class="asj-wuliu-tip-show" ng-bind-html="remark"></div>
+                  </div>
+                  <p ng-show="islogistic"
+                    style="display: inline-block;font-size: 14px;color: #fc6d0e;line-height: 30px;">Unfortunately, There
+                    is no shipping method to ship these products because of the special attribute of the products.
+                    Please contact your agent for more details.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 合计 -->
+        <div class="total-box">
+          <div class="total-freight" ng-show="wholesaleFlag">
+            <span class="left">Shipping Cost: </span><span
+              class="big-size right">$<b>{{wuliuway.price?wuliuway.price:0}}</b></span>
+          </div>
+          <div class="total-price">
+            <span class="left">Amount: </span><span class="big-size right">$<b
+                class="red-size">{{totalprice2()}}</b></span>
+          </div>
+        </div>
+
+        <div class="submit-btn">
+          <button ng-show="wholesaleFlag" ng-class="{Nologistic:islogistic}" ng-disabled="(islogistic)"
+            ng-click="showCountryTip=true">Submit</button>
+          <button ng-show="!wholesaleFlag" ng-class="{Nologistic:iswarehouse}" ng-disabled="(iswarehouse)"
+            ng-click="showCountryTip=true">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="confirm-box f-center" ng-show="showCountryTip">
+  <div class="confirm-main">
+    <div class="confirm-title">
+      Important Notice
+    </div>
+    <div class="confirm-content">
+       Because of the Wuhan Coronavirus is still expanding, CJ Fulfillment Center in China will not be able to process the orders in time. Do you insist on placing the order and accept the shipment delay?
+      <a class="link" href="https://cjdropshipping.com/2020/02/08/cj-has-to-postpone-fulfilling-orders-for-longer-because-of-the-coronavirus/" target="_blank">How Long?</a>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="showCountryTip=false" class="no-btn">Cancel</span>
+      <span ng-click="submit()" class="yes-btn btn-theme">Accept</span>
+    </div>
+  </div>
+</div>

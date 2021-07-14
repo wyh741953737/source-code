@@ -1,0 +1,346 @@
+<!DOCTYPE>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>Register/Sign Up - CJdropshipping</title>
+	<meta name="description" content="CJdropshipping is a platform Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High-Quality Products and Faster Shipping.">
+	<meta name="keywords" content="dropshipping sourcing agent, sourcing agent dropshipping, cjdropshipping, cj dropshipping, chinese dropshipping suppliers, aliexpress dropshipping center, aliexpress dropship center, dropshipping center aliexpress" />
+
+	<!-- share official picture -->
+	<meta property="og:type" content="website" />
+	<meta name="twitter:image" property="og:image" content="https://cc-west-usa.oss-us-west-1.aliyuncs.com/75e085bc-3839-440a-9847-45da052d8c53.jpg" />
+	<meta property="og:image:width" content="1200px" />
+	<meta property="og:image:height" content="900px" />
+	<meta property="og:url" content="https://cjdropshipping.com/register.html" />
+
+	<!-- twitter share card -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:domain" content="cjdropshipping.com" />
+	<meta name="twitter:title" property="og:title" itemprop="name"
+		content="Register/Sign Up - CJdropshipping" />
+	<meta name="twitter:description" property="og:description" itemprop="description"
+		content="CJdropshipping is a platform Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High-Quality Products and Faster Shipping." />
+
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="./static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="./static/css/register.css">
+	<link rel="stylesheet" type="text/css" href="./static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+	<link rel="stylesheet" href="static/seldate/js/dependancies/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/iconfont/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="static/css/common-boot4-part.css">
+	<script src="./static/js/public/jquery-3.0.0.min.js"></script>
+	<script src="./static/angular-1.5.8/angular.min.js"></script>
+	<script src="./static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<script src="./static/angular-1.5.8/angular-cookies.min.js"></script>
+	<script src="./static/layer/layer.js"></script>
+
+	<!-- tracking code -->
+    <script src="/egg/script/tracking.js"></script>
+	
+	<!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+			style="display:none;visibility:hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager -->
+
+	<!-- End Google Tag Manager -->
+	<!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'AW-965740562');
+	</script>
+	<!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+	<script src="static/providers/cjdot/cjdot.js"></script>
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<body ng-app="app">
+	<div class="register-wrap" ng-controller="registerCtrl"  cjdot cjdotshow='{"pageCode":"register", "eventType": 0}'>
+
+
+		<div class="register-con" ng-click="isOpen = false;">
+			<div class="register-form">
+				<div ng-show="step == '1'" ng-cloak>
+					<a href="home.html" class="login-close-btn"></a>
+					<h3 class="register-title">Welcome to <a class="f-org to-cj" href="home.html">CJdropshipping.com</a></h3>
+					<div class="register-sub-title" >
+						<span>
+							Create a CJdropshipping account here
+						</span>
+						<div class="language-wrapper">
+							<language-select></language-select>
+						</div>
+					</div>
+					
+					<ul class="register-list">
+						<li class="register-item">
+							<p class="register-item-title"><span class="must-icon">*</span>Email</p>
+							<input class="register-item-input"
+										 placeholder="Enter email"
+										 ng-class="{borderErr:emailVerifyErrorMsg}"
+										 autocomplete="off"
+										 type="text"
+										 id="email"
+										 ng-blur="emailVerify()"
+										 ng-model="email">
+							<p class="error-message" ng-bind-html="emailVerifyErrorMsg" ng-cloak></p>
+						</li>
+						<li class="register-item">
+							<div class="register-item-title">
+								<span class="must-icon">*</span>
+								<span>Password</span>
+								<div class="tooltips" style="display: inline-block;">
+									<i class="iconfont icontishi3 tipIcon"></i>
+									<div class="tooltiptext">
+										<p>! Password must be at least 8-15 characters long.</p>
+										<p>! Password must contain letters, numbers and special characters.</p>
+									</div>
+								</div>
+							</div>
+							<input class="register-item-input"
+										 placeholder="Enter password"
+										 ng-class="{borderErr:passVEM}"
+										 autocomplete="new-password"
+										 ng-attr-type="{{inputType1}}"
+										 id="pass"
+										 ng-blur="passVerify()"
+										 ng-model="pass">
+							<i class="iconfont"
+									 ng-class="inputType1 === 'password' ? 'iconyanjing_yincang_o' : 'iconyanjing_xianshi_o'"
+									 ng-click="handleChangeType('inputType1')">
+							</i>
+							<p class="error-message" ng-bind-html="passVEM" ng-cloak></p>
+						</li>
+						<li class="register-item">
+							<p class="register-item-title"><span class="must-icon">*</span>Confirm Password</p>
+							<input class="register-item-input"
+										 placeholder="Confirm password"
+										 ng-class="{borderErr:cpassVEM}"
+										 ng-attr-type="{{inputType2}}"
+										 id="confirmPass"
+										 ng-blur="cpassVerify()"
+										 ng-model="confirmPass">
+								<i class="iconfont"
+									 ng-class="inputType2 === 'password' ? 'iconyanjing_yincang_o' : 'iconyanjing_xianshi_o'"
+									 ng-click="handleChangeType('inputType2')">
+								</i>
+							<p class="error-message" ng-bind-html="cpassVEM" ng-cloak></p>
+						</li>
+					</ul>
+					<p class="privacy-tip" ng-click="isAgree=!isAgree" ng-class="{check:isAgree}">
+						By clicking "Next", you agree to the
+						<a class="f-org to-cj" target="_blank" href="/user-agreement/en">User Agreement</a>
+						and
+						<a class="f-org to-cj" target="_blank" href="/privacyPolicy">Privacy Policy</a>
+					</p>
+					<div ng-click="handleNextStep()" class="register-btn">
+						Next
+					</div>
+					<p class="login-tip">Already have an account?
+						<a class="f-org to-cj" ng-href="{{saleman?'login.html' + '?ma='+saleman : token? 'login.html' + '?token='+token : 'login.html'}}">Sign in</a>
+					</p>
+				</div>
+				<div ng-show="step == '2'" ng-cloak>
+					<a href="home.html" class="login-close-btn"></a>
+					<h3 class="register-title">Personal Information</h3>
+					<p class="register-sub-title">{{email}} <span class="f-org" ng-click="step=1">Modify</span></p>
+					<ul class="register-list">
+						<li class="register-item">
+							<div class="register-item-title">
+								<span class="must-icon">*</span> 
+								<span>Username</span>
+								<div class="tooltips" style="display: inline-block;">
+									<i class="iconfont icontishi3 tipIcon"></i>
+									<div class="tooltiptext" style="min-width: 265px;">
+										<p>! Username length must be 4-16 characters.</p>
+									</div>
+								</div>
+							</div>
+							<input
+								ng-class="{borderErr:userVerifyErrorMsg}"
+								placeholder="Enter Username"
+								class="register-item-input"
+								type="text"
+								ng-blur="userVerify()"
+								ng-model="user">
+							<p class="error-message" ng-bind-html="userVerifyErrorMsg" ng-cloak></p>
+						</li>
+						<li class="register-item d-flex justify-content-between flex-wrap">
+							<div class="item-box">
+								<p class="register-item-title"><span class="must-icon">*</span>First Name</p>
+								<input
+									ng-class="{borderErr:firstNameErrorMsg}"
+									class="register-item-input"
+									placeholder="Enter first name"
+									type="text"
+									maxlength="{{firstNameMaxLen}}"
+									ng-blur="firstNameVerify()"
+									ng-model="firstName">
+								<p class="error-message" ng-bind-html="firstNameErrorMsg" ng-cloak></p>
+							</div>
+							<div class="item-box">
+								<p class="register-item-title"><span class="must-icon">*</span>Last Name</p>
+								<input
+									ng-class="{borderErr:lastNameErrorMsg}"
+									class="register-item-input"
+									placeholder="Enter last name"
+									type="text"
+									maxlength="{{lastNameMaxLen}}"
+									ng-blur="lastNameVerify()"
+									ng-model="lastName">
+								<p class="error-message" ng-bind-html="lastNameErrorMsg" ng-cloak></p>
+							</div>
+							<p ng-show="nameErrorMsg" class="error-message name-err-msg" ng-bind-html="nameErrorMsg" ng-cloak></p>
+						</li>
+						<li class="register-item">
+							<p class="register-item-title"><span class="must-icon">*</span>Phone Number</p>
+							<div class="phone-box">
+								<div class="countrybox" ng-click="$event.stopPropagation();">
+									<span class="countrytxt notranslate" ng-cloak ng-click="openCountrybox()">+{{countryItem.phoneCode}}</span>
+									<ul class="country-list" ng-show="isOpen" ng-cloak>
+										<li>
+											<input type="text" placeholder="Search by country" class="country-search" ng-change="conuntrySearchFun()" ng-model="countryVal">
+										</li>
+										<li class="country-item" ng-repeat="item in countries" ng-cloak ng-click="selectCount(item)">
+											<span>{{item.nameEn}}</span>
+											<span ng-if="item.phoneCode">{{'+'+item.phoneCode}}</span>
+										</li>
+									</ul>
+								</div>
+								<input ng-class="{borderErr:phoneVEM}"
+											 class="register-item-input phone-register"
+											 placeholder="Enter your phone number"
+											 ng-keyup="phoneInput()"
+											 type="tel"
+											 maxlength="20"
+											 ng-blur="phoneVerify()"
+											 ng-model="telephone">
+							</div>
+							<p class="error-message" ng-bind-html="phoneVEM" ng-cloak></p>
+						</li>
+					</ul>
+					<div ng-click="handleRegister()" class="register-btn" id="login" cjstat cjstatshow='{"pageCode":"register", "keys":[{"key":"email","value":"{{email}}"}], "eventType": 1, "buttonName": "Confirm"}'>
+						Confirm
+					</div>
+					<p class="login-tip">Already have an account?
+						<a class="f-org" ng-href="{{saleman?'login.html' + '?ma='+saleman : token? 'login.html' + '?token='+token : 'login.html'}}"
+						cjstat cjstatshow='{"pageCode":"register", "eventType": 1, "buttonName": "Sign in"}'>Sign in</a>
+					</p>
+				</div>
+				<div class="login-with" ng-cloak>
+					<div class="login-with-line"><span class="login-with-or">or</span></div>
+					<div class="login-with-list">
+						<div cjstat cjstatshow='{"pageCode":"register", "eventType": 1, "buttonName": "facebook","loginWay":"facebook"}' class="login-with-item facebook notranslate" id="faceBook" ng-click="facebookLogin()">Sign in with Facebook</div>
+						<div cjstat cjstatshow='{"pageCode":"register", "eventType": 1, "buttonName": "google","loginWay":"google"}' class="login-with-item google notranslate" id="google">Sign in with Google</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="confirm-box" ng-cloak ng-show="showConfirm">
+			<div class="confirm-main">
+				<span class="confirm-close" ng-click="showConfirm=false"></span>
+				<div class="confirm-content">
+					{{confirmMsg}}
+				</div>
+				<div class="confirm-btn" ng-click="confirmFun()">Confirm</div>
+			</div>
+		</div>
+
+		<div class="login-wrap" ng-if="regLoginShow" ng-cloak>
+			<div id="reg-login">
+				<span class="login-close" ng-click="closeRegLoginBox()"></span>
+				<section class="login-logo">
+					<img src="static/image/login/loginuser.png" />
+				</section>
+				<section class="login-font">Create your account</section>
+				<section class="login-input">
+					<div class="input-area account">
+						<i></i>
+						<input
+							type="text"
+							placeholder="Username"
+							maxlength="8"
+							ng-class="{borderpass: focus.login_name}"
+							ng-blur="loginVerify('login_name')"
+							ng-focus="focusHandle('login_name')"
+							ng-model="regLoginInfo.login_name"
+						/>
+						<span class="err-tip" ng-show="errMsg !== 'ok'" ng-cloak>{{
+							errMsg
+						}}</span>
+					</div>
+					<div class="input-area password">
+						<i></i>
+						<input
+							placeholder="Password"
+							maxlength="15"
+							ng-class="{borderpass: focus.password}"
+							ng-attr-type="{{
+								regLoginInfo.passwordShow ? 'text' : 'password'
+							}}"
+							ng-blur="loginVerify('password')"
+							ng-focus="focusHandle('password')"
+							ng-model="regLoginInfo.password"
+						/>
+						<i
+							class="password-eye"
+							ng-class="regLoginInfo.passwordShow ? 'password-show' : ''"
+							ng-click="toggleHandle('passwordShow')"
+						></i>
+					</div>
+				</section>
+				<section class="login-btn">
+					<button stat
+						ng-class="regLoginInfo.canSubmit ? '' : 'disabled'"
+						ng-click="regLogin()"
+					>
+						Sign In
+					</button>
+				</section>
+			</div>
+		</div>
+	</div>
+	<script src="./static/js/public/config.js"></script>
+	<script src="./static/js/public/common.js"></script>
+	<script src="static/js/public/jsencrypt.js"></script>
+	<!-- <script src="./static/jsencrypt/jsencrypt.min.js"></script> -->
+	<script src="./static/js/public/base64.min.js"></script>
+	<script src="./static/js/login/register.js"></script>
+	<script src="./static/components/language_select/languageSelect.js"></script>
+	<script src="static/components/headerandfooters/commonheader-login.js"></script>
+	<script src="static/seldate/js/dependancies/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js"></script>
+	<script src="static/seldate/js/countrypicker.js"></script>
+	<script src="static/md5/md5.min.js"></script>
+	<script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+</html>

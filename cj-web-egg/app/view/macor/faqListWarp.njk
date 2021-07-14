@@ -1,0 +1,24 @@
+{% macro faqListWarp(faqList) %}
+<ul v-if="!faqList.length" render="njk" class="faq-ul">
+  {% for item in faqList %}
+    <li>
+      <h3>
+        {{item.idx}}、{{item.question}}
+        <i class="iconfont iconbianzu101"></i>
+      </h3>
+      <div class="text">
+        {{item.answer | safe}}
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+<ul v-else render="vue" class="faq-ul">
+  <li v-for="(item, i) of faqList" :class="{'active': activeIdx == i}">
+    <h3 @click="toggleShow($event, i)">
+      ${item.idx}、${item.question}
+      <i class="iconfont iconbianzu101"></i>
+    </h3>
+    <div class="text" v-html="item.answer" />
+  </li>
+</ul>
+{% endmacro %}

@@ -1,0 +1,48 @@
+<div class="ship-cost-modal" ng-click="handleClose()" ng-class="{'isVip': vip == '1' }">
+  <div class="ship-cost-box" ng-click="showList = false;$event.stopPropagation();">
+    <div class="ship-cost-title">
+      <i class="iconfont closeIcon" ng-click="handleClose()">&#xe70d;</i>
+    </div>
+    <div class="ship-cost">
+      <div class="ship-cost-item">
+        <p class="label top-label">Ship My Order(s) Most to:</p>
+        <div class="select-box">
+          <div class="select-text" ng-click="handleShowList($event)">
+            <span ng-bind="selectItem.nameEn"></span>
+            <span class="icon"></span>
+          </div>
+          <div class="list-box" ng-show="showList">
+            <div class="list">
+              <div class="country-item" ng-repeat="item in countryList" ng-click="handleSelect(item)">
+                <!-- <img ng-show="selectItem && selectItem.id == item.id" src="/egg/image/yes.png" alt="" class="yes-img" style="width: 15px; height: 10px;"> -->
+                <span>{{item.nameEn}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <p class="label">Product Weight:</p>
+        <span class="content">{{weight}}</span>
+      </div>
+      <div class="item">
+        <p class="label">Shipping Method:</p>
+        <span class="content">{{method}}</span>
+      </div>
+      <div class="item">
+        <p class="label">Shipping Cost:</p>
+        <span class="content ship-cost-span1 notranslate" id="ship-cost-span1">{{shipCost}}</span>
+        <span class="content ship-cost-span2 notranslate" id="ship-cost-span2">{{shipCostDis}}</span>
+        <span class="content ship-cost-span3 notranslate" id="ship-cost-span3">{{shipDiscount}}</span>
+      </div>
+      <div class="item">
+        <p class="label">Delivery Time:</p>
+        <span class="content">{{deliveryTime}}</span>
+      </div>
+    </div>
+    <div class="bottom-btn-box">
+      <button class="close-btn" ng-click="handleClose($event)">Cancel</button>
+      <button class="confirm-btn" ng-class="{'vip': vip == '1' }" ng-click="handleConfirm()">Confirm</button>
+    </div>
+  </div>
+</div>

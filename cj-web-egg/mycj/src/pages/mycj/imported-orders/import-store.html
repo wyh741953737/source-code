@@ -1,0 +1,459 @@
+<div class="content import-store">
+  <!-- 新老版本切换 -->
+  <version-control></version-control>
+  <div class="mycj-home-box directorders-wrap">
+    <div class="direct-right p-3" id="">
+      <!-- 导航 -->
+      <ul class="top-taps">
+        <li class="tab-theme import" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">{{'('+impprocessNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==1">{{'('+cartNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+incompleteNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==3">{{'('+cancelNum+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <!-- 搜索区域 -->
+      <div class="searchWrap">
+        <div class="searchGroup">
+          <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="From"></input>
+          <span class="line">-</span>
+          <input id="cj-etime" class="Wdate data-inp" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="Now"></input>
+          <input class="ord-search-inp" ng-model="searchInfo" placeholder="Enter Order Number"></input>
+          <a ng-click="ordnumSearch()" class="search-btn btn-theme" cjdot cjdotshow='{"eventType": 2}'>Search</a>
+          <a class="ui-btn btn-theme2" ng-click="dcordFlag = true;">
+            <span>Export Orders</span>
+          </a>
+          <div class="sync-wrap">
+            <span class="store-noord-tip" ng-click="noOrdResonFun()">
+              You don't have an order synchronized? Click here Click here
+              <span class="iconfont glyphicon-question-sign" id="reson-btn"></span>
+            </span>
+            <div class="tbnew-div">
+              <p ng-click="startSyFun()" ng-show="syStu==0">Start to Sync Latest Orders</p>
+              <p ng-click="changesyFun()" ng-show="syStu==1">Syncing Latest Orders</p>
+              <p ng-click="refershFun()" ng-show="syStu==2">Please Refresh Your Orders</p>
+            </div>
+            <!-- <div class="reordstu-div authoriza-laqubox"> -->
+            <div class="reordstu-dlist" ng-show="syStuFlag">
+              <p>
+                We are serious to your orders from your stores. There is a possibility of orders missed when automatic
+                pulling orders from your stores, because your orders are placed by your buyers without a certain time. We
+                need to double verify the latest orders by
+                following 4 steps, please wait in patience.
+              </p>
+              <div class="rdlist-conleft">
+                <ul>
+                  <li>
+                    1. {{websiteName}} is checking if there is any missed order.
+                  </li>
+                  <li>
+                    2. {{websiteName}} is saving missed orders.
+                  </li>
+                  <li>
+                    3. {{websiteName}} is creating orders
+                  </li>
+                  <li>
+                    4. The process will be accomplished soon.
+                  </li>
+                </ul>
+              </div>
+              <div class="rdlist-conright">
+                <ul>
+                  <li>
+                    <p ng-if="resOrdStu<1">
+                      <span>Pending</span>
+                      <img src="static/image/public-img/Pending.png">
+                    </p>
+                    <p ng-if="resOrdStu==1">
+                      <span>Processing</span>
+                      <img src="static/image/public-img/tips.png">
+                    </p>
+                    <p ng-if="resOrdStu>1">
+                      <span>Done</span>
+                      <img src="static/image/public-img/success.png">
+                    </p>
+                  </li>
+                  <li>
+                    <p ng-if="resOrdStu<2">
+                      <span>Pending</span>
+                      <img src="static/image/public-img/Pending.png">
+                    </p>
+                    <p ng-if="resOrdStu==2">
+                      <span>Processing</span>
+                      <img src="static/image/public-img/tips.png">
+                    </p>
+                    <p ng-if="resOrdStu>2">
+                      <span>Done</span>
+                      <img src="static/image/public-img/success.png">
+                    </p>
+                  </li>
+                  <li>
+                    <p ng-if="resOrdStu<3">
+                      <span>Pending</span>
+                      <img src="static/image/public-img/Pending.png">
+                    </p>
+                    <p ng-if="resOrdStu==3">
+                      <span>Processing</span>
+                      <img src="static/image/public-img/tips.png">
+                    </p>
+                    <p ng-if="resOrdStu>3">
+                      <span>Done</span>
+                      <img src="static/image/public-img/success.png">
+                    </p>
+                  </li>
+                  <li>
+                    <p ng-if="resOrdStu<4">
+                      <span>Pending</span>
+                      <img src="static/image/public-img/Pending.png">
+                    </p>
+                    <p ng-if="resOrdStu==4">
+                      <span>Processing</span>
+                      <img src="static/image/public-img/tips.png">
+                    </p>
+                    <p ng-if="resOrdStu>4">
+                      <span>Done</span>
+                      <img src="static/image/public-img/success.png">
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div class="ref-divwrap" ng-show="syStu==2">
+                <button class="refresh-btn1" ng-click="refershFun()">Refresh</button>
+                <p class="refre-tipsp">
+                  Warning: If you want to view latest orders, please refresh the page or click refresh button.
+                </p>
+              </div>
+            </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="deal-orders direct-deal-order" cjdot cjdotshow='{"pageCode":"AuthorizeOrder", "eventType": 0}'>
+      <div class="orders-list" id="">
+        <table class="orders-table dcl-ord">
+          <thead>
+            <tr>
+              <th class="data-th fir-th" style="width: 142px;">
+                <!-- <img class="zchecked-all" src="static/image/direct-orders/multiple1.png"> -->
+                <div class="check-box zchecked-all">
+                  <input type="checkbox" ng-click="checkAllFun()" ng-model="checkAllFlag" name="" />
+                  <label for=""></label>
+                </div>
+                <span>{{websiteName}} Order Number</span>
+                <img class="showsp-img" src="static/image/public-img/up.png">
+              </th>
+              <th style="width: 108px;">
+                <p>Your Store Time</p>
+                <p>System Time</p>
+              </th>
+              <th style="width: 128px;">
+                <select id="dcl-sel-store" ng-change="storeChangeFun()" ng-model="storeName">
+                  <option value="">Stores All</option>
+                  <option ng-repeat="item in shops" value="{{item.id}}">{{item.rNAME}}</option>
+                </select>
+              </th>
+              <th style="width: 116px;">
+                Your Order Number
+              </th>
+              <th style="width: 98px;">Store Amount</th>
+              <!-- <th style="width: 96px;">{{websiteName}} Amount</th> -->
+              <th style="width: 60px;">Quantity</th>
+
+              <th class="selcoun-td" style="width: 100px;">
+                Shipping Info
+              </th>
+            </tr>
+          </thead>
+          <tbody ng-mouseenter="showdelFun($event,$index,listName)" ng-mouseleave="hidedelFun($event,$index)"
+            class="dcl-ord-tbody" ng-repeat="listName in ordersList" repeat-finish>
+            <tr style="background-color: #ececec;" class="blank-tr">
+              <td colspan="16" class="table-blank-td">
+                <div class="hasdel-con">
+                  <div class="hasdel-top">
+                    <span style="color: #f99429" class="iconfont">&#xe626;</span>
+                    <p ng-if="listName.order.shopOrderStatus=='refunded'">
+                      This order might be requsted to refund by your buyer, please double check it and decide KEEP IT
+                      or DELETE IT.
+                    </p>
+                    <p ng-if="listName.order.shopOrderStatus=='possiblePerformance'">
+                      This order might be in a COMPLETED status in your store, please double check it and decide to KEEP or DELETE 
+                      IT.
+                    </p>
+                    <p ng-if="listName.order.shopOrderStatus=='repeat'">
+                      This order might repeat with some other one, please double check it and decide KEEP IT or DELETE
+                      IT.
+                    </p>
+                    <p ng-if="listName.order.shopOrderStatus=='partiallyRefundedList'">
+                      This order might be requsted to refund by your buyer, please double check it and decide KEEP IT
+                      or DELETE IT.
+                    </p>
+                  </div>
+                  <div class="editmess-btns">
+                    <button ng-click="keepAllFun()" class="edit-keepall-btn">KEEP ALL</button>
+                    <button ng-click="keepOrdFun($index,listName.order)" class="edit-keepbtn">KEEP
+                      IT</button>
+                    <button ng-click="HasdeleteallFun($index,listName.order)" class="edit-delall-btn">DELETE
+                      ALL</button>
+                    <button ng-click="HasdeleteSureFun($index,listName.order)" class="edit-confirm-btn">DELETE
+                      IT</button>
+
+                  </div>
+                  <span id="has-glybtom" class="glyphicon glyphicon-triangle-bottom"></span>
+                </div>
+              </td>
+            </tr>
+            <tr class="order-detail"
+              ng-class="{'ord-active':listName.order.shopOrderStatus,'ord-active1':listName.order.COUNTRY_CODE=='US'&&(listName.order.PROVINCE | uppercase)!='NY'&&(listName.order.PROVINCE | uppercase)!='NEW YORK'&&(listName.order.CITY | uppercase)!='NY'&&(listName.order.CITY | uppercase)!='NEW YORK'&&(listName.order.PROVINCE | uppercase)==(listName.order.CITY | uppercase)}"
+              title="{{listName.order.COUNTRY_CODE=='US'&&(listName.order.PROVINCE | uppercase)!='NY'&&(listName.order.PROVINCE | uppercase)!='NEW YORK'&&(listName.order.CITY | uppercase)!='NY'&&(listName.order.CITY | uppercase)!='NEW YORK'&&(listName.order.PROVINCE | uppercase)==(listName.order.CITY | uppercase)?'Address incorrect，City and State should not be same!':''}}"
+              data-adress="{{listName.order.SHIPPING_ADDRESS}}" data-id="{{listName.order.ORDER_NUMBER}}">
+              <td id="cj-ord-num" class="order-time">
+                <!-- <img ng-if="!listName.order.shopOrderStatus" class="product-checked zcheckbox"
+                    src="static/image/direct-orders/multiple1.png"> -->
+                <div class="check-box product-checked zcheckbox">
+                  <input type="checkbox" ng-model="listName.checkFlag" ng-click="checkItemFun(listName,$event)"
+                    name="" />
+                  <label for=""></label>
+                </div>
+                <span ng-if="listName.order.shopOrderStatus" style="color: #f99429" class="iconfont">&#xe626;</span>
+                <p class="dclord-sys-time">{{listName.ID}}</p>
+                <p style="display: none;" class="isdel-instore">{{listName.shopOrderStatus}}</p>
+              </td>
+              <td class="paid-time cshow-allsp" ng-cloak>
+                <p>{{listName.shopifyDate}}</p>
+                <p>{{listName.date}}</p>
+              </td>
+              <td class="ord-cai">
+                <p class="store-name-p" ng-cloak>{{listName.STORE_NAME}}</p>
+                <p style="display: none;" class="split-pp">
+                </p>
+                <p style="display: none;" class="order-id" ng-cloak>{{listName.ID}}</p>
+              </td>
+              <td class="order-num-td cshow-allsp" ng-cloak>
+                <p class="cus-ordtext">{{listName.ORDER_NUMBER}}</p>
+                <p ng-if="listName.ORDERSOURCE_TYPE==2">Shopify Imported</p>
+              </td>
+              <td class="z-stord-wm cshow-allsp">
+                <p ng-if="listName.SHOPIFYAMOUNT" class="st-price-num" ng-cloak>
+                  <span class="notranslate">{{listName.SHOPIFYAMOUNT}}</span>USD</p>
+                <p ng-if="listName.SHOPIFYAMOUNT==null" class="st-price-num" ng-cloak>-USD</p>
+              </td>
+              <!-- cj金额 -->
+              <!-- <td class="z-cjord-wm cshow-allsp">
+                <p class="cj-price-num" ng-cloak>
+                  <span ng-if="listName.LOGISTIC_NAME"
+                    id="cj-a-money">{{listName.ORDER_AMOUNT+listName.POSTAGE | number:2}}USD</span>
+                  <span id="cj-a-money" ng-if="listName.LOGISTIC_NAME==null"></span>
+                </p>
+              </td> -->
+              <td class="cshow-allsp" ng-cloak>{{listName.ORDER_QUANTITY}}</td>
+              <td class="shipping-info cshow-allsp">
+                <p class="buyer-name" ng-cloak><span
+                    title="{{listName.CUSTOMER_NAME}}">{{listName.CUSTOMER_NAME}}</span>
+                  <p class="detail-adress" title="{{listName.SHIPPING_ADDRESS}}" ng-cloak>
+                    {{listName.SHIPPING_ADDRESS}}</p>
+                  <p title="{{listName.shippingAddress2}}" ng-cloak>
+                    {{listName.shippingAddress2}}</p>
+                  <p class="buyer-adress"
+                    title="{{listName.CITY}} {{listName.PROVINCE}} {{listName.ZIP}} {{listName.COUNTRY_CODE}}">
+                    <span class="imp-procus-city" ng-cloak>{{listName.CITY}}</span>
+                    <span class="imp-procus-province" ng-cloak>{{listName.PROVINCE}}</span>
+                    <span class="post-code" ng-cloak>{{listName.ZIP}}</span>
+                    <span class="imp-procus-country" ng-cloak>{{listName.COUNTRY_CODE}}</span>
+
+                  </p>
+                  <p class="phone-num" ng-cloak>{{listName.PHONE}}</p>
+                  <p ng-if="listName.taxidExtend" title="{{listName.taxidExtend}}" class="taixd-text" ng-cloak>Tax ID:
+                    {{listName.taxidExtend}}</p>
+              </td>
+
+
+            </tr>
+            <tr class="d-toggle-tr">
+              <td class="d-tog-td" colspan="16">
+                <div class="d-toggle-div">
+                  <table class="d-toggle-tab" ng-repeat="pList in listName.product">
+                    <tr id="fir-tr">
+                      <td rowspan="2" class="dt-img-td">
+                        <span class="blank-span"
+                          ng-if="listName.STORE_NAME !='Excel Imported'&&listName.STORE_NAME !='Shipstation'&&!pList.SKU.includes('BZSP')">
+                          <img class="sp-smallimg sp-smallimg1" ng-if="pList.cjImage || pList.image"
+                            ng-src="{{pList.cjImage || pList.image}}"
+                            err-src="static/image/public-img/default.jpg">
+                          <img title="Image Doesn't Exsit" class="sp-smallimg1" ng-if="!pList.cjImage && !pList.image"
+                            src="static/image/public-img/default.jpg">
+                          <img class="hide-bigimg" ng-if="pList.cjImage || pList.image"
+                            ng-src="{{pList.cjImage || pList.image}}">
+                          <img class="hide-bigimg" ng-if="!pList.cjImage && !pList.image"
+                            src="static/image/public-img/default.jpg">
+                        </span>
+                        <span class="blank-span"
+                          ng-if="listName.STORE_NAME =='Excel Imported'||listName.STORE_NAME =='Shipstation'||pList.SKU.includes('BZSP')">
+                          <img class="sp-smallimg sp-smallimg1" ng-if="pList.cjImage" ng-src="{{pList.cjImage}}"
+                            err-src="static/image/public-img/default.jpg">
+                          <img title="Image Doesn't Exsit" class="sp-smallimg" ng-if="!pList.cjImage"
+                            src="static/image/public-img/default.jpg">
+                          <img class="hide-bigimg" ng-src="{{pList.cjImage}}">
+                          <img class="hide-bigimg" ng-if="!pList.cjImage" src="static/image/public-img/default.jpg">
+                        </span>
+                      </td>
+                      <td id="madetd" rowspan="2">
+                        <div ng-cloak>
+                          SKU: <span>{{pList.SKU ? pList.SKU : '--'}}</span>
+                          </br>
+                        </div>
+                      </td>
+                      <!-- ng-if="pList.SKU" -->
+                      <!-- <td rowspan="2">
+                        <div ng-cloak>
+                          Ship From:
+                          <span ng-if="listName.LOGISTIC_NAME=='USPS+'" class="where-from">USA</span>
+                          <span ng-if="listName.LOGISTIC_NAME!='USPS+'&&listName.LOGISTIC_NAME!='CJPacket-Tha'"
+                            class="where-from">China</span>
+                          <span ng-if="listName.LOGISTIC_NAME=='CJPacket-Tha'" class="where-from">Thailand</span>
+                        </div>
+                      </td> -->
+                      <td class="product-name">
+                        
+                        <p>
+                          Your Product Title:
+                          <p>{{pList.SHIPPING_NAME}}</p>
+                        </p>
+                      </td>
+                      <td ng-cloak>Store Price: {{pList.SHOPIFYPRICE}}USD</td>
+                      <td ng-cloak>Store Quantity: {{pList.QUANTITY}}</td>
+                      <td ng-cloak>Store Amount: {{pList.SHOPIFYPRICE*pList.QUANTITY | number:2}}USD</td>
+                      <!-- <td>{{listName.ID}}</td> -->
+                      <!-- <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS*pList.QUANTITY | number:2}}g</td> -->
+                      <td style="display: none;" class="dcl-ordwlfs" ng-cloak>
+                        {{pList.LOGISTICS_TYPE}}</td>
+                      <!-- <td class="dcl-sp-idtd">{{pList.CJOrderId}}</td> -->
+                      <!-- <td class="shangpinbuquan" ng-if="listName.ORDER_QUANTITY !== pList.QUANTITY"></td> -->
+                    </tr>
+                    <!-- ng-show="pList.SKU" -->
+                    <!-- <tr>
+                      <td class="product-name">
+                        <p>
+                          {{websiteName}} Product Title:
+                          <span ng-click="cjdetailhref(listName,pList)">{{pList.cj_product_name}}</span>
+                          <span style="display: none;" class="property-text">{{pList.PROPERTY}}</span>
+                        </p>
+                      </td>
+                      <td ng-cloak>{{websiteName}} Price: {{pList.PRICE}}USD</td>
+                      <td ng-cloak>{{websiteName}} Quantity: {{pList.QUANTITY}}</td>
+                      <td ng-cloak>{{websiteName}} Subtotal: {{pList.PRICE*pList.QUANTITY | number:2}}USD</td>
+                      <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS*pList.QUANTITY | number:2}}g</td>
+                    </tr> -->
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- 分页 -->
+        <page ng-show="ordersList.length > 0"></page>
+        <!-- <div class="zdcl-pages-db second-page-fun" ng-show="ordersList.length>0">
+          <select id="dcl-sel" class="select-page-num ip-select-num2" ng-model="pageSize"
+            ng-change="pagechange(pageSize)">
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="500">500</option>
+          </select>
+          <span class="per-page">per page</span>
+          <span class="all-num-line" ng-cloak>{{totalCount}}</span>
+          <span class="per-page">records found</span>
+          <ul id="des" class="pagination pagination-demo1"></ul>
+          <span class="per-page showing-tex">showing:</span>
+          <input class="inp-num-go inp-num-go2" ng-model="pageNum"></input>
+          <span class="per-page">of</span>
+          <span class="jump-btn ip-jump-btn2" ng-click="pagenumchange()">go</span>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 是否导出订单 -->
+<div class="isdel-wrap" ng-show="dcordFlag">
+  <div class="isdel-con">
+    <p>Are you sure export orders?</p>
+    <div class="isdel-btns">
+      <button ng-click="dcordFlag=false;" class="isdel-cabtn">Cancel</button>
+      <button ng-click="goActexportOrder()" class="isdel-cobtn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 导出订单返回的excel链接 -->
+<div class="isdel-wrap" ng-show="dcordCallbackFlag">
+  <div class="isdel-con">
+    <a ng-click="closeLinkFun()" ng-click="dcordCallbackFlag = false;" href="{{excelHref}}">{{excelHref}}</a>
+    <div class="isdel-btns">
+      <button ng-click="dcordCallbackFlag=false;" class="isdel-cabtn">Close</button>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="noOrdResonFlag">
+  <div class="editmess-con">
+    <div class="editmess-top">
+      <label>Please enter the order number in your store.</label>
+      <input class="shop-ordnum-inp" ng-model="shopOrdNum"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="noOrdQxFun()" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="noOrdSureFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单展示后台返回原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="resResonFlag">
+  <div class="editmess-con check-ordcon">
+    <div class="editmess-top">
+      <p ng-show="isSelTimeFlag" class="no-ordres-reson"></p>
+      <p ng-hide="isSelTimeFlag">
+        Orders Not Found? Pull by Date. You can select any 7 days period, and the latest time has to be before:
+        <span style="color: #ff8d31;">{{seaNowTime}}</span>
+      </p>
+      <input ng-hide="isSelTimeFlag" id="seaord-stime" class="Wdate data-inp"
+        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})" placeholder="From"></input>
+      <span ng-hide="isSelTimeFlag" class="line">-</span>
+      <input ng-hide="isSelTimeFlag" id="seaord-etime" class="Wdate data-inp"
+        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})" placeholder="Now"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-show="productYmBtn" ng-click="productLinkFun()" class="edit-confirm-btn">Go</button>
+      <button ng-hide="isSelTimeFlag" ng-click="detailSeaOrdFun()" class="edit-confirm-btn">Confirm</button>
+      <button ng-click="closeResReasonFun()" class="edit-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- closeOrderModal 老订单页面提示去新订单页面弹窗 -->
+<close-order-modal></close-order-modal>
+<!-- 检查没有订单展示后台返回原因的弹框 -->
+<!-- <div class="editmesstc-wrap" ng-show="resResonFlag">
+  <div class="editmess-con check-ordcon">
+    <div class="editmess-top">
+      <p ng-show="isSelTimeFlag" class="no-ordres-reson"></p>
+      <p ng-hide="isSelTimeFlag">
+        Orders Not Found? Pull by Date. You can select any 7 days period, and the latest time has to be before:
+        <span style="color: #ff8d31;">{{seaNowTime}}</span>
+      </p>
+      <input ng-hide="isSelTimeFlag" id="seaord-stime" class="Wdate data-inp"
+        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})" placeholder="from"></input>
+      <span ng-hide="isSelTimeFlag" class="line">-</span>
+      <input ng-hide="isSelTimeFlag" id="seaord-etime" class="Wdate data-inp"
+        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})" placeholder="Now"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-show="productYmBtn" ng-click="productLinkFun()" class="edit-confirm-btn">Go</button>
+      <button ng-hide="isSelTimeFlag" ng-click="detailSeaOrdFun()" class="edit-confirm-btn">Confirm</button>
+      <button ng-click="closeResReasonFun()" class="edit-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div> -->

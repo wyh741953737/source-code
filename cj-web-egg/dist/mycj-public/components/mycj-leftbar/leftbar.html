@@ -1,0 +1,64 @@
+<div
+  class="mycj-left-bar"
+  ng-class="{vipflag:vip==1,'leftbar-light':!isShow}"
+  ng-if="navAll.length" ng-style="barScollSty">
+  <i class="iconfont menu-icon" ng-click="toggle()">
+    {{ isShow ? '&#xe60a;' : '&#xe604;' }}
+  </i>
+  <ul class="left-bar-list" id="mycjLeft">
+    <li class="left-bar-item"
+      ng-repeat="item in navAll track by $index"
+      ng-click="toggleChild(item,$event)"
+      ng-mouseenter="mouseEnter(item)"
+      ng-mouseleave="mouseLeave(item)"
+      ng-class="{showicon:!isShow}"
+    >
+      <p class="left-bar-title" ng-class="{active:(item.oneActive),cartSide:item.name === 'Cart'}">
+        <i class="iconfont" ng-class="item.iconclass"></i>
+        <span class="title" ng-show="isShow" ng-bind-html="item.name"></span>
+        <i class="iconfont ui-select1" ng-cloak ng-if="item.childs && item.childs.length>0" ng-show="isShow" ng-class="{'active':item.active}"></i>
+        <div ng-show="item.name === 'Cart' && showCartPopover && !isShow" class="popoverWrapper">
+          Cart
+          <div class="triangle" />
+        </div>
+      </p>
+      <ul ng-cloak ng-class="{'menu-child':!item.active,'menu-child-show':item.active}">
+        <li class="menu-child-item"
+          ng-repeat="citem in item.childs"
+          ng-class="{active:(citem.active && citem.name!='Service Products')}"
+          ng-click="toUrl(citem,$event)"
+          ng-style="{'display': citem.name == 'Wix' ? (isShowWixMenu ? 'block' : 'none') : 'block'}"
+        >
+          <a href="{{(orderversion==1 && citem.oldroute) ? citem.oldroute:citem.route}}" class="menu-child-item-title" ng-if="!citem.childRouter"
+             ng-mouseenter="secondMouseEnter(citem)" ng-mouseleave="secondMouseLeave(citem)" ng-click="secondMouseClick(citem)">
+              {{citem.name}}
+            <div class="menu-child-item-title-tip" ng-if="citem.tipName && citem.tipShow">
+              {{citem.tipName}}
+            </div>
+          </a>
+          <div class="menu-thirdchild-item"
+            ng-show="citem.childRouter"
+            ng-class="{thirdhide:!isShow}"
+            ng-click="toThird(citem,$event)"
+          >
+            <p class="menu-thirdchild-item-title"
+              >
+              {{citem.name}}
+              <i class="iconfont ui-select1 icon-service" ng-cloak ng-class="{'active':(citem.active&&isShow )}"></i>
+            </p>
+            <div class="menu-thirdchild-list" ng-show="citem.active">
+              <a class="menu-thirdchild-item-text"
+                ng-repeat="ccitem in citem.childRouter"
+                ng-class="{active:ccitem.active}"
+                href="{{ccitem.route}}"
+              >
+                {{ccitem.name}}
+              </a>
+            </div>
+
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

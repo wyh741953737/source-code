@@ -1,0 +1,35 @@
+<!-- ioss select -->
+<div class="ioss-select" ng-click="onClickSelect($event)">
+    <div class="select-input beauty-scrollbar" ng-click="onClickSelectInput($event)">
+        <!-- placeholder -->
+        <div ng-show="selectedCountryList.length === 0" class="select-placeholder">Please select</div>
+        <div ng-show="selectedCountryList.length !== 0" class="selected-list">
+            <div class="selected-tag" ng-repeat="(index, item) in selectedCountryList">
+                <span class="tag-name">{{ item.enName }}</span>
+                <div class="delete-icon">
+                    <i ng-click="onDeleteTag($event, index)" class='iconfont iconguanbi1'></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="options-modal">
+        <div class="select-options beauty-scrollbar" ng-show="show && filterList.length > 0">
+            <div class="select-search-box">
+                <input type="text" alt="" class="select-search" ng-model="searchValue" ng-change="filterSearch()">
+            </div>
+            <div class="select-option-item" ng-repeat="(index, item) in filterList" ng-click="onClickOption(item)">
+                <!-- 这里之后加国旗 -->
+                <span class="option-label">{{ item.enName }}</span>
+                <div class="checked-icon" ng-show="isSelected(item.id)">
+                    <i class='iconfont iconduihao'></i>
+                </div>
+            </div>
+        </div>
+        <div class="select-options" ng-show="show && filterList.length === 0">
+            <div class="select-empty">
+                <img src="/static/image/profile/selectEmpty.png" alt="">
+                <span >No Date</span>
+            </div>
+        </div>
+    </div>
+</div>

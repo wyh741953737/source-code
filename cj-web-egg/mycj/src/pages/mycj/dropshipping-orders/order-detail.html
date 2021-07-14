@@ -1,0 +1,188 @@
+<div class="bg-white h-100" style="overflow: hidden;" cjdot cjdotshow='{"eventType": 2}'>
+  <div class="ordetail-wrap">
+    <span class="ui-back" ng-click="goBack()">&lt; Back </span>
+    <div class="ordetail-title">ORDER DETAILS</div>
+    <!-- 跳转提醒 -->
+    <div class="jumpToNew" ng-show="showPrompt">
+      <i class="iconfont prompt_tixing">&#xe626;</i>
+      <p class="jumpTxt">
+        Discount has been applied to the product(s). You can find more details in the
+        <a 
+          class="freshCJ" 
+          href="newmycj/dropshipping/orderManage/orderDetial?orderCode={{orderId}}"
+          ng-class="isVip == 1 ? 'freshCjVip' : 'freshCJCommon'"
+        >
+          Dropshipping Orders 
+        </a>.
+      </p>
+    </div>
+    <div class="ordetail-cont">
+      <div class="ordetail-info">
+        <div class="top">
+          <span class="f-c-black detail">{{dateTime}}</span>
+          <span class="f-c-gray detail"><ng-template ng-hide="orderType=='DIRECT'">Bulk Order NO: {{orderMonId}} </ng-template><span class="f-c-org">Order Number: {{orderId}}</span></span>
+          <span class="f-c-gray detail">Status:
+            <!-- <span ng-show="trackingNum">{{shipStatus | shipStatusFil}}</span> -->
+            <span>{{orderStatus | orderStatusFil}}</span>
+            <span class="stockout-box ml-2" ng-if="orderItem.stockout">
+              <span ng-if="orderItem.handlerResult === handlerResult.partRefund.key && orderItem.refundStatus == '1'">Refund in progress</span>
+              <span 
+                class="cursor-pointer" ng-click="showStockout(orderItem, 'refund')" 
+                ng-if="orderItem.handlerResult === handlerResult.partRefund.key && orderItem.refundStatus == '2'">Refunded</span>
+              <span ng-if="orderItem.handlerResult === handlerResult.allRefund.key && orderItem.refundStatus == '1'">Refund in progress</span>
+              <span 
+                class="cursor-pointer" ng-click="showStockout(orderItem, 'refund')" 
+                ng-if="orderItem.handlerResult === handlerResult.allRefund.key && orderItem.refundStatus == '2'">Refunded</span>
+            </span>
+          </span>
+          <!-- 0: 无配置Ioss地区 1: 不填 2: 客户自己的IOSS 3:CJIOSS   -->
+          <span class="f-c-gray detail" ng-show="iossType !== 0" >
+            IOSS Option:
+            <span ng-show="iossType == 2 || 3">{{iossNumber}}</span>
+            <span ng-show="iossType == 1">No IOSS</span>
+          </span>
+        </div>
+        <div class="bottom"  ng-show='trackingNum'>
+          <div class="ordetail-ship">
+            Shipping Method: {{wlfs+'.'}}<span class="ordetail-ship-num">Tracking Number: {{trackingNum+'.'}}</span>
+            <span class="ordetail-ship-btn" ng-click="listFun()">More Details</span>
+          </div>
+        </div>
+      </div>
+      <table class="ordetail-detail">
+        <tr class="ordetail-detail-title">
+          <th class="detail-list-box">
+            <div class="detail-list">
+              <div class="detail-info">Product</div>
+              <div class="detail-price">Price</div>
+              <div class="detail-quantity">Quantity</div>
+              <div class="detail-total">Subtotal</div>
+            </div>
+          </th>
+          <!-- <th class="ordetail-detail-info">Product Information</th>
+          <th>Unit Price</th>
+          <th>Quantity</th>
+          <th>Sub Total</th> -->
+          <th class="ordetail-detail-total">Total Amount</th>
+          <th class="ordetail-detail-address">Address</th>
+        </tr>
+        <tr class="ordetail-detail-list" ng-repeat="item in productList track by $index">
+          <td class="detail-list-box">
+            <div class="detail-list">
+              <div class="detail-info">
+                <div class="img-info-box">
+                  <div class="img">
+                    <img src="{{item.cjImage | IMG_SIZE: 68:68}}" alt="">
+                    <img class="bigimg" src="{{item.cjImage | IMG_SIZE: 300:300}}" alt="">
+                  </div>
+                  <div class="info-detail"> 
+                    <div class="info-detail-title">{{item.SHIPPING_NAME}}
+                      <div class="bagsku-box" ng-if="item.childProductList">
+                        <span class="iconfont iconicon1"></span>
+                        <div class="bagsku-tips">These are bundle products.</div>
+                      </div>
+                    </div>
+                    <div class="info-detail-sku notranslate">SKU: {{item.SKU}}
+                      <span class="stockout-box ml-2" ng-if="item.stockout">
+                        <span ng-if="!item.handlerResult">stockout</span>
+                        <span ng-if="item.handlerResult === handlerResult.fenkaifahuo.key">stockout</span>
+                        <span class="cursor-pointer" ng-click="showStockout(item, 'barter')" ng-if="item.handlerResult === handlerResult.tihuan.key">Exchanged</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="detail-price notranslate">
+                ${{item.couponPrice ? 
+                    item.PRICE - item.couponPrice || item.originalPrice - item.couponPrice 
+                    : 
+                    item.PRICE || item.originalPrice | number:2
+                }} ×
+              </div>
+              <div class="detail-quantity">
+                {{item.QUANTITY}}
+              </div>
+              <div class="detail-total notranslate">
+                ${{item.couponPrice ? (item.PRICE-item.couponPrice) * item.QUANTITY : item.PRICE * item.QUANTITY | number:2}}
+              </div> 
+            </div>
+            <div class="more-list-box" ng-if="item.childProductList">
+              <p class="more-list-title" ng-click="item.showChild=!item.showChild">Details
+                <i ng-show="item.showChild" class="iconfont iconshang1"></i>
+                <i ng-show="!item.showChild" class="iconfont iconxia2"></i>
+              </p>
+              <div class="more-list" ng-show="item.showChild"> 
+                <div class="more-item" ng-repeat="childItem in item.childProductList">
+                  <img src="{{childItem.cjImage}}" class="more-item-img" alt="">
+                  <div class="more-item-info">
+                      <p class="title">{{childItem.cj_product_name}}</p>
+                      <p class="sku">SKU: {{childItem.SKU}}</p>
+                      <p class="sku">Quantity: {{childItem.QUANTITY}}</p>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </td>
+          <td class="ordetail-detail-item ordetail-detail-total" rowspan="{{productList.length}}" ng-if="$index==0">
+            <p class="f-big">Total Amount: <span class="f-org notranslate">${{ordCouponAmount ? ordCouponAmount : ordAmount}}</span></p>
+            <p class="detail">Weight: <span class="notranslate">{{ordWeight}}</span>kg</p>
+            <p class="detail">Product Cost: <span class="notranslate">${{ordCouponMoney ? ordCouponMoney : ordmoney}}</span></p>
+            <p class="detail">Shipping Cost: <span class="notranslate">${{wlmoney}}</span></p>
+            <div ng-show="iossType != 0" class="vatIossWrapper">
+              <p class="iossTitle">VAT upon IOSS: <span class="notranslate">---</span></p>
+              <i class="iconfont icontishi1 commonIossIcon" ng-mouseenter="showPopover = true" ng-mouseleave="showPopover = false">
+                <div class="popoverWrapper" ng-show="showPopover">
+                  <span ng-show="iossType == 1">The package will be declared without an IOSS ID.</span>
+                  <span ng-show="iossType == 2">The recipient will be required to pay the VAT.</span>
+                  <div class="popoverBottom" />
+                </div>
+                
+              </i>
+            </div>
+          </td>
+          <td class="ordetail-detail-item ordetail-detail-address" rowspan="{{productList.length}}" ng-if="$index==0">
+            <p>{{customeName}}</p>
+            <p>{{address1}}</p>
+            <p>{{address2}}</p>
+            <p>{{city}} {{provence}} {{country}}</p>
+            <p>{{zip}}</p>
+            <p>{{phone}}</p>
+            <p ng-if="taxidNumber">Tax ID: {{taxidNumber}}</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="ordetail-confirm-box" ng-show="showShip">
+      <div class="confirm-cont">
+        <div class="ship-title">
+          Tracking Information
+          <span class="close-btn" ng-click="showShip=false"></span>
+        </div>
+        <div class="ship-cont">
+          <div class="ship-cont-top">
+            <img class="shiplogo" src="/static/image/dropShipping/shipping.png" alt="">
+            <div class="ship-cont-info">
+              <p>Shipping Method: <span class="gray">{{wlfs+'.'}}</span> <a href="{{'https://cjpacket.com/?trackingNumber=' + trackingNum}}" target="_blank"
+                  class="blue">Track on CJPacket</span></a>
+                <p>Tracking Number: <span class="gray">{{trackingNum+'.'}}</span></p>
+            </div>
+          </div>
+          <ul class="ship-cont-list">
+            <li class="ship-cont-item" ng-repeat="item in routeList track by $index" ng-class="{curr:$index==0}">
+              <span class="ship-cont-item-time">{{item.acceptTime}}</span>
+              <div class="ship-cont-item-detail">
+                <!-- <p>{{item.acceptAddress}}</p> -->
+                <p>{{item.remark}}</p>
+              </div>
+            </li>
+          </ul>
+          <!-- <div class="ordetail-btn-box">
+            <span class="ui-btn cancel" ng-click="showShip=false">Cancel</span>
+            <span class="ui-btn confirm">Confirm</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<stockout-notice></stockout-notice>

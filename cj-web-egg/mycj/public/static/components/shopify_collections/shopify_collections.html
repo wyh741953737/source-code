@@ -1,0 +1,22 @@
+<div class="cj-shopify-collections">
+    <p class="select-collections" ng-show="collectionType==='select'">
+        <!-- ng-options="item as item.title for item in collectionList" -->
+        <!-- ng-model="collectionItem" -->
+        <!-- ng-selected="item.id == collectionItemId" -->
+        <select 
+        class="select-collection-select"
+        ng-model="collectionId"
+        ng-change="chanCollection()"
+        >
+            <option value="" ng-hide="collectionId">Please Select</option>
+            <option ng-repeat="item in collectionList track by $index" value="{{item.id}}" title="{{item.remark}}"
+                ng-disabled="item.type == '1'">{{item.title}}</option>
+        </select>
+        <button class="btn btn-add-new add-new" ng-click="collectionType='input';">Add New</button>
+    </p>
+    <p class="add-collections" ng-show="collectionType==='input'">
+        <input class="add-new-collection-inp" ng-model="newCollection" placeholder="Please add new">
+        <button class="btn btn-confirm new-btn-confirm" ng-click="addNewCollection()">Confirm</button>
+        <button class="btn btn-cancel new-btn-cancel" ng-click="collectionType='select';">Cancel</button>
+    </p>
+</div>

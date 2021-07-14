@@ -1,0 +1,50 @@
+<!--弹窗-组合详情-->
+<div class='bundle-products'>
+  <div class='bundle-modal'>
+    <header class='bundle-header'>
+      <h1 class='bundle-title'>Bundle Products</h1>
+      <i class='iconfont confirm-close bundle-close' ng-click='closeModal()'></i>
+    </header>
+    <div class='bundle-content'>
+      <div class='table-header'>
+        <table style="table-layout: fixed;">
+         <thead class='bundle-table-header'>
+            <tr>
+              <th width ='386' class='leftAlign'>Product</th>
+              <th width ='129' class='rightAlign'>Quantity</th>
+              <th width ='129' class='rightAlign'>Weight</th>
+              <th  class='table-cell table-cell-scrollbar'></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class='bundle-tbody'>
+        <table style="table-layout: fixed;">
+          <tbody>
+              <tr ng-repeat="item in productLst" class='bundle-list-item'>
+                <td width ='386' class='leftAlign'>
+                  <img src='{{item.img}}' class='productImg'>
+                  <div class='item-right'>
+                    <div class='name-block'>{{item.nameEn}}</div>
+                    <div class='name-block'>{{item.sku}}</div>
+                  </div>
+                </td>
+                <td width ='129' class='rightAlign'>{{item.itemCount}}</td>
+                <td width ='129' class='rightAlign'>{{item.totalPackWeight}}g</td>
+                <th class=''></th>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer class='bundle-bottom'>
+      <div class='product-total'>
+        Subtotal: <span class='text-theme'>{{total.variant}}</span>
+        {{total.variant > 1 ? ' Variants' :' Variant' }},
+        <span class='text-theme'>{{total.piece}}</span>
+        {{total.piece > 1 ? ' Pieces' : ' Piece'}} 
+      </div>
+      <span class='product-btn ui-btn btn-theme' ng-click='closeModal()'>Confirm</span>
+    </footer>
+  </div>
+</div>

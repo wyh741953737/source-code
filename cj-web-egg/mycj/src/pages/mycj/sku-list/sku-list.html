@@ -1,0 +1,778 @@
+<style type="text/css">
+
+  font, span {
+    vertical-align: initial!important;
+  }
+  .spzd-wrap {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .spzd-con {
+    width: 650px;
+    height: 280px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 20px 0;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+
+  .spzd-seadiv {
+    /* text-align: center; */
+    margin-bottom: 10px;
+  }
+
+  .spzd-seadiv .sea-inp {
+    width: 200px;
+    height: 30px;
+    text-indent: 12px;
+    border: 1px solid #ececec;
+    font-size: 12px;
+  }
+
+  .spzd-seadiv .sea-btn {
+    width: 50px;
+    height: 30px;
+    font-size: 12px;
+    color: #fff;
+    background-color: #f9aa57;
+  }
+
+  .zdbz-listab {
+    height: 150px;
+    overflow-y: auto;
+  }
+
+  .zdbz-listab .zdbz-tab {
+    width: 100%;
+    border: 1px solid #ececec;
+  }
+
+  .zdbz-listab .zdbz-th {
+    background-color: #f4f8fd;
+    height: 30px;
+    border-right: 1px solid #ececec;
+    text-align: center;
+    color: #333;
+  }
+
+  .zdbz-listab .zdbz-tr {
+    border-top: 1px solid #ececec;
+  }
+
+  .zdbz-listab .zdbz-tr td {
+    border-right: 1px solid #ececec;
+  }
+
+  .zdbz-listab .zdbz-tr p {
+    text-align: center;
+    font-size: 12px;
+  }
+  .zdbz-listab .option {
+    margin-top: 10px;
+  }
+
+  .bot-btns {
+    text-align: right;
+    margin-top: 20px;
+  }
+
+  .bot-btns .bot-qx {
+    width: 60px;
+    height: 30px;
+    margin-right: 50px;
+    /* color: #6b6b6b; */
+    /* border: 1px solid #cfcfcf; */
+    border-radius: 4px;
+    /* background-color: #f6f6f6; */
+    font-size: 12px;
+    border: 1px solid var(--color-line-1) !important;
+    background: var(--color-bg-14) !important;
+    color: var(--color-font-1) !important;
+  }
+
+  .bot-btns .bot-qx:hover {
+    background: var(--color-bg-14-1) !important;
+  }
+
+  .bot-btns .bot-sure {
+    /* background-color: #f88f29; */
+    /* color: #fff; */
+    width: 60px;
+    height: 30px;
+    border-radius: 4px;
+    font-size: 12px;
+    background: var(--color-theme-1);
+    color: var(--color-font-4);
+    border: none;
+  }
+
+  .bot-btns .bot-sure:hover {
+    background: var(--color-theme-1-1);
+  }
+
+  .vip .bot-btns .bot-sure {
+    background: var(--color-theme-1-vip);
+    color: var(--color-font-4);
+    border: none;
+  }
+
+  .vip .bot-btns .bot-sure:hover {
+    background: var(--color-theme-1-1-vip);
+  }
+
+  .addsku-btn {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0;
+    border-radius: 4px;
+    color: var(--color-theme-1);
+    border: 1px solid var(--color-theme-1);
+    background: #fff;
+    padding: 0 36px;
+    font-size: 12px;
+  }
+  .addsku-btn:hover {
+    color: var(--color-theme-1-1);
+    border-color: var(--color-theme-1-1);
+  }
+
+  .vip .addsku-btn {
+    color: var(--color-theme-1-vip);
+    border-color: var(--color-theme-1-vip);
+  }
+  .vip .addsku-btn:hover {
+    color: var(--color-theme-1-1-vip);
+    border-color: var(--color-theme-1-1-vip);
+  }
+
+  .addskuwl-sel {
+    width: 150px;
+    height: 30px;
+    /* margin-left: 30px; */
+    border: 1px solid #ececec;
+    font-size: 12px;
+  }
+
+  .skualias-box {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .3);
+    z-index: 1000;
+  }
+
+  .skualias-box .skualias {
+    width: 600px;
+    height: 370px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+  }
+
+  .skualias-head h3 {
+    padding-left: 10px;
+    height: 50px;
+    line-height: 50px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    font-size: 16px;
+    position: relative;
+    border-bottom: 1px solid #E6E6E6;
+  }
+
+  .skualias-head .glyphicon-remove {
+    position: absolute;
+    top: 17px;
+    right: 10px;
+    color: #666;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: url(/static/image/public-img/close-img.png) no-repeat center;
+    background-size: contain;
+  }
+
+  .skualias-mian {
+    padding: 0 10px;
+  }
+
+  .skualias-mian .skualias-from .from-item {
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-bottom: 1px solid #C1C1C1;
+  }
+
+  .skualias-from .from-item div {
+    display: flex;
+    align-items: center;
+  }
+
+  .skualias-from .from-item p {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    color: #333;
+  }
+
+  .skualias-from .from-item img {
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .skualias-mian .skualias-from .from-input {
+    border: 0;
+  }
+
+  .skualias-from .from-item .from-item-input {
+    flex: 1;
+  }
+
+  .skualias-from .from-item input {
+    width: 300px;
+    height: 36px;
+    padding-left: 10px;
+    font-size: 14px;
+    border: 1px solid #C1C1C1;
+    border-radius: 4px;
+  }
+
+  .from-item-but {
+    width: 200px;
+  }
+
+  .from-item-but button {
+    margin-left: 10px;
+    width: 80px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 4px;
+  }
+
+  .from-item-but .cancel {
+    border: 1px solid var(--color-line-1) !important;
+    background: var(--color-bg-14) !important;
+    color: var(--color-font-1) !important;
+  }
+
+  .from-item-but .cancel:hover {
+    background: var(--color-bg-14-1) !important;
+  }
+
+  .from-item-but .confirm {
+    background: var(--color-theme-1);
+    color: var(--color-font-4);
+    border: none;
+  }
+
+  .from-item-but .confirm:hover {
+    background: var(--color-theme-1-1);
+  }
+
+  .vip .from-item-but .confirm {
+    background: var(--color-theme-1-vip);
+    color: var(--color-font-4);
+    border: none;
+  }
+
+  .vip .from-item-but .confirm:hover {
+    background: var(--color-theme-1-1-vip);
+  }
+
+  .skualias-footer {
+    padding: 10px;
+  }
+
+  .skualias-footer button {
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid var(--color-line-1);
+    border-radius: 4px;
+    color: var(--color-font-1);
+  }
+  .skualias-footer button:hover {
+    border-color: var(--color-theme-1);
+    color: var(--color-theme-1);
+  }
+  .opt-box button {
+    height: 30px !important;
+    color: var(--color-theme-1) !important;
+    background: #fff !important;
+    border: 1px solid var(--color-theme-1) !important;
+  }
+  .opt-box button:hover {
+    color: #fff !important;
+    background-color: #FF9900 !important;
+    border: none !important;
+  }
+  .vip .opt-box button {
+    color: #DDA863 !important;
+    border: 1px solid #DDA863 !important;
+  }
+  .vip .opt-box button:hover {
+    color: #fff !important;
+    background-color: #DDA863 !important;
+    border: none !important;
+  }
+
+  .opt-box button[disabled]{
+    color: #666666;
+    background: #FFFFFF;
+    border: 1px solid #EDEDED;
+    opacity: 0.5;
+  }
+  .opt-box button[disabled]:hover{
+    background: #F5F5F5 !important;
+  }
+  .production-info {
+    display: flex; flex-direction: column; justify-content: space-between;height: 80px;text-align: left;padding: 0 8px 0 0;
+  }
+  .product-name {
+    height: 34px;font-size: 12px;color: #333333;word-break: break-all; overflow: hidden;text-overflow: ellipsis; display: -webkit-box;-webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  }
+  .attr-overflow {
+    color: #999999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+</style>
+<div class="mycj-home-box PC-wrap mycj-sku-list">
+  <div class="mycj-right-wrap PC-con p-3">
+    <div class="top-space-bar"></div>
+    <div class="mycj-right-bar PC-w1200 pro-skulist clearfix">
+      <div class="search-box-wrap">
+        <div class="input-group search-box">
+          <input type="text" class="form-control" placeholder="Enter SKU/Product Name" ng-model="skusearch" ng-keyup="enterSearch($event)">
+          <span class="input-group-btn">
+            <button class="search-btn btn-theme" type="button" ng-click="searchsku()" cjdot cjdotshow='{"eventType":2}' >Search</button>
+          </span>
+        </div>
+        <div class="check-box" style="width: 160px;">
+          <input type="checkbox" name="" class="show-ds-btn ng-valid ng-dirty ng-valid-parse ng-empty ng-touched"
+            ng-model="isShowPrivatePro" ng-change="showPrivatePro(isShowPrivatePro)">
+          <label style="font-size: 12px;" for="">Visible to Me</label>
+        </div>
+        <div class="check-box" style="width: 160px;">
+          <input type="checkbox" name="" class="show-ds-btn ng-valid ng-dirty ng-valid-parse ng-empty ng-touched"
+            ng-model="isWarning" ng-change="showIsWarning(isWarning)">
+          <label style="font-size: 12px;" for="">Alerted SKU</label>
+        </div>
+        <button ng-click="openSkuFun()" class="addsku-btn">Add to SKU List</button>
+        <div class="opt-box">
+          <button ng-click="bulkConnection()" ng-disabled="!isConnection">Packaging Connection</button>
+          <button ng-click="bulkRemoveConnection()" ng-show="packStatus == 1" ng-disabled="!isConnection">Remove Connection</button>
+        </div>
+      </div>
+      <div class="table-connected">
+        <div class="cj-load-wrap"></div>
+        <not-data ng-if="notDataFound"></not-data>
+        <table class="SKUtable" style="width: 100%;" ng-show="skulist.length>0">
+          <thead>
+            <tr class="table-connected-top">
+              <td rowspan="2" class="checked-box" style="width: 2.5%;">
+                <i class="iconfont" ng-class="isCheckAll ? 'iconicon':'iconweigouxuan'" ng-click="chechedAll()"></i>
+              </td>
+              <!-- <td rowspan="2" style="width: 8%;">Date</td>
+              <td rowspan="2" style="width: 7.5%;">Images</td>
+              <td rowspan="2" style="width: 11%;">Name</td> -->
+              <td rowspan="2" style="width: 26%;">Product information</td>
+              <td colspan="2" style="width: 14%;">
+                 China Inventory
+                <div style="padding: 0; display: flex; align-items: center; border-top: 1px solid rgba(52, 52, 52, 1);">
+                    <div style="width: 50%; border-right: 1px solid rgba(52, 52, 52, 1);">CJ</div>
+                    <div style=" width: 50%;">Factory</div>
+                </div>
+              </td>
+              <td rowspan="2" style="width: 7%;">US Inventory</td>
+              <td rowspan="2" style="width: 6%;">Price</td>
+              <td rowspan="2" style="width: 7%;">Weight</td>
+              <td rowspan="2" style="width: 7%;">Shipping From</td>
+              <td rowspan="2" style="width: 6%;">Shipping Method</td>
+              <td rowspan="2" style="width: 6%;">Shipping Cost</td>
+              <td rowspan="2" style="width: 6%;">Amount</td>
+              <td rowspan="2" style="width: 6.5%;">Sales</td>
+              <td rowspan="2" style="width: 144px;">Action</td>
+            </tr>
+          </thead>
+          <tbody ng-repeat="(index1,item) in skulist">
+            <tr>
+              <td class="checked-box">
+                <i class="iconfont" ng-class="item.ischeck ? 'iconicon':'iconweigouxuan'" ng-click="checkPro(item,index1)"></i>
+              </td>
+              <td class="td-img">
+                 <div style="display: flex;min-width: 100%; align-items: center;">
+                    <div class="td-img-box" style="margin: 0 8px;">
+                      <a href="{{'product-detail.html?id=' + item.productId}}" target="_blank">
+                        <img class="small-img" ng-src="{{'//'+item.BIGIMG | IMG_SIZE: 80}}" alt="" style="width: 80px;height: 80px;"></a>
+                      <img class="big-img" ng-src="{{'//'+item.BIGIMG | IMG_SIZE: 400}}" alt="" style="left: 130px;bottom: 10px;">
+                    </div>
+                    <div class="production-info">
+                      <div class="product-name"><a href="{{'product-detail.html?id=' + item.productId}}" target="_blank" title="{{item.NAMEEN}}">{{item.NAMEEN}}</a></div>
+                      <div>SKU: {{item.SKU}}</div>
+                      <div class="td-date">Date: {{(item.createDate.time || item.createDate) | date:"yyyy-MM-dd"}}</div>
+                    </div>
+                 </div>
+              </td>
+              <td style="width: 6%;">
+                <span><i class="iconfont"  style="font-size:14px; color: #DD4B1A;margin-right: 2px;" ng-show="item.isWarning==1">&#xe777;</i>{{item.INVENTORCOUNTRY.China.CJInventory}}</span>
+              </td>
+              <td style="width: 6%;"><span>{{item.INVENTORCOUNTRY.China.FactoryInventory}}</span></td>
+              <td style="width: 4%;"><span>{{item.INVENTORCOUNTRY.US}}</span></td>
+              <td class="td-price">
+                <span
+                  ng-class="{'line-through': item.discountPriceRate > 0}">${{item.SELLPRICE.replace(' -- ', '-')}}</span>
+                <br>
+                <span ng-if="item.discountPriceRate > 0">{{'$' + item.discountPrice.replace(' -- ', '-')}} <br>
+                  ({{item.discountPriceRate}}% off)</span>
+              </td>
+              <td><span>{{item.packweight.replace(' -- ', '-') + 'g'}}</span></td>
+              <td>
+                {{item.defaultArea || '--'}}
+              </td>
+              <td>
+                <ship-setting proitem="item" listtype="'skulist'" proindex="index1"></ship-setting>
+              </td>
+              <td class="td-ship-cost">
+                <ship-caculate proinfo='item' shipinfo="item.shipinfo"></ship-caculate>
+              </td>
+              <td class="amount-price-td">
+                {{'$' + (item.AMOUNTPRICE + '').replace(' -- ', '-')}}
+                <div class="toast-wrap" ng-show="item.isProAmountTip != false">
+                  <i class="iconfont">&#xe745;</i>
+                  <div class="toast-box">
+                    Shipping cost not included.
+                  </div>
+                </div>
+              </td>
+              <td><span>{{item.sales || 0}}</span></td>
+              <td class="td-btn operating">
+                <!-- <div ng-show="!item.packVid">
+                  <button ng-click="batchAssociation(item)">Packaging Connection</button>
+                </div>
+                <div ng-show="item.packVid">
+                  <button ng-click="viewPackaging(item)">View Packaging</button>
+                  <button ng-click="unBind(item)">Remove binding</button>
+                </div>
+                <button ng-click="skudelet(item, index1)">Delete</button>
+                <br> -->
+
+
+                <div class="operation-dropdown" ng-mouseenter="show_modal_parent = true" ng-mouseleave="show_modal_parent = false">
+                  <div class="operation-dropdown-btn">
+                      Action
+                    <span class="caret"></span>
+                  </div>
+                  <ul class="operation-dropdown-menu" ng-show="show_modal_parent">
+                    <li ng-click="batchAssociation(item)"><a>Packaging Connection</a></li>
+                    <li ng-click="viewPackaging(item)"><a>View Packaging</a></li>
+                    <li ng-click="unBind(item,false)"><a>Remove Packaging</a></li>
+                    <li ng-click="skudelet(item, index1)"><a>Delete</a></li>
+                    <!-- <li ng-click="changeShowTrentChart(item, index1)"><button>查看销量趋势</button></li> -->
+                  </ul>
+                </div>
+                <a ng-if="!item.down" class="show-vlist" href="javascript:void(0);"
+                  ng-click="showVList(item, index1)"><img src="./static/image/public-img/to-down.png" alt="" style="margin-top: 8px; width: 20px; height: 12px;" /></a>
+                <a ng-if="item.down" class="show-vlist" href="javascript:void(0);"
+                  ng-click="hideVList(item, index1)"><img src="./static/image/public-img/to-up.png" alt="" style="margin-top: 8px; width: 20px; height: 12px;" /></a>
+              </td>
+            </tr>
+            <tr style="background: #f8f8f8;" ng-repeat="(index2,item2) in item.vList" ng-show="item.down">
+              <td style="border-right: none"></td>
+              <!-- <td class="td-date">时间</td>
+              <td class="td-img">
+                <div class="td-img-box">
+                  <a href="{{'product-detail.html?id=' + item.productId}}" target="_blank"><img class="small-img"
+                      ng-src="{{item2.IMG || item2.BIGIMG}}" alt=""></a>
+                  <img class="big-img" ng-src="{{item2.IMG || item2.BIGIMG}}" alt="">
+                </div>
+              </td>
+              <td class="td-name"><a href="{{'product-detail.html?id=' + item.productId}}" target="_blank"
+                  title="{{item2.NAMEEN}}">{{item2.NAMEEN}}</a></td> -->
+              <td class="td-img">
+                 <div style="display: flex;">
+                    <div class="td-img-box" style="margin: 0 8px;">
+                       <a href="{{'product-detail.html?id=' + item.productId}}" target="_blank"><img class="small-img"
+                         ng-src="{{item2.IMG || item2.BIGIMG | IMG_SIZE: 80}}" alt="" style="width: 80px;height: 80px;"></a>
+                       <img class="big-img" ng-src="{{item2.IMG || item2.BIGIMG}}" alt="" style="left: 130px;bottom: 10px;">  
+                    </div>
+                    <div class="production-info">
+                      <div class="product-name"><a href="{{'product-detail.html?id=' + item.productId}}" target="_blank" title="{{item2.NAMEEN}}">{{item2.NAMEEN}}</a></div>
+                      <div class="td-sku">SKU: {{item2.SKU}}</div>
+                      <div class="attr-overflow">{{item2.varientStr}}</div>
+                    </div>
+                 </div>    
+              </td>
+        
+
+              <td style="display: flex; align-items: center; justify-content: center;">
+                <div class="hover-tag">
+                  <div class="inventoryIcon" ng-mouseenter="showInventory=true" ng-mouseleave="showInventory=false" style="position: relative;">
+
+                    <div class="info" ng-show="item2.warningMap && showInventory">
+                      <div style="display: flex;justify-content: space-between;margin-bottom: 13px">
+                        <div style="display: flex; align-items: center;"><i class="iconfont icontishi" style="color: #FAAD14;width: 22px;font-size: 20px;;margin-right: 10px;"></i><span style="font-size: 16px;font-weight: 500;">Note</span></div>
+                        <div ng-click="showInventory=false" style="font-size: 15px;width: 15px;height: 15px;cursor: pointer;"><i class="iconfont iconguanbi" style="height: 16px;font-size: 14px;"></i></div>
+                      </div>
+                      <div class="info-text" ng-class="{'border': item2.discountPriceRate > 0}">{{getTest(item2.warningMap)}}</div>
+                      <div class="info-link">
+                        <a class="no-info" href="javascript:void(0);"  ng-click="warnNoLonger(item2.vid)">Close</a>
+                        <a class="purchase" href="javascript:void(0);"  ng-click="addPrivateToCar(item2)">Purchase Inventory</a>
+                      </div>
+                    </div>
+
+                    <div style="padding: 10px 0;">
+                      <i class="iconfont"  style="font-size:14px; color: #DD4B1A;margin: 0 4px 2px 0;cursor: pointer;" ng-show="item2.warningMap">&#xe777;</i>
+                    </div>
+                  </div>
+                </div>
+                <span style="line-height: 16px;">{{item2.chinainventor.CJInventory}}</span>
+              </td>
+
+              <td style="width: 6%;"><span>{{item2.chinainventor.FactoryInventory}}</span></td>
+              <!-- || item.INVENTORCOUNTRY.US -->
+              <td><span>{{item2.usinventor}}</span></td>
+              
+              <td class="td-price">
+                <span
+                  ng-class="{'line-through': item2.discountPriceRate > 0}">${{item2.SELLPRICE.replace(' -- ', '-')}}</span>
+                <br>
+                <span ng-if="item2.discountPriceRate > 0">{{'$' + item2.discountPrice.replace(' -- ', '-')}} <br>
+                  ({{item2.discountPriceRate}}% off)</span>
+              </td>
+              <td><span>{{(item2.PACKWEIGHT + '').replace(' -- ', '-') + 'g'}}</span></td>
+              <td>
+                {{item.defaultArea || '--'}}
+              </td>
+              <td>
+                <span>{{item2.shopMethod == null ? '--' : item2.shopMethod}}</span>
+              </td>
+              <td class="td-ship-cost">
+                <ship-caculate proinfo='item2' shipinfo="item2.shipinfo"></ship-caculate>
+              </td>
+              <td class="amount-price-td">
+                {{'$' + (item2.AMOUNTPRICE + '').replace(' -- ', '-')}}
+                <div class="toast-wrap" ng-show="item2.isProAmountTip != false">
+                  <i class="iconfont">&#xe745;</i>
+                  <div class="toast-box">
+                    Shipping cost not included.
+                  </div>
+                </div>
+              </td>
+              <td><span>{{item2.sales || 0}}</span></td>
+              <td class="td-btn operating">
+                <div class="operation-dropdown" ng-mouseenter="show_modal = true" ng-mouseleave="show_modal = false">
+                  <div class="operation-dropdown-btn">
+                      Action
+                    <span class="caret"></span>
+                  </div>
+                  <ul class="operation-dropdown-menu" ng-show="show_modal">
+                    <li ng-click="associatedPackaging(item2)"><a>Packaging connection</a></li>
+                    <li ng-click="viewPackaging(item2)"><a>View Packaging</a></li>
+                    <li ng-click="unBind(item2,true)"><a>Remove Connection</a></li>
+                    <li ng-click="addSkuList(item2, index2, index1)"><a>Add SKU</a></li>
+                    <li ng-click="skudelet(item2, index1, index2)"><a>Delete</a></li>
+                  </ul>
+                </div>
+              </td>
+
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 分页 -->
+      <page ng-show="skulist.length > 0"></page>
+    </div>
+  </div>
+</div>
+<div class="spzd-wrap" ng-show="addskuFlag">
+  <div class="spzd-con">
+    <div class="spzd-seadiv">
+      <input placeholder="Please enter SKU" ng-model="seaSpInpVal" class="sea-inp"></input><button ng-click="seaSpFun()"
+        class="sea-btn">Search</button>
+
+    </div>
+    <div class="zdbz-listab">
+      <table class="zdbz-tab">
+        <thead>
+          <tr>
+            <th class="zdbz-th">Images</th>
+            <th class="zdbz-th">Product Title</th>
+            <th class="zdbz-th">SKU</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="zdbz-tr" ng-repeat="item in pList">
+            <td style="text-align: center;">
+              <img style="width: 60px;" ng-src="{{item.bigImg}}">
+            </td>
+            <td>
+              <tooltip
+                content="item.nameEn"
+                width="'350'"
+                maxwidth="350"
+                placement="'bottomLeft'"
+                show='hover'
+              >
+            </tooltip>
+            </td>
+            <td>
+              <p style="max-width: 130px;">{{item.sku}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- ng-show="pList.length>0&&logSet.length>0" -->
+      <div class="option"
+      >
+        <label for="">Shipping From:</label>
+        <select name="" class="addskuwl-sel" style="border:1px solid #ececec;border-radius: 3px; margin-right: 20px;"
+          ng-model="seleWare" ng-change="chanSeleWare(seleWare)" ng-options="item as item.areaEn for item in wareList">
+        </select>
+        <label for="">Shipping Method:</label>
+        <select ng-model="addWlVal" class="addskuwl-sel"
+         ng-options="item as item.nameEn for item in logSet"
+        >
+          <option value="">Please select</option>
+        </select>
+        <!-- <select ng-model="addWlVal" class="addskuwl-sel">
+          <option value="">Please select</option>
+          <option value="{{item}}" ng-repeat="item in logSet">{{item.nameEn}}</option>
+        </select> -->
+      </div>
+    </div>
+    <div class="bot-btns">
+      <button ng-click="closeBzFun()" class="bot-qx">Cancel</button>
+      <button ng-click="sureAddFun()" class="bot-sure">Confirm</button>
+    </div>
+  </div>
+</div>
+<div class="skualias-box" ng-show="skualias">
+  <div class="skualias">
+    <div class="skualias-head">
+      <h3>Your SKU</h3>
+      <i class="glyphicon glyphicon-remove" ng-click="closeSkualias()"></i>
+    </div>
+    <div class="skualias-mian">
+      <div class="skualias-from">
+        <div class="from-item" ng-show="skuItemHint&&skualiasList.skuAlisa.length<1">
+          <P>You have not set your SKU.</P>
+        </div>
+        <div class="from-item" ng-repeat="item in skualiasList.skuAlisa">
+          <p>{{item}}</p>
+          <div>
+            <img src="../../../static/image/home/icondelete.png" ng-click="delSkualias(item)" alt="">
+          </div>
+        </div>
+        <div class="from-item from-input" ng-show="skuItemFlag">
+          <div class="from-item-input">
+            <input type="text" ng-model="skuName" placeholder="Please enter your SKU">
+          </div>
+          <div class="from-item-but">
+            <button class="cancel" ng-click="cancelSku()">Cancel</button>
+            <button class="confirm" ng-click="confirmSku()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="skualias-footer" ng-show="!skuItemFlag">
+      <button ng-click="addSplit()">+ Add</button>
+    </div>
+  </div>
+</div>
+<!-- View Packaging 提示 -->
+<div class="confirm-box" ng-show="viewPackagingModal">
+  <div class="confirm-main inventory-tips">
+    <i class="iconfont confirm-close" ng-click="closeViewPackagingModal()" style="cursor: pointer;"></i>
+    <div class="confirm-title">View Packaging</div>
+    <div class="confirm-content" style="min-height: 400px;">
+      <div class="tabs">
+        <label for="select_variant">Select Variant </label>
+        <select id="select_variant" class="singleSelect" style="width:380px;height: 30px;" ng-change="onSelectPackaging()" ng-model="selectedVid">
+              <option value=""  ng-selected=''>Select Product SKU</option>
+              <option ng-value="variant.vid" ng-selected="variant == selectedVid" ng-repeat="(index,variant) in proStandList track by $index">{{variant.sku}}</option>
+            </select>
+      </div>
+      <table class="table">
+        <thead>
+        <tr>
+          <th style="width: 160px;">SKU</th>
+          <th>Packaging Name</th>
+          <th style="width: 60px;">Image</th>
+          <th style="width: 100px;">Material</th>
+          <th>Size(mm)</th>
+          <th>Weight(g)</th>
+          <th>Applied to Order</th>
+          <th>Remaining Inventory</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-show="vidCheckedList.length > 0" ng-repeat="(index,vidItem) in vidCheckedList track by $index">
+          <td>{{vidItem.sku}}</td>
+          <td>{{vidItem.name}}</td>
+          <td> <img ng-src="{{vidItem.imgUrl}}" alt="" width="40" height="40"></td>
+          <td>{{vidItem.packKey}}</td>
+          <td>{{formateSize(vidItem.size)}}</td>
+          <td>{{vidItem.weight}}</td>
+          <td>{{vidItem.packType == 1 ? 'Yes' : 'No'}}</td>
+          <td>{{vidItem.remain}}</td>
+        </tr>
+        <tr ng-show="vidCheckedList.length == 0">
+          <td colspan="8" style="height: 50px;">There is no packaging connected for the product.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- 删除弹框 -->
+<div class="pop_ups">
+  <pop-ups content="content" ng-if="deletePopup"></pop-ups>
+</div>
+
+<!-- 批量删除弹框 -->
+<div class="confirm-box"  ng-show="batchDeletePopup">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="batchDeletePopup=false"></i>
+    <div class="confirm-title" style="background-color: #fff;">
+    </div>
+    <div class="confirm-content" style="font-size: 14px;color: #666;">
+      Are you sure to bulk remove the packaging connection? Once removed, those packagings will not be connected with those products.
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="batchDeletePopup=false" class="no-btn">No</span>
+      <span ng-click="batchDeleteConfirmFun()" class="yes-btn btn-theme">Yes</span>
+    </div>
+  </div>
+</div>
+
+<!-- 单个移除关联 -->
+<div class="pop_ups">
+  <pop-ups content="content2" ng-show="showPopUps"></pop-ups>
+</div>
+
+<loading-cart top="'.table-connected'" ng-if="loading" left="12" right="12"></loading-cart>

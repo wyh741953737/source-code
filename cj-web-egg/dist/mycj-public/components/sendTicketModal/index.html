@@ -1,0 +1,82 @@
+<div class="send-ticket-modal" ng-show="visible" ng-class="isVip?'vip':''">
+    <div class="modal-center">
+        <div class="modal-center-header">
+            <span class="header-title">Submit a Ticket</span>
+            <span class="header-close"><i class="iconfont" ng-click='closeModal()'>&#xe70d;</i></span>
+        </div>
+        <div class="modal-center-body">
+            <div class="center-body-inner">
+                <div class="show-item" style="margin-top: 0">
+                    <div class="show-item-left">
+                        <span class="required-start">*</span>
+                        <span>CJ Sourcing ID：</span>
+                    </div>
+                    <div class="show-item-right">
+                        {{orderData.number}}
+                    </div>
+                </div>
+                <div class="show-item">
+                    <div class="show-item-left">
+                        <span class="required-start">*</span>
+                        <span>Send a copy to the chatroom：</span>
+                    </div>
+                    <div class="show-item-right">
+                        <span class="urgent-span" ng-click="chooseIsUrgent('1')">
+                            <input class="urgent-radio" name="isurgent" type="radio">
+                            <span class="urgent-show" ng-class="isurgent==='1'&&'urgent-show-checked'">
+                                <span class="urgent-show-inner" ng-show="isurgent==='1'"></span>
+                            </span>
+                            Yes
+                        </span>
+                        <span class="urgent-span" ng-click="chooseIsUrgent('0')">
+                            <input class="urgent-radio" name="isurgent" type="radio">
+                            <span class="urgent-show" ng-class="isurgent==='0'&&'urgent-show-checked'">
+                                <span class="urgent-show-inner" ng-show="isurgent==='0'"></span>
+                            </span>
+                            No
+                        </span>
+                    </div>
+                </div>
+                <div class="show-item">
+                    <div class="show-item-left">
+                        <span class="required-start">*</span>
+                        <span>Type of Issue：</span>
+                    </div>
+                    <div class="show-item-right">
+                        <!--                        <span-->
+                        <!--                                class="question-span {{checkedQuetion.ID===item.ID?'question-span-active':''}}"-->
+                        <!--                                ng-repeat='item in questionList track by $index' title="{{item.questionEn}}"-->
+                        <!--                                ng-show="showMore || !showMore&&$index < 5"-->
+                        <!--                                ng-click="getQuestion(item)">-->
+                        <!--                            {{item.questionCn}}-->
+                        <!--                        </span>-->
+                        <span class="urgent-span urgent-span-long" ng-repeat='item in questionList track by $index'
+                              title="{{item.questionEn}}"
+                              ng-click="getQuestion(item)" ng-click="chooseIsUrgent('1')">
+                                <input class="urgent-radio" name="quetionType" type="radio">
+                                <span class="urgent-show" ng-class="checkedQuetion.ID===item.ID && 'urgent-show-checked'">
+                                    <span class="urgent-show-inner" ng-show="checkedQuetion.ID===item.ID"></span>
+                                </span>
+                                {{item.questionEn}}
+                        </span>
+<!--                        <a class="question-more" ng-show="questionList.length > 5 && !showMore"-->
+<!--                           ng-click="showMoreQuestion()">更多</a>-->
+                    </div>
+                </div>
+                <div class="show-item" ng-show="checkedQuetion.ID === 1001">
+                    <div class="show-item-left">
+                        <span>Message：</span>
+                    </div>
+                    <div class="show-item-right textarea-content">
+                        <Textarea class="question-area" placeholder="Please enter 5 characters at least." ng-model="questionDetail"
+                                  maxlength="1000"></Textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-center-footer">
+<!--            <button class="handle-cancel" ng-click="closeModal()">取消</button>-->
+            <button class="handle-submit" ng-click="submitTicket()">Submit</button>
+        </div>
+    </div>
+</div>

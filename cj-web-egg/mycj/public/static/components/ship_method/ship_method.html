@@ -1,0 +1,97 @@
+<div class="confirm-box pd-wuli-list-wrap" ng-show="showWuliuFlag">
+  <div class="confirm-main pd-wuli-list" id="logistics-sele" style="max-width: initial;">
+    <i class="iconfont confirm-close" ng-click="wuliuCancel()"></i>
+    <div class="confirm-title">Shipping Method</div>
+    <div class="confirm-content pd-alert-wl" style="text-align: initial;padding: 20px 20px 80px;">
+      <ul class="pd-alert-ul">
+        <li class="d-flex align-items-center">
+          <label>Shipping From:</label>
+          <!-- <span style="text-align: left;" id="from-coun-span">China Warehouse</span> -->
+          <select ng-model="areaObj" ng-options="item as item.areaEn for item in inventoryList"
+            ng-disabled="platformItem == 'Shopee' && platformCountryItem.nameEn != 'International' && platformCountryItem.nameEn"
+            ng-change="chanCountryCode()"></select>
+          <div class="d-flex" ng-show="platformItem == 'Shopee' && platformCountryItem.nameEn != 'International' && platformCountryItem.nameEn">
+            <i class="iconfont shopee-tips-icon">&#xe674;</i>
+            <p style="margin:3px 0 0 5px;font-size: 13px;">We will ship from {{platformCountryItem.nameEn}}. </p>
+          </div>
+        </li>
+        <li class="clearfix">
+          <label>Platform:</label>
+          <select class="select-platform" ng-model="platformItem" ng-change="chanPlatform()">
+            <option value="">Please select</option>
+            <option ng-repeat="i in platFormList" value="{{i}}">{{i}}</option>
+          </select>
+          <label ng-show="platformCountryList.length > 0">Store Located:</label>
+          <!-- <select class="select-platform" ng-model="platformCountryItem" ng-change="chanplatformCountry()"
+            ng-show="platformCountryList.length > 0">
+            <option value="">Please select</option>
+            <option ng-repeat="i in platformCountryList" value="{{i}}">{{i.nameEn}}</option>
+          </select> -->
+          <select class="select-platform" ng-options="item as item.nameEn for item in platformCountryList"
+            ng-model="platformCountryItem" ng-change="chanplatformCountry()" ng-show="platformCountryList.length > 0"></select>
+        </li>
+        <li class="clearfix">
+          <label>Ship My Order(s) Most to:</label>
+          <select id="country-list-sele" ng-options='item as item.nameEn for item in countryList' ng-model="countryItem"
+            ng-change="chanCoun()">
+          </select>
+          <!-- ng-options='item.id as item.nameEn for item in countryList track by item.id' ng-model="countryItem" ng-change='chanCoun(item)' -->
+        </li>
+      </ul>
+      <div class="pd-table">
+        <div class="chose-ship-top">
+          <table>
+            <thead>
+              <tr class="table-title">
+                <th style="width: 210px;">Shipping Method</th>
+                <th style="width: 150px;">Estimated Delivery Time</th>
+                <th style="width: 100px;">Shipping Cost</th>
+                <th style="width: 260px;">Tracking Information</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="chose-ship-bot">
+          <table id="chose-ship-method-tab">
+            <tbody>
+              <tr ng-repeat="item in logisticList">
+                <td style="width: 210px;" class="td-method" ng-click="checkOneWuliu(item)" ng-mouseenter="handleMouseover(item)" ng-mouseleave="handleMouseout(item)">
+                  <img class="pd-alert-radio" src="/egg/image/radio/radio1.png" ng-cloak
+                    ng-show="item != checkWuliu && item != hover" ng-class="{'active': item != checkWuliu}">
+                  <img class="pd-alert-radio" ng-cloak ng-show="item == checkWuliu"
+                    src="/egg/image/radio/radio2.png" ng-class="{'active': item == checkWuliu}">
+                  <img class="pd-alert-radio" ng-cloak ng-show="item == hover && item != checkWuliu"
+                    src="/egg/image/radio/radio3.png" ng-class="{'active': item == checkWuliu}">
+                  <span>{{item.logisticName}}</span></td>
+                <td style="width: 150px;" class="td-days">{{item.aging == undefined ? '--' : (item.aging + ' days')}}
+                </td>
+                <td ng-cloak ng-show="item.discount && item.discount > 0" style="width: 100px;" class="td-cost"
+                  hasdiscount="1">
+                  <span class="td-cost-span1"
+                    style="text-decoration: line-through">{{(item.discountPrice + '').replace(' -- ', '-') | exchangeRate}}</span>
+                  <span class="td-cost-span2">{{(item.price + '').replace(' -- ', '-')| exchangeRate}}</span><br>
+                  <span class="td-cost-span3">{{'('+item.discount + '% off)'}}</span></td>
+                <td ng-show="!(item.discount && item.discount > 0)" style="width: 100px;" class="td-cost notranslate">
+                  {{(item.price+'').replace(' -- ', '-') | exchangeRate}}</td>
+                <td style="width: 260px;">{{item.aging != undefined ? 'Available' : 'Unavailable'}}
+                  <div ng-show="item.remark" class="asj-wuliu-tip-wrap">
+                    <span class="iconfont asj-wuliu-tip-icon new-color">&#xe626;</span>
+                    <div class="asj-wuliu-tip-show">{{item.remark}}</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="no-ship-method" ng-show="logisticList.length == 0">There is no shipping method to this country
+          currently.
+        </div>
+      </div>
+      <div ng-if="showCastTips(logisticList)" class="add-ship-show-tips">Please note this product is oversized. The actual shipping cost may be higher.</div>
+    </div>
+    <div class="confirm-btn-box">
+      <!-- <span ng-click="cancelFun()" class="no-btn">Cancel</span> -->
+      <span ng-click="wuliuok()" class="yes-btn btn-theme" style="width: 180px;">OK</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<div class="product-card" id="{{hashKey}}-{{productData.id}}" ng-style="{'width':_width}"
+  ng-mouseover="addToQueueFun(1)" ng-mouseleave="addToQueueFun(2)"
+  ng-class="{'product-card-hover':addToQueue,'product-card-add':productData.islist}">
+  <span class="add-icon" ng-show="productData.islist">
+    <i class="iconfont">&#xe661;</i>
+    <span class="add-icon-bg"></span>
+  </span>
+  <!--<span ng-if="istag === 'tag-1'" class="tag">{{tagFun(productData.idx,productData.index)}}</span>-->
+  <!--<span ng-if="istag === 'tag-3'" class="tag">{{productData.index + 1}}</span>-->
+  <!--<span ng-if="istag === 'tag-2'" class="tag-2">TOP<br>{{productData.index < 10 ? '0'+productData.index : productData.index}}</span>-->
+  <a cjdot cjdotshow='{"pageCode":"product-card", "keys":[{"key":"productId","value":"{{productData.id}}"}],"cardName": "{{cardTitle}}", "eventType": 0, "buttonName": "ProductCard"}' 
+  ng-click="handleImgClcick(productData)" ng-href="{{(productData.flag=='1' || productData.flag=='1-2')?'product-detail.html':'reptail-detail.html'}}?id={{fromType=='CommentList'?productData.productid:productData.id || productData.productId}}&push_id={{fromType=='CommentList'?productData.push_id:''}}&fromType={{fromType=='CommentList'?'CommentList':''}}"
+    target="_blank" class="view-detail-a">
+    <img 
+      ng-if="tracking.clickId"
+      data-tracking-element-click='{"elementId": "{{tracking.clickId}}", "actionType": "product_click", "list":[{"filedName": "productId", "fieldValue": "{{ productData.id }}"}]}'
+      class="product-img" ng-src="{{ defaultImg | IMG_SIZE: 234:220}}"
+      cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": "ProductCard"}'
+      err-src="static/image/public-img/default.jpg" id="{{uuid}}" on-finish-render
+      title="{{(productData.english || productData.nameEn) | fWordUpcase}}" ng-cloak>
+      <span ng-show="productData.isHaveVideo == 'HAVE_VIDEO'" class="isVideo iconfont" ng-cloak><!-- Video Available --></span>
+    <img 
+      ng-if="!tracking.clickId"
+      class="product-img" ng-src="{{ defaultImg | IMG_SIZE: 234:220}}"
+      cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": "ProductCard"}'
+      err-src="static/image/public-img/default.jpg" id="{{uuid}}" on-finish-render
+      title="{{(productData.english || productData.nameEn) | fWordUpcase}}" ng-cloak>
+      <span ng-show="productData.isHaveVideo == 'HAVE_VIDEO'" class="isVideo iconfont" ng-cloak><!-- Video Available --></span>
+  </a>
+  <div class="info">
+    <h3 
+      ng-if="tracking.clickId"
+      data-tracking-element-click='{"elementId": "{{tracking.clickId}}", "actionType": "product_click", "list":[{"filedName": "productId", "fieldValue": "{{ productData.id }}"}]}'
+      class="tit" title="{{(productData.english || productData.nameEn) | fWordUpcase}}"
+      cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": ProductCard"}'
+      ng-click="goTodetail(productData,$event)" ng-cloak>
+      {{(productData.english || productData.nameEn) | fWordUpcase}}
+    </h3>
+    <h3 
+      ng-if="!tracking.clickId"
+      class="tit" title="{{(productData.english || productData.nameEn) | fWordUpcase}}"
+      cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": ProductCard"}'
+      ng-click="goTodetail(productData,$event)" ng-cloak>
+      {{(productData.english || productData.nameEn) | fWordUpcase}}
+    </h3>
+      <!-- flag:1代发商品，1-2代发商品，但是不显示View Inventory等按钮 -->
+    <div class="info-txt">
+      <div>
+        <span class="listedNum" ng-if="isSales" ng-cloak>Sales: {{productData.salesCount}}</span>
+        <span class="listedNum" ng-if="productData.flag == 1 || productData.flag=='1-2'" ng-cloak>
+          <span ng-if="productData.isAut != 1">
+            <span ng-if="productData.num&&productData.num>1">Lists:</span>
+            <span ng-if="!productData.num || productData.num < 2">List:</span> {{productData.num||0}}
+          </span>
+        </span>
+        <!-- 包邮角标 -->
+        <div 
+          class="freeShip" 
+          ng-if="productData.addMarkStatus == 1 && !(!productData.productType && !productData.PRODUCTTYPE) && (productData.productType === '5' || productData.PRODUCTTYPE === '5')"
+        >
+          <div class="shipModel" v-if="product.showFreeShip">
+            <div class="long-text">Free Shipping</div>
+          </div>
+        </div>
+        <i ng-show="productData.isPersonalized == '1'" class="Personalise" ng-cloak></i>
+      </div>
+
+      <div>
+        <i 
+          ng-if="tracking.collectionId"
+          data-tracking-element-click='{"elementId": "{{tracking.collectionId}}", "actionType": "product_collection", "list":[{"filedName": "productId", "fieldValue": "{{ productData.id }}"}, {"filedName": "collectionState", "fieldValue": "{{ productData.isCollect }}"}]}'
+          class="iconfont unwishlist" ng-show="productData.isCollect == 0"
+          cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"},{"key":"collectType","value":"{{collectType}}"}], "eventType": 1, "buttonName": "collection"}'
+          ng-click="collectMerch($event)" ng-cloak></i>
+        <i 
+          ng-if="!tracking.collectionId"
+          class="iconfont unwishlist" ng-show="productData.isCollect == 0"
+          cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"},{"key":"collectType","value":"{{collectType}}"}], "eventType": 1, "buttonName": "collection"}'
+          ng-click="collectMerch($event)" ng-cloak></i>
+        <i class="iconfont wishlist bounceInDown animated" ng-show="productData.isCollect == 1"
+        cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"},{"key":"collectType","value":"{{collectType}}"}], "eventType": 1, "buttonName": "collection"}'
+        ng-click="collectMerch($event)" ng-cloak></i>
+        <!-- <img class="Nwishlist" src="static/image/CJ-home/icon_love@2x.png"
+          ng-if="productData.isCollect == 0"
+          ng-click="collectMerch(productData.flag,  fromType=='CommentList'?productData.productid:productData.id, $event,fromType=='CommentList'?'CommentList':'', fromType=='CommentList'?productData.push_id:'')"
+          ng-mouseenter="MerchEnter($event)" ng-mouseleave="MerchLeave($event)" ng-cloak>
+        <img class="Ywishlist" src="static/image/CJ-home/icon_wishlist_click@2x.png"
+          ng-if="productData.isCollect == 1"
+          ng-click="collectMerch(productData.flag, fromType=='CommentList'?productData.productid:productData.id, $event,fromType=='CommentList'?'CommentList':'')" ng-cloak> -->
+      </div>
+    </div>
+    <div class="listed">
+      <div class="price" title="{{productData | priceProcessor | exchangeRate}}" ng-cloak ng-show="!productData.nowPrice">
+        {{productData | priceProcessor | exchangeRate}}
+      </div>
+      <div class="price" title="{{productData.nowPrice | nowpriceProcessor | exchangeRate}}" ng-cloak ng-show="productData.nowPrice">
+        <span class="theme-price">{{productData.nowPrice | nowpriceProcessor | exchangeRate}}</span>
+        <del class="origin-price" ng-show="productData.sellPrice">{{productData.sellPrice | nowpriceProcessor | exchangeRate}}</del>
+      </div>
+      <a class="ui-card-btn btn-card-theme add-cart-btn" href="javascript:void(0);" ng-click="addCartFun(productData.id || productData.productId,$event)" ng-cloak ng-show="isaddcartbtn">
+        {{purchaseListIn ? 'Bulk Purchase' : 'Add to cart'}}
+      </a>
+    </div>
+    <div class="listed">
+      <div class="product-card-btn" ng-mouseover="getInventory()" ng-if="productData.flag==1">
+          <div class="text-truncate">View Inventory</div>
+          <div class="inventory-show-more" ng-show="productData.INVENTORCOUNTRY">
+              <div class="triangle"></div>
+              <ul class="show-more-list">
+                  <li class="show-more-item" ng-repeat="item in productData.INVENTORCOUNTRY">
+                      <span>{{item.areaEn}}</span> <span class="num">{{item.num||0}}</span>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <a class="ui-card-btn btn-card-theme" href="javascript:void(0);" ng-if="productData.flag==0"
+          cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": "Source"}'
+          ng-click="listOrsourceBtn(productData,$event,'source')" ng-cloak>Source</a>
+      <a class="ui-card-btn btn-card-theme" href="javascript:void(0);" ng-if="productData.flag==1"
+          cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": "List"}'
+          ng-click="listOrsourceBtn(productData,$event,'list')" ng-cloak>List</a>
+    </div>
+    <div class="shop" ng-if="country=='th'">
+      <p ng-if="productData.shop_name"><img class="shop-icon" ng-src="{{productData.shop_logo}}" alt=""><a class="shop-link" ng-click="toMyStore(productData)">{{productData.shop_name||''}}</a></p>
+      <p ng-if="!productData.shop_name"><img class="shop-icon" src="static/image/shop/logo.png" alt=""><span class="shop-name">CJ</span>  </p>
+    </div>
+  </div>
+  <div class="addToQueue-box" ng-show="addToQueue">
+    <div ng-if="tracking.addToQueueId" data-tracking-element-click='{"elementId": "{{tracking.addToQueueId}}", "actionType": "product_add_to_queue", "list":[{"filedName": "productId", "fieldValue": "{{ productData.id }}"}, {"filedName": "queueState", "fieldValue": "{{ productData.isQueue }}"}]}' class="addToQueue ui-card-btn btn-card-theme" cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": "Add to Queue"}' ng-click="addToQueueRun(productData,$event)">
+      <span class="addToQueue-icon">+</span> Add to Queue
+    </div>
+    <div ng-if="!tracking.addToQueueId" class="addToQueue ui-card-btn btn-card-theme" cjstat cjstatshow='{"keys":[{"key":"productId","value":"{{productData.id}}"}], "eventType": 1, "buttonName": "Add to Queue"}' ng-click="addToQueueRun(productData,$event)">
+      <span class="addToQueue-icon">+</span> Add to Queue
+    </div>
+  </div>
+  
+</div>
+<div id="isCJPub" ng-show="addToWaitlistFlag" ng-cloak>
+  <div class="CJ-content">
+    <span class="close" ng-click="addToWaitlistFlag=false">×</span>
+    <h3>Prompt</h3>
+    <p>Added to queue success, list them now?</p>
+    <button class="btn1" ng-click="toWaitlist()">List Now</button>
+    <button class="btn2" ng-click="addToWaitlistFlag=false">List Later</button>
+  </div>
+</div>

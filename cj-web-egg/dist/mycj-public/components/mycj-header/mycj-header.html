@@ -1,0 +1,267 @@
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_hv29diaf0wf.css">
+
+<div class="header-con">
+  <!-- logo部分 -->
+  <div class="header-logo">
+    <a href="home.html"><img src="/egg/image/new_logo.svg" height="40"></a>
+  </div>
+  <!-- 导航部分 -->
+  <div class="header-nav" ng-show='showTopMenu'>
+    <ul>
+      <li id="tab_mycj" ng-class="{active: mycj_active}">
+        <a href="#/myCJAssociatedStore">My CJ</a>
+      </li>
+      <li id="tab_order" ng-class="{active: dropCenter_active}">
+        <a ng-click="goDropshipping()" href="#" onclick="return false">Dropshipping Center</a>
+      </li>
+      <li id="tab_product" ng-class="{active: products_active}">
+        <a href="#/products-connection/connected">Products</a>
+        <span class="badge sold-out-count" ng-cloak ng-if="soldOutCount > 0">{{soldOutCount}}</span>
+      </li>
+      <li id="tab_pod" ng-class="{active: pod_active}">
+        <a href="#/pod/buyer-design">Print on Demand</a>
+      </li>
+      <li id="tab_authorize" ng-class="{active: authorize_active}">
+        <a href="#/authorize/Shopify">Authorization</a>
+      </li>
+    </ul>
+  </div>
+  <div class="hnj-header-nav new-mycj-header">
+    <div class="mes-wrap" style="width: 30px;">
+      <div class="message-center">
+        <div class="message-img-flag" on-finish id='msgBar'>
+          <div class="mes-img-logo">
+            <i class="iconfont iconxiaoxi"></i>
+          </div>
+          <!-- <div class="mes-flag-num" ng-cloak
+            ng-if="messageNum>0 && messageNum<10">{{messageNum}}</div>
+          <div class="mes-flag-num mes-shuang" ng-cloak
+            ng-if="messageNum>=10 && messageNum<=99">{{messageNum}}</div>
+          <div class="mes-flag-num mes-over" style="border-radius:9px;" ng-cloak
+            ng-if="messageNum>99">99+</div> -->
+
+          <!-- <div class="show-mes-detail index-message-box">
+            <div class="message-list-all">
+              <div class="message-list-allTitle" ng-repeat="item in messageTab">
+                <div class="message-list-CJ">
+                  <div class="list-font" ng-class="{'activeTab': item.isActive}" ng-click="checkMessage(item)"
+                    ng-show="vip==0">{{item.name}}</div>
+                  <div class="list-font" ng-class="{'mark-allVip': item.isActive}" ng-click="checkMessage(item)"
+                    ng-show="vip==1">{{item.name}}</div>
+
+                    <div ng-class="vip=='1'?'list-count message-list-CJVip':'list-count'"  ng-click="checkMessage(item)"
+                     ng-show="item.count>0 && item.count<10">{{item.count}}</div>
+                    <div ng-class="vip=='1'?'list-count list-count-long message-list-CJVip':'list-count list-count-long'"  
+                    ng-click="checkMessage(item)" ng-show="item.count>=10 && item.count<=99">{{item.count}}</div>
+                    <div ng-class="vip=='1'?'list-count list-count-lenth message-list-CJVip':'list-count list-count-lenth'" 
+                     ng-click="checkMessage(item)" ng-show="item.count>99">99+</div>
+
+                </div>
+              </div>
+            </div>
+            <ul class="mes-d-ul message-list" ng-show="messagePre.length > 0">
+              <li ng-repeat="item in messagePre" class="message-item" ng-class="{'has-red-yes': item.isread == 1, 'isTop': item.noticeSpecify == 0&&vip!='1', 'isTopVIP': item.noticeSpecify == 0&&vip=='1'}">
+                <div class="message-item-box">
+                  <b ng-if="item.noticeSpecify == 0" class="isTopBage" ng-class="{'isTopBageVIP': vip == '1'}"></b>
+                  <a href="{{item.url ? item.url + '&href' : '#/message-list/' + item.id}}" ng-show="MessageType=='1'">
+                    <div class="mes-left-detail">
+                      <p class="mes-detail-titp" ng-show="MessageType=='1'">{{item.notificationType}}</p>
+                      <p class="mes-detail-p" ng-show="MessageType=='1'">{{item.info}}</p>
+                    </div>
+                    <div class="mes-right-time">
+                      <span class="mes-time"
+                        ng-show="MessageType=='1'">{{item.sendDate  | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </div>
+                  </a>
+                  <a ng-show="MessageType=='2'" ng-click="toElites(item)"
+                    ng-class="{'has-read-yes': item.read_status == 1}">
+                    <div class="mesElit-left-detail">
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='1'">
+                        {{item.user_name}} <span>follow you</span> </p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='2'">
+                        {{item.user_name}} <span style="color: #999;">support your article</span></p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='3'">
+                        {{item.user_name}} <span style="color: #999;">support your answer</span></p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='4'">
+                        {{item.user_name}} <span style="color: #999;">answer your question</span></p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='5'">
+                        {{item.user_name}} <span style="color: #999;">comment your article</span></p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='6'">
+                        {{item.user_name}} <span style="color: #999;">comment your question</span></p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='7'">
+                        {{item.user_name}} <span style="color: #999;">comment your answer</span></p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='8'">
+                        {{item.user_name}} <span style="color: #999;">replied to your comment under the article</span>
+                      </p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='9'">
+                        {{item.user_name}} <span style="color: #999;">replied to your comment under the
+                          question</span></p>
+                      <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='10'">
+                        {{item.user_name}} <span style="color: #999;">replied to your comment under the answer of
+                          question</span></p>
+                    </div>
+                    <div class="mesElit-right-time">
+                      <span class="mes-time"
+                        ng-show="MessageType=='2'">{{item.create_time.time  | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </div>
+                  </a>
+                  <a ng-show="MessageType=='3'" ng-click="toElites(item)" class="shopping-box"
+                    ng-class="{'has-read-yes': item.is_read == 1}">
+                    <div class="shopping-left-detail">
+                      <img ng-src="{{item.img_url_one}}" alt="" class="shopping-left-img">
+                    </div>
+                    <div class="shopping-right-time">
+                      <p class="shopping-title">{{item.title}}</p>
+                      <p class="shopping-content">{{item.content}}</p>
+                      <span class="shopping-time">{{item.create_time  | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </div>
+                  </a>
+                </div>
+                
+              </li>
+            </ul>
+
+            <div class="message-list" ng-show="messagePre.length==0">
+              <div class="not-found-data" ng-cloak>
+                <img ng-show="vip != 1" src="/egg/image/msg-all/nodata.png" style="width: 80px;">
+                <img ng-show="vip == 1" src="/egg/image/msg-all/nodata-vip.png" style="width: 80px;">
+                <p class="NodataList">Sorry, no data found.</p>
+              </div>
+            </div>
+            <div class="mes-bottom-information">
+              <span href="javascript:void(0);" ng-click="toMarkAll()" class="mark-all-read"
+                ng-style="{color:isMark?'#999':''}">Mark All as Read</span>
+              <span href="javascript:void(0);" ng-click="toAllMessage()"
+                ng-class="vip=='1'?'read-all mark-allVip':'read-all'">Read All ></span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- <div class="user-avatar-box">
+      <img class="user-avatar" ng-src="{{avatar}}" alt="">
+    </div> -->
+    <!-- 用户 -->
+    <div class="hi-user" style="overflow: inherit;">
+      <div class="hiuser" ng-mouseenter="showUserUp=true" ng-mouseleave="showUserUp=false">
+        <a href="javascript:void(0)" class="header-user" ng-class="{'vip-hover': vip == '1', 'hi-user-hover': showUserUp}"
+          style="text-align: center;width: 100%;display: block;cursor: default;">Hi  
+          <span ng-bind="admin"></span>
+          <i ng-if="showUserUp" class="iconfont iconshang1 font-size-12 pl-5" style="padding-left: 0 !important;"></i>
+          <i ng-if="!showUserUp" class="iconfont iconxia2 font-size-12 pl-5" style="padding-left: 0 !important;"></i>
+        </a>
+      </div>
+      <!-- 悬浮窗 -->
+      <div class="header-tip clearfix" style="display: none;" ng-mouseenter="showUserUp=true" ng-mouseleave="showUserUp=false">
+        <ul>
+          <li class="header-tip-li">
+            <!-- <div class="com-head-link"> -->
+              <!-- <i class="iconfont iconicon_profile user-icon-mycj"></i> -->
+              <i class="iconfont icongerenzhongxin"></i>
+              <a ng-href="{{disposeHrefFn('myCJ.html#/profile', '/profile')}}" style="color: #333333" class="header-tip-li-hover">Profile</a>
+            <!-- </div> -->
+          </li>
+          <li class="header-tip-li">
+            <!-- <div class="com-head-link"> -->
+              <!-- <i class="iconfont iconicon_profilecopy card-icon-mycj"></i> -->
+              <i class="iconfont iconzhanghu"></i>
+              <a ng-href="{{disposeHrefFn('myCJ.html#/myCJWallet', '/myCJWallet')}}" style="color: #333333;" class="header-tip-li-hover">Wallet</a>
+            <!-- </div> -->
+          </li>
+          <li class="header-tip-li">
+            <!-- <div class="com-head-link" style="position: relative;"> -->
+              <!-- <i class="iconfont iconicon_tool tool-icon-mycj"></i> -->
+              <i class="iconfont iconwuliu"></i>
+              <a style="color: #333333;" class="header-tip-li-hover">Tool</a>
+              <i class="iconfont iconlujingbeifen2" style="position: absolute; right: 20px; bottom: 0;font-size: 8px !important;"></i>
+            <!-- </div> -->
+            <ul class="com-tool-ul">
+              <li><a target="_blank" ng-href="{{disposeHrefFn('https://cjpacket.com/', 'Tool')}}">Track Orders</a></li>
+              <li><a ng-href="{{disposeHrefFn('calculation.html', 'Tool')}}">Shipping
+                  Calculation</a></li>
+            </ul>
+          </li>
+          <li class="header-tip-li">
+            <!-- <div class="com-head-link"> -->
+              <!-- <i class="iconfont icongyspj rating-icon"></i> -->
+              <i class="iconfont icongongyingshangpingjia"></i>
+              <a href="/evalute.html" style="color: #333333;" class="header-tip-li-hover">Rating &nbsp;&nbsp;<span class="notranslate">({{evaluteCount ? evaluteCount : 0}})</span></a>
+            <!-- </div> -->
+          </li>
+          <li class="header-tip-li">
+            <!-- <div class="com-head-link"> -->
+              <!-- <i class="iconfont iconzhanghuguanli"></i> -->
+              <i class="iconfont iconzizhanghu"></i>
+              <a href="{{disposeHrefFn('myCJ.html#/accountManage', '/accountManage')}}" style="color: #333333;" class="header-tip-li-hover">Account</a>
+            <!-- </div> -->
+          </li>
+          <!-- <li class="header-tip-li">
+              <i class="iconfont iconjingshi"></i>
+              <a href="{{disposeHrefFn('myCJ.html#/warning_set', '/warning_set')}}" style="color: #333333;" class="header-tip-li-hover">Inventory Alert</a>
+          </li> -->
+          <li ng-click="logout()" class="header-tip-li">
+            <!-- <div class="com-head-link"> -->
+              <!-- <i class="iconfont iconicon_log-out logout-icon-mycj"></i> -->
+              <i class="iconfont icontuichu"></i>
+              <a style="color: #333333;" class="header-tip-li-hover">Log out</a>
+            <!-- </div> -->
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 帮助 -->
+    <div class="header-help" ng-mouseenter="showHelpUp=true" ng-mouseleave="showHelpUp=false">
+      <div style="height:30px;">
+        <a href="javascript:void(0);" class="header-help-content" ng-class="{'vip-hover': vip == '1', 'header-help-content-hover': showHelpUp}" style="cursor: default;">
+          <span style="font-size: 14px;">Support Center</span>
+          <i ng-if="showHelpUp" class="iconfont iconshang1 font-size-12 pl-5" style="padding-left: 0 !important;"></i>
+          <i ng-if="!showHelpUp" class="iconfont iconxia2 font-size-12 pl-5" style="padding-left: 0 !important;"></i>
+        </a>
+      </div>
+      <!-- <ul>
+        <li>
+          <a href="javascript:void(0);" class="header-help-content" ng-class="{'vip-hover': vip == '1'}" style="cursor: default;">
+            <span>Support Center</span>
+            <i ng-if="showHelpUp" class="iconfont iconshang1 font-size-12 pl-5" style="padding-left: 0 !important;"></i>
+            <i ng-if="!showHelpUp" class="iconfont iconxia2 font-size-12 pl-5" style="padding-left: 0 !important;"></i>
+          </a>
+        </li>
+      </ul> -->
+      <!-- 下拉菜单 -->
+      <div class="hnj-xialamenu clearfix" ng-mouseenter="showHelpUp=true" ng-mouseleave="showHelpUp=false">
+        <ol>
+          <li>
+            <div class="com-head-link">
+              <i class="iconfont iconticket icon-size-center"></i>
+              <a class="com-head-a" ng-href="{{disposeHrefFn('myCJ.html#/ticketList', '/ticketList?track')}}">Ticket</a>
+            </div>
+          </li>
+          <li>
+            <div class="com-head-link">
+              <i class="iconfont icontutorial icon-size-center"></i>
+              <a class="com-head-a" ng-href="{{disposeHrefFn('/help-center', 'Tutorial')}}" target="_blank">Help Center</a>
+            </div>
+          </li>
+          <li>
+            <div class="com-head-link">
+              <i class="iconfont iconelites icon-size-center"></i>
+              <a class="com-head-a" ng-href="{{disposeHrefFn(ElitesUrl, 'Elites')}}" target="_blank">Elites</a>
+            </div>
+          </li>
+          <li>
+            <div class="com-head-link">
+              <i class="iconfont iconboke icon-size-center"></i>
+              <a class="com-head-a" ng-href="{{disposeHrefFn('https://blog.cjdropshipping.com/', 'Blog')}}" target="_blank">Blog</a>
+            </div>
+          </li>
+          <!-- <li> 19-12-24 先去掉，样式用问题，不要删
+                <div class="com-head-link">
+                  <i class="iconfont iconnewuserguide"></i>
+                  <a class="com-head-a" style="color: #333333;" ng-click="newUser()">New User Guide</a>
+                </div>
+              </li> -->
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

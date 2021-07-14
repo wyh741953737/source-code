@@ -1,0 +1,590 @@
+<loading-cart ng-if="loading" xmlns="http://www.w3.org/1999/html"></loading-cart>
+
+<style type="text/css">
+  .bigimg {
+	  position: absolute;
+	  top: -70px;
+	  left: 106%;
+	  z-index: 999;
+	  max-width: 360px;
+	  width: 360px;
+	  height: 360px;
+	  display: none;
+  }
+
+  .product-showimg:hover .bigimg {
+    display: block;
+  }
+
+  #delete:hover {
+    background-color: #CEC5C5;
+  }
+
+  .sourcing-tankuang-modal {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+
+  .sourcing-tankuang {
+    display: none;
+    width: 20%;
+    min-width: 400px;
+    height: 200px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    padding: 25px;
+    border: 1px solid #ccc;
+    /* box-shadow: 0 0 20px #C1C1C1; */
+    border-radius: 5px;
+  }
+
+  .sourcing-tankuang .btns {
+    display: flex;
+    justify-content: space-between;
+    width: 55%;
+    min-width: 100px;
+    margin: 34px auto 0;
+  }
+
+  .sourcing-tankuang .btns button {
+    padding: 4px 8px;
+    color: #fff;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .priceTip {
+    display: block;
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px #C1C1C1;
+    border-radius: 5px;
+    background-color: #fff;
+    width: 100px;
+    height: 40px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .mycj-right-bar {
+    padding-top: 10px;
+  }
+
+  .sourcing-info {
+    display: inline-block;
+    font-size: 14px;
+    position: relative;
+  }
+  .asj-wuliu-tip-show{
+	  width: 330px;
+	  padding: 10px;
+    text-align: left;
+  }
+  .asj-wuliu-tip-show.sourcingPop{
+    left:50%;
+    transform: translateX(-50%);
+    /* background-color: #fff; */
+    /* box-shadow:0px 2px 8px 0px rgba(0,0,0,0.15); */
+    border-radius:4px;
+    /* color:#333; */
+    padding:0;
+    border:0;
+    width:417px;
+    line-height:22px;
+    /* overflow: hidden; */
+  }
+  .new-wuliu-tip {
+    background: none;
+  }
+  .new-wuliu-tip:before {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0,0,0,0.75) transparent;
+  }
+  .sourcingPop .sourcingPop-head{
+    padding:10px 20px;
+    background-color:#FFFAEB;
+  }
+  .sourcingPop .sourcingPop-head .content{
+    color:#666666;
+    word-break: break-word;
+    text-indent: 10px;
+  }
+  .sourcingPop .sourcingPop-con{
+    padding:16px 20px;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .iconfont.notice{
+    font-size:12px;
+    color:#F78E29;
+  }
+  .iconfont.notice.vip{
+    color:var(--color-theme-1-vip);
+  }
+  .iconfont.notice.vip:hover {
+    color: var(--color-theme-1-1-vip);
+  }
+  .sourcing-btn{
+    height:30px;
+    line-height: 30px;
+    padding:0 15px;
+    color:#fff;
+    border-radius: 4px;
+    background: linear-gradient(224deg,rgba(255,204,117,1) 0%,rgba(247,142,41,1) 100%);
+    /* transition: all .45s; */
+    float:right;
+    display: block;
+  }
+  .sourcing-btn:hover{
+    opacity: 0.6;
+    color:#fff!important;
+  }
+  .sourcing-btn.vip{
+    background:linear-gradient(228deg,rgba(242,215,161,1) 0%,rgba(223,173,101,1) 100%);
+  }
+  span.limit-configration{
+    color:#FF7700;
+  }
+
+  /* 1688/tao */
+  .isVip .asj-default-imgbox .mycj-btn-noData{
+    background-color: #F1D69E;
+    color: #333333;
+  }
+  .isVip .asj-default-imgbox .mycj-btn-noData:hover{
+    background-color: #D9C08E;
+    color: #333333;
+  }
+
+  .asj-default-imgbox .see-more {
+    text-align: center;
+    color: #ff7700;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 16px;
+    border: 1px solid #ff7700;
+    background-color: transparent;
+  }
+  .asj-default-imgbox .see-more:hover {
+    color: #E56A00;
+    background-color: transparent;
+    border: 1px solid #E56A00;
+  }
+  .isVip .asj-default-imgbox .see-more {
+    color: #DDA863;
+    border: 1px solid #DDA863;
+    background-color: transparent;
+  }
+  .isVip .asj-default-imgbox .see-more:hover {
+    color: #C69658;
+    background-color: transparent;
+    border: 1px solid #C69658;
+  }
+
+  .asj-default-imgbox .see-more:hover .third-party {
+    height: 160px;
+    opacity: 1;
+    transition: .5s;
+  }
+
+  .asj-default-imgbox .see-more .more-down {
+    color: #ff7700;
+    font-size: 14px;
+    margin-left: 8px;
+  }
+  .asj-default-imgbox .see-more:hover .more-down{
+    color: #E56A00;
+  }
+  .isVip .asj-default-imgbox .see-more .more-down {
+    color: #DDA863;
+  }
+  .isVip .asj-default-imgbox .see-more:hover .more-down{
+    color: #C69658;
+  }
+ 
+  .asj-default-imgbox .default-img{
+    width: 200px;
+  }
+  .asj-default-imgbox .default-msg{
+    margin-top: 20px;
+  }
+
+  .asj-default-imgbox .third-party {
+    position: absolute;
+    top: 45px;
+    width: 100% !important;
+    font-size: 14px;
+    /*font-family: PingFangSC-Regular;*/
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 1px 4px 1px rgba(213, 212, 212, 0.48);
+    overflow: hidden;
+    border-radius: 2px;
+    z-index: 100;
+    height: 0;
+    opacity: 0;
+    transition: .5s;
+  }
+  .asj-default-imgbox .third-party li {
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+  }
+  .asj-default-imgbox .third-party li:hover {
+    /*background-color: #FF7700;*/
+    background: rgba(255, 119, 0, .2);
+    color: #FF7700;
+    cursor: pointer;
+  }
+  .isVip .asj-default-imgbox .third-party li:hover {
+    /*background-color: #FF7700;*/
+    background: rgba(221,168,99, .2);
+    color: #DDA863;
+    cursor: pointer;
+  }
+
+  .asj-default-imgbox .third-party li:last-child {
+    border: none;
+  }
+  /* 1688/tao End */
+
+</style>
+<!-- 左边部分 -->
+<div class="sourcing" ng-class="{'isVip':isVip()}">
+  <div class="mycj-right-wrap p-3">
+    <div class="seachgoods-con">
+      <!-- 搜索 导出部分 -->
+      <div class="search-order" ng-hide="noData">
+        <div class="date-info">
+          <span class="date-tips">Updated Date:</span>
+          <wui-date format="yyyy-mm-dd" placeholder="Start" btns="{'ok':'Confirm','now':'Now'}"
+          ng-model="startUpdateAt" position="top" class="cj-date" ></wui-date>
+          <span class="link"></span>
+          <wui-date format="yyyy-mm-dd" placeholder="End" btns="{'ok':'Confirm','now':'Now'}"
+          ng-model="endUpdateAt" position="top" class="cj-date"></wui-date>
+        </div>
+        <input class="search-inp" placeholder="Enter Product Name/Sourcing ID" ng-model="searchname" >
+        <span class="search-btn btn-theme" cjdot cjdotshow='{"eventType":2}' id="searchbtn" href="javascript:void(0)" ng-click="searchsouce(searchname)" >Search</span>
+        <!-- <select class="select-search-stu" ng-model="sourcestatus1" ng-change="sourcechange(sourcestatus1)">
+          <option value="">All Status</option>
+          <option value="1">Pending</option>
+          <option value="2">Sourcing Failed</option>
+          <option value="3">Sourcing Success</option>
+        </select> -->
+        <div class="sourcing-info">
+          <div style="display: flex;">
+	          <div ng-if="dayNum === 100000">
+		          Sourcing Limits: No
+	          </div>
+	          <div ng-if="dayNum !== 100000">
+		          Sourcing Limits: <span class="notranslate">{{(dayNum - count)+'/'+dayNum}}</span> <span class="limit-configration notranslate" ng-if="activityNum > 0">(+{{ activityNum }})</span>
+	          </div>
+            <div class="asj-wuliu-tip-wrap" style="display: inline-block; margin-left: 5px;">
+              <span class="iconfont asj-wuliu-tip-icon notice" ng-class="{'vip':isVip()}">&#xe6d0;</span>
+              <div class="asj-wuliu-tip-show sourcingPop new-wuliu-tip">
+                <div class="sourcingPop-head" ng-if="activityNum > 0">
+                  <span class="iconfont asj-wuliu-tip-icon notice" style="font-size:16px;float: left;" ng-class="{'vip':isVip()}">&#xe6ce;</span>
+                  <div class="content">
+                    {{ activityContent }}
+                  </div>
+                </div>
+                <div class="sourcingPop-con">
+                  Your current limit is <span class="notranslate">{{dayNum === 100000 ? 'unlimited' : numFormat(dayNum)}}</span> <span class="limit-configration notranslate" ng-if="activityNum > 0">(+{{ activityNum }})</span> per day.</br>
+                  LV1 users can post 5 sourcing requests daily.<br/>
+                  LV2 users can post 10 sourcing requests daily.<br/>
+                  LV3 users can post 20 sourcing requests daily.<br/>
+                  LV4 users can post 50 sourcing requests daily.<br/>
+                  LV5 and VIP users have no limits on sourcing requests.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="sourcing-btn" ng-class="{'vip':isVip()}" href="#/add-sourcing////">Post Sourcing Request</a>
+
+      </div>
+      <!-- 订单的表格部分 -->
+      <div cjdot cjdotshow='{"pageCode":"sourcing", "eventType": 2}' class="source-orders-list">
+        <table ng-show="!noData" class="orders-table" id="sourcing-list">
+          <thead>
+            <tr>
+              <th class="check-th" style="width: 110px;">
+                <div style="width: 100%; display: flex; align-items: center;">
+                  <span>Created Date</span>
+                  <div class="turnIconBox">
+                    <i class="iconfont iconshang1 turnIcon" ng-click="handleTrun(2, 2)" ng-class="{'turnIconActive': timeSortType == 2 && sortType == 2}"></i>
+                    <i class="iconfont iconxia2 turnIcon" ng-click="handleTrun(2, 1)" ng-class="{'turnIconActive': timeSortType == 2 && sortType == 1}"></i>
+                  </div>
+                </div>
+                
+              </th>
+              <th class="check-th" style="width: 110px;">
+                <div style="width: 100%; display: flex; align-items: center;">
+                  <span>Updated Date</span>
+                  <div class="turnIconBox">
+                    <i class="iconfont iconshang1 turnIcon" ng-click="handleTrun(1, 2)" ng-class="{'turnIconActive': timeSortType == 1 && sortType == 2}"></i>
+                    <i class="iconfont iconxia2 turnIcon" ng-click="handleTrun(1, 1)" ng-class="{'turnIconActive': timeSortType == 1 && sortType == 1}"></i>
+                  </div>
+                </div>
+              </th>
+              <th>Sourcing ID</th>
+              <th>
+                <!-- Style : -->
+                <select id="dcl-sel-store" class="sel-box" style="width: 85px;" ng-model="sourcetype"
+                  ng-change="selectChangeFun(sourcetype)">
+                  <option value="">All Style</option>
+                  <option value="2">Google Extension</option>
+                  <option value="0">Store's</option>
+                  <option value="1">Individual</option>
+                </select>
+              </th>
+              <th>
+                <!-- Status -->
+                <select class="sel-box" style="width: 130px;" ng-model="sourcestatus1" ng-change="sourcechange(sourcestatus1)">
+                  <option value="">All Status</option>
+                  <option value="1">Pending</option>
+                  <option value="2">Sourcing Failed</option>
+                  <option value="3">Sourcing Success</option>
+                </select>
+              </th>
+              <th style="width: 15%;">Product Title</th>
+              <th>Images</th>
+              <!-- <th style="width: 15%;">URL</th> -->
+              <th style="width: 15%;">SKU</th>
+              <th>Purchase Type</th>
+              <th style="min-width: 80px;">Store Price</th>
+              <th style="min-width: 80px;">Target Price</th>
+              <th>Description</th>
+              <th>Supplier</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="sourceList in listArr track by $index" ng-hide="noData">
+            <tr class="white-tr">
+              <td colspan="16"></td>
+            </tr>
+            <tr class="order-detail">
+              <td class="order-time">
+                <div class="time-div">
+                  <span>{{sourceList.date1}}</span>
+                  <span>{{sourceList.date2}}</span>
+                </div>
+              </td>
+              <td class="order-time">
+                <div class="time-div">
+                  <span>{{sourceList.updateAt}}</span>
+                </div>
+              </td>
+              <td>
+               {{sourceList.number}}
+              </td>
+              <td>
+                <p ng-if="sourceList.sourcetype=='0'" class="break-word">
+                  <span>Store's</span>
+                  <br>
+                  <span style="color: #ccc;">({{sourceList.ShopName==""?"--":sourceList.ShopName}})</span>
+                </p>
+                <p ng-if="sourceList.sourcetype=='1'" class="break-word">Individual</p>
+                <p ng-if="sourceList.sourcetype=='2'" class="break-word">Google Extension</p>
+              </td>
+              <td style="width: 135px;" ng-hide="sourceList.sourcetype=='2'">
+                <p class="cj-source-status" ng-if="sourceList.status =='1' || sourceList.status =='6'
+                || sourceList.status =='7' || sourceList.status =='8' || sourceList.status =='9' || sourceList.status =='10' || (sourceList.status =='2' && sourceList.supplier_id)"
+                  style="color: #f1ca16;">Pending</p>
+                <p class="cj-source-status" ng-if="(sourceList.status =='2' && !sourceList.supplier_id)" style="color: #e44101;">
+                  Sourcing Failed</p>
+                <p class="cj-source-status" ng-if="sourceList.status =='3'" style="color: #04a452;">
+                  Sourcing Succeeded</p>
+                <p class="cj-source-status" ng-if="sourceList.status =='5'" style="color: #a48409;">
+                  Processing</p>
+              </td>
+              <td style="width: 135px;" ng-show="sourceList.sourcetype=='2'">
+                <p class="cj-source-status" ng-if="sourceList.status =='1' || sourceList.status =='6'
+                || sourceList.status =='7' || sourceList.status =='8' || sourceList.status =='9' || sourceList.status =='10' || (sourceList.status =='0' && sourceList.supplier_id)"
+                  style="color: #f1ca16;">Pending</p>
+                <p class="cj-source-status" ng-if="(sourceList.status =='0' && !sourceList.supplier_id)" style="color: #e44101;">
+                  Sourcing Failed</p>
+                <p class="cj-source-status" ng-if="sourceList.status =='2'" style="color: #04a452;">
+                  Sourcing Succeeded</p>
+                <p class="cj-source-status" ng-if="sourceList.status =='5'" style="color: #a48409;">
+                  Processing</p>
+              </td>
+              <td>
+                <p class="text-overflow"
+                  title="{{sourceList.productName}}">{{sourceList.productName}}</p>
+              </td>
+              <td class="product-showimg" style="position: relative;overflow: visible;cursor: pointer;">
+                <ul ng-if="sourceList.imageUrl">
+                  <li>
+                    <img class="smallimg center-block" ng-src="{{sourceList.imageUrl[0] | IMG_SIZE: 46}}">
+                    <img class="bigimg" ng-class="{'last-img':($index==listArr.length-1||$index==listArr.length-2)&&listArr.length>1}" ng-src="{{sourceList.imageUrl[0] | IMG_SIZE: 360}}">
+                  </li>
+                </ul>
+                <p ng-if="sourceList.imageUrl=='https://' || !sourceList.imageUrl">--</p>
+              </td>
+              <td class="Dispatched-td">
+                <!-- <a class="text-overflow" ng-if="sourceList.sourceUrl!=''"  title="{{sourceList.sourceUrl}}" href="{{sourceList.sourceUrl}}" target="_blank">{{sourceList.sourceUrl}}</a>
+                <br ng-if="sourceList.productUrl">
+                <a class="text-overflow" ng-if="sourceList.productUrl" ng-href="{{sourceList.productUrl}}" target="_blank" title="{{sourceList.productUrl}}">{{sourceList.productUrl}}</a>
+                <p ng-if="sourceList.sourceUrl==''">--</p> -->
+                <div class="tooltip" role="tooltip">
+                  <a ng-show="sourceList.sku" href="{{'/product-detail.html?id='+sourceList.CjproductId+'&productType='+sourceList.productType}}" target="_blank" >{{sourceList.sku}}</a>
+                  <span ng-show="!sourceList.sku">--</span>
+                  <span ng-show="sourceList.sku" class="tooltiptext">
+                    {{sourceList.sku}}
+                    <i class="iconfont iconfuzhi copyIcon" ng-click="handleCopy(sourceList.sku)"></i>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <span>{{sourceList.purchasingType?(sourceList.purchasingType==1?'Bulk Purchase':'Dropshipping'):'--'}}</span>
+                <p ng-show="sourceList.purchasingType==1">Estimated Quantity:{{sourceList.estimatedQuntity||'--'}}</p>
+              </td>
+              <td ng-if="sourceList.sourcetype!='0'">--</td>
+              <td class="product-price" id="product-price" style="position: relative;"
+                title="The price is only for reference and it will be defined once the sourcing succeeded.">
+                <p style="cursor: pointer;" ng-show="sourceList.price && sourceList.price != 'NaN'">USD {{sourceList.price}}</p>
+                <p style="cursor: pointer;" ng-show="!sourceList.price || sourceList.price == 'NaN'">--</p>
+              </td>
+              <td ng-if="sourceList.sourcetype=='0'">--</td>
+              <td>
+                <div class="tooltip" role="tooltip">
+                  <p class="text-overflow" style="min-width: 80px;">
+                    {{sourceList.description==""?"--":sourceList.description?sourceList.description:"--"}}
+                  </p>
+                  <span ng-show="sourceList.description" class="tooltiptext">
+                    {{sourceList.description}}
+                  </span>
+                </div>
+                
+              </td>
+              <td>
+                <img ng-if="!sourceList.supplierName" style="width: 36px;" src="static/image/login/loginuser.png" alt="">
+                <span ng-if="sourceList.supplierName">{{sourceList.supplierName}}</span>
+              </td>
+              <td style="width: 100px">
+                <div class="more-handle">
+                  <span class="more-icon">
+                    <i class="iconfont">&#xe704;</i>
+                    <span class="red-circle" ng-show="replyIconType.indexOf(sourceList.issueStatus)!==-1"></span>
+                  </span>
+                  <div ng-show="true" class="tools">
+<!--                    <a href="{{ '#/seachgoods-detail/' + sourceList.ID+'/'+sourceList.sourcetype }}" class="ui-btn btn-line-theme source_flex_btn">Details</a>-->
+<!--                    <a href="javascript:void(0)" ng-click="chatSourcingFn(sourceList)" class="ui-btn btn-line-theme source_flex_btn">Chat</a>-->
+<!--                    <a href="javascript:void(0)" ng-show="!sourceList.issueId" class="ui-btn btn-line-theme source_flex_btn" ng-click="sendSourceTicket(sourceList)">Ticket</a>-->
+<!--                    <a href="javascript:void(0)" ng-show="sourceList.issueId" class="ui-btn btn-line-theme source_flex_btn" ng-click="openDetailTicket(sourceList)">View Ticket</a>-->
+<!--                    <a href="javascript:void(0)" ng-click="deleteSourcing(sourceList)" class="ui-btn btn-line-theme danger source_flex_btn">Delete</a>-->
+                    <a href="{{ '#/seachgoods-detail/' + sourceList.ID+'/'+sourceList.sourcetype }}" class="handle-link">Details</a>
+                    <a href="javascript:void(0)" ng-click="chatSourcingFn(sourceList)" class="handle-link">Chat</a>
+                    <a href="javascript:void(0)" ng-show="!sourceList.issueId" class="handle-link" ng-click="sendSourceTicket(sourceList)">Ticket</a>
+                    <a href="javascript:void(0)" ng-show="sourceList.issueId" class="handle-link" ng-click="openDetailTicket(sourceList)">
+                      View Ticket
+                      <span class="red-tips" ng-show="replyIconType.indexOf(sourceList.issueStatus)!==-1"></span>
+                    </a>
+                    <a href="javascript:void(0)" ng-click="deleteSourcing(sourceList)" class="handle-link">Delete</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- 默认图片展示 -->
+        <div class="asj-default-imgbox" ng-show="noData">
+          <img ng-show="isVip()" class="default-img" src="static/image/page/source_def_vip.png">
+          <img ng-show="!isVip()" class="default-img" src="static/image/page/source_def.png">
+          <p class="default-msg">You do not have any sourcing history.</p>
+          <a class="mycj-btn-noData" href="#/add-sourcing////">Post Sourcing Request</a>
+          <!-- 1688等外部网站抛出 -->
+          <div class="mycj-btn-noData see-more" ng-show="listArr&&listArr.length===0">
+            Source More
+            <i class="iconfont more-down">&#xe700;</i>
+            <div class="third-party">
+              <ul>
+                <li ng-show="yaoliuFlag" ng-click="goTo1688()">Go to 1688</li>
+                <li ng-show="taobaoFlag" ng-click="goToTaobao()">Go to Taobao</li>
+                <li ng-click="goToAliExpress()">Go to AliExpress</li>
+                <li ng-click="goToShopify()">Go to Shopify</li>
+                <li ng-show="backFlag" ng-click="backCJ()">Back To CJ</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 点击复制sku的input -->
+      <input id="copySku" type="text" value="" style="opacity: 0;height: 0;">
+      <!-- 分页 -->
+      <page ng-show="listArr.length > 0"></page>
+    </div>
+
+    <!-- 弹框 -->
+    <div class="pop_ups">
+      <pop-ups content="content" ng-show="showPopUps"></pop-ups>
+    </div>
+
+    <!--检测插件弹窗-->
+    <div id="isCJPub" ng-show="isCJPub" ng-cloak>
+      <div class="CJ-content clearfix">
+        <div class="isdel-header">
+          <h3>{{CJPubTitle}}</h3>
+          <div class="isdel-close">
+            <i class="iconfont closeIcon"ng-click="Cancel()">&#xe70d;</i>
+          </div>
+        </div>
+        <p class="isdel-modal-content">{{CJPubtxt}}</p>
+        <div class="isdel-footer">
+          <button class="btn2" ng-show="!isInstall" ng-click="Cancel()">Cancel</button>
+          <button ng-show="!isInstall" ng-class="{true: 'isdel-cobtn-vip', false: 'isdel-cobtn'}[isVip()]" ng-click="Install()">Install Now</button>   
+          <button ng-class="{true: 'isdel-cobtn-vip', false: 'isdel-cobtn'}[isVip()]" ng-show="isInstall" ng-click="Refresh()">Refresh</button>
+        </div>
+      </div>
+      <!-- <div class="CJ-content">
+        <span class="close" ng-click="Cancel()">×</span>
+        <h3>{{CJPubTitle}}</h3>
+        <p>{{CJPubtxt}}</p>
+        <button class="btn1" ng-show="!isInstall" ng-click="Install()">Install Now</button>
+        <button class="btn2" ng-show="!isInstall" ng-click="Cancel()">Cancel</button>
+        <button class="btn1" ng-show="isInstall" ng-click="Refresh()">Refresh</button>
+      </div> -->
+    </div>
+    <!-- 工单提交成功提示   -->
+    <div class="finish-confirm" ng-show="replyComfirmVisible">
+        <div class="finish-confirm-center">
+            <i class="iconfont close-icon" ng-click="changeReplyConfirm(false)">&#xe70d;</i>
+            <div class="finish-confirm-header">Submitted Successfully</div>
+            <div class="finish-confirm-content">Your ticket will be handled within one working day.</div>
+            <div class="finish-confirm-footer">
+                <button class="btn-confirm" ng-click="changeReplyConfirm(false)">Yes</button>
+            </div>
+        </div>
+    </div>
+    <send-ticket-modal ng-show="ticketVisible" visible="ticketVisible" order-data="recordData" cancel="cancel()" callback="refresh()" openfun="changeReplyConfirm(true)"></send-ticket-modal>
+    <ticket-detail-modal ng-show="ticketDetailVisible" visible="ticketDetailVisible" list-data="listData" cancel="detailCancel()" callback="refresh()"></ticket-detail-modal>
+  </div>
+</div>

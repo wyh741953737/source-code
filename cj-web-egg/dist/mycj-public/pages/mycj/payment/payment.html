@@ -1,0 +1,716 @@
+<!-- <script type="text/javascript" src="https://js.stripe.com/v3/"></script> 路由中加载 -->
+<div class="payment-wrap">
+  <div class="paywrap-mid">
+    <!-- 付款的内容部分 -->
+    <div class="payment-con">
+      <!-- 付款总计 -->
+      <div class="payment-all">
+        <p><span class="pay-back-btn" ng-click="goBack()">
+            &lt; Back</span> </p> <div class="payment-all-detail">
+              <p class="payment-ordnum">Order Number: <span>{{ordnumber}}</span></p>
+              <span class="payment-ordnum-sub" ng-hide="!dropshipOrder">There are {{ordquantity}} sub-order{{+ordquantity > 1 ? 's' : ''}}
+                enclosed.</span>
+              <p class="payment-amount">
+                <span class="payment-amount-title">Total Amount:</span>
+                <span class="paymoney-amount-num">{{ordmoney}}</span>
+                <span class="paymoney-amount-unit">USD</span>
+              </p>
+      </div>
+    </div>
+    <div class="payment-method">
+      <div class="payment-method-title">Payment Methods <small class="payment-method-tip">All transactions are
+          secure and encrypted.</small></div>
+      <div class="payment-method-list">
+        <div ng-repeat="item in payTypeList track by $index"
+             ng-style="{'cursor':item.type === 'paypal' && isNoPayPal ? 'no-drop' : 'pointer'}"
+             ng-class="{choose:item.type==payIndexType,stripe:item.type=='card'}" 
+             ng-hide="item.isHide"
+             ng-cloak>
+	        <div class="payment-method-item"
+              ng-class="{choose:item.type==payIndexType,stripe:item.type=='card','no-pay': item.type === 'paypal' && isNoPayPal}"
+              ng-click="choosePayFun(item,$index)">
+		        <span class="icon-box"></span>
+		        <i class="icon"></i>
+		        <div class="pay-text" ng-class="item.type">{{item.name}}</div>
+		        <div class="current-money" ng-show="item.showMoney" ng-bind-html="'Available: ' + storeCreditObj.balance + 'USD'"></div>
+          </div>
+	        <span class="tips" ng-show="item.type === 'paypal' && isNoPayPal">
+			        Paypal is not available. Please choose another way.
+	         </span>
+        </div>
+      </div>
+      <p class="pay-btn-box">
+        <span class="ui-btn btn-theme" ng-click="payFun()" ng-show="payIndexType != 'alipay'">Pay</span>
+        <span class="ui-btn btn-theme" ng-click="payFun()" ng-show="payIndexType == 'alipay'">Pay</span>
+      </p>
+    </div>
+    <div class="payment-terms-wrap">
+      <div class="payment-terms-select" ng-click="selectTermsFun()">
+        <p class="terms-select-content" ng-class="{'sel-background': selectTermsFlag}">
+          <i class="iconfont iconbianzu8 icon-terms-sel" ng-show='selectTermsFlag'></i>
+        </p>
+      </div>
+      <div class="payment-terms-content">
+        <p class="terms-content-wrap">
+          <span class="payment-terms-txt">By clicking, you agree to</span>
+          {{'\u00A0'}}
+          <a href="https://cjdropshipping.com/user-agreement"><span class="payment-terms-txt terms-txt-active">the User Agreement</span></a>
+          <span class="payment-terms-txt">,</span>
+          {{'\u00A0'}}
+          <a href="https://cjdropshipping.com/privacyPolicy"><span class="payment-terms-txt terms-txt-active">Privacy Policy</span></a>
+          {{'\u00A0'}}
+          <span class="payment-terms-txt">and</span>
+          {{'\u00A0'}}
+          <a href="https://cjdropshipping.com/dispute-policy.html"><span class="payment-terms-txt terms-txt-active">Refund, Resend and Returns Policy.</span></a>
+        </p>
+       
+      </div>
+    </div>
+    <p class="we-acc-p">We Accept</p>
+    <div class="we-acc-payway">
+      <div class="payway-item" ng-repeat="item in acceptList track by $index">
+        <img ng-class="{stripe:$index==6,paypal:$index==7,midtrans:$index==8,payonner:$index==9,payssion:$index==10}" ng-src="{{'/static/image/public-img/'+item}}">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 弹窗 -->
+<div class="confirm-box" ng-show="alipayObj.isShow">
+  <div class="confirm-main">
+    <div class="confirm-content alipay-content" id="paymentMethodsContainer">
+
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="alipayObj.isShow=false" class="no-btn">Cancel</span>
+      <span ng-click="checkoutRequest()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+
+<!-- 银行转账 -->
+<div class="confirm-box" ng-show="transferObj.isShow">
+  <div class="confirm-main">
+    <div class="confirm-content translate-content">
+      <h2 class="translate-title">
+        Here is our banking account information
+        <!-- 2020.06.30 隐藏美元欧元货币转换入口 -->
+        <!-- <select class="translate-select-bank" ng-change="transferUnitChange(1)" ng-model="transferObj.unit">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </select> -->
+      </h2>
+      <!-- 美元账户 -->
+      <div class="translate-info" ng-show="transferObj.unit=='USD'">
+        <p class="translate-info-item" ng-repeat="item in bankInfoData.wireTrans.usd track by $index">
+          <span>{{item}}</span>
+        </p>
+      </div>
+      <!-- 欧元账户 -->
+      <div class="translate-info" ng-show="transferObj.unit=='EUR'">
+        <p class="translate-info-item" ng-repeat="item in bankInfoData.wireTrans.eur track by $index">
+          <span>{{item}}</span>
+        </p>
+      </div>
+      <div class="translate-slip">
+        <div class="translate-slip-title">
+          Submit Transfer Slip
+        </div>
+        <div class="translate-slip-item">
+          <span>Order Number:</span>
+          <span>{{ordnumber}}</span>
+        </div>
+        <div class="translate-slip-item">
+          <span>Amount:</span>
+          <span class="text-theme">{{switchCheck ? '€' : '$'}} {{transferObj.showPrice}}</span>
+          <div class="rate-switch" ng-click="switchClick($event, 1)">
+            <input type="checkbox" name="" class="input">
+            <span class="label label-left">USD</span>
+            <span class="core"></span>
+            <span class="label label-right">EUR</span>
+          </div>
+          <!-- 2020.06.30 隐藏美元欧元货币转换入口 -->
+          <!-- <select class="translate-select-bank" ng-change="transferUnitChange(1)" ng-model="transferObj.unit">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+          </select> -->
+        </div>
+        <div class="translate-slip-item">
+          <span>I had made a wire transfer:</span>
+          <input type="number" class="translate-slip-money" ng-model="transferObj.amount" placeholder="Please enter transfer amount" title=""></input>
+        </div>
+        <div class="translate-slip-item">
+          <span>Upload Transfer Slip:</span>
+          <!-- <form action="" method="post" enctype="multipart/form-data" id="document2" class="translate-slip-upload-box"> -->
+            <label for="document2" class="ui-btn btn-theme1">Browse</label>
+            <input type="file" multiple ng-model="documentupload2" class="input-file" id="document2"
+              onchange="angular.element(this).scope().upLoadImg4(this.files)"
+              accept="image/gif,image/jpeg,image/jpg,image/png,application/pdf">
+          <!-- </form> -->
+          <img ng-if="!headimg" src="/static/image/public-img/upload.png" alt="" class="pay-uploadimg">
+          <img ng-if="headimg" ng-repeat="img in imgArr" ng-src="{{'https://'+img}}" alt="" class="pay-uploadimg">
+          <p class="translate-slip-tip">(Allowed File Extensions: .jpg, .gif, .jpeg, .png, .pdf)</p>
+        </div>
+        <div class="translate-slip-item">
+          <span>Message:</span>
+          <textarea class="translate-slip-message" ng-model="transferObj.message" maxlength="500"></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <div class="confirm-btn-box">
+      <span ng-click="transferObj.isShow=false" class="no-btn">Cancel</span>
+      <span ng-click="transferConfirmFun(1)" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+
+<!-- 西联银行转账 -->
+<div class="confirm-box" ng-show="transferXLObj.isShow">
+  <div class="confirm-main">
+    <div class="confirm-content translate-content">
+      <h2 class="translate-title">Here is our banking account information</h2>
+      <!-- 西联银行-美元账户 -->
+      <div class="translate-info" ng-show="transferXLObj.unit=='USD'">
+        <p class="translate-info-item" ng-repeat="item in bankInfoData.westernUnion.usd track by $index">
+          <span>{{item}}</span>
+        </p>
+      </div>
+      <!-- 西联银行-欧元账户 -->
+      <div class="translate-info" ng-show="transferXLObj.unit=='EUR'">
+        <p class="translate-info-item" ng-repeat="item in bankInfoData.westernUnion.eur track by $index">
+          <span>{{item}}</span>
+        </p>
+      </div>
+      <div class="translate-slip">
+        <div class="translate-slip-title">
+          Submit Transfer Slip
+        </div>
+        <div class="translate-slip-item">
+          <span>Order Number:</span>
+          <span>{{ordnumber}}</span>
+        </div>
+        <div class="translate-slip-item">
+          <span>Amount:</span>
+          <span class="text-theme">{{transferXLObj.showPrice}}</span>
+          <div class="rate-switch" ng-click="switchClick($event, 2)">
+            <input type="checkbox" name="" class="input">
+            <span class="label label-left">USD</span>
+            <span class="core"></span>
+            <span class="label label-right">EUR</span>
+          </div>
+          <!-- <select class="translate-select-bank" ng-change="transferUnitChange(2)" ng-model="transferXLObj.unit">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+          </select> -->
+        </div>
+        <div class="translate-slip-item">
+          <span>I had made a wire transfer:</span>
+          <input type="number" class="translate-slip-money" ng-model="transferXLObj.amount" placeholder="Please enter transfer amount"></input>
+        </div>
+        
+        <div class="translate-slip-item">
+          <span>Upload Transfer Slip:</span>
+          <label for="document2" class="ui-btn btn-theme1">Browse</label>
+          <input type="file" multiple ng-model="documentupload2" class="input-file" id="document2"
+            onchange="angular.element(this).scope().upLoadImg4(this.files)"
+            accept="image/gif,image/jpeg,image/jpg,image/png,application/pdf">
+          <img ng-if="!headimg" src="/static/image/public-img/upload.png" alt="" class="pay-uploadimg">
+          <img ng-if="headimg" ng-repeat="img in imgArr" ng-src="{{'https://'+img}}" alt="" class="pay-uploadimg">
+          <p class="translate-slip-tip">(Allowed File Extensions: .jpg, .gif, .jpeg, .png, .pdf)</p>
+        </div>
+        <div class="translate-slip-item">
+          <span>Message:</span>
+          <textarea class="translate-slip-message" ng-model="transferXLObj.message" maxlength="500"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="transferXLObj.isShow=false" class="no-btn">Cancel</span>
+      <span ng-click="transferConfirmFun(2)" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 转账弹框 -->
+<div class="pay-zzwrap" ng-show="transferObj.isShowSucc">
+  <div class="pay-zz">
+    <div class="payzz-top">
+      <div class="payzz-tl">
+        <img src="/static/image/public-img/wire.png">
+      </div>
+      <div class="payzz-tr">
+        <p class="payzz-trp1">
+          Thank you for your payment!
+        </p>
+        <p class="payzz-trp1">
+          We will ship products out when we received your payment. It may take some time for international payment. Once received, we will inform you immediately.
+        </p>
+        <p class="payzz-trp1">
+          You can use wallet to pay for orders if you want to a faster payment and process.
+        </p>
+        <p class="payzz-trp2">
+          Charge Now?
+        </p>
+      </div>
+    </div>
+    <div class="payzz-bto">
+      <span class="pzz-nobtn" ng-click="transferSuccNoFun()" href="javascript:void(0)">No</span>
+      <span class="pzz-yesbtn" ng-click="transferChargeFun()" href="javascript:void(0)">Yes</span>
+    </div>
+  </div>
+</div>
+
+<!-- 西联银行 -->
+<div class="pay-xlwrap" ng-show="transferXLObj.isShowSucc">
+  <div class="pay-xl">
+    <div class="payzz-top">
+      <div class="payzz-tl">
+        <img class="payment-img" src="/static/image/public-img/western.png">
+      </div>
+      <div class="payzz-tr">
+        <p class="payzz-trp1">
+          Thank you for the Western Union payment!
+        </p>
+        <p class="payzz-trp1">
+          Since the Western Union payment will be processed manually into our account, we will be unable
+          to have
+          your orders dispatched unless the payment arrived. We will let you know once the payment
+          received. If
+          you want a faster dispatched processing, you can charge your store credit in advance and pay
+          with it.
+        </p>
+        <p class="payzz-trp2">
+          Charge Store Credit now?
+        </p>
+      </div>
+    </div>
+    <div class="payzz-bto">
+      <span class="pxl-nobtn" ng-click="transferSuccNoFun()" href="javascript:void(0)">No</span>
+      <span class="pxl-yesbtn" ng-click="transferChargeFun()" href="javascript:void(0)">Yes</span>
+    </div>
+  </div>
+</div>
+<!-- 提示是否可以付款的弹框 -->
+<div class="confirm-box" ng-show="paypalObj.showError || alipayErrObj.showFlag">
+  <div class="confirm-main">
+    <div class="confirm-content">
+    {{paypalObj.errorMsg || alipayErrObj.errText}}
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="linkFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 上传的文件不是图片的提示框 -->
+<div class="err-loadsrc" ng-show="isphoto">
+  <div class="errlsrc-con">
+    <p>
+      Incorrect File Extension, Please Upload Valid One.
+    </p>
+    <button ng-click="isphoto = false;">Confirm</button>
+  </div>
+</div>
+<div class="confirm-box" ng-show="storeCreditObj.isShow">
+  <div class="confirm-main">
+    <div class="confirm-content">
+      <!-- Are you sure to pay with your CJ wallet? -->
+      ${{ordmoney}} will be deducted from your CJ wallet
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="storeCreditObj.isShow=false" class="no-btn">Cancel</span>
+      <span ng-click="agreePayFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- payoneer 支付方式-->
+<div class="isagreementTc paynner_dia" ng-show="isShowPaynnerDia" ng-cloak>
+  <div class="isag-con ispayby-yecon">
+    <i ng-hide="isAuthorize === 1" class="back" ng-click="payonnerBack()"></i>
+    <span class="close-btn" ng-click="isShowPaynnerDia = false"></span>
+    <div class="logo-box">
+      <img src="/static/image/CJ-home/payoneer.png" alt="">
+    </div>
+    <div class="top">
+      <h3 class="tit">Payoneer</h3>
+      <span class="email" ng-show="payoneerEmail">{{ payoneerEmail }}</span>
+    </div>
+    <div class="bot">
+      <div class="select-account" ng-show="isAuthorize === 1">
+        <div class="item" ng-click="selectAccount(0)">
+          <i ng-class="{ active:currencyType === 0 }"></i>
+          <span>Please select US dollar USD ($)</span>
+        </div>
+        <div class="item" ng-click="selectAccount(1)">
+          <i ng-class="{ active:currencyType === 1 }"></i>
+          <span>Please select Euros EUR (€)</span>
+        </div>
+      </div>
+      <div class="authorize" ng-show="isAuthorize === 2">
+        <button ng-click="signInOrRegister('0')" class="sign-in">Sign in</button>
+        <button ng-click="signInOrRegister('1')" class="register">Register</button>
+      </div>
+      <div class="un_authorize" ng-show="isAuthorize === 3">
+        <div class="v-code">
+          <i class="icon"></i>
+          <input type="text" ng-model="verificationCode" placeholder="Enter the code" />
+          <button ng-click="getCode()">
+            {{ isGetCode ? num+'s' :'Send' }}
+          </button>
+        </div>
+        <button ng-click="payoneer_Pay()" class="paynnerPay-btn">{{ payAmount }}</button>
+        <div class="bot-btn">
+          <a href="javascript:void (0);" ng-click="updateAccount()">Update</a>
+          <a href="javascript:void (0);" ng-click="unbind()">Unbind</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- payoneer 支付方式 新-->
+<div class="isagreementTc paynner_dia paynner_dia_new" ng-show="isShowNewPaynnerDia" ng-cloak>
+  <div class="isag-con ispayby-yecon">
+    <!-- modal header -->
+    <span class="close-btn" ng-click="closeShowNewPaynnerDia()"></span>
+    <div class="logo-box">
+      <img src="/static/image/CJ-home/payoneer_logo_small.png" alt="">
+    </div>
+    <!-- 授权引导 -->
+    <div class="payoneerAuthWrap" ng-show="payoneerAuth">
+      <p class="header">The linked makes payment faster.</p>
+      <div class="content">
+        <p class="payoneerTitle">PAY WITH <img src="/static/image/CJ-home/payoneer_logo.png"/></p>
+        <p class="tip">Already have an account</p>
+        <span ng-click="authClick()" class="payoneerBtn">LINK</span>
+      </div>
+      <div class="footer">
+        You haven’t linked the account. Please click on the "Link" to Payoneer for agreement.
+      </div>
+    </div>
+    <!-- 已授权，显示账号 -->
+    <div class="payoneerOrderWrap" ng-show="payoneerOrder">
+      <div class="orderHeader">
+        <div class="account">
+          <p>Account</p>
+        </div>
+        <div class="link">
+          <p class="email">{{ payoneerAuthData.account }}</p>
+          <a class="link" ng-click="switchPayoneerAuth()">Link to Another Account>></a>
+        </div>
+      </div>
+      <div class="orderContent">
+        <p class="payoneerTitle">PAY WITH <img src="/static/image/CJ-home/payoneer_logo.png" /></p>
+        <p class="amountItem">
+          <span class="label">Amount</span>
+          <span class="value">$<span>{{payoneerData.usdPayMoney}}</span></span>
+        </p>
+        <div class="list">
+          <span>My Available Balance</span>
+          <div class="no-balance" ng-show="nextAshFlag && (!payoneerAuthData.balanceList || payoneerAuthData.balanceList.length == 0)">
+            <p class="no-balance-left">
+              <i class="iconfont no-balance-icon">&#xe6cd;</i>
+            </p>
+            <p class="no-balance-right">
+              <span class="no-balance-tip">You need to activate your Payoneer USD or EUR account to process the transaction.</span>
+            </p>
+          </div>
+          <p ng-click="payoneerBalanceClick(item)" class="amountItem {{ item.selected ? 'selected' : '' }} {{ item.disabled ? 'disabled' : '' }}" ng-repeat="item in payoneerAuthData.balanceList">
+            <span class="label">{{item.currency}}</span>
+            <span class="value">{{item.balanceAmount}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="payoneerBtn default" ng-click="payoneerOrderCancel()">CANCEL</span>
+        <span class="payoneerBtn" ng-class="{'ashNext': nextAshFlag}" ng-click="payoneerConfirmClick()">NEXT</span>
+      </div>
+    </div>
+    <!-- 支付确认 -->
+    <div class="payoneerConfirmWrap" ng-show="payoneerConfirm">
+      <div class="header">
+        <p class="payoneerTitle">PAY WITH <img src="/static/image/CJ-home/payoneer_logo.png" /></p>
+      </div>
+      <div class="content">
+        <p class="title">Confirm Order Details</p>
+        <!-- 美元直接显示，其它币种前端转换 -->
+        <p ng-if="payoneerPayCurrency === 'USD'" class="amountItem amountsure">
+          <span class="label">Payment Amount</span>
+          <span>USD
+            <span class="value">{{payoneerData.usdPayMoney}}</span>
+          </span>
+        </p>
+        <div ng-if="payoneerPayCurrency === 'EUR'" class="eurAmount">
+          <p>
+            <span>Order Amount :</span>
+            <span>USD {{payoneerData.usdPayMoney}}</span>
+          </p>
+          <p>
+            <span>FX Rate :</span>
+            <span>USD 1 : EUR {{payoneerEurRate}}</span>
+          </p>
+          <p>
+            <span>Payment Amount :</span>
+            <span>EUR <span>{{payoneerData.eurPayMoney}}</span>
+          </p>
+        </div>
+        <div class="tip">
+          <p>Click “Pay” means that I accept CJ to deduct the order amount from my Payoneer account.</p>
+          <p>Please check the order amount before payment.</p>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="payoneerBtn default" ng-click="payoneerPayCancel()">BACK</span>
+        <span class="payoneerBtn" ng-click="payoneerConfirmPayClick()">PAY</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- payssion 支付方式 -->
+<div class="pay-confirm-box" ng-show="payssionObj.isShow">
+  <div class="pay-confirm-main">
+    <div class="payssion-title">
+      <img src="/static/image/public-img/payssion.png" class="payssion-logo" />
+      <span class="close-btn" ng-click="payssionObj.isShow=false"></span>
+      <span class="text">PAYSSION</span>
+    </div>
+    <div class="payssion-content">
+      <div class="payssion-item">
+        <span class="payssion-item-title">Amount:</span>
+        <span class="payssion-item-amount">{{ordmoney}} <span class="unit">USD</span></span>
+      </div>
+      <div class="payssion-item">
+        <span class="payssion-item-title">Country： </span>
+        <div class="payssion-item-country ui-select">
+          <div class="showcountry" title="{{payssionObj.country.name}}"
+            ng-click="payssionObj.showList=!payssionObj.showList">
+            <i class="payflag" ng-class="payssionObj.country.val"></i>
+            {{payssionObj.country.name||"Please Select"}}
+          </div>
+          <div class="payssion-country-choose" ng-show="payssionObj.showList">
+            <!-- 目前国家较少，先隐藏搜索<input class="input" type="text" ng-model="payssionObj.search" ng-change="payssionSearchFun()"> -->
+            <ul class="payssion-country-list">
+              <li class="payssion-country-item" ng-repeat="item in payssionCountryList track by $index"
+                ng-show="item.isShow" ng-click="payssionCountryFun(item)" title="{{item.name}}">
+                <i class="payflag" ng-class="item.val"></i>
+                {{item.name}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="payssion-item">
+        <span class="payssion-item-title">Payment Methods:</span>
+      </div>
+      <div class="payssion-result-list">
+        <div class="payssion-result-item" ng-repeat="item in payssionObj.methods track by $index"
+          ng-click="payssionMethodFun(item)" ng-class="{choose:item==payssionObj.payMethod}">
+          <span class="icon-box"></span>
+          <i class="icon"></i>
+          <img ng-src="/static/image/payment/payssion/{{item}}.png" class="img" alt="{{item}}">
+        </div>
+      </div>
+      <div class="pay-btn-box" ng-click="payssionConfirm()">
+        <span class="ui-btn btn-theme">Confirm</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 支付宝/微信支付弹窗 -->
+<div class="payway-modal" ng-show="newAlipayObj.isShow || wechatObj.isShow">
+  <div class="modal-container width466">
+    <div ng-click="cancelPay()" class="close">
+      <i class="iconfont">&#xe624;</i>
+    </div>
+    <div class="title" ng-show="newAlipayObj.isShow || wechatObj.isShow">
+      <div ng-show="newAlipayObj.isShow" class="img alipay"></div>
+      <div ng-show="wechatObj.isShow" class="img wechatpay"></div>
+      <div ng-show="newAlipayObj.isShow" class="title-text">AliPay</div>
+      <div ng-show="wechatObj.isShow" class="title-text">Wechat Pay</div>
+    </div>
+    <div class="order-value-detail">
+      <div class="value-detail-left">Final Amount：</div>
+      <div class="value-detail-right">
+        <div class="us-money">
+          <span class="money-number">{{ordmoney}}</span>
+          <span class="money-unit">USD</span>
+        </div>
+        <div class="cn-money">≈ {{showCNYmoney}} CNY</div>
+      </div>
+    </div>
+    <div class="cj-order-number">
+      <div class="order-label">CJ Order Number：</div>
+      <div class="order-number">{{ordnumber}}</div>
+    </div>
+    <div class="cj-order-number">
+      <div class="order-label">QR code expires：</div>
+      <div class="time-minus">{{deTime.m < 10 ? '0' + deTime.m : deTime.m}}:{{deTime.s < 10 ? '0' + deTime.s : deTime.s}}</div>
+    </div>
+    <div class="qr-code-container">
+      <div class="qr-code">
+        <div class="code-box" id="qrCode"></div>
+        <div class="code-mask" ng-show='payStatus == 3'>
+          <i class="iconfont">&#xe672;</i>
+        </div>
+        <div class="code-mask" ng-show='deTime.s + deTime.m == 0'>
+          <div ng-click='refreshQrcode()' class="refresh"><i class="iconfont">&#xe70b;</i></div>
+        </div>
+      </div>
+      <div class="qrcode-tips">
+        <div class="tips-left">
+          <i class="iconfont">&#xe70c;</i>
+        </div>
+        <div class="tips-right">Please use WeChat to scan</br>
+          Scan the QR code to pay.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 支付宝/微信支付弹窗 -->
+<!-- <div class="payway-modal" ng-show="newAlipayObj.isShow || wechatObj.isShow">
+  <div class="modal-container width674">
+    <div ng-click="cancelPay()" class="close">
+      <i class="iconfont">&#xe624;</i>
+    </div>
+    <div class="title" ng-show="newAlipayObj.isShow || wechatObj.isShow">
+      <div ng-show="newAlipayObj.isShow" class="img alipay"></div>
+      <div ng-show="wechatObj.isShow" class="img wechatpay"></div>
+      <div ng-show="newAlipayObj.isShow" class="title-text">AliPay</div>
+      <div ng-show="wechatObj.isShow" class="title-text">Wechat Pay</div>
+    </div>
+    <div class="content">
+      <div class="left">
+        <div class="line-first">
+          <div class="label">CJ Order Number:</div>
+          <div class="show-text">{{ordnumber}}</div>
+        </div>
+        <div class="line-second">
+          <div class="label">Amount:</div>
+          <div class="show-text">
+            <div class="text-top">
+              <span class="orange">{{ordmoney}}</span>
+              <span class="normal">USD</span>
+            </div>
+            <div class="text-bottom">≈ {{showCNYmoney}} CNY</div>
+          </div>
+        </div>
+        <div class="qrcode">
+          <img ng-show="newAlipayObj.isShow" ng-src="{{newAlipayObj.qrCode}}" >
+          <img ng-show="wechatObj.isShow" ng-src="{{wechatObj.qrCode}}" >
+        </div>
+        <div class="qrcode-tips">
+          <div class="tips-left">
+            <i class="iconfont">&#xe70a;</i>
+          </div>
+          <div class="tips-right">Please use WeChat to scan
+            Scan the QR code to pay.</div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="text-label">I have transferred:</div>
+        <div class="text-value">
+          <input class="input-number" ng-show="newAlipayObj.isShow" type="number" ng-model="newAlipayObj.amount" placeholder="Input the amount" />
+          <input class="input-number" ng-show="wechatObj.isShow" type="number" ng-model="wechatObj.amount" placeholder="Input the amount" />
+        </div>
+        <div class="text-label">Transfer Screenshot:
+          <span class="special-text">
+            <span>Example</span>
+            <img class="show-tips-img" ng-if='newAlipayObj.isShow' ng-src="/static/image/public-img/alipay.png" />
+            <img class="show-tips-img" ng-if="wechatObj.isShow" ng-src="/static/image/public-img/wechatpay.png" />
+          </span>
+        </div>
+        <div class="upload-img">
+          <div class="upload-mask"></div>
+          <label for="document3" class="upload-btn-box">
+            <div class="upload-btn">
+              <i ng-if="!headimg" class="iconfont no-pic">&#xe6e5;</i>
+              <img ng-if="headimg" ng-repeat="img in imgArr" ng-src="{{'https://'+img}}" alt="" class="uploadimg">
+              <i ng-click="deletePic($event)" ng-if="headimg" class="iconfont delete">&#xe624;</i>
+            </div>
+          </label>
+          <input type="file" class="input-file" id="document3"
+            onchange="angular.element(this).scope().upLoadImg4(this.files)"
+            accept="image/gif,image/jpeg,image/jpg,image/png,application/pdf">
+        </div>
+        <div class="gray-tips">(Supported formats: jpg, gif, jpeg, png, pdf)</div>
+        <div class="text-label">Note:</div>
+        <div class="text-area-value">
+          <textarea placeholder="Input the amount" class="text-message" ng-show="newAlipayObj.isShow" maxlength="500" ng-model="newAlipayObj.message"></textarea>
+          <textarea placeholder="Input the amount" class="text-message" ng-show="wechatObj.isShow" maxlength="500" ng-model="wechatObj.message"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="footer-box">
+      <a ng-click="cancelPay()" class="button cancel">Cancel</a>
+      <a ng-click="modalConfirmPay()" class="button confirm">Confirm</a>
+    </div>
+  </div>
+</div> -->
+
+<!-- 支付宝/微信支付弹窗成功 -->
+<!-- <div class="payway-modal" ng-show="newAlipayObj.isShowSucc || wechatObj.isShowSucc">
+  <div class="modal-container width476">
+    <div class="text-box">
+      <div class="icon-show">
+        <i class="iconfont">&#xe672;</i>
+      </div>
+      <div class="success-title">Thank you for your payment!</div>
+        <div class="content-p">
+          We will ship products out when we received your payment. It may take some time for international payment. Once received, we will inform you immediately. 
+        </div>
+        <div class="content-p">
+          You can use wallet to pay for orders if you want to a faster payment and process.
+        </div>
+        <div class="content-bold">Charge Now?</div>
+    </div>
+    <div class="footer-box">
+      <a ng-click="cancelSuccessPay()" class="button cancel">No</a>
+      <a ng-click="jumpToOther()" class="button confirm">Yes</a>
+    </div>
+  </div>
+</div> -->
+
+<!-- 支付宝/微信支付获取汇率失败弹窗 -->
+<div class="payway-modal" ng-show="CNYRateFail">
+  <div class="modal-container width360">
+    <div class="title-box">
+      <div class="left-title">Reminder</div>
+      <div class="right-title">
+        <i ng-click="CNYRateFail = false" class="iconfont">&#xe6d3;</i>
+      </div>
+    </div>
+    <div class="content-title">Oops, loading failed. Please try again!</div>
+    <div class="footer-box">
+      <a ng-click="CNYRateFail = false" class="button cancel">Cancel</a>
+      <a ng-click="getCNYRate()" class="button confirm">Try again</a>
+    </div>
+  </div>
+</div>
+
+<!-- 欧元支付提示弹窗 -->
+<div class="eur-pay-reminder-modal" ng-show="eurPayReminderModal.isShow">
+  <div class="main">
+    <i class="iconfont iconguanbi" ng-click="eurPayReminderModal.isShow=false"></i>
+    <p>Guidelines:</p>
+    <br />
+    <p>1. Use for local bank transfers within the EU in EUR via the SEPA network</p>
+    <p>2. Only payments for business transactions are supported</p>
+    <p>3. Payments must be made from registered businesses only; payments from individuals will be declined</p>
+    <p>4. Payments made from a personal or company account you own will be declined</p>
+    <div class="confirm-btn-box">
+      <span  ng-click="eurPayReminderModal.isShow=false" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+
+<!-- 提示是否可以付款的弹框 -->
+<div class="confirm-box" ng-show="tokeFailFlag">
+  <div class="confirm-main">
+    <div class="confirm-content">
+      CJ account not logged in. Please log in before making payment.
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="backPageFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>

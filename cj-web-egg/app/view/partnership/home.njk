@@ -1,0 +1,108 @@
+{% block title %}
+<title>CJ Dropshipping</title>
+<meta name="description" property="og:description" content="Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High Quality Products and Faster Shipping.">
+<meta name="keywords"
+  content="Drop Shipping USA，Sourcing Drop Shipping，Print on Demand，Fulfillment，Drop Shipping Supplier" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/partnership.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+
+<!-- 平台产品列表 -->
+{% macro partnerlist(item, index, type) %}
+<a class="platforms-item" href="{{item.partnerUrl}}" target="_blank" v-show='{{index}} < 4 || currentTypes.includes({{type}})' @click="onPlatformItem('{{item.partnerId}}')">
+  <div class="platforms-item-img">
+      <img src="{{item.partnerLogo}}" alt="">
+  </div>
+  <div class="platforms-item-content">
+    <p class="title">{{item.partnerName}}</p>
+    <div class="content">{{item.description}}</div>
+  </div>
+</a>
+{% endmacro %}
+
+<div id="vue-partnership-list">
+  <div class="partnership-head">
+    <div class="partnership-head-text" :style="bounceUpSty">
+      <div class="partnership-head-title">1+1>2</div>
+      <div class="partnership-head-content"><span class="line">CJdropshipping is Looking Forward to</span><br />
+        <span class="line">Working With You</span></div>
+    </div>
+  </div>
+  <div class="partnership-list-box">
+    <div class="partnership-list-main">
+      <!-- <div class="partnership-piece">
+        <div class="partnership-title"><span class="partnership-title-text">Partnership</span></div>
+        <ul class="partnership-list">
+          {% for citem in recommendList %}
+          <li class="partnership-item">
+            <a href="{{citem.partnerUrl}}" target="_blank">
+              <div class="partnership-item-img">
+                <img src="{{ citem.partnerLogo }}" alt="">
+              </div>
+              <p class="partnership-item-title">{{citem.partnerName}}</p>
+              <div class="partnership-item-content" title="{{citem.description}}">
+                {{ citem.description }}
+              </div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div> -->
+      {% for fitem in platformList %}
+      {% set partnerType = fitem.partnerType %}
+      <div class="partnership-piece">
+        <div class="partnership-title">
+          <span class="partnership-title-text">{{fitem.partnerTypeName}}</span>
+          {% set findex = loop.index0 %}
+          <span class="partnership-title-more" v-show="{{fitem.showMore}}" @click="getMore('{{fitem.partnerType}}')">
+            <span v-show="!currentTypes.includes({{fitem.partnerType}})">More</span>
+            <span v-show="currentTypes.includes({{fitem.partnerType}})">Less</span>
+          </span>
+        </div>
+        {% set list = fitem.list %}
+        <div class="platforms-list">
+          {% for item in list %}
+            {% set pindex = loop.index0 %}
+            {{ partnerlist(item, pindex, partnerType) }}
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+      <div class="partnership-piece">
+        <div class="partnership-title">
+          <span class="partnership-title-text">CJ logos are free for you</span>
+        </div>
+        <ul class="logo-list">
+          {% for item in logolist %}
+          <li class="logo-item">
+            <a class="download" download="" href="{{'/egg/image/partnership/'+item}}">
+              <i class="iconfont">&#xe725;</i>
+            </a>
+            <img src="{{'/egg/image/partnership/'+item}}" alt="">
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="partnership-join">
+    <div class="partnership-join-content">
+      <p class="partnership-join-welcome">Welcome to be a CJ partner</p>
+      <div class="partnership-join-btn" @click="toAdd()">Join Now</div>
+    </div>
+  </div>
+</div>
+
+
+<script src="{{ PUBLIC_SCRIPT + '/partnership.js' | VERSION }}"></script>
+
+{% endblock %}

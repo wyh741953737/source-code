@@ -1,0 +1,109 @@
+<div ng-show="visible" class="ticket-details">
+    <div class="ticket-detail-center">
+        <div class="ticket-detial-title">Ticket Detail
+            <span class="ticket-title-close" ng-click="closeModal()"><i class="iconfont">&#xe70d;</i></span>
+        </div>
+
+        <div ng-class="replyBtnShow?'bottom-content bottom-content1':'bottom-content'">
+            <p class="bottom-content-title" title="{{subject}} (Type of Issue)">{{subject}} (Product Issue)</p>
+            <ul class="bottom-content-list">
+                <div class="bottom-content-subtitle">
+                    <span class="content-subtitle-font">Ticket Number: {{serial}}</span>
+                    <span class="content-subtitle-font">|</span>
+                    <span class="content-subtitle-font red-font" ng-if="status=='0'">Closed</span>
+                    <span class="content-subtitle-font orange-font" ng-if="status=='1'">Awaiting CJ Reply</span>
+                    <span class="content-subtitle-font glad-font" ng-if="status=='2'">Awaiting Your Reply</span>
+                    <span class="content-subtitle-font green-font" ng-if="status=='3'">Completed</span>
+                    <span class="content-subtitle-font deepgrey-font" ng-if="status=='4'">On Hold</span>
+                    <span class="content-subtitle-font grey-font" ng-if="status=='5'">Expired</span>
+                </div>
+                <label class="alert-splite"></label>
+                <li class="content-item" ng-repeat="detail in detailData">
+                    <div class="content-item-top">
+                        <div class="content-item-img">
+                            <img ng-src="{{detail.AVATAR}}" ng-if="detail.AVATAR&&detail.STATUS=='0'">
+                            <img src="/static/image/public-img/shareimg.jpg" ng-if="detail.STATUS=='1'">
+                            <div class="content-item-fontImg" ng-show="!detail.AVATAR && detail.STATUS!=='1'">
+                                <p ng-if="detail.STATUS=='0'" class="pull-right" ng-show="!detail.AVATAR">{{detail.OPERATOREN.slice(0, 1).toUpperCase()}}</p>
+                                <p ng-if="detail.STATUS=='1'" class="pull-right" ng-show="!detail.AVATAR">{{detail.OPERATOREN.slice(0, 1).toUpperCase()}}</p>
+                            </div>
+                        </div>
+                        <div class="content-item-font">
+                            <div class="item-font-name" ng-show="detail.STATUS=='0'">{{detail.OPERATOREN}}</div>
+                            <div class="item-font-name" ng-show="detail.STATUS=='1'">CJ Dropshipping</div>
+                            <div class="item-font-text" ng-show="detail.businessNum">Sourcing ID: {{detail.businessNum}}</div>
+<!--                            <div class="item-font-text">搜品ID: 12245578</div>-->
+                            <div class="item-font-content" ng-bind-html="detail.MESSAGE"></div>
+                        </div>
+                    </div>
+                    <div class="content-item-bottom">
+                        <div class="item-bottom-img" ng-show="detail.ATTACHMENT.length>0">
+                            <div class="show-img-content" ng-repeat="imgs in detail.ATTACHMENT.split(',')">
+                                <img ng-src="{{'https://'+imgs.replace('https://','')}}">
+                                <div class="show-img-mask" ng-click="downloadImgs('https://'+imgs.replace('https://',''))">
+                                    <i class="iconfont maskIcon">&#xe779;</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- replyBtnShow -->
+            <div class="awaiting-content" ng-show="replyBtnShow">
+                <div class="editInformation">
+                    <p class="editInformation-font">Message:</p>
+                    <textarea class="editInformation-textarea" name="message" id="kmessage"
+                              placeholder="Please note that we will stop processing this order when you open a dispute"
+                              maxlength="1000"></textarea>
+                    <p class="editInformation-font">Attachments:</p>
+                    <div class="res-upload-div" style="margin-bottom: 5px;">
+                        <form class="pull-left ng-pristine ng-valid" action="" method="post"
+                              enctype="multipart/form-data">
+                            <input type="file" class="upimg-inp ng-pristine ng-untouched ng-valid ng-empty"
+                                   id="file" accept="image/*" multiple=""
+                                   onchange="angular.element(this).scope().upLoadImg4(this.files)"
+                                   style="display: none;">
+                        </form>
+                        <label class="up-bg-div upload" for="file"
+                               style="background: #fff;border: 1px dashed rgba(0,0,0,0.15);">
+                            <div class="up-bg-img">
+                                <!--                                <img src="../../../public/static/image/ticket-list/uploadImg.png" style="width:37px;height: 32px;">-->
+                                <i class="iconfont">&#xe6df;</i>
+                            </div>
+                            <p class="upload-text">Upload</p>
+                        </label>
+                        <li class="picture-preview-item" ng-repeat="imge in imgArr track by $index">
+                            <img class="img-url" ng-src="{{imge}}">
+                            <div class="closeImg" ng-click="deleteImg($index)">
+                                <i class="iconfont close-icon">&#xe6ee;</i>
+                            </div>
+                        </li>
+                    </div>
+                    <p class="editInformation-font editInformation-font1" style="font-weight: initial">
+                        <span style="color:#FF6010 ">*</span>
+                        10 files at most; png, jpg, and jpeg; 5M a file at most.</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="bottom-btn" ng-show="replyBtnShow">
+            <button class="btn-cancel" ng-click="closeModal()" ng-show="replyBtnShow">Close</button>
+            <button class="btn-confirm" ng-click="endFun()" ng-show="replyBtnShow">
+                Solve
+            </button>
+            <button class="btn-confirm" ng-click="replyFun()" ng-show="replyBtnShow">
+                Reply
+            </button>
+        </div>
+    </div>
+    <div class="finish-confirm" ng-show="confirmClose">
+        <div class="finish-confirm-center">
+            <i class="iconfont close-icon" ng-click="closeConfirm()">&#xe70d;</i>
+            <div class="finish-confirm-header">Tips</div>
+            <div class="finish-confirm-content">{{closeContent}}</div>
+            <div class="finish-confirm-footer">
+                <button class="btn-confirm" ng-click="finishThis()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

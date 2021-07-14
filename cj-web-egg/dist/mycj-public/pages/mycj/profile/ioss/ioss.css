@@ -1,0 +1,396 @@
+.ioss :global .ioss-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 33px;
+  margin-top: 29px;
+  margin-bottom: 30px;
+}
+.ioss :global .default-setting .option-title {
+  border-radius: 4px 4px 0px 0px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #D9D9D9;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 25px;
+}
+.ioss :global .default-setting .radio-item {
+  padding: 20px 0;
+  border-bottom: 1px solid #D9D9D9;
+}
+.ioss :global .default-setting .radio-item .radio-label {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.ioss :global .default-setting .radio-item .radio-label:hover .custom-radio {
+  border-color: #ff7700;
+}
+.ioss :global .default-setting .radio-item .radio-label input {
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  appearance: none;
+  /*清楚默认样式*/
+  -webkit-appearance: none;
+  opacity: 0;
+  outline: none;
+  /* 注意不能设置为display:none*/
+}
+.ioss :global .default-setting .radio-item .radio-label .custom-radio {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  /*注意层级关系，如果不把label层级设为最低，会遮挡住input而不能单选*/
+  width: 16px;
+  height: 16px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  border-radius: 50%;
+}
+.ioss :global .default-setting .radio-item .radio-label input:checked + .custom-radio {
+  border: 1px solid #FF7700;
+}
+.ioss :global .default-setting .radio-item .radio-label input:checked + .custom-radio::after {
+  content: "";
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #FF7700;
+  border-radius: 50%;
+}
+.ioss :global .default-setting .radio-item .radio-label label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 23px;
+  cursor: pointer;
+}
+.ioss :global .default-setting .radio-item .description {
+  font-size: 14px;
+  font-weight: 500;
+  color: #999999;
+  line-height: 20px;
+  padding-top: 10px;
+  margin-left: 26px;
+}
+.ioss :global .default-setting .radio-item .money-select {
+  margin-left: 26px;
+  margin-top: 16px;
+  display: flex;
+}
+.ioss :global .default-setting .radio-item .money-select .amount-item {
+  padding: 16px;
+  border: 1px solid #E8E8E8;
+  border-radius: 4px;
+  width: 562px;
+  cursor: pointer;
+}
+.ioss :global .default-setting .radio-item .money-select .amount-item:first-child {
+  margin-right: 30px;
+}
+.ioss :global .default-setting .radio-item .money-select .amount-item:hover {
+  border: 2px solid #FF7700;
+  padding: 15px;
+}
+.ioss :global .default-setting .radio-item .money-select .amount-item .amount-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 22px;
+}
+.ioss :global .default-setting .radio-item .money-select .amount-item .amount-context {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #999999;
+  line-height: 20px;
+}
+.ioss :global .default-setting .radio-item .money-select .selected {
+  border: 2px solid #FF7700;
+  padding: 15px;
+  position: relative;
+}
+.ioss :global .default-setting .radio-item .money-select .selected .checked {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+}
+.ioss :global .default-setting .radio-item .money-select .selected .checked .triangle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 16px solid #FF7700;
+  border-left: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+}
+.ioss :global .default-setting .radio-item .money-select .selected .checked .tick {
+  position: absolute;
+  right: -3px;
+  top: -1px;
+  transform: scale(0.5);
+  color: #FFFFFF;
+}
+.ioss :global .ioss-list {
+  margin: 40px 0;
+}
+.ioss :global .ioss-list .ioss-list-title {
+  padding-bottom: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 25px;
+}
+.ioss :global .ioss-list .info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ioss :global .ioss-list .info-bar .add-button {
+  width: 120px;
+  height: 32px;
+  border-radius: 2px;
+  border: 1px solid #FF7700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FF7700;
+  line-height: 22px;
+  user-select: none;
+  cursor: pointer;
+}
+.ioss :global .ioss-list .info-bar .add-button .iconfont {
+  font-size: 16px;
+  margin-right: 9px;
+}
+.ioss :global .ioss-list .info-bar .add-button:hover {
+  background: rgba(255, 119, 0, 0.05);
+}
+.ioss :global .ioss-list .info-bar .number-info {
+  display: flex;
+  justify-content: flex-end;
+}
+.ioss :global .ioss-list .info-bar .number-info .info-item {
+  margin-left: 42px;
+}
+.ioss :global .ioss-list .info-bar .number-info .info-item .label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #999999;
+  line-height: 22px;
+}
+.ioss :global .ioss-list .info-bar .number-info .info-item .value {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 22px;
+}
+.ioss :global .ioss-list .info-bar .number-info .info-item .unlink-country {
+  color: #FF7700;
+}
+.ioss :global .ioss-list .list-content .ioss-table {
+  width: 100%;
+  margin-top: 16px;
+  border-left: 1px solid #F9F8F8;
+  border-right: 1px solid #F9F8F8;
+}
+.ioss :global .ioss-list .list-content .ioss-table thead {
+  background: #F9F8F8;
+  border-radius: 4px 4px 0 0;
+  height: 40px;
+}
+.ioss :global .ioss-list .list-content .ioss-table thead th {
+  text-align: left;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 17px;
+  border-right: 0;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody td {
+  text-align: left;
+  height: 70px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 17px;
+  border-bottom: 1px solid #F9F8F8;
+  padding-right: 50px;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody td .action-icon {
+  cursor: pointer;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody td .delete:hover {
+  color: #DD4B1A;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody td .edit:hover {
+  color: #FF7700;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody td > div {
+  display: table-cell;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody .td-content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  -webkit-line-clamp: 2;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody .td-action > div {
+  width: 100px;
+}
+.ioss :global .ioss-list .list-content .ioss-table tbody .td-action .ioss-tooltip {
+  padding: 0 8px;
+}
+.ioss :global .ioss-list .list-content .ioss-table th:first-child,
+.ioss :global .ioss-list .list-content .ioss-table td:first-child {
+  padding-left: 100px;
+}
+.ioss :global .ioss-list .list-content .ioss-table th:last-child,
+.ioss :global .ioss-list .list-content .ioss-table td:last-child {
+  padding-right: 80px;
+  text-align: center;
+}
+.ioss :global .ioss-list .list-content .no-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ioss :global .ioss-list .list-content .no-data img {
+  width: 150px;
+  height: 150px;
+  margin: 30px 0 20px;
+}
+.ioss :global .ioss-list .list-content .no-data span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #999999;
+  line-height: 20px;
+}
+.ioss :global .delete-ioss-wrap {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+  overflow: auto;
+}
+.ioss :global .delete-ioss-wrap .delete-modal {
+  width: 360px;
+  height: 150px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  transform: translateX(-50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -150px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-header {
+  display: flex;
+  justify-content: flex-end;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-header .edit-close {
+  font-size: 14px;
+  color: #666666;
+  cursor: pointer;
+  user-select: none;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-content {
+  height: 55px;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 20px;
+  text-align: center;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-footer {
+  text-align: center;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-footer .no-btn {
+  background: #F9F9F9;
+  border-radius: 4px;
+  border: 1px solid #E4E4E4;
+  margin-right: 15px;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-footer .no-btn:hover {
+  background: #F5F5F5;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-footer .btn-theme {
+  background: var(--color-theme-gradient-1) !important;
+}
+.ioss :global .delete-ioss-wrap .delete-modal .delete-footer .btn-theme:hover {
+  background: var(--color-theme-1) !important;
+}
+.ioss :global .ioss-tooltip {
+  position: relative;
+  display: inline-block;
+}
+.ioss :global .ioss-tooltip:hover .ioss-tooltip-box {
+  display: flex;
+  justify-content: center;
+}
+.ioss :global .ioss-tooltip .ioss-tooltip-box {
+  display: none;
+  position: absolute;
+  top: 0;
+  transform: translate(0, calc(-100%));
+  right: 0;
+  padding-bottom: 10px;
+  width: 300px;
+}
+.ioss :global .ioss-tooltip .ioss-tooltip-box:after {
+  content: '';
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.75);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.ioss :global .ioss-tooltip .tooltip-right {
+  transform: translate(0%, -100%);
+  right: 0%;
+  justify-content: flex-end !important;
+}
+.ioss :global .ioss-tooltip .tooltip-right:after {
+  right: 8px;
+}
+.ioss :global .ioss-tooltip .tooltip-center {
+  transform: translate(50%, calc(-100%));
+  right: 50%;
+}
+.ioss :global .ioss-tooltip .tooltip-center:after {
+  transform: translateX(50%);
+  right: 50%;
+}
+.ioss :global .ioss-tooltip .ioss-tooltip-content {
+  max-width: 220px;
+  word-break: break-all;
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  font-weight: 400;
+  color: #FFFFFF;
+  line-height: 17px;
+  padding: 5px 10px;
+  border-radius: 3px;
+}

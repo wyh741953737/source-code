@@ -1,0 +1,270 @@
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_m1vy8siy9j.css">
+<div class="mycj-home-box my-inventory">
+  <div class="mycj-right-wrap p-3">
+    <div class="top-space-bar"></div>
+    <div class="top-back-box" ng-if="isViewTransRecord">
+      <span class="top-back-box-content" ng-click="returnInventoryList()">< Back</span>
+    </div>
+    <ul class="top-taps">
+      <li class="video tab-theme active"><a href="#/my-inventory">Product Inventory</a></li>
+      <li class="video tab-theme" style="width: 230px;"><a href="#/package-inventory">Connected Packaging Inventory</a></li>
+    </ul>
+    <div class="mycj-right-bar" style="padding-top: 10px;margin-top: 0;">
+      <div class="search-header">
+        <div class="search-bar">
+          <input type="text" placeholder="Enter Product SKU" class="search-inp" ng-model="inputStr"
+            ng-keyup="enterSearch($event)">
+          <button class="search-btn btn-theme" ng-click="searchPro()"  cjdot cjdotshow='{"eventType":2}'>Search</button>
+        </div>
+        <div>
+          <span class="total-value">
+            Total Value: 
+            <span ng-class="{vipText:isvip == '1'}">{{totalMoney | currency}}</span>
+          </span>
+          <div class="no-inventory-product-wrap" ng-if="!isViewTransRecord" ng-click="hideZeroProduct()">
+            <i class="iconfont is-hide-icon" ng-if="isHideZero">&#xe68a;</i>
+            <i class="iconfont is-hide-icon" ng-if="!isHideZero">&#xe786;</i>
+            <p class="no-inventory-text">Out-of-Stock Product</p>
+          </div>
+        </div>
+        
+        <div class="button-wrap">
+          <button ng-if="!isViewTransRecord" class="exportBtn" ng-click="toShowExport()">
+            <i class="iconfont iconFontStyle">&#xe784;</i>
+            <span class="btn-position-text">Export</span>
+          </button>
+          <button ng-if="getCjAuthorityList !== 0 && !isViewTransRecord" class="transBtn" ng-click="transRecordsList()">
+            <i class="iconfont iconFontStyle">&#xe783;</i>
+            <span class="btn-position-text">Transfer Records</span>
+          </button>
+        </div>
+        
+      </div>
+      <div class="clearfix mb-2"></div>
+      <div class="asj-my-inventory">
+        <div class="asj-top-head">
+          <ul>
+            <li class="li-checkall">
+              <input type="checkbox" id="check-all" class="check-all" ng-model="check_All" ng-change="checkAll()">
+              <label for="check-all"></label>
+            </li>
+            <li class="li-img" style="text-align: left;" ng-style="{'padding-left': !isViewTransRecord ? '20px': '22px'}">Images</li>
+            <li ng-class="{ 'li-merch': !isViewTransRecord, 'li-merch-record': isViewTransRecord}" 
+            ng-style="{width:isViewTransRecord ?'17%':(!supplier?'24%':'21%')}" style="text-align: left;">Products</li>
+            <li ng-style="{'width': !supplier ? '14%': '15%'}" style="text-align: left;">SKU</li>
+            <li class="li-inve">
+              <div class="li-inve-top">Inventory</div>
+              <div class="li-inve-bottom">
+                <span>CN</span>
+                <span>US-E</span>
+                <span>US-W</span>
+                <span>TH</span>
+                <span>DE</span>
+                <span>ID</span>
+              </div>
+            </li>
+            <li style="width: 7%;">Value</li>
+            <li ng-if="isViewTransRecord" style="width: 7%;">Time</li>
+            <li ng-if="isViewTransRecord" style="width: 7%;">Supplier</li>
+            <li ng-style="{'width': supplier ? '9%': (isViewTransRecord ? '7%':'14%')}" class="li-record">Record</li>
+            <li ng-hide="isViewTransRecord || !supplier" style="width: 7%;" class="li-operate">Operation</li>
+          </ul>
+        </div>
+        <!-- 订单1 -->
+        <div class="asj-inve-body">
+          <div ng-if="notDataFound && !noData">
+            <not-data></not-data>
+            <p class="hide-zero-tips" ng-if="isHideZero">You have hidden out-of-stock products.</p>
+          </div>
+          <table class="asj-inve-con" ng-repeat="item in invelist">
+            <tbody class="asj-inve-tr">
+              <tr>
+                <td class="li-checkone">
+                  <input type="checkbox" id="{{item.pid}}" class="check-one" ng-model="item.check" ng-change="checkOne(item,index)">
+                  <label for="{{item.pid}}"></label>
+                </td>
+                <td class="li-img info-icon">
+                  <div style="width: 30px;" ng-show="!isViewTransRecord">
+                    <i class="iconfont" ng-show="item.isWarning" style="font-size:16px; color: #DD4B1A;margin-right: 15px;">&#xe777;</i>
+                    <!-- <img src="/static/image/public-img/warnIcon.png" alt="" ng-show="item.isWarning" style="margin-right: 15px;" /> -->
+                  </div>
+                  <div class="hover-wrap">
+                     <img class="small-img" ng-src="{{item.img | IMG_SIZE: 80}}" alt="">
+                     <img class="big-img" ng-src="{{item.img | IMG_SIZE: 300}}" alt="">
+                  </div>
+                </td>
+                <td ng-class="{ 'li-merch': !isViewTransRecord, 'li-merch-record': isViewTransRecord}"
+                    ng-style="{width:isViewTransRecord ?'17%':(!supplier?'24%':'21%')}"                
+                >
+                  <div class="merch-name">
+                    <a href="{{item.sku.includes('BZSP') ? 'product-detail.html?id=' + item.pid + '&productType=3' : 'product-detail.html?id=' + item.pid}}"
+                      target="_blank">{{item.nameEn}}</a>
+                  </div>
+                </td>
+                <td ng-style="{'width': !supplier ? '14%': '15%'}" style="text-align: left;">{{item.sku}}</td>
+                <td class="li-inve">
+                  <span>{{item.realInventory.China}}</span>
+                  <span>{{item.realInventory['USA-East']}}</span>
+                  <span>{{item.realInventory['USA-West']}}</span>
+                  <span>{{item.realInventory.TH}}</span>
+                  <span>{{item.realInventory.DE}}</span>
+                  <span>{{item.realInventory.ID}}</span>
+                </td>
+                <td style="width: 7%;">
+                  {{item.money | currency}}
+                </td>
+                <td ng-if="isViewTransRecord" style="width: 7%;">
+                  {{item.transferDate.time | date:'yyyy-MM-dd HH:mm:ss'}}
+                </td>
+                <td ng-if="isViewTransRecord" style="width: 7%;">
+                  {{item.scn}}
+                </td>
+                <td ng-class="{'li-record': !isViewTransRecord && supplier, 'li-record-s':isViewTransRecord && supplier }" ng-style="{'width': supplier ? '9%': (isViewTransRecord ? '7%':'14%')}">
+                  <div class="li-record-sub">
+                    <a href="javascript:void(0);" class="show-variant-btn" title="" ng-show="item.down"
+                      ng-click="showVariant(item, $index)">Collapse<br><img src="/static/image/public-img/to-down.png"
+                        alt=""></a>
+                    <a href="javascript:void(0);" class="show-variant-btn" title="" ng-show="!item.down"
+                      ng-click="hideVariant(item, $index)">Collapse<br><img src="/static/image/public-img/to-up.png"
+                        alt=""></a>
+                  </div>
+                </td>
+                <td ng-hide="isViewTransRecord || !supplier" class="li-operate" style="width: 7%;">
+                  <button ng-hide="item.realCount === 0 || isViewTransRecord || item.productType === '1' || item.productType === '3'" class="btn btn-default btn-transfer resell-hover" ng-click="transInventory(item)">Resell</button>
+                  <button ng-show="item.productType === '1' || item.productType === '3'" title="You cannot transfer customized packages and service products." class="btn btn-default btn-transfer-disabled" style="cursor: not-allowed;">Resell</button>
+                </td>
+              </tr>
+              <tr ng-repeat="itemv in item.vlist" style="background: #f8f8f8; border-top: 1px solid #eee;">
+                <td class="li-checkone"></td>
+                <td class="li-img info-icon">
+                  <div style="width: 30px;" ng-show="!isViewTransRecord">
+                    <div class="span-box" ng-mouseenter="getMsg(itemv, 'showWarningMsg')" ng-mouseleave="mouseOut('showWarningMsg')" >
+                      <div class="msg-box" ng-show="itemv.showWarningMsg">
+                         <p>Kindly purchase private inventory upon your sales volume to avoid stock-out cost.</p>
+                         <p style="margin-top: 6px">{{warningMsgOne}}</p>
+                         <p style="margin-top: 6px">{{warningMsgTwo}}</p>
+                      </div>
+                      <div style="padding-top: 10px;" ng-show="isShow(itemv.warningMap)">
+                        <i class="iconfont"  style="font-size:16px; color: #DD4B1A;margin-right: 20px;cursor: pointer;">&#xe777;</i>
+                      </div>
+                     </div>
+                  </div>
+                  <div class="hover-wrap">
+                     <img class="small-img" ng-src="{{itemv.img | IMG_SIZE: 80}}" alt="">
+                     <img class="big-img" ng-src="{{itemv.img | IMG_SIZE: 300}}" alt="">
+                  </div>
+                </td>
+                <!-- <td class="li-img asj-zoom-img">
+                  <img class="small-img" ng-src="{{itemv.img | IMG_SIZE: 80}}" alt="">
+                  <img class="big-img" ng-src="{{itemv.img | IMG_SIZE: 300}}" alt="">
+                </td> -->
+                <td ng-class="{ 'li-merch': !isViewTransRecord, 'li-merch-record': isViewTransRecord}"
+                ng-style="{width:isViewTransRecord ?'17%':(!supplier?'24%':'21%')}" >
+                  <div class="merch-name"><a href="{{'product-detail.html?id=' + item.pid}}"
+                      target="_blank">{{item.nameEn || itemv.nameEn}}</a></div>
+                </td>
+                <td ng-style="{'width': !supplier ? '14%': '15%'}" style="text-align: left;">{{itemv.sku}}</td>
+                <td class="li-inve">
+                  <span>{{itemv.realInventory.China}}</span>
+                  <span>{{itemv.realInventory['USA-East']}}</span>
+                  <span>{{itemv.realInventory['USA-West']}}</span>
+                  <span>{{itemv.realInventory.TH}}</span>
+                  <span>{{itemv.realInventory.DE}}</span>
+                  <span>{{itemv.realInventory.ID}}</span>
+                </td>
+                <td style="width: 7%;">
+                  {{itemv.money | currency}}
+                </td>
+                <td ng-if="isViewTransRecord" style="width: 7%;">
+                  {{itemv.transferDate.time | date:'yyyy-MM-dd HH:mm:ss'}}
+                </td>
+                <td ng-if="isViewTransRecord" style="width: 7%;">
+                  {{itemv.scn}}
+                </td>
+                <td ng-class="{'li-record': !isViewTransRecord && supplier , 'li-record-s':isViewTransRecord && supplier  }" ng-style="{'width': supplier ? '9%': '7%'}">
+                  <a ng-hide="isViewTransRecord" class="view-details resell-hover" href="javascript:void(0);" ng-click="viewDetails(itemv)">View
+                    Details</a>
+                </td>
+                <td ng-hide="isViewTransRecord || !supplier" class="li-operate" style="width: 7%;">
+                  <button ng-hide="itemv.realCount === 0 || isViewTransRecord || item.productType === '1' || item.productType === '3'" class="btn btn-default btn-transfer resell-hover" ng-click="transInventory(itemv,true)">Resell</button>
+                  <button ng-show="item.productType === '1' || item.productType === '3'" title="You cannot transfer customized packages and service products." class="btn btn-default btn-transfer-disabled" style="cursor: not-allowed;">Resell</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- page -->
+      <page ng-show="invelist.length > 0"></page>
+      <!-- 默认图片展示 -->
+      <div class="asj-default-imgbox" ng-show="noData" style="margin-top: 152px;">
+        <img class="default-img" style="width: 200px;height: 200px;" ng-if="isvip == 0" src="/static/image/page/no-kucun.png">
+        <img class="default-img" style="width: 200px;height: 200px;" ng-if="isvip == 1" src="/static/image/page/no-kucun-vip.png">
+        <p class="default-msg" style="margin: 0">No inventory yet. You can have an inventory to shorten the processing time of your orders. </p>
+        <p class="default-msg" style="margin: 0" ng-if="isHideZero">You have hidden out-of-stock products.</p>
+        <a class="mycj-btn-default" href="#/goods">Start</a>
+      </div>
+      <!-- export -->
+      <div class="mask" ng-show="showExport">
+        <div class="box">
+            <i class="iconfont iconx closel" ng-click="showExport=false"></i>
+            <p>Are you sure to export the inventory list?</p>
+            <div class="btns">
+                <button ng-click="showExport=false">Cancel</button>
+                <button class="con" ng-click="exportExcel()">Confirm</button>
+            </div>
+        </div>
+      </div>
+      <div class="mask" ng-show="showTransferConfirm">
+        <div class="box-2">
+            <i class="iconfont iconx closel" ng-click="showTransferConfirm=false"></i>
+            <p>Are you sure to transfer {{clickedItem.sku}} to {{supplier}} supplier? Please be careful.</p>
+            <p>After confirmation, the private stock of {{clickedItem.sku}} commodities will be transferred to the {{supplier}} supplier, please proceed with caution.</p>
+            <div class="btns">
+                <button ng-click="showTransferConfirm=false">Cancel</button>
+                <button class="con" ng-click="confirmTransInventory()">Confirm</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--viewDetails-->
+  <div class="mask" ng-show="isView">
+    <div class="content">
+      <h3>Inventory Record<span class="close cursor-pointer" ng-click="isView = false;">×</span></h3>
+      <div style="padding: 0 23px 23px 23px;">
+        <div class="filter">
+          <span>Please Select Warehouse:</span>
+          <select ng-model="storageId" ng-options="item.id as item.cjStorageName for item in StorageList"
+            ng-change="storageSelect(storageId)"></select>
+        </div>
+        <div style="height: 150px;overflow-y: auto;">
+          <table>
+            <thead>
+              <tr ng-class="{vipbg:isvip == '1'}">
+                <th>Time</th>
+                <th>Type</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in detailList">
+                <td>{{item.createDate | date:'yyyy-MM-dd'}}</td>
+                <td style="color: #999999;">{{item.type}}</td>
+                <td style="color: #999999;" ng-if="item.type == 'In'">{{'+'+item.optValue}}</td>
+                <td style="color: #999999;" ng-if="item.type == 'Out'">{{'-'+item.optValue}}</td>
+                <!-- <td>{{item.optAfterValue}}</td> -->
+              </tr>
+              <tr ng-show="detailList.length == 0;">
+                <td style="color: #999999;" colspan="4">No record yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<loading-cart top="49" left="10" right="10" ng-if="loading"></loading-cart>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Service Fee</title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+	<!-- bootstrap.css -->
+  <link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+	<!-- reset.css -->
+  <link rel="stylesheet" type="text/css" href="static/css/reset.css">
+  <link rel="stylesheet" href="static/css/workOrders.css">
+  <link rel="stylesheet" href="static/components/intel_guid/intel-guid.css">
+	<!--公共头部-->
+  <link rel="stylesheet" type="text/css" href="static/components/headerandfooters/common-header.css">
+	<!-- 公共底部 -->
+  <link rel="stylesheet" type="text/css" href="static/components/headerandfooters/common-footer.css">
+	<!--loading-->
+  <link rel="stylesheet" href="static/loading/loading.css">
+	<link rel="stylesheet" href="static/css/service-fee.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_0lb8fpkm05el.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_jbbgmgksp7p.css">
+  <link rel="stylesheet" type="text/css" href="static/css/iconfont/iconfont.css">
+  <script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/lottie.js"></script>
+  <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+	<!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+                style="display:none;visibility:hidden"></iframe>
+    </noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager -->
+  <script>
+        ;(function(w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({
+            'gtm.start':
+              new Date().getTime(), event: 'gtm.js'
+          });
+          var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+    </script>
+	<!-- End Google Tag Manager -->
+	<!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+  <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'AW-965740562');
+    </script>
+  <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <!-- cj 通用工具库 [上传图到OSS、播放视频、md5、base64、uuid] -->
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<style>
+  .ng-cloak {
+    display: none;
+  }
+</style>
+<body ng-app="servicezFeeApp" ng-controller="servicezFeeCtrl">
+<!--公共头部-->
+<common-header></common-header>
+<!-- 内容区域 -->
+<div class="service-fee" ng-cloak class="ng-cloak">
+  <div class="content">
+    <h3 class="service-title">CJdropshipping Service Fee</h3>
+    <p class="description">Check out the below information of how does the Service Fee charged in our different warehouses</p>
+    <div class="service-tabs">
+      <div class="tabs-item" ng-class="{'is-click': isClick == 'US'}" ng-click="handleChange('US')">US Warehouse</div>
+      <div class="tabs-item" ng-class="{'is-click': isClick == 'Germany'}" ng-click="handleChange('Germany')">Germany Warehouse</div>
+      <div class="tabs-item" ng-class="{'is-click': isClick == 'Thailand'}" ng-click="handleChange('Thailand')">Thailand Warehouse</div>
+      <div class="tabs-item" ng-class="{'is-click': isClick == 'Indonesia'}" ng-click="handleChange('Indonesia')">Indonesia Warehouse</div>
+      <div class="tabs-item" ng-class="{'is-click': isClick == 'China'}" ng-click="handleChange('China')">China Warehouse</div>
+    </div>
+    <div class="service-fee-box">
+      <div class="title-box">
+        <p ng-bind-html="serviceFee.title"></p>
+        <p class="free">=Free</p>
+      </div>
+      <div class="desc" ng-bind-html="serviceFee.desc"></div>
+      <div class="advantage-box">
+        <div class="advantage-item" ng-repeat="advantage in serviceFee.advantage">
+          <img src="/egg/image/check.png" alt="">
+          <span ng-bind-html="advantage"></span>
+        </div>
+      </div>
+      <div class="service-list-box">
+        <div class="list-title">
+          <p ng-bind-html="serviceFee.mainTitle"></p>
+          <p ng-bind-html="serviceFee.emphasis" style="color: #ff7700;"></p>
+        </div>
+        <div class="top-box">
+          <div class="left-box table-box" ng-class="{'center-box': isClick == 'Thailand' || isClick == 'Indonesia' || isClick == 'China'}">
+            <div class="table-title" ng-bind-html="serviceFee.leftTitle"></div>
+            <div class="table-body">
+              <div class="table-body-item table-body-title">
+                <div class="item left-item">Weight</div>
+                <div class="item">Price/item</div>
+              </div>
+              <div class="table-body-item" ng-repeat="leftItem in serviceFee.leftList" ng-class="{'no-border-bottom': $index == serviceFee.leftList.length-1}">
+                <div class="item left-item" ng-class="{'left-last-box': $index == serviceFee.leftList.length-1}" ng-bind-html="leftItem.weight"></div>
+                <div class="item" ng-class="{'left-last-box': $index == serviceFee.leftList.length-1}" ng-bind-html="leftItem.price"></div>
+              </div>
+            </div>
+          </div>
+          <div class="right-box table-box" ng-show="serviceFee.rightSecondList">
+            <div class="table-title right-title">
+              <p>Shipping Fee</p>
+              <p class="right-title-desc" ng-bind-html="serviceFee.rightTitleDesc"></p>
+            </div>
+            <!-- <div class="right-second-title table-body-title">
+              <div class="first-title">{{serviceFee.rightFirstTitle}}</div>
+              <div class="second-title">{{serviceFee.rightSecondTitle}}</div>
+            </div> -->
+            <div class="right-content">
+              <div class="left-list">
+                <div class="title" ng-bind-html="serviceFee.rightFirstTitle"></div>
+                <div class="little-content-box little-title-box">
+                  <div class="little-item right-border">Transportation</div>
+                  <div class="little-item right-border">Delivery Time</div>
+                  <div class="little-item">Price/kg</div>
+                </div>
+                <div class="little-content-box" ng-repeat="rightSecondItem in serviceFee.rightSecondList" ng-class="{'no-border-bottom': $index == serviceFee.rightSecondList.length-1}">
+                  <div class="little-item right-border" ng-bind-html="rightSecondItem.transportation"></div>
+                  <div class="little-item right-border" ng-bind-html="rightSecondItem.deliveryTime"></div>
+                  <div class="little-item" ng-bind-html="rightSecondItem.price"></div>
+                </div>
+              </div>
+              <div class="right-list">
+                <div class="title" ng-bind-html="serviceFee.rightSecondTitle"></div>
+                <!-- <div class="content">
+                  <p>Click <span class='focus-black'>Your name</span> > <span class='focus-black'>Tool</span> > <a href="https://app.cjdropshipping.com/myCJ.html" class='focus-orange'>Shipping Calculation</a></p><p>Select shipping method by <span class='focus-black'>USPS+</span> and input the order weight, then the shipping cost will show up.</p>
+                </div> -->
+                <div class="content" ng-bind-html="serviceFee.rightSecondContent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-if="isClick == 'Thailand' || isClick == 'Indonesia' || isClick == 'China'" style="margin-top: 20px;color: #999999;">
+          <div class="left-box table-box center-box">
+            <div class="table-title">Shipping Cost</div>
+            <div class="table-body-item center-item">
+              <p class="regular">Click <span class='focus-black'>Your name</span> > <span class='focus-black'>Tool</span> > <a href="https://app.cjdropshipping.com/myCJ.html" class='focus-orange'>Shipping Calculation</a></p>
+              <p class="regular">and input the order weight, then the shipping cost will be there.</p>
+            </div>
+          </div>
+
+          <!-- <p style="color: #333333;">Shipping Cost:</p>
+          <p>
+            <p class="regular">Click <span class='focus-black'>Your name</span> > <span class='focus-black'>Tool</span> > <a href="https://app.cjdropshipping.com/myCJ.html" class='focus-orange'>Shipping Calculation</a></p>
+            <p class="regular">and input the order weight, then the shipping cost will be there.</p>
+          </p> -->
+        </div>
+        <div class="bottom-box">
+          <div class="table-box">
+            <div class="table-title" ng-bind-html="serviceFee.bottomTitle1"></div>
+            <div class="table-body">
+              <div class="table-body-item table-body-title">
+                <div class="item price-item">Price</div>
+                <div class="item conditions-item">Conditions</div>
+              </div>
+              <div class="table-body-item" ng-repeat="bottomItem in serviceFee.bottomList1" ng-class="{'no-border-bottom': $index == serviceFee.bottomList1.length-1}">
+                <div class="item price-item" ng-bind-html="bottomItem.price"></div>
+                <div class="item conditions-item" ng-bind-html="bottomItem.conditions"></div>
+              </div>
+            </div>
+          </div>
+          <div class="table-box" ng-if="serviceFee.bottomTitle2">
+            <div class="table-title" ng-bind-html="serviceFee.bottomTitle2"></div>
+            <div class="table-body">
+              <!-- <div class="table-body-item table-body-title">
+                <div class="item left-item">Weight</div>
+                <div class="item">Price/item</div>
+              </div> -->
+              <div class="table-body-item" ng-repeat="bottomItem in serviceFee.bottomList2" ng-class="{'no-border-bottom': $index == serviceFee.bottomList2.length-1}">
+                <div class="item price-item" ng-bind-html="bottomItem.price"></div>
+                <div class="item conditions-item" ng-bind-html="bottomItem.conditions"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="regular chat">
+          If any uncertainties,  you can click here to <a href="https://chat.cjdropshipping.com/#/chat/openChat" class='focus-orange'>chat</a> with online agent for help.
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 相關鏈接 -->
+  <related-links></related-links>
+</div>
+<!-- 公共底部 -->
+<common-footer ng-show="!$root.isSwitch"></common-footer>
+<script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+</html>
+<!-- angular -->
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/angular-1.5.8/angular-sanitize.min.js"></script>
+<script src="static/layer/layer.js"></script>
+<script>
+  layer.load(2);
+</script>
+<script src="static/js/public/config.js"></script>
+<script src="static/js/public/common.js"></script>
+<script src="static/js/public/base64.min.js"></script>
+<script src="static/providers/filter/filter.js"></script>
+<script src="static/providers/utils/utils.js"></script>
+<!-- js -->
+<script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<script src="static/jqPaginator-master/jqPaginator.js"></script>
+<script src="static/js/myCJ/myCJ-old.js"></script>
+<script src="static/js/home/home-common.js"></script>
+<!--消息模块-->
+<script src="static/js/cjmsg/cjmsg.js"></script>
+<!--公共头部-->
+<script src="static/components/headerandfooters/common-header.js"></script>
+<!-- 相关链接 -->
+<script src="static/components/headerandfooters/common-related-links.js"></script>
+<!--公共底部-->
+<script src="static/components/headerandfooters/common-footer.js"></script>
+<!-- <script src="static/js/tutorial/tutorial.js"></script> -->
+<script src="static/js/service-fee/service-fee.js"></script>
+<!-- 智能引导 -->
+<script src="static/components/intel_guid/intel-guid.js"></script>
+<!--加载层-->
+<script src="static/loading/loading.js"></script>
+<script src="static/providers/cjdot/cjdot.js"></script>
+<script type="text/javascript">
+    function googleTranslateElementInit2() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        autoDisplay: false
+      }, 'google_translate_element2');
+    }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2" async="async"></script>

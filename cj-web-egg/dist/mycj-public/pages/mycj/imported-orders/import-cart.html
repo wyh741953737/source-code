@@ -1,0 +1,765 @@
+<style>
+  .check-address{
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 99;
+    }
+    .check-address-wrapper{
+        max-width: 700px;
+        max-height: 600px;
+        background: #FFFFFF;
+        border-radius: 4px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        z-index: 5;
+        position: absolute;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-size: 14px;
+    }
+    .check-address-wrapper .check-address-top{
+        height: 50px;
+        width: 700px;
+        background: #F9F8F8;
+        border-radius: 4px 4px 0px 0px;
+        position: relative;
+    }
+    .check-address-wrapper .check-address-top div{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        width: 32px;
+        height: 22px;
+        font-weight: 600;
+        font-size: 16px;
+        color: #333333;
+        line-height: 22px;
+    }
+    .check-address-wrapper .check-address-top .close{
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        margin-top: 18px;
+        margin-right: 21px;
+        float: right;
+    }
+    .check-address-wrapper .check-address-body .body-head{
+        background: #FFF1E8;
+        border-radius: 4px;
+        border: 1px solid #FF511B;
+        padding-left: 10px;
+        font-weight: 400;
+        color: #333333;
+        margin: 20px 20px 0 20px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    .check-address-wrapper .check-address-body .body-head span{
+        padding-right: 9px;
+        width: 18px;
+        height: 18px;
+        color: #FF511B;
+    }
+    .order-table-header table{
+        width: 100%;
+        text-align: left;
+        border-radius: 2px 2px 0 0;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin:20px 20px 0 20px;
+        max-width: 660px;
+    }
+    .order-table-thead > tr > th {
+        color: #333333;
+        font-weight: 500;
+        text-align: left;
+        background: #F0EDE7;
+        border-bottom: 1px solid #f0f0f0;
+        -webkit-transition: #F0EDE7 .3s ease;
+        transition: #F0EDE7 .3s ease;
+        border: none;
+        padding-left: 12px;
+    }
+    .order-table-thead > tr > th:nth-child(1){
+        width:218px;
+    }
+    .order-table-thead > tr > th:nth-child(2){
+        width:220px;
+    }
+    .order-table-thead > tr > th:nth-child(3){
+        width:220px;
+    }
+    .order-table-tbody > tr{
+        max-width: 660px;
+    }
+    .order-table-tbody > tr > td{
+        height: 70px;
+        border-bottom: 1px solid #F0EDE7;
+        border-left: 1px solid #F0EDE7;
+    }
+    .order-table-tbody > tr > td > p{
+        margin: 0 20px 0 10px;
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #333333;
+        /* height: 33px; */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        word-break: break-word;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        width: 188px;
+    }
+    .order-table-tbody > tr > td:nth-child(1){
+        width: 180px;
+    }
+    .order-table-tbody > tr > td:nth-child(2){
+        width: 240px;
+    }
+    .order-table-tbody > tr > td:nth-child(3){
+        width: 240px;
+    }
+    .check-address-wrapper .check-address-footer{
+        width: 700px;
+        height: 70px;
+        background: #FFFFFF;
+        box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05);
+        border-radius: 0px 0px 4px 4px;
+        /*transform: translateY(58px);*/
+        position: absolute;
+        top: 530px;
+    }
+    .check-address-wrapper .check-address-footer div{
+        text-align: center;
+    }
+    .check-address-wrapper .check-address-footer button{
+        width: 80px;
+        height: 30px;
+        background: #F9F9F9;
+        border-radius: 4px;
+        border: 1px solid #E4E4E4;
+        margin-top: 20px;
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+    }
+    .check-address-wrapper .check-address-footer button:nth-child(1){
+        margin-right: 11px;
+    }
+    .check-address-wrapper .check-address-footer button:nth-child(2){
+        width: 148px;
+        color: #FFFFFF;
+        background: linear-gradient(135deg, #F2D7A1 0%, #DFAD65 100%);
+    }
+    .confirm-content-address{
+      padding: 0px 30px 80px;
+    }
+    .address-modefy-cont .address-modefy-cart {
+      width: 80px;
+    }
+    .address-modefy-err{
+      margin-left: 90px !important;
+    }
+  .submitButtonDiv{
+    display: inline-block;
+    position: relative;
+  }
+  .submitButtonDiv .fausebox {
+    position: absolute;
+    width: 270px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    white-space: initial;
+    left: -10px;
+    top: -60px;
+    z-index: 10;
+  }
+  .submitButtonDiv .fausebox:after {
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    width: 0;
+        border-top: 8px solid #40424C;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid transparent;
+    border-style: solid;
+    top: 49px;
+    left: 80px;
+  }
+</style>
+<div class="content import-cart">
+  <!-- loading加载 -->
+  <div class="addcardLoad"><span class="addcardLoad-lottie" id="addcardLoad"></span></div>
+  <!-- 新老版本切换 -->
+  <version-control></version-control>
+  <div class="mycj-home-box directorders-wrap">
+    <!-- 右边部分 -->
+    <div class="direct-right p-3">
+      <!-- 导航 -->
+      <ul class="top-taps">
+        <li class="tab-theme import" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">{{'('+impprocessNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==1">{{'('+cartNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+incompleteNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==3">{{'('+cancelNum+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="order-status">
+        <div class="status-nav">
+          <div class="order-filter" id="order-2">
+            <div class="search-order">
+              <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="From"></input>
+              <span class="line">-</span>
+              <input id="cj-etime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="Now"></input>
+
+              <input class="ord-search-inp" placeholder="Enter Order Number"></input><span ng-click="ordnumSearch()"
+                class="search-btn btn-theme" href="javascript:void(0)" cjdot cjdotshow='{"eventType": 2}'>Search</span>
+              <a class="toggle-moresearch" id="ditect-searchmore" href="javascript:void(0)">
+                <i id="toggle-logo1" class="iconfont glyphicon-triangle-bottom"></i>
+                <span class="filter-span">Filter</span>
+              </a>
+              <!-- filter后面的功能按钮 -->
+              <a ng-click="addToCancelFun()" class="ui-btn btn-theme1"
+                href="javascript:void(0)">Cancel</a>
+            </div>
+            <!-- 高级搜索部分 -->
+            <div class="more-search" id="ditect-moresearch">
+              <ul>
+                <li class="first-line">
+                  <div class="maybe-top">
+
+                    <span>Your Ordered Date</span>
+                    <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="y-ord-sdate"
+                      placeholder="from"></input>
+                    <span class="line">-</span>
+                    <input class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="y-ord-edate"
+                      placeholder="to"></input>
+                  </div>
+                  <div class="maybe-bottom">
+                    <span>Your Product Title</span>
+                    <input id="y-pro-name"></input>
+
+                    <span>{{websiteName}} Product Title</span>
+                    <input id="cj-pro-name"></input>
+
+                    <span class="buyer-name">Buyer Name</span>
+                    <input class="buyer-inp"></input>
+
+                    <button id="tj-search-btn" class="btn-theme">Search</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 订单的处理部分 待提交付款页面订单 awaiting submit-->
+      <div class="deal-orders direct-deal-order orders-list" id="dtj-orders">
+        <table class="orders-table dcl-ord" id="dfk-orders">
+          <thead>
+            <tr>
+              <th class="data-th fir-th" style="width: 140px;">
+                <img class="zchecked-all" src="static/image/direct-orders/multiple2.png">
+                <span>{{websiteName}} Order Number</span>
+                <img class="showsp-img" src="static/image/public-img/up.png">
+              </th>
+              <th style="width: 108px;">
+                <p>Your Store Time</p>
+                <p>System Time</p>
+              </th>
+              <th style="width: 128px;">
+                <select id="cart-sel" ng-change="storeChangeFun()" ng-model="storeName">
+                  <option value="">Stores All</option>
+                  <option ng-repeat="item in shops" value="{{item.id}}">{{item.rNAME}}</option>
+                </select>
+              </th>
+              <th style="width: 116px;">
+                Your Order Number
+              </th>
+              <th style="width: 98px;">Store Amount</th>
+              <th style="width: 96px;">{{websiteName}} Amount</th>
+              <th style="width: 60px;">Quantity</th>
+
+              <th style="width: 200px;">Shipping Info</th>
+              <th style="width: 115px;">Shipping Method</th>
+              <th style="width: 60px;">Action</th>
+            </tr>
+          </thead>
+          <tbody ng-mouseenter="showdelFun($event,$index,listName.order)" ng-mouseleave="hidedelFun($event,$index)"
+            class="dcl-ord-tbody" ng-repeat="listName in ordersList" repeat-finish>
+            <tr style="background-color: #ececec;" class="blank-tr">
+              <td colspan="16" class="table-blank-td">
+                <div class="hasdel-con">
+                  <div class="hasdel-top">
+                    <span style="color: #f99429" class="iconfont">&#xe626;</span>
+                    <p ng-if="listName.order.shopOrderStatus!='possiblePerformance'">
+                      This order might be requsted to refund by your buyer, please double check it and decide KEEP IT or
+                      DELETE IT.
+                    </p>
+                    <p ng-if="listName.order.shopOrderStatus=='possiblePerformance'">
+                      This order might be a COMPLETED status in your store, please double check it and decide KEEP IT or
+                      DELETE IT
+                    </p>
+                  </div>
+                  <div class="editmess-btns">
+                    <button ng-click="keepOrdFun($index,listName.order)" class="edit-keepbtn">KEEP IT</button>
+                  </div>
+                  <span id="has-glybtom" class="glyphicon glyphicon-triangle-bottom"></span>
+                </div>
+              </td>
+            </tr>
+            <tr class="order-detail"
+              title="{{listName.order.shopOrderStatus?'This order had been canceled from your store!':''}}"
+              ng-class="{'ord-active':listName.order.shopOrderStatus}">
+              <td id="cj-ord-num" class="order-time">
+                <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple2.png">
+                <p class="dclord-sys-time">{{listName.order.ID}}</p>
+                <p style="display: none;" class="cj-amount-money">{{listName.order.AMOUNT}}</p>
+              </td>
+              <td class="paid-time cshow-allsp" ng-cloak>
+                <p>{{listName.order.shopifyDate}}</p>
+                <p>{{listName.order.date}}</p>
+              </td>
+              <td class="ord-cai cshow-allsp">
+                <p class="store-name-p" ng-cloak>{{listName.order.STORE_NAME}}</p>
+                <p style="display: none;" class="order-id" ng-cloak>{{listName.order.ID}}</p>
+              </td>
+              <td class="order-num-td cshow-allsp" ng-cloak>
+                <p class="cus-ordtext">{{listName.order.ORDER_NUMBER}}</p>
+                <p ng-if="listName.order.ORDERSOURCE_TYPE==2">Shopify Imported</p>
+              </td>
+              <td class="dfk-stord-td cshow-allsp">
+                <p ng-if="listName.order.SHOPIFYAMOUNT" class="dfk-stam">
+                  <span class="dfk-st-money" ng-cloak>{{listName.order.SHOPIFYAMOUNT}}</span>USD<span
+                    class="stam-span"></span>
+                </p>
+                <p ng-if="listName.order.SHOPIFYAMOUNT==null" class="dfk-stam">
+                  <span class="dfk-st-money" ng-cloak>{{listName.order.SHOPIFYAMOUNT}}</span>-USD<span
+                    class="stam-span"></span>
+                </p>
+              </td>
+              <td class="dfk-cjord-td cshow-allsp">
+                <p class="dfk-cjam">
+                  <span class="dfk-cj-money notranslate" ng-cloak>{{listName.order.AMOUNT}}</span>USD<span class="cjam-span"></span>
+                </p>
+              </td>
+              <td class="dfk-quantity cshow-allsp" ng-cloak>{{listName.order.ORDER_QUANTITY}}</td>
+              <td class="shipping-info cshow-allsp">
+                <p title="{{listName.order.CUSTOMER_NAME}}" class="buyer-name" ng-cloak>{{listName.order.CUSTOMER_NAME}}
+                  <button ng-click="modefyAddFun(listName.order,$index)" id="modefy-addbtn">edit</button></p>
+                <p class="detail-adress" title="{{listName.order.SHIPPING_ADDRESS}}" ng-cloak>
+                  {{listName.order.SHIPPING_ADDRESS}}</p>
+                <p title="{{listName.order.shippingAddress2}}" ng-cloak>{{listName.order.shippingAddress2}}</p>
+                <p class="buyer-adress"
+                  title="{{listName.order.CITY}} {{listName.order.PROVINCE}} {{listName.order.ZIP}} {{listName.order.COUNTRY_CODE}}">
+                  <span ng-cloak>{{listName.order.CITY}}</span>
+                  <span ng-cloak>{{listName.order.PROVINCE}}</span>
+                  <span class="post-code" ng-cloak>{{listName.order.ZIP}}</span>
+                  <span ng-cloak>{{listName.order.COUNTRY_CODE}}</span>
+                </p>
+                <p class="phone-num" ng-cloak>{{listName.order.PHONE}}</p>
+                <p ng-if="listName.order.taxidExtend" title="{{listName.order.taxidExtend}}" class="taixd-text"
+                  ng-cloak>Tax ID: {{listName.order.taxidExtend}}</p>
+              </td>
+              <td class="cart-wuliufs cshow-allsp" ng-cloak>
+                <!-- E邮宝 -->
+                {{listName.order.LOGISTIC_NAME}}
+              </td>
+              <td>
+                <a ng-click="deletFun($index,listName,$event)" class="d-cart-delbtn btn-theme2"
+                  href="javascript:void(0)">Cancel</a>
+              </td>
+            </tr>
+            <tr class="d-toggle-tr">
+              <td colspan="16" class="d-tog-td">
+                <div class="d-toggle-div">
+                  <table class="d-toggle-tab" ng-repeat="pList in listName.product">
+                    <tr>
+                      <td rowspan="2" class="dt-img-td">
+                        <span class="blank-span"
+                          ng-if="listName.order.STORE_NAME !='Excel Imported'&&listName.order.STORE_NAME !='Shipstation'&&!pList.SKU.includes('BZSP')">
+                          <img class="sp-smallimg sp-smallimg1" ng-if="pList.cjImage || pList.image"
+                            ng-src="{{pList.cjImage || pList.image}}"
+                            err-src="static/image/public-img/default.jpg">
+                          <img title="Image Doesn't Exsit" class="sp-smallimg1" ng-if="!pList.cjImage && !pList.image"
+                            src="static/image/public-img/default.jpg">
+                          <img class="hide-bigimg" ng-if="pList.cjImage || pList.image"
+                            ng-src="{{pList.cjImage || pList.image}}">
+                          <img class="hide-bigimg" ng-if="!pList.cjImage && !pList.image"
+                            src="static/image/public-img/default.jpg">
+                        </span>
+                        <span class="blank-span"
+                          ng-if="listName.order.STORE_NAME =='Excel Imported'||listName.order.STORE_NAME =='Shipstation'||pList.SKU.includes('BZSP')">
+                          <img class="sp-smallimg sp-smallimg1" ng-if="pList.cjImage" ng-src="{{pList.cjImage}}"
+                            err-src="static/image/public-img/default.jpg">
+                          <img title="Image Doesn't Exsit" class="sp-smallimg" ng-if="!pList.cjImage"
+                            src="static/image/public-img/default.jpg">
+                          <img class="hide-bigimg" ng-src="{{pList.cjImage}}">
+                          <img class="hide-bigimg" ng-if="!pList.cjImage" src="static/image/public-img/default.jpg">
+                        </span>
+                      </td>
+                      <td id="madetd" rowspan="2">
+                        <div ng-cloak>
+                          <div class="bagsku-box" ng-if="pList.isGroupProduct==1">
+                            <span class="iconfont iconicon1"></span>
+                            <div class="bagsku-tips">These are bundle products.</div>
+                          </div>
+                          SKU: {{pList.SKU}}
+                        </div>
+                        <span style="color: #f99429;" ng-if="pList.SKU.includes('BZSP')">(Pack products)</span>
+                      </td>
+                      <td rowspan="2">
+                        <div ng-cloak>
+                          Ship From:<br>
+                          <span>{{listName.order.orderArea}}</span>
+                        </div>
+                      </td>
+                      <td class="product-name">
+                        <p>
+                          {{websiteName}} Product Title:
+                          <span ng-click="cjdetailhref(listName.order,pList)">{{pList.cj_product_name}}</span>
+                        </p>
+                      </td>
+                      <td ng-cloak>Store Price: {{pList.SHOPIFYPRICE}}USD</td>
+                      <td ng-cloak>Store Quantity: {{pList.QUANTITY}}</td>
+                      <td ng-cloak>Store Amount: {{pList.SHOPIFYPRICE*pList.QUANTITY | number:2}}USD</td>
+                      <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS*pList.QUANTITY | number:2}}g</td>
+                      <td style="display: none;">{{pList.LOGISTICS_TYPE}}</td>
+                    </tr>
+                    <tr>
+                      <td class="product-name">
+                        <p>
+                          Your Product Title:
+                          <p>{{pList.SHIPPING_NAME}}</p>
+                        </p>
+                      </td>
+                      <td ng-cloak>{{websiteName}} Price: {{pList.PRICE}}USD</td>
+                      <td ng-cloak>{{websiteName}} Quantity: {{pList.QUANTITY}}</td>
+                      <td ng-cloak>{{websiteName}} Subtotal: {{pList.PRICE*pList.QUANTITY | number:2}}USD</td>
+                      <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS*pList.QUANTITY | number:2}}g</td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+
+        <!-- 底部功能条 -->
+        <div ng-hide="dataFound" class="not-found-data">
+          <img src="static/image/public-img/nodata.png">
+        </div>
+        <div class="bottom-function-bar clearfix new-bottom-function-bar" id="new-bottom-function-bar">
+          <div class="pull-left combine-con">
+            <div class="num-of-order pull-left">
+              <span class="total-num">Current Page <b class="page-all-num" ng-cloak>{{countNumber}}</b> {{countNumber>1 ? 'Orders' : 'Order' }}</span>
+              <span class="select-num">Selected <b class="page-selected-num">{{countNumber}}</b></span>
+            </div>
+          </div>
+          <div class="pull-right">
+            <div class="pull-left settle-con">
+              <div class="total-num pull-right">Final Amount (Included Shipping):
+                <b class="awaiting-amount-money notranslate" ng-cloak>{{cartAmount | number:2}}</b> USD
+                <div  class="submitButtonDiv">
+                  <button type="button" ng-mouseenter="disableTip = true;" ng-mouseleave="disableTip = false;" class="confirm-btn btn-theme">Confirm</button>
+                  <div
+                    class="fausebox"
+                    ng-show="disableTip"
+                  >
+                    Note: Payment process has been upgraded. 
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!--  -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- 修改地址 -->
+  <div class="confirm-box" ng-show="addModefyFlag">
+    <div class="confirm-main">
+      <div class="confirm-title">
+        <i class="icon"></i>
+        Address
+      </div>
+      <i class="iconfont confirm-close" ng-click="addModefyFlag = false;"></i>
+        <div class="confirm-content confirm-content-address">
+            <div class="address-modefy-list">
+                <div class="address-modefy-item">
+                    <div class="address-modefy-cont">
+                        <span class="address-modefy-title address-modefy-cart">Address1:</span>
+                        <input class="address-modefy-input" ng-model="address1" ng-blur="lost()"></input>
+                    </div>
+                </div>
+                <div class="address-modefy-item">
+                    <div class="address-modefy-cont">
+                        <span class="address-modefy-title address-modefy-cart">Address2:</span>
+                        <input class="address-modefy-input" ng-model="address2"></input>
+                    </div>
+                </div>
+                <div class="address-modefy-item">
+                    <div class="address-modefy-cont">
+                        <span class="address-modefy-title address-modefy-cart">City:</span>
+                        <input class="address-modefy-input" ng-model="addCity" ng-blur="lost()"></input>
+                    </div>
+                </div>
+                <div class="address-modefy-item">
+                    <div class="address-modefy-cont">
+                        <span class="address-modefy-title address-modefy-cart">Province:</span>
+                        <input class="address-modefy-input" ng-model="addProvince"></input>
+                    </div>
+
+                </div>
+                <div class="address-modefy-item">
+                    <div class="address-modefy-cont">
+                        <span class="address-modefy-title address-modefy-cart">Phone:</span>
+                        <input class="address-modefy-input" ng-keyup="checkPhone(addPhone)" ng-model="addPhone"></input>
+                    </div>
+                    <div class="address-modefy-err" ng-show="phoneErr.length>0">
+                      <span>Invalid phone. Please enter a valid phone.</span>
+                      <div class="address-modefy-errtip">
+                          <span class="checkIcon" ng-class="{icon: 1, iconfont: true}">&#xe70e;</span>
+                          <div class="errtip-list">
+                            <p class="errtip-item" ng-repeat="it in phoneErr">{{it.msgEn}}</p>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="address-modefy-item">
+                    <div class="address-modefy-cont">
+                        <span class="address-modefy-title address-modefy-cart">Name:</span>
+                        <input class="address-modefy-input" ng-model="addName" ng-keyup="checkPhone(addPhone)" ng-blur="lost()"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-btn-box">
+            <span ng-click="addModefyFlag=false" class="no-btn">Cancel</span>
+            <span ng-click="sureModeFun()" class="yes-btn btn-theme">Confirm</span>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="noOrdResonFlag">
+  <div class="editmess-con">
+    <div class="editmess-top">
+      <label>Please enter the order number in your store.</label>
+      <input class="shop-ordnum-inp" ng-model="shopOrdNum"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="noOrdQxFun()" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="noOrdSureFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单展示后台返回原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="resResonFlag">
+  <div class="editmess-con check-ordcon">
+    <div class="editmess-top">
+      <p class="no-ordres-reson"></p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="closeResReasonFun()" class="edit-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- 是否删除订单 -->
+<div class="editmesstc-wrap" ng-show="deleteFlag">
+  <div class="editmess-con delete-tccon">
+    <div class="editmess-top">
+      <p>Are you sure to move this order to Canceled?</p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="deleteQxFun()" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="deleteSureFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- 是否确定恢复订单 -->
+<div class="editmesstc-wrap" ng-show="iskeephasFlag">
+  <div class="pro-isdel-con">
+    <div class="hasdel-top">
+      <img class="hasdel-iconques" src="static/image/public-img/icon-ques.png">
+      <p class="hasdel-quetext">
+        Are you sure to keep this order?
+      </p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="iskeephasFlag=false" class="has-cancel-btn">Cancel</button>
+      <button ng-click="surekeepHasFun()" class="has-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 是否确定删除 -->
+<div class="editmesstc-wrap" ng-show="isdelhasFlag">
+  <div class="pro-isdel-con">
+    <div class="hasdel-top">
+      <img class="hasdel-iconques" src="static/image/public-img/icon-ques.png">
+      <p class="hasdel-quetext">
+        Are you sure to delete this order?
+      </p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="isdelhasFlag=false" class="has-cancel-btn">Cancel</button>
+      <button ng-click="suredHasFun()" class="has-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 没有库存订单的提示 -->
+<div class="editmesstc-wrap" ng-show="noInventoryTkFlag">
+  <div class="pro-isdel-con">
+    <div class="hasdel-top">
+      <p class="hasdel-quetext">
+        There are {{noInventoryArr.length}} order<span ng-if="noInventoryArr.length>1">s</span> with inventory shortage. Please pay for the other orders.
+      </p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="noInventoryTkFlag=false" class="has-cancel-btn">Cancel</button>
+      <button ng-click="sureDelNoInventoryOrd()" class="has-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- 含供应商提示弹窗 -->
+<div class="confirm-box import-cart-modal" ng-show="isShowTips">
+  <div class="confirm-main">
+    <div class="confirm-title">
+	    <i class="icon"></i>
+      Tips
+    </div>
+	  <i class="iconfont confirm-close" ng-click="isShowTips = false;"></i>
+    <div class="confirm-content">
+     There are some suppliers' products in the sub order, so the sub order can't be included in the bulk order for now. The sub order will be kept in the cart.
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="isShowTips = false" class="no-btn">Cancel</span>
+      <span ng-click="handleConfirm()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 返回的提示 -->
+<div class="confirm-box import-cart-modal" ng-show="addCartResonFlag">
+  <div class="confirm-main">
+    <div class="confirm-title">
+      Tips:
+    </div>
+	  <i class="iconfont confirm-close" ng-click="addCartResonFlag = false;"></i>
+    <div class="confirm-content resmescon">
+      {{addCartResonText}}
+    </div>
+  </div>
+</div>
+<!--  错误提示弹窗-->
+<div class="isdel-wrap error-confirm" ng-show="errorShowFlag">
+  <div class="err-list">
+    <div class="err-head">Oops, something wrong. Please check reasons below.</div>
+    <table class="err-table">
+      <thead>
+      <tr>
+        <th width="50%">CJ Order Number</th>
+        <th>Reasons</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in logisticsReasonList">
+        <td>{{item.recordNum}}</td>
+        <td>{{item.message}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="footer-button">
+      <button ng-click="errorShowFlag=false">cancel</button>
+    </div>
+  </div>
+</div>
+<!--校验订单地址必填项是否有漏缺-->
+<!-- ng-show="checkOrder"-->
+<div class="check-address" ng-show="checkAddress">
+  <div class="check-address-wrapper" ng-show="checkAddress" style="position: relative;top: 50%;transform: translateY(-50%);height: 600px">
+    <div class="check-address-top">
+      <div>
+        Note
+      </div>
+      <img class="close" src="static/image/public-img/close-img.png" ng-click="closeCheckAddress()">
+    </div>
+    <div class="check-address-body">
+      <div class="body-head" ng-if="addressOrderList.length === checkAddressList.length">
+        <span class="iconfont">&#xe6ac;</span>Invalid shipping information. You cannot pay for the following orders. Please edit the shipping information and try again.
+      </div>
+      <div class="body-head" ng-if="addressOrderList.length > checkAddressList.length">
+        <span class="iconfont">&#xe6ac;</span>Invalid shipping information. You can skip them in Cart and pay for other orders.
+      </div>
+      <div class="order-table-container">
+        <div class="order-table-header">
+          <table style="table-layout: fixed;">
+            <thead class="order-table-thead">
+            <tr>
+              <th>CJ Order Number</th>
+              <th>Missing Information</th>
+              <th>Invalid Information</th>
+              <th></th>
+            </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="order-table-body" style="overflow-y: auto; max-height: 280px;margin-left: 20px;margin-right: 20px">
+          <table style="table-layout: fixed;">
+            <tbody class="order-table-tbody">
+              <tr ng-repeat="item in checkAddressList">
+                <td><p>{{item.orderId}}</p></td>
+                <td><p
+                        title="{{item.checkNullMap}}">
+                  {{item.checkNullMap || '---'}}
+                </p>
+                </td>
+                <td ng-if="item.checkAddressMap"><p title={{textFun(item.checkAddressMap)}}> <span ng-repeat="i in item.checkAddressMap">{{i.msgEn}}</span> </p></td>
+                <td ng-if="!item.checkAddressMap"><p>---</p></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="check-address-footer">
+      <div>
+        <button ng-click="closeCheckAddress()">OK</button>
+        <button ng-click="saveOrder()" ng-if="addressOrderList.length > checkAddressList.length">Skip&Pay</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- closeOrderModal 老订单页面提示去新订单页面弹窗 -->
+<close-order-modal></close-order-modal>

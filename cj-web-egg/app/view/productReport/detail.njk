@@ -1,0 +1,74 @@
+{% extends "layout/base.njk" %}
+
+{% block title %}
+<title>100+ Best Products to Sell in 2020</title>
+<meta name="description" property="og:description" content="Sourcing and Fulfilling for WED2C, Shopify, WooCommerce, eBay Dropshippers with High Quality Products and Faster Shipping.">
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/productReport.css' | VERSION }}">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "snippet/common-top.njk" %}
+
+<div class="productReport" id="vue-productReport">
+  <div class="_box">
+
+    <div class="asj-back-to" style="margin-bottom:16px;">
+      <a href="{{ fromUrl }}" @click="makePoint({ point:7 })">&lt; Back</a>
+    </div>
+
+    <div class="list">
+      <div class="recommend-item d-flex">
+        <img src="{{ detail.imageSrc }}" />
+
+        <div class="content d-flex">
+          <div class="tit">{{ detail.title }}</div>
+          <div class="con">
+            {{ detail.content }}
+          </div>
+
+          <div class="tools d-flex align-items-center">
+            <a href="javascript:void(0)" class="btn-start" id="reading-pdf" data-pdfurl="{{ detail.pdfUrl }}"
+              data-id="{{ detail.id }}" @click="reading()">Start
+              reading</a>
+            <span class="or">or</span>
+            <a href="javascript:void(0)" class="btn-download" id="download-pdf" data-pdfurl="{{ detail.pdfUrl }}"
+              data-id="{{ detail.id }}" @click="saveReportInfo()">Download
+              PDF</a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 提交确认弹窗 -->
+    <!-- <div class="confirm-box f-center" v-show="confirmPop">
+      <div class="confirm-main">
+        <div class="confirm-title">
+          Do you wanna sign in?
+        </div>
+        <div class="confirm-btn-box">
+          <span @click="downloadPdf()" class="btn-cus no-btn">Cancel</span>
+          <span @click="goLogin()" class="btn-cus yes-btn btn-theme">Accept</span>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</div>
+
+<!-- 相关链接 -->
+{% include "../snippet/home/related-links.njk" %}
+<!-- 如果底部添加了related-links，必须引入这个js,用来Subscribe to our latest niches按钮逻辑，登录不出现 -->
+<script src="{{ PUBLIC_SCRIPT + '/qr-code.js' | VERSION }}"></script>
+
+<script src="{{ PUBLIC_SCRIPT + '/productReport.js' | VERSION }}"></script>
+
+{% endblock %}

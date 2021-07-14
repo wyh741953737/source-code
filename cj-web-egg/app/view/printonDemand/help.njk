@@ -1,0 +1,81 @@
+{% block title %}
+<title>CJ Print on Demand-You Sell，We Print and ship on Demand, worldwide!</title>
+<meta name="description" property="og:description" content="POD (Print on Demand) products are available for all customers on CJdropshipping.">
+<meta name="keywords" content="POD dropshipping, Print on Demand, print on demand italia, printful, printify, print-on-demand, print on demand companies, shopify print on demand, print on demand websites" />
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% from "../macor/product.njk" import product %}
+
+{% macro hydrate(opt, params) %}
+<div v-if="!list.length" class="product-box" render="njk">
+  {% for prod in opt.data %}
+  {{ product(prod, params) }}
+  {% endfor %}
+</div>
+<div v-else class="product-box" render="vue">
+    <product-card v-for="(prod, idx) of list" :prod="prod" :key="idx" :img-Size="imgSize" title="{{ opt.title }}" />
+</div>
+{% endmacro %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-card.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/printon-demand.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+
+<div class="pod">
+  <div class="pod-help">
+    {% include "./banner.njk" %}
+    <section id="helpworks">
+      <h2 class="title"><span>How it works</span></h2>
+      <ul>
+        {% for item in text_list %}
+        <li>
+          <a href='{{ item.link }}' target="_blank">
+            {{ item.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section id="policy">
+      <h2 class="title"><span>Policy</span></h2>
+      <ul>
+        {% for item in policy_list %}
+        <li>
+          <a href='{{ item.link }}' target="_blank">
+            {{ item.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section id="video">
+      <h2 class="title"><span>Video</span></h2>
+      <div class="video-box">
+        {% for item in video_list %}
+        <div class="video-item">
+          <iframe class="iframe" allowfullscreen src="{{item.link}}" frameborder="0" allow="encrypted-media"></iframe>
+          <p>{{ item.title }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<script src="{{ PUBLIC_SCRIPT + '/printonDemand.js' | VERSION }}"></script>
+
+{% endblock %}

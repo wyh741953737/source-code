@@ -1,0 +1,92 @@
+{% block title %}
+<title>CJ Dropshipping Privacy Policy</title>
+<meta name="description" property="og:description" content="This page is about what information does CJdropshipping collect from the users, why CJ collects the information, and how CJ uses the information collected from CJ users">
+<meta name="keywords" content="CJ Dropshipping privacy policy, CJdropshipping privacy policy, CJdropshipping honest reviews, Is CJ Dropshipping legit">
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/privacyPolicy.css' | VERSION }}">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_ajmwa5ln9ee.css">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+
+<div class="privacyPolicy" id="privacyPolicy">
+  <div class="main">
+    <h3 class="title">
+      {{ privacyPolicyList.userAgreementEnTitle | safe }}
+    </h3>
+    <div class="content">
+      <p>{{ privacyPolicyList.userAgreementEnDesc | safe }}</p>
+      <div class="list-box">
+        {% for item in privacyPolicyList.userAgreementEn %}
+        {% set privacyPolicyListBox = 'item-box' %}
+        {% if loop.index0 == 0 %}
+        {% set privacyPolicyListBox = 'item-box top-border' %}
+        {% endif %}
+          <div class="{{ privacyPolicyListBox }}">
+            {% set openIdx = loop.index0 %}
+            <h3 class="item-title" @click="handleShowMore($event)" i='{{openIdx}}'>
+              <span>{{ item.title }}</span>
+              <img src="/static/image/arrow/arrow-down1.png" class="trems-arrow" alt="">
+            </h3>
+            <div class="item-content" id="item-content{{loop.index0}}">
+              {% if item.description %}
+              <p class="normal-desc">{{ item.description | safe }}</p>
+              {% endif %}
+
+              {% for contentItem in item.list %}
+              <div class="flex-box">
+                <p class="normal-desc" style="word-break: keep-all;">{{ contentItem.serialNumber | safe }}</p>
+                <p class="normal-desc">{{ contentItem.content | safe }}</p>
+              </div>
+              {% if contentItem.description%}
+              <p class="normal-desc">{{ contentItem.description | safe }}</p>
+              {% endif %}
+              
+              {% if contentItem.littleList %}
+              <div class="littleListBox pl">
+                {% for littleItem in contentItem.littleList %}
+                <div class="flex-box">
+                  <p class="normal-desc" style="word-break: keep-all;">{{ littleItem.serialNumber | safe }}</p>
+                  <p class="normal-desc">{{ littleItem.content | safe }}</p>
+                </div>
+
+                {% if littleItem.benefitList %}
+                <div class="benefitListBox pl">
+                  {% for benefitItem in littleItem.benefitList %}
+                  <div class="flex-box">
+                    <p class="normal-desc" style="word-break: keep-all;">{{ benefitItem.serialNumber | safe }}</p>
+                    <p class="normal-desc">{{ benefitItem.content | safe }}</p>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% endfor %}
+              </div>
+              {% endif %}
+
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 相关链接 -->
+{% include "snippet/home/related-links.njk" %}
+<!-- 如果底部添加了related-links，必须引入这个js,用来Subscribe to our latest niches按钮逻辑，登录不出现 -->
+<script src="{{ PUBLIC_SCRIPT + '/qr-code.js' | VERSION }}"></script>
+<script src="{{ PUBLIC_SCRIPT + '/privacyPolicy.js' | VERSION }}"></script>
+
+{% endblock %}

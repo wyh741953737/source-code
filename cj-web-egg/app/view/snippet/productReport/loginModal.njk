@@ -1,0 +1,17 @@
+<div class="login-pop" v-if="loginPopVisible">
+  <img src="/static/image/public-img/close-circle.png" class="close" v-on:click="closeLoginPop" />
+
+  <h3>Sign in</h3>
+
+  <input type="text" v-model="username" placeholder="Account Name" />
+  <span v-show="usernameErr" class="err">Please enter account name.</span>
+  <input type="password" v-model="password" placeholder="Password" />
+  <span v-show="passwordErr" class="err">Please enter password.</span>
+
+  <div class="forgetOrRegister">
+    <a href="/forgotPassword.html">Forgot your password?</a>
+    <a href="/register.html" @click="register()">Sign up</a>
+  </div>
+
+  <div class="login-btn" v-on:click="submitLogin">Sign in</div>
+</div>

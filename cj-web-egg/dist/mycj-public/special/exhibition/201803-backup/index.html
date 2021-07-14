@@ -1,0 +1,154 @@
+<!DOCTYPE>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Sourcing and Dropshipping for Shopify, WooCommerce, Wish, eBay with Quality Products, Fast Shipping, Good Service."/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>Submit</title>
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="../../../static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./static/intl-tel-input-master/build/css/intlTelInput.css">	 -->
+	<script src="../../../static/js/public/jquery-3.0.0.min.js"></script>
+	<script src="../../../static/angular-1.5.8/angular.min.js"></script>
+	<!-- <script src="./static/intl-tel-input-master/build/js/intlTelInput.min.js"></script> -->
+	<script src="../../../static/layer/layer.js"></script>
+</head>
+<body ng-app="app" ng-controller="appCtrl">
+	<div class="forgot-wrap">
+		<!-- 头部 -->
+		<div class="forgot-header">
+			<div class="main">
+			<div class="main-child">
+				<a class="home-link" href="javascript:void(0);">
+					<img src="./image/logo_e.png">
+				</a>
+			</div>
+			</div>
+		</div>
+		<!-- 中间部分 -->
+		<div class="register-con">
+			<div class="register-center">
+				<div class="asj-regi-title">
+					CJDROPSHIPPING EXHIBITION
+				</div>
+				<div class="submit-success" ng-show="submitSuccess" ng-cloak>
+					<img src="../../../static/image/login/iconsuccess.png" alt="">
+					<p class="success-tip">Thanks, We will get back to you ASAP. Hope we will work together for a long time :)</p>
+					<div class="back-div">
+						<p class="back-timer">
+							<span>{{isPhoneEnd ? 'Access home page in' : 'Back to submit page in'}}</span>
+							<span class="change-time" ng-model="time" ng-cloak>{{countDownTime}}</span>
+							<span>seconds...</span>
+						</p>
+						<a style="display: block;color: #fff; font-size: 18px;width: 226px;height: 40px; margin: 20px auto 0; line-height: 40px;background-color: #ffab49;border-radius: 4px;" href="javascript:void(0);" ng-click="tiaozhuan()">{{isPhoneEnd ? 'Home' : 'Back'}}</a>
+					</div>
+				</div>
+				<form name="registerForm" id="registerForm" novalidate ng-show="submitFace">
+					<ul>
+						<!-- 用户名 -->
+						<!-- <li>
+							<div class="reg-lable">
+								<p>Username <span class="asj-must-inp">*</span></p>
+							</div>
+							<div class="user-inp">
+								<input autocomplete="off" class="md-inp" type="text" id="user">
+							</div>
+						</li> -->
+						<li>
+							<!-- First name -->
+							<div class="reg-lable user-lable">
+								<p class="full-name">First name <span class="asj-must-inp">*</span></p>
+							</div>
+							<div class="fullname-inp">
+								<input class="md-inp" type="text" id="firstname" ng-model="firstname">
+							</div>
+						</li>
+						<li>
+							<!-- Last name -->
+							<div class="reg-lable">
+								<p class="full-name">Last name <span class="asj-must-inp">*</span></p>
+							</div>
+							<div class="fullname-inp">
+								<input class="md-inp" type="text" id="lastname" ng-model="lastname">
+							</div>
+						</li>
+						<!-- 手机号码 -->
+						<!-- <li>
+							<div class="reg-lable">
+								<p>Mobile <span class="asj-must-inp">*</span></p>
+							</div>
+							<div class="mobile-item user-inp clearfix">
+								<div class="area-code">
+									<input class="md-inp" type="tel" id="telephone" placeholder="" ng-model="telephone">
+								</div>
+								<small class="error-message" ng-cloak>{{ phoneVEM }}</small>
+								<i class="form-control-feedback glyphicon glyphicon-ok my-check-icon" ng-cloak ng-show="phoneDVR"></i>
+								<i class="form-control-feedback glyphicon glyphicon-remove my-remove-icon" ng-cloak ng-show="phoneDVRE"></i>
+							</div>	
+						</li> -->
+						<li>
+							<!-- 邮件地址 -->
+							<div class="reg-lable">
+								<p>Email <span class="asj-must-inp">*</span></p>
+							</div>
+							<div class="user-inp">
+								 <!-- autocomplete="off" -->
+								<input class="md-inp" type="text" id="email" ng-model="email">
+							</div>
+						</li>
+						<li>
+							<!-- 网络电话 -->
+							<div class="reg-lable">
+								<p>Skype / Whatsapp <span class="asj-must-inp">*</span></p>
+							</div>
+							<div class="app-select">
+								<select ng-model="webphoneType">
+									<option value="Skype">Skype</option>
+									<option value="Whatsapp">Whatsapp</option>
+								</select>
+								<div class="whatapp-inp-wrap"><input class="md-inp" type="text" id="webphoneNum" ng-model="webphoneNum"></div>
+							</div>
+						</li>
+													<!-- 网络电话 -->
+						<li class="saleman-li">
+							<div class="reg-lable">
+								<p>CJ Representative <span class="asj-must-inp">*</span></p>
+							</div>
+							<div class="app-select">
+								<select ng-model="salemaninfo">
+									<option value="{{item.ID + '_' + item.nameEN + '_' +item.NAME}}" ng-repeat="item in salemanlist">{{item.nameEN}}</option>
+								</select>
+							</div>
+						</li>
+						<li>
+							<div class="reg-submit" ng-click="register()">
+								<!-- <a href="javascript:void(0);">
+									<input id="submit" type="submit" value="Sign up">
+								</a> -->
+								<a href="javascript:void(0)" id="submit" ng-click="submit()">submit</a>
+							</div>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<!-- 尾部备案号 -->
+		<!-- <div class="forgot-footer">
+			<div class="forfoo-con">
+				<a href="https://cjdropshipping.com/term-of-use/">Term of Use</a>
+				<a href="https://cjdropshipping.com/privacy-policy/">Privacy Policy</a>
+				<a href="https://cjdropshipping.com/faq/">Help</a>
+				<span><span class="copyright-logo">©</span>2019 CJDropshipping.com All Rights Reserved.</span>
+			</div>
+		</div> -->
+	</div>
+</body>
+<script src="../../../static/js/public/base64.min.js"></script>
+<script src="../../../static/js/public/config.js"></script>
+<script src="../../../static/js/public/common.js"></script>
+<script src="./js/index.js"></script>
+</html>

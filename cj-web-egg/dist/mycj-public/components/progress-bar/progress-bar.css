@@ -1,0 +1,108 @@
+.progressBarComponent :global .progressBoxs .progressModal {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox {
+  width: 375px;
+  min-height: 182px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .progressHead {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 22px;
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .progress {
+  width: 335px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 20px;
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .progress .progressOuter {
+  width: 100%;
+  height: 10px;
+  background-color: #ebeef5;
+  border-radius: 25px;
+  position: relative;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .progress .progressOuter .progressInner {
+  position: absolute;
+  width: 0;
+  /* 只需要把这个宽度动态即可 */
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: linear-gradient(180deg, #95E6BB 0%, #41D078 100%);
+  border-radius: 25px;
+  transition: width 0.6s ease;
+  text-align: right;
+  line-height: 10px;
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .progress .progressText {
+  margin-left: 18px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #757575;
+  line-height: 20px;
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .progressTips {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #757575;
+  line-height: 17px;
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .hideBtnBox {
+  margin-top: 20px;
+  text-align: right;
+}
+.progressBarComponent :global .progressBoxs .progressModal .progressBox .hideBtnBox .hideBtn {
+  width: 65px;
+  height: 32px;
+  border: 1px solid #E4E4E4;
+  font-size: 14px;
+  font-weight: 400;
+  color: #757575;
+  background: #ffffff;
+  border-radius: 4px;
+}
+.progressBarComponent :global .progressBoxs .circleProgress {
+  position: absolute;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+}
+.progressBarComponent :global .progressBoxs .circleProgress .closeCircleBox {
+  width: 80px;
+  height: 80px;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.progressBarComponent :global .progressBoxs .circleProgress .closeCircleBox:hover .closeCircleIcon {
+  color: var(--color-theme-1);
+}
+.progressBarComponent :global .progressBoxs .circleProgress .closeCircleBox .closeCircleIcon {
+  font-size: 24px;
+}
+.progressBarComponent :global .isVip.progressBoxs .closeCircleBox:hover .closeCircleIcon {
+  color: var(--color-theme-1-vip) !important;
+}

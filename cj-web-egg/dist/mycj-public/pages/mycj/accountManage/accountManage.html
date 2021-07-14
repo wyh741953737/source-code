@@ -1,0 +1,344 @@
+<div class="account-manage-wrap" ng-class="{'vip': userInfo.vip === '1'}" cjdot cjdotshow='{"pageCode":"accountManage", "eventType": 0}'>
+	<div class="account-manage-box">
+		<!-- header -->
+		<div class="account-manage-hearder">Account Management</div>
+		<!-- content -->
+		<div class="account-manage-content">
+			<!-- 账户列表 -->
+			<div ng-show="!editFlag" class="account-manage-list-warp">
+				<!-- 搜索条件 -->
+				<div class="account-manage-search d-flex align-items-center justify-content-between">
+					<div class="account-manage-search-left d-flex align-items-center">
+						<div class="account-manage-searchItem d-flex align-items-center mr-3">
+							<label>Name:</label>
+							<input type="text" placeholder="Name" ng-model="searchName">
+						</div>
+						<div class="account-manage-searchItem d-flex align-items-center mr-3">
+							<label>User Name:</label>
+							<input type="text" placeholder="User name" ng-model="searchUserName">
+						</div>
+						<div class="account-manage-searchItem d-flex align-items-center mr-3">
+							<label>Role:</label>
+							<div class="yzy-select-box position-relative account-select">
+								<div class="yzy-select d-flex align-items-center justify-content-between">
+									<span ng-if="!searchRole" class="gray">Please select</span>
+									<span ng-if="searchRole" ng-bind-html="searchRoleList[searchRole - 1].name"></span>
+									<b></b>
+									<ul class="yzy-select-drop w-100 position-absolute bg-white">
+										<li ng-click="selectRole(item.key)" ng-repeat="item in searchRoleList track by $index">{{item.name}}</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="account-manage-searchItem d-flex align-items-center mr-3">
+							<label>Status:</label>
+							<div class="yzy-select-box position-relative account-select">
+								<div class="yzy-select d-flex align-items-center justify-content-between">
+									<span ng-if="!searchStatus" class="gray">Please select</span>
+									<span ng-if="searchStatus" ng-bind-html="searchStatusList[searchStatus - 1].name"></span>
+									<b></b>
+									<ul class="yzy-select-drop w-100 position-absolute bg-white">
+										<li ng-click="selectStatus(item.key)" ng-repeat="item in searchStatusList track by $index">{{item.name}}</li>
+									</ul>
+								</div>
+							</div>
+							<!-- <select name="" id="" ng-model="searchStatus">
+								<option value="">All status</option>
+								<option value="2">Disabled</option>
+								<option value="1 ">Enabled </option>
+							</select> -->
+						</div>
+					</div>
+					<div class="account-manage-search-right d-flex align-items-center">
+						<button class="ui-btn account-manage-btn account-btn-active"
+							ng-click="searchFn()">Search</button>
+						<button class="ui-btn account-manage-btn" ng-click="resetFn()">Reset</button>
+					</div>
+				</div>
+				<div class="account-manage-search d-flex align-items-center justify-content-between">
+					<button class="ui-btn account-manage-btn account-btn-active" ng-click="openAdd()">+ Add
+						account</button>
+				</div>
+				<!-- 列表 -->
+				<div class="account-manage-list">
+					<table class="w-100">
+						<thead>
+							<tr>
+								<th style="width: 14%;">Name</th>
+								<th style="width: 14%;">User Name</th>
+								<th style="width: 11%;">Role</th>
+								<th style="width: 11%;">Status</th>
+								<th style="width: 20%;">Date</th>
+								<th style="width: 30%;">Operation</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="account in accountList">
+								<td class="text-center">{{account.name}}</td>
+								<td class="text-center">{{account.loginName}}</td>
+								<td class="text-center">
+									{{+account.codStatus === roleList.administrator.type ? roleList.administrator.cn : roleList.employee.cn}}
+								</td>
+								<td class="text-center">
+									<b class="status-tag mr-2"
+										ng-class="{'active': +account.status === statusList.enable.type}"></b>
+									{{+account.status === statusList.enable.type ? statusList.enable.en : statusList.disable.en}}
+								</td>
+								<td class="text-center">{{account.createDate}}</td>
+								<td class="text-center">
+									<div class="d-flex-center">
+										<span ng-click="openEdit(account.id)"
+											class="cursor-pointer table-btn">Edit</span>
+										<span ng-click="changeStatusFn('enable', account)"
+											class="cursor-pointer table-btn"
+											ng-show="+account.status === statusList.disable.type">Enable</span>
+										<span ng-click="changeStatusFn('disable', account)"
+											class="cursor-pointer table-btn"
+											ng-show="+account.status === statusList.enable.type">Disable</span>
+										<span ng-click="openUpdPwd(account.id)" class="cursor-pointer table-btn">Change
+											password</span>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- 编辑 -->
+			<div ng-show="editFlag" class="account-manage-edit">
+				<div class="edit-bread font-size-14px mb-3">
+					Account management / <span class="font-size-16px">Edit account</span>
+				</div>
+				<div class="edit-user-info">
+					<div class="user-info-item d-flex align-items-center">
+						<label class="mr-3">Name :</label>
+						<span>{{editItem.name}}</span>
+					</div>
+					<div class="user-info-item d-flex align-items-center">
+						<label class="mr-3">User name :</label>
+						<span>{{editItem.userName}}</span>
+					</div>
+					<div class="user-info-item d-flex align-items-center">
+						<label class="mr-3">Role :</label>
+						<div class="radio-item d-flex align-items-center mr-5">
+							<b ng-click="changeEditRole('administrator')" class="mr-2 cursor-pointer"
+								ng-class="{'active': editItem.role === roleList.administrator.type}"></b>
+							<span>Administrator</span>
+						</div>
+						<div class="radio-item d-flex align-items-center">
+							<b ng-click="changeEditRole('employee')" class="mr-2 cursor-pointer"
+								ng-class="{'active': editItem.role === roleList.employee.type}"></b>
+							<span>Employee</span>
+						</div>
+					</div>
+					<div class="user-info-item d-flex align-items-center" ng-show="editErrorFlag">
+						<label class="mr-3"></label>
+						<div class="admin-text d-flex">
+							<b class="mr-2">!</b>
+							<span style="flex: 1;">here are
+								{{editItem.role === roleList.administrator.type ? '3 administrator' : '27 employee'}}
+								accounts already, and no more
+								{{editItem.role === roleList.administrator.type ? 'administrator' : 'employee'}}
+								accounts can be added.</span>
+						</div>
+					</div>
+					<div class="user-info-item d-flex align-items-center">
+						<label class="mr-3">Status :</label>
+						<span>{{editItem.status === statusList.enable.type ? statusList.enable.en : statusList.disable.en}}</span>
+					</div>
+					<div class="user-info-item d-flex align-items-center">
+						<label class="mr-3">Date :</label>
+						<span>{{editItem.date}}</span>
+					</div>
+					<div class="user-info-item d-flex align-items-center mt-4">
+						<label class="mr-3">Permission :</label>
+						<div ng-show="editPermissionErrFlag" class="admin-text">Please select at least one permission
+						</div>
+						<div ng-show="editItem.role === roleList.administrator.type" class="admin-text">
+							Administrators have permission to view and operate the account. They can also add and delete other owners.
+						</div>
+					</div>
+					<div class="user-permission" ng-show="editItem.role === roleList.employee.type">
+						<div class="permission-item mt-3" ng-repeat="menuItem in editItem.menu">
+							<div class="permission-title d-flex align-items-center padding-tb-10px">
+								<b ng-click="editCheckAll(menuItem.id)"
+									class="ml-4 mr-3 check-box cursor-pointer iconfont"
+									ng-class="{'iconzizhanghuweixuanzhong': !menuItem.checked, 'iconicon': menuItem.checked}"></b>
+								<span>{{menuItem.menuName}}</span>
+							</div>
+							<div class="permission-content d-flex flex-wrap">
+								<div class="permission-child d-flex align-items-center padding-tb-10px"
+									ng-repeat="childMenu in menuItem.children">
+									<b ng-click="editCheckOne(childMenu.id, menuItem.id)"
+										class="ml-4 mr-3 check-box cursor-pointer iconfont"
+										ng-class="{'iconzizhanghuweixuanzhong': !childMenu.checked, 'iconicon': childMenu.checked}"></b>
+									<span>{{childMenu.menuName}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="d-flex-center mt-5">
+					<span ng-click="editFlag=false" class="ui-btn account-manage-btn">Cancel</span>
+					<span ng-click="confirmEdit()" ng-class="{'account-btn-disable': editErrorFlag}"
+						class="ui-btn account-manage-btn account-btn-active">Confirm</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 禁用启用弹窗 -->
+	<div class="confirm-box" ng-show="showConfirmFlag">
+		<div class="confirm-main" style="width: 360px;">
+			<i ng-click="showConfirmFlag=false" class="iconfont confirm-close"></i>
+			<div class="confirm-content">
+				<div class="account-manage-confirm-title d-flex justify-content-center font-size-16px">
+					<b class="d-flex-center mr-3 position-relative font-size-14px">?</b>
+					<span class="">Are you sure to {{showConfirmItem.status}} this account?</span>
+				</div>
+				<div class="account-manage-confirm-content font-size-14px text-left">
+					{{
+						showConfirmItem.status === 'enable'
+							? 'If enabled, the account can be logged in again.'
+							: 'If disabled, the account cannot be logged in.'
+					}}
+				</div>
+			</div>
+			<div class="confirm-btn-box">
+				<span ng-click="showConfirmFlag=false" class="ui-btn account-manage-btn">Cancel</span>
+				<span ng-click="confirmStatus()" class="ui-btn account-manage-btn account-btn-active">Confirm</span>
+			</div>
+		</div>
+	</div>
+	<!-- 新增 -->
+	<div class="confirm-box" ng-show="showAddFlag">
+		<div class="confirm-main" style="width: 600px;">
+			<i class="iconfont confirm-close" ng-click="showAddFlag=false"></i>
+			<div class="confirm-title">
+				<h3>Add Account</h3>
+			</div>
+			<div class="confirm-content add-content">
+				<div>
+					<div class="add-item admin-text d-flex" ng-show="addErrorFlag">
+						<b class="mr-2">!</b>
+						<span style="flex: 1;">here are
+							{{addItem.role === roleList.administrator.type ? '3 administrator' : '27 employee'}}
+							accounts already, and no more
+							{{addItem.role === roleList.administrator.type ? 'administrator' : 'employee'}} accounts can
+							be added.</span>
+					</div>
+					<div class="add-item d-flex-center">
+						<div class="radio-item d-flex align-items-center mr-5">
+							<b ng-click="changeAddRole('administrator')" class="mr-2 cursor-pointer"
+								ng-class="{'active': addItem.role === roleList.administrator.type}"></b>
+							<span>Administrator</span>
+						</div>
+						<div class="radio-item d-flex align-items-center">
+							<b ng-click="changeAddRole('employee')" class="mr-2 cursor-pointer"
+								ng-class="{'active': addItem.role === roleList.employee.type}"></b>
+							<span>Employee</span>
+						</div>
+					</div>
+					<div class="add-item">
+						<div class="d-flex-center">
+							<label class="mr-4 font-weight-500">Name:</label>
+							<input ng-blur="verifyName()" ng-model="addItem.name" type="text" maxlength="100"
+								placeholder="{{disposeInputPlaceHolder(addItem.role)}}">
+						</div>
+						<div class="admin-text text-left addErrorMsg">{{nameErrMsg}}</div>
+					</div>
+					<div class="add-item">
+						<div class="d-flex-center">
+							<label class="mr-4 font-weight-500">User Name:</label>
+							<input ng-blur="verifyUserName()" ng-model="addItem.userName" type="text" maxlength="100"
+								placeholder="Please input username" ng-change="handdleChangeUserName(addItem.userName)">
+						</div>
+						<div class="admin-text text-left addErrorMsg">{{userNameErrMsg}}</div>
+					</div>
+					<div class="add-item">
+						<div class="d-flex-center">
+							<label class="mr-4 font-weight-500">Password:</label>
+							<input autocomplete="new-password" ng-blur="verifyPwd(addItem.password)" ng-model="addItem.password" type="password"
+								placeholder="Please input password" maxlength="50">
+						</div>
+						<div class="admin-text text-left addErrorMsg">{{passwordErrMsg}}</div>
+					</div>
+					<div class="add-item">
+						<div class="d-flex-center">
+							<label class="mr-4 font-weight-500">Confirm password:</label>
+							<input autocomplete="new-password" ng-blur="verifyConfirmPwd(addItem.confirmPassword, addItem.password)"
+								ng-model="addItem.confirmPassword" type="password" maxlength="50"
+								placeholder="Please input password">
+						</div>
+						<div class="admin-text text-left addErrorMsg">{{passwordConfirmErrMsg}}</div>
+					</div>
+					<!-- 管理员具有所有权限 -->
+					<div ng-show="addItem.role === roleList.administrator.type" class="add-item mb-0 admin-text">
+						Administrators have permission to view and operate the account. They can also add and delete other owners.
+					</div>
+					<!-- 普通员工选择权限 -->
+					<div ng-show="addItem.role === roleList.employee.type" class="add-item d-flex-center">
+						<label class="mr-4 font-weight-500">Permission:</label>
+						<span style="padding-left: 14px;"
+							class="admin-text hidden-text text-left">{{permissionErrMsg}}</span>
+					</div>
+					<div ng-show="addItem.role === roleList.employee.type" class="add-item mb-0">
+						<div class="permission-item mt-3" ng-repeat="menuItem in addItem.menu">
+							<div class="permission-title d-flex align-items-center padding-tb-10px">
+								<b ng-click="addCheckAll(menuItem.id)"
+									class="ml-4 mr-3 check-box cursor-pointer iconfont"
+									ng-class="{'iconzizhanghuweixuanzhong': !menuItem.checked, 'iconicon': menuItem.checked}"></b>
+								<span>{{menuItem.menuName}}</span>
+							</div>
+							<div class="permission-content d-flex flex-wrap">
+								<div class="permission-child d-flex align-items-center padding-tb-10px"
+									ng-repeat="childItem in menuItem.children">
+									<b ng-click="addCheckOne(childItem.id, menuItem.id)"
+										class="ml-4 mr-3 check-box cursor-pointer iconfont"
+										ng-class="{'iconzizhanghuweixuanzhong': !childItem.checked, 'iconicon': childItem.checked}"></b>
+									<span>{{childItem.menuName}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="confirm-btn-box">
+				<span ng-click="showAddFlag=false" class="ui-btn account-manage-btn">Cancel</span>
+				<span ng-click="confirmAdd()" class="ui-btn account-manage-btn account-btn-active"
+					ng-class="{'account-btn-disable': addErrorFlag}">Confirm</span>
+			</div>
+		</div>
+	</div>
+	<!-- 修改密码 -->
+	<div class="confirm-box" ng-show="showUpdFlag">
+		<div class="confirm-main" style="width: 483px;">
+			<i ng-click="showUpdFlag=false" class="iconfont confirm-close"></i>
+			<div class="confirm-title">
+				<h3>Change password</h3>
+			</div>
+			<div class="confirm-content">
+				<div class="add-item">
+					<div class="d-flex-center">
+						<label class="mr-4 font-weight-500">Password:</label>
+						<input autocomplete="new-password" ng-blur="verifyPwd(updItem.updPassword)" ng-model="updItem.updPassword" type="password"
+							placeholder="Please input password">
+					</div>
+					<div class="admin-text text-left uptErrorMsg">{{passwordErrMsg}}</div>
+				</div>
+				<div class="add-item">
+					<div class="d-flex-center">
+						<label class="mr-4 font-weight-500">Confirm password:</label>
+						<input autocomplete="new-password" ng-blur="verifyConfirmPwd(updItem.updConfirmPassword, updItem.updPassword)"
+							ng-model="updItem.updConfirmPassword" type="password"
+							placeholder="Please input confirm password">
+					</div>
+					<div class="admin-text text-left uptErrorMsg">{{passwordConfirmErrMsg}}</div>
+				</div>
+			</div>
+			<div class="confirm-btn-box">
+				<span ng-click="showUpdFlag=false" class="ui-btn account-manage-btn">Cancel</span>
+				<span ng-click="confirmUpt()" class="ui-btn account-manage-btn account-btn-active">Confirm</span>
+			</div>
+		</div>
+	</div>
+</div>

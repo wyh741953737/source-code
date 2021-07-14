@@ -1,0 +1,193 @@
+<style>
+  .prism-player .prism-big-play-btn {
+    width: 32px;
+    height: 32px;
+    left: calc(50% - 16px) !important;
+    bottom: calc(50% - 16px) !important;
+    z-index: 990 !important;
+  }
+
+  .prism-player .prism-big-play-btn .outter {
+    width: 32px;
+    height: 32px;
+  }
+
+  .prism-player .prism-cover {
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
+<div class="mycj-home-box video-order" id="videos">
+  <div class="mycj-right-wrap p-3 h-100">
+    <ul class="top-taps">
+      <li class="video tab-theme active"><a href="#/video-history">Photography Orders</a></li>
+      <li class="video tab-theme"><a href="#/video-demand">Photography Requests</a></li>
+    </ul>
+    <div class="video-order-main-content bg-white p-2">
+      <div class="asj-history-top clearfix" ng-hide="noData">
+        <div class="search-bar clearfix">
+          <input type="text" class="search-inp ng-pristine ng-untouched ng-valid ng-empty" ng-model="searchStr"
+            placeholder="Please enter order number" ng-keydown="enterSearch($event)" >
+          <button class="search-btn btn-theme" ng-click="search()" cjdot cjdotshow='{"eventType":2}'>Search</button>
+	        <select ng-model="payType" ng-change="handleChangePayTypeSearch()">
+		        <option value="">All</option>
+		        <option value="10">Paid</option>
+		        <option value="3">Awaiting Payment</option>
+	        </select>
+	        <select ng-model="mediaType" ng-change="handleChangeTypeSearch()">
+		        <option value="">All</option>
+		        <option value="1">Photo</option>
+		        <option value="0">Video</option>
+	        </select>
+        </div>
+      </div>
+      <div class="asj-history-order">
+        <div class="asj-top-head" ng-hide="noData">
+          <ul>
+            <li style="width: 30%;" class="li-merch">Product</li>
+            <li style="width: 15%;" class="li-price">Price</li>
+            <li style="width: 15%;" class="li-status">Status</li>
+            <li style="width: 15%;" class="li-type">Type</li>
+            <li style="width: 25%;" class="li-opera">Actions</li>
+          </ul>
+        </div>
+        <div class="cj-load-wrap">
+          <div class="asj-order-body"
+            ng-repeat="(index1,item) in purchaseList track by index1"
+            on-finish-render-filters>
+            <div class="asj-order-title">
+              <ul>
+                <li class="li-date">{{item.createDate}}</li>
+                <li class="li-num">Order Number: {{item.id}}</li>
+	              <li ng-show="item.status === '10'">
+		              <a class="opt-btn" ng-show="!item.disputeId" ng-click="handleOpenDispute(item)">Dispute</a>
+		              <a class="opt-btn" ng-show="item.disputeId === '1'" ng-click="handleViewDispute(item)">Dispute Reviewing</a>
+									<span ng-show="item.disputeId === '0'">Dispute Closed</span>
+	              </li>
+              </ul>
+            </div>
+            <table class="asj-order-con">
+              <tr>
+	              <td class="media" style="width: 30%;">
+		              <div class="d-flex">
+			              <div class="media-box">
+				              <img ng-if="item.mediaType === 1" ng-src="{{item.locProduct.img.split(',')[0]}}" alt="">
+				              <div ng-if="item.mediaType === 0" ng-click="handleLookVideo(item)">
+					              <div class="video-img iconfont" ng-style="{'background-image': 'url('+item.locProduct.img.split(',')[0]+')'}">
+                          <b class="position-absolute video-play-btn"></b>
+                        </div>
+				              </div>
+			              </div>
+		                <div class="name-box">
+				              <div class="name" title="{{item.locProduct.nameen}}">{{item.locProduct.nameen}}</div>
+				              <div class="sku">{{item.locProduct.sku}}</div>
+			              </div>
+		              </div>
+	              </td>
+	              <td style="width: 15%;">{{item.videoPracticalPrice | currency}}</td>
+                <td style="width: 15%;">
+	                <div ng-if="item.status === '3'">Awaiting Payment
+                    <!-- 转账失败 -->
+                    <div class="status-tips" ng-show="item.tipFlag==2">
+                      <i class="iconfont">&#xe6ac;</i> 
+                      <div class="tips-pop">Your payment transaction failed. Please check it and try again.</div>
+                    </div>
+                  </div>
+                  <!-- 待付款 -->
+                  <div ng-if="item.status === '11'">Payment Incoming</div>
+                  <!-- 转账成功 -->
+	                <div ng-if="item.status === '10'">
+		                Paid
+		                <div style="color: #7b7b7b;">(Processing)</div>
+	                </div>
+                </td>
+                <td style="width: 15%;">
+	                {{item.videoType === '1' ? 'Unlimited Using' : 'Using in three websites'}}
+                </td>
+                <td class="li-opera" style="width: 25%;">
+                  <a role="button" class="btn btn-primary" ng-if="item.status == 3" ng-click="payMoney(item)" cjstat cjstatshow='{"pageCode":"myCJ", "eventType": 1, "buttonName": "Pay"}'>Pay</a>
+                  <a role="button" class="btn btn-primary btn-cancel" ng-if="item.status == 3"
+                    ng-click="cancelOrder(item, $index)">Cancel</a>
+                  <div class="view-invoice"><a ng-click="invoiceFun(item.id,'VIDEOPAY')" target="_blank">View
+                      Invoice</a></div>
+                  <div class="view-invoice" ng-if="item.status === '10' && item.videoDemanStatus === '18'">
+                    <a ng-show="item.mediaType === 0" ng-click="handleDownloadVideo(item)">Download Video</a>
+                    <a ng-show="item.mediaType === 1" ng-click="handleDownloadImg(item)">Download Photos</a>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+	    <!-- 分页 -->
+	    <page ng-show="purchaseList.length > 0"></page>
+    </div>
+  </div>
+</div>
+<!-- 弹框 -->
+<div class="pop_ups">
+  <pop-ups content="content" ng-show="cancelOrderFlag"></pop-ups>
+</div>
+<!-- <div class="com-tan-wrap" ng-show="cancelOrderFlag" ng-cloak>
+  <div class="common-tan-sty1">
+    <div class="tan-content">
+      <p class="one-line">Are you sure to cancel the order??</p>
+    </div>
+    <div class="tan-btns">
+      <a class="tan-btn0" ng-click="cancelOrderFlag=false;operateItem=null;">Cancel</a>
+      <a class="tan-btn1" ng-click="goConfirmCancel()">Confirm</a>
+    </div>
+  </div>
+</div> -->
+
+<div class="confirm-box video-box" ng-if="isLookVideo">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close text-theme" ng-click="handleCloseVideo()"></i>
+	  <div class="confirm-content">
+		  <loading-bounce class="video-loading" load="videoLoading">
+			  <div id="video-box"></div>
+		  </loading-bounce>
+	  </div>
+  </div>
+</div>
+
+<loading-cart el="'.video-order-main-content'" bottom="'#router-outlet-wrap'" ng-if="loading"></loading-cart>
+
+<div class="confirm-box video-dispute-wrap" ng-show="isShowModal">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="isShowModal = false"></i>
+    <div class="confirm-title">Please upload dispute detail.</div>
+    <div class="confirm-content">
+      <div class="dispute-sel">
+				<select ng-model="disputeType">
+					<option value="">Please select a reason for dispute</option>
+					<option value="It takes too long and I don't receive the video or photos yet">It takes too long and I don't receive the video or photos yet</option>
+					<option value="I'm not happy with the shooting effect">I'm not happy with the shooting effect</option>
+				</select>
+			</div>
+			<div class="dispute-sel">
+				<select class="sel-wantway" ng-model="disputeExpected">
+					<option value="">Please select expected result</option>
+					<option value="1">Refund</option>
+					<option ng-if="itemData.status === '10' && itemData.videoDemanStatus === '18'" value="3">Reshoot</option>
+				</select>
+      </div>
+      
+      <!-- 退款途径 -->
+      <div class="dispute-sel" ng-show="disputeExpected == 1">
+        <select ng-model="refundType">
+          <option ng-repeat="(key, value) in refundTypeList" value="{{key}}">{{value}}</option>
+        </select>
+      </div>
+      
+			<div class="dispute-textarea">
+				<textarea placeholder="Please write your message" ng-model="disputeInfo"></textarea>
+			</div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="isShowModal = false" class="no-btn">Cancel</span>
+      <span ng-click="handleConfirm()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>

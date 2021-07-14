@@ -1,0 +1,205 @@
+<div class="vip-level-description-warp">
+	<div class="banner-box">
+		<div class="content">
+			<div class="user-info">
+				<img class="avatar" ng-show="userData.img" ng-src="{{userData.img | IMG_SIZE: 60:60}}" alt="">
+				<span class="avatar" ng-show="!userData.img">
+					{{userData.LOGIN_NAME[0].toUpperCase() || ''}}
+				</span>
+				<span class="user-name">{{userData.LOGIN_NAME}}</span>
+				<div class="growth-level-box">
+					<div class="level">
+						<i class="iconfont iconicon-test25"></i>
+						{{userLevel === 'VIP' ? 'VIP' : 'LV' + userLevel}}
+					</div>
+					<div class="total-growth">
+						<div class="possession-growth" ng-style="{'width': growthRate + '%'}"></div>
+					</div>
+					<div class="growth" ng-if="totalVal">
+						Growth: <span>{{growthVal}}</span>/{{totalVal}}
+					</div>
+					<div class="growth" ng-if="!totalVal">
+						Growth: <span>{{growthVal}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="level-chart-box">
+				<div class="item" ng-class="{'active': userLevel >= 1 || userLevel  === 'VIP'}">
+					<span class="val">500</span>
+					<div class="column" style="height: 50px;"></div>
+					<span class="level">LV1</span>
+				</div>
+				<div class="item" ng-class="{'active': userLevel >= 2 || userLevel  === 'VIP'}">
+					<span class="val">2000</span>
+					<div class="column" style="height: 90px;"></div>
+					<span class="level">LV2</span>
+				</div>
+				<div class="item" ng-class="{'active': userLevel >= 3 || userLevel  === 'VIP'}">
+					<span class="val">100000</span>
+					<div class="column" style="height: 130px;"></div>
+					<span class="level">LV3</span>
+				</div>
+				<div class="item" ng-class="{'active': userLevel >= 4 || userLevel  === 'VIP'}">
+					<span class="val">2000000</span>
+					<div class="column" style="height: 170px;"></div>
+					<span class="level">LV4</span>
+				</div>
+				<div class="item" ng-class="{'active': userLevel >= 5 || userLevel  === 'VIP'}">
+					<span class="val">2000000+</span>
+					<div class="column" style="height: 200px;"></div>
+					<span class="level">LV5</span>
+				</div>
+				<div class="item" ng-class="{'active': userLevel === 'VIP'}">
+					<span class="val"></span>
+					<div class="column" style="height: 240px;">
+					</div>
+					<span class="level">VIP</span>
+				</div>
+				<div class="total-growth">
+					<div class="possession-growth" ng-style="{'width': growthLevelWidth }"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="content-box">
+		<a href="myCJ.html#/myCJAssociatedStore" class="back">< Back</a>
+		<h3 class="title" style="margin-top: 30px;">VIP ONLY</h3>
+		<div class="vip-equity-box">
+			<div class="left-box">
+				<i class="iconfont iconicon-test24"></i>
+				<span>Nine Exclusive Privileges</span>
+			</div>
+			<div class="right-box">
+				<div class="item" ng-repeat="item in vipEquityData">
+					<i ng-style="{'background-image': 'url('+item.icon+')','width':$index === 4 ? '80' : '60'}"></i>
+					<span>{{item.name}}</span>
+				</div>
+			</div>
+			<i class="target-btn" ng-class="targetPage ? 'pre-btn' : 'next-btn'" ng-click="handleTargetPage()"></i>
+		</div>
+		<h3 class="title">Membership Privileges</h3>
+		<div class="table-box">
+			<div class="service">
+				<div class="t-head" style="border-radius: 4px 0 0 0;">
+					<span>Service / Level</span>
+				</div>
+				<div class="t-body">Daily Sourcing</div>
+				<div class="t-body">Inventory Pre-stock</div>
+				<div class="t-body">Order Processing Priority</div>
+				<div class="t-body">Optimization Proposal</div>
+				<div class="t-body">COD Pre-Approved</div>
+				<div class="t-body">Agent</div>
+				<div class="t-body">Luxury Dashboard Interface</div>
+				<div class="t-body">CJ Gift and Limited Edition Plate</div>
+				<div class="t-body">Potential Business Partnership</div>
+			</div>
+			<div class="level" ng-class="{'active': userLevel === 1}">
+				<div class="col">
+					<div class="t-head">
+						<span>LV1</span>
+					</div>
+					<div class="t-body">5</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">Share</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+				</div>
+			</div>
+			<div class="level" ng-class="{'active': userLevel === 2}">
+				<div class="col">
+					<div class="t-head">
+						<span>LV2</span>
+					</div>
+					<div class="t-body">10</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">Share</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+				</div>
+			</div>
+			<div class="level" ng-class="{'active': userLevel === 3}">
+				<div class="col">
+					<div class="t-head">
+						<span>LV3</span>
+					</div>
+					<div class="t-body">20</div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">Share</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+				</div>
+			</div>
+			<div class="level" ng-class="{'active': userLevel === 4}">
+				<div class="col">
+					<div class="t-head">
+						<span>LV4</span>
+					</div>
+					<div class="t-body">50</div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">Share</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+				</div>
+			</div>
+			<div class="level" ng-class="{'active': userLevel === 5}">
+				<div class="col">
+					<div class="t-head">
+						<span>LV5</span>
+					</div>
+					<div class="t-body">Unlimited</div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">Share</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+					<div class="t-body">N/A</div>
+				</div>
+			</div>
+			<div class="level" ng-class="{'active': userLevel === 'VIP'}">
+				<div class="col">
+					<div class="t-head" style="border-radius: 0 4px 0 0">
+						<span>VIP</span>
+					</div>
+					<div class="t-body">Unlimited</div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body">Dedicate</div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+					<div class="t-body"><i class="satisfy-icon iconfont iconbianzu9"></i></div>
+				</div>
+			</div>
+		</div>
+		<h3 class="title">Frequently Asked Questions</h3>
+		<div class="faq-box">
+			<div class="item" ng-repeat="item in faqData">
+				<div class="t" ng-click="handleTarget(item)">
+					<span>{{item.q}}</span>
+					<i class="iconfont" ng-class="item.isShow ? 'iconicon-test26' : 'iconicon-test23'">
+					</i>
+				</div>
+				<p class="con" ng-show="item.isShow">{{item.a}}</p>
+			</div>
+		</div>
+	</div>
+</div>

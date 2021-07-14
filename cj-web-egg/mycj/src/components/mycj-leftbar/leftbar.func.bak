@@ -1,0 +1,74 @@
+import template from './leftbar.html';
+import styles from './leftbar.less';
+import { menus } from './leftbar.config';
+
+export function leftBarFactory(module) {
+  module.component('mycjLeftbar', {
+    template,
+    controller: ['$rootScope', '$scope', '$state', '$element', '$location',
+      function ($rootScope, $scope, $state, $element, $location) {
+        this.$onInit = () => {
+          init($rootScope, $scope, $state, $element, $location);
+        };
+      }],
+    bindings: {}
+  });
+}
+
+function init($rootScope, $scope, $state, $element, $location) {
+  $element.addClass(['mycj-leftbar', styles.leftBar]);
+  $scope.isShow = true;
+  $scope.vip = localStorage.getItem('vip') == undefined ? "" : localStorage.getItem('vip');
+  $scope.navArr = [];
+  $scope.navAll = menus;
+  $scope.currentUrlName = null; // 当前高亮
+  $scope.currentNavChild = null; // 当前高亮-子菜单
+
+  watchRouterChange($rootScope, $scope, $location);
+  matchRouter($scope);
+
+  $scope.toggle = function () {
+    $scope.isShow = !$scope.isShow;
+    $scope.$emit('leftbar-light', !$scope.isShow); // 展开发出false，收起发出true
+    $rootScope.$emit('leftbar-light', !$scope.isShow); // 展开发出false，收起发出true
+  }
+}
+
+function watchRouterChange($rootScope, $scope, $location) {
+
+  $rootScope.$on('on-url-changed', (_, data) => {
+    let name = data.name || data.names;
+    $scope.currentNavChild = data.child;
+
+    // json 格式
+    if (name && typeof name === 'object') {
+      name = name[$location.url()];
+    }
+
+    if (name) {
+      $scope.currentUrlName = name;
+      matchRouter($scope);
+    }
+  });
+}
+
+function matchRouter($scope) {
+  Object.keys($scope.navAll).forEach(function (key, idx) {
+    const item = $scope.navAll[key];
+    item.forEach(function (nav) {
+      if (nav.name === $scope.currentUrlName) {
+        $scope.navArr = item;
+      }
+    });
+  });
+  $scope.navArr = $scope.navArr.map(function (nav) {
+    const _nav = { ...nav, active: nav.name === $scope.currentUrlName }; // 左側bar高亮
+    if (Array.isArray(_nav.childRouter)) {
+      _nav.childRouter = _nav.childRouter.map(child => ({
+        ...child,
+        active: $scope.currentNavChild === child.name, // 左側bar-子菜单
+      }));
+    }
+    return _nav;
+  });
+}

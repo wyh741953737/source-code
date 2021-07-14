@@ -1,0 +1,152 @@
+<div class="mycj-home-box use-order" id="use-order">
+  <!--右侧内容-->
+  <div class="mycj-right-wrap" ng-class="{vip:vip == '1'}">
+    <div class="mycj-right-bar" style="margin-top: 0;">
+      <!--搜索部分-->
+      <div class="search-bar mb-2 w-100">
+        <div class="left-box">
+          <a class="back" href="#/package-inventory">〈 Back</a>
+          <span class="data-info">{{title}}<span>{{usedNum}}</span></span>
+        </div>
+        <div class="right-box">
+          <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="From">
+          -
+          <input id="cj-etime" class="Wdate data-inp" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+            placeholder="Now" readonly="">
+          <div>
+            <input type="text" placeholder="Please enter order number" class="search-inp" ng-model="inputStr"
+              ng-keyup="enterSearch($event)">
+            <button class="search-btn btn-theme" ng-click="searchPro()">Search</button>
+          </div>
+        </div>
+      </div>
+      <!--table-->
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Bulk CJ Order Number</th>
+              <th>Time</th>
+              <th>Order Quantity</th>
+              <th>Amount ($)</th>
+              <th>Packaging Quantity</th>
+              <th>Packaging Value ($)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(index,item) in dataList">
+              <td>{{item.ID}}</td>
+              <td>{{item.createDate | date:'yyyy-MM-dd'}}</td>
+              <td>
+                <a
+                  ng-href="{{'#/child-order/'+path+'/'+item.ID+'/'+item.STANPRODUCTID+'/'+item.shopId}}">{{item.ORDERNUMBER}}</a>
+              </td>
+              <td>{{item.ORDERMONEY}}</td>
+              <td>{{item.QUANTITY}}</td>
+              <td>{{item.totalprice}}</td>
+              <td>{{status(item.STATUS)}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- page -->
+        <page ng-show="dataList.length > 0"></page>
+        <!--no-data-->
+        <div class="no-data" ng-show="dataList.length == 0" style="margin-top: 60px;text-align: center;">
+          <img src="./static/image/public-img/nodata_new.png">
+          <p style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">Sorry, The data is not
+            found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  #use-order .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #use-order .search-bar .right-box {
+    display: flex;
+    align-items: center;
+  }
+
+  #use-order .search-bar .Wdate {
+    width: 120px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 2px;
+    border: 1px solid rgba(224, 224, 224, 1);
+    margin: 0 10px;
+    font-size: 12px;
+  }
+
+  #use-order .search-bar .back {
+    font-size: 16px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+    cursor: pointer;
+  }
+
+  #use-order .data-info {
+    display: inline-block;
+    margin-left: 30px;
+    font-size: 16px;
+  }
+
+  #use-order .data-info span {
+    color: #DDA863;
+    margin-left: 5px;
+  }
+
+  #use-order table {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  #use-order .vip table th {
+    color: rgba(243, 219, 165, 1);
+  }
+
+  #use-order table th,
+  td {
+    border-right: none !important;
+    text-align: center;
+  }
+
+  #use-order table td {
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    padding: 10px 0;
+  }
+
+  #use-order table td a {
+    color: #DDA863;
+  }
+
+  #use-order table tbody tr {
+    border: 1px solid #F3F3F3;
+  }
+
+  #use-order table tbody tr .operating button {
+    /*box-shadow:0px -1px 3px 0px rgba(170,166,166,0.5);*/
+    border-radius: 4px;
+    border: 1px solid rgba(193, 193, 193, 1);
+    font-size: 14px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+    padding: 5px 10px;
+  }
+
+  .no-data {
+    text-align: center;
+  }
+</style>

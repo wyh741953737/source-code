@@ -1,0 +1,62 @@
+<div class="right d-flex flex-column">
+  <div class="admin" id="vue-right-side-admin" v-cloak>
+    <load-bounce v-if="logined" :loading="loading" :isbg='loading'>
+      <div class="logined p-2 h-100 d-flex flex-column">
+        <div class="account d-flex">
+          <div>
+            <div class="avatar-box" v-if="userInfo.avatar">
+              <img class="avatar rounded-circle" :src="userInfo.avatar | IMG_SIZE(48, 48)">
+            </div>
+            <div v-else class="avatar-box avatar-name notranslate">${ userInfo.name ? userInfo.name.slice(0, 1).toUpperCase() : ''}</div>
+          </div>
+          <!-- <span v-else class="name-box">${ userInfo.name ? userInfo.name.slice(0, 1).toUpperCase() : ''}</span> -->
+          <div class="ml-3">
+            <div class="user d-flex align-items-center">
+              <span class="name">${ userInfo.subAccountName || userInfo.name || userInfo.loginName }</span>
+              <span v-if="userInfo.vip==1" class="icon iconfont iconxingzhuang1 ml-1"></span>
+            </div>
+            <div class="level">
+              <span>{{ i18next.t('right-admin-level') }}:</span>
+              <span class="h6" v-if="!loading">${ userLevel }</span>
+            </div>
+          </div>
+        </div>
+        <div class="drop-info flex-fill pl-1 pr-1 mt-2 d-flex justify-content-between flex-wrap">
+          <div class="info-item" v-for="info of dropInfo">
+            <a :href="info.href || 'javascript:void(0)'">
+              <div class="title">${ info.title }</div>
+              <div class="value suspend-box" v-if="info.currency">
+                ${ info.value | EXCHANGE_RATE(undefined, true) }
+                <div class="suspend" v-if="info.currency">
+                  ${ info.value | EXCHANGE_RATE }
+                </div>
+              </div>
+              <div class="value" v-else>${ info.value }</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </load-bounce>
+    <div class="not-login text-center d-flex flex-column justify-content-between align-items-center h-100 pt-5 pb-4"
+      v-else>
+      <div class="avatar-box">
+        <img class="rounded-circle" :src="adminIcon | IMG_SIZE(58, 58)">
+      </div>
+      <div class="welcome">{{ i18next.t('right-admin-hi-welcome-to-cjdropshipping!') }}</div>
+      <div class="btn-gruop">
+        <a  v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Sign In","buttonType": 0}' href="/login.html" class="signin mr-3">{{ i18next.t('common-sign-in') }}</a>
+        <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Register","buttonType": 0}' href="/register.html" class="register ml-3">{{ i18next.t('common-register') }}</a>
+      </div>
+    </div>
+  </div>
+  <div class="knowledge flex-fill help-center" id="vue-right-knowledge">
+    <a class="title" href="/help-center" target="_blank">{{ i18next.t('common-top-help-center') }}<span class="view-more banner-view-more" href="/help-center">{{ i18next.t('common-view-more') }}<span class="iconfont iconright view-more-icon"></span></span></a>
+    <ul class="list-group">
+      {% for faq in faqs %}
+      <li class="list-item">
+        <a href="{{ faq.contentUrl }}" @click="contentClick({{faq.id}})">{{ faq.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

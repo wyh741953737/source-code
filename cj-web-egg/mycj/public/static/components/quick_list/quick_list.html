@@ -1,0 +1,1255 @@
+<style>
+  .quick_checkItem{
+    position: relative;
+  }
+  
+  .quick_checkItem input + label {
+    display: inline-block;
+    background: url(/static/image/login/multiple1-1.png) left center no-repeat !important;
+    background-size: 16px 16px !important;
+    padding-left: 28px;
+    position: relative;
+  }
+  
+  .quick_checkItem input{
+    position: absolute;
+    left: 0;
+    top: 2px;
+  }
+  
+  .quick_checkItem input:checked + label{
+    background-image: url(/static/image/login/checked-normal.png) !important;
+    background-size: 16px 16px !important;
+  }
+  .vip .quick_checkItem input:checked + label{
+    background-image: url(/static/image/login/checked-VIP.png) !important;
+    background-size: 16px 16px !important;
+  }
+  
+  .setShopfiyInventory{
+    color: #ff7700;
+    cursor: pointer;
+  }
+  .setShopfiyInventory:hover{
+    color: #ff9900;
+    text-decoration: underline;
+  }
+  .setShopfiyInventory:active{
+    color: #ff7700;
+  }
+  .notAllowed {
+    color: var(--color-font-3) !important;
+    background: #E6E6E6 !important;
+    cursor: not-allowed !important;
+  }
+  
+  
+  a {
+    color: #000000;
+  }
+  .nav-tabs li a {
+    font-size: 14px;
+    padding: 5px 15px;
+  }
+  .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #000000;
+  }
+  
+  #others {
+    padding: 20px;
+    height: 350px;
+    position: relative;
+  }
+  .other-text {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+  .other-text p{
+    width: 350px;
+    text-align: right;
+    font-size: 14px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    line-height: 30px;
+    padding-right: 4px;
+  }
+  .other-inp {
+    width: 386px;
+    line-height: 30px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    padding-left: 10px;
+    font-size: 14px;
+  }
+  
+  .requi::before {
+    margin-right: 4px;
+    color: red;
+    content: '*';
+    font-size: 14px;
+  }
+  
+  .right-icon-up {
+    margin-top: 10px;
+    margin-left: -16px;
+  }
+  
+  .other-inp.select-list {
+    caret-color: transparent;
+    cursor: pointer;
+  }
+  
+  .other-select-list {
+    position: absolute;
+    top: 120px;
+  }
+  
+  .other-select-list ul{
+    width: 386px;
+    height: 128px;
+    border: 1px solid #D9D9D9;
+    background: #ffffff;
+    overflow: auto;
+    border-radius: 4px;
+    margin-left: 350px;
+    margin-top: -27px;
+  }
+  
+  .other-select-list ul li{
+    width: 100%;
+    line-height: 32px;
+    cursor: pointer;
+    padding-left: 10px;
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+  }
+  .yourAttrInput {
+    width: 90px;
+    height: 32px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    padding: 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .vip .other-select-list ul li:hover {
+    background: var(--color-theme-1-1-vip);
+  }
+  :not(.vip) .other-select-list ul li:hover {
+      background: var(--color-theme-1-1);
+  }
+  
+  .confirm-btn-box {
+    padding: 8px 0px 13px 0px;
+    background: #fff;
+  }
+  
+  .other-var select{
+    width: 386px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    padding-left: 10px;
+  }
+  
+  .varSpec select {
+    width: 90px;
+    height: 32px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    color: black;
+  }
+  
+  .others-tab {
+    margin-bottom: 40px;
+  }
+  
+  .confirm-box .confirm-title {
+    height: 50px;
+    line-height: 50px;
+    background: #ffffff;
+    border-radius: 8px 8px 0px 0px;
+  }
+  
+  .confirm-box .confirm-btn-box {
+    display: flex;
+    padding: 10px 0;
+  }
+  .confirm-box .confirm-content {
+    padding: 20px 20px 52px 20px;
+    max-height: initial;
+    text-align: initial;
+  }
+  .list-table-title2 {
+    background: #F0EDE7;
+  }
+  .listNow-table-item {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: clip;
+  }
+  .listNow-table-item-width {
+    width: 1200px;
+  }
+  </style>
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_jbpje47kh2.css">
+  
+  <div class="confirm-box" ng-show="showListFrame">
+    <div class="confirm-main pd-listing-layer confirm-main-quick" id="merch-list" ng-click="filterCate=[];serchCateVal='';">
+      <div class="confirm-title">
+        Listing
+        <i class="iconfont confirm-close" style="top: 0;" ng-click="cancel('012', 'close_click')"></i>
+      </div>
+      <div class="confirm-content confirm-content-quick">
+        <div class="pd-list-seclet clearfix">
+          <div class="top-item clearfix">
+            <div class="pdlist-l">
+              <p class="pdlist-p1">Ship from:</p>
+            </div>
+            <div class="pdlist-r d-flex align-items-center">
+              <!-- disabled只有店铺类型为shopee 且店铺是本土站 且商品是现售（其他类型店铺一律没有禁用的情况）-->
+              <select style="margin-right: 11px;" class="selectop"
+                ng-disabled="shopItem.TYPE == 'shopee' && shopItem.is_cb && isPreOrder=='0'"
+                ng-model="areaObj" ng-change="chanAreaObj(areaObj)"
+                ng-options="item as item.areaEn for item in wareListObj">
+              </select>
+              <div class="d-flex" ng-show="shopItem.TYPE == 'shopee' && shopItem.is_cb && isPreOrder=='0'">
+                <i class="iconfont" style="color: #F70;">&#xe674;</i>
+                <p style="margin:3px 0 0 5px;font-size: 13px;">We will ship from {{shopItem.countryfullName}}. </p>
+              </div>
+            </div>
+            
+          </div>
+          <div class="top-item clearfix">
+            <div class="pdlist-l">
+              <p class="pdlist-p1">Store:</p>
+            </div>
+            <div class="pdlist-r">
+              <div class="pdlist-store">
+                <!-- <select id="shopfiy-store-sele"></select> -->
+                <!-- 限制POD商品仅支持刊登至shopify店铺，其他商品无限制 -->
+                <!-- ng-options="item as item.rNAME for item in shopList" -->
+                <select  ng-model="shopItem" ng-options="item as item.rNAME for item in shopList"
+                  ng-change="chanShop(shopItem)">
+                  <option value="" ng-hide="shopItem.ID">Please Select</option>
+                  <!-- <option value="{{item}}" ng-repeat="item in shopList">{{item.rNAME}}</option> -->
+                </select>
+                <div class="check-box" ng-cloak ng-show="shopItem.TYPE=='shopify'">
+                  <!-- <input type="checkbox" id="taxable" name="taxable" ng-model="taxable"> -->
+                  <i class="iconfont iconzizhanghuweixuanzhong checkoutIcon" ng-show="!taxable" ng-click="taxable = true;"></i>
+                  <i class="iconfont iconicon isCheckoutIcon" ng-show="taxable" ng-click="taxable = false;"></i>
+                  <label for="taxable">Charge Tax</label>
+                </div>
+                <div class="radio-box" ng-cloak
+                  ng-show="shopItem.TYPE=='shopee' && ((areaObj.countryCode=='TH' && wareListObj.TH) ||
+                  (areaObj.countryCode=='ID' && wareListObj.ID))">
+                  <!-- 现售 -->
+                  <input type="radio" name="isPreOrder" value="0" ng-model="isPreOrder" ng-change="changePreOrder(isPreOrder)">
+                  <label for="">In Stock ( Delivery Time: 7 days )</label>
+                </div>
+                <div class="radio-box" ng-cloak ng-show="shopItem.TYPE=='shopee'">
+                  <!-- 预售 -->
+                  <input type="radio" name="isPreOrder" value="1" ng-model="isPreOrder" ng-change="changePreOrder(isPreOrder)">
+                  <label for="">Pre-Sale ( Delivery Time: 15-30 days )</label>
+                </div>
+                <!-- ebay站点下拉框 start -->
+                <div class="pdlist-l" ng-show="shopItem.TYPE=='ebay'" style="width: 60px;">
+                  <p class="pdlist-p1" style="margin-left: 10px; width: 70px; text-align: left;">Listing Site:</p>
+                </div>
+  
+                <div class="pdlist-r" ng-show="shopItem.TYPE=='ebay'">
+                  <select
+                    style="margin-left: 10px;"
+                    ng-model="ebayCountry" 
+                    style="width: 100px;" 
+                    ng-change="selectEbayCountry(ebayCountry)"
+                    ng-options="item.countryCode as item.countryCode for item in ebayCountryList" 
+                  >
+                  </select>
+                </div>
+                <!-- lazada选择国家下拉框 end-->
+                <div class="pdlist-l" ng-show="shopItem.TYPE=='Lazada' && shopItem.MarketplaceUrl=='cb'" style="margin-left: 16px;">
+                  <p class="pdlist-p1">Published methods:</p>
+                </div>
+  
+                <div class="pdlist-r" ng-show="shopItem.TYPE==='Lazada' && shopItem.MarketplaceUrl=='cb'" style="margin-right: 12px;">
+                  <select ng-model="publishedMethod" ng-change="selectPublishedMethod()" style="width: 160px;">
+                    <option value="ASC">ASC</option>
+                    <option value="GSP">GSP</option>
+                  </select>
+                </div>
+  
+                <!-- ebay站点下拉框 end -->
+                <!-- lazada选择国家下拉框 start-->
+                <div class="pdlist-l" ng-show="shopItem.TYPE=='Lazada' && shopItem.MarketplaceUrl=='cb' && publishedMethod=='ASC'">
+                  <p class="pdlist-p1">Listing Site:</p>
+                </div>
+                <div class="pdlist-r" ng-show="shopItem.TYPE=='Lazada' && shopItem.MarketplaceUrl=='cb' && publishedMethod=='ASC'">
+                  <select ng-model="lazadaCountry" style="width: 100px;" ng-change="selectLzdCountry()">
+                    <option value="" ng-hide="lazadaCountry">Please Select</option>
+                    <option value="sg">Singapore</option>
+                    <option value="my">Malaysia</option>
+                    <option value="id">Indonesia</option>
+                    <option value="th">Thailand</option>
+                    <option value="ph">Philippines</option>
+                    <option value="vn">Vietnam</option>
+                  </select>
+                </div>
+  
+                <!-- ebay -->
+                <div class="ebay-limit-box" ng-show="shopItem.TYPE=='ebay'">
+                  Items Left to List on eBay：<span class="f-org">{{ebayObj.limitCount | number : 0}}</span>
+                  Amount Limit：<span class="f-org"><span>{{ limitSymbol }}</span>{{ebayObj.limitAmount | number : 2}}</span>
+                  <span class="refresh" ng-click="getEbayLimit()"></span>
+                  <div class="ebay-limit-tips">
+                    <i style="vertical-align: -2px;" class="iconfont iconprompt proDetailPrompt"></i>
+                    <div class="inventory-show-more">
+                      <div class="triangle" style="border-color: transparent transparent rgba(0, 0, 0, 0.75) transparent;"></div>
+                      <div class="show-more-list" style="padding: 10px; background:rgba(0,0,0,0.75); cursor: auto;">
+                        <span style="color: #fff;font-size: 14px;line-height: 20px; font-weight: 400;">
+                          <span class="proDetailPromptInfo new-proDetailPromptInfo" ng-click="openPrompt()">How to Increase Listing Quantities on eBay?</span> 
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+                </div>
+  
+  
+                
+  
+              </div>
+            </div>
+          </div>
+          <!-- tags -->
+          <div class="top-item clearfix" ng-show="shopItem.TYPE == 'etsy' || shopItem.TYPE == 'wix'">
+            <div class="pdlist-l">
+              <p class="pdlist-p1"><span class="nav-tabs-title-span">*</span>Tags:</p>
+            </div>
+            <div class="pdlist-r">
+              <div class="tags-box">
+                <input ng-model="inputTag" placeholder="Please add new" ng-keyup="handleTagKeyup($event)" oninput="value=value.slice(0,255)" />
+                <i class="iconfont iconbianzu21" ng-click="addRutterTags()" ng-show="inputTag.length > 0"></i>
+              </div>
+            </div>
+          </div>
+          <div class="top-item clearfix" ng-show="shopItem.TYPE == 'etsy' || shopItem.TYPE == 'wix'">
+            <div class="pdlist-l">
+              <p class="pdlist-p1"></p>
+            </div>
+            <div class="pdlist-r">
+              <div class="tags-list">
+                <div class="tag-item" ng-repeat="item in rutterTags">
+                  <div class="tag-text">{{ item }}</div>
+                  <i class="iconfont iconx" ng-click="delRutterTags(item)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="top-item clearfix" ng-cloak
+            ng-show="(shopItem.TYPE == 'Lazada' || shopItem.TYPE == 'shopee') && !shopItem.location_id">
+            <i class="iconfont pdlist-l" style="color: #F70;">&#xe674;</i>
+            <p style="margin:3px 0 0 5px;font-size: 13px;">Reminder: To successfully fulfill orders, please set
+              shipping
+              options on your Lazada/Shopee store properly. </p>
+          </div>
+          
+          <!-- shopfiy的库存管理提示 -->
+          <div 
+            class="top-item clearfix" 
+            ng-cloak
+            ng-show="shopItem.TYPE === 'shopify'"
+          >
+            <i class="iconfont pdlist-l" style="color: #F70;">&#xe674;</i>
+            <p style="margin:3px 0 0 5px;font-size: 13px;">Note: Please let CJ manage your Shopify inventory after listing. Here is the <a href="https://app.cjdropshipping.com/article-details/1347458099891539968" target="_blank" class="setShopfiyInventory">tutorial</a>!
+            </p>
+          </div>
+          <!-- lazada/shopee类目搜索start -->
+          <div class="top-item serch-cate clearfix" ng-cloak
+            ng-show="(shopItem.TYPE=='Lazada' && lazadaCate) || (shopItem.TYPE=='shopee' && shopeeMenus)">
+            <div class="pdlist-l">
+              <p class="pdlist-p2">Category Search:</p>
+            </div>
+            <div class="pdlist-r">
+              <input type="text" ng-model="serchCateVal" ng-change="serchCate()">
+              <ul ng-cloak ng-show="filterCate.length > 0">
+                <li ng-repeat="item in filterCate track by $index" ng-click="clickSearchItem(item,$event)">
+                  {{item.cateOneName + ' > ' +item.cateTwoName + ' > ' + item.name}}</li>
+              </ul>
+            </div>
+          </div>
+          <!-- lazada/shopee类目搜索end -->
+          <div class="top-item clearfix" ng-cloak>
+            <!-- <div class="pdlist-l" ng-show="shopItem.TYPE == 'Lazada' ? lazadaCate : shopItem.TYPE == 'shopee' ? shopeeMenus : shopItem.ID"> -->
+            <div class="pdlist-l" ng-show="shopItem.TYPE">
+              <p class="pdlist-p2" ng-show="shopItem.TYPE && shopItem.TYPE != 'shopify' && shopItem.TYPE !='etsy' && shopItem.TYPE != 'wix'">Select Category:</p>
+              <p class="pdlist-p2" ng-show="shopItem.TYPE && shopItem.TYPE == 'shopify'">Product Type:</p>
+            </div>
+            <div class="pdlist-r">
+              <div ng-show="shopItem.TYPE=='shopify' || shopItem.TYPE=='Woocommerce'">
+                <p class="pdlist-rp1" ng-show="categoryType==='select'">
+                  <select ng-options="item.name as item.name for item in categoryList" ng-model="category1">
+                    <option value="" ng-hide="category1">Please Select</option>
+                  </select>
+                  <button ng-click="categoryType='input';category1='';" class="add-new">Add New</button>
+                </p>
+                <p class="pdlist-rp1" ng-show="categoryType==='input'">
+                  <input ng-model="category1" placeholder="Please add new">
+                  <button ng-click="newCategory()" class="new-btn-confirm">Confirm</button>
+                  <button ng-click="categoryType='select';category1='';" class="new-btn-cancel">Cancel</button>
+                </p>
+              </div>
+  
+              <!-- ebay 多级类目菜单 2019-12-11-->
+              <div class="d-flex align-items-center" ng-show="shopItem.TYPE=='ebay'">
+                <div class="select-item flex-fill item-{{$index}}" ng-class="{'mr-3': $index < ebayMenus.length - 1}"
+                  ng-repeat="item in ebayMenus">
+                  <select id="cateSele" data-index="{{$index}}" onchange="angular.element(this).scope().changeEbayCategory(this);">
+                    <option ng-show="!item[$index]" value="">Please Select</option>
+                    <option ng-repeat="(key, cata) in item" value="{{cata}}">
+                      {{cata.categoryName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+  
+              <!-- lazada 多级类目菜单 -->
+              <div class="d-flex align-items-center" ng-show="shopItem.TYPE=='Lazada'">
+                <div class="select-item flex-fill item-{{$index}}" ng-class="{'mr-3': $index < lazadaCate.length - 1}"
+                  ng-repeat="item in lazadaCate">
+                  <select id="{{'my-select-' + $index}}" data-index="{{$index}}"
+                    onchange="angular.element(this).scope().changeLazadaCate(this);">
+                    <option ng-show="!item.category.category_id" value="">Please Select</option>
+                    <option ng-repeat="cate in item.menus" value="{{cate.category_id}}">
+                      {{cate.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+  
+              <!-- shopee 多级类目菜单 -->
+              <div class="d-flex align-items-center" ng-show="shopItem.TYPE=='shopee'">
+                <div class="select-item flex-fill item-{{$index}}" ng-class="{'mr-3': $index < shopeeMenus.length - 1}"
+                  ng-repeat="item in shopeeMenus">
+                  <!-- 循环 select 的 ng-model 有坑，没掌握好 -->
+                  <select id="{{'my-select-' + $index}}" data-index="{{$index}}"
+                    onchange="angular.element(this).scope().changeShopeeCate(this);">
+                    <option ng-show="!item.category.category_id" value="">Please Select</option>
+                    <option ng-repeat="cate in item.menus" value="{{cate.category_id}}">
+                      {{cate.category_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="top-item serch-cate clearfix" ng-cloak ng-show="shopItem.TYPE=='shopify'">
+            <div class="pdlist-l">
+              <p class="pdlist-p2">Collections:</p>
+            </div>
+            <div class="pdlist-r">
+              <shopify-collections></shopify-collections>
+            </div>
+          </div>
+  
+          <div class="top-item clearfix" ng-cloak ng-show="shopItem.TYPE=='shopify'" style="margin-bottom: 2px; display: flex;">
+            <!-- <div class="pdlist-l" ng-show="shopItem.TYPE == 'Lazada' ? lazadaCate : shopItem.TYPE == 'shopee' ? shopeeMenus : shopItem.ID"> -->
+            <div class="pdlist-l">
+              <p class="pdlist-p2">Vendor:</p>
+            </div>
+            <div class="pdlist-r">
+              <div>
+                <p class="pdlist-rp1" ng-show="vendorType==='select'">
+                  <select ng-model="vendor" ng-options="item for item in  vendorList">
+                    <option value="" ng-hide="vendor">Please Select</option>
+                  </select>
+                  <button ng-click="vendorType='input';vendor='';" class="add-new">Add New</button>
+                </p>
+                <p class="pdlist-rp1" ng-show="vendorType==='input'">
+                  <input ng-model="vendor" placeholder="Please add new">
+                  <button ng-click="newVendor()" class="new-btn-confirm">Confirm</button>
+                  <button ng-click="vendorType='select';vendor='';" class="new-btn-cancel">Cancel</button>
+                </p>
+              </div>
+  
+            </div>
+            <div id="Refresh" ng-class="{'refresh': true, 'disable': waiting}" ng-click="refreshVendorList()"></div>
+          </div>
+  
+        </div>
+  
+        <div role="tabpanel">
+          <!-- 选项卡导航栏 -->
+          <ul id="tabs-wrapper" class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a
+                href="#variants"
+                id="vari"
+                aria-controls="variants"
+                role="tab"
+                data-toggle="tab"
+                class="nav-tabs-title"
+              ><span class="nav-tabs-title-span">* </span>Variants</a>
+            </li>
+            <li role="presentation">
+              <a
+                href="#attributes"
+                id="attr"
+                aria-controls="attributes"
+                role="tab"
+                data-toggle="tab"
+                class="nav-tabs-title"
+                ng-show="shopItem.TYPE=='Lazada' && normalList.length > 0 || shopItem.TYPE=='shopee' && !!requiredAttr"
+              ><span class="nav-tabs-title-span">* </span>Attributes</a>
+            </li>
+            <li role="presentation">
+              <a
+                href="#reviews"
+                id="revi"
+                aria-controls="reviews"
+                role="tab"
+                data-toggle="tab"
+                class="nav-tabs-title"
+                ng-show = " shopItem.TYPE=='Woocommerce' && showReviews"
+              ><span class="nav-tabs-title-span">* </span>Reviews</a>
+            </li>
+            <li role="presentation">
+              <a 
+                href="#published"
+                id="publ"
+                aria-controls="Published" 
+                role="tab" 
+                data-toggle="tab"
+                class="nav-tabs-title"
+                ng-show="shopItem.TYPE == 'Lazada' && showLazadaStation"
+              ><span class="nav-tabs-title-span">* </span>Published</a>
+            </li>
+            <li role="presentation">
+              <a
+                href="#others"
+                id="othe"
+                aria-controls="others"
+                role="tab"
+                data-toggle="tab"
+                ng-show="shopItem.TYPE=='ebay'"
+                ng-click='removeColor2()'
+                class="nav-tabs-title"
+                ng-class="{warning:ebayOthersWarn.title}"
+              ><span class="nav-tabs-title-span">* </span>Others</a>
+          </li>
+          </ul>
+          <!-- 选项卡窗口 -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="variants">
+              <div class="pdlist-con">
+                <div class="pdlist-top clearfix">
+                  <div class="bulk-set">
+                    <span class="left-span">Bulk Revise:</span>
+                    <select class="bulk-inp" style="width: 130px;" ng-model="bulkRevise" ng-init="bulkRevise='price'">
+                      <option value="price">Price Change</option>
+                      <option value="inventory" ng-show="shopItem.TYPE=='ebay'">Listing Change</option>
+                      <option value="weight" ng-show="shopItem.TYPE=='Lazada'">Weight Change</option>
+                      <option value="length" ng-show="shopItem.TYPE=='Lazada'">Length Change</option>
+                      <option value="width" ng-show="shopItem.TYPE=='Lazada'">Width Change</option>
+                      <option value="height" ng-show="shopItem.TYPE=='Lazada'">Height Change</option>
+                    </select>
+                    <span><input type="text" class="bulk-inp" ng-model="bulkReviseValue" ng-change="handlePriceChange(bulkReviseValue)"></span>
+                    <span><a href="javascript:void(0);" class="ok-btn new-theme-color" ng-click="bulkOK(bulkRevise)">OK</a></span>
+                  </div>
+                </div>
+                
+                <div class="listNow-table-item" ng-class="{'listNow-table-item-width': variationTrue.length > 0}">
+
+                <div class="list-table-title2">
+                  <table class="list-table-thead">
+                    <thead>
+                      <tr class="list-table-title-tr" id="list-Table-Title2" ng-style="{'min-width':(tempVarientKeys.length+variationTrue.length)*100+960}" ng-class="{'list-table-title-full': length+variationTrue.length > 0}">
+                        <th style="width: 40px;">
+                          <div class="check-box">
+                            <input type="checkbox" name="PLASTIC_BAG" class="check-all new-checkbox-color" ng-model="check_All"
+                              ng-change="checkAll()">
+                            <!-- <i class="iconfont iconzizhanghuweixuanzhong checkoutIcon" ng-show="!check_All" ng-click="check_All = true;"></i>
+                            <i class="iconfont iconicon isCheckoutIcon" ng-show="check_All" ng-click="check_All = false;"></i> -->
+                            <label for=""></label>
+                          </div>
+                        </th>
+                        <th style="width: 50px;">Images</th>
+                        <th style="width: 150px;" class="sku-th">SKU</th>
+                        <th style="width: 90px;" class="varient-th" ng-repeat="item in tempVarientKeys" name="item"
+                          ng-hide="shopItem.TYPE=='Lazada'">CJ {{item}}</th>
+                        <!-- <li style="width: 90px;" name="' + tempVarientKeys[i] + '" class="varient-th">' + tempVarientKeys[i] + '</li> -->
+                        <th style="width: 104px;" ng-show="shopItem.TYPE == 'Lazada'" ng-repeat="skuItem in skuList">
+                          {{skuItem.label}}</th>
+                        <th style="width: 100px;" ng-show="variationTrue.length > 0 && shopItem.TYPE=='ebay' && isVariant" ng-repeat="item in variationTrue track by $index">
+                          <span>Your {{item.name}}</span>
+                        </th>
+                        <th style="width: 100px;">CJ Price</th>
+                        <th style="width: 100px;">Shipping Cost</th>
+                        <th style="width: 100px;">Total Dropshipping Cost</th>
+                        <th style="width: 140px;">
+                          <span>Your Price</span>
+                          <select style="width: 52px;" ng-model="CurrencyCode" ng-change="selectCurrCode()"
+                            ng-show="shopItem.TYPE=='Lazada' || shopItem.TYPE=='shopee'">
+                            <option value="USD">USD</option>
+                            <option value="THB" ng-show="(shopItem.countryfullName=='Thailand' || lazadaCountry=='th') && publishedMethod !== 'GSP'">THB
+                            </option>
+                            <option value="SGD" ng-show="(shopItem.countryfullName=='Singapore' || lazadaCountry=='sg') && publishedMethod !== 'GSP'">SGD
+                            </option>
+                            <option value="MYR" ng-show="(shopItem.countryfullName=='Malaysia' || lazadaCountry=='my') && publishedMethod !== 'GSP'">MYR
+                            </option>
+                            <option value="IDR" ng-show="(shopItem.countryfullName=='Indonesia' || lazadaCountry=='id') && publishedMethod !== 'GSP'">IDR
+                            </option>
+                            <option value="PHP" ng-show="(shopItem.countryfullName=='Philippines' || lazadaCountry=='ph') && publishedMethod !== 'GSP'">
+                              PHP
+                            </option>
+                            <option value="VND" ng-show="(shopItem.countryfullName=='Vietnam' || lazadaCountry=='vn') && publishedMethod !== 'GSP'">VND
+                            </option>
+                          </select>
+                          <select 
+                            style="width: 52px;" 
+                            ng-model="ebayCurrency" 
+                            ng-show="shopItem.TYPE=='ebay'"
+                            ng-options="ebayCur.currencyCode as ebayCur.currencyCode for ebayCur in ebayCurrencyList" 
+                          >
+                          </select>
+                        </th>
+                        <th ng-show="shopItem.TYPE == 'ebay'" style="width: 100px;">Inventory
+                        </th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='ebay'">Listing Quantity</th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'">Weight(g)</th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'">Length(mm)</th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'">Width(mm)</th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'">Height(mm)</th>
+                        <th ng-show="variationTrue.length > 0 && showRightTip" class="right-overflow-tip" ng-style="{'height': tempStanProducts.length * 70 + 65 + 'px', 'margin-top': tempStanProducts.length * 70 + 'px'}">
+                          <div style="width: 100%; height: 65px; background-color: #F0EDE7;"></div>
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+                
+  
+                <div class="list-table-tbody" ng-style="{'min-width':(tempVarientKeys.length+variationTrue.length)*100+970}">
+                  <table>
+                    <thead>
+                      <tr class="list-table-title" id="list-Table-Tbody-Tr" ng-style="{'min-width':(tempVarientKeys.length+variationTrue.length)*100+960}" style="text-align: center; font-size: 14px;height: 0;">
+                        <th style="width: 40px;">
+                        </th>
+                        <th style="width: 50px;"></th>
+                        <th style="width: 150px;" class="sku-th"></th>
+                        <th style="width: 90px;" class="varient-th" ng-repeat="item in tempVarientKeys" name="item"
+                          ng-hide="shopItem.TYPE=='Lazada'"></th>
+                        <!-- <li style="width: 90px;" name="' + tempVarientKeys[i] + '" class="varient-th">' + tempVarientKeys[i] + '</li> -->
+                        <th style="width: 104px;" ng-show="shopItem.TYPE == 'Lazada'" ng-repeat="skuItem in skuList"></th>
+                        <th style="width: 80px;"></th>
+                        <th style="width: 80px; line-height: 24px;"></th>
+                        <th style="width: 100px; line-height: 24px;"></th>
+                        <th style="width: 140px;">
+                        </th>
+                        <th ng-show="shopItem.TYPE == 'ebay'" style="width: 100px; line-height: 24px;">
+                        </th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='ebay'"></th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'"></th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'"></th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'"></th>
+                        <th style="width: 100px;" ng-show="shopItem.TYPE=='Lazada'"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="varspec" ng-repeat="(itemKey, item) in tempStanProducts" ng-init="outerIndex = $index" class="stan-product-line">
+                        <td style="width: 40px;">
+                            <div class="check-box" style="top: 35%;">
+                              <div class="check-box-item">
+                                <input type="checkbox" class="check-one new-checkbox-color" name="{{item.ID}}" ng-model="item.check"
+                                  ng-change="checkOne(item,index)">
+                                <label for=""></label>
+                              </div>
+                            </div>
+                        </td>
+                        <td style="width: 50px;" class="pdlist-imgtd"><a href="javascript:void(0);"><img src="{{item.IMG}}"></a></td>
+                        <td style="width: 150px;">
+                          <span>{{item.SKU}}</span>
+                          <span class="InsufficientTips" ng-show="item.showInsufficientTips">Insufficient Inventory</span>
+                        </td>
+                        <td style="width: 90px;" ng-hide="tempVarientKeys.length == 0 || shopItem.TYPE=='Lazada'"
+                          ng-repeat="itemv in (item.VARIANTKEY.split('-')) track by $index" name="{{itemv}}">
+                          {{itemv}}
+                        </td>
+  
+                        <td ng-show="shopItem.TYPE == 'Lazada'" ng-repeat="skuItem in skuList"
+                          style="width:100px;">
+                          <select ng-model="item[skuItem.name]"
+                            ng-options="itemv.name as itemv.name for itemv in skuItem.options"
+                            ng-change="handleSizeChange(item,skuItem.name,itemKey)"
+                            style="border:1px solid #ececec; border-radius:3px; width:100px; height:28px; font-size:14px;">
+                            <option value="">Please Select</option>
+                          </select>
+                        </td>
+  
+                        <td style="width: 100px;" id="varVos" class="varSpec" ng-repeat="itemy in variationTrue track by $index" ng-show="variationTrue.length > 0 && shopItem.TYPE == 'ebay' && isVariant">
+                          <select
+                            style="margin-right: 0;"
+                            ng-if="itemy.valueRecommendations.length > 0"
+                            ng-model="item[itemy.name]"
+                            ng-change="spliceYourAttr()"
+                            ng-options="items for items in itemy.valueRecommendations"
+                          >
+                          </select>
+                          <input
+                            type="text"
+                            class="yourAttrInput"
+                            autocomplete="gan"
+                            ng-blur="spliceYourAttr()"
+                            ng-if="itemy.valueRecommendations.length == 0 && !itemy.variantSpecificsVOS[outerIndex].optionValue"
+                            ng-model="item[itemy.name]"
+                          >
+                        </td>
+  
+                        <td style="width: 100px;" ng-cloak ng-if="item.sellDiscount && item.sellDiscount<100">
+                          <span style="text-decoration: line-through;color: #999;">{{item._SELLPRICE}}</span>
+                          <span style="display: block">{{item._SELLPRICEDIS}}</span>
+                          <span>{{'(' + (100 - item.sellDiscount) + '% off)'}}</span>
+                        </td>
+                        <td ng-show="!(item.sellDiscount && item.sellDiscount<100)" style="width: 100px;">
+                          <span ng-if="!item.nowPrice">{{item._SELLPRICE}}</span>
+                          <ng-template ng-if="item.nowPrice">
+                            {{item._nowPrice}}
+                            <del>{{item._SELLPRICE}}</del>
+                          </ng-template>
+                        </td>
+                        <td class="yunfei2" style="width: 100px;" ng-cloak
+                          ng-if="item.freightDiscount && item.freightDiscount > 0 && item.freightDiscount < 100">
+                          <span style="text-decoration: line-through; ">{{item._shipCost}}</span>
+                          <span style="display: block;">{{item._shipCostDis}}</span>
+                          <span>{{'(' + (item.freightDiscount) + '% off)'}}</span>
+                        </td>
+                        <!-- class="yunfei" 临时解决翻译带来的问题 -->
+                        <td class="yunfei" ng-cloak
+                          ng-show="!(item.freightDiscount && item.freightDiscount > 0&& item.freightDiscount < 100)"
+                          style="width: 100px;">
+                          {{item.shipCost ? (item.shipCost | exchangeRate) : '0'}}
+                        </td>
+                        <!-- class="amount" 临时解决翻译带来的问题 -->
+                        <td class="amount" style="width: 100px;">
+                          <div ng-show="!item.nowPrice"><span ng-bind="item.amountPrice"></span></div>
+                          <div ng-show="item.nowPrice">
+                            <span ng-bind="item._amountPrice"></span>
+                            <del><span ng-bind="item.amountPrice"></span></del>
+                          </div>
+                          </td>
+  
+                        <td style="width: 140px;">
+                          <span
+                            ng-show="(shopItem.TYPE=='Lazada' || shopItem.TYPE=='shopee') && item.currencyUnit && CurrencyCode=='THB'">{{item.currencyUnit}}</span>
+                          <input class="price-inp" name="{{item.ID}}" ng-model="item.sellPrice"
+                            ng-change="addPrice(CurrencyCode, item.sellPrice, item, $index)"
+                            ng-blur="handleVerificationPrice(CurrencyCode, item.sellPrice, item, $index)"
+                            maxlength="11"
+                            oninput="value = value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.').replace(/^[0]*/,'').replace(/^[0]*$/,'0').replace(/^\./,'0.').match(/\d{1,8}(\.?\d{0,2})/g)[0];">
+                          <div ng-show="(shopItem.TYPE=='Lazada' || shopItem.TYPE=='shopee') && item.rateConverted">
+                            {{'≈ $' + item.rateConverted}}
+                          </div>
+                        </td>
+                        <td style="width: 100px;" ng-if="shopItem.TYPE=='ebay'">
+                          {{item.inventory || 0}}
+                        </td>
+                        <td style="width: 100px;" ng-if="shopItem.TYPE=='ebay'">
+                          <input class="price-inp" name="{{item.ID}}" ng-model="item.quantity"
+                            ng-change="addQuantity(item.quantity, item.inventory, $index)"
+                            oninput="value = value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.');">
+                        </td>
+                        <td style="width: 100px;" ng-if="shopItem.TYPE=='Lazada'"><input class=""
+                            style="width: 78px;height: 30px;border: 1px solid #b4b4b4;border-radius: 4px;text-align: center;"
+                            ng-model="item.WEIGHT"></td>
+                        <td style="width: 100px;" ng-if="shopItem.TYPE=='Lazada'"><input class=""
+                            style="width: 78px;height: 30px;border: 1px solid #b4b4b4;border-radius: 4px;text-align: center;"
+                            ng-model="item.STANDARD[0]"></td>
+                        <td style="width: 100px;" ng-if="shopItem.TYPE=='Lazada'"><input class=""
+                            style="width: 78px;height: 30px;border: 1px solid #b4b4b4;border-radius: 4px;text-align: center;"
+                            ng-model="item.STANDARD[1]"></td>
+                        <td style="width: 100px;" ng-if="shopItem.TYPE=='Lazada'"><input class=""
+                            style="width: 78px;height: 30px;border: 1px solid #b4b4b4;border-radius: 4px;text-align: center;"
+                            ng-model="item.STANDARD[2]"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+  
+                </div>
+  
+                <div class="d-flex-items-center show-sele-logistic ship-btn-media">
+                  <div style="font-size: 14px; color: #000000;">
+                    Ship My Order(s) Most to:
+                    <select name="" class="re-chose-ship" ng-model="shipCountry" ng-change="chanShipMethod()"
+                      ng-options="item.code as item.nameEn for item in receiveCountryList"></select>
+                  </div>
+                  <div style="font-size: 14px; color: #000000;">
+                    Shipping Method:
+                    <select name="" class="re-chose-ship" ng-model="shipMethod" ng-change="chanShipMethod()"
+                      ng-options="item.logisticName as item.logisticName for item in wuliuList"></select>
+                  </div>
+                </div>
+                <div class="d-flex-items-center show-sele-logistic ship-method-info ship-show-media">
+                  <div class="ship-method-info-item">
+                    <span class="label">Estimated Delivery Time:</span>
+                    <span class="value" ng-show="shipMethodTime" ng-cloak>
+                      {{ shipMethodTime }} <span ng-show="shipMethodTime == 1 || shipMethodTime == 0" ng-cloak>day</span><span ng-show="shipMethodTime != 1 || shipMethodTime != 0" ng-cloak>days</span></span>
+                  </div>
+                  <div class="ship-method-info-item">
+                    <span class="label">Shipping Cost:</span>
+                    <span class="value" ng-show="shipMethodCost" ng-cloak>${{ shipMethodCost }}</span>
+                  </div>
+                  <div class="ship-method-info-item">
+                    <span class="label">Tracking Information:</span>
+                    <span class="value">{{ shipMethodInfo }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="attributes" style="padding: 20px; height: 350px;">
+              <!-- lazada -->
+              <div ng-show="shopItem.TYPE=='Lazada'" style="height: 100%; display: flex; flex-flow: column wrap">
+                <div ng-repeat="items in normalList">
+                  <p style="font-size: 14px;">{{'* ' + items.label}}</p>
+                  <select ng-model="items.key" ng-show="items.name == 'brand'"
+                    ng-options="brandItem.name_en for brandItem in brandList"
+                    style="margin-bottom:10px; border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px;">
+                    <option value="">No Brand</option>
+                  </select>
+                  <select ng-model="items.key" ng-show="items.name != 'brand'"
+                    ng-options="item.name for item in items.options"
+                    style="margin-bottom:10px; border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px;">
+                    <option value="">Please Select</option>
+                  </select>
+                </div>
+              </div>
+  
+              <!-- shopee -->
+              <div ng-show="shopItem.TYPE=='shopee'" style="height: 100%; display: flex; flex-flow: column wrap">
+                <div ng-repeat="items in comboBoxAttr">
+                  <p>{{'* ' + items.attribute_name}}</p>
+                  <select ng-model="items.value"
+                    ng-options="item.original_value as item.original_value for item in items.values"
+                    style="margin-bottom:10px; border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px;">
+                    <option value="">Please Select</option>
+                  </select>
+                </div>
+  
+                <div ng-repeat="item in textAttr">
+                  <p>{{'* ' + item.attribute_name}}</p>
+                  <input type="text" ng-model="item.value"
+                    style="margin-bottom:10px; border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px;">
+                </div>
+                <div class="d-flex">
+                  <div class="mr-2">
+                    <p style="font-size: 14px;">* Shipping：</p>
+                    <select
+                      style="border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px; margin-bottom:10px;"
+                      ng-options="item as item.logistic_name for item in shopeeLogistics" ng-model="shopeeLogisticItem">
+                      <option value="" ng-hide="shopeeLogisticItem">Please Select</option>
+                    </select>
+                  </div>
+                  <div ng-if="shopeeLogisticItem.fee_type === 'SIZE_SELECTION'">
+                    <p style="font-size: 14px;">* Logistics size:</p>
+                    <select
+                      style="border:1px solid #ececec; border-radius:3px; width:150px; height:28px; font-size:14px; margin-bottom:10px;"
+                      ng-options="size as size.name for size in shopeeLogisticItem.sizes"
+                      ng-model="$parent.logisticsSize">
+                      <option value="">Please Select</option>
+                    </select>
+                  </div>
+                  <div ng-if="shopeeLogisticItem.fee_type === 'CUSTOM_PRICE'">
+                    <p style="font-size: 14px;">* Shipping fee:</p>
+                    <input type="text" placeholder="fee" ng-model="$parent.logisticsShipingfee""
+                      oninput="
+                      value=value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.')"
+                      style="border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px; padding:0 12px; margin-bottom:10px;">
+                  </div>
+                </div>
+                <p style="font-size: 14px;">* Weight(kg)：</p>
+                <input type="text" ng-model="shopeeWeight"
+                  oninput="value=value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.')"
+                  style="border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px; padding:0 12px; margin-bottom:10px;">
+                <p>* Package size(cm)：</p>
+                <input type="text" placeholder="length" ng-model="shopeeLength"
+                  oninput="value=value.replace(/[^0-9]/g,'')"
+                  style="border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px; padding:0 12px; margin-bottom:10px;">
+                <input type="text" placeholder="width" ng-model="shopeeWidth" oninput="value=value.replace(/[^0-9]/g,'')"
+                  style="border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px; padding:0 12px; margin-bottom:10px;">
+                <input type="text" placeholder="height" ng-model="shopeeHeight"
+                  oninput="value=value.replace(/[^0-9]/g,'')"
+                  style="border:1px solid #ececec; border-radius:3px; width:190px; height:28px; font-size:14px; padding:0 12px;">
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="reviews" style="padding: 20px; height: 400px;box-shadow:0px -2px 3px 0px rgba(0,0,0,0.05);">
+              <imp-review is-import="isImport" star-pool="starPool" product-id="parentscope.detailId"></imp-review>
+            </div>
+  
+            <!-- Published页 -->
+            <div role="tabpanel" class="tab-pane" id="published" style="padding: 20px; height: 350px;">
+              <div style="display: flex;">
+                <div style="width: 120px;text-align: right;margin-right: 6px;">
+                  <span style="color: red;">*</span>Published To:                
+                </div>
+                <div style="display: flex;">
+                  <div ng-repeat="LazadaStation in lazadaStationList" style="margin-right:24px;" class="quick_checkItem">
+                    <input type="checkbox" id="{{LazadaStation.countryCode}}" ng-model="LazadaStation.checked" style="margin: 0px;">
+                    <label for="{{LazadaStation.countryCode}}">{{ LazadaStation.countryName }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Others -->
+            <div role="tabpanel" class="tab-pane others-tab" id="others" ng-show="shopItem.TYPE=='ebay'">
+              <div class="other-text">
+                <p class="requi">PayPal Account:</p>
+                <input
+                  type="text"
+                  id="payEmail"
+                  class="other-inp"
+                  autocomplete="gan"
+                  maxlength="200"
+                  ng-model="ebayOthersParam.paypalAccount"
+                  ng-class="{'warning':ebayOthersWarn.paypalAccount}"
+                  ng-change="ebaySelectChange('paypalAccount')"
+                >
+              </div>
+              <div class="other-text" ng-show="siteData.length > 0 && isVariant">
+                <p class="requi">Shipping Methods on eBay:</p>
+                <select 
+                  id="ebShip"
+                  class="other-inp select-list"
+                  style="height: 32px;"
+                  ng-model="ebayOthersParam.ebayShip"
+                  ng-class="{'warning':ebayOthersWarn.ebayShip}"
+                  ng-options="ebayShip as ebayShip.showName for ebayShip in ebayShipList"
+                  ng-change="ebaySelectChange('ebayShip')"
+                >
+                </select>
+              </div>
+              <div class="other-text" ng-show="specificslist[0].name == 'MPN'" ng-repeat="item in specificslist track by $index">
+                <p class="requi">{{item.name}}:</p>
+                <input
+                  type="text"
+                  id="mpn"
+                  class="other-inp"
+                  autocomplete="gan"
+                  ng-model="ebayOthersParam[item.name]"
+                  ng-class="{'warning':ebayOthersWarn[item.name]}"
+                  ng-change="ebaySelectChange(item.name)"
+                >
+              </div>
+              <div class="other-text" ng-show="requiredCodeLen > 0 && isVariant" ng-repeat="(key,item) in requiredCode track by $index">
+                <p class="requi">
+                  <span class="codeToolTip">
+                    <a href="/article-details/1387383798114684928" target="_blank">
+                      <i class="iconfont icontishi3 codeIcon"></i>
+                    </a>
+                    <span class="codeToolText">Details</span>
+                  </span>
+                  <span>{{key}}:</span>
+                </p>
+                <input
+                  type="text"
+                  id="upc"
+                  class="other-inp"
+                  autocomplete="gan"
+                  ng-model="ebayOthersParam[key]"
+                  ng-class="{'warning':ebayOthersWarn[key]}"
+                  ng-change="ebaySelectChange(key)"
+                >
+              </div>
+              <div id="otherYourAttr" class="other-text other-var" ng-show="!specificslist.variationSpecifics && specificslist[0].name != 'MPN'" ng-repeat="item in specificslist track by $index">
+                <p class="requi">{{item.name}}:</p>
+                <input
+                  type="text"
+                  class="other-inp"
+                  autocomplete="gan"
+                  ng-show="specificslist[$index].valueRecommendations.length == 0"
+                  ng-model="ebayOthersParam[item.name]"
+                  ng-class="{'warning':ebayOthersWarn[item.name]}"
+                  ng-change="ebaySelectChange(item.name)"
+                >
+                <select
+                  class="otherAttrSelect"
+                  ng-show="specificslist[$index].valueRecommendations.length > 0"
+                  ng-model="ebayOthersParam[item.name]"
+                  ng-class="{'warning':ebayOthersWarn[item.name]}"
+                  ng-change="ebaySelectChange(item.name)"
+                >
+                  <option ng-repeat="item in specificslist[$index].valueRecommendations track by $index" ng-value="item">
+                    {{item}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+      <div class="confirm-btn-box">
+        <span ng-click="cancel('013', 'cancel_click')" class="no-btn">Cancel</span>
+        <div class="tooltip">
+         <span ng-click="categoryType==='input' ? listitNowBefore() : listNow();" class="yes-btn btn-theme new-theme-color" ng-class="{'notAllowed': notAllowed}"
+         cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"id", "value":"{{id}}"}], "eventType": 1, "buttonName": "List It Now"}'>List It Now</span>
+         <span class="tooltiptext" ng-show="notAllowed">Variant(s) with insufficient inventory included. Please edit and list the variant(s) with available inventory.</span>
+        </div>
+        <span ng-click="editList()" class="yes-btn btn-theme new-theme-color"
+        cjstat cjstatshow='{"pageCode":"product-detail", "keys":[{"key":"id", "value":"{{id}}"}], "eventType": 1, "buttonName": "Edit Before Listing"}'>Edit Before Listing</span>
+      </div>
+      <div ng-show="displayScrollBtn" class="scroll-to-top" ng-click="scrollTableContent()">
+        <i ng-if="scrollType" class="iconfont">&#xe703;</i>
+        <i ng-if="!scrollType" class="iconfont">&#xe700;</i>
+
+        <span class="tips-custom">
+          {{scrollType ? 'Back to top' : 'Back'}}
+        </span>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  
+  
+  <!-- 刊登成功 -->
+  <div id="isCJPub" ng-show="listSuccLayer" ng-cloak>
+    <!-- 公用class：CJ-content -->
+    <!-- 操作失败class：operate-fail -->
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="listSuccLayer=false"></i>
+      <!-- <span class="close" ng-click="listSuccLayer=false">×</span> -->
+      <!-- icon span视具体情况加或不加-->
+      <div class="icon-box">
+        <i class="iconfont iconbianzu8 caveat-icon" style="color: #73BE3F;"></i>
+      </div>
+      <h3 class="title">Listed Successfully</h3>
+      <p style="text-align: center;padding-bottom: 0;margin: 20px 0 0;border-bottom: none;min-height: auto;">
+        The product has been listed to your store successfully.
+        <br>
+        <a class="new-hover" target="_blank" href="{{merchInStore}}" style="display: inline-block; margin-top: 20px;" ng-hide="isRutter()">
+          View it in store
+          <!-- <i class="iconfont icontuoyuanxing view-icon"></i> -->
+          <i class="iconfont iconlujing view-icon"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+  
+  <!-- 刊登失败 -->
+  <div id="isCJPub" ng-show="listFail.code == 803 || listFail.code == 8031 || listFail.code == 403 || listFail.code == 805 || listFail.code == 209 || listFail.code == 401 || listFail.code == 505 || listFail.code == 1008 || listFail.code == 812 || listFail.code == 'other' || listFail.code == 'fail'" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="listFail=null"></i>
+      <!-- <span class="close" ng-click="listFail=null">×</span> -->
+      <div class="icon-box">
+        <i class="iconfont iconicon2 caveat-icon" style="color: #F24724;"></i>
+      </div>
+      <h3 class="title">Listing Failed</h3>
+      <div style="margin: 20px 0;">
+        <p  style="min-height: auto; border-bottom: none; margin-bottom: 12px; padding-bottom: 0;text-align: center;" ng-bind-html="listFail.message || 'Sorry, the product fails to be list. Please try again or contact your agent.'"></p>
+        <p  style="min-height: auto; border-bottom: none; margin-bottom: 0; padding-bottom: 0; text-align: center;" ng-show="shopItem.TYPE == 'ebay' && listFail.code !== '209' && listFail.code !== '812'">Check the reasons why listing to eBay failed here: <a target="_blank"
+            href="https://cjdropshipping.com/article-details/69">https://cjdropshipping.com/article-details/69</a>
+        </p>
+      </div>
+      <div class="new-btn-box">
+        <button class="btn1 new-btn" ng-click="tryAgain()" ng-show="listFail.code == 'other' || listFail.code == 'fail'">Try again</button>
+        <button class="btn1 new-btn" ng-click="reAuthorize()" ng-show="(listFail.code == '209' && shopItem.TYPE == 'shopify') || (listFail.code == '1008' && shopItem.TYPE == 'ebay' && listFail.message.indexOf('token') !== -1)">Reauthorize</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- etsy大于三个变体不让刊登确认框 -->
+  <div id="isCJPub" ng-show="rutterNotAllowModal" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="rutterNotAllowModal=false"></i>
+      <!-- <span class="close" ng-click="rutterNotAllowModal=false">×</span> -->
+      <!-- <h3>Message</h3> -->
+      <div class="icon-box">
+        <i class="iconfont icontishi3 caveat-icon" style="color: #FAAD14;"></i>
+      </div>
+      <p style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: auto;border-bottom: none;">
+        Variants with three or more attributes (color, size, etc.) cannot be listed due to the restriction of {{ shopItem.TYPE }}.
+      </p>
+      <!-- <button class="btn1" ng-click="connectNow()">Connect Now</button> -->
+      <div class="new-btn-box">
+        <button class="btn1 new-btn" ng-click="rutterNotAllowModal=false">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 手动关联 -->
+  <div id="isCJPub" ng-show="manualConLayer" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="manualConLayer=false"></i>
+      <!-- <span class="close" ng-click="manualConLayer=false">×</span> -->
+      <div class="icon-box">
+        <i class="iconfont iconicon2 caveat-icon" style="color: #F24724;"></i>
+      </div>
+      <h3 class="title">Listing Failed</h3>
+      <p style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: 50px;border-bottom: none;">
+        The product had been listed to your store successfully. However, the system will be unable to generate orders unless you connect this product with CJ!
+        <br>
+        <a class="new-hover" target="_blank" href="{{merchInStore}}" style="display: inline-block; margin-top: 20px;">
+          View it on store
+          <!-- <i class="iconfont icontuoyuanxing view-icon"></i> -->
+          <i class="iconfont iconlujing view-icon"></i>
+        </a>
+      </p>
+      <div class="new-btn-box">
+        <button class="btn2 new-btn" ng-click="manualConLayer=false">Connect Later</button>
+        <button class="btn1 new-btn" ng-click="connectNow()">Connect Now</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- get Attributes err -->
+  <div id="isCJPub" ng-show="attrErrLayer" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="attrErrLayer=false"></i>
+      <!-- <span class="close" ng-click="attrErrLayer=false">×</span> -->
+      <div class="icon-box">
+        <i class="iconfont icontishi3 caveat-icon" style="color: #FAAD14;"></i>
+      </div>
+      <h3 class="title">Message</h3>
+      <p style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: auto;border-bottom: none;">
+        {{attrErrMes}}
+      </p>
+      <!-- <button class="btn1" ng-click="connectNow()">Connect Now</button> -->
+      <div class="new-btn-box">
+        <button class="btn1 new-btn" ng-click="attrErrLayer=false">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- shopee泰国站点-无泰国库存-不能刊登-提示 -->
+  <div id="isCJPub" ng-show="noStockLayer" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="noStockLayer=false"></i>
+      <!-- <span class="close" ng-click="noStockLayer=false">×</span> -->
+      <!-- <h3>Message</h3> -->
+      <div class="icon-box">
+        <i class="iconfont iconicon2 caveat-icon" style="color: #F24724;"></i>
+      </div>
+      <p style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: auto;border-bottom: none;">
+        This product has no stock in Thailand warehouse, so you can't list in your selected store.
+      </p>
+      <!-- <button class="btn1" ng-click="connectNow()">Connect Now</button> -->
+      <div class="new-btn-box">
+        <button class="btn1 new-btn" ng-click="noStockLayer=false">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- shopee泰国站点及其他东南亚国家站点-无库存-预售-提示 -->
+  <div id="isCJPub" ng-show="yushouLayer" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="yushouLayer=false"></i>
+      <!-- <span class="close" ng-click="yushouLayer=false">×</span> -->
+      <!-- <h3>Message</h3> -->
+      <!-- 无库存只能选择预售 -->
+      <div class="icon-box">
+        <i class="iconfont icontishi3 caveat-icon" style="color: #FAAD14;"></i>
+      </div>
+      <p ng-cloak ng-show="shopItem.MarketplaceUrl == 'th' && !wareListObj.TH" style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: auto;border-bottom: none;">
+        This product has no stock in Thailand warehouse. If you choose Pre-Sale product, the delivery
+        time is 7-30 days, please confirm your selection.
+      </p>
+      <!-- 有库存依然选择预售 -->
+      <p ng-cloak ng-show="shopItem.MarketplaceUrl == 'th' && wareListObj.TH" style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: auto;border-bottom: none;">
+        If you choose Pre-Sale product, the delivery time is 7-30 days, please confirm your selection.
+      </p>
+      <!-- 泰国以外的其他东南亚国家站点预售 -->
+      <p ng-cloak ng-show="shopItem.MarketplaceUrl != 'th'" style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: auto;border-bottom: none;">
+        This product has no stock in {{shopItem.countryfullName}} warehouse. If you choose Pre-Sale product, the delivery
+        time is 7-30 days, please confirm your selection.
+      </p>
+      <div class="new-btn-box">
+        <button class="btn2 new-btn" ng-click="yushouLayer=false">Cancel</button>
+        <button class="btn1 new-btn" ng-click="confirmList()">Confirm</button>
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- POD商品提示 -->
+  <div id="isCJPub" ng-show="showPodProduct" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="showPodProduct=false"></i>
+      <div class="icon-box">
+        <i class="iconfont icontishi3 caveat-icon" style="color: #FAAD14;"></i>
+      </div>
+      <p style="text-align: center;padding-bottom: 0;margin: 20px 0;min-height: auto;border-bottom: none;">Unfortunately, The POD products are only available to be listed to Shopify currently.</p>
+      <div class="new-btn-box">
+        <button class="btn1 new-btn" ng-click="showPodProduct=false">Confirm</button>
+      </div>
+      
+      <!-- <button class="btn2" ng-click="showFlag=false">关闭</button> -->
+    </div>
+  </div>
+  
+  <!-- lazada违禁品弹窗 -->
+  <div id="isCJPub" ng-show="contrabandShow" ng-cloak>
+    <div class="CJ-content new-CJ-content">
+      <i class="iconfont iconx new-close-icon" ng-click="contrabandShow=false"></i>
+      <!-- <span class="close" ng-click="contrabandShow=false">×</span> -->
+      <div class="icon-box">
+        <i class="iconfont icontishi3 caveat-icon" style="color: #FAAD14;"></i>
+      </div>
+      <h3 class="title">Contraband</h3>
+      <div class="new-content">
+        <span style="display: block; padding-bottom: 10px;"><b>Singapore</b>: No alcohol, weapons, battery, external power supply, drugs, tobacco and compression products.</span>
+        <span style="display: block; padding-bottom: 10px;"><b>Malaysia</b>: No alcohol, weapons, battery, external power supply, drugs, sextoys, tobacco and compression products.</span>
+        <span style="display: block; padding-bottom: 10px;"><b>Indonesia</b>: No phones, tablets, alcohol, weapons, battery, external power supply, cosmetics and skin care products, drugs, sextoys, tobacco and compression products</span>
+        <span style="display: block; padding-bottom: 10px;"><b>Thailand</b>: No alcohol, weapons, battery, external power supply, cosmetics and skin care products, drugs, sextoys, tobacco and compression products.</span>
+        <span style="display: block; padding-bottom: 10px;"><b>Philippines</b>: No alcohol, weapons, battery, external power supply, speakers, perfume, cosmetics, electronics, drugs, tobacco and compression products.</span>
+        <span style="display: block; padding-bottom: 10px;"><b>Vietnam</b>: No alcohol, weapons, battery, printing, phones, tablets, external power supply, speakers, cosmetics, drugs, tobacco, compression and sexual products.</span>
+      </div>
+      <!-- <button class="btn1" ng-click="connectNow()">Connect Now</button> -->
+      <div class="new-btn-box">
+        <button class="btn1 new-btn" ng-click="contrabandShow=false" style="margin-right: 0px;">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 等待加载刊登loading -->
+  <div id="isCJPub" ng-show="listingLoading" ng-cloak>
+    <div class="CJ-content new-CJ-content" style="text-align: center;padding: 50px 0 50px 20px;">
+      <div id="listing-loading" class="listing-loading" style="width: 60px;height: 64px;display: inline-block;"></div>
+      <p style="text-align: center;padding-bottom: 0;margin: 20px 0 0;min-height: auto;border-bottom: none;">Please wait as this may take a few minutes.</p>
+    </div>
+  </div>
+  
+   <!-- 商品标题超过80提示 -->
+   <div id="isCJPub" ng-show="proTitleMaxLenModal" ng-cloak>
+    <div class="CJ-content new-CJ-content" style="width:464px;">
+      <i class="iconfont iconx new-close-icon" ng-click="proTitleMaxLenModal=false;rutterProTitle=parentscope.merchName"></i>
+      <h3 style="padding-left:20px;">Tips</h3>
+      <div style="padding-bottom: 0;margin: 20px;min-height: auto;border-bottom: none;">
+        <div style="display: flex; font-size: 12px; color: #333;align-items: center;width:100%;">
+          <span class="nav-tabs-title-span">*</span>
+          <span>Product Title:</span>
+          <input ng-model="rutterProTitle" style="width:278px;height:32px;border: 1px solid #eee;border-radius: 4px;padding: 0 10px;margin-left: 10px;margin-right:10px; font-size:12px; color:#333;" ng-style="{'border-color': rutterProTitle.length > maxRutterTitleLen ? 'red' : '#eee'}" />
+          <span>
+            <span ng-class="{'nav-tabs-title-span': rutterProTitle.length > maxRutterTitleLen}" style="font-size: 12px;">{{ rutterProTitle.length || 0 }}</span>
+            <span>/{{ maxRutterTitleLen }}</span>
+          </span>
+        </div>
+
+        <div style="font-size: 12px; color: red;margin-top:5px;" ng-show="rutterProTitle.length == 0">Please enter the product title.</div>
+        <div style="font-size: 12px; color: red;margin-top:5px;" ng-show="rutterProTitle.length > maxRutterTitleLen">The product title can be no longer than {{ maxRutterTitleLen }} characters for {{ shopItem.TYPE }}.</div>
+      </div>
+      <div class="new-btn-box">
+        <button class="btn2 new-btn" ng-click="proTitleMaxLenModal=false;rutterProTitle=parentscope.merchName">Cancel</button>
+        <button class="btn1 new-btn" ng-class="{'disabled-btn': isRutterTitleAllow() }" ng-click="(rutterProTitle.length > 0 && rutterProTitle.length <= maxRutterTitleLen) ? listNow() : null">Confirm</button>
+      </div>
+    </div>
+  </div>

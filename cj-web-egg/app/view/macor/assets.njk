@@ -1,0 +1,13 @@
+{% macro script(path, mode) %}
+{% if mode === 'async' %}
+<script src="{{ path | VERSION }}" async></script>
+{% elif mode === 'defer' %}
+<script src="{{ path | VERSION }}" defer></script>
+{% else %}
+<script src="{{ path | VERSION }}"></script>
+{% endif %}
+{% endmacro %}
+
+{% macro link(path) %}
+<link rel="stylesheet" href="{{ path | VERSION }}">
+{% endmacro %}

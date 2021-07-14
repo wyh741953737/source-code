@@ -1,0 +1,19 @@
+<div class="confirm-box stock-out" ng-show="showFlag">
+  <div class="confirm-main">
+    <!-- <i ng-click="showFlag=false" class="iconfont confirm-close"></i>
+    <div class="confirm-title">
+      标题
+    </div> -->
+    <div class="confirm-content">
+      <div ng-if="stockoutInfo.type === 'refund'">
+        This product (${{stockoutInfo.refundAmount}}) has been refunded to your wallet on {{stockoutInfo.refundTime | date:"yyyy-MM-dd HH:mm"}}.  Please check
+			</div>
+			<div ng-if="stockoutInfo.type === 'barter'">
+				Old SKU : {{stockoutInfo.originalSku}}
+			</div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="showFlag=false" class="no-btn">Cancel</span>
+    </div>
+  </div>
+</div>

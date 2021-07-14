@@ -1,0 +1,724 @@
+<style>
+  .asj-wuliu-tip-show {
+    background: #333333;
+    opacity: 0.7;
+    color: #fff;
+    border: none;
+    top: 32px;
+  }
+
+  .sanjiao-logo-box {
+    position: absolute;
+    top: -15px;
+    left: 111px;
+    content: '';
+    border-color: transparent transparent #333333 transparent;
+    border-style: solid;
+    border-width: 8px;
+    height: 0;
+    width: 0;
+  }
+
+  tbody .order-detail .shipping-info .buyer-name {
+    display: flex;
+  }
+
+  .shipping-info .cus-name {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+  }
+
+  .dispute-con {
+    width: 700px;
+  }
+
+  .dispute-con .sel-wantway,
+  .dispute-con .sel-jfres,
+  .dispute-textarea textarea {
+    width: 645px;
+  }
+
+  .sub-orders .export-orders {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    padding: 0 10px;
+    color: #fff;
+    background-color: #0b4e67;
+    border-radius: 4px;
+  }
+
+  .sub-orders .export-orders:hover {
+    background-color: rgb(11, 98, 103);
+  }
+
+  .drop-ord-wrap .split-ordact {
+    background-color: #FFFBE6;
+    cursor: pointer;
+  }
+
+  .upload-hint {
+    width: 645px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .upload-hint i {
+    color: red;
+    font-style: normal;
+  }
+
+  .dispute-upload {
+    display: flex;
+    width: 650px;
+    margin: 5px auto 0;
+    /* margin-top: 5px; */
+    height: 160px;
+    overflow-y: auto;
+  }
+
+  .dispute-upload .upload_wrap {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .dispute-upload .upload_wrap li {
+    margin-right: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+
+  .dispute-upload .upload_wrap .li-img {
+    width: 104px;
+    height: 104px;
+  }
+
+  .dispute-upload .upload_wrap .img-show {
+    position: relative;
+  }
+
+  .dispute-upload .upload_wrap .before-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .dispute-upload .upload_wrap .close-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .dispute-upload .upload_wrap .upload-img {
+    width: 104px;
+    height: 104px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.02);
+    position: relative;
+  }
+
+  .dispute-upload .upload_wrap .upload_file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 104px;
+    height: 104px;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dispute-upload .upload_img_wrap img {
+    width: 37px;
+    height: 33px;
+  }
+
+  .dispute-upload .upload_video_wrap img {
+    width: 48px;
+    height: 30px;
+  }
+
+  .prism-big-play-btn {
+    left: calc(50% - 32px) !important;
+    bottom: calc(50% - 32px) !important;
+  }
+</style>
+<div class="content import-search-all">
+  <!-- 新老版本切换 -->
+  <version-control></version-control>
+  <div class="mycj-home-box directorders-wrap">
+    <!-- 右边部分 -->
+    <div class="direct-right p-3">
+      <!-- 导航 -->
+      <ul class="top-taps">
+        <li class="tab-theme import" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">{{'('+impprocessNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==1">{{'('+cartNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+incompleteNum+')'}}</span>
+            <span class="notranslate" ng-if="$index==3">{{'('+cancelNum+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="order-status">
+        <div class="status-nav">
+          <div class="order-filter">
+            <div class="search-order">
+              <button class="ui-btn btn-theme" ng-click="exportFun()">Export Orders</button>
+              <span class="ui-btn btn-theme" ng-click="bulkSeaFlag=true">Search</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 订单的处理部分 自动订单-->
+      <div class="deal-orders direct-deal-order" cjdot cjdotshow='{"eventType": 2}'>
+        <!-- 订单的表格部分 自动订单的待处理订单 process required-->
+        <div class="orders-list" id="z-dcl-ord">
+          <table class="orders-table dcl-ord">
+            <thead>
+              <tr>
+                <th class="data-th fir-th" style="width: 142px;">
+                  <img class="zchecked-all" src="static/image/direct-orders/multiple1.png">
+                  <span>{{websiteName}} Order Number</span>
+                  <img class="showsp-img" src="static/image/public-img/up.png">
+                </th>
+                <th style="width: 108px;">
+                  <p>Your Store Time</p>
+                  <p>System Time</p>
+                </th>
+                <th style="width: 128px;">
+                  <select id="dcl-sel-store" ng-change="storeChangeFun()" ng-model="storeName">
+                    <option value="">Stores All</option>
+                    <option ng-repeat="item in shops" value="{{item.id}}">{{item.rNAME}}</option>
+                  </select>
+                </th>
+                <th style="width: 116px;">
+                  Your Order Number
+                </th>
+                <th style="width: 98px;">Store Amount</th>
+                <th style="width: 96px;">{{websiteName}} Amount</th>
+                <th style="width: 60px;">Quantity</th>
+                <th style="width: 90px;">Tracking Number </th>
+                <th class="selcoun-td" style="width: 100px;">
+                  Shipping Info
+                </th>
+                <th style="width: 100px;">Shipping Method</th>
+                <th style="width: 100px;">Status</th>
+                <th style="width: 100px;">Operation</th>
+              </tr>
+            </thead>
+            <tbody ng-mouseenter="showdelFun($event,$index,listName.order)" ng-mouseleave="hidedelFun($event,$index)"
+              class="dcl-ord-tbody" ng-repeat="listName in ordersList" repeat-finish>
+              <tr style="background-color: #ececec;" class="blank-tr">
+                <td colspan="16" class="table-blank-td">
+                  <div class="hasdel-con">
+                    <div class="hasdel-top">
+                      <span style="color: #f99429" class="iconfont">&#xe626;</span>
+                      <p>
+                        There might be a mistake on this order, please double check it and decide KEEP it or DELETE it.
+                      </p>
+                    </div>
+                    <div class="editmess-btns">
+                      <button ng-click="keepOrdFun($index,listName.order)" class="edit-cancel-btn">KEEP</button>
+                      <button ng-click="HasdeleteSureFun($index,listName.order)"
+                        class="edit-confirm-btn">DELETE</button>
+                    </div>
+                    <span id="has-glybtom" class="glyphicon glyphicon-triangle-bottom"></span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="order-detail">
+                <td id="cj-ord-num" class="order-time">
+                  <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                  <p class="dclord-sys-time">{{listName.order.ID}}</p>
+                  <p>{{listName.order.SHIPMENTS_ORDER_ID}}</p>
+                  <p style="display: none;" class="isdel-instore">{{listName.order.shopOrderStatus}}</p>
+                  <img class="ordlog-icon" ng-click="queryLogsFun(listName.order.ID)" src="static/image/public-img/ordlog.png">
+                </td>
+                <td class="paid-time cshow-allsp" ng-cloak>
+                  <p>{{listName.order.shopifyDate}}</p>
+                  <p>{{listName.order.date}}</p>
+                </td>
+                <td class="ord-cai">
+                  <p class="store-name-p" ng-cloak>{{listName.order.STORE_NAME}}</p>
+                  <p style="display: none;" class="order-id" ng-cloak>{{listName.order.ID}}</p>
+                </td>
+                <td class="order-num-td cshow-allsp" ng-cloak>
+                  <p class="cus-ordtext">{{listName.order.ORDER_NUMBER}}</p>
+                  <p ng-if="listName.ORDERSOURCE_TYPE==2">Shopify Imported</p>
+                </td>
+                <td class="z-stord-wm cshow-allsp">
+                  <p ng-if="listName.order.SHOPIFYAMOUNT" class="st-price-num" ng-cloak>
+                    {{listName.order.SHOPIFYAMOUNT}}USD</p>
+                  <p ng-if="listName.order.SHOPIFYAMOUNT==null" class="st-price-num" ng-cloak>-USD</p>
+                </td>
+                <!-- cj金额 -->
+                <td class="z-cjord-wm cshow-allsp">
+                  <p class="cj-price-num" ng-cloak>
+                    <span ng-if="listName.order.LOGISTIC_NAME"
+                      id="cj-a-money">{{listName.order.ORDER_AMOUNT+listName.order.POSTAGE | number:2}}USD</span>
+                    <span id="cj-a-money" ng-if="listName.order.LOGISTIC_NAME==null"></span>
+                  </p>
+                </td>
+                <td class="cshow-allsp" ng-cloak>
+                  <a style="color:#ff8d31; cursor: pointer;" href="javascript:void(0)" ng-click="ordLogFun(listName.order.ID)"
+                      class="blue">{{listName.order.ORDER_QUANTITY}}</a>
+                </td>
+                <td ng-cloak>
+                  <p>{{listName.order.TRACKINGNUMBER}}</p>
+                </td>
+                <td class="shipping-info cshow-allsp">
+                  <p class="buyer-name" ng-cloak>
+                    <span class="cus-name"
+                      title="{{listName.order.CUSTOMER_NAME}}">{{listName.order.CUSTOMER_NAME}}</span> <button
+                      ng-click="modefyAddFun(listName.order,$index)" id="modefy-addbtn">edit</button>
+                  </p>
+                  <p class="detail-adress" title="{{listName.order.SHIPPING_ADDRESS}}" ng-cloak>
+                    {{listName.order.SHIPPING_ADDRESS}}</p>
+                  <p title="{{listName.order.shippingAddress2}}" ng-cloak>{{listName.order.shippingAddress2}}</p>
+                  <p class="buyer-adress"
+                    title="{{listName.order.CITY}} {{listName.order.PROVINCE}} {{listName.order.ZIP}} {{listName.order.COUNTRY_CODE}}">
+                    <span class="imp-procus-city" ng-cloak>{{listName.order.CITY}}</span>
+                    <span class="imp-procus-province" ng-cloak>{{listName.order.PROVINCE}}</span>
+                    <span class="post-code" ng-cloak>{{listName.order.ZIP}}</span>
+                    <span class="imp-procus-country" ng-cloak>{{listName.order.COUNTRY_CODE}}</span>
+
+                  </p>
+                  <p class="phone-num" ng-cloak>{{listName.order.PHONE}}</p>
+                  <p ng-if="listName.order.taxidExtend" title="{{listName.order.taxidExtend}}" class="taixd-text"
+                    ng-cloak>Tax ID: {{listName.order.taxidExtend}}</p>
+                  <button ng-if="listName.order.LOGISTIC_NAME=='DHL'&&listName.order.COUNTRY_CODE=='BR'"
+                    ng-click="upShBtnFun(listName.order,$index)" class="edit-taxid-btn">Tax ID Required</button>
+                  <button id="lrPhoneBtn" ng-if="listName.order.LOGISTIC_NAME=='DHL'&&!listName.order.PHONE"
+                    ng-click="inpPhoneFun($index,$event)">Please input phone number</button>
+                  <input class="inp-phoneNum dhlsameclass"></input>
+                  <button ng-click="qxPhoneFun($event)" class="islr-phone dhlsameclass">Cancel</button>
+                  <button ng-click="surePhoneFun($index,$event,listName.order)"
+                    class="islr-phone surephone dhlsameclass">Confirm</button>
+                  <button id="bulk-lrPhoneBtn" ng-if="listName.order.LOGISTIC_NAME=='DHL'&&!listName.order.PHONE"
+                    ng-click="openSetDhlFun()">All</button>
+                </td>
+                <!-- 运费 -->
+                <td class="cart-wuliufs cshow-allsp">
+                  {{listName.order.LOGISTIC_NAME}}
+                </td>
+                <td>
+                  <p ng-if="listName.order.STATUS=='1'&&listName.order.CANHANDLER=='y'">Process Required</p>
+                  <p ng-if="listName.order.STATUS=='2'">Cart</p>
+                  <p ng-if="listName.order.STATUS=='1'&&listName.order.CANHANDLER=='n'">Incomplete Orders</p>
+                  <p ng-if="listName.order.STATUS=='8'">Canceled</p>
+                  <p ng-if="listName.order.STATUS=='3'">Awaiting Payment</p>
+                  <p ng-if="listName.order.STATUS=='5'">Disputed and Refunded</p>
+                  <p
+                    ng-if="listName.order.STATUS=='6'||listName.order.STATUS=='61'||listName.order.STATUS=='62'||listName.order.STATUS=='10'||listName.order.STATUS=='11'">
+                    Processing</p>
+                  <p ng-if="listName.order.STATUS=='12'">Processed</p>
+                  <p ng-if="listName.order.STATUS=='13'">Closed</p>
+                  <button
+                    ng-if="listName.order.STATUS!='1'&&listName.order.STATUS!='2'&&listName.order.STATUS!='3'&&listName.order.STATUS!='5'&&listName.order.STATUS!='6'&&listName.order.STATUS!='8'&&listName.order.STATUS!='61'&&listName.order.STATUS!='62'&&listName.order.STATUS!='64'&&listName.order.STATUS!='68'&&listName.order.STATUS!='69'&&listName.order.STATUS!='12'&&listName.order.STATUS!='13'&&listName.order.STATUS!='10'&&listName.order.STATUS!='11'&&listName.order.SHIPMENTS_ORDER_ID==null"
+                    ng-click="recoverFun(listName.order,$index)" class="recover-btn">Recover</button>
+                  <div
+                    ng-if="listName.order.STATUS!='1'&&listName.order.STATUS!='2'&&listName.order.STATUS!='3'&&listName.order.STATUS!='5'&&listName.order.STATUS!='6'&&listName.order.STATUS!='8'&&listName.order.STATUS!='61'&&listName.order.STATUS!='62'&&listName.order.STATUS!='64'&&listName.order.STATUS!='68'&&listName.order.STATUS!='69'&&listName.order.STATUS!='12'&&listName.order.STATUS!='13'&&listName.order.STATUS!='10'&&listName.order.STATUS!='11'&&listName.order.SHIPMENTS_ORDER_ID==null"
+                    class="asj-wuliu-tip-wrap" style="display: block; margin: 5px auto;">
+                    <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+                    <div class="asj-wuliu-tip-show">
+                      <div class="sanjiao-logo-box"></div>
+                      <div>
+                        There are some issues for this order! More like repeat, deleted etc. You can recover it by
+                        clicking the RECOVER button!
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div ng-hide="['11', '3'].includes(listName.order.STATUS) || (listName.order.STATUS === '1' && listName.order.CANHANDLER=='y') ">
+                    <dispute-btn params="listName.order" type="'3'"></dispute-btn>
+                  </div>
+                </td>
+              </tr>
+              <tr class="d-toggle-tr">
+                <td class="d-tog-td" colspan="16">
+                  <div class="d-toggle-div">
+                    <table class="d-toggle-tab" ng-repeat="pList in listName.product">
+                      <tr id="fir-tr">
+                        <td rowspan="2" class="dt-img-td">
+                          <span class="blank-span"
+                            ng-if="listName.order.STORE_NAME !='Excel Imported'&&listName.order.STORE_NAME !='Shipstation'&&!pList.SKU.includes('BZSP')">
+                            <img class="sp-smallimg sp-smallimg1" ng-if="pList.cjImage || pList.image"
+                              ng-src="{{pList.cjImage || pList.image}}"
+                              err-src="static/image/public-img/default.jpg">
+                            <img title="Image Doesn't Exsit" class="sp-smallimg1" ng-if="!pList.cjImage && !pList.image"
+                              src="static/image/public-img/default.jpg">
+                            <img class="hide-bigimg" ng-if="pList.cjImage || pList.image"
+                              ng-src="{{pList.cjImage || pList.image}}">
+                            <img class="hide-bigimg" ng-if="!pList.cjImage && !pList.image"
+                              src="static/image/public-img/default.jpg">
+                          </span>
+                          <span class="blank-span"
+                            ng-if="listName.order.STORE_NAME =='Excel Imported'||listName.order.STORE_NAME =='Shipstation'||pList.SKU.includes('BZSP')">
+                            <img class="sp-smallimg sp-smallimg1" ng-if="pList.cjImage" ng-src="{{pList.cjImage}}"
+                              err-src="static/image/public-img/default.jpg">
+                            <img title="Image Doesn't Exsit" class="sp-smallimg" ng-if="!pList.cjImage"
+                              src="static/image/public-img/default.jpg">
+                            <img class="hide-bigimg" ng-src="{{pList.cjImage}}">
+                            <img class="hide-bigimg" ng-if="!pList.cjImage" src="static/image/public-img/default.jpg">
+                          </span>
+                        </td>
+                        <td id="madetd" rowspan="2">
+                          <div ng-cloak>SKU: {{pList.SKU}}</div>
+                        </td>
+                        <td rowspan="2">
+                          <div ng-cloak>
+                            Ship From:<br>
+                            <span>{{listName.order.orderArea}}</span>
+                          </div>
+                        </td>
+                        <td class="product-name">
+                          <p>
+                            {{websiteName}} Product Title:
+                            <span ng-click="cjdetailhref(listName.order,pList)">{{pList.cj_product_name}}</span>
+                          </p>
+                        </td>
+                        <td ng-cloak>Store Price: {{pList.SHOPIFYPRICE}}USD</td>
+                        <td ng-cloak>Store Quantity: {{pList.QUANTITY}}</td>
+                        <td ng-cloak>Store Amount: {{pList.SHOPIFYPRICE*pList.QUANTITY | number:2}}USD</td>
+                        <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS*pList.QUANTITY | number:2}}g</td>
+                        <td style="display: none;" class="dcl-ordwlfs" ng-cloak>{{pList.LOGISTICS_TYPE}}</td>
+                      </tr>
+                      <tr>
+                        <td class="product-name">
+                          <p>
+                            Your Product Title:
+                            <p">{{pList.SHIPPING_NAME}}</p>
+                          </p>
+                        </td>
+                        <td ng-cloak>{{websiteName}} Price: {{pList.PRICE}}USD</td>
+                        <td ng-cloak>{{websiteName}} Quantity: {{pList.QUANTITY}}</td>
+                        <td ng-cloak>{{websiteName}} Subtotal: {{pList.PRICE*pList.QUANTITY | number:2}}USD</td>
+                        <td class="p-weight" ng-cloak>Weight: {{pList.GRAMS*pList.QUANTITY | number:2}}g</td>
+                      </tr>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+          <div ng-show="!ordersList || ordersList.length==0" class="not-found-data">
+            <img src="/static/image/public-img/nodata_new.png">
+          </div>
+          <!-- 分页 -->
+          <page ng-show="ordersList.length > 0"></page>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 下载面单 -->
+<div class="editmesstc-wrap" ng-show="downLoadPdfFlag">
+  <div class="editmess-con delete-tccon">
+    <div class="editmess-top">
+      <p>Are you sure to download the shipping labels?</p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="downLoadPdfFlag=false" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="sureDownLoadFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 面单弹框 -->
+<div class="editmesstc-wrap" ng-show="mdLinkTkFlag">
+  <div class="editmess-con delete-tccon" style="width: 540px;">
+    <div class="editmess-top">
+      <a style="text-overflow: ellipsis;white-space: nowrap;width: 465px;display: block;overflow: hidden;text-decoration: underline;"
+        ng-href="{{mdLink}}" ng-click="mdLinkTkFlag=false" target="_blank" download="">{{mdLink}}</a>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="mdLinkTkFlag=false" class="edit-cancel-btn">Closed</button>
+    </div>
+  </div>
+</div>
+<!-- 编辑留言的弹框 -->
+<div ng-show="editnoteFlag" class="editmesstc-wrap">
+  <div class="editmess-con">
+    <div class="editmess-top">
+      <textarea class="editmess-text"></textarea>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="cancelmessFun()" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="entermessFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 税号的弹框 -->
+<div class="editmesstc-wrap" ng-show="taxidFlag">
+  <div class="editmess-con">
+    <div class="editmess-top">
+      <label>Please input the buyer's Tax ID.</label>
+      <input class="shop-ordnum-inp" ng-model="taixeVal"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="taxidFlag = false;taixeVal=''" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="sureShFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="noOrdResonFlag">
+  <div class="editmess-con">
+    <div class="editmess-top">
+      <label>Please enter the order number in your store.</label>
+      <input class="shop-ordnum-inp" ng-model="shopOrdNum"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="noOrdQxFun()" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="noOrdSureFun()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 检查没有订单展示后台返回原因的弹框 -->
+<div class="editmesstc-wrap" ng-show="resResonFlag">
+  <div class="editmess-con check-ordcon">
+    <div class="editmess-top">
+      <p class="no-ordres-reson"></p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="closeResReasonFun()" class="edit-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- 批量设置DHL手机号的弹框 -->
+<div class="editmesstc-wrap" ng-show="dhlNoPhoneFlag">
+  <div class="editmess-con dhl-setcon">
+    <div class="editmess-top">
+      <p class="dhl-tiptext">Do you want to input this same mobile number to all DHL shipping with phone empty orders?
+      </p>
+      <p class="dhl-tiptext">
+        Please note DHL shipping requried the mobile number for delivery, {{websiteName}} will not response for the
+        undelivery once the mobiler number is incorrect.
+      </p>
+      <input class="input-dhlphone" ng-model="dhlPhoneNum"></input>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="dhlNoPhoneFlag = false;dhlPhoneNum=''" class="edit-cancel-btn">Cancel</button>
+      <button ng-click="bulkSetDhlPhone()" class="edit-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 是否确定恢复订单 -->
+<div class="editmesstc-wrap" ng-show="iskeephasFlag">
+  <div class="pro-isdel-con">
+    <div class="hasdel-top">
+      <img class="hasdel-iconques" src="static/image/public-img/icon-ques.png">
+      <p class="hasdel-quetext">
+        Are you sure to keep this order?
+      </p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="iskeephasFlag=false" class="has-cancel-btn">Cancel</button>
+      <button ng-click="surekeepHasFun()" class="has-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 是否确定删除 -->
+<div class="editmesstc-wrap" ng-show="isdelhasFlag">
+  <div class="pro-isdel-con">
+    <div class="hasdel-top">
+      <img class="hasdel-iconques" src="static/image/public-img/icon-ques.png">
+      <p class="hasdel-quetext">
+        Are you sure to delete this order?
+      </p>
+    </div>
+    <div class="editmess-btns">
+      <button ng-click="isdelhasFlag=false" class="has-cancel-btn">Cancel</button>
+      <button ng-click="suredHasFun()" class="has-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- 修改地址 -->
+<div class="confirm-box" ng-show="addModefyFlag">
+  <div class="confirm-main">
+    <div class="confirm-content">
+      <div class="add-mcon-left">
+        <ul>
+          <li>
+            <span>Address1:</span>
+          </li>
+          <li>
+            <span>Address2:</span>
+          </li>
+          <li>
+            <span>City:</span>
+          </li>
+          <li>
+            <span>Phone:</span>
+          </li>
+          <li>
+            <span>Province:</span>
+          </li>
+          <li>
+            <span>Postcode:</span>
+          </li>
+        </ul>
+      </div>
+      <div class="add-mcon-right">
+        <ul>
+          <li>
+            <input ng-model="address1"></input>
+          </li>
+          <li>
+            <input ng-model="address2"></input>
+          </li>
+          <li>
+            <input ng-model="addCity"></input>
+          </li>
+          <li>
+            <input ng-model="addPhone"></input>
+          </li>
+          <li>
+            <input ng-model="addProvince"></input>
+          </li>
+          <li>
+            <input ng-model="addZip"></input>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="addModefyFlag=false" class="no-btn">Cancel</span>
+      <span ng-click="sureModeFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 批量搜索 -->
+<div class="add-modefy-wrap" ng-show="bulkSeaFlag">
+  <div class="bulksearch-con">
+    <img class="close-img-btn" ng-click="closeBulkSeaTk()" src="static/image/public-img/close-circle.png">
+    <!-- <textarea class="bulksearch-text"></textarea> -->
+    <div class="seacon-left">
+      <ul class="indexnum-ul"></ul>
+      <textarea placeholder="Please enter the order number." class="bulksearch-text"></textarea>
+      <ul class="delete-ul"></ul>
+    </div>
+    <div class="seacon-right">
+      <div ng-click="clearTextFun()" class="reset-div">
+        <img src="static/image/public-img/refresh.png">
+        <p>Clean</p>
+      </div>
+      <div ng-click="ordnumSearch()" class="search-btn-div">
+        <img src="static/image/public-img/search.png">
+        <p>Search</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-show="dcflag" class="dcexcel-wrap">
+  <div class="dcexcel-con">
+    <a ng-click="closeatc()" ng-href="{{hrefsrc}}">{{hrefsrc}}</a>
+    <div class="dc-conbtns">
+      <button ng-click="closeatc()">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- 纠纷的弹框 -->
+<div class="dispute-wrap" ng-show="disputeFlag">
+  <div class="dispute-con">
+      <div class="top-tips">
+          <p class="tt-ptext">
+              Please upload dispute detail.
+          </p>
+      </div>
+      <div class="dispute-sel">
+          <select class="sel-jfres">
+      <option value="">Please select a reason for dispute</option>
+      <option value="No Tracking Information Found">No Tracking Information Found</option>
+      <option value="Tracking Information Frozen">Tracking Information Frozen</option>
+      <option value="Tracking Information Error">Tracking Information Error</option>
+      <option value="Order Returned">Order Returned</option>
+      <option value="Products Short">Products Short</option>
+      <option value="Defective Products">Defective Products</option>
+      <option value="Received Incorrect Products">Received Incorrect Products</option>
+      <option value="Order Not Received">Order Not Received</option>
+      <option value="Lack Of Inventory">Lack of Inventory</option>
+      <option value="Unfilled Orders Cancellation">Unfulfilled Orders Cancellation</option>
+    </select>
+      </div>
+      <div class="dispute-tip">
+          <p class="dispute-tiptext">
+              The screenshot of buyer complains (email address included) and images of parcel are required for this kinds of dispute.
+          </p>
+      </div>
+      <div class="dispute-sel">
+          <select class="sel-wantway">
+      <option value="">Please select expected operation</option>
+      <option value="Refund">Refund</option>
+      <option value="Resend">Resend</option>
+    </select>
+      </div>
+      <!-- <div class="dispute-inp">
+    <input ng-model="disputeInpVal"></input>
+  </div> -->
+      <div class="upload-hint">
+          <p><i>*</i>Allowed Image Extensions: .jpg, .gif, .jpeg, .png.</p>
+          <p><i>*</i>Allowed Video Extensions: .mp4, .avi, .wmv, .flv, .mpg, .mov</p>
+      </div>
+      <div class="dispute-upload">
+          <ul class="upload_wrap">
+              <li class="img-show li-img" ng-repeat="item in imgArr track by $index" ng-click="viewBigImg(item)">
+                  <img class="before-img" ng-src="{{item}}">
+                  <img class="close-img" src="static/image/dropShipping/close.png" alt="" ng-click="delImg($index, $event)">
+              </li>
+              <li class="upload-img upload_img_wrap" ng-hide="hideUpImgFlag">
+                  <img src="static/image/dropShipping/image.png">
+                  <input type="file" multiple ng-model="documentupload2" title="" class="upload_file" onchange="angular.element(this).scope().upLoadImg4(this.files)">
+              </li>
+              <li class="upload-img upload_video_wrap" ng-hide="hideUpVideoFlag">
+                  <img src="static/image/dropShipping/video.png">
+                  <input type="file" multiple ng-model="documentupload2" title="" class="upload_file" onchange="angular.element(this).scope().upLoadImg5(this.files)">
+              </li>
+              <li class="img-show" ng-repeat="item in videoArr track by $index">
+                  <img class="close-img" src="static/image/dropShipping/close.png" alt="" ng-click="delVideo($index)">
+                  <div class="prism-player" id="{{'J_prismPlayer'+($index+1)}}"></div>
+              </li>
+          </ul>
+      </div>
+      <div class="dispute-textarea">
+          <textarea placeholder="Please write your message" ng-model="disTextareaVal"></textarea>
+      </div>
+      <p class="tips">Please note that we will stop processing this order when you open a dispute.</p>
+      <div class="bottom-btns">
+          <button ng-click="closeJfFun()" class="dp-cancel-btn">Cancel</button>
+          <button ng-click="sureJfFun()" class="dp-confirm-btn">Confirm</button>
+      </div>
+  </div>
+</div>
+<div class="confirm-box ordlog-wrap" ng-show="ordLogFlag">
+  <div class="confirm-main">
+      <div class="confirm-title">
+        Order Logs
+      </div>
+      <div class="confirm-content">
+        <div class="editmess-top" ng-show="logData.length>0">
+          <div class="ordlog-line" ng-repeat="item in logData">
+            <div class="ordlog-line-time">{{item.createdate | date:'yyyy-MM-dd hh:mm:ss'}}</div>
+            <div>{{item.translation}}</div>
+          </div>
+        </div>
+        <div class="editmess-top nodata-box" ng-show="logData.length<1">No record yet.</div>
+      </div>
+      <div class="confirm-btn-box">
+          <span ng-click="ordLogFlag=false" class="no-btn">Close</span>
+      </div>
+  </div>
+</div>
+<!-- closeOrderModal 老订单页面提示去新订单页面弹窗 -->
+<close-order-modal></close-order-modal>

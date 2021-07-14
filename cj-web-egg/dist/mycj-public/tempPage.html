@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <script>
+      (() => {
+        const queryParams = {};
+        (location.search || "")
+          .replace("?", "")
+          .split("&")
+          .map((item) => {
+            let [key, val] = item.split("=");
+            queryParams[key] = val;
+          });
+        const token = queryParams.token;
+        if (!token) {
+          location.href = "https://apps.shopify.com/cucheng";
+          return;
+        }
+        const date = new Date();
+        date.setDate(date.getDate() + 3);
+        document.cookie = `invite-token=${token};expires=${date};domain=${location.hostname};`;
+        location.href = "https://apps.shopify.com/cucheng";
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

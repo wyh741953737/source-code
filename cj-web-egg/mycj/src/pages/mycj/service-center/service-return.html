@@ -1,0 +1,271 @@
+<div class="content service-return">
+  <div class="mycj-home-box">
+    <!-- 右边部分 -->
+    <div class="aftersale-right p-3">
+      <!-- 导航 -->
+      <ul class="top-taps">
+        <li class="tab-theme drop" ng-repeat="item in navList track by $index" ng-class="{active:item.show}">
+          <a href="{{item.href}}">{{item.name}}
+            <span class="notranslate" ng-if="$index==0">
+              (<span style="color: red" title="{{afterNum4}} order(s) need to be processed as soon as possible.">{{afterNum4}}</span><span ng-if="afterNum4&&afterNum1">/</span><span>{{afterNum1}}</span>)
+            </span>
+            <span class="notranslate" ng-if="$index==1">{{'('+afterNum2+')'}}</span>
+            <span class="notranslate" ng-if="$index==2">{{'('+afterNum3+')'}}</span>
+          </a>
+        </li>
+      </ul>
+      <div class="order-status">
+        <a href="#/after-sale//" class="ui-btn btn-theme return">Return</a>
+        <div class="status-nav">
+          <div class="order-filter" id="order-2">
+            <div class="search-order">
+              <input id="cj-stime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="From"></input>
+              <span class="line">-</span>
+              <input id="cj-etime" class="Wdate data-inp" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})"
+                placeholder="Now"></input>
+
+              <input class="afterord-Search" placeholder="Enter Order Number" ng-model="searchval"/><span
+                class="search-btn btn-theme" href="javascript:void(0)" ng-click="search()">Search</span>
+
+              <span ng-click="showShopLink()" class="ui-btn btn-theme1">Copy Link</span>
+              <span ng-click="setStoreFun()" class="ui-btn btn-theme1">Setting</span>
+              <input id="cus-url" style="width: 100px;opacity: 0;"></input>
+            </div>
+          </div>
+          <!-- 高级搜索部分 -->
+          <div class="more-search">
+            <ul>
+              <li class="first-line">
+                <span>Orders Type</span>
+                <select class="type-sel">
+                  <option>All</option>
+                </select>
+                <span>Sku Number</span>
+                <input class="number-inp"></input>
+                <span>Orders status</span>
+                <select class="status-sel">
+                  <option>All</option>
+                </select>
+                <span>Shipping Method</span>
+                <select class="method-sel">
+                  <option>All</option>
+                </select>
+              </li>
+              <li class="second-line">
+                <span>Ordered Data</span>
+                <input class="data-inp" placeholder="from"></input>
+                <span class="line"></span>
+                <input placeholder="to"></input>
+                <span class="buyer-name">Buyer Name</span>
+                <input class="buyer-inp"></input>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- awaiting cj response 第一个导航-->
+      <div class="deal-orders aftersale-deal-order">
+        <!-- 订单的表格部分 -->
+        <div class="orders-list">
+          <table class="orders-table" id="cj-response-table">
+            <thead>
+              <tr>
+                <th class="data-th middle-th" style="position: relative;">
+                  <img style="position: absolute;top: 50%;left:10px;transform: translateY(-50%);" class="zchecked-all"
+                    src="static/image/direct-orders/multiple1.png">
+                  <p style="margin-left: 20px">Return Date</p>
+                </th>
+                <th class="middle-th">
+                  Return Tracking Number
+                </th>
+                <th class="middle-th">
+                  Your Email
+                </th>
+                <th class="middle-th">
+                  Order Number
+                </th>
+                <th class="middle-th">
+                  Reason
+                </th>
+                <th class="large-th">
+                  Items Picture
+                </th>
+                <th class="small-th">Packaging Picture When Returning</th>
+                <th class="small-th">Return Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="order-detail" ng-repeat="item in ordersList">
+                <td class="order-time">
+                  <img class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png">
+                  <p ng-cloak>
+                    {{ item.createat.year+1900}}-{{item.createat.month+1}}-{{item.createat.date}}
+                    {{item.createat.hours}}:{{item.createat.minutes}}:{{item.createat.seconds}}
+                  </p>
+                </td>
+                <td class="show-return-td" ng-click="showDetailFun(item)" ng-cloak>
+                  {{item.returntrackingumber}}
+                </td>
+                <td>{{item.email}}</td>
+                <td>
+                  <p>{{item.ordernumber}}</p>
+                </td>
+                <td ng-cloak>
+                  <p>{{item.reason}}</p>
+                </td>
+                <td class="af-img-td" ng-cloak>
+                  <img class="af-sp-smallimg" ng-src="{{item.imgcj[0]}}" ng-click="showBigSingleImg(item.imgcj[0])" ng-if="item.imgcj.length>0">
+                  <img ng-click="showitemPicFun(item.imgcj)" class="af-plusshow-img" ng-if="item.imgcj.length>1"
+                    src="static/image/public-img/small-plus.png">
+                </td>
+                <td class="af-img-td" ng-cloak>
+                  <img class="af-sp-smallimg" ng-src="{{item.imgs[0]}}" ng-click="showBigSingleImg(item.imgs[0])" ng-if="item.imgs.length>0">
+                  <img ng-click="showitemPicFun(item.imgs)" class="af-plusshow-img" ng-if="item.imgs.length>1"
+                    src="static/image/public-img/small-plus.png">
+                </td>
+                <td>
+                  <p ng-if="item.status==1">Reviewing</p>
+                  <p ng-if="item.status==2">Approved</p>
+                  <p ng-if="item.status==3">Declined</p>
+                  <p ng-if="item.status==4">{{websiteName}} Received</p>
+                  <p ng-if="item.status==5">Not Received By {{websiteName}}</p>
+                  <p ng-if="item.status==6">Returned Success</p>
+                  <p ng-if="item.status==7">Defective Returned</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- 分页 -->
+        <div class="pagecomp-box">
+          <page ng-show="totalNum > 0"></page>
+        </div>
+        <!-- <div class="af-pages-db second-page-fun" ng-show="totalNum>0">
+          <select class="select-page-num ip-select-num2" ng-model="pageSize" ng-change="changePageSize()">
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <span class="per-page">per page</span>
+          <span class="all-num-line" ng-cloak>{{totalNum}}</span>
+          <span class="per-page">records found</span>
+          <ul class="pagination pagination-demo1"></ul>
+          <span class="per-page showing-tex">showing:</span>
+          <input class="inp-num-go inp-num-go2" ng-model="pageNum"></input>
+          <span class="per-page">of {{countPage}}</span>
+          <span class="jump-btn ip-jump-btn2" ng-click="toSpecifiedPage()">go</span>
+        </div> -->
+      </div>
+    </div>
+
+
+    <!-- 客户不同意退款 -->
+    <div class="disAgree-wrap" ng-show="disAgreeFlag">
+      <div class="disAgree-con">
+        <textarea ng-model="refuseCause" class="disAgree-text"></textarea>
+        <div class="disAgree-btns">
+          <button ng-click="qxjjFun()" class="disAgree-cancel-btn">Cancel</button>
+          <button ng-click="sureDisAgreeFun()" class="disAgree-confirm-btn">Confirm</button>
+        </div>
+      </div>
+    </div>
+    <!-- 关闭纠纷 -->
+    <div class="disAgree-wrap" ng-show="closeJfFlag">
+      <div class="disAgree-con closedispute-con">
+        <p>Are you sure to close the dispute?</p>
+        <div class="disAgree-btns">
+          <button ng-click="qxCloseFun()" class="disAgree-cancel-btn">Cancel</button>
+          <button ng-click="sureCloseFun()" class="disAgree-confirm-btn">Confirm</button>
+        </div>
+      </div>
+    </div>
+    <!-- 设置店铺 -->
+    <div class="disAgree-wrap" ng-show="setStoreFlag">
+      <div class="afsel-setcon">
+        <div class="setcon-titdiv">
+          <span class="afsel-setcon-tit">Setting your logo and address</span>
+          <img ng-click="setStoreFlag=false;setStoreLogo=''" src="static/image/public-img/close-img.png">
+        </div>
+        <div class="list-con">
+          <div class="setcon-condiv" ng-repeat="item in shopList">
+            <div class="setcondiv-top">
+              <p>Name: {{item.name}}</p>
+              <img ng-if="!setStoreLogo&&storeLogoImg" class="afsel-userlogo"
+                ng-src="{{'https://'+storeLogoImg.replace('https://','')}}">
+              <img ng-if="item.logo" class="afsel-userlogo" ng-src="{{item.logo}}">
+              <div class="upload-div">
+                <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                  <input type="file" class="upimg-inp" name="file" ng-model="documentupload2" id="file"
+                    onchange="angular.element(this).scope().upLoadImg4(this.files)">
+                </form>
+                <button ng-if="storeLogoImg">Change logo</button>
+                <button ng-if="!storeLogoImg">Upload logo</button>
+              </div>
+            </div>
+            <div class="setcondiv-mid">
+              <label>Your Store Link:</label><br>
+              <input ng-model="item.shopurl"></input>
+              <button ng-click="submitStoreInfo(item,$index)">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="imgshow-wrap" ng-show="imgShowFlag">
+      <div class="imgshow-con">
+        <img ng-click="imgShowFlag=false" class="af-closeimg" src="static/image/public-img/close-circle.png">
+        <div class="img-show-scroll">
+          <img class="afretu-conimg" style="cursor:pointer;" ng-repeat="item in itempicArr track by $index" ng-src="{{item}}" ng-click="showBigSingleImg(item)">
+        </div>
+      </div>
+    </div>
+    <!-- big single img show -->
+    <div class="imgshow-wrap" ng-if="bigSingleImgShowFlag">
+      <div class="imgshow-con big-single-img">
+        <img ng-click="closeBigSingleShow()" class="af-closeimg" src="static/image/public-img/close-circle.png">
+        <img class="afretu-conimg" ng-src="{{bigSingleImg}}">
+      </div>
+    </div>
+
+    <!-- 拷贝链接的弹框 -->
+    <div class="copylink-wrap" ng-show="copyLinkFlag">
+      <img ng-click="copyLinkFlag=false" class="copyl-clo-img" src="static/image/public-img/close-14.png">
+      <div class="copyl-con">
+        <img src="static/image/public-img/iconfont-checkcircle.png">
+        <span>Link Copy Success!</span>
+        <a target="_blank" ng-href="{{cusLinkUrl}}">Click to preview</a>
+      </div>
+    </div>
+    <div class="imgshow-wrap" ng-show="shopFlag">
+      <div class="shop-listcon">
+        <img ng-click="shopFlag=false" class="af-closeimg" src="static/image/public-img/close-circle.png">
+        <div class="shop-listtab">
+          <table style="width: 100%;">
+            <thead>
+              <tr>
+                <th>Shop Name</th>
+                <th>Shop Url</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in shopList">
+                <td>
+                  <p title="{{item.name}}" class="shop-namep">{{item.name}}</p>
+                </td>
+                <td>
+                  <a class="shop-urla" target="_blank" ng-if="item.shopurl"
+                    ng-href="{{'https://cjreturn.com/?userid='+userId+'/'+item.id}}">{{'https://cjreturn.com/?userid='+userId+'/'+item.id}}</a>
+                  <input class="shopurl-val" style="opacity:0;width: 3px;"
+                    value="{{'https://cjreturn.com/?userid='+userId+'/'+item.id}}"></input>
+                  <img ng-if="item.shopurl" class="copy-img" ng-click="copyLinkFun(item,$event)"
+                    src="static/image/public-img/copy.png">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

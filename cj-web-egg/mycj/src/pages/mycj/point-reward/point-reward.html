@@ -1,0 +1,200 @@
+<div class="mycj-home-box point-reward">
+  <!--左边导航-->
+  <!-- <div class="mycj-left-bar-wrap">
+    <mycj-leftbar navparamx="'mycj'" navparamy="'Point Rewards'"></mycj-leftbar>
+  </div> -->
+  <!--右侧内容-->
+  <div class="mycj-right-wrap p-3" ng-class="{vip:vip == '1'}" style="background: rgba(240, 237, 231);">
+    <div class="top-space-bar"></div>
+    <!-- top -->
+    <div class="top-bar">
+      <a href="#/myCJAssociatedStore" class="back-btn"><i class="iconfont">&#xe6a8;</i></a>
+      <div class="point-card">
+        <span class="curr-jifen">Available Points</span>
+        <div class="jifen">{{pointAndOrderInfo.totalIntegral-pointAndOrderInfo.consumptionIntegral}}</div>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="top-line">
+            <span class="num">{{pointAndOrderInfo.totalIntegral}}</span>
+          </div>
+          <div class="txt">Accumulative Points</div>
+        </div>
+        <div class="item">
+          <div class="top-line">
+            <a href="javascript:void(0);" ng-click="showlist=1;">
+              <span class="num">{{pointAndOrderInfo.consumptionIntegral}}</span>
+              <span class="iconfont icon">&#xe65e;</span>
+            </a>
+          </div>
+          <div class="txt">Accumulative Spents</div>
+        </div>
+        <div class="item">
+          <div class="top-line">
+            <span class="num">{{pointAndOrderInfo.useNumber}}</span>
+          </div>
+          <div class="txt">Frequency</div>
+        </div>
+      </div>
+    </div>
+    <div class="service-list" ng-hide="showlist">
+      <div class="service-wrap" ng-repeat="item in serviceList">
+        <div class="service">
+          <div class="img-wrap">
+            <img src="{{'/static/image/points-mall/'+item.name+'.png'}}" alt="">
+          </div>
+          <div class="content">
+            <h6>{{item.titleen}}</h6>
+            <p>{{item.description}}</p>
+          </div>
+          <div class="content2">
+            <dit class="sele-items" ng-repeat="itemv in item.variants">
+              <div class="title">{{itemv.name}}</div>
+              <div class="sele-item" ng-repeat="itemo in itemv.options" ng-click="checkoption(item, itemv,itemo)">
+                <div class="iconfont item-check" ng-show="itemo.checked">&#xe661;</div>
+                <div class="item-check" ng-show="!itemo.checked"></div>
+                <div class="item-name checked">{{itemo.name}}</div>
+              </div>
+            </dit>
+          </div>
+          <div class="bottom">
+            <div class="check-box ">
+              <input type="checkbox" name="" ng-model="item.checked" ng-change="checkService(item)">
+              <label for="">
+                <span ng-show="item.checked"
+                  ng-repeat="(indexo, itemo) in item.checkedoptions">{{indexo== (item.checkedoptions.length - 1) ? itemo.name : itemo.name + ' / '}}</span>
+              </label>
+            </div>
+            <div class="jifen">
+              <!-- {{item.currPoint}} -->
+              Points: <span class="num">{{item.checked? item.currPoint : item.defaultpoint}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="service-wrap">
+        <div class="service more-service">
+          <div class="content">
+            <h6>More Services</h6>
+            <p>We will launch more services, it is coming…….</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 航班 -->
+    <div class="hangban" ng-hide="showlist">
+      <div class="title">Flight Information</div>
+      <div class="info">
+        <wui-date format="yyyy-mm-dd hh:mm:ss" placeholder="Date & Time" id="date4" btns="{'ok':'Confirm','now':'Now'}"
+          ng-model="hangbanTime" position="top" class="cj-date">
+        </wui-date>
+        <input type="text" class="hangban-number" placeholder="Flight number" ng-model="hangbanNum">
+        <input type="text" class="hangban-remark" placeholder="Leave message" ng-model="hangbanRemark">
+      </div>
+    </div>
+
+    <div class="order-list" ng-show="showlist">
+      <div class="order-item" ng-repeat="item in pointAndOrderInfo.flightList">
+        <div class="order-item-info">
+          <div class="top-info">
+            <span class="order-time">Booking Time: {{item.create_date.time | date : 'yyyy-MM-dd HH:mm:ss'}}</span>
+            <span class="hangban-time">Flight:
+              {{item.flight_no}}({{item.flight_time.time | date : 'yyyy-MM-dd HH:mm:ss'}} Departure)</span>
+            <span class="hangban-time" ng-show="item.remark" ng-cloak>Note: {{ item.remark }}</span>
+            <!-- 起飞 -->
+            <span class="status" ng-show="item.status == 1 || item.status == 2 || item.status == 3"><b
+                class="red"></b>Reservation Processing</span>
+            <!-- 已完成预定 -->
+            <span class="status" ng-show="item.status == 4"><b class="green"></b>Reservation Confirmed</span>
+            <span ng-class="{'iconfont':1, 'zhedie': 1, 'to-up': item.down}" ng-click="zhedie(item)">&#xe616;</span>
+          </div>
+          <div class="service" ng-repeat="itemv in item.integralServer" ng-show="item.down">
+            <!-- <img class="img" src="" alt=""> -->
+            <div class="img-wrap"><img class="img" src="{{'/static/image/points-mall/'+itemv.code+'.png'}}" alt="">
+            </div>
+            <div class="other">
+              <div class="name">
+                {{itemv.server_name_en}}
+                <br>
+                {{itemv.server_info}}
+              </div>
+              <div class="connect" ng-if=" itemv.contact_user  &&  itemv.contact_phone">
+                Contact: {{itemv.contact_user}}
+                <br>
+                Mobile Number: {{itemv.contact_phone}}
+              </div>
+              <div class="connect" ng-if=" itemv.contact_user == null ||  itemv.contact_phone == null"
+                style="text-align: center">
+                Pending disposal
+              </div>
+              <div class="jifen">
+                <div class="num">{{itemv.integral}} Points</div>
+                <div class="time" ng-show="itemv.create_date.time != item.create_date.time">Extend On:
+                  {{itemv.update_date.time | date : 'yyyy-MM-dd HH:mm:ss'}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="total" ng-show="item.down">
+            Total Points: <span class="num">{{item.totalIntegral}}</span>
+          </div>
+        </div>
+        <div class="btns" ng-show="item.status == 1 || item.status == 2 || item.status == 3">
+          <div class="mybtn continue" ng-click="bookMore(item)">Book More Services</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btns new-btns" ng-hide="showlist">
+      <div class="mybtn reset new-my-btn" ng-click="goReset()" style="margin-right: 20px;">Reset</div>
+      <div class="mybtn submit new-my-btn" ng-click="submit()">Submit</div>
+    </div>
+
+    <div id="isCJPub" ng-cloak ng-show="preview" ng-class="{'isVip': isVip}">
+      <div class="CJ-content preview-list">
+        <h3>Reservation Review</h3>
+        <div class="order-list">
+          <div class="order-item">
+            <div class="top-info">
+              <div class="hangban-time">
+                <span>Flight:&nbsp;</span>
+                <span>{{hangbanNum}}({{hangbanTime}} Departure)</span>
+              </div>
+              <div class="hangban-time">
+                <span>Note:&nbsp;</span>
+                <span>{{hangbanRemark}}</span>
+              </div>
+            </div>
+            <div class="service" ng-repeat="item in previewList">
+              <div class="img-wrap"><img class="img" src="{{'/static/image/points-mall/'+item.name+'.png'}}" alt="">
+              </div>
+              <div class="other">
+                <div class="name">
+                  {{item.titleen}}
+                  <br>
+                  <span
+                    ng-repeat="(indexo, itemo) in item.checkedoptions">{{indexo== (item.checkedoptions.length - 1) ? itemo.name : itemo.name + '/'}}</span>
+                </div>
+                <!-- <div class="connect">
+                    联系人：温菲
+                    <br>
+                    手机号：17826828977
+                  </div> -->
+                <div class="jifen">
+                  <div class="num">{{item.point}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="total">
+              Total Points: <span class="num">{{total()}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="btn-box" style="text-align: center;">
+          <button class="btn2" ng-click="preview=false" style="float: inherit;">Cancel</button>
+          <button class="btn1" ng-click="goSubmit()" style="float: inherit;">Submit</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

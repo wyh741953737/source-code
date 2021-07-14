@@ -1,0 +1,563 @@
+<style type="text/css">
+  .img-preview-wrap {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+    text-align: center;
+  }
+
+  .tankuang {
+    width: 22%;
+    height: 18%;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background: #fff;
+    text-align: center;
+    font-size: 13px;
+    min-width: 280px;
+    min-height: 180px;
+    box-shadow: #3A3A3A 0px 0px 10px;
+    line-height: 25px;
+    z-index: 9999;
+    border-radius: 5px;
+    display: none;
+  }
+
+  .tankuang div {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+  }
+
+  .tankuang div button {
+    padding: 1px 15px;
+    background-color: #f88f29;
+    color: #fff;
+    border-radius: 5px;
+  }
+
+  /* 1688/tao */
+  .hnj-back-to .see-more {
+    background-color: var(--color-theme-1);
+    border-radius: 4px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    width: 170px;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    float: right;
+  }
+
+  .hnj-back-to .see-more:hover {
+    background-color: var(--color-theme-1-1);
+    color: #fff;
+  }
+
+  .hnj-back-to .see-more:hover .third-party {
+    height: 120px;
+    opacity: 1;
+    transition: .5s;
+    top: 34px;
+  }
+
+  .hnj-back-to .third-party {
+    position: absolute;
+    top: 45px;
+    width: 100% !important;
+    font-size: 14px;
+    /*font-family: PingFangSC-Regular;*/
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 1px 4px 1px rgba(213, 212, 212, 0.48);
+    overflow: hidden;
+    border-radius: 2px;
+    z-index: 100;
+    height: 0;
+    opacity: 0;
+    transition: .5s;
+  }
+  .hnj-back-to .third-party li {
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+  }
+
+  .hnj-back-to .third-party li:last-child {
+    border: none;
+  }
+  /* 1688/tao End */
+
+  .layui-layer-title  {
+    padding: 0;
+    background: #ffffff;
+  }
+  .layui-layer-wrap p{
+    padding: 12px 0px;
+  }
+  #openProductBox p {
+    font-size: 14px;
+  }
+  .productBox {
+    display: flex;
+  }
+  .productImg.tit {
+    width: 100px;
+  }
+  .itemImg {
+    width: 100px;
+  }
+  .productImg img {
+    width: 50px;
+    height: 50px;
+  }
+  .productName.tit {
+    width: 430px;
+  }
+  .productName.item {
+    width: 100%;
+  }
+  .productImg.item div,
+  .productName.item div{
+    padding: 16px 0px;
+    border-bottom: 1px solid #EBEBEB;
+  }
+  .productName.item div {
+    width: 430px;
+    line-height: 50px;
+  }
+  .productName .itemName {
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .productImg,
+  .productName {
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+  }
+  .productImg {
+    text-align: center;
+  }
+  .productName {
+    text-align: left;
+  }
+  .productImg.tit,
+  .productName.tit{
+    background-color: #F0EDE7;
+    font-weight: 600;
+  }
+  .layui-layer-page .layui-layer-content {
+    padding: 0px 25px;
+    margin: 0px;
+  }
+  .center-layer .layui-layer-btn {
+      padding: 16px 0px;
+      text-align: center;
+      float: none;
+  }
+  .center-layer .layui-layer-btn a{
+      height: 30px;
+      line-height: 30px;
+      border-radius: 4px;
+      border: 1px solid #E4E4E4;
+      background-color: #F9F9F9;
+  }
+  :not(.vip) .center-layer .layui-layer-btn .layui-layer-btn0 {
+      background: #F9F9F9;
+      color: #333333;
+      border-color: #e4e4e4;
+  }
+  .vip .center-layer .layui-layer-btn .layui-layer-btn0 {
+      background: #F9F9F9;
+      color: #333333;
+      border-color: #e4e4e4;
+  }
+  :not(.vip) .center-layer .layui-layer-btn .layui-layer-btn0:hover {
+      background: #F5F5F5;
+      color: #333333;
+      border-color: #D9D9D9;
+  }
+  .vip .center-layer .layui-layer-btn .layui-layer-btn0:hover {
+      background: #F5F5F5;
+      color: #333333;
+      border-color: #D9D9D9;
+  }
+  :not(.vip) .center-layer .layui-layer-btn .layui-layer-btn1 {
+      background: var(--color-theme-1);
+      color: var(--color-font-4);
+      border-color: var(--color-theme-1);
+  } 
+  :not(.vip) .center-layer .layui-layer-btn .layui-layer-btn1:hover {
+      background-color: var(--color-theme-1-1);
+  }
+  .vip .center-layer .layui-layer-btn .layui-layer-btn1 {
+      background: var(--color-theme-1-vip);
+      color: var(--color-font-4);
+      border-color: var(--color-theme-1-vip);
+  } 
+  .vip .center-layer .layui-layer-btn .layui-layer-btn1:hover {
+      background-color: var(--color-theme-1-1-vip);
+  }
+</style>
+
+<div class="sourcing-add" ng-class="{'isVip': isVip == 1}">
+
+  <div class="addproducts-back">
+    <!-- 新增搜品的内容部分 -->
+    <div class="hnj-back-to">
+      <!-- <a href="#/sourcing" class="goBack"> -->
+        <a ng-click="backPage()" class="goBack">
+        &lt; Back</a>
+      <!-- 1688等外部网站抛出 -->
+      <div class="see-more">
+        See More Products
+        <div class="third-party">
+          <ul>
+            <li ng-show="yaoliuFlag" ng-click="goTo1688()">Go to 1688</li>
+            <li ng-show="taobaoFlag" ng-click="goToTaobao()">Go to Taobao</li>
+            <li ng-click="goToAliExpress()">Go to AliExpress</li>
+            <li ng-show="backFlag" ng-click="backCJ()">Back To CJ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="from-tip" ng-if="supplierName">Post sourcing request for {{supplierName}}</div>
+    <div class="addproducts-con">
+
+      <div class="addpro-tit">
+        <p>Sourcing Form</p>
+      </div>
+
+      <div class="addpro-detail">
+        <ul>
+          <li>
+            <span class="k-tit">Select Sourcing Type:</span>
+            <label class="demo-label">
+              <input class="demo-radio" type="radio" name="type" ng-model="commoditytype" ng-change="radioFun1()"
+                value="store">
+              <span class="demo-radioInput"></span>Store Existing Product
+
+            </label>
+            <label class="demo-label">
+              <input class="demo-radio" type="radio" name="type" ng-model="commoditytype" ng-change="radioFun2()"
+                value="individual">
+              <span class="demo-radioInput"></span>Individual Product
+            </label>
+          </li>
+          <li class="tips">Note: Please choose 'Individual Product' if your store is not open to the public.</li>
+
+          <li ng-show="commoditytype=='individual'">
+            <span style="float: left;" class="k-tit">Attachment:</span>
+            <div class="res-upload-div">
+              <form action="" method="post" enctype="multipart/form-data">
+                <input type="file" class="upimg-inp" ng-model="documentupload2" id="file" accept="image/*" multiple
+                  onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display: none;"
+                  ng-click="df($event)">
+              </form>
+              <label class="up-bg-div" for="file">
+                <i style="font-size:34px;color:#D4D4D4;" class="add-img-icon"></i>
+                <p style="color: #666;">Upload Image</p>
+              </label>
+              <p style="color: #999; font-size: 14px; width: 300px;margin-left: 165px;margin-top:5px;">Allowed File
+                Extensions: .jpg, .png</p>
+            </div>
+
+            <!--相似商品box-->
+            <ul class="search-img-container" ng-show="uploadImgs.length>0" ng-cloak>
+              <li class="product-box" ng-repeat="item in uploadImgs track by item.url"
+                on-finish-render="loadingCjLottie()" ng-cloak>
+                <div class="product-img">
+                  <img ng-src="{{item.url}}?x-oss-process=image/resize,m_fill,w_351,h_351">
+                </div>
+                <img ng-click="deleteImgFun($index)"
+                  style="position: absolute;width: 22px;height: 22px;top: -11px;right: -11px;"
+                  src="static/image/public-img/close-circle.png">
+
+                <!--相似商品内容-->
+                <div class="like-box" ng-show="item.likes.length > 0">
+                  <p class="like-title text-theme">Related Products ({{item.likes.length}})</p>
+                  <div class="likes-container">
+                    <span ng-click="prev($index, item.likes.length, $event)" class="text-theme iconfont">&#xe6e8;</span>
+                    <div class="likes-window">
+                      <ol class="like-products">
+                        <a class="like-href" ng-href="product-detail.html?id={{like.id}}" class="view-detail-a"
+                          target="_blank" class="like-product" ng-repeat="like in item.likes">
+                          <li>
+                            <img class="product-img"
+                              ng-src="{{like.bigImg}}?x-oss-process=image/resize,m_fill,w_75,h_75"
+                              err-src="static/image/public-img/default.jpg" ng-cloak>
+                            <div class="detail-box">
+                              <div>
+                                <p>{{like.nameEn}}</p>
+                                <p>${{like.sellPrice}}</p>
+                              </div>
+                            </div>
+                          </li>
+                        </a>
+                      </ol>
+                    </div>
+                    <span ng-click="next($index, item.likes.length,$event)" class="text-theme iconfont">&#xe6e7;</span>
+                  </div>
+                  <div class="read-more ui-btn btn-line-theme1" ng-click="targetToSearchImgList(item)">View More &gt;
+                  </div>
+                </div>
+
+                <!-- loading -->
+                <div class="sourcing-loading" ng-show="item.loading">
+                  <div class="loading-animation" id="loading-animation{{$index}}"></div>
+                  <div class="loading-text">
+                    Please wait. Searching related products...
+                  </div>
+                </div>
+
+                <!-- empty -->
+                <div class="sourcing-empty" ng-if="!item.loading && item.likes.length <= 0">
+                  <div class="sourcing-empty-img"></div>
+                  <div class="sourcing-empty-text">Sorry, we couldn't find related products</div>
+                </div>
+
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="commoditytype=='store'">
+            <span class="k-tit">Select Store:</span>
+            <select style="width: 170px;height:40px;font-size:14px;" class="second-element select"
+              ng-show="shopselectlist.length > 0"
+              ng-model="selectshopinfo" ng-change="handleShopChange(selectshopinfo)"
+              ng-options="item as item.NAME for ($index,item) in shopselectlist">
+            </select>
+            <input type="text" placeholder="No Store" ng-show="shopselectlist.length == 0" style="width: 170px;height:40px;font-size:14px;padding-left: 10px;" disabled>
+            <sync-store storeinfo="storeinfo" style="display: inline-block;"></sync-store>
+            <p class="no-store-msg" ng-show="shopselectlist.length == 0">You have no authorized store yet. Please click “<a href="/myCJ.html#/authorize/Shopify">Authorization</a>” to proceed.</p>
+          </li>
+          <!-- <li class="tips">
+            You have no authorized store yet. Please click “<a href="/myCJ.html#/authorize/Shopify" style="color: #488ff9;">Authorization</a>” to proceed.
+          </li> -->
+          <li>
+            <span class="k-tit">Product Tag:</span>
+
+            <select style="width: 170px;height:40px;font-size:14px;" class="second-element select" ng-model="productTag"
+              ng-options="item as item.nameEn for ($index,item) in categoryList ">
+              <option value="">Please select</option>
+            </select>
+
+          </li>
+          <li class="d-flex align-items-center">
+            <span class="k-tit">Product Title:</span>
+
+            <input id="product-name" class="big-inp second-element" ng-model="producname1"
+              ng-show="commoditytype=='individual'" style="margin-left:5px;"></input>
+
+            <div class="input-group search-box d-flex align-items-center" ng-show="commoditytype=='store'"
+              style="margin-left:5px;">
+              <input type="text" class="form-control" placeholder="" style="box-shadow: none;height:40px;"
+                ng-model="producname">
+
+              <button class="ui-btn btn-theme d-flex justify-content-center align-items-center" id="searchbtn"
+                type="button" ng-click="handleProSearch()" style="min-width:140px;height:40px;">
+                <i class="search-icon"></i>
+              </button>
+
+            </div>
+
+          </li>
+
+          <li ng-show="commoditytype=='individual'">
+            <span class="k-tit">Target Price:</span>
+            <p style="display: inline-block;">
+              USD
+              <input 
+                style="margin-left:5px;" 
+                id="p-target" 
+                class="small-inp"
+                ng-model="price" 
+                ng-blur="isNumber()"
+              ></input>
+            </p>
+            <p style="display: inline-block;">Destination Country</p>
+            <select class="small-inp" ng-options="item.nameEn as item.nameEn for item in countrylist"
+              ng-model="country">
+              <option value="">Please Select</option>
+            </select>
+            <p style="color: red;font-size: 12px;margin-left: 169px;" ng-if="priceTip">{{priceTip}}</p>
+          </li>
+          <li ng-show="commoditytype=='individual'">
+            <span class="k-tit">Purchasing Type:</span>
+            <label class="demo-label">
+              <input class="demo-radio" type="radio" name="purchasingtype" ng-model="purchasingType" value="1">
+              <span class="demo-radioInput"></span>Bulk Purchase
+            </label>
+            <label class="demo-label">
+              <input class="demo-radio" type="radio" name="purchasingtype" ng-model="purchasingType" value="2">
+              <span class="demo-radioInput"></span>Dropshipping
+            </label>
+          </li>
+          <li ng-show="commoditytype=='individual' && purchasingType=='1'">
+            <span class="k-tit">Estimated Quantity:</span>
+            <input id="ap-surl" class="big-inp second-element" ng-change="onlyNumber()"
+              ng-model="estimatedQuntity"></input>
+          </li>
+
+          <li ng-show="commoditytype=='individual'">
+            <span class="k-tit">Sourcing URL:</span>
+            <input class="big-inp second-element" ng-model="sourceUrl"></input>
+          </li>
+
+          <!-- ng-app="editorContainer" ng-controller="editorCtrl" -->
+          <li class="description-li" ng-show="commoditytype=='individual'">
+            <span class="k-tit">Description:</span>
+            <div id="editor-trigger">
+            </div>
+          </li>
+        </ul>
+        <!-- 图片预览 -->
+        <div class="img-preview-wrap" ng-click="previewWrapFun()">
+          <img ng-src="{{previewSrc}}" class="center-block">
+        </div>
+        <!-- 商品列表部分 -->
+        <div class="top-drop-pro-wrap" ng-show="commoditytype=='store'">
+          <div class="noDataFun" ng-show="goodList1.length === 0 && commoditytype!='individual'"
+            style="width: 900px; text-align: center;">
+            <img src="./static/image/public-img/nodata_new.png">
+            <p style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">Sorry, the data is not found. </p>
+          </div>
+          <div class="top-drop-pro" ng-show="goodList1.length > 0 && commoditytype!='individual'">
+            <!-- 带相似商品的商品卡片 -->
+            <ul class="search-img-container" ng-cloak id="addLike">
+              <li ng-class="item.flag?'product-box product-box-check':'product-box'"
+                ng-repeat="item in goodList1 track by $index" on-finish-render="goodListloadingCjLottie()">
+                <div ng-click="addsubmit(item,$index)" ng-cloak
+                  ng-class="item.flag?'product-box product-box-check':'product-box'" style="border: 0;margin: 0;">
+                  <div class="product-img">
+                    <img ng-src="{{item.image}}?x-oss-process=image/resize,m_fill,w_351,h_351">
+                  </div>
+                  <a class="product-title" href="javascript:void(0);" title="{{item.title}}" ng-cloak>
+                    <p class="text-clip">{{item.title}}</p>
+                  </a>
+                  <p class="product-price" ng-cloak>$ {{item.prices}}</p>
+                </div>
+                <!--相似商品内容-->
+                <div class="like-box" ng-show="likeImgArr[item.id].flag">
+                  <p class="like-title text-theme">Related Products
+                    <span>(</span>{{likeImgArr[item.id].likes.all}}<span>)</span></p>
+                  <div class="likes-container">
+                    <span ng-click="prev($index, likeImgArr[item.id].likes.all, $event)"
+                      class="text-theme iconfont">&#xe6e8;</span>
+                    <div class="likes-window">
+                      <ol class="like-products">
+                        <a class="like-href" ng-repeat="like in likeImgArr[item.id].likes.location"
+                          ng-href="product-detail.html?id={{like.id}}" class="view-detail-a" target="_blank">
+                          <li>
+                            <img class="product-img"
+                              ng-src="{{like.bigImg}}?x-oss-process=image/resize,m_fill,w_75,h_75"
+                              err-src="static/image/public-img/default.jpg" ng-cloak>
+                            <div class="detail-box">
+                              <div>
+                                <p>{{like.nameEn}}</p>
+                                <p>${{like.sellPrice}}</p>
+                              </div>
+                            </div>
+                          </li>
+                        </a>
+                      </ol>
+                    </div>
+                    <span ng-click="next($index, likeImgArr[item.id].likes.all,$event)"
+                      class="text-theme iconfont">&#xe6e7;</span>
+                  </div>
+                  <div class="read-more ui-btn btn-line-theme1"
+                    ng-click="targetToSearchImgList({}, item.image+'?x-oss-process=image/resize,m_fill,w_351,h_351')">
+                    View More &gt;</div>
+                </div>
+
+                <!-- loading -->
+                <div class="sourcing-loading" ng-show="item.loading">
+                  <div class="loading-animation" id="loading-animation-list{{$index}}"></div>
+                  <div class="loading-text">
+                    Please wait. Searching related products...
+                  </div>
+                </div>
+
+                <!-- empty -->
+                <div class="sourcing-empty" ng-if="!item.loading && likeImgArr[item.id].likes.location.length <= 0">
+                  <div class="sourcing-empty-img"></div>
+                  <div class="sourcing-empty-text">Sorry, we couldn't find related products</div>
+                </div>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- 分页 -->
+        <page ng-show="goodList1.length > 0 && commoditytype!='individual'"></page>
+        <div class="addpro-btns" ng-show="commoditytype">
+          <a ng-if="commoditytype=='store'" class="sub-more" href="javascript:void(0)"
+            ng-click="scancelFun()">Cancel</a>
+          <a ng-if="commoditytype=='individual'" class="sub-more" href="javascript:void(0)"
+            ng-click="icancelFun()">Clear</a>
+          <a class="sub-btn ui-btn btn-theme" href="javascript:void(0)" ng-click="sourcesubmit()" style="width: 125px">Submit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tankuang">
+    <p style="margin-top: 10px;font-size: 14px;">Your current selection will be removed if you go other page!</p>
+    <div class="btns center-block" style="width: 70%;">
+      <button style="background-color: #666;" ng-click="yesFun()">Yes</button>
+      <button style="background-color: #f88f29;" ng-click="noFun()">No</button>
+    </div>
+  </div>
+
+  <!--检测插件弹窗-->
+  <div id="isCJPub" ng-show="isCJPub" ng-cloak>
+    <div class="CJ-content">
+      <span class="close" ng-click="Cancel()">×</span>
+      <h3>{{CJPubTitle}}</h3>
+      <p>{{CJPubtxt}}</p>
+      <button class="btn1" ng-show="!isInstall" ng-click="Install()">Install Now</button>
+      <button class="btn2" ng-show="!isInstall" ng-click="Cancel()">Cancel</button>
+      <button class="btn1" ng-show="isInstall" ng-click="Refresh()">Refresh</button>
+    </div>
+  </div>
+
+    <!-- 重复搜品弹窗 -->
+    <div id="openProductBox" ng-show="openProductBox">
+      <p>You have submitted duplicate sourcing request(s) for product(s) below:</p>
+      <div class="productBox">
+        <div class="productImg tit">Image</div>
+        <div class="productName tit">Title</div>
+      </div>
+      <div class="productBox">
+        <div class="productImg item">
+          <div class="itemImg" ng-repeat='item in reData track by $index'>
+            <img ng-src="{{item.imageUrl}}" alt="">
+          </div>
+        </div>
+        <div class="productName item">
+          <div class="itemName" ng-repeat='item in reData track by $index' title="{{item.productName}}">
+            <span>{{item.productName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+</div>

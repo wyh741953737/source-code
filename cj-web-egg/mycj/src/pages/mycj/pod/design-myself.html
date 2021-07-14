@@ -1,0 +1,153 @@
+<div class="mycj-home-box PC-wrap pod-design-myself">
+  <div class="mycj-right-wrap PC-con p-3">
+    <div class="mycj-right-bar PC-w1200 pro-skulist pro-listed pro-print-on-demand clearfix">
+
+      <div class="search-box-wrap" style="border-bottom: unset !important;">
+        <div class="input-group search-box">
+          <input type="text" class="form-control" placeholder="Enter SKU/Product Name" ng-model="search" ng-keypress="enterSearch($event)">
+          <span class="input-group-btn">
+            <button class="search-btn btn-theme" type="button" ng-click="searchFun()"cjdot cjdotshow='{"eventType":2}'>Search</button>
+          </span>
+        </div>
+      </div>
+
+      <div class="cj-load-wrap table-connected p-r">
+        <table class="SKUtable" style="width: 100%;" ng-show="proList.length>0">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width: 8%;">Date</th>
+              <th rowspan="2" style="width: 7.5%;">Images</th>
+              <th rowspan="2" style="width: 11.5%;">Name</th>
+              <th rowspan="2" style="width: 10.5%;">SKU</th>
+              <th rowspan="2" style="width: 7.5%;">Price</th>
+              <th rowspan="2" style="width: 7.5%;">Weight</th>
+              <th rowspan="2" style="width: 5.5%;">Shipping Method</th>
+              <th rowspan="2" style="width: 8%;">Shipping Cost</th>
+              <th rowspan="2" style="width: 6%;">Amount</th>
+              <th rowspan="2" style="width: 6.5%;">Sales</th>
+              <th rowspan="2" style="width: 16%;">Action</td>
+            </tr>
+          </thead>
+          <tbody ng-repeat="(index1,item) in proList track by index1">
+            <tr>
+              <td class="td-date">{{item.CREATEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+              <td class="td-img">
+                <div class="td-img-box">
+                  <a href="{{'product-detail.html?id=' + item.ID}}" target="_blank"><img class="small-img"
+                      ng-src="{{item.BIGIMG}}" alt=""></a>
+                  <img class="big-img" ng-src="{{item.BIGIMG}}" alt="">
+                </div>
+              </td>
+              <td class="td-name"><a href="{{'product-detail.html?id=' + item.ID}}" target="_blank"
+                  title="{{item.NAMEEN}}">{{item.NAMEEN}}</a></td>
+              <td class="td-sku">{{item.SKU}}</td>
+              <td class="td-price">
+                <p ng-class="{'line-through': item.discountPriceRate > 0}">${{item.SELLPRICE || 0}}</p>
+                <p ng-if="item.discountPriceRate > 0">
+                  ${{item.discountPrice.replace(' -- ', '-') + '(' + item.discountPriceRate + '% off)'}}</p>
+              </td>
+              <td><span>{{item.PACKWEIGHT.replace(' -- ', '-') + 'g'}}</span></td>
+              <td>
+                <div>{{item.shopMethod == null ? '--' : item.shopMethod}}</div>
+                <div ng-if="item.wuliuRemark" class="asj-wuliu-tip-wrap" style="display: block; margin: 5px auto;">
+                  <span class="iconfont asj-wuliu-tip-icon">&#xe626;</span>
+                  <div class="asj-wuliu-tip-show" ng-bind-html="item.wuliuRemark"></div>
+                </div>
+              </td>
+              <td class="td-ship-cost">
+                <ship-caculate shipinfo="item.shipinfo"></ship-caculate>
+              </td>
+              <td class="amount-price-td">
+                {{item.AMOUNTPRICE ? ('$' + (item.AMOUNTPRICE + '').replace(' -- ', '-')) : '--'}}
+                <div class="toast-wrap" ng-show="item.isProAmountTip != false">
+                  <i class="iconfont">&#xe745;</i>
+                  <div class="toast-box">
+                    Shipping cost not included.
+                  </div>
+                </div>
+              </td>
+              <td><span>{{item.salesVolume || 0}}</span></td>
+              <td class="td-btn">
+                <a class="btn btn1 listBtn" href="{{'product-detail.html?id=' + item.ID}}" target="_blank">List</a>
+                <!-- 2020.4.14隐藏删除按钮 -->
+                <!-- <a class="btn btn2" ng-click="delet(item,index1)" href="javascript:void(0);">Delete</a> -->
+                <br>
+                <a ng-if="!item.down" class="show-vlist" href="javascript:void(0);" ng-click="item.down = true;"><img
+                    src="./static/image/public-img/to-down.png" alt=""></a>
+                <a ng-if="item.down" class="show-vlist" href="javascript:void(0);" ng-click="item.down = false;"><img
+                    src="./static/image/public-img/to-up.png" alt=""></a>
+              </td>
+            </tr>
+            <tr style="background: #f8f8f8;" ng-repeat="(index2,item2) in item.variants" ng-show="item.down">
+              <td class="td-date">{{item.CREATEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+              <td class="td-img">
+                <div class="td-img-box">
+                  <a href="{{'product-detail.html?id=' + item.ID}}" target="_blank"><img class="small-img"
+                      ng-src="{{item2.IMG || item2.BIGIMG}}" alt=""></a>
+                  <img class="big-img" ng-src="{{item2.IMG || item2.BIGIMG}}" alt="">
+                </div>
+              </td>
+              <td class="td-name"><a href="{{'product-detail.html?id=' + item.ID}}" target="_blank"
+                  title="{{item2.NAMEEN}}">{{item2.NAMEEN}}</a></td>
+              <td class="td-sku">{{item2.SKU}}</td>
+              <td>
+                <p ng-class="{'line-through': item2.discountPriceRate > 0}">${{item2.SELLPRICE || 0}}</p>
+                <p ng-if="item2.discountPriceRate > 0">
+                  ${{item2.discountPrice.replace(' -- ', '-') + '(' + item2.discountPriceRate + '% off)'}}</p>
+              </td>
+              <td><span>{{(item2.PACKWEIGHT + '').replace(' -- ', '-') + 'g'}}</span></td>
+              <td><span>{{item2.shopMethod == null ? '--' : item2.shopMethod}}</span></td>
+              <td class="td-ship-cost">
+                <ship-caculate shipinfo="item2.shipinfo"></ship-caculate>
+              </td>
+              <td class="amount-price-td">
+                {{'$' + (item2.AMOUNTPRICE + '').replace(' -- ', '-')}}
+                <div class="toast-wrap" ng-show="item2.isProAmountTip != false">
+                  <i class="iconfont">&#xe745;</i>
+                  <div class="toast-box">
+                    Shipping cost not included.
+                  </div>
+                </div>
+              </td>
+              <td><span>{{item2.salesVolume || 0}}</span></td>
+              <td class="td-btn">
+                <!-- 2020.4.14隐藏变体删除按钮 -->
+                <!-- <a class="btn btn2" ng-click="delet(item2,index1,index2)" href="javascript:void(0);">Delete</a> -->
+                --
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+        <not-data ng-if="notDataFound"></not-data>
+      </div>
+
+      <!-- 分页 -->
+      <page ng-show="proList.length > 0"></page>
+    </div>
+  </div>
+
+  <div id="asj-design-cart" ng-class="{'asj-design-cart':true,'show':showDesignCart}" style="z-index: 2;">
+    <span ng-class="{'pod-icon':true,'to-left':showDesignCart}" ng-click="showDesignCart=!showDesignCart;"><img
+        src="./static/image/page/pod@2x.png" alt=""></span>
+    <div class="dingzhi-default-imgbox" ng-show="designList.length == 0">
+      <img class="default-img" src="./static/image/page/dingzhi.png" alt="">
+      <p class="default-msg">You have no design yet. Get your first design now!</p>
+      <a class="default-btn" href="PrintonDemand.html">Start</a>
+    </div>
+    <div class="print-item" ng-repeat="item in designList track by $index">
+      <img ng-src="{{item.img}}" class="item-img" alt="">
+      <div class="item-detail">
+        <p class="item-title">{{item.title}}</p>
+        <p class="item-price">${{item.price}}</p>
+        <button class="start-btn" ng-click="startDesign(item,$index)">Start Designing</button>
+      </div>
+      <img src="./static/image/public-img/delete_40x40.png" class="delete-btn" alt="" ng-click="deletePro($index)">
+    </div>
+  </div>
+</div>
+
+<design-frame2 parentctrl="parentctrl" myself-design2='design2' ng-if="podVersion==2"></design-frame2>
+<design-frame parentctrl="parentctrl" ng-show="podVersion==1"></design-frame>
+
+<loading-cart el="'.cj-load-wrap'" left="-12" right="-12" bottom="'.mycj-right-bar'" ng-if="loading"></loading-cart>

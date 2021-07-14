@@ -1,0 +1,137 @@
+<!-- 发票管理模块 -->
+<div class="invoice-manage">
+  <div class="_add_address_btn" ng-click="addConsigneeFun()">Add New Consignee</div>
+  <div class="invoice-con">
+    <div class="manage-list" ng-show="invoiceList.length>0">
+      <div class="manage-item" ng-class="{default:item.isDefault == 1}" ng-repeat="item in invoiceList">
+        <div class="manage-item-default" ng-if="item.isDefault == 1">Default Consignee</div>
+        <p class="manage-item-name">First Name: {{item.firstName}}</p>
+        <p class="manage-item-name">Last Name: {{item.lastName}}</p>
+        <div class="manage-item-cont">
+          <div class="manage-item-info d-flex">
+            <span class="manage-item-info-item">Phone Number: {{fromErpNotAdmin ? '**********' : item.userPhone}}</span>
+            <span class="manage-item-info-item">VAT Number: {{fromErpNotAdmin ? '**********' : item.userVatNumber}}</span>
+          </div>
+          <p class="manage-item-info">Email: {{fromErpNotAdmin ? '**********' : item.userEmail}}</p>
+          <p class="manage-item-info">Company: {{fromErpNotAdmin ? '**********' : item.userOrgName}}</p>
+          <p class="manage-item-info" title="{{item.userAddress}}">Address1: {{fromErpNotAdmin ? '**********' : item.userAddress}}</p>
+          <p class="manage-item-info" ng-if="item.userAddressTwo" title="{{item.userAddressTwo}}">Address2: {{fromErpNotAdmin ? '**********' : item.userAddressTwo}}</p>
+          <div class="manage-item-info d-flex">
+            <span class="manage-item-info-item" title="{{item.userCity}}">City: {{item.userCity}}</span>
+            <span class="manage-item-info-item" title="{{item.userZip}}">Postcode: {{item.userZip}}</span>
+          </div>
+          <div class="manage-item-info d-flex">
+            <span class="manage-item-info-item" title="{{item.userProvince}}">Province: {{item.userProvince}}</span>
+            <span class="manage-item-info-item" title="{{item.userCountry}}">Country: {{item.userCountry}}</span>
+          </div>
+        </div>
+        <div class="manage-item-edit-box">
+          <span class="btn default" ng-if="item.isDefault != 1" ng-click="inSetDefult(item,$event)">Set as Default Consignee</span>
+          <span class="btn edit" ng-click="inChangeFun(item)">Edit</span>
+          <span class="btn delete" ng-if="item.isDefault != 1" ng-click="isdelInvoiceFun(item)">Delete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 询问是否删除发票 -->
+<div class="confirm-box conginess-warp" ng-show="isdelConginessFlag">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="isdelConginessFlag=false"></i>
+    <div class="confirm-title">Delete</div>
+    <div class="confirm-content">
+      <p class="delete-tip">
+        <i class="iconfont iconjinggaotishi text-theme"></i> Are you sure to delete this consignee?
+      </p>
+      
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="isdelConginessFlag=false" class="no-btn">Cancel</span>
+      <span ng-click="deletInvoiceFun()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 新增或修改发票 -->
+<div class="confirm-box invoice-add-warp" ng-if="invoiceParmas.visible">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="handleCancel()"></i>
+    <div class="confirm-title">
+      {{invoiceParmas.title}}
+    </div>
+    <div class="confirm-content">
+	    <div class="form-box">
+				<div class="form-item">
+          <div class="form-item-two"> 
+            <span><i class="text-theme">*</i>First Name:</span>
+					  <input class="form-item-input" type="text" maxlength="19" ng-model="invoiceParmas.invoiceData.firstName">
+          </div>
+					<div class="form-item-two">
+            <span><i class="text-theme">*</i>Last Name:</span>
+					  <input class="form-item-input" type="text" maxlength="19" ng-model="invoiceParmas.invoiceData.lastName">
+          </div> 
+				</div>
+				<div class="form-item">
+					<div class="form-item-two">
+            <span><i class="text-theme">*</i>Phone Number:</span>
+            <input class="form-item-input" type="text" maxlength="20" ng-model="invoiceParmas.invoiceData.userPhone">
+          </div>
+					<div class="form-item-two">
+            <span><i class="text-theme">*</i>Email:</span>
+					  <input class="form-item-input" maxlength="50" type="text" ng-model="invoiceParmas.invoiceData.userEmail">
+          </div>
+				</div>
+				<div class="form-item">
+					<span><i class="text-theme">*</i>Company:</span>
+					<input type="text" maxlength="80" ng-model="invoiceParmas.invoiceData.userOrgName">
+				</div>
+				<div class="form-item">
+					<span><i class="text-theme">*</i>VAT Number:</span>
+					<input type="text" maxlength="20" ng-model="invoiceParmas.invoiceData.userVatNumber">
+				</div>
+				<div class="form-item">
+					<span><i class="text-theme">*</i>Address 1:</span>
+					<input type="text" maxlength="80" ng-model="invoiceParmas.invoiceData.userAddress">
+				</div>
+				<div class="form-item">
+					<span>Address 2:</span>
+					<input type="text" maxlength="80" ng-model="invoiceParmas.invoiceData.userAddressTwo">
+				</div>
+				<div class="form-item">
+					<span><i class="text-theme">*</i>Country:</span>
+					<select
+            class="singleSelect"
+						ng-options="item as item.nameEn for item in countryData"
+						ng-model="countryInfo"
+						ng-change="handleCountryChang(countryInfo)">
+					</select>
+				</div>
+				<div class="form-item">
+					<span><i class="text-theme">*</i>Province:</span>
+					<input type="text" maxlength="80" ng-model="invoiceParmas.invoiceData.userProvince">
+				</div>
+				<div class="form-item">
+					<span><i class="text-theme">*</i>City:</span>
+					<input type="text" maxlength="80" ng-model="invoiceParmas.invoiceData.userCity">
+				</div>
+				<div class="form-item">
+					<span><i class="text-theme">*</i>Postcode:</span>
+					<input type="text" maxlength="50" ng-model="invoiceParmas.invoiceData.userZip">
+				</div>
+				<div class="form-item default">
+					<i
+						ng-class="[isDefault === '0' ? 'iconweigouxuan' : 'iconyigouxuan',{'text-theme':isDefault === '1'}]"
+						class="iconfont is-default"
+						ng-click="handleChangeCheckbox()"
+					>
+					</i>
+					<span class="default-txt" ng-class="{'text-theme':isDefault === '1'}">Set as default shipping address</span>
+				</div>
+			</div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="handleCancel()" class="no-btn">Cancel</span>
+      <span ng-click="handleConfirm()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>

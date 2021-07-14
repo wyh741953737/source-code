@@ -1,0 +1,490 @@
+/** 2020 万圣节样式 */
+@primary-color: #5D1B7E;
+@primary-color-hover: #7847AB;
+@boxshadow-color: rgba(24, 6, 47, 0.48);
+
+.halloween {
+
+  .top-bar,
+  .logo-bar-wrap .bg-white {
+    background-color: #14062F !important;
+  }
+
+  .sticky-wrap {
+    .cj-bg-primary {
+      background-color: @primary-color  !important;
+
+      &:hover {
+        background-color: @primary-color-hover  !important;
+      }
+    }
+  }
+
+  .top-bar .language .button {
+    color: #fff;
+    background-color: @primary-color;
+  }
+
+  .logo-bar .see-queue .count {
+    color: #FF7700 !important;
+    background-color: #fff !important;
+  }
+
+  .logo-bar .search {
+    border-right: 0;
+    border-color: #5D1B7E !important;
+  }
+
+  .logo-bar .search input {
+    background-color: transparent;
+    color: #fff;
+  }
+
+  .logo-bar .search input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, .76);
+  }
+
+  .logo-bar .category-wrap .category-icon {
+    background-color: @primary-color;
+  }
+
+  .logo-bar .category-wrap .category-icon.isHover {
+    background-color: @primary-color-hover;
+  }
+
+  .halloween-child-list {
+    position: absolute;
+    top: 100%;
+    min-width: 100%;
+    width: 194px;
+    opacity: 0;
+    height: 0;
+    box-shadow: none;
+    border-radius: var(--size-radius-small);
+    padding-top: 59px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .pumpkin-top {
+      width: 200px;
+      background: url(/egg/image/halloween/child-list-bg-top.png) center bottom no-repeat;
+      background-size: 100%;
+      height: 126px;
+      margin-top: -73px;
+      margin-left: -20px;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .pumpkin-center {
+      width: 90%;
+      margin: 0 auto;
+      border: 4px solid #eb8241;
+      border-top: 0;
+      border-bottom: 0;
+      background-color: #f1ab47;
+      height: auto;
+      padding: 10px 0 20px 0;
+      position: relative;
+
+      .child-list {
+        margin: 0 auto;
+        width: 93%;
+        background-color: transparent;
+        height: 0;
+        max-height: 0;
+        transform: none;
+        // transition: var(--transition-medium) all ease-in-out;
+        transition: 0.5s;
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    .pumpkin-bottom {
+      width: 200px;
+      height: 69px;
+      background: url(/egg/image/halloween/child-list-bg-bottom.png) center top no-repeat;
+      background-size: 100%;
+      display: flex;
+      align-items: flex-end;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -21px;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  .top-bar .short-nav .nav-item {
+    overflow: hidden;
+  }
+
+  .top-bar .short-nav .nav-item:hover {
+    overflow: visible;
+
+    .halloween-child-list {
+      opacity: 1;
+      z-index: 2;
+      height: auto;
+
+      .child-list {
+        height: auto;
+        transform: none;
+        max-height: 531px;
+      }
+    }
+  }
+
+  .child-list .ch-item a {
+    color: #fff;
+    justify-content: center;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .top-bar .child-list {
+    width: 90%;
+    margin: 0 auto;
+    position: unset;
+    box-shadow: none;
+    height: auto;
+    background-color: #eb8241;
+    min-width: auto;
+  }
+
+  .top-bar .child-list::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  .top-bar .child-list::-webkit-scrollbar-track {
+    background-color: transparent;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+  }
+
+  .top-bar .child-list::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+  }
+
+  .logo-bar .see-guid .guid-wrap {
+    background-color: transparent !important;
+    top: 100%;
+    box-shadow: none;
+  }
+
+  .logo-bar .see-guid:hover .guid-wrap {
+    overflow: visible;
+  }
+
+  .logo-bar .see-guid .guid-wrap .guid-box {
+    position: relative;
+  }
+
+  .guid-box .guid-left {
+    box-shadow: none;
+  }
+
+  .guid-box .guid-item li .iconfont {
+    display: none;
+  }
+
+  .guid-box .guid-item li.act::after {
+    content: "";
+    display: inline-block;
+    width: 21px;
+    height: 18px;
+    background: url('/egg/image/halloween/littie-pumpkin.png') center no-repeat;
+    margin-left: 6px;
+  }
+
+  .guid-box .guid-item,
+  .guid-box .guid-show {
+    background-color: transparent !important;
+  }
+
+  .guid-box::before {
+    content: "";
+    display: block;
+    width: 1230px;
+    height: 611px;
+    background: url(/egg/image/halloween/service-bg.png) center no-repeat;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-48.8%);
+    z-index: -1;
+  }
+
+  .guid-box .guid-path {
+    left: 26px;
+  }
+
+  .guid-s-nav {
+    margin-left: 20px;
+  }
+
+  .guid-box .guid-path.gp-1 {
+    top: 25px;
+  }
+
+  .guid-box .guid-path.gp-2 {
+    top: 141px;
+  }
+
+  .guid-box .guid-path.gp-3 {
+    top: 254px;
+  }
+
+  .guid-box .guid-path.gp-4 {
+    top: 370px;
+  }
+
+  .guid-box .guid-path.gp-5 {
+    top: 486px;
+  }
+
+  .top-bar .admin .notice .amount-total .mes-flag-num {
+    background-color: #5D1B7E;
+  }
+
+  .top-bar .admin .notice .index-message-box {
+    background-color: #3F1256;
+    box-shadow: 0px 1px 9px 0px @boxshadow-color;
+    border: 0;
+
+    .message-list-all .message-list-allTitle .message-list-CJ .list-count {
+      background-color: #9253C9;
+    }
+
+    .mes-bottom-information {
+      background-color: #5D1B7E;
+      border: 0;
+      height: 41px;
+
+      span {
+        color: #fff !important;
+      }
+    }
+
+    .message-list {
+      background-color: transparent;
+      border: 0;
+
+      &::-webkit-scrollbar {
+        width: 0px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+        -webkit-border-radius: 2em;
+        -moz-border-radius: 2em;
+        border-radius: 2em;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        -webkit-border-radius: 2em;
+        -moz-border-radius: 2em;
+        border-radius: 2em;
+      }
+
+      .message-item {
+        background-color: transparent;
+
+        a .mes-left-detail p {
+          color: #999 !important;
+        }
+
+        .message-item-box {
+          border-color: #999;
+        }
+
+        &:hover {
+          background-color: #5D1B7E;
+          color: #fff;
+
+          .has-read-yes p,
+          a .mes-left-detail p {
+            color: #fff !important;
+          }
+        }
+      }
+    }
+  }
+
+  .top-bar .admin .notice .index-message-box .message-list-all .message-list-allTitle .message-list-CJ .list-font {
+    color: #fff !important;
+  }
+
+  .top-bar .admin .notice .index-message-box .message-list-all .message-list-allTitle .message-list-CJ .activeTab {
+    color: #9253C9 !important;
+  }
+
+  .top-bar .admin .account .user-ul {
+    background-color: #5D1B7E !important;
+  }
+
+  .top-bar .admin .account .user-ul>li {
+    background-color: transparent;
+    color: #999;
+
+    a {
+      color: #999;
+    }
+
+    &:hover {
+      color: #fff;
+      background-color: #9253C9;
+
+      a {
+        color: #fff;
+        background-color: #9253C9;
+      }
+    }
+  }
+
+  .top-bar .admin ul {
+    box-shadow: 0px 0px 4px 1px @boxshadow-color;
+  }
+
+  .top-bar .admin ul li .tool-ul {
+    background-color: #5D1B7E !important;
+
+    li {
+      background-color: transparent !important;
+      color: #999;
+
+      a {
+        color: #999 !important;
+        background-color: transparent !important;
+
+        &:hover {
+          color: #fff !important;
+        }
+      }
+
+      &:hover {
+        background-color: #9253C9 !important;
+        color: #fff !important;
+
+        a {
+          color: #fff !important;
+        }
+      }
+    }
+
+  }
+
+  .top-bar .admin .support .support-ul {
+    background-color: #5D1B7E !important;
+
+    li {
+      background-color: transparent
+    }
+
+    li {
+      color: #999 !important;
+
+      a {
+        color: #999 !important;
+      }
+
+      &:hover {
+        background-color: #9253C9 !important;
+        color: #fff !important;
+
+        a {
+          color: #fff !important;
+        }
+      }
+    }
+  }
+
+  .logo-bar .see-more .third-party {
+    background-color: #5D1B7E !important;
+    box-shadow: 0px 1px 4px 1px @boxshadow-color;
+
+    li {
+      color: #999 !important;
+
+      &:hover {
+        color: #fff !important;
+        background-color: #9253C9 !important;
+      }
+    }
+  }
+
+  .logo-bar .category-content .first-category-list {
+    background-color: #7847AB;
+    box-shadow: 0px 1px 4px 1px @boxshadow-color;
+  }
+
+  .logo-bar .category-content .first-category-list .first-category-item a {
+    color: #E6E4E9;
+  }
+
+  .logo-bar .first-category-icon {
+    display: none;
+  }
+
+  .logo-bar .second-category-list {
+    background: #14062F;
+    box-shadow: 0px 1px 4px 1px @boxshadow-color;
+  }
+
+  .logo-bar .second-category-item .second-category-title a {
+    color: #fff;
+  }
+
+  .logo-bar .second-category-item ul>li a {
+    color: #fff;
+  }
+
+  .logo-bar .second-category-item ul>li {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-bar .second-category-item ul>li:hover {
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 21px;
+      height: 18px;
+      background: url(/egg/image/halloween/littie-pumpkin.png) center no-repeat;
+      margin-right: 6px;
+    }
+  }
+
+  .logo-bar .category-content .first-category-list .first-category-item.active {
+
+    &::after {
+      color: #FF7700;
+    }
+  }
+
+  .logo-bar .category-content .first-category-list .first-category-item {
+    font-family: "iconfont" !important;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &::after {
+      content: "\e6e7";
+      font-size: 16px;
+      color: #E6E4E9;
+    }
+  }
+}

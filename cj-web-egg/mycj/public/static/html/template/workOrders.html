@@ -1,0 +1,343 @@
+<div class="hnj-SupportCenterWrap">
+    <ul>
+        <li>
+            <div class="hnj-ticket">
+                <div class="hnj-dataFound" ng-show="noDataBox" style="height: 500px;">
+                    <div class="title">
+                        <div class="ticket-btns">
+                            <button ng-click="closeTicket()" type="button" class="pull-left close"><span>&times;</span></button>
+                        </div>
+                        <div class="left-word">
+                            <a href="javascript:;">Ticket List</a>
+                        </div>
+                    </div>
+                    <div class="noData" ng-show="noDataImg">
+                        <img class="center-block" src="./static/image/public-img/nodata.png" style="height: 414px;">
+                    </div>
+                    <div class="noData center-block" ng-show="subticketImg">
+                        <img class="center-block" src="./static/image/home/submitTicket.png" style="margin-top: 10px;">
+                        <p class="center-block" style="font-size: 13px;color: #666;width: 460px;line-height: 25px;text-align: center;">
+                            You haven't created any ticket to us, submit your ticket if you have any problem. We will get back to you ASAP!
+                        </p>
+                        <span class="center-block" style="width: 130px;text-align:center;cursor: pointer;color: #fff;background-color: #333;border-radius:10px;padding: 10px;margin-top: 15px;" ng-click="typeShow()">Submit ticket</span>
+                    </div>
+                </div>
+                <div class="title">
+                    <div class="ticket-btns">
+                        <button ng-click="closeTicket()" type="button" class="pull-left close"><span>&times;</span></button>
+                        <!-- <span class="glyphicon glyphicon-menu-left" style="color: #A19F9F;vertical-align: middle;margin: 0 0 26px 5px;transform: scale(0.8);cursor: pointer;"><i style="vertical-align: text-top;">Back</i></span> -->
+                    </div>
+                    <div class="left-word">
+                        <a href="javascript:;" ng-click="listShow()">Ticket List</a>
+                    </div>
+                    <div class="right-btn pull-right">
+                        <div class="submit-btn text-center">
+                            <button class="btn btn-success" ng-click="typeShow()">Submit Ticket</button>
+                        </div>
+                        <div class="input-box">
+                            <input type="`text" placeholder="Please enter the ticket number/subject" id="inputstr">
+                        </div>
+                        <div class="search-btn text-center" ng-click="listSearch()">
+                            <button class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="scollBox" style="height: 400px;overflow: auto;">
+                    <table class="table" border="1">
+                        <thead>
+                            <tr>
+                                <th style="color: #3f8abf; font-weight: bold;">Date</th>
+                                <th style="color: #3f8abf; font-weight: bold;">Ticket Number</th>
+                                <th style="color: #3f8abf; font-weight: bold;">Type</th>
+                                <th style="color: #3f8abf; font-weight: bold;">Subject</th>
+                                <th style="color: #3f8abf; font-weight: bold;">Status</th>
+                                <th style="color: #3f8abf; font-weight: bold;">Last Updated</th>
+                                <th style="color: #3f8abf; font-weight: bold;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listArr">
+                                <!-- {{ data[0].issues[0]).FIRSTISSUEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}} -->
+                                <td>{{item.FIRSTISSUEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                                <td>{{item.SERIAL}}</td>
+                                <td>{{item.TYPE}}</td>
+                                <td>{{item.SUBJECT}}</td>
+                                <!-- <td class="listStatus">{{item.STATUS=="1"?"Awaiting CJ Reply":item.STATUS=="2"?"Awaiting Your Reply
+											":item.STATUS=="3"?"Completed":item.STATUS=="4"?"On Hold
+											":item.STATUS=="5"?"Expired
+											":item.STATUS=="0"?"Canceled":"default"}}
+										</td> -->
+                                <td class="listStatus" ng-if="item.STATUS=='0'" style="color: red;">Closed</td>
+                                <td class="listStatus" ng-if="item.STATUS=='1'" style="color: goldenrod;">Awaiting CJ Reply</td>
+                                <td class="listStatus" ng-if="item.STATUS=='2'" style="color: #31708f;">Awaiting Your Reply</td>
+                                <td class="listStatus" ng-if="item.STATUS=='3'" style="color: green;">Completed</td>
+                                <td class="listStatus" ng-if="item.STATUS=='4'" style="color: #8a6d3b;">On Hold</td>
+                                <td class="listStatus" ng-if="item.STATUS=='5'" style="color: grey;">Expired</td>
+                                <td>{{item.ISSUEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                                <td ng-click="listViewTicket()">
+                                    <a href="javascript:;" class="center-block" id={{item.ID}}>View Ticket</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="hnj-type">
+                <div class="title">
+                    <div class="ticket-btns">
+                        <button ng-click="closeTicket()" type="button" class="pull-left close"><span>&times;</span></button>
+                        <span ng-click="listShow()" class="glyphicon glyphicon-menu-left" style="color: #A19F9F;vertical-align: middle;margin: 0 0 26px 5px;transform: scale(0.8);cursor: pointer;"><i style="vertical-align: text-top;">Back</i></span>
+                    </div>
+                    <div class="left-word">
+                        <a href="javascript:;" ng-click="listShow()">Ticket List</a> / <a href="javascript:;" ng-click="typeShow()">Ticket Type</a>
+                    </div>
+                </div>
+                <div class="scollBox" style="height: 400px;overflow: auto;">
+                    <ul>
+                        <li ng-click="typeClick1()">
+                            <span class="center-block color"></span>
+                            <span class="center-block white"></span>
+                        </li>
+                        <li ng-click="typeClick2()">
+                            <span class="center-block color"></span>
+                            <span class="center-block white"></span>
+                        </li>
+                        <li ng-click="typeClick3()">
+                            <span class="center-block color"></span>
+                            <span class="center-block white"></span>
+                        </li>
+                        <li ng-click="typeClick4()">
+                            <span class="center-block color"></span>
+                            <span class="center-block white"></span>
+                        </li>
+                    </ul>
+                    <div class="direcrion">
+                        <h4>App Issue</h4>
+                        <h4>Order Issue</h4>
+                        <h4>Payment Issue</h4>
+                        <h4>Products Issue</h4>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="hnj-form">
+                <div class="hnj-tankuang">
+                    <div class="content center-block">
+                        <p>{{submitTipMessage}}</p>
+                        <a href="" class="btn btn-primary" ng-click="okFun()">OK</a>
+                    </div>
+                </div>
+                <div class="title">
+                    <div class="ticket-btns">
+                        <button ng-click="closeTicket()" type="button" class="pull-left close"><span>&times;</span></button>
+                        <span ng-click="typeShow()" class="glyphicon glyphicon-menu-left" style="color: #A19F9F;vertical-align: middle;margin: 0 0 26px 5px;transform: scale(0.8);cursor: pointer;"><i style="vertical-align: text-top;">Back</i></span>
+                    </div>
+                    <div class="left-word">
+                        <a href="javascript:;" ng-click="listShow()">Ticket List</a> / <a href="javascript:;" ng-click="typeShow()">Ticket Type</a> / <a href="javascript:;" ng-click="submitShow()">Submit Form</a>
+                    </div>
+                </div>
+                <div class="scollBox" style="height: 400px;overflow: auto;">
+                    <div class="form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Subject</label>
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" style="height: 38px;" ng-blur="subjectBlur()">
+                            <small style="color: red;margin-top: 5px;" ng-show="stipShow">{{subjectTip}}</small>
+                        </div>
+                        <!--	<div class="form-group">
+								    <label for="exampleInputPassword1">Ticket Type</label>
+								    <select class="form-control" name="type" id="type" style="height: 38px;">
+								    	<option selected="selected">{{selected}}</option>
+								    	<option>App Issue</option>
+								    	<option>Order Issue</option>
+								    	<option>Payment Issue</option>
+								    	<option>Products Issue</option>
+								    </select>
+								</div>-->
+                        <div class="form-group">
+                            <label for="exampleInputFile">Message</label>
+                            <textarea ng-blur="messageBlur()" style="height: 150px;" name="message" id="message" class="form-control" placeholder="Message"></textarea>
+                            <small style="color: red;margin-top: 5px;" ng-show="mtipShow">{{messageTip}}</small>
+                        </div>
+                        <div class="form-group file" style="margin-bottom: 0;">
+                            <label for="exampleInputFile">Attachments</label>
+                            <br>
+                            <div style="width: 100%;height: 90px;position: relative;">
+                                <img src="./static/image/public-img/upload.png">
+                                <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="file" ng-model="documentupload2" id="workorder-file" multiple onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display:inline-block; margin: 0;width: 25%;opacity: 0;height: 114px;position: absolute;top: 0;left: 0;font-size: 0;cursor: pointer;" ng-click="df($event)">
+                                    <input type="hidden">
+                                </form>
+                                <div class="img" style="left: 150px;overflow: hidden;">
+                                    <ul>
+                                        <li ng-repeat="imge in imgArr track by $index">
+                                            <img ng-src="{{imge}}" style="width:110px;height:auto;margin-right: 10px;">
+                                            <div class="img-shade">
+                                                <span class="pull-left" ng-click="previewImg($event)" style="margin-top: 72px;">Preview</span>
+                                                <span class="pull-right" ng-click="deleteImg($index)" style="margin-top: 72px;">Delete</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                            <div class="form-group">
+                                <p>(Allowed File Extensions: .jpg, .gif, .jpeg, .png)</p>
+                            </div>
+                            <div class="from-group">
+                                <div class="center-block" style="width: 260px;display: flex;justify-content: space-between;">
+                                    <a href="" class="btn btn-primary btn-lg" ng-click="subform()">Submit</a>
+                                    <input class="btn gray btn-lg" type="reset" value="Cancel" ng-click="cancel()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </li>
+        <li>
+            <div class="hnj-detail">
+                <div class="hnj-tankuang">
+                    <div class="content center-block">
+                        <p ng-show="otherTip">Are you sure to {{closeWord}} this ticket?</p>
+                        <p ng-show="replyTip">Please input some information.</p>
+                        <a href="javascript:;" class="btn btn-primary" ng-click="endYesFun()" ng-show="closeWord == 'Finished'" style="margin-right: 20px;">YES</a>
+                        <a href="javascript:;" class="btn btn-primary" ng-click="cancelYesFun()" ng-show="closeWord == 'close'" style="margin-right: 20px;">YES</a>
+                        <a href="javascript:;" class="btn btn-primary" ng-click="cancelNoFun()" ng-show="otherTip">NO</a>
+                        <a href="javascript:;" class="btn btn-primary" ng-click="replyTipFun()" ng-show="replyTip">OK</a>
+                    </div>
+                </div>
+                <div class="title">
+                    <div class="ticket-btns">
+                        <button ng-click="closeTicket()" type="button" class="pull-left close"><span>&times;</span></button>
+                        <span ng-click="listShow()" class="glyphicon glyphicon-menu-left" style="color: #A19F9F;vertical-align: middle;margin: 0 0 26px 5px;transform: scale(0.8);cursor: pointer;"><i style="vertical-align: text-top;">Back</i></span>
+                    </div>
+                    <div class="left-word">
+                        <a href="javascript:;" ng-click="listShow()">Ticket List /</a> <a href="javascript:;" ng-click="typeShow()" ng-show="titleshow">Ticket Type /</a> <a href="javascript:;" ng-click="submitShow()" ng-show="titleshow">Submit Form /</a> <a href="javascript:;" ng-click="detailShow()">Ticket Detail</a>
+                    </div>
+                </div>
+                <div class="scollBox" style="height: 400px;overflow: auto;">
+                    <div class="content">
+                        <div class="head">
+                            <table class="" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>Type : {{nowType}}</td>
+                                        <td>Ticket Number:{{nowNum}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>Date : {{tdetailDate | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                                        <td ng-show="CancelBtnShow">
+                                            <a href="" class="btn btn-warning center-block" ng-click="cancelFun()" style="width: 103px;">Close Ticket</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul>
+                            <li ng-repeat="detail in detailData">
+                                <div class="left">
+                                    <img ng-src="{{detail.AVATAR}}" ng-if="detail.AVATAR&&detail.STATUS=='0'" style="border-radius: 50%;width: 80px;height:80px;border:solid 1px #ececec;" class="pull-right">
+                                    <img src="static/image/public-img/shareimg.jpg" ng-if="detail.STATUS=='1'" style="border-radius: 50%;width: 80px;height:80px;border:solid 1px #ececec;" class="pull-right">
+                                    <p ng-if="detail.STATUS=='0'" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-show="!detail.AVATAR" ng-bind="imgName"></p>
+                                    <p ng-if="detail.STATUS=='1'" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-show="!detail.AVATAR" ng-bind="ywyName"></p>
+                                    <!-- <p ng-if="detail.STATUS=='1'" class="pull-right" style="line-height: 75px;text-align: center;border: solid 1px #ececec;border-radius: 50%;font-size: 60px;height: 80px;width: 80px;" ng-show="!detail.AVATAR">CJDropshipping</p> -->
+                                </div>
+                                <div class="right">
+                                    <div class="user-msg">
+                                        <h4 ng-show="detail.STATUS=='0'">{{detail.OPERATOREN}}</h4>
+                                        <p class="pull-right" ng-show="detail.STATUS=='1'" style="font-size: 14px;color:#ccc;">{{ detail.MESSAGEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+                                        <p ng-show="detail.STATUS=='0'" style="margin-top: 10px;font-size: 14px;"><span style="color: #A3A2A2;">{{nowStatus=="1"?"Awaiting CJ Reply":nowStatus=="2"?"Awaiting Your Reply
+											":nowStatus=="3"?"Completed":nowStatus=="4"?"On Hold
+											":nowStatus=="5"?"Expired
+											":nowStatus=="0"?"Canceled":"default"}}</span> &nbsp;&nbsp; || &nbsp;&nbsp; <span style="color: #ccc;">{{nowType}}</span></p>
+                                        <!-- <p ng-show="detail.STATUS=='1'" style="font-size: 16px;color:#A3A2A2;"><span>{{detail.OPERATOREN}}</span></p> -->
+                                        <!-- <a href="" class="btn btn-primary btn-sm" style="margin-left: 15px;cursor: default;" ng-show="detail.STATUS=='1'">Staff</a> -->
+                                        <p ng-show="detail.STATUS=='1'" style="font-size: 16px;color:#A3A2A2;"><span>CJdropshipping</span></p>
+                                        <a href="" class="btn btn-primary btn-sm" style="margin-left: 15px;cursor: default;" ng-show="detail.STATUS=='1'">CJ Management Team</a>
+                                        <!-- <span style="color: #A3A2A2;font-size: 12px;margin-left: 20px;" ng-show="detail.STATUS=='1'">{{detail.NUMBER}}</span> -->
+                                        <p class="pull-right" ng-show="detail.STATUS=='0'" style="font-size: 14px;color:#ccc;">{{ detail.MESSAGEDATE.time | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+                                    </div>
+                                    <div class="user-content">
+                                        {{detail.MESSAGE}}
+                                        <div class="img-box" ng-show="detail.ATTACHMENT!=''">
+                                            <p ng-repeat="imgs in detail.ATTACHMENT" style="display: inline-block;margin-right: 10px;">
+                                                <img ng-src="{{imgs}}" style="height: 70px;width:70px;" ng-click="dpreviewImg($event)">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul ng-hide="replyUlHide" class="replybox">
+                            <li style="border: none;">
+                                <!-- <div class="left">
+											<img src="./static/image/home/pic1.png" style="border-radius: 50%;width: 50%;	">
+										</div> -->
+                                <div class="right">
+                                    <div class="form-group" ng-show="replyBtnShow">
+                                        <label ng-if="nowStatus=='1'" for="exampleInputFile" style="font-weight: bold;margin-bottom: 10px;">Add more information</label>
+                                        <label ng-if="nowStatus=='2'" for="exampleInputFile" style="font-weight: bold;margin-bottom: 10px;">Message</label>
+                                        <textarea style="height: 100px;margin-bottom: 15px;" name="message" id="kmessage" class="form-control"></textarea>
+                                        <!-- 添加上传附件的功能 -->
+                                        <div class="form-group file" style="margin-bottom: 0;">
+                                            <label style="margin-bottom: 10px;font-weight: bold;" for="exampleInputFile">Attachments</label>
+                                            <br>
+                                            <div style="width: 100%;height: 90px;position: relative;">
+                                                <img src="./static/image/public-img/upload.png">
+                                                <form class="pull-left" action="" method="post" enctype="multipart/form-data">
+                                                    <input type="file" name="file" ng-model="documentupload2" id="file" multiple onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display:inline-block; margin: 0;width: 25%;opacity: 0;height: 114px;position: absolute;top: 0;left: 0;font-size: 0;cursor: pointer;" ng-click="df($event)">
+                                                    <input type="hidden">
+                                                </form>
+                                                <div class="img" style="left: 150px;overflow: hidden;">
+                                                    <ul>
+                                                        <li ng-repeat="imge in imgArr track by $index">
+                                                            <img ng-src="{{imge}}" style="width:110px;height:auto;margin-right: 10px;">
+                                                            <div class="img-shade">
+                                                                <span class="pull-left" ng-click="previewImg($event)" style="margin-top: 72px;">Preview</span>
+                                                                <span class="pull-right" ng-click="deleteImg($index)" style="margin-top: 72px;">Delete</span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- </div> -->
+                                            <div class="form-group">
+                                                <p>(Allowed File Extensions: .jpg, .gif, .jpeg, .png)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="from-group">
+                                        <div class="center-block btns">
+                                            <a href="" class="btn btn-primary" ng-click="replyFun()" ng-show="replyBtnShow">Reply</a>
+                                            <!-- <input class="btn gray" ng-click="cancelFun()" ng-show="CancelBtnShow" type="reset" value="Cancel" style="color: #fff;"> -->
+                                            <a href="" class="btn btn-success" ng-click="endFun()" ng-show="EndBtnShow">Finished</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    </div>
+    <!-- 图片预览 -->
+    <div class="img-preview-wrap" ng-click="previewWrapFun()">
+        <img ng-src="{{previewSrc}}" class="center-block">
+    </div>
+    <!-- 上传的文件不是图片的提示框 -->
+		<div class="gderr-loadsrc">
+			<div class="errlsrc-con">
+				<p>
+					Incorrect File Extension, Please Upload Valid One.
+				</p>
+				<button class="gderr-btn">Confirm</button>
+			</div>
+		</div>

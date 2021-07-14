@@ -1,0 +1,429 @@
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/common-top.css' | VERSION }}">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_hv29diaf0wf.css">
+
+<!-- lottie -->
+<!-- <script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/lottie.js"></script> -->
+
+<div class="unverify-tip" id="vue-unverify-tip" v-show="emailVerifyStatus == 3" v-cloak>
+  {{ i18next.t('common-top-hey') }}&nbsp;${email}{{ i18next.t('common-top--to-make-sure-your-account-security-please-verify-your-email-address-here.') }}
+  <a href="javascript:void(0);" @click="handleVerifyEmail()">{{ i18next.t('common-top-verify-email') }}</a>
+</div>
+
+<div class="top-bar" id="top-bar" data-nosnippet>
+  <div class="container-main h-100 d-flex align-items-center position-relative">
+    <div class="language position-relative cursor-pointer" id="vue-language-flag" v-cloak>
+      <div class="hover-color-primary bar-show" @click.stop="visibleLang=!visibleLang">
+        <span class="select-title">{{ i18next.t('common-top-language') }}</span>
+        <img :src="flagImg" width="24px" alt="Flag">
+        /
+        <span class="currency">${ currency.currency }</span>
+        <i v-if="visibleLang" class="iconfont iconshang1 font-size-12 pl-5"></i>
+        <i v-if="!visibleLang" class="iconfont iconxia2 font-size-12 pl-5"></i>
+      </div>
+      <div class="suspence bg-white" v-if="visibleLang" @click="clickSuspence" id='language-suspence'>
+        <div class="box">
+          <div class="item top">
+            <div class="title">{{ i18next.t('common-top-language') }}</div>
+            <div class="info-show" @click.stop="clickSelectBox1">
+              <img :src="flagImg" width="24px" class="mr-2" alt="Flag">
+              <span class="text">${ language.name }</span>
+              <span class="icon"></span>
+              <div class="select-box" v-if="visibleSelect1" @click.stop>
+                <div class="select-list">
+                  <div class="select-item" v-for="f of flagList" @click="clickFlag(f)">
+                    <img v-show="language == f" src="/egg/image/yes.png" alt="" class="yes-img" style="width: 15px; height: 10px;">
+                    <img :src="flagSrc(f)" :alt="f.opt" style="border: 1px solid #e5e5e5;">
+                    <span>${ f.name }</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item bottom">
+            <div class="title">{{ i18next.t('common-top-currency') }}</div>
+            <div class="info-show" @click.stop="clickSelectBox2">
+              <div class="text">${ currency.currency }</div>
+              <span class="icon"></span>
+              <div class="select-box" v-if="visibleSelect2" @click.stop>
+                <!-- <div class="select-search"> UI统一，搜索先砍掉 20-04-28
+                  <input type="text" placeholder="Search" />
+                </div> -->
+                <div class="select-list">
+                  <div class="select-item" v-for="c of currencyList" @click="clickCurrency(c)">
+                    <img v-show="currency.currency == c.currency" src="/egg/image/yes.png" alt="" class="yes-img" style="width: 15px; height: 10px;">
+                    <span>${ c.currency }</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button cursor-pointer rounded-sm new-text-theme" @click="clickConfirm">{{ i18next.t('common-top-confirm') }}</div>
+        </div>
+      </div>
+    </div>
+    <div id="vue-top-nav" v-cloak>
+      <ul class="short-nav h-100 d-flex align-items-center text-center" @mouseover="warehousesMouseover()">
+        {% for nav in topNavList %}
+        <li class="nav-item" {% if nav.child %} @mouseover="topnavOver{{nav.id}}=true" @mouseleave="topnavOver{{nav.id}}=false" :class="{'topnav-hover': topnavOver{{nav.id}} == true}" {% endif %} id="navItem{{nav.id}}">
+          {% if nav.id == 5 %}
+          <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "{{ nav.name }}","buttonType": 0}' @click="updateAuthHrefNew('{{ nav.href }}', '{{ nav.auth }}')" id="myCJOutLine" class="myCJOutLine"></a>
+          {% endif %}
+          <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "{{ nav.name }}","buttonType": 0}' @click="updateAuthHref('{{ nav.href }}', '{{ nav.auth }}')" href="{{ nav.href }}" class="nav-name {{'active' if nav.active else ''}}">{{ nav.name }}
+            {% if nav.child %}
+            <i v-if="topnavOver{{nav.id}}" class="iconfont iconshang1 font-size-12 pl-5"></i>
+            <i v-if="!topnavOver{{nav.id}}" class="iconfont iconxia2 font-size-12 pl-5"></i>
+            {% endif %}
+          </a>
+          {% if nav.child %}
+            <!-- <ul class="child-list" :class="{'Authorization-box': nav.name == 'Authorization', 'Warehouses-box': nav.name == 'Warehouses'}"> -->
+              {% set childListClass = 'child-list' %}
+              {% if nav.id == 1 %}
+              {% set childListClass = 'child-list Authorization-box' %}
+              {% endif %}
+              {% if nav.id == 2 %}
+              {% set childListClass = 'child-list Warehouses-box' %}
+              {% endif %}
+              <div class="child-list-box arrow-container" @mouseover="topnavOver{{nav.id}}=true">
+                <ul class="{{ childListClass }}">
+                  {% for ch in nav.child %}
+                  <li class="ch-item item-h">
+                    <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "{{ch.name }}","buttonType": "1"}' @click="updateAuthHref('{{ ch.href }}', '{{ ch.auth }}')" href="{{ ch.href }}">{{ ch.name }}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% if nav.id == 2 %}
+                <div class="arrow" @click="warehousesArrowClick()">
+                  <i class="iconfont iconxiangxiashuangjiantou"></i>
+                </div>
+                {% endif %}
+              </div>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="admin" id="vue-top-bar-admin" v-cloak>
+      <div v-if="isLogin" class="login-true d-flex align-items-center text-center"> 
+        <!-- notice -->
+        <div class="notice d-flex align-items-center" :class="{'notice-hover': noticeFlag}" @mouseleave="changeMouseEnter(false)">
+          <!-- <div class="amount-total" @mouseover="changeMouseEnter(true)"> -->
+          <div class="amount-total" id='msgBar'>
+            <span class="iconMessage">
+              <i class="iconfont iconxiaoxi"></i>
+            </span>
+            <!-- <span class="mes-flag-num" v-if="messageNum>0 && messageNum<10">${messageNum}</span>
+            <span class="mes-flag-num list-content-long" v-if="messageNum<=99 && messageNum>=10">${messageNum}</span>
+            <span class="mes-flag-num list-content-long" v-if="messageNum>99">99+</span> -->
+          </div>
+          
+
+          <!-- <div class="index-message-box">
+            <load-bounce :loading="loading">
+            <div class="message-list-all">
+              <div class="message-list-allTitle" v-for="item in messageTab">
+                <p class="message-list-CJ" @click="changeMessageTab(item)" v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "{{item.name}}","buttonType": 0}' >
+                  <span :class="item.active=='true'?'list-font activeTab':'list-font'">${item.name}</span>
+                  <span class="list-count" v-if="item.count>0 && item.count<10">${item.count}</span>
+                  <span class="list-count list-count-lenth" v-if="item.count<=99 && item.count>=10">${item.count}</span>
+                  <span class="list-count list-count-lenth" v-if="item.count>99">99+</span>
+                </p>
+              </div>
+            </div>
+
+            <ul class="message-list" v-show="messagePre.length > 0">
+              <li v-for="item in messagePre" class="message-item" :class="{'isTop': item.noticeSpecify == 0}">
+                <div class="message-item-box">
+                  <b v-if="item.noticeSpecify == 0" class="isTopBage"></b>
+                  <a :href="item.url ? item.url + '&href' : '/myCJ.html#/message-list/' + item.id" v-if="MessageType=='1'" :class="{'has-read-yes': item.isread == 1}" class="d-flex justify-content-between">
+                    <div class="mes-left-detail">
+                        <p class="mes-detail-titp" v-show="MessageType=='1'">${item.notificationType}</p>
+                        <p class="mes-detail-p" v-show="MessageType=='1'">${item.info}</p>
+                    </div>
+                    <div class="mes-right-time">
+                        <span class="mes-time" v-show="MessageType=='1'">${item.sendDate | dateFormat}</span>
+                    </div>
+                  </a>
+                  <a class="d-block" v-if="MessageType=='2'" @click="toAnother2(item)" :class="{'has-read-yes': item.read_status == 1}">
+                    <div class="mesElit-left-detail">
+                      <p v-show="MessageType=='2' && item.operation_type=='1'">${item.user_name} <span>follow you</span> </p>
+                      <p v-show="MessageType=='2' && item.operation_type=='2'">${item.user_name} <span style="color: #999;">support your article</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='3'">${item.user_name} <span style="color: #999;">support your answer</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='4'">${item.user_name} <span style="color: #999;">answer your question</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='5'">${item.user_name} <span style="color: #999;">comment your article</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='6'">${item.user_name} <span style="color: #999;">comment your question</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='7'">${item.user_name} <span style="color: #999;">comment your answer</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='8'">${item.user_name} <span style="color: #999;">replied to your comment under the article</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='9'">${item.user_name} <span style="color: #999;">replied to your comment under the question</span></p>
+                      <p v-show="MessageType=='2' && item.operation_type=='10'">${item.user_name} <span style="color: #999;">replied to your comment under the answer of question</span></p>
+                    </div>
+                    <div class="mesElit-right-time">
+                      <span v-show="MessageType=='2'">${item.create_time.time | dateFormat}</span>
+                    </div>
+                  </a>
+                  <a v-if="MessageType=='3'" v-cjstat='{"pageCode":"home", "eventType": 2, "keys":[{"key":"productId","value":"{{item.push_id}}"}], "buttonName": "{{item.title}}", "buttonType": 0}'  
+                  @click="toAnother2(item)" class="shopping-box" :class="{'has-read-yes': item.is_read == 1}">
+                    <div class="shopping-left-detail" v-cjdot cjdotshow='{"pageCode":"home", "eventType": 0, "keys":[{"key":"productId","value":"{{item.push_id}}"}], "buttonName": "{{item.title}}", "buttonType": 0}'>
+                        <img :src="item.img_url_one" alt="" class="shopping-left-img">
+                    </div>
+                    <div class="shopping-right-time">
+                      <p class="shopping-title">${item.title}</p>
+                      <p class="shopping-content">${item.content}</p>
+                      <span class="shopping-time">${item.create_time}</span>
+                    </div>
+                  </a>
+                </div>
+                  
+              </li>
+            </ul>
+            
+            <div class="message-list" v-show="noData">
+              <div class="not-found-data" ng-cloak>
+                <img src="/egg/image/msg-all/nodata.png" style="width: 80px;">
+                <p class="NodataList">Sorry, no data found.</p>
+              </div>
+            </div>
+            <div class="mes-bottom-information">
+                <span href="javascript:void(0);" 
+                v-cjstat='{"pageCode":"home", "eventType": 2, "buttonName": "Mark All as Read", "buttonType": 0}' 
+                @click="toMarkAll()" :style="{color: !isMark?'#666':''}">{{ i18next.t('common-top-mark-all-as-read') }}</span>
+                <span href="javascript:void(0);" 
+                v-cjstat='{"pageCode":"home", "eventType": 2, "buttonName": "Read All", "buttonType": 0}' 
+                 @click="toAllMessage()" class="read-all">{{ i18next.t('common-top-read-all') }} ></span>
+            </div>
+            </load-bounce>
+          </div> -->
+        </div>
+
+        <!-- account -->
+        <div class="account d-flex align-items-center text-center" @mouseover="accountOver=true" @mouseleave="accountOver=false">
+          <span :title="userInfo.userName" class="user-name">${userInfo.subAccountName || userInfo.firstName || userInfo.loginName}</span>
+          <i v-if="accountOver" class="iconfont iconshang1 font-size-12 pl-5"></i>
+          <i v-if="!accountOver" class="iconfont iconxia2 font-size-12 pl-5"></i>
+          <ul class="user-ul">
+            <li>
+              <i class="iconfont icongerenzhongxin icon-size-user"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Profile","buttonType": 0}' :href="disposeHrefFn('/myCJ.html#/profile', '/profile/:type')">{{ i18next.t('common-top-profile') }}</a>
+            </li>
+            <li>
+              <i class="iconfont iconzhanghu icon-size-user"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Wallet","buttonType": 0}' :href="disposeHrefFn('/myCJ.html#/myCJWallet', '/myCJWallet')">{{ i18next.t('common-top-wallet') }}</a>
+            </li>
+            <li class="tool" style="position: relative;">
+              <i class="iconfont iconwuliu icon-size-user"></i>
+              <a href="javascript:void(0);">{{ i18next.t('common-top-tool') }}</a>
+              <i class="iconfont iconlujingbeifen2 icon-size-user" style="position: absolute; right: 0;font-size: 8px !important;"></i>
+              <ul class="tool-ul">
+                <li>
+                  <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Track Orders","buttonType": 0}' target="_blank" 
+                  :href="disposeHrefFn('https://cjpacket.com/', 'Tool')">{{ i18next.t('common-top-track-orders') }}</a>
+                </li>
+                <li>
+                  <a  v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Shipping Calculation","buttonType": 0}'
+                  :href="disposeHrefFn('/calculation.html', 'Tool')">{{ i18next.t('common-top-shipping-calculation') }}</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <i class="iconfont icongongyingshangpingjia icon-size-user"></i>
+              <a  v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Rating","buttonType": 0}' href="/evalute.html" target="_blank">{{ i18next.t('common-top-rating') }} &nbsp;&nbsp;(${evaluteCount ? evaluteCount : 0})</a>
+            </li>
+            <li>
+              <i class="iconfont iconzizhanghu icon-size-user"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Account","buttonType": 1}' 
+              :href="disposeHrefFn('/myCJ.html#/accountManage', '/accountManage')">{{ i18next.t('common-top-account') }}</a>
+            </li>
+            <li>
+              <i class="iconfont iconjingshi icon-size-user"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Inventory Alert","buttonType": 1}' 
+              :href="disposeHrefFn('/myCJ.html#/warning_set', '/warning_set')">{{ i18next.t('common-top-Inventory-Alert') }}</a>
+            </li>
+            <li>
+              <i class="iconfont icontuichu icon-size-user"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "Log out": "Account","buttonType": 1}' 
+              href="javascript:void(0);" @click="logOut()">{{ i18next.t('common-top-log-out') }}</a>
+            </li>
+          </ul>
+        </div>
+
+        <!--support-->
+        <div class="support d-flex align-items-center" @mouseover="supportOver=true" @mouseleave="supportOver=false">
+          {{ i18next.t('common-top-support-center') }}
+          <i v-if="supportOver" class="iconfont iconshang1 font-size-12 pl-5"></i>
+          <i v-if="!supportOver" class="iconfont iconxia2 font-size-12 pl-5"></i>
+          <ul class="support-ul">
+            <li>
+              <i class="iconfont iconticket icon-size-center"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Ticket","buttonType": 1}' 
+              :href="disposeHrefFn('/myCJ.html#/ticketList?track=8', '/ticketList?track')">{{ i18next.t('common-top-ticket') }}</a>
+            </li>
+            <li>
+              <i class="iconfont icontutorial icon-size-center"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Tutorial","buttonType": 1}' 
+              :href="disposeHrefFn('/help-center', 'Tutorial')" target="_blank">{{ i18next.t('common-top-help-center') }}</a>
+            </li>
+            <li>
+              <i class="iconfont iconelites icon-size-center"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Elites","buttonType": 1}' 
+              :href="disposeHrefFn(ElitesUrl, 'Elites')" target="_blank">{{ i18next.t('common-top-elites') }}</a>
+            </li>
+            <li>
+              <i class="iconfont iconboke icon-size-center"></i>
+              <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Blog","buttonType": 1}' 
+              :href="disposeHrefFn('https://blog.cjdropshipping.com/', 'Blog')" target="_blank">{{ i18next.t('common-top-blog') }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div v-else class="login-false">
+        <a href="/login.html" v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Sign In","buttonType": 0}'>
+          <!-- <span class="iconfont iconicon_profile"></span> -->
+          <span>{{ i18next.t('common-top-sign-in') }}</span>
+        </a>
+        <button class="register-box">
+          <a class="ml-4" href="/register.html" style="margin: 0 !important;" v-cjstat='{"pageCode":"home", "eventType": 1, "Register": "Sign In","buttonType": 0}'>{{ i18next.t('common-top-register') }}</a>
+        </button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<div class="logo-bar-wrap" style="min-height: 78px;" id="vue-logo-bar" v-cloak data-nosnippet>
+  <div :class="{ 'sticky-top': sticky }" class="bg-white w-100 sticky-wrap">
+    
+    <div class="logo-bar container-main d-flex align-items-center justify-content-between">
+      <!-- 浮动情况下的类目筛选 -->
+      <div class="category-wrap" v-on:mouseleave="isCategoryHover = false" v-show="sticky">
+        <span class="category-icon" :class="{'isHover': isCategoryHover}"><img v-on:mouseenter="isCategoryHover = true" src="/static/image/CJ-home/categoryIcon.svg" alt=""></span>
+        
+        <div v-show="isCategoryHover" class="category-content" v-on:mouseleave="getSecondData(null, 'mouseleave')">
+          <!-- 一级类目 -->
+          <div class="first-category-list">
+            <div class="first-category-item" v-for="item in categories" :class="{'active': item.isHover}" :key="item.id" v-on:mouseenter='getSecondData(item, "mouseenter")' v-on:click='toMerchList(item.id, [item])'>
+              <a v-bind:href='item.aLink' v-text="item.nameVal"></a>
+              <img class="first-category-icon" src="/static/image/CJ-home/right-icon.svg" alt="">
+            </div>
+          </div>
+          <!-- 二级类目组 -->
+          <div class="second-category-list" v-show="secondList.length > 0">
+            <div class="second-category-content">
+              <div class="second-category-item" v-for="second in secondList">
+                <div class="second-category-title" >
+                  <a v-bind:href="second.aLink" v-text="second.nameVal"></a>
+                </div>
+                <ul>
+                  <li v-for="third in second.children"><a v-bind:href="third.aLink" v-text="third.nameVal"></a></li>
+                </ul>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% macro getLogo() %}
+      {{ PUBLIC_IMG + '/new_logo.svg' }}
+      {% endmacro %}
+
+      <a href="/" class="logo">
+        <img v-cjdot cjdotshow='{"pageCode":"home", "eventType": 2, "buttonName": "logo", "buttonType": 0}' src="{{ getLogo() }}" height="40" alt="cjdropshipping.com">
+      </a>
+      <div class="search ml-3 pl-2 rounded-left flex-fill d-flex align-items-center justify-content-between" id="searchImgBox">
+        <input  v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Search","buttonType": 0}' 
+        autocomplete="off" class="p-0 flex-fill" v-model="searchMerchName" placeholder="{{ i18next.t('common-top-search-winning-products-by-keyword-sku-1688/taobao/aliexpress-url') }}" @keyup="enterSearch($event)">
+        <label for="img-upload" @mouseenter="imgSearchShowTipsC()" @mouseleave="imgSearchShowTipsC()">
+          <input type="file" id="img-upload" style="display: none;" @change="upLoadImg($event)">
+          <span class="camera"></span>
+          <div class="tips" v-show="imgSearchShowTips">{{ i18next.t('common-top-drag-or-upload-an-image-to-search.') }}</div>
+        </label>
+      </div>
+      <div v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "search","buttonType": 0}' 
+      class="search-btn rounded-right cj-bg-primary h-100 text-center cursor-pointer" @click="searchByMerchName()">
+        <i></i>
+      </div>
+
+      <!-- 第三方网站 -->
+      <div class="see-more cj-bg-primary ml-3 rounded-sm cursor-pointer position-relative">
+        {{ i18next.t('common-top-source-more') }}
+        <div class="third-party">
+          <ul>
+            <li v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Go to 1688","buttonType": 0}' @click="goToAliUrl('1688')">{{ i18next.t('common-top-go-to-1688') }}</li>
+            <li v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Go to Taobao","buttonType": 0}' @click="goToAliUrl('taobao')">{{ i18next.t('common-top-go-to-taobao') }}</li>
+            <li v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Go to AliExpress","buttonType": 0}' @click="goToAliUrl('express')">{{ i18next.t('common-top-go-to-aliexpress') }}</li>
+             <li v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Go to Shopify","buttonType": 0}' @click="goToAliUrl('shopify')">{{ i18next.t('common-top-go-to-shopify') }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- addToQueue -->
+      <div  v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "Queue","buttonType": 0}' 
+      class="see-queue cj-bg-primary ml-3 rounded-sm pl-2 pr-2 cursor-pointer" onClick="location.href=CJ_.authLoginUrl('/myCJ.html#/products-connection/history/0?track=10');">
+        <span class="icon iconfont iconkandengicon"></span>
+        <span>{{ i18next.t('common-top-queue') }}</span>
+        <span class="count p-1 bg-white" :class="queueAnimate && 'heartbeat'">${ queueNum > 99 ? '99+' :  queueNum}</span>
+      </div>
+
+      <!-- freightCalculation -->
+      <!-- <div class="tool-calc cj-bg-primary ml-3 rounded-sm text-center cursor-pointer"><a href="/calculation.html" class="iconfont iconicon_tool"></a></div> -->
+
+      <!-- 智能引导 -->
+      <div class="see-guid cj-bg-primary ml-3 rounded-sm pl-3 pr-3 cursor-pointer position-relative">
+        <span class="iconfont iconOurServices"></span>
+        <span>{{i18next.t('common-top-our-services')}}</span>
+        <div class="guid-wrap bg-white position-absolute">
+          <guid-card></guid-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--检测插件弹窗 ---- 后续统一上组件-->
+  <div id="isCJPub" v-show="isCJPub">
+    <div class="CJ-content">
+      <span class="close" @click="Cancel()">×</span>
+      <h3>${CJPubTitle}</h3>
+      <p>${CJPubtxt}</p>
+      <button class="btn1" v-show="!isInstall" @click="Install()">{{ i18next.t('common-top-install-now') }}</button>
+      <button class="btn2" v-show="!isInstall" @click="Cancel()">{{ i18next.t('common-cancel') }}</button>
+      <button class="btn1" v-show="isInstall" @click="Refresh()">{{ i18next.t('common-top-refresh') }}</button>
+    </div>
+  </div>
+</div>
+{% if isArtificial %}
+<!-- 开发环境下关闭需要翻墙的链接，提升加载速度 -->
+<!-- 人工翻译时不加载谷歌插件 -->
+{% else %}
+<!-- GTranslate: https://gtranslate.io/ -- S -- -->
+<style>
+  body { top: 0 !important; }
+  .skiptranslate { display: none; }
+</style>
+<div id="google_translate_element2" style="display:none;"></div>
+<script>
+  function googleTranslateElementInit2() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element2');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2" async="async"></script>
+<!-- GTranslate: https://gtranslate.io/ -- E -- -->
+{% endif %}
+<script>
+  eval(function (p, a, c, k, e, r) { e = function (c) { return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36)) }; if (!''.replace(/^/, String)) { while (c--) r[e(c)] = k[c] || e(c); k = [function (e) { return r[e] }]; e = function () { return '\\w+' }; c = 1 }; while (c--) if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]); return p }('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}', 43, 43, '||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'), 0, {}));
+</script>
+<script>
+  const _doGTranslate = doGTranslate;
+  doGTranslate = function (arg) {
+    console.log('执行翻译-------', `/${arg.replace('|', '/')}`);
+    const domain = CJ_.getTopDomain();
+    console.log('设置 stoage langugae', arg);
+    // 只设置主域。设置子域后没有清除机制，从其它页面回来存在两个域同值cookie，取不到
+    CJ_.$cookie.set('language', arg, { expires: 365, domain });
+    //CJ_.$cookie.set('language', arg, { expires: 365 });
+    // storage 亦需同步
+    localStorage.setItem('language', arg);
+    CJ_.$cookie.set('googtrans', `/${arg.replace('|', '/')}`, { domain: __root__domain });
+    _doGTranslate(arg);
+  };
+</script>
+<!-- cj 通用工具库 [上传图到OSS、播放视频、md5、base64、uuid] -->
+<script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+<script src="{{ PUBLIC_SCRIPT + '/common-top.js' | VERSION }}"></script>

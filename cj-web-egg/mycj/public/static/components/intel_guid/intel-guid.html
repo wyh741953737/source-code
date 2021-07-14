@@ -1,0 +1,36 @@
+<div class="guid-box-yzy" ng-class="{ notranslate: ['zh', 'en', 'de', 'fr', 'id', 'th'].includes(targetLng)}">
+  <div class="guid-left h-100" cjdot cjdotshow='{"pageCode":"product-detail", "eventType": 2, "buttonName": "Our Services"}'>
+    <img ng-class="targetCls" class="guid-path" src="static/image/CJ-home/guidPath.svg" alt />
+    <div class="guid-left-item" ng-repeat="guid in guidList" ng-class="{ act: guid.active }"
+      ng-mouseenter="enterFirst(guid.key)">
+      <span class="iconfont" ng-class="guid.icon"></span>
+      <span class="guid-first-name">{{guid.name}}</span>
+    </div>
+  </div>
+  <div class="guid-right h-100">
+    <div class="guid-item" ng-repeat="rguid in guidList"
+      ng-class="{ act: rguid.itemFlag === 'active', prev: rguid.itemFlag === 'prev', next: rguid.itemFlag === 'next' }">
+      <div class="guid-s-nav">
+        <ul>
+          <li ng-repeat="nav in rguid.children track by $index" ng-class="{ act: nav.active }"
+            ng-mouseenter="enterNav($index, rguid.key - 1)" ng-click="jumpWeb(nav)">
+            <span>{{nav.name}}</span>
+            <span class="iconfont iconlujing"></span>
+          </li>
+        </ul>
+      </div>
+      <div class="guid-show">
+        <div class="guid-show-item" ng-class="{ act: lfItem.active }" ng-repeat="lfItem in rguid.children">
+          <div ng-if="lfItem.active" class="w-100 h-100">
+            <div class="guid-img w-100">
+              <img ng-src="{{lfItem.image}}" alt />
+            </div>
+            <div class="guid-describe">{{lfItem.describe}}</div>
+            <div class="guid-describe">{{lfItem.describe2}}</div>
+            <div class="guid-describe">{{lfItem.describe3}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

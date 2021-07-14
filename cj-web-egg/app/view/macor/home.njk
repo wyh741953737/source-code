@@ -1,0 +1,164 @@
+{% import "./product.njk" as product %}
+
+<!-- 首页楼层外壳 -->
+{% macro productWrap(opt, more) %}
+<div
+  class="container-main floor-box floor-{{ opt.floor }}
+  bg-white mt-4"
+  {% if opt.render !== 'njk' %}
+  id="vue-floor-{{ opt.floor.toString().replace(' ', '-')}}"
+  {% endif %}
+>
+  <div class="floor-top">
+    <div class="left">
+      <div class="iconlist"></div>
+      <h4 class="title">{{ opt.title }}</h4>
+    </div>
+    {% if opt.more %}
+    <div class="right" id="vue-get-more">
+      <a v-cjstat='{"pageCode":"home", "eventType": 1, "buttonName": "View More","buttonType": 0}' class="more-anchor"  href="{{ opt.more }}">{{ more }}</a>
+      <span class="more iconfont iconright"></span>
+    </div>
+    {% endif %}
+  </div>
+  {{ caller() }}
+</div>
+{% endmacro %}
+
+<!-- 首页楼层商品组 -->
+{% macro productGroup(opt) %}
+  {% call productWrap(opt) %}
+    {% for prod in opt.data %}
+      {% if prod.block %}
+        <!-- 自定义渲染内容 -->
+        {{ prod.block }}
+      {% else %}
+        {{ product.product(prod) }}
+      {% endif %}
+    {% endfor %}
+  {% endcall %}
+{% endmacro %}
+
+
+<!-- *********************************** comment ********************************** -->
+
+在 view/home.njk 使用样板代码：
+  第一版完全的服务端渲染
+  由于币种汇率需要实时获取，综合考量还是选用了服务端、客户端共存的渲染方式
+  下面代码保留为参加代码 (全量级的 njk 还是很无敌的 😁)
+
+<!-- 楼层 1 -->
+{% macro supperDeal() %}
+<a style="width:0;" class="supper-deal flex-fill" href="list-detail.html?from=all&fromType=all&type=superdeal">
+</a>
+{% endmacro %}
+{% set opt = {
+  floor: 1,
+  title: 'Super Deal',
+  data: [{ block: supperDeal() }].concat(floor1),
+  more: 'list-detail.html?from=all&fromType=all&type=superdeal'
+} %}
+{{ productGroup(opt) }}
+
+<!-- 楼层 2 -->
+{% set opt = {
+  floor: 2,
+  title: 'Trending Products',
+  data: floor2,
+  more: 'list-detail.html?dt=Trending Products'
+} %}
+{{ productGroup(opt) }}
+
+<!-- 楼层 3 -->
+{% set opt = {
+  floor: 3,
+  title: 'New Products',
+  data: floor3,
+  more: 'list-detail.html?from=all&fromType=new'
+} %}
+{{ productGroup(opt) }}
+
+<!-- 楼层 4 -->
+{% set opt = {
+  floor: 4,
+  title: 'Hot Selling Categories'
+} %}
+{% call productWrap(opt) %}
+{% for cate in floor4 %}
+<a href="{{ cate | HOTCATEGORY_LINK(categories) }}" class="hot-item">
+  <img src="{{ cate.img | IMG_SIZE(280) }}" alt="{{ cate.name }}">
+  <h4>{{ cate.name }}</h4>
+</a>
+{% endfor %}
+{% endcall %}
+
+<!-- 楼层 5 -->
+{% set opt = {
+  floor: 5,
+  title: 'Listable Products',
+  data: floor5,
+  more: 'list-detail.html?from=all&fromType=list'
+} %}
+{{ productGroup(opt) }}
+
+<!-- 楼层 6 -->
+<div class="floor-both-wrap d-flex container-main justify-content-between">
+  {% set opt = {
+    floor: '6 left',
+    title: 'US Warehouse',
+    IMG_SIZE: [270, 290],
+    more: 'list-detail.html?from=US&fromType=all'
+  } %}
+  {% call productWrap(opt) %}
+  {% for prod in floor6_l %}
+  {{ product(prod) }}
+  {% endfor %}
+  {% endcall %}
+
+  {% set opt = {
+    floor: '6 right',
+    title: 'Thailand Warehouse',
+    more: 'list-detail.html?from=TH&fromType=all'
+  } %}
+  {% call productWrap(opt) %}
+  {% for prod in floor6_r %}
+  {{ product(prod) }}
+  {% endfor %}
+  {% endcall %}
+</div>
+
+<!-- 楼层 7 -->
+<div class="floor-both-wrap d-flex container-main justify-content-between">
+  {% set opt = {
+    floor: '7 left',
+    title: 'Videos',
+    IMG_SIZE: [270, 290],
+    more: 'list-detail.html?from=all&fromType=video'
+  } %}
+  {% call productWrap(opt) %}
+  {% for prod in floor7_l %}
+  {{ product(prod) }}
+  {% endfor %}
+  {% endcall %}
+
+  {% set opt = {
+    floor: '7 right',
+    title: 'Sourcing',
+    IMG_SIZE: [270, 290],
+    more: 'list-detail.html?from=all&fromType=source'
+  } %}
+  {% call productWrap(opt) %}
+  {% for prod in floor7_r %}
+  {{ sourceProd(prod) }}
+  {% endfor %}
+  {% endcall %}
+</div>
+
+<!-- 楼层 8 -->
+{% set opt = {
+  floor: 8,
+  title: 'Print on Demand',
+  data: floor8,
+  more: 'PrintonDemand.html'
+} %}
+{{ productGroup(opt) }}

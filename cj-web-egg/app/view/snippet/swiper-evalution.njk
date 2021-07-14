@@ -1,0 +1,220 @@
+<!-- swiper -s- -->
+<!--
+  需要变量 banners: [{ url: '', img: '', alt: '' }]
+-->
+<link rel="stylesheet" href="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.min.css">
+{% if EGG_ENV === 'local' %}
+<script src="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.js"></script>
+{% else %}
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/swiper-5.3.6/swiper.min.js"></script>
+{% endif %}
+<style>
+  .swiper-wrapper {
+    transition-timing-function: ease;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    background-color: #000;
+    opacity: 0;
+    width: 30px;
+    height: 50px;
+    cursor: pointer;
+  }
+
+  /* 去掉 swiper 默认的按钮箭头 */
+  [class^="swiper-button"]::after {
+    content: '';
+  }
+
+  .swiper-container-desc {
+    position: absolute;
+    left: -646px;
+    top: 115px;
+    width: 540px;
+  }
+
+  .swiper-container-desc .swiper-slide {
+    font-size: 20px;
+  }
+
+  .swiper-container-more {
+    position: absolute;
+    left: -646px;
+    top: 115px;
+    width: 300px;
+  }
+
+  .swiper-container-more .more {
+    font-size: 16px !important;
+  }
+  .swiper-container-more .more:hover {
+    text-decoration: underline;
+  }
+
+  
+
+  .swiper-container:hover .swiper-button-prev,
+  .swiper-container:hover .swiper-button-next {
+    opacity: .4;
+    transition: .3s;
+  }
+
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    opacity: 1 !important;
+  }
+
+  .swiper-button-prev {
+    left: 0;
+    border-radius: 0 2px 2px 0;
+    background: url("{{ PUBLIC_LIBS }}/swiper-5.3.6/prev_icon.svg") center center / cover;
+  }
+
+  .swiper-button-next {
+    right: 0;
+    border-radius: 2px 0 0 2px;
+    background: url("{{ PUBLIC_LIBS }}/swiper-5.3.6/next_icon.svg") center center / cover;
+  }
+
+  .swiper-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 20px !important;
+  }
+
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(255, 255, 255, .7);
+    margin: 0 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all .8s;
+    -moz-transition: all .8s;
+    -webkit-transition: all .8s;
+    background-color: transparent;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: var(--color-primary);
+    background-clip: content-box;
+    border: none;
+    box-shadow: 0 0 0 4px var(--color-primary-translucent);
+  }
+
+  .swiper-container-img {
+    background: #fff;
+    border-radius: 54px;
+    overflow: hidden;
+  }
+
+  .swiper-container-img .swiper-slide {
+    background: transparent;
+    border-radius: 54px;
+    overflow: hidden;
+  }
+
+  .swiper-slide-text {
+    background: #F9F9F9;
+    border-radius: none;
+  }
+
+  .swiper-slide a.islink:hover {
+    cursor: pointer;
+  }
+
+  .swiper-slide a.unlink:hover {
+    cursor: default
+  }
+
+  .swiper-container.shop {
+    max-height: 250px;
+  }
+  
+
+  .swiper-container-img .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    border-radius: 54px;
+  }
+</style>
+<div class="swiper-container swiper-container-desc">
+  <div class="swiper-wrapper">
+    {% for item in evaluteBanners %}
+    <div class="swiper-slide swiper-slide-text swiper-no-swiping">
+      {{item.desc}}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="swiper-container swiper-container-more">
+  <div class="swiper-wrapper">
+    <a class="more" id="more" target="_blank">View More>></a>
+  </div>
+</div>
+<div class="swiper-container swiper-container-img" style="width: 100%;height: 100%;">
+  <div class="swiper-wrapper">
+    {% for item in evaluteBanners %}
+    <div class="swiper-slide">
+      <a
+        href="{{ item.url }}"
+        target="_blank"
+      >
+        <img src="{{ PUBLIC_IMG }}/home/{{item.image}}" alt="">
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- 如果需要分页器 -->
+  <!-- <div class="swiper-pagination"></div> -->
+
+  <!-- 如果需要导航按钮 -->
+  <!-- <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div> -->
+</div>
+<script>
+  const url = [
+          'https://www.facebook.com/pg/CjDropshipping/reviews/?ref=page_internal',
+          'https://www.trustpilot.com/review/cjdropshipping.com',
+          'https://apps.shopify.com/cucheng/reviews?page=1',
+        ];
+  const mySwiper1 = new Swiper('.swiper-container-desc', {
+    direction: 'horizontal', // 垂直切换选项
+    loop: true, // 循环模式选项
+    speed: 1500,
+    noSwiping : true,
+  })
+
+  const mySwiper2 = new Swiper('.swiper-container-img', {
+    direction: 'horizontal', // 垂直切换选项
+    loop: true, // 循环模式选项
+    autoplay: {
+      disableOnInteraction: false,
+    },
+    delay: 5000,
+    speed: 1500,
+    
+    // 如果需要分页器
+    // pagination: {
+    //   el: '#swiper-pagination-img',
+    //   clickable: true,
+    // },
+
+    // 如果需要前进后退按钮
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    on: {
+      slideChangeTransitionStart: function(){
+        const more = document.getElementById('more');
+        more.href= url[this.realIndex]
+      },
+    },
+  })
+
+  mySwiper2.controller.control = [mySwiper1]
+</script>
+<!-- swiper -e- -->

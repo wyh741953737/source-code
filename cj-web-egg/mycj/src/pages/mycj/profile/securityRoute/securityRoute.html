@@ -1,0 +1,52 @@
+<style>
+  .confirm-btn-box .no-btn:hover {
+    box-shadow: 0 0 0 1px #d9d9d9;
+    background: #f5f5f5;
+  }
+</style>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_w6mw31dvzmj.css">
+<div class="switchBlock">
+  <div class="switchBar flex-bar" ng-if="!passwordFlag">
+    <div class="label">MFA Verification</div>
+    <div ng-if="mfaStatus ==null || mfaStatus =='' " ng-click="enableMFA()" class="action-box">
+      <!-- <img src="/egg/image/profile/enable@2x.png" class="security-img" alt=""> -->
+      <i class="iconfont iconqukaiqi security-icon"></i>
+      <span class="enabled">Enable</span>
+    </div>
+    <div ng-if="mfaStatus ==1 " ng-click="disableMFA()" class="action-box action-disable">
+      <!-- <img src="/egg/image/profile/disable@2x.png" class="security-img" alt=""> -->
+      <i class="iconfont iconyichenggong security-icon" style="color: #E02020"></i>
+      <span class="disabledVerification">Disable</span>
+    </div>
+  </div>
+  <div class="switchBar flex-bar" ng-if="!passwordFlag">
+    <div class="label">Reset Password</div>
+    <div ng-click="resetPasswd()" class="action-box">
+      <!-- <img src="/egg/image/profile/edit@2x.png" class="security-img" style="width: 23px;" alt=""> -->
+      <i class="iconfont iconbianji3 security-icon"></i>
+      <span class="enabled">Edit</span>
+    </div>
+  </div>
+
+
+    <div class="backSecurity" ng-show="passwordFlag" ng-click="resetPasswd()">< Back</div>
+    <profile-password ng-if="passwordFlag"></profile-password>
+</div>
+
+<div class="confirm-box" ng-show="promptFlag">
+    <div class="confirm-main" style="width: 483px;">
+      <i class="iconfont confirm-close" ng-click="promptFlag=false"></i>
+      <div class="confirm-title" style="background: #fff;text-align: left;padding-left: 20px;font-weight: 600;
+">{{promtTitle}}</div>
+      <div class="confirm-content" style="padding-top:10px;padding-bottom:55px;">
+        <p class="delete-tip" style="text-align: left;">
+            {{promtContent}}
+        </p>
+        
+      </div>
+      <div class="confirm-btn-box" style="box-shadow: none;">
+        <span ng-click="promptFlag=false" class="no-btn">Cancel</span>
+        <span ng-click="sureDisableFun()" class="yes-btn btn-theme">Confirm</span>
+      </div>
+    </div>
+</div>

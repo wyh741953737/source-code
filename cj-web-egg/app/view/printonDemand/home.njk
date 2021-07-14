@@ -1,0 +1,150 @@
+{% block title %}
+<title>CJ Print on Demand-You Sell，We Print and ship on Demand, worldwide!</title>
+<meta name="description" property="og:description" content="POD (Print on Demand) products are available for all customers on CJdropshipping. Easy to use, no MOQ to start.">
+<meta name="keywords" content="POD dropshipping, Print on Demand, print on demand italia, printful, printify, print-on-demand, print on demand companies, shopify print on demand, print on demand websites" />
+<!-- share official picture -->
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+{% from "../macor/product.njk" import product %}
+
+{% macro hydrate(opt, params) %}
+<div v-if="!list.length" class="product-box" render="njk">
+  {% if opt.data.length > 0 %}
+    {% for prod in opt.data %}
+    {{ product(prod, params) }}
+    {% endfor %}
+  {% else %}
+    <p>We are picking a unique product for you…</p>
+  {% endif %}
+</div>
+<div v-else class="product-box" render="vue">
+    <product-card v-for="(prod, idx) of list" :prod="prod" :key="idx" :img-Size="imgSize" title="{{ opt.title }}" />
+</div>
+{% endmacro %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/product-card.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/printon-demand.css' | VERSION }}">
+{% endblock %}
+<meta name="viewport" content="width=device-width, initial-scale=0">
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+<meta name="viewport" content="">
+<div class="pod">
+  <div class="pod-home">
+    <div class="pod-banner">
+      <img src="/egg/image/printonDemand/home_banner_new.png" alt="">
+    </div>
+    <div class="pod-swiper-hot">
+      <div class="box">
+        {% if swiperList.length > 0 %}
+        <div class="swiper-button-prev button-hot-prev"></div>
+        <div class="swiper-button-next button-hot-next"></div>
+        {% endif %}
+        {% include "./swiper-pod-hot.njk" %}
+      </div>
+    </div>
+    <div class="hotSelling">
+      <div class="selling-list" id='vue-pod-hotSelling'>
+        <h2 class="title">
+          <span>Hot Selling</span>
+        </h2>
+        {% set opt = {
+          data: productList
+        } %}
+        {{ hydrate(opt, productParams) }}
+      </div>
+    </div>
+    <div class="pod-trending-products" id="vue-pod-trending">
+      <h2 class="title"><span>Trending Products</span></h2>
+      <!-- <div class="navigation">
+        <span class="swiper-button-prev" v-on:click="onNext"></span>
+        <em><i>0${ pageNum }</i></em> / <span>02</span>
+        <span class="swiper-button-next" v-on:click="onNext"></span>
+      </div> -->
+      <div class="swiper-container" ref="swiperContainerDom">
+        <div v-if="!trendingList.length" class="swiper-wrapper" :style='wrapperStyles'>
+          {% for prod in trendingList %}
+            <div class="swiper-slide" :style='slideStyles'>
+              {{ product(prod, productParams) }}
+            </div>
+          {% endfor %}
+        </div>
+        <div v-else class="swiper-wrapper" :style='wrapperStyles'>
+          <div class="swiper-slide" :style='slideStyles' :key="idx" v-for="(prod, idx) of trendingList">
+            <product-card :prod="prod" :img-Size="imgSize" />
+          </div>
+        </div>
+      </div>
+      <a href="/PrintonDemand.html?track=4" class="more">
+        <span>View More</span> <i class="iconfont iconright"></i>
+      </a>
+    </div>
+    <div class="video-block">
+      <h2 class="title">
+        <span>Start From Now On</span>
+      </h2>
+      <div class="box">
+        <div class="video-item">
+          <iframe class="iframe" allowfullscreen src="{{video_list[0].link}}" frameborder="0" allow="encrypted-media"></iframe>
+        </div>
+        <div class="main">
+          <h3>You Sell，We Print</h3>
+          <p>Easy print-on-demand dropshipping 
+            and fulfillment warehouse services</p>
+          <a href="/printonDemand/help#video" class="btn-view-more">
+            <span>View More</span> <i class="iconfont iconright"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="works-block">
+      <div class="box">
+        <h2 class="title">
+          <span>How it works</span>
+        </h2>
+        <ul>
+          <li>
+            <h3>How to Operate CJ's Print on Demand Function to Grow Your Dropshipping Business - Design by Merchants</h3>
+            <p>POD (Print on Demand) function is available for all on CJdropshipping. Today, we are going to learn about how to use this function so that we can easily add our design to the product…</p>
+            <a href='https://app.cjdropshipping.com/blog/post/how-to-use-cjs-print-on-demand-feature-to-grow-your-dropshipping-business-1/' target="_blank">
+              Read more
+            </a>
+          </li>
+          <li>
+            <h3>How to Use CJ’s Print on Demand Feature to Grow Your Dropshipping Business – Design by Buyers?</h3>
+            <p>We've introduced how merchants design products from our marketplace in the previous article. But what if the customers want to design a little bit? Now, let's explore the second part of our…</p>
+            <a href='https://app.cjdropshipping.com/blog/post/how-to-use-cjs-print-on-demand-feature-to-grow-your-dropshipping-business-design-by-buyers/' target="_blank">
+              Read more
+            </a>
+          </li>
+          <li>
+            <h3>7 Tips For Starting A Print-on-demand Business</h3>
+            <p>Order Samples<br />
+              It is essential to order samples always to guarantee the quality when you’re using print-on-demand services and starting a POD business…</p>
+            <a href='https://cjdropship.com/pro-service/print-on-demand/7-tips-for-starting-a-print-on-demand-business/' target="_blank">
+              Read more
+            </a>
+          </li>
+        </ul>
+      </div>
+      <a href="/printonDemand/help#helpworks" class="btn-view-more">
+        <span>View More</span> <i class="iconfont iconright"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<script src="{{ PUBLIC_SCRIPT + '/printonDemand.js' | VERSION }}"></script>
+
+{% endblock %}

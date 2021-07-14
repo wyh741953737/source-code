@@ -1,0 +1,31 @@
+<div class="swiper-container" ng-class="{shop:isShop}">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" ng-repeat="item in imgData">
+      <!-- 无超链接 -->
+      <a
+        ng-class="{'islink':(item.skipType=='2'||item.skipType=='3'),'unlink':(item.skipType=='1'||item.isSkuOut=='1')}"
+        ng-if="!item.link"
+        href="javascript:void(0);">
+        <!-- onclick="angular.element(this).scope().goDetail(this.dataset.idx)" -->
+        <img ng-if="item.img_url" ng-src="{{item.img_url}}" data-idx="{{ $index }}"
+        onclick="angular.element(this).scope().goDetail(this.dataset.idx)"
+        alt="" />
+      </a>
+      <!-- 有超链接 -->
+      <!-- href="{{item.link}}" -->
+       <!-- target="_blank" -->
+      <a ng-class="{'islink':(item.skipType=='2'||item.skipType=='3'),'unlink':(item.skipType=='1'||item.isSkuOut=='1')}"
+      ng-if="item.link"
+      href="javascript:void(0);"
+      >
+        <!-- onclick="angular.element(this).scope().goDetail(this.dataset.idx)" -->
+        <img ng-src="{{item.img_url}}" ng-if="item.img_url"  data-idx="{{ $index }}"
+        onclick="angular.element(this).scope().goDetail(this.dataset.idx)"
+        alt=""/>
+      </a>
+    </div>
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev" ng-show="imgData.length>1"></div>
+  <div class="swiper-button-next" ng-show="imgData.length>1"></div>
+</div>

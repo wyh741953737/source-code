@@ -1,0 +1,91 @@
+<div class="confirm-box address-warp" ng-class="{'isVip': isVip}" ng-if="addressParmas.visible">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close confirm-close-hover" ng-click="handleCancel()"></i>
+    <div class="confirm-title">
+      {{addressParmas.title}}
+    </div>
+    <div class="confirm-content">
+	    <div class="form-box">
+				<label>
+					<span><i class="text-theme">*</i>First Name:</span>
+					<input type="text" maxlength="19" ng-model="addressParmas.addressData.firstname">
+				</label>
+				<label>
+					<span><i class="text-theme">*</i>Last Name:</span>
+					<input type="text" maxlength="19" ng-model="addressParmas.addressData.lastname">
+				</label>
+				<label>
+					<span><i class="text-theme">*</i>Address1:</span>
+					<input type="text" maxlength="80" ng-model="addressParmas.addressData.address">
+				</label>
+				<label>
+					<span>Address2:</span>
+					<input type="text" maxlength="80" ng-model="addressParmas.addressData.addressNew">
+				</label>
+				<label>
+					<span><i class="text-theme">*</i>Country:</span>
+					<select
+						class="singleSelect"
+						ng-options="item as item.nameEn for item in countryData"
+						ng-model="countryInfo"
+						ng-change="handleCountryChang(countryInfo)"
+						>
+					</select>
+				</label>
+				<label>
+					<span><i class="text-theme">*</i>Province:</span>
+					<input type="text" maxlength="40" ng-model="addressParmas.addressData.province">
+				</label>
+				<label>
+					<span><i class="text-theme">*</i>City:</span>
+					<input type="text" maxlength="20" ng-model="addressParmas.addressData.city">
+				</label>
+				<label>
+					<span><i class="text-theme"></i>Phone Number:</span>
+					<input type="text" maxlength="20" ng-model="addressParmas.addressData.phone">
+				</label>
+				<label ng-show="phoneErr.length > 0">
+					<span></span>
+					<div class="address-modefy-errx extra">
+						<span class="errText">Invalid phone. Please enter a valid phone.</span>
+						<div class="address-modefy-errtip">
+								<span class="checkIcon" ng-class="{icon: 1, iconfont: true}">&#xe70e;</span>
+								<div class="errtip-list">
+									<p class="errtip-item" ng-repeat="it in phoneErr">{{it.msgEn}}</p>
+								</div>
+						</div>
+					</div>
+				</label>
+				<label>
+					<span><i class="text-theme"></i>Postcode:</span>
+					<input type="text" maxlength="50" ng-model="addressParmas.addressData.zip">
+				</label>
+				<label ng-show="zipErr.length > 0">
+					<span></span>
+					<div class="address-modefy-errx extra">
+						<span class="errText">Invalid postcode. Please enter a valid postcode.</span>
+						<div class="address-modefy-errtip">
+								<span class="checkIcon" ng-class="{icon: 1, iconfont: true}">&#xe70e;</span>
+								<div class="errtip-list">
+										<p class="errtip-item" ng-repeat="it in zipErr">{{it.msgEn}}</p>
+								</div>
+						</div>
+					</div>
+				</label>
+				<label>
+					<i
+						ng-class="[isDefault === '0' ? 'iconweigouxuan' : 'iconyigouxuan',{'text-theme':isDefault === '1'}]"
+						class="iconfont is-default"
+						ng-click="handleChangeCheckbox()"
+					>
+					</i>
+					<span class="default-txt" ng-class="{'text-theme':isDefault === '1'}">Set as default shipping address</span>
+				</label>
+			</div>
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="handleCancel()" class="no-btn">Cancel</span>
+      <span ng-click="handleConfirm()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>

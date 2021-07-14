@@ -1,0 +1,130 @@
+<div class="photography-request" ng-class="{vip: isVip}" ng-click="closeStoreList($event)">
+	<a class="back" href="javascript:history.go(-1);">< Back</a>
+	<h3 class="title">Photography Request Form</h3>
+	<div class="content">
+		<div class="item-box">
+			<div class="label-t">Select Product Type:</div>
+			<div class="item select-product-i" ng-click="onChangeProductType('1')" style="margin-right: 48px;">
+				<i ng-class="{'active':requestType === '1'}"></i>
+				Store Existed Product
+		   </div>
+			<div class="item select-product-i" ng-click="onChangeProductType('2')">
+				<i ng-class="{'active':requestType === '2'}"></i>
+				Individual Product
+		   </div>
+		</div>
+		<div class="store-box-warp">
+			<div class="select-search-box" ng-show="requestType === '1'">
+				<div style="display: flex;">
+					<div class="label-t">Select Store:</div>
+					<div class="item-box store-data-input">
+						<input
+							type="text"
+							class="store-data"
+							ng-model="storeDataValue"
+							ng-click="showSelectFun($event)"
+							readonly
+							id="selcet-store"
+						>
+						<i class="iconfont iconxiangxia" ng-click="showSelectFun($event)"></i>
+						<div class="select-store-select" ng-show="showSelect">
+							<ul ng-repeat="item in storeDataList track by $index">
+								<li ng-click='onSelectStore(item)'>{{item.NAME}}</li>
+							</ul>
+						</div>
+						<!-- <select
+							class="store-data"
+							ng-model="storeData"
+							ng-change="onSelectStore()"
+							ng-options="item as item.NAME for item in storeDataList"
+						>
+						</select> -->
+						<sync-store storeinfo="storeinfo" style="display: inline-block;"></sync-store>
+					</div>
+				</div>
+				<div class="search-box">
+					<input type="text" placeholder="Please input product name" ng-model="productName">
+					<button class="btn-theme" ng-click="handleSearchProduct()">
+						<i class="iconfont iconsousuo"></i>
+					</button>
+				</div>
+			</div>
+			<div ng-show="requestType === '2'">
+				<div class="item-box product-span">
+					<span class="label-t">Product Title:</span>
+					<input class="individual-input" type="text" placeholder="" ng-model="productTitle">
+				</div>
+				<div class="item-box">
+					<span class="label-t">Product URL:</span>
+					<input class="individual-input" type="text" placeholder="" ng-model="productUrl">
+				</div>
+				<div class="item-box" style="align-items: start;">
+					<span class="label-t">Images:</span>
+					<div class="img-box">
+						<input type="file" id="upload" accept="image/*" multiple onchange="angular.element(this).scope().upLoadImg(this.files)">
+						<div class="add-img item" ng-click="handleAddImg()"><i></i></div>
+						<div class="item" ng-repeat="item in imgData">
+							<i class="close" ng-click="handleRemove(item)"></i>
+							<img ng-src="{{item}}" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-show="requestType === '1'">
+				<div class="product-box">
+					<div class="product-item"
+						ng-repeat="item in productData"
+						ng-class="{active:item.isSelect}"
+						ng-click="handleSelectProduct(item)"
+					>
+						<img class="product-img" ng-src="{{item.image}}" title="{{item.title}}" alt="">
+						<p class="product-name">{{item.title}}</p>
+						<div class="product-item-bottom">
+							<span class="product-price">{{'$'+item.prices}}</span>
+							<i class="iconfont iconguanlian-putong" ng-show="item.conCJProduct"></i>
+						</div>
+					</div>
+				</div>
+				<!-- 分页 -->
+				<page ng-show="totalNum > 14"></page>
+			</div>
+			<div class="item-box item-box-type">
+				<div class="label-t">
+					<span class="require-font">*</span>Shooting Type:
+				</div>
+				<div class="item item-box-video" ng-click="onSelectPhotography('video')">
+					<i ng-class="{'active':photographyType === 'video'}"></i>
+					Video
+			   </div>
+				<div class="item" ng-click="onSelectPhotography('Photo')">
+					<i ng-class="{'active':photographyType === 'Photo'}"></i>
+					Photo
+			   </div>
+			</div>
+			<div class="item-box photo-quantity" ng-show="photographyType === 'Photo'">
+				<div class="label-t photo-quantity-title">Photo Quantity:</div>
+				<div class="qty-box">
+					<button class="cut" ng-click="onCutQty()" ng-disabled="quantity == 1">
+						<i class="iconfont icon123"></i>
+					</button>
+					<input type="text" ng-model="quantity" ng-change="onChangeQty()" ng-blur="onBlurQty()">
+					<button class="add" ng-click="onAddQty()" ng-disabled="quantity == 999">
+						<i class="iconfont iconbianzu21"></i>
+					</button>
+				</div>
+			</div>
+			<div class="item-box shooting-instructions">
+				<span class="label-t">Requirement:</span>
+				<textarea class="instructions" ng-model="instructions" placeholder="Note"></textarea>
+			</div>
+		</div>
+		<div class="btn-box">
+			<button ng-click="handleCancel()">Cancel</button>
+			<button class="btn-theme btn-submit" ng-click="handleSubmit()" cjstat cjstatshow='{"pageCode":"myCJ", "eventType": 1, "buttonName": "Submit"}'>Submit</button>
+		</div>
+		
+	</div>
+</div>
+
+<loading-cart el="'.product-box'" bottom="'#router-outlet-wrap'" ng-if="loading"></loading-cart>

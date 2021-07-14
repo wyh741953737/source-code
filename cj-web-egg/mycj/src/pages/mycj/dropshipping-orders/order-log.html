@@ -1,0 +1,62 @@
+  <div class="content order-log">
+    <div class="mycj-home-box drop-ord-wrap">
+      <!-- 右边部分 -->
+      <div class="d-direct-right p-3">
+        <!-- <a class="back-link" ng-click="goBack()" href="javascript:void(0)">< Back</a> -->
+        <div class="log-del-wrap">
+          <p class="pro-tip-wrap">
+            For Order <span class="ord-num">{{orderId}}</span>, the processing details of product are as follows:
+          </p>
+          <div class="log-del-cont">
+            <ul class="log-header log-tit-common d-flex justify-content-between align-items-center" ng-class="{'padding-r18px':proList.length>5}">
+              <li class="per28">Title</li>
+              <li class="per12">Purchased</li>
+              <li class="per12">Stocked</li>
+              <li class="per12">OOS</li>
+              <li class="per12">Picked</li>
+              <li class="per12">Inspected</li>
+              <li class="per12">Shipped</li>
+            </ul>
+            <div class="scroll-box">
+              <ul class="log-body d-flex justify-content-between" ng-repeat="item in proList">
+                <li class="per28 d-flex align-items-center">
+                  <div class="over-ellipsis">
+                    {{item.enname}}
+                  </div>
+                </li>
+                <li class="per12 d-flex-center notranslate">{{item.quantity}}</li>
+                <li class="per12 d-flex-center notranslate">{{item.matchNeatQuantity}}</li>
+                <li class="per12 d-flex-center notranslate">{{item.stockoutQuantity}}</li>
+                <li class="per12 d-flex-center notranslate">{{item.pickingQuantity}}</li>
+                <li class="per12 d-flex-center notranslate">{{item.inspectionQuantity}}</li>
+                <li class="per12 d-flex-center notranslate">{{item.shipmentsQuantity}}</li>
+              </ul>
+            </div>
+            <ul class="log-footer log-tit-common d-flex justify-content-between align-items-center" ng-class="{'padding-r18px':proList.length>5}">
+              <li class="per28">Total</li>
+              <li class="per12 notranslate">{{totalObj.quantity}}</li>
+              <li class="per12 notranslate">{{totalObj.matchNeatQuantity}}</li>
+              <li class="per12 notranslate">{{totalObj.stockoutQuantity}}</li>
+              <li class="per12 notranslate">{{totalObj.pickingQuantity}}</li>
+              <li class="per12 notranslate">{{totalObj.inspectionQuantity}}</li>
+              <li class="per12 notranslate">{{totalObj.shipmentsQuantity}}</li>
+            </ul>
+          </div>
+        </div>
+        <!-- <div class="log-del-wrap log-loadwrap">
+          <p class="pro-tip-wrap">
+            The order <span class="ord-num">{{orderId}}</span>, logs are as follows:
+          </p>
+          <ul class="log-header log-tit-common d-flex justify-content-between align-items-center" ng-class="{'padding-r18px':proList.length>5}">
+            <li class="per64">Records</li>
+            <li class="per36">Time</li>
+          </ul>
+          <ul class="log-body height-auto min-height80 d-flex justify-content-between" ng-repeat="item in logList">
+            <li class="log-content per64 d-flex align-items-center" ng-bind-html="item.logMsg"></li>
+            <li class="per36 d-flex-center">{{item.utcDate | date:'yyyy-MM-dd hh:mm:ss'}}</li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  </div>

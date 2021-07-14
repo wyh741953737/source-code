@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CJ</title>
+  <link rel="stylesheet" type="text/css" href="normalize.css">
+  <link rel="stylesheet" type="text/css" href="fullpage.min.css">
+  <link rel="stylesheet" type="text/css" href="animate.min.css">
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+  <div id="fullpage">
+    <div class="section" id="page1">
+      <img class="bg" data-src="./image/0/backgroundimage.jpg">
+      <div class="box">
+        <img class="logo fl" data-src="./image/0/logo.png">
+        <img class="logo1 fr" data-src="./image/0/logo1.png">
+      </div>
+      <img class="arrows" data-src="./image/0/arrows.png">
+    </div>
+    <div class="section" id="page2">
+      <img class="bg" data-src="./image/1/backgroundimage.jpg">
+      <div class="box1">
+        <div class="title">2015</div>
+        <p>In 2015, it began to sell jewelry and accessory online. With the dramatically rising order of</p>
+        <p>The Fast and Furious necklace, the dropshipping business was</p>
+        <p>formally launched to step into the e-commerce industry; the first batch of employees were recruited for</p>
+        <p>the first scale expansion and the second AliExpress store opened,</p>
+        <p>lifting the annual sales to 1 million RMB</p>
+      </div>
+      <div class="box2">
+        <div class="img">
+          <img data-src="./image/1/ic-1.png">
+          <p>Jewelry&accesories</p>
+        </div>
+        <div class="img">
+          <img data-src="./image/1/ic-2.png">
+          <p>New employees</p>
+        </div>
+        <div class="img">
+          <img data-src="./image/1/ic-3.png">
+          <p>AliExpress stores</p>
+        </div>
+      </div>
+    </div>
+    <div class="section" id="page3">
+      <!-- <img class="bg" data-src="./image/2/background.jpg"> -->
+      <div class="box">
+        <div class="title">2016</div>
+        <p>In 2016, the number of orders increased sharply by breaking down jewelry production steps</p>
+        <p>and controlling production process, accumulating a number of high-quality customers for CJ;</p>
+        <p>the sourcing model and comprehensive management model were established;</p>
+        <p>the organization chart took shape with the setting up of the first order processing group;</p>
+        <p>self-employed workshop was built to ensure the quality of products;</p>
+        <p>more AliExpress stores were opened and CJdropshipping.com was officially launched.</p>
+        <p>The annual sales were 6 million RMB</p>
+      </div>
+    </div>
+    <div class="section" id="page4">
+      <img class="bg" data-src="./image/3/backgroundimage.jpg">
+      <div class="box">
+        <div class="title">2017</div>
+        <p>In 2017, the Hangzhou branch was established for the further expansion of dropshipping business;</p>
+        <p>3C category was determined and the sourcing team was set up, greatly improving the working efficiency</p>
+        <p>and service quality; more departments, including the sales, technology, finance, procurement,</p>
+        <p>and personnel department, were set up to perfect the organizational structure;</p>
+        <p>and the plan of software system development was implemented and put into normal operation;</p>
+        <p>the Shenzhen warehouse was set up to shorten the delivery cycle and improve customer satisfaction;</p>
+        <p>more AliExpress stores were opened, with more third-party merchants entering, the annual sales doubled.</p>
+      </div>
+    </div>
+    <div class="section" id="page5">
+      <img class="bg" data-src="./image/4/04.jpg">
+      <div class="box">
+        <div class="title">2018</div>
+        <p>In 2018, the USA warehouse was set up to enter the international market;</p>
+        <p>CJ online trading platform was officially launched and Yiwu warehouse and Hangzhou company expanded their
+          scale;</p>
+        <p>the organization chart was subdivided by increasing logistics department,</p>
+        <p>quality supervision department and brand promotion department with a staff size of 350 people;</p>
+        <p>automatic order processing line was opened, grabbing order intelligently and saving manpower, cost and
+          efficiency</p>
+      </div>
+    </div>
+    <div class="section" id="page6">
+      <img class="bg" data-src="./image/5/bac.jpg">
+      <div class="box">
+        <div class="title">2019
+          <div class="line"></div>
+        </div>
+        <p>The second USA warehouse was set up in New Jersey to satisfy the needs of foreign customers; </p>
+        <p>mobile software and CJPacket were officially launched for the real-time tracking of order dynamics;</p>
+        <p>individualized products, customized service and servers around CJ were expanded;</p>
+        <p>CJdropshipping has been striving to strengthen strategic cooperation between domestic and foreign enterprises
+        </p>
+        <p>and deepen the company's business philosophy of "product quality, logistics quality, service quality"</p>
+      </div>
+    </div>
+    <div class="section" id="page7">
+      <img class="bg" data-src="./image/6/bac.jpg">
+      <div class="title">Customer Orientation, Service First</div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="adapter.js"></script>
+  <script type="text/javascript" src="fullpage.min.js"></script>
+  <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
+  <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+  <script>
+    $(function () {
+      new fullpage('#fullpage', {
+        navigation: true,
+        verticalCentered: false,
+        autoScrolling: true,
+        anchors: ['1', '2', '3', '4', '5', '6', '7'],
+        css3: true,
+        loopTop: true,
+        loopBottom: true,
+        afterLoad: function (origin, destination, direction) {
+          if (destination.index == 0) {
+            $('.logo').css("display", "block").addClass('animated fadeInLeft');
+            $('.logo1').css("display", "block").addClass('animated fadeInRight');
+            $('.arrows').css("display", "block").addClass('animated infinite bounce slow');
+          }
+          if (destination.index == 1) {
+            $('#page2 .title').css("visibility", "visible").addClass('animated lightSpeedIn fast');
+            $(".img").css("display", "block").addClass('animated zoomIn fast');
+          }
+          if (destination.index == 2) {
+            $('#page3 .title').css("visibility", "visible").addClass('animated slideInDown faster');
+          }
+          if (destination.index == 3) {
+            $('#page4 .box .title').css("visibility", "visible").addClass('animated bounceInLeft fast');
+          }
+          if (destination.index == 4) {
+            $('#page5 .box .title').css("visibility", "visible").addClass('animated bounceInRight fast');
+          }
+          if (destination.index == 5) {
+            $('#page6 .box .title').css("visibility", "visible").addClass('animated bounceIn slow');
+          }
+          if (destination.index == 6) {
+            $('#page7 .title').css("display", "block").addClass('animated fadeIn slow');
+          }
+        },
+        onLeave: function (origin, destination, direction) {
+          if (destination.index == 0) {
+            $('.logo').css("display", "none").removeClass('animated fadeInLeft');
+            $('.logo1').css("display", "none").removeClass('animated fadeInRight');
+          }
+          if (destination.index == 1) {
+            $('#page2 .title').css("visibility", "hidden").removeClass('animated lightSpeedIn fast');
+            $('.img').css("display", "none").removeClass('animated zoomIn fast');
+          }
+          if (destination.index == 2) {
+            $('#page3 .title').css("visibility", "hidden").removeClass('animated slideInDown faster');
+          }
+          if (destination.index == 3) {
+            $('#page4 .box .title').css("visibility", "hidden").removeClass('animated bounceInLeft fast');
+          }
+          if (destination.index == 4) {
+            $('#page5 .box .title').css("visibility", "hidden").removeClass('animated bounceInRight fast');
+          }
+          if (destination.index == 5) {
+            $('#page6 .box .title').css("visibility", "hidden").removeClass('animated bounceIn slow');
+          }
+          if (destination.index == 6) {
+            $('#page7 .title').css("display", "none").removeClass('animated fadeIn slow');
+          }
+        }
+      });
+
+      //methods
+      fullpage_api.setAllowScrolling(true);
+    })
+  </script>
+</body>
+
+</html>

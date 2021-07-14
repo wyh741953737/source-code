@@ -1,0 +1,330 @@
+<style>
+	.vip .table th{
+		background-color: #F0EDE7 !important;
+	}
+</style>
+<div class="dispute-component">
+	<div ng-switch="type" style="margin: 0 auto;">
+		<div ng-switch-when="1">
+			<a class="opt-btn" ng-show="itemData.disputeId === '99' || itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</a>
+			<a class="opt-btn" ng-show="itemData.disputeId === '1'" ng-click="handleViewDispute(itemData)">Dispute Reviewing</a>
+			<a ng-show="itemData.disputeId === '0'" href="javacript:void(0);" disabled>Dispute Closed</a>
+			<a ng-show="itemData.disputeId === '3'&&itemData.ORDERSOURCE_TYPE==='7'" href="javacript:void(0);" ng-click="goDisputeComplete()">Dispute Reviewing</a>
+		</div>
+		<div ng-switch-when="2">
+			<!-- <div ng-if="itemData.STATUS !== '12' && dropZiStu === 1">
+				<button ng-if="!itemData.disputeId && itemData.STATUS !== '13' && itemData.STATUS !== '14'" ng-click="handleOpenDispute()" class="dispute-btn btn-theme">Dispute</button>
+				<button ng-click="afterLinkFun(itemData)" ng-if="itemData.disputeId === '1'" class="indis-rewbtn">Dispute Reviewing</button>
+				<button ng-if="itemData.disputeId == '0'" class="indis-clobtn">Dispute Closed</button>
+				<button ng-if="itemData.disputeId == '2'" ng-click="handleOpenDispute()" class="indis-qxbtn">Dispute</button>
+				<button ng-show="itemData.STATUS == '12'" ng-click="loadPdfFun(itemData)" class="dispute-btn">Getshipping labels</button>
+			</div> -->
+			<div class="operation-dropdown" ng-if="itemData.STATUS !== '12' && dropZiStu === 1" ng-mouseenter="show_modal_parent = true" ng-mouseleave="show_modal_parent = false">
+				<div class="operation-dropdown-btn">
+					Operation
+				  <span class="caret"></span>
+				</div>
+				<ul class="operation-dropdown-menu" ng-show="show_modal_parent">
+					<li ng-if="!itemData.disputeId && itemData.STATUS !== '13' && itemData.STATUS !== '14'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.disputeId === '1'" ng-click="afterLinkFun(itemData)">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '0'">Dispute Closed</li>
+					<li ng-if="itemData.disputeId === '3' && itemData.ORDERSOURCE_TYPE === '7'" ng-click="goDisputeComplete()">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.STATUS === '12'" ng-click="loadPdfFun(itemData)">Get shipping labels</li>
+					<!-- <li ng-click="ordLogFun(itemData)">Order Logs</li> -->
+				</ul>
+			</div>
+			<!-- <div class="operationsel-div" ng-if="itemData.STATUS !== '12' && dropZiStu === 1">
+				<a href="javascript:void(0);" class="more-btn">Operation</a><span class="caret"></span>
+				<ul class="more-selul">
+					<li ng-if="!itemData.disputeId && itemData.STATUS !== '13' && itemData.STATUS !== '14'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.disputeId === '1'" ng-click="afterLinkFun(itemData)">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '0'">Dispute Closed</li>
+					<li ng-if="itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.STATUS === '12'" ng-click="loadPdfFun(itemData)">Get shipping labels</li>
+					<li ng-click="ordLogFun(itemData)">Order Logs</li>
+				</ul>
+			</div> -->
+			<div class="operation-dropdown" ng-if="itemData.STATUS === '12' && dropZiStu === 1" ng-mouseenter="show_modal_parent = true" ng-mouseleave="show_modal_parent = false">
+				<div class="operation-dropdown-btn">
+					Operation
+				  <span class="caret"></span>
+				</div>
+				<ul class="operation-dropdown-menu" ng-show="show_modal_parent">
+					<li ng-if="!itemData.disputeId" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.disputeId === '1'" ng-click="afterLinkFun(itemData)">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '0'">Dispute Closed</li>
+					<li ng-if="itemData.disputeId === '3' && itemData.ORDERSOURCE_TYPE === '7'" ng-click="goDisputeComplete()">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.STATUS === '12'" ng-click="loadPdfFun(itemData)">Get shipping labels
+					</li>
+					<!-- <li ng-click="ordLogFun(itemData)">Order Logs</li> -->
+				</ul>
+			</div>
+			<!-- <div class="operationsel-div" ng-if="itemData.STATUS === '12' && dropZiStu === 1">
+				<a href="javascript:void(0);" class="more-btn">Operation</a><span class="caret"></span>
+				<ul class="more-selul">
+					<li ng-if="!itemData.disputeId" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.disputeId === '1'" ng-click="afterLinkFun(itemData)">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '0'">Dispute Closed</li>
+					<li ng-if="itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.STATUS === '12'" ng-click="loadPdfFun(itemData)">Get shipping labels
+					</li>
+					<li ng-click="ordLogFun(itemData)">Order Logs</li>
+				</ul>
+			</div> -->
+			<div class="operation-dropdown" ng-if="dropZiStu !== 1" ng-mouseenter="show_modal_parent = true" ng-mouseleave="show_modal_parent = false">
+				<div class="operation-dropdown-btn">
+					Operation
+				  <span class="caret"></span>
+				</div>
+				<ul class="operation-dropdown-menu" ng-show="show_modal_parent">
+					<li ng-if="!itemData.disputeId && itemData.STATUS !== '13' && itemData.STATUS !== '14'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.disputeId === '1'" ng-click="afterLinkFun(itemData)">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '0'">Dispute Closed</li>
+					<li ng-if="itemData.disputeId === '3' && itemData.ORDERSOURCE_TYPE === '7'" ng-click="goDisputeComplete()">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-click="loadPdfFun(itemData)">Get shipping labels</li>
+					<!-- <li ng-click="ordLogFun(itemData)">Order Logs</li> -->
+				</ul>
+			</div>
+			<!-- <div class="operationsel-div" ng-if="dropZiStu !== 1">
+				<a href="javascript:void(0);" class="more-btn">Operation</a><span class="caret"></span>
+				<ul class="more-selul">
+					<li ng-if="!itemData.disputeId && itemData.STATUS !== '13' && itemData.STATUS !== '14'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.disputeId === '1'" ng-click="afterLinkFun(itemData)">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '0'">Dispute Closed</li>
+					<li ng-if="itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-click="loadPdfFun(itemData)">Get shipping labels</li>
+					<li ng-click="ordLogFun(itemData)">Order Logs</li>
+				</ul>
+			</div> -->
+		</div>
+		<!-- search all 进来的 -->
+		<div ng-switch-when="3">
+			<div class="operation-dropdown" ng-mouseenter="show_modal_parent = true" ng-mouseleave="show_modal_parent = false">
+				<div class="operation-dropdown-btn">
+					Operation
+				  <span class="caret"></span>
+				</div>
+				<ul class="operation-dropdown-menu" ng-show="show_modal_parent">
+					<li ng-if="!itemData.disputeId && itemData.jiufenButton" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.disputeId === '1'" ng-click="afterLinkFun(itemData)">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '0'">Dispute Closed</li>
+					<li ng-if="itemData.disputeId === '3' && itemData.ORDERSOURCE_TYPE === '7'" ng-click="goDisputeComplete()">Dispute Reviewing</li>
+					<li ng-if="itemData.disputeId === '2'" ng-click="handleOpenDispute()">Dispute</li>
+					<li ng-if="itemData.STATUS === '12'" ng-click="loadPdfFun(itemData)">Get shipping labels</li>
+					<li ng-click="ordLogFun(itemData)">Product Status</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 纠纷的弹框 -->
+	<div class="confirm-box dispute-wrap" ng-show="isShowModal">
+	  <div class="confirm-main">
+	    <i class="iconfont confirm-close" ng-click="isShowModal = false"></i>
+	    <div class="confirm-title">Please upload dispute detail.</div>
+	    <div class="confirm-content">
+			  <div class="jumpToNew" ng-show="showPrompt">
+				  <i class="iconfont prompt_tixing">&#xe626;</i>
+				  <p class="jumpTxt">Dispute in Classic CJ may result in an incorrect amount. Please open a dispute in 
+					  <a 
+						  class="freshCJ" 
+						  href="newmycj/dropshipping/orderManage/orderDetial?orderCode={{orderInfo.id || '-'}}"
+						  ng-class="isVip == 1 ? 'freshCjVip' : 'freshCJCommon'"
+					  >
+						  Fresh CJ
+					  </a>.
+				  </p>
+			  </div>
+		    <div class="detail-box">
+					<div style="display: flex;">
+						<div class="item-box" ng-show="type === '1'">
+							<div class="item" style="margin-right: 50px;">CJ Order Number: <span class="val">{{orderInfo.id || '-'}}</span></div>
+							<div class="item">Order Status: <span class="val" ng-bind-html="orderStatus"></span></div>
+						</div>
+					</div>
+				
+						<div class="item-box" ng-show="type === '2'">
+							<div class="item">CJ Order Number: <span class="val">{{orderInfo.id || '-'}}</span></div>
+							<div class="item">Store: <span class="val">{{orderInfo.STORE_NAME || '-'}}</span></div>
+							<div class="item">Store Order Number: <span class="val">{{orderInfo.ORDER_NUMBER || '-'}}</span></div>
+							<div class="item">Order Status: <span class="val" ng-bind-html="orderStatus"></span></div>
+						</div>
+						<div class="item-box">
+							<div class="item">
+								<i class="iconfont icondizhi text-theme"></i>
+								{{orderInfo.SHIPPING_ADDRESS || '-'}}
+							</div>
+						</div>
+						<div class="item-box" ng-show="trackingData.length > 0">
+							<div class="item">
+								<span>
+									<i class="iconfont iconlogistics text-theme"></i>
+									{{trackingData[0].acceptTime}}
+									{{trackingData[0].remark}}
+								</span>
+								<div class="more">
+									<span class="more-btn text-theme">More</span>
+									<div class="logistics-info">
+										<div class="title">
+											<span>Shipping Method: {{trackInfo.logisticsName}}</span>
+											<span>Tracking Number: {{trackInfo.trackNumber}}</span>
+										</div>
+										<div class="list-box">
+											<div class="list" ng-repeat="(index,item) in trackingData" ng-class="{'text-theme':index === 0}">
+												<span class="info">{{item.remark}}</span>
+												<span>{{item.acceptTime}}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="item-box" ng-show="trackInfo.freight_id">
+							<div class="item">
+								<span>
+									<i class="iconfont iconlogistics text-theme"></i>
+								</span>
+								<div class="more">
+									<span class="more-btn text-theme">Track Number: {{trackInfo.freight_id}}</span>
+									<!-- <div class="logistics-info">
+										<div class="title">
+											<span>Shipping Method: {{trackInfo.logisticsName}}</span>
+											<span>Tracking Number: {{trackInfo.trackNumber}}</span>
+										</div>
+										<div class="list-box">
+											<div class="list" ng-repeat="(index,item) in trackingData" ng-class="{'text-theme':index === 0}">
+												<span class="info">{{item.remark}}</span>
+												<span>{{item.acceptTime}}</span>
+											</div>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<table class="table">
+							<thead>
+							<tr>
+								<th>Image</th>
+								<th>SKU</th>
+								<th>Price</th>
+								<th>Quantity</th>
+								<th style="width: 264px;">Total Amount</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="(index,item) in products">
+								<td>
+									<img ng-src="{{item.cjImage || item.cjImage}}" alt="">
+								</td>
+								<td  style="color: #333;">{{item.sku}}</td>
+								<td  style="color: #333;">{{item.couponPrice ? item.PRICE - item.couponPrice : item.PRICE | number:2}}</td>
+								<td  style="color: #333;">{{item.quantity}}</td>
+								<td ng-if="index === 0" rowspan="{{products.length}}"  style="color: #333;">{{'$' + ((orderInfo.amount - allCouponAmount | number:2 )|| '-') }}{{orderInfo.postage ? '(Shipping Cost: $'+ (orderInfo.postage || '-') +')' : ''}}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				<div class="dispute-sel">
+						<select ng-change="handleDisputeChange()" ng-model="disputeType">
+							<option value="">Please select a reason for dispute</option>
+							<option value="No Tracking Information Found" ng-hide="trackingData.length >= 2">No Tracking Information Found</option>
+							<option value="Tracking Information Frozen" ng-hide="disabledTrackingInfoFrozen">Tracking Information Frozen</option>
+							<option value="Tracking Information Error" ng-hide="trackingData.length < 2">Tracking Information Error</option>
+							<option value="Order Returned" ng-hide="trackingData.length < 2">Order Returned</option>
+							<option value="Products Short" ng-hide="trackingData.length < 2">Products Short</option>
+							<option value="Defective Products" ng-hide="trackingData.length < 2">Defective Products</option>
+							<option value="Received Incorrect Products" ng-hide="trackingData.length < 2">Received Incorrect Products</option>
+							<option value="Order Not Received" ng-hide="trackInfo.status === 6">Order Not Received</option>
+							<option value="Lack Of Inventory" ng-show="!orderInfo.storageId">Lack of Inventory</option>
+							<option value="Unfilled Orders Cancellation" ng-hide="orderInfo.STATUS === '12' || orderInfo.orderSourceType === '4' || orderInfo.ID.startsWith('GX') || orderInfo.ID.startsWith('SY') || type === '1'">Unfulfilled Orders Cancellation</option>
+						</select>
+					</div>
+				<div class="dispute-tip" ng-show="isShowTips">The screenshot of buyer complains (email address included) and images of parcel are required for this kinds of dispute.</div>
+				<div class="dispute-sel">
+					<select class="sel-wantway" ng-model="disputeExpected">
+						<option value="">Please select expected result</option>
+						<option value="1">Refund</option>
+						<option ng-show="!isSYOrder" value="2">Resend</option>
+					</select>
+				</div>
+				   
+				<!-- 退款途径 -->
+				<div class="dispute-sel" ng-show="disputeExpected == 1">
+					<select ng-model="refundType">
+						<option ng-repeat="(key, value) in refundTypeList" value="{{key}}">{{value}}</option>
+					</select>
+				</div>
+				
+				<!-- <div class="dispute-upimgs">
+					<img ng-repeat="item in imgArr track by $index" ng-click="viewBigImg(item)" class="before-img" ng-src="{{item}}">
+					<div class="upload-img">
+						<img src="{{addImg}}" ng-click="handleAddImg()">
+						<input type="file" accept="image/*" multiple id="dispute-upload" onchange="angular.element(this).scope().upLoadImg(this.files)">
+					</div>
+				</div> -->
+				<div class="upload-hint-dispute">
+					<p ng-hide="disputeType==='Unfilled Orders Cancellation' || disputeType==='No Tracking Information Found' || disputeType==='Tracking Information Frozen'|| disputeType==='Lack Of Inventory'"><i>*</i>Allowed Image Extensions: .jpg, .gif, .jpeg, .png.</p>
+					<p ng-hide="type === '1' || disputeType==='Unfilled Orders Cancellation' || disputeType==='No Tracking Information Found' || disputeType==='Tracking Information Frozen'|| disputeType==='Lack Of Inventory'"><i>*</i>Allowed Video Extensions: .mp4, .avi, .wmv, .flv, .mpg, .mov</p>
+				</div>
+				<div class="dispute-upload-component">
+					<ul class="upload_wrap">
+						<li class="img-show li-img" ng-repeat="item in imgArr track by $index" ng-click="viewBigImg(item)">
+							<img class="before-img" ng-src="{{item}}">
+							<img class="close-img" src="/static/image/dropShipping/close.png" alt="" ng-click="delImg($index, $event)">
+						</li>
+						<li class="upload-img upload_img_wrap" ng-hide="hideUpImgFlag">
+						<img src="/static/image/dropShipping/image.png">
+							<input type="file" accept="image/*" multiple ng-model="documentupload2" title="" class="upload_file"
+							       onchange="angular.element(this).scope().upLoadImg4(this.files)">
+						</li>
+						<li class="upload-img upload_video_wrap" ng-hide="hideUpVideoFlag">
+							<img src="/static/image/dropShipping/video.png">
+							<input type="file" multiple ng-model="documentupload2" title="" class="upload_file"
+								onchange="angular.element(this).scope().upLoadImg5(this.files)">
+						</li>
+						<li class="img-show" ng-repeat="item in videoArr track by $index">
+							<img class="close-img" src="/static/image/dropShipping/close.png" alt="" ng-click="delVideo($index)">
+							<div class="prism-player" id="{{'J_prismPlayer'+($index+1)}}"></div>
+						</li>
+					</ul>
+				</div>
+				<div class="dispute-textarea">
+						<textarea placeholder="Please write your message" ng-model="disputeInfo"></textarea>
+					</div>
+				<p class="tips">Please note that we will stop processing this order when you open a dispute.</p>
+			</div>
+		  <div class="confirm-btn-box">
+	      <span ng-click="hideModal()" class="no-btn">Cancel</span>
+	      <span ng-click="handleConfirm()" class="yes-btn btn-theme">Confirm</span>
+	    </div>
+		</div>
+	</div>
+	<!-- 下载面单 -->
+	<div class="editmesstc-wrap" ng-show="downLoadPdfFlag">
+		<div class="editmess-con delete-tccon">
+			<div class="editmess-top">
+				<p>Are you sure to download the shipping labels?</p>
+			</div>
+			<div class="editmess-btns">
+				<button ng-click="downLoadPdfFlag=false" class="edit-cancel-btn">Cancel</button>
+				<button ng-click="sureDownLoadFun()" class="edit-confirm-btn">Confirm</button>
+			</div>
+		</div>
+	</div>
+	<!-- 面单弹框 -->
+	<div class="editmesstc-wrap" ng-show="mdLinkTkFlag">
+		<div class="editmess-con delete-tccon" style="width: 540px;">
+			<div class="editmess-top">
+				<a style="text-overflow: ellipsis;white-space: nowrap;width: 465px;display: block;overflow: hidden;text-decoration: underline;"
+					ng-href="{{mdLink}}" ng-click="mdLinkTkFlag=false" target="_blank" download="">{{mdLink}}</a>
+			</div>
+			<div class="editmess-btns">
+				<button ng-click="mdLinkTkFlag=false" class="edit-cancel-btn">Closed</button>
+			</div>
+		</div>
+	</div>
+</div>
+

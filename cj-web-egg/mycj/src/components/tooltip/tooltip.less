@@ -1,0 +1,118 @@
+@themeColor: rgba(0, 0, 0, 0.75);
+@shadowColor: rgba(0, 0, 0, 0.15);
+.tipsComponent {
+  :global {
+	.tips-warp {
+	  display: inline-block;
+	  position: relative;
+	  line-height: 18px;
+		text-align: left;
+		.tooltip-font{
+			display: inline-block;
+			max-width: 200px;
+			font-size: 12px;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+		}
+	  &:hover .tips-info {
+		opacity: 1;
+		visibility: visible;
+		z-index: 1;
+		transition: all .3s;
+	  }
+	  .tips-info {
+		position: absolute;
+		font-size: 12px;
+		color: #fff;
+		background: @themeColor;
+		box-shadow: 0 2px 8px 0 @shadowColor;
+		padding: 5px 10px;
+		border-radius: 2px;
+		word-break: break-all;
+		opacity: 0;
+		visibility: hidden;
+		z-index: 0;
+		transition: all .3s;
+		text-align: left !important;
+		&::before {
+		  content: '';
+		  display: block;
+		  width: 0;
+		  height: 0;
+		  border-color: transparent;
+		  border-style: solid;
+		  border-width: 5px;
+		  position: absolute;
+		}
+	  }
+	  .tips-info-top-left {
+		left: -8px;
+		bottom: 25px;
+		&::before {
+		  border-top-color: @themeColor;
+		  border-bottom-width: 0;
+		  left: 11px;
+		  bottom: -5px;
+		}
+	  }
+	  .tips-info-top-center {
+		left: 50%;
+		bottom: 25px;
+		transform: translate(-50%);
+		&::before {
+		  border-top-color: @themeColor;
+		  border-bottom-width: 0;
+		  left: 50%;
+		  bottom: -5px;
+		  transform: translate(-50%);
+		}
+	  }
+	  .tips-info-top-right {
+		right: -8px;
+		bottom: 25px;
+		&::before {
+		  border-top-color: @themeColor;
+		  border-bottom-width: 0;
+		  right: 11px;
+		  bottom: -5px;
+		}
+	  }
+	  .tips-info-bottom-left {
+		left: -8px;
+		top: 25px;
+		&::before {
+		  border-top-width: 0;
+		  border-bottom-color: @themeColor;
+		  left: 11px;
+		  top: -5px;
+		}
+	  }
+	  .tips-info-bottom-center {
+		left: 50%;
+		top: 25px;
+		transform: translate(-50%);
+		&::before {
+		  border-top-width: 0;
+		  border-bottom-color: @themeColor;
+		  left: 50%;
+		  top: -5px;
+		  transform: translate(-50%);
+		}
+	  }
+	  .tips-info-bottom-right {
+		right: -8px;
+		top: 25px;
+		&::before {
+		  border-top-width: 0;
+		  border-bottom-color: @themeColor;
+		  right: 11px;
+		  top: -5px;
+		}
+	  }
+	  .d-n {
+		display: none;
+	  }
+	}
+  }
+}

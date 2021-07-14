@@ -1,0 +1,24 @@
+<div class="ship-from" ng-show="frompage=='product-detail'">
+  <span class="ship-from-span">Shipping From:</span>
+  <!-- <span>China Warehouse</span> -->
+  <select name="" class="ship-from-sele-select" 
+    ng-model="seleWare"
+    ng-change="chanSeleWare(seleWare)"
+    ng-options="item as item.areaEn for item in wareList"
+    ng-disabled="platformItem == 'Shopee' && platformCountryItem.nameEn != 'International' && platformCountryItem.nameEn"
+  >
+    <!-- <option ng-repeat="item in wareList track by $index" class="ng-binding ng-scope">
+      {{item.areaEn}}
+    </option> -->
+  </select>
+  <select 
+    ng-model='inventoryType' 
+    ng-change="chanSeleWare()"
+    ng-show='!!seleWare && seleWare.countryCode == "CN" && proinfo.productType !== "4" && proinfo.productType !== "5"' 
+    class="ship-other-set"
+  >
+    <option value='0'>All Inventory</option>
+    <option value='1'>CJ Inventory</option>
+    <option value='2'>Factory Inventory</option>
+  </select>
+</div>

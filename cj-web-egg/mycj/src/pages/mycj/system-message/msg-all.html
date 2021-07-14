@@ -1,0 +1,117 @@
+<div class="cj-am-wrap system-message-all" cjdot cjdotshow='{"pageCode":"all-message", "eventType": 2}'>
+  <div class="cj-am-title">
+    <span ng-repeat="item in messageTab"
+      ng-class="item.isActive=='true'?'cj-am-titleFont cj-am-titleFontVip activeVip':'cj-am-titleFont cj-am-titleFontVip'"
+      ng-click="checkTab(item)" ng-show="vip=='1'">{{item.name}}</span>
+    <span ng-repeat="item in messageTab" ng-class="item.isActive=='true'?'cj-am-titleFont active':'cj-am-titleFont'"
+      ng-click="checkTab(item)" ng-show="vip!='1'">{{item.name}}</span>
+    <span ng-class="vip=='1'?'mark-all mark-allVip':'mark-all'" ng-click="toMarkAll()">Mark All as Read</span>
+    <!-- <span ng-class="vip=='1'?'mark-all mark-allVip':'mark-all'" ng-click="toMarkAll()">Mark All as Read</span> -->
+  </div>
+  <div class="cj-am-cen">
+    <div class="cj-am-main">
+      <div class="cj-main-top">
+        <!-- <p>System Notifications</p> -->
+      </div>
+      <!-- 消息列表 -->
+      <div class="cj-main-list">
+        <ul class="cj-list-ul">
+          <li class="cj-list-li" ng-repeat="item in messageList" ng-click="toDetailPage(item)" ng-show="tabVal=='1'">
+            <div class="cj-list-liBorder">
+              <p class="cj-ul-p1">
+                <span class="cj-mes-reason">{{item.notificationType}}<b ng-if="item.isread == 0"
+                    ng-class="vip=='1'?'mark-allVip-bg':''"></b>
+                  <!-- <b ng-if="item.isread == 1" ng-class="vip=='1'?'mark-list-cicrl mark-allVip-bg':'mark-list-cicrl'"></b> -->
+                </span>
+                <span class="cj-mes-date">{{item.sendDate | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+              </p>
+              <p class="cj-ul-p2">
+                <a href="javascript:void(0);">{{item.info}}</a>
+              </p>
+              <!-- <img ng-click="deleteMes(item, $index, $event)" class="cj-del-img" src="static/image/public-img/icondelete.png"> -->
+              <span class="cj-del-img" ng-click="deleteMes(item, $index, $event)">
+                <i ng-class="vip=='1'?'iconfont mark-allVip':'iconfont'">&#xe60b;</i>
+              </span>
+            </div>
+
+          </li>
+          <li class="cj-list-li" ng-repeat="item in messageList" ng-click="toElites(item)" ng-show="tabVal=='2'">
+            <div class="cj-list-liBorder" style="padding: 21px 0;">
+              <b ng-if="item.read_status == 1"></b>
+              <div class="list-avactar">
+                <span ng-if="item.read_status == 2"
+                  ng-class="vip=='1'?'Elites-noRead mark-allVip-bg':'Elites-noRead'"></span>
+                <img src="{{item.user_img}}" alt="">
+                <b ng-if="item.read_status == 2"></b>
+              </div>
+              <div class="list-content">
+                <div class="mesElit-left-detail">
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='1'"><span
+                      style="color: #999;">{{item.user_name}} is following you</span> </p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='2'"><span
+                      style="color: #999;">{{item.user_name}} support your article</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='3'"><span
+                      style="color: #999;">{{item.user_name}} support your answer</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='4'"><span
+                      style="color: #999;">{{item.user_name}} answer your question</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='5'"><span
+                      style="color: #999;">{{item.user_name}} comment your article</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='6'"><span
+                      style="color: #999;">{{item.user_name}} comment your question</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='7'"><span
+                      style="color: #999;">{{item.user_name}} comment your answer</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='8'"><span
+                      style="color: #999;">{{item.user_name}} replied to your comment under the article</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='9'"><span
+                      style="color: #999;">{{item.user_name}} replied to your comment under the question</span></p>
+                  <p class="mes-detail-titp" ng-show="item.operation_type=='10'"><span
+                      style="color: #999;">{{item.user_name}} replied to your comment under the answer of
+                      question</span></p>
+                </div>
+
+                <p class="cj-ul-p2">
+                  <a href="javascript:void(0);">{{item.content}}</a>
+                </p>
+              </div>
+              <div class="list-time">
+                <span class="cj-mes-date">{{item.create_time.time | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+              </div>
+            </div>
+          </li>
+          <li class="cj-list-li" ng-repeat="item in messageList" ng-click="toCommentDetail(item)" ng-show="tabVal=='3'">
+            <div class="cj-list-liBorder" style="padding: 21px 0;">
+              <div class="list-avactar">
+                <span ng-if="item.is_read == 0" ng-class="vip=='1'?'Elites-noRead mark-allVip-bg':'Elites-noRead'"
+                  style="left: 45px;top: 0;"></span>
+                <img src="{{item.img_url_one}}" alt="" style="border-radius: 0;">
+              </div>
+              <div class="list-content">
+                <div class="mesElit-left-detail">
+                  <p class="mes-detail-titp"><span>{{item.title}}</span></p>
+                </div>
+                <p class="cj-ul-p2">
+                  <a href="javascript:void(0);" style="color: #999;">{{item.content}}</a>
+                </p>
+              </div>
+              <div class="list-time">
+                <span class="cj-mes-date">{{item.create_time | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+              </div>
+              <span class="cj-del-img" ng-click="deleteRecommend(item, $index, $event)" style="top: 64px;">
+                <i ng-class="vip=='1'?'iconfont mark-allVip':'iconfont'">&#xe60b;</i>
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- 分页 -->
+      <div class="pages-fun" ng-show="messageList.length>0">
+        <div id="ld-pages"></div>
+      </div>
+      <div ng-if="nodata" class="not-found-data" ng-cloak>
+        <img ng-show="nodata && vip != 1" src="/egg/image/msg-all/nodata.png">
+        <img ng-show="nodata && vip == 1" src="/egg/image/msg-all/nodata-vip.png">
+        <span class="NodataList">Sorry, no data found.</span>
+      </div>
+    </div>
+  </div>
+</div>

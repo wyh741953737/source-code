@@ -1,0 +1,104 @@
+.tipsComponent :global .tips-warp {
+  display: inline-block;
+  position: relative;
+  line-height: 18px;
+  text-align: left;
+}
+.tipsComponent :global .tips-warp:hover .tips-info {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  transition: all 0.3s;
+}
+.tipsComponent :global .tips-warp .tips-info {
+  position: absolute;
+  font-size: 12px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  padding: 5px 10px;
+  border-radius: 2px;
+  word-break: break-all;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 0;
+  transition: all 0.3s;
+  text-align: left !important;
+}
+.tipsComponent :global .tips-warp .tips-info::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px;
+  position: absolute;
+}
+.tipsComponent :global .tips-warp .tips-info-top-left {
+  left: -8px;
+  bottom: 25px;
+}
+.tipsComponent :global .tips-warp .tips-info-top-left::before {
+  border-top-color: rgba(0, 0, 0, 0.75);
+  border-bottom-width: 0;
+  left: 11px;
+  bottom: -5px;
+}
+.tipsComponent :global .tips-warp .tips-info-top-center {
+  left: 50%;
+  bottom: 25px;
+  transform: translate(-50%);
+}
+.tipsComponent :global .tips-warp .tips-info-top-center::before {
+  border-top-color: rgba(0, 0, 0, 0.75);
+  border-bottom-width: 0;
+  left: 50%;
+  bottom: -5px;
+  transform: translate(-50%);
+}
+.tipsComponent :global .tips-warp .tips-info-top-right {
+  right: -8px;
+  bottom: 25px;
+}
+.tipsComponent :global .tips-warp .tips-info-top-right::before {
+  border-top-color: rgba(0, 0, 0, 0.75);
+  border-bottom-width: 0;
+  right: 11px;
+  bottom: -5px;
+}
+.tipsComponent :global .tips-warp .tips-info-bottom-left {
+  left: -8px;
+  top: 25px;
+}
+.tipsComponent :global .tips-warp .tips-info-bottom-left::before {
+  border-top-width: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
+  left: 11px;
+  top: -5px;
+}
+.tipsComponent :global .tips-warp .tips-info-bottom-center {
+  left: 50%;
+  top: 25px;
+  transform: translate(-50%);
+}
+.tipsComponent :global .tips-warp .tips-info-bottom-center::before {
+  border-top-width: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
+  left: 50%;
+  top: -5px;
+  transform: translate(-50%);
+}
+.tipsComponent :global .tips-warp .tips-info-bottom-right {
+  right: -8px;
+  top: 25px;
+}
+.tipsComponent :global .tips-warp .tips-info-bottom-right::before {
+  border-top-width: 0;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
+  right: 11px;
+  top: -5px;
+}
+.tipsComponent :global .tips-warp .d-n {
+  display: none;
+}

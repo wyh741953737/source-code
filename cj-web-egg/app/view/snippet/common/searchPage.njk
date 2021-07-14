@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/search-page.css' | VERSION }}">
+
+<div class="list-page" id="vue-search-page">
+  <!-- <div class="select-page-num">
+    <select class="form-control" v-model="pageData.pageSize">
+      {{ pageModule.pagesizeList | safe }}
+    </select>
+    <span>per page</span>
+  </div> -->
+  <div class="total-num">
+    {% if pageModule.totalNum <= 1 %}
+      {{ pageModule.totalNum + ' Record Found' }}
+    {% else %}
+      {{ pageModule.totalNum + ' Records Found' }}
+    {% endif %}
+  </div>
+  <div class="page-index">
+    {{ pageModule.pageLinks | safe }}
+  </div>
+  <div class="to-go">
+    <span>Showing：</span>
+    <input @input="onInput" type="text" v-model="pageData.pageNum" class="form-control" placeholder="">
+    <span>of {{ pageModule.totalPage }}</span>
+    <a class="btn btn-default" role="button" v-on:click="changeFun({{pageModule.totalPage}})">Go</a>
+  </div>
+</div>
+<script src="{{ PUBLIC_SCRIPT + '/search-page.js' | VERSION }}"></script>

@@ -1,0 +1,78 @@
+<!--弹窗-组合详情-->
+<div class='edit-ioss' ng-click="closeSelect()">
+  <div class='edit-ioss-modal'>
+    <header class='edit-header'>
+      <h1 class='edit-title' ng-if='!isEdit'>Add IOSS</h1>
+      <h1 class='edit-title' ng-if='isEdit'>Edit IOSS ID</h1>
+      <i class='iconfont iconguanbi1 edit-close' ng-click='closeModal()'></i>
+    </header>
+    <div class='edit-ioss-content'>
+      <div class='eidt-ioss-item'>
+        <div class='eidt-ioss-item-label'>
+          <span class='label-title'>Description:</span>
+        </div>
+        <div class='edit-ioss-item-input'>
+          <input ng-class="desFlag ? 'error': 'normal'" placeholder="Please enter description" ng-model="description" ng-change="getDescription()"/>
+        </div>
+      </div>
+      <!-- 描述的校验信息 -->
+      <div ng-if="desNotice !== ''" class="notice-item">{{desNotice}}</div>
+      <div class='eidt-ioss-item'>
+        <div class='eidt-ioss-item-label'>
+          <span class='label-title'>IOSS ID:</span>
+        </div>
+        <div class='edit-ioss-item-input'>
+          <input ng-class="iossIdFlag ? 'error': 'normal'" placeholder="Please enter IOSS ID" ng-model="iossId" ng-change="getIossId()"/>
+        </div>
+      </div>
+      <!-- ioss id 的校验信息 -->
+      <div ng-if="iossIdNotice !== ''" class="notice-item">{{iossIdNotice}}</div>
+      <div class='eidt-ioss-item'>
+        <div class='eidt-ioss-item-label '>
+          <span class='label-title'>Destination Country:</span>
+        </div>
+        <div class='edit-ioss-item-input' ng-show="!hasCountry">
+          <div class='select-area' ng-class="countryFlag ? 'error' : 'normal'" ng-click='onshowSelect($event)'>
+            <div class='select-content'>
+              <span ng-if='selectCountryList.length === 0' class='select-placeholder'>Please select destination country</span>
+              <div class='selected-item' ng-repeat="x in selectCountryList" >
+                <span class="countryName">{{x.enName}}</span>
+                <div class="close-btn-box"><i ng-click='selectItem(x.alpha2Code, x, $event)' class='iconfont iconguanbi1 edit-close'></i></div>
+              </div>
+            </div>
+            <div class='select-icon'>
+              <i class="iconfont iconjiantou_xia"></i>
+            </div>
+          </div>
+          <div class='select-bottom' ng-show ='showSelect'>
+            <div class='select-option' ng-click='cancelEvent($event)'>
+              <div class='select-search-content'>
+                <input ng-model="countryName" ng-change="searchCode()"/>
+              </div>
+              <div class='select-option-item' ng-repeat="x in countryList" ng-click="selectItem(x.alpha2Code, x, $event)">
+<!--                <span class='label-icon'><img src='/egg/image/home/flag/US.png'/></span>-->
+                <span class='item-font'>{{x.enName}}</span>
+                <span ng-show='isSelect(x.alpha2Code)' ng-class="!isProfile && isVip ? 'option-select-icon-vip' : 'option-select-icon' " class="option-select-icon">
+                  <i class='iconfont iconduihao'></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='edit-ioss-item-input' ng-show="hasCountry">
+          <div class='select-area'>
+            {{hasCountry.country}}
+          </div>
+        </div>
+      </div>
+      <!-- 国家选择期的校验信息 -->
+      <div ng-show="countryNotice !== ''" class="notice-item">{{countryNotice}}</div>
+    </div>
+    <footer class='edit-ioss-bottom'>
+      <span ng-class="{ profileBtn: isProfile }">
+        <span class='product-btn ui-btn no-btn' ng-click='closeModal()'>Cancel</span>
+        <span class='product-btn ui-btn' ng-class="{vipSaveBtn: isVip, commonSaveBtn: !isVip}" ng-click='saveIoss()'>Save</span>
+      </span>
+    </footer>
+  </div>
+</div>

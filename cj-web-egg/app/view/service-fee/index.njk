@@ -1,0 +1,194 @@
+{% block title %}
+<title>Service Fees for Service Products - CJdropshipping </title>
+<meta name="description" property="og:description" content="CJ Service Fees for CJ warehouses in the US, Germany, China, Thailand,and Indonesia.">
+<meta name="keywords" content="dropshipping fulfillment,free dropshipping fulfillment, cheapest dropshipping fulfillment, cheapest fulfillment in the us, us fulfillment, warehouse fulfillment, shopify fulfillment" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+<meta property="og:image:width" content="1200px" />
+<meta property="og:image:height" content="900px" />
+{% endblock %}
+
+{% extends "../layout/base.njk" %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/home.css' | VERSION }}">
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/service-fee.css' | VERSION }}">
+{% endblock %}
+
+{% block body %}
+<!-- 语言选择、快速导航入口、个人中心入口、登陆、注册 -->
+<!-- LOGO、SEARCH -->
+{% include "../snippet/common-top.njk" %}
+
+<div class="service-fee" id='vue-service-fee'>
+  <div class="content">
+    <h3 class="service-title">CJdropshipping Service Fee</h3>
+    <p class="description">
+      Check out the below information of how does the Service Fee charged in our different warehouses
+    </p>
+    <div class="service-tabs">
+      <div class="tabs-item" :class="{'is-click': isClick == 'US'}" @click="handleChange('US', 0)">US Warehouse</div>
+      <div class="tabs-item" :class="{'is-click': isClick == 'Germany'}" @click="handleChange('Germany', 1)">Germany Warehouse</div>
+      <div class="tabs-item" :class="{'is-click': isClick == 'Thailand'}" @click="handleChange('Thailand', 2)">Thailand Warehouse</div>
+      <div class="tabs-item" :class="{'is-click': isClick == 'Indonesia'}" @click="handleChange('Indonesia', 3)"> Indonesia Warehouse</div>
+      <div class="tabs-item" :class="{'is-click': isClick == 'China'}" @click="handleChange('China', 4)">China Warehouse</div>
+    </div>
+    <div class="service-fee-box">
+      {% for key, value in allServiceFeeObject %}
+        <div class="{{'active' if box_type === key else ''}} sf_public">
+          <div class="title-box">
+            <p>{{value.title | safe}}</p>
+            <p class="free">=Free</p>
+          </div>
+          <div class="desc">{{value.desc | safe}}</div>
+          <div class="advantage-box">
+            {% for advantage in value.advantage %}
+            <div class="advantage-item">
+              <img src="/egg/image/check.png" alt="">
+              <span>{{advantage | safe}}</span>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="service-list-box">
+            <div class="list-title">
+              <p>{{value.mainTitle}}</p>
+              <p style="color: #ff7700;">{{value.emphasis}}</p>
+            </div>
+            <div class="top-box">
+              <div class="left-box table-box {{'center-box' if (key == 'Thailand' or key == 'Indonesia' or key == 'China') else ''}}">
+                <div class="table-title">{{value.leftTitle}}</div>
+                <div class="table-body">
+                  <div class="table-body-item table-body-title">
+                    <div class="item left-item">Weight</div>
+                    <div class="item">Price/item</div>
+                  </div>
+                  {% for leftItem in value.leftList %}
+                    <div class="table-body-item">
+                      <div class="item left-item">{{leftItem.weight}}</div>
+                      <div class="item">{{leftItem.price}}</div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% if value.rightSecondList %}
+                <div class="right-box table-box">
+                  <div class="table-title right-title">
+                    <p>Shipping Fee</p>
+                    <p class="right-title-desc">
+                      {{value.rightTitleDesc}}
+                    </p>
+                  </div>
+                  <div class="right-content">
+                    <div class="left-list">
+                      <div class="title">
+                        {{value.rightFirstTitle}}
+                      </div>
+                      <div class="little-content-box little-title-box">
+                        <div class="little-item right-border">Transportation</div>
+                        <div class="little-item right-border">Delivery Time</div>
+                        <div class="little-item">Price/kg</div>
+                      </div>
+                      {% for rightSecondItem in value.rightSecondList %}
+                        <div class="little-content-box">
+                          <div class="little-item right-border">
+                            {{rightSecondItem.transportation | safe}}
+                          </div>
+                          <div class="little-item right-border">
+                            {{rightSecondItem.deliveryTime}}
+                          </div>
+                          <div class="little-item">
+                            {{rightSecondItem.price}}
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div class="right-list">
+                      <div class="title">
+                        {{value.rightSecondTitle}}
+                      </div>
+                      <div class="content">
+                        <p>Click <span class='focus-black'>Your name</span> > <span class='focus-black'>Tool</span> > <a
+                            href="https://app.cjdropshipping.com/myCJ.html" class='focus-orange'>Shipping Calculation</a>
+                        </p>
+                        <p>Select shipping method by <span class='focus-black'>USPS+</span> and input the order weight, then the shipping cost will show up.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            {% if key == 'Thailand' or key == 'Indonesia' or key == 'China' %}
+              <div style="margin-top: 20px;color: #999999;">
+                <div class="left-box table-box center-box">
+                  <div class="table-title">Shipping Cost</div>
+                  <div class="table-body-item center-item">
+                    <p class="regular">Click <span class='focus-black'>Your name</span> > <span
+                        class='focus-black'>Tool</span> > <a href="https://app.cjdropshipping.com/myCJ.html"
+                        class='focus-orange'>Shipping Calculation</a></p>
+                    <p class="regular">and input the order weight, then the shipping cost will be there.</p>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            <div class="bottom-box">
+              <div class="table-box">
+                <div class="table-title">
+                  {{value.bottomTitle1}}
+                </div>
+                <div class="table-body">
+                  <div class="table-body-item table-body-title">
+                    <div class="item price-item">Price</div>
+                    <div class="item conditions-item">Conditions</div>
+                  </div>
+                  {% for bottomItem in value.bottomList1 %}
+                    <div class="table-body-item">
+                      <div class="item price-item">
+                        {{bottomItem.price}}
+                      </div>
+                      <div class="item conditions-item">
+                        {{bottomItem.conditions}}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% if value.bottomTitle2 %}
+                <div class="table-box">
+                  <div class="table-title">
+                    {{value.bottomTitle2}}
+                  </div>
+                  <div class="table-body">
+                    {% for bottomItem in value.bottomList2 %}
+                      <div class="table-body-item">
+                        <div class="item price-item">
+                          {{bottomItem.price}}
+                        </div>
+                        <div class="item conditions-item">
+                          {{bottomItem.conditions}}
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <div class="regular chat">
+              If any uncertainties, you can click here to <a href="https://chat.cjdropshipping.com"
+                class='focus-orange'>chat</a> with online agent for help.
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- 相关链接 -->
+{% include "snippet/home/related-links.njk" %}
+<!-- 如果底部添加了related-links，必须引入这个js,用来Subscribe to our latest niches按钮逻辑，登录不出现 -->
+<script src="{{ PUBLIC_SCRIPT + '/qr-code.js' | VERSION }}"></script>
+
+<script src="{{ PUBLIC_SCRIPT + '/service-fee.js' | VERSION }}"></script>
+
+{% endblock %}

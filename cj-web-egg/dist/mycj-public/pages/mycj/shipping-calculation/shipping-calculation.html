@@ -1,0 +1,157 @@
+<div class="ea-right-content shipping-calculation" ng-show="false">
+  <div class="ea-freight-calculation">
+    <div class="ea-freight1" style="position: relative;">
+      <h3 style=" margin-bottom: 7px;">Shipping Cost Calculation</h3>
+      <div class="table-con-box" style="margin-left: 50px;">
+        <table class="ea-list-table ea-erp-cs" style="border: none;">
+          <tr>
+            <td>Shipping Method</td>
+            <td>
+              <select ng-model="logisticsMode" ng-change="logisticsMode1(logisticsMode)">
+                <option value="">All</option>
+                <option ng-repeat="item in logistics" value="{{item.enName}}">{{item.enName}}</option>
+              </select>
+            </td>
+            <td>Destination Country</td>
+            <td>
+              <select ng-model="countryDestination" ng-change="countryDestination1(countryDestination)">
+                <option ng-if="isallFlag" ng-repeat="item in nation" value="{{item.ALPHA_2_CODE}}">
+                  {{item.NAME_EN}}（{{item.ALPHA_2_CODE}}）</option>
+                <option ng-if="isallFlag==false" ng-repeat="item in filterCountry" value="{{item.country}}">
+                  {{item.countryfull}}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Shipped From</td>
+            <td>
+              <select ng-model="exportingCountry" ng-init="exportingCountry='中国'"
+                ng-change="exportingCountry1(exportingCountry)">
+                <option value="中国">China</option>
+                <option value="美国">USA</option>
+                <option value="泰国">Thailand</option>
+              </select>
+            </td>
+            <td>Weight(g)</td>
+            <td>
+              <input id="weight" type="number" ng-model="weightNum" ng-change="weightNum1(weightNum)" />
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- 属性start -->
+      <div class="search-by serch-by-property clearfix">
+
+        <div class="search-by-con">
+          <div class="serch-by-name">Attribute：</div>
+          <div class="check-box w80">
+            <input type="checkbox" value="COMMON" ng-click="getPropertyInfo($event)">
+            <label for="">Ordinary</label>
+          </div>
+          <div class="check-box w90">
+            <input type="checkbox" value="ELECTRONIC" ng-click="getPropertyInfo($event)">
+            <label for="">Electronic</label>
+          </div>
+          <div class="check-box w130">
+            <input type="checkbox" value="BATTERY" ng-click="getPropertyInfo($event)">
+            <label for="">Battery Contains</label>
+          </div>
+          <div class="check-box w100">
+            <input type="checkbox" value="IS_ELECTRICITY" ng-click="getPropertyInfo($event)">
+            <label for="">Pure Battery</label>
+          </div>
+          <div class="check-box w125">
+            <input type="checkbox" value="HAVE_LIQUID" ng-click="getPropertyInfo($event)">
+            <label for="">Liquid Contains</label>
+          </div>
+          <div class="check-box w80">
+            <input type="checkbox" value="HAVE_STIVE" ng-click="getPropertyInfo($event)">
+            <label for="">Powder</label>
+            <!-- <label for="">Stive Contain</label> -->
+          </div>
+          <div class="check-box w70">
+            <input type="checkbox" value="HAVE_CREAM" ng-click="getPropertyInfo($event)">
+            <label for="">Cream</label>
+          </div>
+          <div class="check-box w140">
+            <input type="checkbox" value="HAVE_MAGNETISM" ng-click="getPropertyInfo($event)">
+            <label for="">Magnetic Contains</label>
+          </div>
+          <div class="check-box w60">
+            <input type="checkbox" value="EDGE" ng-click="getPropertyInfo($event)">
+            <label for="">Sharp</label>
+          </div>
+          <div class="check-box w125">
+            <input type="checkbox" value="NO_ENTRY" ng-click="getPropertyInfo($event)">
+            <label for="">Customs Ban</label>
+          </div>
+          <div class="check-box w125">
+            <input type="checkbox" value="CLONE" ng-click="getPropertyInfo($event)">
+            <label for="">Imitation Brand</label>
+          </div>
+          <div class="check-box w125">
+            <input type="checkbox" value="OVERSIZE" ng-click="getPropertyInfo($event)">
+            <label for="">Oversize</label>
+          </div>
+          <div class="check-box w60">
+            <input type="checkbox" value="THIN" ng-click="getPropertyInfo($event)">
+            <label for="">Thin</label>
+          </div>
+          <div class="check-box w60">
+            <input type="checkbox" value="FLAT" ng-click="getPropertyInfo($event)">
+            <label for="">Flat</label>
+          </div>
+          <div class="check-box w60">
+            <input type="checkbox" value="PROOERTY" ng-click="getPropertyInfo($event)">
+            <label for="">Other</label>
+          </div>
+          <!-- 属性end -->
+        </div>
+        <div>
+          <div class="volume-div">
+            <span>Length:</span>
+            <input type="number" ng-model="pLength" />cm
+            <span style="margin-left: 15px;">Width:</span>
+            <input type="number" ng-model="pWidth" />cm
+            <span style="margin-left: 15px;">Height:</span>
+            <input type="number" ng-model="pHeight" />cm
+            <!-- <span>(unit:CM)</span> -->
+          </div>
+
+          <div style="display: inline-block;"><input type="button" value="Count" class="btn-f60" ng-click="countBtn()">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ea-freight2">
+        <h3>Result</h3>
+        <div class="table-con-box" style="margin: 0;">
+          <table class="ea-list-table ea-erp-cs" style="border: none;">
+            <thead>
+              <tr>
+                <td>Sort</td>
+                <td>Shipping Method</td>
+                <td>Shipping Cost Amount</td>
+                <td>Delivery Time</td>
+              </tr>
+            </thead>
+          </table>
+          <div class="table-con-box-div">
+            <ul ng-repeat="item in countResult">
+              <li ng-bind="$index+1" style="width: 97px;">1</li>
+              <li style="width: 410px;">{{item.logisticName}}</li>
+              <li style="width: 532px;">
+                ${{item.price}}
+                <span ng-if="item.cast=='1'" class="pFlag">Oversize</span>
+              </li>
+              <li style="width: 321px; padding-left: 25px;">{{item.aging}}&nbsp;Day(s)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

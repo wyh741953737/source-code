@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.min.css">
+{% if EGG_ENV === 'local' %}
+<script src="{{ PUBLIC_LIBS }}/swiper-5.3.6/swiper.js"></script>
+{% else %}
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/swiper-5.3.6/swiper.min.js"></script>
+{% endif %}
+
+<div class="swiper-container swiper-list-detail-banner">
+  <div class="swiper-wrapper">
+    {% for item in bannerList %}
+    <div class="swiper-slide">
+      <a href="{{item.link}}" target="_blank">
+        <img src="{{item.img_url}}" alt="">
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+<script>
+  const swiperImg = new Swiper('.swiper-list-detail-banner', {
+    autoplay: true,
+    slidesPerView: 1,
+    paginationClickable: true,
+    speed:1500,
+    loop: true,
+    autoplay: {
+      disableOnInteraction: false,
+    },
+    // 如果需要前进后退按钮
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    // 如果需要分页器
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  })
+</script>
+<!-- swiper -e- -->

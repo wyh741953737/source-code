@@ -1,0 +1,565 @@
+<script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/lottie.js"></script>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_hv29diaf0wf.css">
+
+<div class="common-header">
+  <!--顶部-->
+  <div class="header-nav">
+    <div class="unverify-tip" ng-show="$root.emailVerifyStatus === '3'">
+	    Hey&nbsp;{{email}}, to make sure your account security, please verify your email address here.
+	    <a href="javascript:void(0);" ng-click="handleVerifyEmail()">Verify Email</a>
+    </div>
+    <div class="content header-nav-content" style="height: 38px;">
+      <!--货币 new start-->
+      <div class="currency">
+        <div id="national-flag-ship-to"
+             class="triangle-after national-flag"
+             ng-click="toggleShowSelectRateBox($event);">
+          <div class="ship-to-span">
+            <span class="select-title">Language</span>
+            <img id="translateImg" class="icon-flag" style="box-shadow: unset;" ng-src="{{translateDataID | nationalFlag}}">
+            <span class="split">/</span>
+            <span class="currency" ng-bind="currentCurrency.currency"></span>
+            <i ng-if="showLanguageBox" class="iconfont iconshang1 new-icon-sty" style="padding-left: 9px;top: 0;"></i>
+            <i ng-if="!showLanguageBox" class="iconfont iconxia2 new-icon-sty" style="padding-left: 9px;top: 0;"></i>
+          </div>
+          <div id="national-flag-select-wrap"
+               class="select-wrap flag"
+               ng-click="clickSelectWrap($event);"
+               ng-show="showSelectRateBox">
+               <div class="box">
+                 <div class="item-top">
+                  <div class="select-title">Language</div>
+                  <div class="info-show" ng-click="clickSelectBox1()">
+                    <!-- <div class="current" ng-class="{'show-list': showFlagList}"> -->
+                        <img ng-src="{{flagSrc(language)}}" />
+                        <span class="text">{{ language.name }}</span>
+                        <span class="icon"></span>
+                        <div class="select-box" ng-if="visibleSelect1">
+                          <div class="select-list">
+                            <div class="select-item" ng-repeat="f in flagList" ng-click="handleChangeLauguage(f)">
+                              <img src="/egg/image/yes.png" ng-show="language.name == f.name" alt="" class="yes-img" style="width: 15px; height: 10px;">
+                              <img class="item-flg-img" ng-src="{{flagSrc(f)}}" style="border: 1px solid #e5e5e5;" />
+                              <span>{{f.name}}</span>
+                            </div>
+                          </div>
+                        </div>
+                    <!-- </div> -->
+                  </div>
+                 </div>
+                <div class="item-bottom">
+                  <div class="select-title">Currency</div>
+                  <div class="info-show" ng-click="clickSelectBox2()">
+                    <div class="text">{{ currency.currency }}</div>
+                    <span class="icon"></span>
+                    <div class="select-box" ng-show="visibleSelect2">
+                      <div class="select-list">
+                        <div class="select-item" ng-repeat="c in currencyList" ng-click="clickFlagItem($event, 'currency', c);">
+                          <img ng-show="currency.currency == c.currency" src="/egg/image/yes.png" alt="" class="yes-img" style="width: 15px; height: 10px;">
+                          <span>{{ c.currency }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flag-save" ng-click="saveExchangeRate($event);">Confirm</div>
+               </div>
+          </div>
+        </div>
+      </div>
+      <!--货币 new end-->
+
+      <!--快捷导航-->
+      <ul class="quick-navigation" ng-mouseover='arrowFun()'>
+        <li class="quick-navigation-item list" ng-mouseover="showAuthorization=true" ng-mouseleave="showAuthorization=false">
+          <a href="javascript:void(0);">
+            Authorization
+            <i ng-if="showAuthorization" class="iconfont iconshang1 new-icon-sty"></i>
+            <i ng-if="!showAuthorization" class="iconfont iconxia2 new-icon-sty"></i>
+          </a>
+          
+          <div class="child-list-box">
+            <ul class="child-list Authorization-box">
+              <li class="child-item" ng-repeat="item in ouLinks.authorization track by $index">
+              <a
+                href="{{item.href}}">{{item.name}}
+              </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="quick-navigation-item">
+          <a cjstat cjstatshow='{"eventType": 1, "buttonName": "Wishlist"}' id="wishlist-box" href="{{ouLinks.wishlist}}">Wishlist</a>
+        </li>
+        <li class="quick-navigation-item list" ng-mouseover="showWarehouses=true" ng-mouseleave="showWarehouses=false">
+          <a href="javascript:void(0);" ng-click="addStatisFun(3)">
+            Warehouses
+            <i ng-if="showWarehouses" class="iconfont iconshang1 new-icon-sty"></i>
+            <i ng-if="!showWarehouses" class="iconfont iconxia2 new-icon-sty"></i>
+          </a>
+          <div class="child-list-box arrow-container">
+            <ul class="child-list Warehouses-box">
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "{{item.areaEn}}", "buttonType": "1"}' class="child-item" ng-repeat="item in warehouseList track by $index">
+              <a
+                href="{{'list-detail.html?from='+ item.countryCode + '&fromType=all&track=3&fromWhere=warehouses'}}">{{item.areaEn}}</a>
+              </li>
+            </ul>
+            <div class="arrow" ng-click='warehousesArrowClick()'>
+              <i class="iconfont iconxiangxiashuangjiantou"></i>
+            </div>
+          </div>
+        </li>
+        <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Print on Demand"}' class="quick-navigation-item width">
+          <a href="/printonDemand/home" ng-class="{'active':isPod}">Print on Demand</a>
+        </li>
+        <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Sourcing"}' class="quick-navigation-item">
+          <a href="{{ouLinks.sourcing}}">Sourcing</a>
+        </li>
+        <li cjstat cjstatshow='{"eventType": 1, "buttonName": "My CJ"}' class="quick-navigation-item my-cj-box">
+          <a id="myCJOutLine" class="myCJOutLine" ng-click="updateAuthHrefNew(ouLinks.mycj)"></a>
+          <a id="my-cj" href="{{ouLinks.mycj}}">My CJ</a>
+        </li>
+      </ul>
+      <!--登录/注册-->
+      <div class="login-register">
+        <!--未登录-->
+        <div class="not-logged" ng-if="!hasLogin" ng-cloak>
+          <a cjstat cjstatshow='{"eventType": 1, "buttonName": "Sign In"}' href="/login.html" class="sign d-flex-items-center">
+            <!-- <i></i> -->
+            Sign In
+          </a>
+          <button class="register-box">
+            <a class="ml-4" cjstat cjstatshow='{"eventType": 1, "buttonName": "Register"}' href="/register.html" class="register">Register</a>
+          </button>
+        </div>
+        <!--已登录-->
+        <div ng-if="hasLogin" class="has-logged">
+          <!-- Message -->
+          <div class="message" id="message_box" ng-class="{'isTopHover': isTopFlag}" ng-mouseenter="toggleMessage(true)" ng-mouseleave="toggleMessage(false)" >
+            <!-- Message -->
+            <div cjstat cjstatshow='{"eventType": 1, "buttonName": "message"}' class="amount-total" on-finish id='msgBar'>
+                <div class="mes-img-logo iconMessage">
+                  <i class="iconfont">&#xe67c;</i>
+                </div>
+                <!-- <div class="mes-flag-num all-count" ng-cloak ng-show="messageNum>0 && messageNum<10">{{messageNum}}</div>
+                <div class="mes-flag-num all-count list-content-long" ng-cloak ng-show="messageNum<=99 && messageNum>=10">{{messageNum}}</div>
+                <div class="mes-flag-num all-count-lenth" ng-cloak ng-show="messageNum>99">99+</div> -->
+            </div>
+                
+                <!-- <div class="index-message-box" style="overflow: hidden; border: 0;">
+                  <div class="message-list-all">
+                    <div cjstat cjstatshow='{"eventType": 1, "buttonName": "{{item.name}}"}' class="message-list-allTitle" ng-repeat="item in messageTab">
+                      <div class="message-list-CJ" >
+                        <div ng-class=" item.active=='true'?'list-font activeTab':'list-font'"  ng-click="checkMessage(item)">{{item.name}}</div>
+                        <div class="list-count"  ng-click="checkMessage(item)" ng-show="item.count>0 && item.count<10">{{item.count}}</div>
+                        <div class="list-count list-content-long"  ng-click="checkMessage(item)" ng-show="item.count>=10 && item.count<=99">{{item.count}}</div>
+                        <div class="list-count list-count-lenth"  ng-click="checkMessage(item)" ng-show="item.count>99">99+</div>
+                      </div>
+                    </div>
+                    
+                    
+                  </div>
+                  <div class="loading" ng-if="isLoading">
+                    <img src="/static/image/public-img/loading.gif" alt="">
+                  </div>
+                      <ul class="message-list" ng-show="messagePre.length > 0">
+                        <li cjstat cjstatshow='{"eventType": 1, "buttonName": "messagecard", "buttonType": 1}' ng-repeat="item in messagePre" ng-class="{'has-red-yes': item.isread == 1, 'isTop': item.noticeSpecify == 0}" class="message-item">
+                          <div class="message-item-box">
+                            <b ng-if="item.noticeSpecify == 0" class="isTopBage"></b>
+                            <a href="{{item.url ? item.url + '&href' : 'myCJ.html#/message-list/' + item.id}}" ng-show="MessageType=='1'">
+                              <div class="mes-left-detail">
+                                  <p class="mes-detail-titp" ng-show="MessageType=='1'">{{item.notificationType}}</p>
+                                  <p class="mes-detail-p" ng-show="MessageType=='1'">{{item.info}}</p>
+                              </div>
+                              <div class="mes-right-time">
+                                  <span class="mes-time" ng-show="MessageType=='1'">{{item.sendDate  | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                              </div>
+                            </a>
+                            <a  ng-show="MessageType=='2'" ng-click="toAnother(item)" ng-class="{'has-read-yes': item.read_status == 1}">
+                            <div class="mesElit-left-detail">
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='1'">{{item.user_name}} <span>follow you</span> </p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='2'">{{item.user_name}} <span style="color: #999;">support your article</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='3'">{{item.user_name}} <span style="color: #999;">support your answer</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='4'">{{item.user_name}} <span style="color: #999;">answer your question</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='5'">{{item.user_name}} <span style="color: #999;">comment your article</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='6'">{{item.user_name}} <span style="color: #999;">comment your question</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='7'">{{item.user_name}} <span style="color: #999;">comment your answer</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='8'">{{item.user_name}} <span style="color: #999;">replied to your comment under the article</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='9'">{{item.user_name}} <span style="color: #999;">replied to your comment under the question</span></p>
+                                <p class="mes-detail-titp" ng-show="MessageType=='2' && item.operation_type=='10'">{{item.user_name}} <span style="color: #999;">replied to your comment under the answer of question</span></p>
+                            </div>
+                            <div class="mesElit-right-time">
+                                <span class="mes-time" ng-show="MessageType=='2'">{{item.create_time.time  | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                            </div>
+                            </a>
+                            <a  ng-show="MessageType=='3'" ng-click="toAnother(item)" class="shopping-box" ng-class="{'has-read-yes': item.is_read == 1}">
+                              <div class="shopping-left-detail" ng-if="item.img_url_one">
+                                  <img ng-src="{{item.img_url_one}}" alt="" class="shopping-left-img">
+                              </div>
+                              <div class="shopping-right-time">
+                                <p class="shopping-title">{{item.title}}</p>
+                                <p class="shopping-content">{{item.content}}</p>
+                                <span class="shopping-time">{{item.create_time  | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                              </div>
+                            </a>
+                          </div>
+                        </li>
+                    </ul>
+                    <div class="message-list" ng-show="noData">
+                      <div class="not-found-data" ng-cloak>
+                        <img src="/egg/image/msg-all/nodata.png" style="width: 80px;">
+                        <p class="NodataList">Sorry, no data found.</p>
+                      </div>
+                    </div>
+                    <div class="mes-bottom-information">
+                        <span href="javascript:void(0);" ng-click="toMarkAll()" class="mark-all-read" ng-style="{color:isMark?'#999':''}">Mark All as Read</span>
+                        <span cjstat cjstatshow='{"eventType": 1, "buttonName": "Read All"}' href="javascript:void(0);" ng-click="toAllMessage()" class="read-all">Read All ></span>
+                    </div>
+                </div> -->
+
+
+          </div>
+          <!--user-->
+          <div id="my_cj_tab2"
+               class="user-operating triangle-after hover-arrow d-flex-items-center"
+               ng-mouseover="showName=true" ng-mouseleave="showName=false"
+               >
+            <!--avatar-->
+            <!-- 11.06需求去除头像 -->
+            <!-- <img ng-if="avatar" class="avatar" ng-src="{{avatar | IMG_SIZE: 56:56}}" alt="">
+            <span ng-if="!avatar" class="name-box">{{ loginName ? loginName.slice(0, 1).toUpperCase() : ''}}</span> -->
+            <span title="{{userName}}" class="user-name">
+              {{subAccountName || loginName}}
+            </span>
+            <i ng-if="showName" class="iconfont iconshang1 new-icon-sty" style="padding-left: 5px;"></i>
+            <i ng-if="!showName" class="iconfont iconxia2 new-icon-sty" style="padding-left: 5px;"></i>
+            <ul class="user-ul">
+              <li class="header-user-ul-item">
+                <!-- <i class="iconfont iconicon_profile"></i> -->
+                <i class="iconfont icongerenzhongxin icon-size-user"></i>
+                <a ng-href="{{disposeHrefFn('myCJ.html#/profile', '/profile/:type')}}">Profile</a>
+              </li>
+              <li class="header-user-ul-item">
+                <!-- <i class="iconfont wallet-icon"></i> -->
+                <i class="iconfont iconzhanghu icon-size-user"></i>
+                <a cjstat cjstatshow='{"eventType": 1, "buttonName": "Wallet", "buttonType": "1"}' ng-href="{{disposeHrefFn('myCJ.html#/myCJWallet', '/myCJWallet')}}">Wallet</a>
+              </li>
+              <!-- <li class="header-user-ul-item">
+                <i class="iconfont coupons-icon"></i>
+                <a href="christmas_coupon.html">My Coupons</a>
+              </li> -->
+              <li class="tool header-user-ul-item" style="position: relative;">
+                <!-- <i class="iconfont toolicon"></i> -->
+                <i class="iconfont iconwuliu icon-size-user"></i>
+                <a href="javascript:void(0);">Tool</a>
+                <i class="iconfont iconlujingbeifen2 icon-size-user" style="position: absolute; right: 0; font-size: 8px !important;"></i>
+                <ul class="tool-ul">
+                  <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Track Orders", "buttonType": "1"}' >
+                    <!--<i></i>-->
+                    <a target="_blank" ng-href="{{disposeHrefFn('https://cjpacket.com/', 'Tool')}}">Track Orders</a>
+                  </li>
+                  <li>
+                    <!--<i></i>-->
+                    <a ng-href="{{disposeHrefFn('calculation.html', 'Tool')}}">Shipping Calculation</a>
+                  </li>
+                </ul>
+              </li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Rating", "buttonType": "1"}' class="header-user-ul-item">
+                 <!-- <i class="iconfont icongyspj"></i> -->
+                 <i class="iconfont icongongyingshangpingjia icon-size-user"></i>
+                <a href="/evalute.html" target="_blank">Rating &nbsp;&nbsp;({{evaluteCount ? evaluteCount : 0}})</a>
+              </li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Account", "buttonType": "1"}' class="header-user-ul-item">
+                <!-- <i class="iconfont profile-icon"></i> -->
+                <i class="iconfont iconzizhanghu icon-size-user"></i>
+                <a ng-href="{{disposeHrefFn('myCJ.html#/accountManage', '/accountManage')}}">Account</a>
+              </li>
+              <!-- <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Inventory Alert", "buttonType": "1"}' class="header-user-ul-item">
+                <i class="iconfont iconjingshi icon-size-user"></i>
+                <a ng-href="{{disposeHrefFn('myCJ.html#/warning_set', '/warning_set')}}">Inventory Alert</a>
+              </li> -->
+              <li class="header-user-ul-item">
+                <!-- <i class="iconfont loginout-icon"></i> -->
+                <i class="iconfont icontuichu icon-size-user"></i>
+                <a href="javascript:void(0);" ng-click="logOut()">Log out</a>
+              </li>
+            </ul>
+          </div>
+          <!--support-->
+          <div class="support triangle-after hover-arrow d-flex-items-center" ng-click="addStatisFun(8,$event)">
+            <div class="text-truncate" ng-mouseover="showCenter=true" ng-mouseleave="showCenter=false">
+              Support Center
+              <i ng-if="showCenter" class="iconfont iconshang1 new-icon-sty"></i>
+              <i ng-if="!showCenter" class="iconfont iconxia2 new-icon-sty"></i>
+            </div>
+            <ul class="support-ul">
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Ticket", "buttonType": "1"}'>
+                <!-- <i class="ticket"></i> -->
+                <i class="iconfont iconticket icon-size-center"></i>
+                <a ng-href="{{disposeHrefFn('myCJ.html#/ticketList?track=8', '/ticketList?track')}}">Ticket</a>
+                <!-- <a href="javascript:void(0);" ng-click="ticket()">Ticket</!-->
+              </li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Tutorial", "buttonType": "1"}'>
+                <!-- <i class="tutorial"></i> -->
+                <i class="iconfont icontutorial icon-size-center"></i>
+                <a ng-href="{{disposeHrefFn('/help-center', 'Tutorial')}}" target="_blank">Help Center</a>
+              </li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Elites", "buttonType": "1"}'>
+                <!-- <i class="iconfont">&#xe63a;</i> -->
+                <i class="iconfont iconelites icon-size-center"></i>
+                <a ng-href="{{disposeHrefFn(ElitesUrl, 'Elites')}}" target="_blank">Elites</a>
+              </li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Blog", "buttonType": "1"}'>
+                <!-- <i class="Blog"></i> -->
+                <i class="iconfont iconboke icon-size-center"></i>
+                <a ng-href="{{disposeHrefFn('https://blog.cjdropshipping.com/', 'Blog')}}" target="_blank">Blog</a>
+              </li>
+         <!--     <li>
+                <i class="facebook"></i>
+                <a href="https://www.facebook.com/groups/cjdropshipping/" target="_blank">Facebook Group</a>
+              </li>-->
+              <!-- <li>
+                <i class="iconfont iconnewuserguide"></i>
+                <a href="javascript:void(0);" ng-click="newUser()">New User Guide</a>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--主搜索-->
+  <div class="header-search-box" ng-show="store=='0'">
+    <div class="header-search" ng-class="{'header-search-fixed':scrollTop >= scrollTopNum}">
+      <div class="content header-search-content">
+        <!-- 非首页情况下的类目筛选 -->
+        <div class="category-wrap" ng-mouseleave="isCategoryHover = false" ng-show="!isHomeFlag">
+          <span class="category-icon" ng-class="{'isHover': isCategoryHover}"><img ng-mouseenter="isCategoryHover = true" src="{{categoryImgUrl}}" alt=""></span>
+          
+          <div ng-show="isCategoryHover" class="category-content" ng-mouseleave="getSecondData(null, 'mouseleave')">
+            <!-- 一级类目 -->
+            <div class="first-category-list">
+              <div class="first-category-item" ng-class="{'active': item.isHover}" ng-repeat="(index,item) in topCategoryList" ng-mouseenter="getSecondData(item, 'mouseenter')" ng-click="toMerchList(item.id, [item])">
+                <!-- <span>{{item.nameEn}}</span> -->
+                <a href="{{item.aLink}}">{{item.nameEn}}</a>
+                <img ng-if="!isPod" class="first-category-icon" src="/static/image/CJ-home/right-icon.svg" alt="">
+              </div>
+            </div>
+            <!-- 二级类目组 -->
+            <div class="second-category-list" ng-show="secondList.length > 0">
+              <div class="second-category-content">
+                <div class="second-category-item" ng-repeat="second in secondList">
+                  <!-- ng-click="toMerchList(second.id, [firstCategory, second])" -->
+                  <div class="second-category-title" >
+                    <a href="{{second.aLink}}">{{second.nameEn}}</a>
+                  </div>
+                  <ul>
+                     <!-- ng-click="toMerchList(third.id, [firstCategory, second, third])" -->
+                    <li ng-repeat="third in second.children"><a href="{{third.aLink}}">{{third.nameEn}}</a></li>
+                  </ul>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--logo-->
+        <a href="home.html">
+          <img class="logo" style="height: 40px;" ng-class="{'noHome': !isHomeFlag}" src="{{imgurl}}"/>
+        </a>
+        
+        <!--搜索-->
+        <div class="search" id="searchImgBox">
+          <div class="search-box">
+            <div class="img-box" ng-mouseover="isHover = true" ng-mouseleave="isHover = false"
+                ng-class="{'hover-boder':isHover,'no-hover-boder':!isHover}"
+                ng-show="imgArr">
+              <img src="{{imgArr}}" alt="">
+              <div class="img-clear" ng-class="{'hover':isHover,'no-hover':!isHover}" ng-click="imgClear()">x</div>
+            </div>
+            <input cjstat cjstatshow='{"eventType": 1, "buttonName": "Search input"}' autocomplete="off" ng-model="searchMerchName" ng-keyup="enterSearch($event)"
+                placeholder="Search winning products by keyword, SKU, 1688/Taobao/Aliexpress URL" type="text" title="Search winning products by keyword, SKU, 1688/Taobao/Aliexpress URL">
+            <label for="img-upload" ng-mouseover="isShow = true" ng-mouseleave="isShow = false">
+              <input type="file" id="img-upload" style="display: none;"
+                onchange="angular.element(this).scope().upLoadImg(this.files)">
+              <img class="img-upload" src="/static/image/CJ-home/img-upload.png" ng-show="!isShow">
+              <img class="img-upload" src="/static/image/CJ-home/img-upload-hover.png" ng-show="isShow">
+              <div class="layer" ng-show="isShow">Drag or upload an image to search.</div>
+            </label>
+            
+            <!-- <span id="category-span" class="category" ng-click="toggleCategory($event)">{{categoryName}}</span> -->
+            <!--ng-show="item.individuationTotle"-->
+            <!-- <ul class="category-ul" ng-show="isShowCategory">
+              <li ng-click="categoryItemClick('all')">All Categories</li>
+              <li ng-repeat="(index,item) in $root.CategoryList"
+                  ng-click="categoryItemClick(item)">{{item.nameEn}}</li>
+            </ul> -->
+          </div>
+          <div class="search-btn" ng-click="searchByMerchName()">
+            <i></i>
+          </div>
+        </div>
+        <!--第三方网站-->
+        <div class="see-more">
+          <span ng-class="{ notranslate: ['zh', 'en', 'de', 'fr', 'id', 'th'].includes(targetLng)}">{{ 'Source More' }}</span> 
+          <div class="third-party">
+            <ul>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Go to 1688", "buttonType": "1"}' ng-show="yaoliuFlag" ng-click="goTo1688()">Go to 1688</li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Go to Taobao", "buttonType": "1"}' ng-show="taobaoFlag" ng-click="goToTaobao()">Go to Taobao</li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Go to AliExpress", "buttonType": "1"}' ng-click="goToAliExpress()">Go to AliExpress</li>
+              <li cjstat cjstatshow='{"eventType": 1, "buttonName": "Go to Shopify", "buttonType": "1"}' ng-click="goToShopify()">Go to Shopify</li>
+              <li ng-show="backFlag" ng-click="backCJ()">Back To CJ</li>
+            </ul>
+          </div>
+        </div>
+        <!-- addToQueue -->
+        <div cjstat cjstatshow='{"eventType": 1, "buttonName": "Queue"}' class="addToQueue" ng-click="toMyList()">
+          <!-- <i class="iconfont">&#xe66e;</i> -->
+          <span class="icon iconfont iconkandengicon"></span>
+          <span class="tit">Queue</span>
+          <span class="todo" ng-cloak ng-class="{heartbeat:queueAnimate}">
+            {{queueNum > 99 ? '99+' : queueNum}}
+          </span>
+        </div>
+        <!-- freightCalculation -->
+        <!-- <div class="freight-calculation" title="freight calculation">
+          <a href="/calculation.html">
+            <i class="iconfont">&#xe680;</i>
+          </a>
+        </div> -->
+        <!-- 智能引导 -->
+        <div class="see-more see-guid">
+          <i class="iconfont iconOurServices" style="margin-right: 4px;"></i>
+          <span style="padding-top: 1px;">Our Services</span> 
+          <div class="guid-wrap">
+            <intel-guid></intel-guid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 供应商店铺搜索 -->
+  <div class="header-search-box" ng-show="store=='1'&&shopData.name">
+      <div class="header-search" ng-class="{'header-search-fixed':scrollTop >= 40}">
+        <div class="content header-search-content">
+          <!--logo-->
+          <a href="home.html">
+            <img class="logo" style="height: 40px;" src="/egg/image/new_logo.svg"/>
+          </a>
+          <div class="shop-name">
+            <img class="shop-icon" ng-src="{{shopData.logo}}" alt="">
+            <div class="shop-name-wrap" style="overflow: hidden;">
+              <p class="shopname">{{shopData.name}}</p>
+              <!-- <span class="shop-rank" ng-if="defaultPlan > 1" ng-click="conTactFun()">Contact Supplier</span> -->
+            </div>
+            <div class="evalute-wrap">
+            <div class="triangle"></div>
+            <div class="evalute-title">Supplier Ratings</div>
+            <div class="evalute-menu">
+              <div class="evalute-item" ng-repeat="item in evalute">
+                <span>{{item.desc}}</span>
+                <div class="staring-tip">
+                  <input type="radio" id="rate5{{ $index}}" name="rating{{ $index}}" ng-model="$parent.evalute[$index].number" disabled value="5" />
+                  <label for="rate5{{$index}}" ng-class="{'rated': evalute[$index].number > 4 }" title="{{evaluteDescList[$index][4]}}"></label>
+  
+                  <input type="radio" id="rate4{{$index}}" name="rating{{ $index}}" ng-model="$parent.evalute[$index].number" disabled value="4" />
+                  <label for="rate4{{$index}}" ng-class="{'rated': evalute[$index].number > 3 }" title="{{evaluteDescList[$index][3]}}"></label>
+  
+                  <input type="radio" id="rate3{{$index}}" name="rating{{ $index}}" ng-model="$parent.evalute[$index].number" disabled value="3" />
+                  <label for="rate3{{$index}}" ng-class="{'rated': evalute[$index].number > 2 }" title="{{evaluteDescList[$index][2]}}"></label>
+  
+                  <input type="radio" id="rate2{{$index}}" name="rating{{ $index}}" ng-model="$parent.evalute[$index].number" disabled value="2" />
+                  <label for="rate2{{$index}}" ng-class="{'rated': evalute[$index].number > 1 }" title="{{evaluteDescList[$index][1]}}"></label>
+  
+                  <input type="radio" id="rate1{{$index}}" name="rating{{ $index}}" ng-model="$parent.evalute[$index].number" disabled value="1" />
+                  <label for="rate1{{$index}}" ng-class="{'rated': evalute[$index].number > 0 }" title="{{evaluteDescList[$index][0]}}"></label>
+                </div>
+                <div class="number">{{evalute[$index].number}}</div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="search-panel">
+            <div class="search-combobox">
+              <input type="text" title="Search winning products by keyword, SKU, 1688/Taobao/Aliexpress URL" ng-model="searchMerchName" placeholder="Search winning products by keyword, SKU, 1688/Taobao/Aliexpress URL" class="search-combobox-input">
+            </div>
+            <span class="local" ng-click="toMyStore()">In this store</span>
+            <span class="global" ng-click="searchByMerchName()">On CJ</span>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!--检测插件弹窗-->
+<div id="isCJPub" ng-show="isCJPub" ng-cloak>
+  <div class="CJ-content">
+    <span class="close" ng-click="Cancel()">×</span>
+    <h3>{{CJPubTitle}}</h3>
+    <p>{{CJPubtxt}}</p>
+    <button class="btn1" ng-show="!isInstall" ng-click="Install()">Install Now</button>
+    <button class="btn2" ng-show="!isInstall" ng-click="Cancel()">Cancel</button>
+    <button class="btn1" ng-show="isInstall" ng-click="Refresh()">Refresh</button>
+  </div>
+</div>
+<!--第三方网站-->
+<div ng-show="$root.isSwitch">
+  <iframe id="Switch" ng-src="{{SwitchURL}}" width="100%"
+          style="min-height:1000px;width:100%;height:100%;border: none;"></iframe>
+</div>
+<div class="hnj-SupportCenterWrap-wrap" ng-if="hasLogin">
+  <work-orders></work-orders>
+</div>
+<!--ticket 新手-->
+<div class="ticketXS">
+  <div class="ticketWrap">
+        <span class="ticketOL">
+            <img style="position: absolute;top: 20px;right: -32px;" src="static/image/Newbie/embellish.png" alt=""/>
+            <img style="position: absolute;top: 146px;right: 290px;" src="static/image/Newbie/Arrow3.png" alt=""/>
+            <img style="position: absolute;top: 170px;right: 290px;" src="static/image/Newbie/star2.png" alt=""/>
+          <!--<p style="position: absolute; top: 100px;right: -160px;color: #fff;font-size: 24px;">Look here!</p>-->
+            <p style="padding: 8px 15px;border: 1px solid #fff;border-radius: 50px;font-size: 18px;position: absolute;top: 240px;right: 187px;color: #fff;cursor: pointer;"
+               ng-click="iKnown()">I known</p>
+        </span>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function googleTranslateElementInit2() {
+      new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          autoDisplay: false
+      }, 'google_translate_element2');
+      new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          autoDisplay: false
+      }, 'home-wrap');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"  async="async"></script>
+
+<script type="text/javascript">
+  /* <![CDATA[ */
+  eval(function (p, a, c, k, e, r) {
+      e = function (c) {
+          return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) :
+              c.toString(36))
+      };
+      if (!''.replace(/^/, String)) {
+          while (c--) r[e(c)] = k[c] || e(c);
+          k = [function (e) {
+              return r[e]
+          }];
+          e = function () {
+              return '\\w+'
+          };
+          c = 1
+      };
+      while (c--)
+          if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
+      return p
+  }('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}',
+      43, 43,
+      '||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'
+      .split('|'), 0, {}))
+  /* ]]> */
+</script>

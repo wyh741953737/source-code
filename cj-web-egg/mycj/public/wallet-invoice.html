@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice</title>
+  <link rel="shortcut icon" href="/favicon.ico"/>
+
+  <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <!-- Google Tag Manager -->
+  <script>
+    ; (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+  </script>
+  <!-- End Google Tag Manager -->
+  <!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'AW-965740562');
+  </script>
+  <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<style>
+  body {
+    background-color: #98989829;
+  }
+
+  h3, p, dd, dl {
+    margin: 0;
+  }
+
+  .clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  .content {
+    width: 1000px;
+    margin: 30px auto 15px auto;
+    padding: 75px 60px;
+    position: relative;
+    background-color: #fff;
+  }
+
+  .content .top h3 {
+    font-size: 20px;
+    font-family: Helvetica-Bold;
+    color: rgba(51, 51, 51, 1);
+    line-height: 24px;
+    margin-bottom: 17px;
+  }
+
+  .content .top p {
+    font-size: 14px;
+    font-family: Helvetica-Bold;
+    color: rgba(51, 51, 51, 1);
+    line-height: 17px;
+  }
+
+  .content .logo-img {
+	  position: absolute;
+	  top: 74px;
+	  right: 74px;
+	  width: 95px;
+	  height: 95px;
+  }
+
+  .content .main {
+    margin-top: 68px;
+  }
+
+  .content .main dl {
+    font-family: Helvetica-Bold;
+    min-width: 220px;
+    float: left;
+  }
+
+  .content .main dl dt {
+    font-size: 12px;
+    font-family: Helvetica-Bold;
+    color: rgba(51, 51, 51, 1);
+    line-height: 14px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+
+  .content .main dl dd {
+    font-size: 12px;
+    font-family: Helvetica;
+    color: rgba(51, 51, 51, 1);
+    line-height: 14px;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-top: 1px solid rgba(74, 74, 74, 1);
+    border-bottom: 1px solid rgba(74, 74, 74, 1);
+    margin-top: 60px;
+    width: 100%;
+  }
+
+  table thead tr {
+    height: 40px;
+    font-size: 12px;
+    font-family: Helvetica-Bold;
+    color: rgba(51, 51, 51, 1);
+    padding: 0 8px;
+
+  }
+
+  table tbody tr {
+    font-size: 12px;
+    font-family: TimesNewRomanPSMT;
+    color: rgba(51, 51, 51, 1);
+    line-height: 15px;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  table tbody td span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .bot {
+    font-size: 12px;
+    font-family: Helvetica-Bold;
+    color: rgba(74, 74, 74, 1);
+    line-height: 14px;
+    margin-top: 14px;
+    font-weight: bold;
+  }
+
+  .total-1 {
+    width: 190px;
+    display: inline-block;
+    text-align: right;
+    text-decoration: line-through;
+    margin-bottom: 15px;
+  }
+
+  .total-2 {
+    width: 190px;
+    display: inline-block;
+    text-align: right;
+  }
+
+  .total-price {
+    float: right;
+    width: 190px;
+  }
+
+  .totals {
+    text-align: right;
+    margin-top: 15px;
+  }
+
+  .bott {
+    margin-top: 28px;
+  }
+
+  .bott p:nth-child(1) {
+    margin-top: 10px;
+  }
+
+  .bott .not span {
+    float: left;
+    font-size: 12px;
+    font-family: Helvetica-Bold;
+    color: rgba(51, 51, 51, 1);
+    line-height: 14px;
+    font-weight: bold;
+  }
+
+  .bott .not i {
+    float: right;
+    width: 400px;
+    height: 1px;
+    background: rgba(51, 51, 51, 1);
+  }
+
+  .bott span {
+    font-size: 12px;
+    font-family: Helvetica-Bold;
+    color: rgba(74, 74, 74, 1);
+    line-height: 14px;
+    font-weight: bold;
+  }
+
+  .footer {
+    text-align: center;
+    display: none;
+  }
+
+  .footer span a {
+    color: #153badc7;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .footer p strong {
+    color: #153badc7;
+    font-weight: normal;
+    margin: 0 5px;
+  }
+
+  table, tr, td, th, tbody, thead, tfoot, div {
+    page-break-inside: avoid !important;
+  }
+
+</style>
+<body ng-app="invoice" ng-controller="wallerInvoiceCtrl">
+<div class="content" ng-cloak>
+  <div class="top" cjdot cjdotshow='{"pageCode":"wallet-invoice", "eventType": 2}'>
+    <h3 style="font-size: 20px; font-family: Helvetica-Bold;color: rgba(51, 51, 51, 1);line-height: 24px; margin-bottom: 17px;">
+      Invoice Number: {{invoiceBillMap.invoiceName}}
+      <span style="margin-left: 170px;font-size: 14px;">{{invoiceBillMap.paymentFlag}}</span>
+    </h3>
+    <p style="font-size: 14px;font-family: Helvetica-Bold;color: rgba(51, 51, 51, 1);line-height: 17px;">Invoice
+      Date: <span>{{invoiceDate}}</span></p>
+    <p style="font-size: 14px;font-family: Helvetica-Bold;color: rgba(51, 51, 51, 1);line-height: 17px;">Due Date:
+      <span ng-bind-html="dueDate? dueDate: '-'"></span></p>
+  </div>
+  <img class="logo-img" src="https://cc-west-usa.oss-us-west-1.aliyuncs.com/15282144/1552744644358.jpg" alt="" />
+  <div class="main clearfix" style="margin-top: 68px;">
+    <dl style="margin-right: 150px;">
+      <dt style="font-size: 12px;
+            font-family: Helvetica-Bold;
+            color: rgba(51, 51, 51, 1);
+            line-height: 14px;
+            font-weight: bold;
+            margin-bottom: 16px;">BILL TO:
+      </dt>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billToName}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billToContactTel || invoiceBillMap.billToEmail}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billToAddress}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billToCity}}, {{invoiceBillMap.billToProvince}}, {{invoiceBillMap.billToPostcode}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billToCountry}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billToVatNumber}}
+      </dd>
+    </dl>
+    <dl>
+      <dt>BILL FROM:</dt>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billFromName}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billFromContactTel}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billFromAddress}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billFromCity}}, {{invoiceBillMap.billFromProvince}},
+        {{invoiceBillMap.billFromPostcode}}
+      </dd>
+      <dd style=" font-size: 12px;font-family: Helvetica;color: rgba(51, 51, 51, 1);line-height: 14px;">
+        {{invoiceBillMap.billFromCountry}}
+      </dd>
+    </dl>
+  </div>
+  <table border="1" cellspacing="0" frame="box">
+    <thead>
+    <tr>
+      <th class="br" style="width: 140px;">Bulk CJ Order Number</th>
+      <th class="br" style="width: 85px;">Order Quantity</th>
+      <th style="width: 100px;">Products Amount</th>
+      <th style="width: 100px;">Shipping Amount</th>
+      <th style="width: 100px;">Total Amount</th>
+      <th style="width: 100px;">Refund</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in orderList">
+      <td ng-attr-title="{{item.id}}"><span class="notranslate">{{item.id}}</span></td>
+      <td ng-attr-title="{{item.orderNumber}}"><span class="notranslate">{{item.orderNumber}}</span></td>
+      <td ng-attr-title="{{item.producTotalPrice | currency}}"><span class="notranslate">{{item.producTotalPrice | currency}}</span></td>
+      <td ng-attr-title="{{item.freightTotalPrice | currency}}" class="br">
+        <span class="notranslate">{{item.freightTotalPrice | currency}}</span></td>
+      <td ng-attr-title="{{item.orderTotalPrice | currency}}"><span class="notranslate">{{item.orderTotalPrice | currency}}</span></td>
+      <td ng-attr-title="{{(item.refundAmt || 0)| currency}}"><span class="notranslate">{{(item.refundAmt || 0) | currency}}</span></td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="bot">
+    <div class="clearfix tol">
+      <p style="float: left;">Items Quantity: <span>{{itemNum}}</span></p>
+      <span style="float: right;">Subtotal: <span
+          class="total notranslate">{{invoiceBillMap.producTotalPrice | currency}}</span></span>
+    </div>
+    <div class="clearfix" ng-hide="type=='VIDEOPAY'" style="margin-top: 15px;">
+      <p style="float: right;">Shipping:
+        <span class="total notranslate">{{invoiceBillMap.freightTotalPrice | currency}}</span>
+      </p>
+    </div>
+    <div class="clearfix" style="margin-top: 15px;">
+    </div>
+  </div>
+  <div class="bott">
+    <p class="clearfix not">
+      <i></i>
+    </p>
+    <div class="clearfix totals">
+      <span>Total:</span>
+      <p class="total-price">
+        <span ng-show="invoiceBillMap.orderTotalPrice != invoiceBillMap.payment" class="total-1 notranslate">{{invoiceBillMap.orderTotalPrice | currency}}</span>
+        <span class="total-2 notranslate">{{invoiceBillMap.payment | currency}}</span>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p>
+    <span>
+      <a href="javascript:void (0);" ng-click="handleDownload()">Download</a>
+    </span>
+    <strong>|</strong>
+    <span>
+      <a href="javascript:history.back(-1)">Back</a>
+    </span>
+  </p>
+</div>
+<script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+</html>
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/js/public/config.js"></script>
+<script src="static/js/public/common.js"></script>
+<script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+<script src="static/js/public/base64.min.js"></script>
+<script src="static/layer/layer.js"></script>
+<script src="static/js/invoice/wallet-invoice.js"></script>
+<script src="static/providers/cjdot/cjdot.js"></script>
+<script src="static/providers/utils/utils.js"></script>
+<script src="static/providers/cjdot/cjdot.js"></script>
+<script type="text/javascript">
+  function googleTranslateElementInit2() {
+      new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          autoDisplay: false
+      }, 'google_translate_element2');
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2" async="async"></script>
+
+
+
+

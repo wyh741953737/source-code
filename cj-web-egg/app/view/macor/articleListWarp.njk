@@ -1,0 +1,31 @@
+{% macro articleListWarp(opt) %}
+<div class="article-list">
+  <h3>
+    {{opt.articleTitle}}
+  </h3>
+  <ul class="menu-list {{opt.col2}}">
+    {% for item in opt.articleList %}
+      <li>
+        <a href="{{item.contentUrl}}?menuOpenIdx={{opt.menuOpenIdx}}&menuActiveIdx={{opt.menuActiveIdx}}">
+          <span>{{item.title or item.relateContentTitle}}</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endmacro %}
+
+{% macro vueArticleListWarp() %}
+<div class="article-list">
+  <h3>
+    ${articleTitle}
+  </h3>
+  <ul class="menu-list">
+    <li v-for="(item, idx) of articleList" :key="idx">
+      <a :href="`${item.contentUrl}?menuOpenIdx=${menuOpenIdx}&menuActiveIdx=${menuActiveIdx}`">
+        <span>${item.title}</span>
+      </a>
+    </li>
+  </ul>
+</div>
+{% endmacro %}

@@ -1,0 +1,20 @@
+<div class="asj-page-box">
+    
+    <div class="select-page-num" ng-show="pageObj.pagesizeList.length>1">
+        <select class="form-control notranslate" ng-model="pageObj.pageSize" ng-change="changeFun('size')">
+            <option ng-repeat="item in pageObj.pagesizeList" value="{{item}}">{{item}}</option>
+        </select>
+        <span>per Page</span>
+    </div>
+    <div class="total-num">
+        {{pageObj.totalCounts + (pageObj.totalCounts > 1 ? ' records found' : ' record found')}}
+    </div>
+    <div class="page-index notranslate">
+    </div>
+    <div class="to-go">
+        <span>Showing: </span>
+        <input type="text" class="form-control" placeholder="" ng-change="numberInput()" ng-model="pageObj.pageNum">
+        <span>of {{pageObj.totalNum}}</span>
+        <a class="btn btn-default" role="button" ng-click="changeFun()">go</a>
+    </div>
+</div>

@@ -1,0 +1,639 @@
+<style type="text/css">
+  .isdel-wrap .isdel-con .isdel-btns {
+    text-align: center;
+  }
+
+  .paytext {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 40px;
+    font-size: 14px;
+  }
+
+  .isdel-wrap .isdel-con .paybtn {
+    text-align: center;
+
+  }
+
+  .isdel-wrap .paycontent {
+    padding: 0;
+    height: 164px;
+    width: 456px;
+  }
+
+  .infotext {
+    width: 591px;
+    height: 100px;
+    font-size: 14px;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: #3E1B00;
+    line-height: 20px;
+    text-align: justify;
+  }
+
+  .editcontent {
+    padding-top: 20px;
+  }
+
+  .totellcontent {
+    height: 600px;
+    width: 1172px;
+    padding: 60px;
+  }
+
+  .totellcontent .orders-list {
+    height: 420px;
+    width: 100%;
+  }
+
+  .totellcontent .re-list {
+    height: 420px;
+    width: 100%;
+  }
+
+  .totellcontent ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  tbody .order-detail1 td {
+    height: auto;
+  }
+
+  .operation-btn {
+    /* width: 40px; */
+    height: 20px;
+    text-align: center;
+    font-size: 14px;
+    padding: 0 8px;
+  }
+
+  td {
+    /* white-space:pre-line; */
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .hidden-three {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .noteremark {
+    position: relative;
+  }
+
+  .noteremark:hover .hiddenNote {
+    display: block
+  }
+
+  .hiddenNote {
+    display: none;
+    width: 400px;
+    height: auto;
+    position: absolute;
+    top: 35px;
+    right: 130px;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    /* z-index: 12; */
+  }
+  .customer-ordid-cj{
+    display: inline-block;
+  }
+  .tip-ordid{
+    margin-right: 8px; 
+    display: inline-block;
+    position: relative;
+  }
+  .vip .tip-ordid i {
+    color: #DDA863
+  }
+  .vip .customer-ordid-cj .orange-color {
+    color: #DDA863
+  }
+  .customer-ordid-cj .orange-color {
+    color: #ff7700
+  }
+  .tip-ordid i {
+    color: #ff7700
+  }
+  .tip-ordid .fausebox {
+    position: absolute;
+    width: 270px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    white-space: initial;
+    left: -40px;
+    top: -58px;
+    z-index: 10;
+  }
+  .tip-ordid .fausebox:after {
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    width: 0;
+        border-top: 8px solid #40424C;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid transparent;
+    border-style: solid;
+    top: 49px;
+    left: 40px;
+  }
+  .undeliver-pending-reship tbody .order-detail .order-time-new {
+    padding-left: 30px;
+    text-align: left;
+  }
+  .undeliver-pending-reship tbody .order-detail .order-time-new  p{
+    margin-left: 0;
+    margin-right: 5px;
+  }
+  .disable-checkBox {
+    cursor: not-allowed;
+  }
+</style>
+<div class="mycj-home-box undeliver-pending-reship">
+  <!-- 右边部分 -->
+  <div class="aftersale-right p-3">
+    <ul class="top-taps">
+      <li class="tab-theme drop" ng-repeat="item in navList track by $index" ng-class="{active:ordstatus==item.type}">
+        <a ng-href="{{'#/problem-package/'+item.type}}">{{item.name}}
+          <span class="notranslate" ng-if="$index==0">(<span title="{{daipai}} order(s) need to be processed as soon as possible.">{{daipai}}</span>)</span>
+          <span class="notranslate" ng-if="$index==1">(<span title="{{yizhifu}} order(s) need to be processed as soon as possible.">{{yizhifu}}</span>)</span>
+          <span class="notranslate" ng-if="$index==2">{{'('+daiqu+')'}}</span>
+          <span class="notranslate" ng-if="$index==3">{{'('+yichuli+')'}}</span>
+          <span class="notranslate" ng-if="$index==4">{{'('+guoqi+')'}}</span>
+        </a>
+      </li>
+    </ul>
+    <div class="order-status">
+      <span class="use-tip" ng-click="isSubscribe = true;">How to use it?<i class="iconfont glyphicon-question-sign"></i></span>
+      <div class="status-nav">
+        <div class="order-filter" id="order-2">
+          <div class="search-order">
+            <input ng-keypress="enterSearch($event)" class="ord-search-inp" placeholder="Enter Order Number" ng-model="searchval"><span class="search-btn btn-theme" href="javascript:void(0)" ng-click="search()"  cjdot cjdotshow='{"eventType":2}'>Search</span>
+            <a class="ui-btn btn-theme" href="javascript:void(0)" ng-click="topay()" ng-if="ordstatus==1">Pay </a>
+            <form class="upload-box" ng-show="ordstatus==1" id="fileForm" enctype="multipart/form-data">
+              <button class="ui-btn btn-theme" id="import_asset" type="button" ng-click="import_asset()">Upload
+                Excel</button>
+              <input id="file_asset" type="file" style="display: none;" />
+            </form>
+            <span class="ui-btn btn-theme" href="template/import1.xls" ng-if="ordstatus==1"
+              ng-click="exportOrder('#cj-response-table')" style="cursor: pointer">Download Excel</span>
+            <a class="ui-btn btn-theme" href="javascript:void(0)" ng-click="totell()" ng-if="ordstatus==3">Self Pickup
+              Notified</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- awaiting cj response ��һ������-->
+    <!-- 待重派 和 待自取 已处理 -->
+    <div class="deal-orders aftersale-deal-order" v-if="status==1">
+      <!-- �����ı�񲿷� -->
+      <div class="orders-list">
+        <table class="orders-table" id="cj-response-table">
+          <thead>
+            <tr>
+              <th class="data-th middle-th" style="position: relative;">
+                <img style="position: absolute;top: 50%;left:10px;transform: translateY(-50%);" class="zchecked-all"
+                  src="static/image/direct-orders/multiple1.png">
+                <p style="margin-left: 20px">CJ Order No.</p>
+                <!-- <p style="margin-left: 20px">Bulk CJ Order Number</p> -->
+              </th>
+              <th class="middle-th">Store Order No.</th>
+              <th class="middle-th">
+                Store
+              </th>
+              <th class="middle-th">
+                Tracking Number
+              </th>
+              <th class="middle-th">
+                Local Contact
+              </th>
+              <th class="large-th">
+                Reshipment Fee ($)
+              </th>
+              <!-- <th class="large-th">
+                              Reshipment Fee($)
+                          </th> -->
+              <th class="large-th">
+                Deadline
+              </th>
+              <th class="small-th">Note</th>
+              <th class="small-th" ng-if="ordstatus == 1">Shipping Info</th>
+              <th class="small-th" ng-if="ordstatus == 2">Shipping Info</th>
+              <th class="small-th" ng-if="ordstatus == 4">Shipping Info</th>
+              <th class="small-th" ng-if="ordstatus == 4">Processing Time</th>
+              <th class="small-th" ng-if="ordstatus == 5">Shipping Info</th>
+              <!-- <th class="small-th" ng-if="ordstatus == 4">Processing Time</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="order-detail" ng-repeat="item in ordersList">
+              <td class="order-time order-time-new">
+                <img
+                  ng-if="item.paymentStatus != 0 || item.paymentStatus == ''" class="product-checked zcheckbox" src="static/image/direct-orders/multiple1.png"
+                  sddress="Imid{{item.address}}" id="id{{item.id}}" messg="{{item}}" ng-click="xuanzhong(item)">
+                <img
+                  ng-if="item.paymentStatus === '0'" class="product-checked disable-checkBox" src="static/image/direct-orders/disableMultiple.png"
+                  sddress="Imid{{item.address}}" id="id{{item.id}}" messg="{{item}}" ng-click="xuanzhong(item)">
+                <!-- <p >{{$index+1}}</p> -->
+                <!-- <p ng-click="hrefLinkFun(item)" class="customer-ordid" ng-cloak>{{item.cjorderNo}}</p> -->
+                <p class="customer-ordid customer-ordid-cj" ng-cloak>
+                  <copy-ordnum ordnum="item.cjorderNo" parmas="item" stuindex="1" leftindex="3"></copy-ordnum>
+                  <div
+                    class="tip-ordid"
+                    ng-if="item.paymentStatus==='0'"
+                    ng-mouseenter="orderTip = true;"
+                    ng-mouseleave="orderTip = false;"
+                  >
+                    <i
+                      class="iconfont"
+                      style="vertical-align: middle">
+                      &#xe762;</i>
+                    <div
+                      class="fausebox"
+                      ng-show="orderTip"
+                    >
+                      Awaiting payment confirmation from {{item.paymentType}}.
+                    </div>
+                  </div>
+                  <div
+                    class="tip-ordid"
+                    ng-if="item.paymentStatus==2"
+                    ng-mouseenter="orderTip1 = true;"
+                    ng-mouseleave="orderTip1 = false;"
+                  >
+                    <i
+                      class="iconfont"
+                      style="vertical-align: middle;"
+                    >&#xe761;</i>
+                    <div
+                      class="fausebox"
+                      ng-show="orderTip1"
+                    >
+                      Payment via {{item.paymentType}} failed. Please try again.
+                    </div>
+                  </div>
+                </p>
+              </td>
+              <td ng-cloak style="position: relative;">
+                <!-- <p ng-if="item.storeOrderNo!=null">{{item.storeOrderNo}}</p> -->
+                <p ng-if="item.storeOrderNo!=null">
+                  <copy-ordnum ordnum="item.storeOrderNo" parmas="item" stuindex="1" leftindex="3"></copy-ordnum>
+                </p>
+                <p ng-if="item.storeOrderNo==null">——</p>
+              </td>
+              <td ng-cloak style="position: relative;">
+                <p ng-if="item.store!=null">{{item.store}}</p>
+                <p ng-if="item.store==null">——</p>
+              </td>
+
+              <td>
+                <p>{{item.localTn}}</p>
+              </td>
+              <td>
+                <p>{{item.localContact}}</p>
+              </td>
+              <!-- <td>
+                              <p>{{item.localContact}}</p>
+                          </td> -->
+              <td>{{item.fee}}</td>
+              <td>
+                <p class="yellow">{{item.deadline}}</p>
+              </td>
+              <!-- <td ng-cloak>
+                              {{ item.createDate.year+1900}}-{{item.createDate.month+1}}-{{item.createDate.date}}
+                              {{item.createDate.hours}}:{{item.createDate.minutes}}:{{item.createDate.seconds}}
+                          </td> -->
+              <!-- <td>
+                              <p class="green">{{item.note}}</p>
+                          </td> -->
+              <td class="noteremark">
+                <p class="green hidden-three">{{item.note}}</p>
+                <p class="green hiddenNote">{{item.note}}</p>
+              </td>
+
+              <td ng-if="ordstatus == 1">
+
+                <div
+                  ng-if="item.nameOfTheAddressee!=null && item.address!=null &&  item.province!=null && item.localTn!=null && item.telephone!=null &&  item.city!=null && item.country!=null ">
+                  {{item.nameOfTheAddressee}};{{item.address}};{{item.city}};{{item.province}};{{item.zipcode}};{{item.telephone}};{{item.country}};
+                </div>
+                <!-- -->
+
+                <button class="operation-btn" ng-click="ticket(item,$index)">Edit</button>
+              </td>
+
+              <td ng-if="ordstatus == 2">
+
+                <div
+                  ng-if="item.nameOfTheAddressee!=null && item.address!=null &&  item.province!=null && item.localTn!=null && item.telephone!=null &&  item.city!=null && item.country!=null ">
+                  {{item.nameOfTheAddressee}};{{item.address}};{{item.city}};{{item.province}};{{item.zipcode}};{{item.telephone}};{{item.country}};
+                </div>
+                <!-- -->
+
+              </td>
+
+              <td ng-if="ordstatus == 4">
+                <div>
+                  <!-- {{item.Processing Time}}     -->
+                  {{item.nameOfTheAddressee}};{{item.address}};{{item.city}};{{item.province}};{{item.zipcode}};{{item.telephone}};{{item.country}};
+                </div>
+              </td>
+              <td ng-if="ordstatus == 4">
+                <!-- <button class="operation-btn" ng-click="ticket(item,$index)">Edit</button> -->
+                <div>
+                  {{item.execTime}}
+                </div>
+              </td>
+
+
+              <td ng-if="ordstatus == 5">
+                <div>
+                  <!-- {{item.Processing Time}}     -->
+                  {{item.nameOfTheAddressee}};{{item.address}};{{item.city}};{{item.province}};{{item.zipcode}};{{item.telephone}};{{item.country}};
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- ��ҳ -->
+      <!-- 页脚分页 -->
+      <page ng-show="totalNum>0"></page ng-show="totalNum>0">
+      <!-- <div class="asj-page-box" ng-show="totalNum>0">
+        <div class="select-page-num">
+          <select ng-model="pageSize" ng-change="changePageSize()" id="dcl-sel">
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+          <span class="per-page">per page</span>
+        </div>
+        <span class="total-num" ng-cloak>{{totalNum}} records found</span>
+        <div class="page-index pagination-demo1"></div>
+        <div class="to-go">
+          <span>showing：</span>
+          <input type="text" class="form-control" placeholder="" ng-model="pageNum1">
+          <span>of {{countPage}}</span>
+          <span class="btn btn-default" role="button" ng-click="toSpecifiedPage()">go</span>
+        </div>
+      </div> -->
+    </div>
+    <!-- 待重派 -->
+  </div>
+</div>
+
+<div class="undeliver-pending-reship-alert">
+  <!-- ͼƬ��Ԥ�� -->
+  <div class="preview-wrap" ng-show="viewImgFlag" ng-click="closePreImg()" style="cursor: pointer;">
+    <img class="pre-bigImg" ng-src="{{bigImgSrc}}">
+  </div>
+  <!-- �ͻ���ͬ���˿� -->
+  <div class="disAgree-wrap" ng-show="disAgreeFlag">
+    <div class="disAgree-con">
+      <textarea ng-model="refuseCause" class="disAgree-text"></textarea>
+      <div class="disAgree-btns">
+        <button ng-click="qxjjFun()" class="disAgree-cancel-btn">Cancel</button>
+        <button ng-click="sureDisAgreeFun()" class="disAgree-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <!-- �رվ��� -->
+  <div class="disAgree-wrap" ng-show="closeJfFlag">
+    <div class="disAgree-con closedispute-con">
+      <p>Are you sure to close the dispute?</p>
+      <div class="disAgree-btns">
+        <button ng-click="qxCloseFun()" class="disAgree-cancel-btn">Cancel</button>
+        <button ng-click="sureCloseFun()" class="disAgree-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- How To use 弹窗 -->
+  <div class="isdel-wrap" ng-show="isSubscribe">
+    <div class="isdel-con">
+      <div class="isdel-close">
+        <i class="iconfont closeIcon" ng-click="isSubscribe = false;">&#xe70d;</i>
+      </div>
+      <p class="isdel-con-text">Below are the orders undelivered due to incorrect contact information or address. Please contact your local carrier before the parcel is discarded. Certain carriers may require payment for re-sending.</p>
+      <div class="isdel-btns">
+        <button ng-click="isSubscribe = false;"  ng-class="{true: 'isdel-cobtn-vip', false: 'isdel-cobtn'}[isVip]">OK</button>
+      </div>
+    </div>
+  </div>
+  <!-- 已上传是否支付 弹窗 -->
+ 
+
+  <div class="isdel-wrap" ng-show="isPay">
+    <div class="isdel-con paycontent">
+      <p class="paytext"> Excel information has been displayed in the list. You can modify the information and pay
+        reshipment fee there.</p>
+      <div class="isdel-btns paybtn">
+        <button ng-click="isPay = false;" class="isdel-cabtn">Cancel</button>
+        <button ng-click="isPay = false;" class="isdel-cobtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 传入信息有误 弹窗 -->
+  <div class="isdel-wrap" ng-show="isInfo">
+    <div class="isdel-con infocontent">
+      <p class="infotext">Dear customer, below orders are undelivered packages due to wrong addresses or phone numbers.
+        Please notify the customers to get their packages from local post as soon as possible. Or the packages might be
+        destroyed by local post beyond the deadline. Thank you</p>
+      <div class="isdel-btns">
+        <button ng-click="isInfo = false" class="isdel-cabtn">Cancel</button>
+        <button ng-click="isInfo = false;" class="isdel-cobtn">OK</button>
+      </div>
+    </div>
+  </div>
+  <!-- 信息修改弹窗 -->
+  <div class="add-modefy-wrap" ng-show="isEdit">
+    <div class="add-modefy-con " style="height: 442px;">
+      <div class="add-mcon-left">
+        <ul>
+          <li>
+            <span>Name:</span>
+          </li>
+          <li>
+            <span>Address:</span>
+          </li>
+          <li>
+            <span>City:</span>
+          </li>
+          <li>
+            <span>Province:</span>
+          </li>
+          <li>
+            <span>Postcode:</span>
+          </li>
+          <li>
+            <span>Phone:</span>
+          </li>
+          <li>
+            <span>Country:</span>
+          </li>
+        </ul>
+      </div>
+      <div class="add-mcon-right">
+        <ul>
+          <li>
+            <input ng-model="name">
+          </li>
+          <li>
+            <input ng-model="address">
+          </li>
+          <li>
+            <input ng-model="addCity">
+          </li>
+          <li>
+            <input ng-model="addProvince">
+          </li>
+          <li>
+            <input ng-model="addEmail">
+          </li>
+          <li>
+            <input ng-model="addPhone" ng-keyup="checkPhone(addPhone)" type="text">
+          </li>
+          <li>
+            <select ng-model="couneryInfo" class="w270px" style="width: 260px;border: 1px solid #ececec;height: 30px">
+              <option value="" ng-if="addCountry!=''">{{addCountry}}</option>
+              <option value="" ng-if="addCountry==''">Please select country</option>
+              <option value="{{item.ID}}#{{item.NAME_EN}}" ng-repeat="item in countryList">{{item.ID}}-{{item.NAME_EN}}
+              </option>
+            </select>
+          </li>
+        </ul>
+      </div>
+      <div class="editmess-btns">
+        <button ng-click="isEdit=false" class="edit-cancel-btn">Cancel</button>
+        <button ng-click="sureModeFun()" class="edit-confirm-btn btn-theme">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <!-- 信息表格弹窗 -->
+  <div class="add-modefy-wrap" ng-show="isTell">
+    <div class="add-modefy-con totellcontent">
+      <div class="orders-list">
+        <table class="orders-table" id="cj-response-table2" style="word-wrap : break-word ;">
+          <thead style="display: block;width: 1022px">
+            <tr style="height: auto">
+              <th class="data-th middle-th" style="position: relative; width: 114px">
+                <p>CJ Order No</p>
+                <!-- <p style="margin-left: 20px">Bulk CJ Order Number</p> -->
+              </th>
+              <th class="middle-th" style="width: 114px">Store order No</th>
+              <th class="middle-th" style="width: 114px;">
+                Store
+              </th>
+              <th class="middle-th" style="width: 114px">
+                Tracking number
+              </th>
+              <th class="middle-th" style="width: 114px">
+                Local Contact
+              </th>
+              <th class="large-th" style="width: 114px">
+                Reshipment Fee($)
+              </th>
+              <th class="large-th" style="width: 114px">
+                Deadline
+              </th>
+              <th class="small-th" style="width: 114px">Note</th>
+              <th class="small-th" style="width: 114px">Shipping Info</th>
+            </tr>
+          </thead>
+          <tbody style="display:block; overflow:scroll; height: 380px;">
+            <!-- <tr class="order-detail" ng-repeat="item in totellList"> -->
+            <tr class="order-detail order-detail1" ng-repeat="item in totellList"
+              style="display: flex;align-items: center;justify-content:space-between">
+              <td class="order-time" style="width: 10%;word-wrap:break-word;width: 133px;margin-left: -20px">
+                <!-- <p >{{$index+1}}</p> -->
+                <span ng-click="hrefLinkFun(item)" class="customer-ordid" ng-cloak>{{item.cjorderNo}}</span>
+              </td>
+              <td style="width: 93px">
+                <!-- <span>{{item.storeOrderNo}}</span> -->
+                <p ng-if="item.storeOrderNo!=null">{{item.storeOrderNo}}</p>
+                <p ng-if="item.storeOrderNo==null">——</p>
+              </td>
+              <td style="width: 93px">
+                <!-- <p>{{item.store}}</p> -->
+                <p ng-if="item.store!=null">{{item.store}}</p>
+                <p ng-if="item.store==null">——</p>
+              </td>
+              <td style="width: 93px">
+                <p>{{item.localTn}}</p>
+              </td>
+              <td style="width: 93px">{{item.localContact}}</td>
+
+              <td style="width: 93px">{{item.fee}}</td>
+              <td style="width: 93px">
+                <p>{{item.deadline}}</p>
+              </td>
+              <!-- <td style="width: 93px">
+                                            <p>{{item.note}}</p>
+                                        </td> -->
+              <td class="noteremark" style="width: 93px">
+                <p class="green hidden-three">{{item.note}}</p>
+                <p class="green hiddenNote">{{item.note}}</p>
+              </td>
+              <td style="width: 93px">
+                <span>{{item.nameOfTheAddressee}}</span>
+                <span>{{item.address}}</span>
+                <span>{{item.city}}</span>
+                <span>{{item.province}}</span>
+                <span>{{item.telephone}}</span>
+                <span>{{item.localTn}}</span>
+              </td>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 10px">Confirm the above orders have notified your customers?</p>
+      <div class="editmess-btns" style="text-align: center">
+        <button ng-click="isTell = false" class="edit-cancel-btn">Cancel</button>
+        <button ng-click="tosureTell()" class="edit-confirm-btn btn-theme">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 是否导出订单 -->
+  <div class="isdel-wrap" ng-show="dcordFlag">
+    <div class="isdel-con" style="height: 160px;width: 400px">
+      <div class="isdel-close">
+        <i class="iconfont closeIcon"ng-click="dcordFlag=false;">&#xe70d;</i>
+      </div>
+      <p class="isdel-con-text" style="text-align: center">Are you sure to export orders?</p>
+      <div class="isdel-btns" style="margin-top: 35px">
+        <button ng-click="dcordFlag=false;" class="isdel-cabtn isdel-left">Cancel</button>
+        <button ng-click="goActexportOrder()" ng-class="{true: 'isdel-cobtn-vip', false: 'isdel-cobtn'}[isVip]" style="margin-right: 0">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <!-- 导出订单返回的excel链接 -->
+  <div class="isdel-wrap" ng-show="dcordCallbackFlag">
+    <div class="isdel-con" style="width: 500px;height:160px">
+      <a ng-click="closeLinkFun()" href="{{excelHref}}" style="display: block;text-align:center;">{{excelHref}}</a>
+      <div class="isdel-btns" style="margin-top: 35px">
+        <button ng-click="dcordCallbackFlag=false;" class="isdel-cabtn">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+	<div class="mycj-home-box">
+		<div class="mycj-left-bar-wrap">
+			<mycj-leftbar navparamx="'mycj'" navparamy="'My Inventory'"></mycj-leftbar>
+		</div>
+		<div class="mycj-right-wrap">
+		<div class="mycj-right-bar">
+			<div class="asj-back-to">
+				<a href="#/my-inventory">&lt; Back</a>
+			</div>
+			<div class="cj-load-wrap">
+			<table class="asj-inve-record">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Inventory</th>
+						<th>Action</th>
+						<th>Remain</th>
+					</tr>&nbsp;
+				</thead>
+				<tbody ng-repeat="item in inveHistory">
+					<tr class="top-tr"><td colspan="3" height="5" class="top-td"></td></tr>
+					<tr>
+						<td>{{item.datetime.time | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+						<td>{{item.storageEn}}</td>
+						<td>{{item.STATUS == 0 ? 'In&nbsp;&nbsp;&nbsp;' + item.changecount : 'Out&nbsp;&nbsp;&nbsp;' + item.changecount}}</td>
+						<td>{{item.count}}</td>
+					</tr>
+					<!-- <tr>
+						<td>2017-11-03  22：22</td>
+						<td>Shipped     -100</td>
+						<td>10</td>
+					</tr> -->
+				</tbody>
+			</table>
+			</div>
+			<!-- page -->
+			<!-- <div class="page-box2">
+				<div class="page-index">
+	          <a href="#">&lt;&lt;</a>
+	          <a href="#">&lt;</a>
+	          <a href="#">1</a>
+	          <a href="#">2</a>
+	          <a class="current" href="#">3</a>
+	          <a href="#">4</a>
+	          <a href="#">5</a>
+	          <a href="#">6</a>
+	          <a href="#">···</a>
+	          <a href="#">&gt;</a>
+	          <a href="#">&gt;&gt;</a>
+	      </div>
+			</div> -->
+		</div>
+		</div>
+	</div>

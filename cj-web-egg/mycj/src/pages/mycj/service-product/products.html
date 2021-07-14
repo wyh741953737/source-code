@@ -1,0 +1,475 @@
+<div class="mycj-home-box PC-wrap service-product-products">
+  <div class="mycj-right-wrap service-goods">
+    <div class="top-space-bar"></div>
+    <div class="mycj-right-bar PC-w1200 pro-skulist clearfix p-3">
+      <div class="search-box-wrap">
+        <ul class="nav-box">
+          <li class="acvive" ng-class="status == '2' ? 'acvive' : ''" ng-click="navShow('2')">Mine</li>
+          <li ng-class="status != '2' && status != '80' ? 'acvive' : ''" ng-click="navShow('0, 1')">Reviewing</li>
+          <li ng-class="status == '80' ? 'acvive' : ''" ng-click="navShow('80')">Rejected</li>
+        </ul>
+        <div class="input-group search-box">
+          <input type="text" class="form-input" placeholder="Enter SKU/Product Name" ng-model="goodsName">
+          <button class="search-btn btn-theme" type="button" ng-click="searchGoodsList()" cjdot cjdotshow='{"eventType":2}'>Search</button>
+        </div>
+      </div>
+      <div class="cj-load-wrap">
+        <div class="address">
+          <div class="address-wrap">
+            <div class="address-title" ng-mouseenter="myMouseenter()" ng-mouseleave="myMouseleave()">
+              <div class="title">
+                Warehouse Address
+                <img ng-if="vipStuFlag==1" src="static/image/public-img/house.svg" alt="">
+                <img ng-if="vipStuFlag!=1" src="static/image/public-img/novip-house.svg" alt="">
+                <i class="arrow" ng-show="isAddress"></i>
+              </div>
+              <div class="address-wrap-toast" ng-show="isAddress">
+                <div class="address-wrap-box">
+                  <div class="load-box" ng-if="wareObj.isLoad">
+                    <img src="static/image/public-img/loading.gif" alt="">
+                  </div>
+                  <ng-template ng-if="!wareObj.isLoad">
+                    <div class="ware-names">
+                      <span ng-repeat="item in wareData" class="ware-item" ng-class="{'current': currWare.id == item.id}"
+                        ng-click="chanWare(item)">{{item.cjStorageName || item.storageNo2Name}}</span>
+                    </div>
+                    <div class="strong-reminder-box">
+                      <div class="strong-reminder">
+                        <div class="circle">
+                          <i class="iconfont icontishi2"></i>
+                        </div>
+                        <p style="flex:1;">
+                          Note: Please make sure that your CJ ID is attached to the package. It helps us check the owner of the received
+                          service products. You can find your CJ ID in Profile.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="ware-detail">
+                      <span>Company: {{currWare.companyName}}</span>
+                      <br>
+                      <span>Consignee: {{currWare.consignee}}</span>
+                      <br>
+                      <span>Contact: {{currWare.principalPhone}}</span>
+                      <br>
+                      <span>Address: {{currWare.addresses}}</span>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+            <div ng-click="productShow()" class="add btn-theme1">
+              Add Service Product
+              <i class="iconfont icon-size-center tips-icon">&#xe674;</i>
+              <div class="add-server-tip" >
+                Policy to use overseas (like US, Germany) warehouse: no less than 10 pcs for a variant and no less than 100 pcs for a total. 
+              </div>
+            </div>
+
+          </div>
+          <table class="goods-table" ng-if="!notDataFound">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th ng-if="status == '2'">Product</th>
+                <th ng-if="status != '2'">Leave Messages </th>
+                <th>Image</th>
+                <th>Created Date</th>
+                <th ng-if="status == '2'">SKU</th>
+                <!-- <th ng-if="status == '2'">Service fee/pc</th> -->
+                <th ng-if="status == '2'">Billing Details</th>
+                <th ng-if="status == '80'">Reason for Refusal</th>
+                <th ng-if="status == '2'">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in goodsList">
+                <td style="width:8%">{{item.id}}</td>
+                <td ng-if="status == '2'">
+                  <a href="product-detail.html?id={{item.dbProductId}}" target="_blank"
+                    class="txt-color dbProductNameen new-text-theme">{{item.dbProductNameen}}</a>
+                </td>
+                <td ng-if="status != '2'" style="width: 30%;position: relative;">
+                  <div ng-class="{'cursor':item.customerMessage.length>180}" style="text-align: left">
+                    <div class="mes-text-con"
+                      ng-class="{'line-3':item.customerImage.length<5,'line-7':item.customerImage.length>4}">
+                      {{item.customerMessage}}</div>
+                  </div>
+                  <div class="asj-wuliu-tip-show" ng-if="item.customerMessage.length>180">
+                    <div class="sanjiao-logo-box"></div>
+                    <div>{{item.customerMessage}}</div>
+                  </div>
+                </td>
+                <td class="td-img" ng-if="status == '2'">
+                  <img src="{{item.dbImage}}" alt="">
+                  <img src="{{item.dbImage}}" alt="">
+                </td>
+                <td class="proimg" ng-if="status != '2'" style="width: 20%;">
+                  <ul class="imgs-ul" ng-show="item.customerImage.length>0">
+                    <li ng-repeat="childItem in item.customerImage">
+                      <img class="es-list-img" ng-src={{childItem}}>
+                      <img class="bigimg" ng-src={{childItem}}>
+                    </li><!--
+                    <li ng-if="item.customerImage.length>=2">
+                      <img class="es-list-img" ng-src={{item.customerImage[1]}}>
+                      <img class="bigimg1" ng-src={{item.customerImage[1]}}>
+                    </li>
+                    <li ng-if="item.customerImage.length>=3">
+                      <img class="es-list-img" ng-src={{item.customerImage[2]}}>
+                      <img class="bigimg2" ng-src={{item.customerImage[2]}}>
+                    </li>
+                    <li ng-if="item.customerImage.length>=4">
+                      <img class="es-list-img" ng-src={{item.customerImage[3]}}>
+                      <img class="bigimg3" ng-src={{item.customerImage[3]}}>
+                    </li>
+
+                    <li ng-if="item.customerImage.length>=5">
+                      <img class="es-list-img" ng-src={{item.customerImage[4]}}>
+                      <img class="bigimg4" ng-src={{item.customerImage[4]}}>
+                    </li>
+                    <li ng-if="item.customerImage.length>=6">
+                      <img class="es-list-img" ng-src={{item.customerImage[5]}}>
+                      <img class="bigimg5" ng-src={{item.customerImage[5]}}>
+                    </li>
+                    <li ng-if="item.customerImage.length>=7">
+                      <img class="es-list-img" ng-src={{item.customerImage[6]}}>
+                      <img class="bigimg6" ng-src={{item.customerImage[6]}}>
+                    </li>
+                    <li ng-if="item.customerImage.length>=8">
+                      <img class="es-list-img" ng-src={{item.customerImage[7]}}>
+                      <img class="bigimg7" ng-src={{item.customerImage[7]}}>
+                    </li> -->
+                  </ul>
+                </td>
+                <td>{{item.time}}</td>
+                <td ng-if="status == '2'">{{item.dbSku}}</td>
+                <td ng-if="status == '2'">
+                  <span class="txt-color new-text-theme" ng-click="lookFeeDeteils(item)">View</span>
+                </td>
+                <td ng-if="status == '80'" style="width: 20%;">{{item.reason}}</td>
+                <td ng-if="status == '2'">
+                  <button class="add_tracking btn-theme" ng-click="addTracking(item)">Add Tracking Number</button>
+                  <!-- <button style="width: 110px;" ng-if="status != '2'&&item.customerImage&&item.customerImage.length>1" class="cancel_goos"
+                    ng-click="showImgsFun(item.customerImage)">View Images</button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- 分页 -->
+          <page ng-show="goodsList.length > 0"></page>
+        </div>
+        <not-data ng-if="notDataFound"></not-data>
+      </div>
+    </div>
+  </div>
+  <div class="spzd-wrap" ng-show="goodsShow || trackingShow || shippingFeeShow || shippingFeeHintShow">
+    <!-- 服务商品 -->
+    <div class="spzd-wrap-box">
+      <div class="spzd-con" ng-show="goodsShow">
+        <div class="head">
+          <h3>Service Product Request</h3>
+          <!-- <i class="glyphicon glyphicon-remove" ng-click="cancelApplyFun()"></i> -->
+          <i class="iconfont iconguanbi glyphicon-remove" ng-click="cancelApplyFun()"></i>
+        </div>
+
+        <div class="contain">
+          <div class="form-box">
+            <textarea class="form-text-area" placeholder="Leave messages to CJ" ng-model="applyNoteMes"></textarea>
+          </div>
+          <!-- <div class="margin-b10">
+            <span>Weight:</span>
+            <input type="text" ng-model="addFwspWeight" ng-change="addFwspWFun()" class="fwsp-weight-inp">
+            <span>g</span>
+          </div> -->
+          <div class="form-flex-box">
+            <div class="margin-b10">
+              <span class="form-label">Weight:</span>
+              <input type="text" maxlength="10" ng-model="addFwspWeight" ng-change="addFwspWFun()" class="fwsp-weight-inp" style="padding-right: 16px;padding-left: 14px;">
+              <span class="unit u-weight">g</span>
+            </div>
+            <div class="margin-b10">
+              <span class="form-label">Product Cost:</span>
+              <input type="text" ng-model="addFwspMoney" maxlength="10" ng-change="addFwspMFun()" class="fwsp-weight-inp" oninput="this.value = this.value.replace(/[^\d^\.]+/g,'').replace('.','$#$').replace(/\./g,'').replace('$#$','.').replace(/^[0]*/,'').replace(/^\./,'0.');" style="padding-left: 14px;">
+              <span class="unit u-money">$</span>
+            </div>
+          </div>
+          <div>
+            <span class="fontsize14px form-label">Upload Images</span>
+          </div>
+  
+          <div class="dispute-upload">
+            <ul class="upload_wrap">
+              <li class="img-show li-img" ng-repeat="item in imgArr track by $index" ng-click="viewBigImg(item)">
+                <img class="before-img" ng-src="{{item}}">
+                <img class="close-img" src="static/image/dropShipping/close1.png" alt="" ng-click="delImg($index, $event)">
+              </li>
+              <li class="upload-img upload_img_wrap" ng-hide="hideUpImgFlag" style="border-style: dashed;">
+                <img src="static/image/dropShipping/image1.png">
+                <input type="file" ng-model="documentupload2" title="" multiple="multiple" class="upload_file"
+                  onchange="angular.element(this).scope().upLoadImg4(this.files)">
+              </li>
+            </ul>
+          </div>
+          <div class="upload-tip">Upload Images (optional): 8 images (.jpg, .gif, .jpeg, .png) at most.</div>
+        </div>
+
+        
+        <div class="form-btn">
+          <button class="cancel" ng-click="cancelApplyFun()">Cancel</button>
+          <button class="confirm" ng-click="confirmApplyFun()">Confirm</button>
+        </div>
+      </div>
+      <!-- 添加运单 -->
+      <div class="tracking" ng-show="trackingShow">
+        <div class="tracking_top">
+          <h3>Add Tracking Number</h3>
+          <div class="intracking_top">
+            <i class="iconfont" ng-mouseleave="isFause1 = false;"
+              ng-mouseenter="isFause1 = true;">&#xe674;</i>
+            <!-- <b class="icon" ng-mouseleave="isFause1 = false;" ng-mouseenter="isFause1 = true;"></b> -->
+            <div class="fausebox1" ng-show="isFause1" ng-mouseenter="isFause1 = true;" ng-mouseleave="isFause1 = false;">
+              <div class="title">
+                <span>Warehouse :</span>
+                <p>Please select the warehouse you are going to place the goods. If the warehouse you selected is
+                  different from the final warehouse the goods arrive, we will not refuse to receive it.</p>
+              </div>
+              <div class="title">
+                <span>Tracking Number :</span>
+                <p>The tracking number is provided by you and we will use it to track the goods before arriving. We also
+                  use it for telling the goods, we will be unable to recognize the goods if it is different from the
+                  cargo we received.</p>
+              </div>
+              <div class="title">
+                <span>Quantity :</span>
+                <p>The quantity should correspond with the goods you had shipped to CJ warehouse. We will let you know
+                  how many pcs we had received. We will contact you once the quantity does not correspond.</p>
+              </div>
+              <div class="title">
+                <span>Service Fee :</span>
+                <p>The products have a lot of procedure when coming to the position in warehouse and most of them are by
+                  manually. It will cause different fee, some of them are charged by unit and some of them are charged
+                  by days/unit. The list below is the fee you might need to pay, please contact the agent if you have
+                  any doubt.</p>
+              </div>
+              <div class="title">
+                <span>Batch number :</span>
+                <p>To prevent the effect once the tracking number changed, we need to use a unique ID( Batch number) for
+                  this shipment. In order to know what CJ warehouse will receive, please download the Batch Number,
+                  print it and stick it on the outside packaging.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form">
+          <div class="form-item">
+            <label class="form-item__label bold">
+              <span class="require-tip">*</span>
+              Shipping Label Name :
+            </label>
+            <div class="form-item__content">
+              <input type="text" class="input__inner" ng-model="trackingName" maxlength="80">
+            </div>
+          </div>
+          <div class="form-item">
+            <label class="form-item__label bold">
+              <span class="require-tip">*</span>
+              Warehouse :
+            </label>
+            <div class="form-item__content">
+              <select ng-model="storagedoId" ng-change="stateChange()" class="input__inner">
+                <option value="">Please select</option>
+                <!-- ng-if="!(item.id == '62cfedee247c4be1a0d497bfd2cf65ae' && loginName != 'anan')" 针对anan账号暂时放出金华-2仓 -->
+                <option ng-repeat='item in warehouse' value="{{item.id}}">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-item">
+            <label class="form-item__label bold">
+              <span class="require-tip">*</span>
+              Tracking Number :
+            </label>
+            <div class="form-item__content">
+              <input type="text" class="input__inner" ng-model="trackingNumber" maxlength="80">
+            </div>
+          </div>
+          <div class="form-item">
+            <label class="form-item__label bold">
+              <span class="require-tip">*</span>
+              Quantity :
+            </label>
+            <div class="form-item__content">
+              <input type="text" class="input__inner" placeholder="Please enter quantity" ng-model="num" oninput="this.value=this.value.replace(/[^\d]/g,'')" maxlength="10">
+            </div>
+          </div>
+          <div class="form-item borBtm">
+            <label class="form-item__label bold">
+              <span class="require-tip">*</span>
+              Dispatch Time :
+            </label>
+            <div class="form-item__content">
+              <input id="cj-stime" class="input__inner Wdate data-inp"
+                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})" placeholder=""></input>
+            </div>
+          </div>
+          <label class="serTit bold">Service Charges :</label>
+          <div class="form-item form-item-money" ng-repeat="item in serveMoneyList" >
+            <label class="form-item__label">{{item.itemNameen}} : </label><span class="fees">${{item.moneys}}</span>
+            <div class="form-item__content">
+              <label class="form-radio">
+                <span class="radio_input" ng-class="item.status==1?'is-checked':''">
+                  <span class="radio__inner"></span>
+                  <input type="radio" name="" class="radio__original" ng-click="radioClick(item, '1')"
+                    ng-model="isRadio1">
+                  <!-- <input type="radio" name="" class="show-ds-btn ng-valid ng-dirty ng-valid-parse ng-empty ng-touched checkbox__original" ng-model="isShowPrivatePro"> -->
+                </span>
+                <span class="radio__label">Accept</span>
+              </label>
+              <label class="form-radio" ng-class="item.flag ? '' : 'disabled'">
+                <span class="radio_input" ng-class="item.status==0?'is-checked':''">
+                  <span class="radio__inner"></span>
+                  <input type="radio" name="" class="radio__original" ng-click="radioClick(item, '0')"
+                    ng-model="isRadio1">
+                </span>
+                <span class="radio__label">Deny</span>
+              </label>
+            </div>
+          </div>
+          <div class="tips" ng-show="serveMoneyList.length>0">
+            <i class="iconfont">&#xe6d0;</i>
+            <p>You can use free storage for <span>{{overtimeDays}}</span> days. $<span>{{overtimeFee}}</span>/day will be charged after the period.</p>
+          </div>
+          <!-- <div class="form-item form-item-download" ng-class="downloadColor?'download':''">
+            <label class="form-item__label">Batch number :</label>
+            <div class="form-item__content">
+              <span>{{quantityObj.batchNumber}}</span>
+              <img ng-if="quantityObj.batchNumber" src="./static/image/public-img/curpor.png" alt="" class="cur">
+              <a href="javascript:;" ng-click="batchDownload()"><img src="./static/image/public-img/download.png"
+                  alt=""></a>
+            </div>
+          </div> -->
+        </div>
+        <div class="form-btn">
+          <button class="cancel" ng-click="cancelTracking()">Cancel</button>
+          <button class="confirm" ng-click="confirmTracking()">Confirm</button>
+        </div>
+      </div>
+      <!-- 运单费用 -->
+      <div class="shipping-wrap" ng-show="shippingFeeShow">
+        <h4>Billing Details</h4>
+        <section class="fee-main">
+          <div class="fee-header">
+            <!-- <h4>China Warehouse Rate</h4>
+            <h4>USA Warehouse Rate</h4>
+            <h4 ng-show="isHavTaiGuoFlag">Thailand Warehouse Rate</h4>
+            <h4 ng-show="isHavTaiGuoFlag">Germany Warehouse Rate</h4>
+            <h4 ng-show="isHavTaiGuoFlag">Indonesia Warehouse Rate</h4> -->
+            <h4 ng-repeat="item in productMoneyList.retMoney">{{item.storeTypeName}}</h4>
+          </div>
+          <div class="fee-content">
+            <section ng-repeat="item in productMoneyList.retMoney">
+              <ul ng-if="item.store_id == 1">
+                <li ng-repeat="item1 in productMoneyList.moneyList" ng-if="item1.storeType==1">
+                  <span class="min-w150act">{{item1.itemNameen}}</span>
+                  <span>$ {{item1.moneys}}</span>
+                </li>
+                <li ng-if="item.store_id==1">
+                  <span>Warehouse Fee Free</span>
+                  <span>{{item.days}}</span>
+                </li>
+              </ul>
+              <ul ng-if="item.store_id == 2">
+                <li ng-repeat="item1 in productMoneyList.moneyList" ng-if="item1.storeType==2">
+                  <span class="min-w150act">{{item1.itemNameen}}</span>
+                  <span>$ {{item1.moneys}}</span>
+                </li>
+                <li ng-if="item.store_id==2">
+                  <span>Warehouse Fee Free</span>
+                  <span>{{item.days}}</span>
+                </li>
+              </ul>
+              <ul ng-if="item.store_id == 3">
+                <li ng-repeat="item1 in productMoneyList.moneyList" ng-if="item1.storeType==3">
+                  <span class="min-w150act">{{item1.itemNameen}}</span>
+                  <span>$ {{item1.moneys}}</span>
+                </li>
+                <li ng-if="item.store_id==3">
+                  <span>Warehouse Fee Free</span>
+                  <span>{{item.days}}</span>
+                </li>
+              </ul>
+              <ul ng-if="item.store_id == 4">
+                <li ng-repeat="item1 in productMoneyList.moneyList" ng-if="item1.storeType==4">
+                  <span class="min-w150act">{{item1.itemNameen}}</span>
+                  <span>$ {{item1.moneys}}</span>
+                </li>
+                <li ng-if="item.store_id==4">
+                  <span>Warehouse Fee Free</span>
+                  <span>{{item.days}}</span>
+                </li>
+              </ul>
+              <ul ng-if="item.store_id == 5">
+                <li ng-repeat="item1 in productMoneyList.moneyList" ng-if="item1.storeType==5">
+                  <span class="min-w150act">{{item1.itemNameen}}</span>
+                  <span>$ {{item1.moneys}}</span>
+                </li>
+                <li ng-if="item.store_id==5">
+                  <span>Warehouse Fee Free</span>
+                  <span>{{item.days}}</span>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </section>
+        <section class="fee-confirm">
+          <button ng-click="cancelFeeDeteils()">Confirm</button>
+        </section>
+      </div>
+      <!-- 运单费用温馨提示 -->
+      <div class="shipping-fee_hint" ng-show="shippingFeeHintShow">
+        <div class="shipping-fee_hint-top">
+          <h4 style="display: flex;">
+            <img src="static/image/public-img/tip.svg" alt="" style="margin-right: 6px;">
+            Shipping fee
+          </h4>
+          <p class="price">Tracking number is added successfully. {{shippingFeeHintMoneyList.days}} days for free
+            storage in Warehouse. Over {{shippingFeeHintMoneyList.days}} days,
+            {{shippingFeeHintMoneyList.moneys}} USD/pc is charged for one-day storage.</p>
+        </div>
+        <div class="shipping-fee_hint-bot">
+          <div ng-repeat="item in shippingFeeHintMoneyList.moneyList">
+            <label>{{item.itemNameen}}</label>:<span> $ {{item.moneys}}</span>
+          </div>
+        </div>
+        <div class="shipping-fee-btn">
+          <button class="btn" ng-click="cancelShippingFeeHint()">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="spzd-wrap" ng-show="imgsFlag">
+    <div class="spzd-wrap-box">
+      <div class="spzd-con">
+        <div class="head">
+          <i class="glyphicon glyphicon-remove" ng-click="imgsFlag = false"></i>
+        </div>
+
+        <div class="dispute-upload">
+          <ul class="upload_wrap">
+            <li class="img-show li-img" ng-repeat="item in itemImgsArr track by $index" ng-click="viewBigImg(item)">
+              <img class="before-img" ng-src="{{item}}">
+              <!-- <img class="close-img" src="static/image/dropShipping/close.png" alt="" ng-click="delImg($index, $event)"> -->
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹框 -->
+  <div class="pop_ups">
+    <pop-ups content="content" ng-show="showPopUps"></pop-ups>
+  </div>
+</div>
+
+<loading-cart el="'.cj-load-wrap'" bottom="'#router-outlet-wrap'" ng-if="loading"></loading-cart>

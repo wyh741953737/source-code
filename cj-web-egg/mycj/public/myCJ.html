@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description"
+    content="Sourcing and Dropshipping for Shopify, WooCommerce, Wish, eBay with Quality Products, Fast Shipping, Good Service." />
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta property="og:image" content="https://app.cjdropshipping.com/static/image/public-img/share1200x900.jpg" />
+  <meta property="og:image:width" content="1200px" />
+  <meta property="og:image:height" content="900px" />
+  <title>My CJ</title>
+
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="static/css/common-boot4-part.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+  <!-- 日期插件-new（样式） -->
+  <link rel="stylesheet" type="text/css" href="static/wui-date/css/wui.min.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/reset.css">
+  <!-- iconfont样式文件（用于class写法） -->
+  <link rel="stylesheet" type="text/css" href="static/css/iconfont/iconfont.css">
+  <link rel="stylesheet" type="text/css" href="pages/mycj/mycj.css">
+  <link rel="stylesheet" type="text/css" href="pages/mycj/mycj-common.css">
+  <link rel="stylesheet" type="text/css" href="static/css/swiper-3.4.2.min.css">
+  <link rel="stylesheet" type="text/css" href="pages/mycj/mycj-icon.css">
+  <link rel="stylesheet" type="text/css" href="static/css/dcalendar.picker.css">
+  <link rel="stylesheet" type="text/css" href="static/css/select2-4.0.4.css">
+  <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_o8inv5ka9dd.css"> -->
+  <!-- 物流映射设置 -->
+  <link rel="stylesheet" href="static/components/logistics_settings/logistics_settings.css">
+
+
+  <script src="static/libs/jquery-3.4.1/jquery.min.js"></script>
+  <script src="static/js/public/swiper-3.4.2.jquery.min.js"></script>
+  <script src="static/libs/lodash-4.17.15/lodash.js"></script>
+  <script src="static/libs/angular-1.7.9/angular.min.js"></script>
+  <script src="static/libs/angular-ui-router-1.0.23/angular-ui-router.min.js"></script>
+  <script src="static/libs/oclazyload-1.1.0/ocLazyLoad.min.js"></script>
+  <script src="static/libs/angular-sanitize-1.7.9/angular-sanitize.min.js"></script>
+  <script src="./static/js/public/download.js"></script>
+  <script src="static/libs/select2-4.0.4/select2-4.0.4.min.js"></script>
+  <script src="static/libs/qrcode/qrcode.min.js"></script>
+  <script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/lottie.js"></script>
+
+  <script>
+    // 公共模块，给零散的service、component、filter等提供寄宿
+    angular.module('cjCompnentModule', ['utils', 'ngSanitize','cjDotModule'])
+    .config([
+      '$compileProvider',
+      function( $compileProvider )
+      {
+          $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|mailto|tel|file|skype):/);
+      }
+    ]);
+    // 观察页面状态
+    document.onreadystatechange = function () { console.log('[DOM readyState]', document.readyState) };
+
+  </script>
+  <!-- cjTool -->
+  <script src="/egg/script/cjTool.js"></script>
+  <!-- layer弹层插件 -->
+  <script src="static/layer/layer.js"></script>
+  <!-- jq分页插件 -->
+  <script src="static/js/public/jqPaginator.js"></script>
+  <!-- 日期插件-old -->
+  <script src="static/seldate/WdatePicker.js"></script>
+  <!-- 日期插件-new -->
+  <script src="static/wui-date/js/wui-date.js"></script>
+  <!-- 百度echarts图表，730kb，偏大 -->
+  <script src="https://cjdropshipping.com/static/js/public/echarts.common.min.js"></script>
+  <script src="static/md5/md5.min.js"></script>
+  <script src="static/js/public/base64.min.js"></script>
+  <!-- jq bounce-loading 插件 -->
+  <script src="static/loading/loading.js"></script>
+  <link rel="stylesheet" href="static/loading/loading.css">
+
+  <!-- 配置文件 -->
+  <script src="static/js/public/config.js"></script>
+  <!-- module('utils') | service('utils') -->
+  <script src="static/providers/utils/utils.js"></script>
+  <!-- module('service') | service('dsp') -->
+  <script src="static/js/public/common.js"></script>
+  <!-- module('home-service') | service('cjhome') -->
+  <script src="static/js/home/home-common.js"></script>
+  <!--枚举-->
+  <script src="static/js/public/cjEnum.js"></script>
+  <!-- cj 通用工具库 [上传图到OSS、播放视频、md5、base64、uuid] -->
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+
+  <!-- 商品卡片 -->
+  <link rel="stylesheet" href="static/components/product_card/product_card.css">
+  <script src="static/components/product_card/product_card.js"></script>
+  <script src="static/components/product_card_list/product_card_list.js"></script>
+  <!-- 同步商品 -->
+  <script src="static/components/sync_store/sync_store.js"></script>
+  <!-- 运费试算 -->
+  <script src="static/components/ship_caculate/ship_caculate.js"></script>
+  <link rel="stylesheet" href="static/components/ship_caculate/ship_caculate.css">
+  <!-- 物流设置 -->
+  <script src="static/components/ship_setting/ship_setting.js"></script>
+  <link rel="stylesheet" href="static/components/ship_setting/ship_setting.css">
+  <!-- pod 设置 -->
+  <script src="static/components/design_frame2/pod_setting.js"></script>
+  <!-- 购物车组件 -->
+  <script src="static/components/cart/cart.js"></script>
+  <!-- 店铺授权页物流设置 -->
+  <link rel="stylesheet" href="static/components/store_ship_setting/store_ship_setting.css">
+  <script src="static/components/quick_list/imp_Reviews.js"></script>
+  <script src="static/components/store_ship_setting/store_ship_setting.js"></script>
+  <!-- 物流映射设置 -->
+  <script src="static/components/logistics_settings/logistics_settings.js"></script>
+  <!-- // skyWalking 监控-->
+  <script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/skyWalking.js"></script>
+  <script src="/egg/libs/skyWalking/init.js"></script>
+  <!-- tracking code -->
+  <script src="/egg/script/tracking.js"></script>
+
+  <!--
+    ***************** 能用 async 尽量用 async *****************
+  -->
+  <!-- 编辑器 -->
+  <script async src="static/js/public/wangEditor.min.js"></script>
+  <link rel="stylesheet" href="static/css/wangEditor.min.css">
+  <!-- rsa -->
+  <script async src="https://cdn.jsdelivr.net/npm/jsencrypt@3.0.0-rc.1/bin/jsencrypt.min.js"></script>
+  <!-- A client-side JavaScript SDK for authenticating with OAuth2 ===> http://adodson.com/hello.js/ -->
+  <script async src="https://cdn.jsdelivr.net/npm/hellojs@1.18.1/dist/hello.all.min.js"></script>
+  <!-- aliyun 播放器 -->
+  <script async src="https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
+  <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css">
+  <!-- aliyun 视频上传 -->
+  <script async src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/aliyun-upload-video/aliyun-upload-sdk/aliyun-upload-sdk-1.5.0.min.js"></script>
+  <script async src="static/js/aliyun-upload-video/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
+  <script async src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/aliyun-upload-video/aliyun-upload-sdk/lib/aliyun-oss-sdk-5.3.1.min.js"></script>
+  <script src="static/providers/cjdot/cjdot.js"></script>
+  <script async src="static/providers/directive/directive.js"></script>
+
+
+  <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <!-- Google Tag Manager -->
+  <script>
+    function googleHandle() {
+      ; (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+    }
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <script async id="script-gtag" src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+  <script>
+    function googleTagHandle() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'AW-965740562');
+    }
+  </script>
+  <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+
+  <!-- Start google 翻译 -->
+  <script>
+    function googleTranslateElementInit2() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        autoDisplay: false
+      }, 'google_translate_element2');
+    }
+  </script>
+  <script id="script-translate" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"
+    async="async"></script>
+  <!-- End google 翻译 -->
+
+  <script>
+    if (/production/.test(window.environment)) { // 线上
+      googleHandle();
+      googleTagHandle();
+    } else { // 线下
+      ['script-gtag', 'script-translate'].forEach(function (id) {
+        document.head.removeChild(document.getElementById(id)); // 去掉没用的加载
+      });
+    }
+  </script>
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+
+<body ng-app="mycj.module" ng-controller="mycj.ctrl" ng-class="theme">
+  <div cjdot cjdotshow='{"eventType": 2}' class="cj-content-wrp">
+    <!-- 头部导航 -->
+    <mycj-header></mycj-header>
+
+    <main>
+      <mycj-leftbar></mycj-leftbar>
+      <!--路由出口-->
+      <div class="right-content" id="router-outlet-wrap">
+        <ui-view class="router-outlet"></ui-view>
+        <!--公共底部-->
+        <common-footer></common-footer>
+      </div>
+    </main>
+  </div>
+
+  <!-- 骨架图 -s- -->
+  <div id="loading-pending" class="loading-pending" style="display:none;">
+    <div class="header">
+      <div class="logo"></div>
+      <div class="nav-item"></div>
+      <div class="nav-item"></div>
+      <div class="nav-item"></div>
+      <div class="nav-item"></div>
+    </div>
+    <div class="content">
+      <div class="left-nav">
+        <div class="nav-item"></div>
+        <div class="nav-item"></div>
+        <div class="nav-item"></div>
+        <div class="nav-item"></div>
+      </div>
+      <div class="router-view">
+        <div class="loading"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 骨架图 -e- -->
+
+  <!-- webpack will be automatic inject boundled.js -->
+  <script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+
+<script>
+  // const href = window.location.href;
+  // console.log('2222222222222222222===', href)
+  // if(href.includes('#/purchase-history')) {
+  //   document.getElementById('router-outlet-wrap').onscroll = (e) => {
+  //     console.log('000==============', document.getElementById('router-outlet-wrap').scrollTop)
+  //   }
+  // }
+  // document.getElementById('router-outlet-wrap').onscroll = (e) => {
+  //   console.log('000==============', document.getElementById('router-outlet-wrap').scrollTop)
+  // }
+</script>
+</html>

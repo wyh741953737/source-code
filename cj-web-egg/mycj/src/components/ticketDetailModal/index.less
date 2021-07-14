@@ -1,0 +1,497 @@
+.ticket-detail-modal {
+  position:fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  z-index:500;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  :global {
+    .ticket-details{
+      width:813px;
+      //height: 780px;
+      background: #fff;
+      //overflow-y: auto;
+      border-radius: 4px;
+      .ticket-detail-center{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 4px;
+        .ticket-detial-title{
+          width: 100%;
+          height: 50px;
+          background: #F9F8F8;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #333;
+          font-weight: 600;
+          font-size: 16px;
+          position: relative;
+          cursor: pointer;
+          .ticket-title-close{
+            float: right;
+            line-height: 50px;
+            color: #666;
+            font-size: 14px;
+            position: absolute;
+            right: 20px;
+            top: 0;
+          }
+        }
+      }
+    }
+    .bottom-content{
+      width: 100%;
+      max-height:480px;
+      overflow-y: auto;
+    }
+    .bottom-content::-webkit-scrollbar {/*滚动条整体样式*/
+      width: 6px;
+    }
+    .bottom-content::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+      border-radius: 5px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.2);
+    }
+    .bottom-content-title {
+      text-align: center;
+      margin: 10px 0 0 0;
+      height: 28px;
+      padding: 0 20px;
+      line-height: 28px;
+      font-size: 20px;
+      font-weight: 550;
+      color: #333;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .bottom-content-subtitle {
+      text-align: center;
+      margin: 5px 0 10px 0;
+      height: 25px;
+      line-height: 25px;
+      font-size: 18px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666;
+    }
+
+    .content-subtitle-font {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+    .orange-font{
+      color: #FFA200;
+    }
+
+    /* 列表 */
+
+    .bottom-content-list {
+      //padding-right: 10px;
+      margin-bottom: 30px;
+      padding: 0 20px;
+    }
+
+    .content-item {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .content-item-top {
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .content-item-bottom {
+      overflow: hidden;
+    }
+
+    /* 列表内图片 */
+
+    .content-item-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #fff;
+      margin-right: 15px;
+      float: left;
+    }
+
+    .content-item-img img {
+      width: 50px;
+      display: block;
+      border-radius: 50%;
+    }
+
+    .content-item-fontImg {
+      width: 50px;
+      height: 50px;
+      display: block;
+      //border: 1px #ececec solid;
+      border-radius: 50%;
+      font-size: 25px;
+      border-radius: 50%;
+      font-weight: 550;
+      background: #fff1e5;
+      color: #ff7700;
+    }
+
+    .content-item-img p {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+    }
+
+    /* 列表内文字 */
+
+    .content-item-font {
+      padding: 2px 0 4px;
+      float: left;
+      //width: 650px;
+      width: calc(100% - 65px);
+      height: auto;
+    }
+
+    .item-font-name {
+      font-size: 14px;
+      font-weight: 550;
+      height: 20px;
+      line-height: 20px;
+      color: #333;
+      margin-bottom: 1px;
+    }
+
+    .item-font-text{
+      font-size: 14px;
+      height: 20px;
+      line-height: 20px;
+      color: #333;
+    }
+
+    .item-font-content {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #666;
+      word-break: break-word;
+
+      a {
+        color: #FF7700;
+
+        &:hover {
+          text-decoration: revert;
+        }
+      }
+
+      p {
+        font-size: 14px;
+        font-weight: 400;
+        color: #666;
+      }
+    }
+
+    .content-item-date {
+      float: right;
+      font-size: 12px;
+      font-weight: 400;
+      color: #999;
+    }
+
+    .item-bottom-img {
+      height: 60px;
+      /* width: 40px; */
+      margin-left: 60px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .show-img-content {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+        border-radius: 4px;
+        border: 1px solid #F4F4F4;
+        position: relative;
+
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 4px;
+        }
+
+        .show-img-mask {
+          position: absolute;
+          width: 60px;
+          height: 60px;
+          border: 1px solid #F4F4F4;
+          border-radius: 4px;
+          display: none;
+          justify-content: center;
+          align-items: center;
+          left: 0;
+          top: 0;
+          cursor: pointer;
+          z-index: 100;
+          background: rgba(0, 0, 0, 0.5);
+
+          .iconfont {
+            font-size: 16px;
+            color: #fff;
+          }
+        }
+
+        &:hover {
+          .show-img-mask {
+            display: flex;
+            transition: all 0.3s;
+          }
+        }
+      }
+    }
+
+
+    .awaiting-content {
+      width: 100%;
+      padding: 0 20px;
+      //margin-bottom: 24px;
+    }
+
+    .editInformation-font {
+      //margin-bottom: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom:12px;
+    }
+
+    .editInformation-font1 {
+      margin-bottom: 24px;
+      color: #999;
+    }
+
+    .editInformation-textarea {
+      display: block;
+      width: 100%;
+      height: 89px;
+      padding: 10px;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 4px;
+      border: 1px solid #E4E4E4;
+      margin-bottom: 20px;
+      resize: none
+    }
+
+    .res-upload-div {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      .up-bg-div{
+        width: 60px;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.02);
+        cursor: pointer;
+        margin-right: 20px;
+        .up-bg-img{
+          width: 100%;
+          height: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 18px;
+          color:#999;
+          margin-top: 10px;
+        }
+        .upload-text{
+          color: #999;
+          text-align: center;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .picture-preview-item {
+      width: 60px;
+      height: 60px;
+      border-radius: 4px;
+      border: 1px solid rgba(236, 236, 236, 1);
+      list-style: none;
+      margin-right: 20px;
+      margin-bottom: 10px;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .bottom-btn{
+      height: 70px;
+      background: #FFFFFF;
+      box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05);
+      border-radius: 0px 0px 4px 4px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+      z-index: 1000;
+      .btn-cancel{
+        width: 85px;
+        height: 32px;
+        background: #F5F5F5;
+        border-radius: 4px;
+        color: #666;
+        border: 1px solid rgba(0,0,0,0.15);
+        margin-right: 10px;
+        font-size: 14px;
+        font-family: PingFangSC-Regular,PingFang SC;
+        font-weight: 400;
+        &:hover{
+          opacity: 0.8;
+        }
+      }
+      .btn-confirm{
+        width: 100px;
+        height: 32px;
+        background: #FF7700;
+        border-radius: 4px;
+        margin-right: 10px;
+        color: #fff;
+        font-size: 14px;
+        font-family: PingFangSC-Regular,PingFang SC;
+        &:hover{
+          background: #E56A00;
+        }
+      }
+    }
+
+    .finish-confirm{
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      .finish-confirm-center{
+        width: 360px;
+        height: 174px;
+        background: #fff;
+        position: relative;
+        padding: 20px 20px 20px 40px;
+        display: flex;
+        flex-direction: column;
+        .close-icon{
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          font-size: 14px;
+          color: #666;
+          cursor: pointer;
+        }
+        .finish-confirm-header{
+          width: 100%;
+          height: 22px;
+          color: #333;
+          font-size: 16px;
+          line-height: 22px;
+          font-weight: 550;
+          flex: none;
+        }
+        .finish-confirm-content{
+          width: 100%;
+          line-height: 20px;
+          color: #666;
+          font-size: 14px;
+          margin-top: 20px;
+          flex: auto;
+        }
+        .finish-confirm-footer{
+          width: 100%;
+          height: 32px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          .btn-confirm{
+            width: 80px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            font-size: 14px;
+            background:#FF7700;
+            color: #fff;
+            border-radius: 4px;
+            &:hover{
+              background:#E56A00;
+            }
+          }
+        }
+      }
+    }
+
+    .picture-preview-item .img-url {
+      width: 60px;
+      height: 60px;
+    }
+
+    /* 关闭弹窗 */
+    .alert-splite {
+      width: 730px;
+      margin-bottom: 32px;
+      height: 1px;
+      background-image: linear-gradient(to right, #EBEBEB 0%, #EBEBEB 50%, transparent 50%);
+      background-size: 16px 1px;
+      background-repeat: repeat-x
+    }
+
+    /* 图片删除 */
+
+    .closeImg {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      cursor: pointer;
+      z-index: 1;
+      background: #fff;
+
+      .close-icon {
+        font-size: 18px;
+        color: #666;
+      }
+    }
+  }
+}
+
+:global(.vip){
+  .ticket-detail-modal{
+    :global{
+      .finish-confirm{
+        .btn-confirm{
+          background: #F1D69E;
+          &:hover{
+            background:#fcd88f;
+          }
+        }
+      }
+      .bottom-btn{
+        .btn-confirm{
+          background: #F1D69E;
+          &:hover{
+            background:#fcd88f;
+          }
+        }
+      }
+    }
+  }
+}

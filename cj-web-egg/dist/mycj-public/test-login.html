@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="description"
+      content="Sourcing and Dropshipping for Shopify, WooCommerce, Wish, eBay with Quality Products, Fast Shipping, Good Service."
+    />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>Login good</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./static/bootstrap-3.3.7-dist/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="./static/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/login.css" />
+    <script src="./static/js/public/jquery-3.0.0.min.js"></script>
+    <script src="./static/angular-1.5.8/angular.min.js"></script>
+    <script src="./static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="./static/bootstrap-validator/dist/js/bootstrapValidator.min.js"></script>
+    <script src="./static/angular-1.5.8/angular-cookies.min.js"></script>
+    <!-- <script src="./static/angular-1.5.8/angular-translate.min.js"></script> -->
+    <!-- google 第三方登录 sdk -->
+    <!-- <script src="./static/js/public/google-sdk.js"></script> -->
+    <script src="./static/layer/layer.js"></script>
+
+    <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager -->
+    <script>
+      ; (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'AW-965740562');
+    </script>
+    <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <script src="static/js/public/commonScriptImport.js"></script>
+</head>
+  <body ng-app="app">
+    <div class="login-wrap" ng-controller="loginCtrl">
+      <!-- 头部 -->
+      <commonheader-login></commonheader-login>
+      <!-- 部分 -->
+      <div class="login-content">
+        <div class="main">
+          <!-- 登录部分 -->
+          <div class="login-middle">
+            <div id="blank"></div>
+            <div class="login-from">
+              <img
+                class="userimg"
+                ng-src="{{ logo }}"
+                width="61"
+                height="48"
+                alt=""
+              />
+              <form name="loginForm" repeat-finish>
+                <ul class="clearfix">
+                  <li>
+                    <div class="li-middle">
+                      <input
+                        placeholder="Username/Email Address"
+                        id="userName"
+                        autocomplete="off"
+                        ng-class="{borderErr:Nousername,borderpass:isfocus1}"
+                        type="text"
+                        ng-model="userName"
+                        ng-focus="inputfocus(userName,'isfocus1')"
+                        ng-blur="inputblur('name')"
+                        ng-keypress="keyDown($event)"
+                      />
+                      <!--<label for="userName" ng-class="{focus: isfocus1}">Name</label>-->
+                      <div class="from-box-line"></div>
+                      <span ng-cloak ng-show="Nousername" class="err"
+                        >Please enter user name/email address</span
+                      >
+                    </div>
+                  </li>
+                  <li id="login-user">
+                    <div class="li-middle">
+                      <input
+                        placeholder="Password"
+                        id="passWord"
+                        autocomplete="new-password"
+                        ng-class="{borderErr:NoPassword,borderpass:isfocus1}"
+                        type="password"
+                        ng-model="passWord"
+                        name="password"
+                        ng-focus="inputfocus(passWord,'isfocus2')"
+                        ng-blur="inputblur('pass')"
+                        ng-keypress="keyDown($event)"
+                      />
+                      <!--<label for="passWord" ng-class="{focus: isfocus2}">Password</label>-->
+                      <div class="from-box-line"></div>
+                      <span ng-cloak ng-show="NoPassword" class="err"
+                        >Please enter Password</span
+                      >
+                      <span ng-cloak ng-show="loginError" class="err">{{
+                        loginErrorMsg
+                      }}</span>
+                    </div>
+                  </li>
+                </ul>
+              </form>
+              <!-- 记住密码复选框 -->
+              <div class="rember-pass clearfix" ng-click="isCheck()">
+                <span ng-cloak ng-show="!remberPass"></span>
+                <img
+                  ng-cloak
+                  ng-show="remberPass"
+                  src="static/image/login/loginchecked.png"
+                  width="16"
+                  height="16"
+                />
+                <p>Remember me</p>
+              </div>
+              <!-- 登录按钮 -->
+              <div ng-click="login()" class="login-btn" id="login">
+                <div class="btn-parent">
+                  <a href="javascript:void(0);">
+                    Sign in
+                  </a>
+                </div>
+              </div>
+
+              <div class="black-customer-tip" ng-cloak ng-if="showBlackTip">
+                <p>You account has been blocked. Please contact your agent for help.</p>
+                <a href="https://chat.cjdropshipping.com">Contact Agent</a>
+              </div>
+              <div class="login-register">
+                <a
+                  id="register-link"
+                  ng-href="{{
+                    saleman
+                      ? 'register.html' + '?ma=' + saleman
+                      : token
+                      ? 'register.html' + '?token=' + token
+                      : 'register.html'
+                  }}"
+                  >Register</a
+                >
+                <span>|</span>
+                <a href="forgotPassword.html">Forgot your password?</a>
+              </div>
+              <!--第三方登录-->
+              <div class="SignInWith" ng-cloak>
+                <span>Sign in with</span>
+                <!-- <a href="javascript:void(0)" id="faceBook" onclick="signin('facebook')"></a>
+                        <a href="javascript:void(0)" id="google" onclick="signin('google')"></a> -->
+                <a
+                  href="javascript:void(0)"
+                  id="faceBook"
+                  ng-click="facebookLogin()"
+                ></a>
+                <a
+                  href="javascript:void(0)"
+                  id="google"
+                ></a>
+                <!--    <fb:login-button
+                                scope="public_profile,email"
+                                onlogin="checkLoginState();">
+                        </fb:login-button>-->
+              </div>
+            </div>
+            <div id="login-img">
+              <img src="./static/image/login/ai1.png" />
+            </div>
+          </div>
+
+          <commonfooter-login></commonfooter-login>
+          <!-- 尾部备案号 -->
+          <!-- <div class="login-footer">
+                <div id="footer-content">
+                    <a href="https://cjdropshipping.com/term-of-use/">Term of Use</a>
+                    <a href="https://cjdropshipping.com/privacy-policy/">Privacy Policy</a>
+                    <a href="https://cjdropshipping.com/faq/">Help</a>
+                    <span><span class="copyright-logo">©</span>2019 CJDropshipping.com All Rights Reserved.</span>
+                </div>
+            </div> -->
+        </div>
+      </div>
+      <div class="login-wrap" ng-if="regLoginShow" ng-cloak>
+        <div id="reg-login">
+          <span class="login-close" ng-click="closeRegLoginBox()"></span>
+          <section class="login-logo">
+            <img ng-src="{{ logo }}" />
+          </section>
+          <section class="login-font">Create your account</section>
+          <section class="login-input">
+            <div class="input-area account">
+              <i></i>
+              <input
+                type="text"
+                placeholder="Username"
+                maxlength="8"
+                ng-class="{borderpass: focus.login_name}"
+                ng-blur="loginVerify('login_name')"
+                ng-focus="focusHandle('login_name')"
+                ng-model="regLoginInfo.login_name"
+              />
+              <span class="err-tip" ng-show="errMsg !== 'ok'" ng-cloak>{{
+                errMsg
+              }}</span>
+            </div>
+            <div class="input-area password">
+              <i></i>
+              <input
+                placeholder="Password"
+                maxlength="15"
+                ng-class="{borderpass: focus.password}"
+                ng-attr-type="{{
+                  regLoginInfo.passwordShow ? 'text' : 'password'
+                }}"
+                ng-blur="loginVerify('password')"
+                ng-focus="focusHandle('password')"
+                ng-model="regLoginInfo.password"
+              />
+              <i
+                class="password-eye"
+                ng-class="regLoginInfo.passwordShow ? 'password-show' : ''"
+                ng-click="toggleHandle('passwordShow')"
+              ></i>
+            </div>
+          </section>
+          <section class="login-btn">
+            <button
+              ng-class="regLoginInfo.canSubmit ? '' : 'disabled'"
+              ng-click="regLogin()"
+            >
+              Sign In
+            </button>
+          </section>
+        </div>
+      </div>
+    </div>
+    <script src="./static/js/public/base64.min.js"></script>
+    <script src="static/js/public/config.js"></script>
+    <script src="./static/js/public/jsencrypt.js"></script>
+    <script src="./static/js/public/common.js"></script>
+    <script src="./static/js/login/test-login.js"></script>
+    <script src="static/components/headerandfooters/commonheader-login.js"></script>
+    <script src="static/components/headerandfooters/commonfooter-login.js"></script>
+    <!-- <script src="https://apis.google.com/js/api:client.js?onload=onLoadCallback"></script> -->
+    <!--<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>-->
+
+    <!-- <script src="static/js/login/hello.js"></script> -->
+    <!-- <script src="static/js/login/SignInWith.js"></script> -->
+    <script src="static/md5/md5.min.js"></script>
+  </body>
+</html>
+
+<script type="text/javascript">
+  function googleTranslateElementInit2() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        autoDisplay: false
+      },
+      "google_translate_element2"
+    );
+  }
+</script>
+<script
+  type="text/javascript"
+  src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"
+  async="async"
+></script>

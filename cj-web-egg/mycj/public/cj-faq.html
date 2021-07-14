@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>FAQ</title>
+    <script type="text/javascript" src="./static/angular-1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="static/angular-1.5.8/angular-sanitize.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .mainBody{
+            margin: 0 auto;
+            height: 300px;
+            background: #fff;
+        }
+        .mainWrap{
+            margin: 0 1%;
+        }
+        .mainWrap>h1{
+            /*font-weight: 700;*/
+            font-size: 48px;
+            line-height: 50px;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+        .faq-item {
+          display: -webkit-flex; /* Safari */
+          display: flex;
+          position: relative;
+          background: #f6f6f6;
+          transition: all .5s;
+          margin-bottom: 5px;
+        }
+        .faq-item .left-index {
+          line-height: 60px;
+          width: 60px;
+          text-align: center;
+          background: #eee;
+          border: 1px solid #ddd;
+        }
+        .faq-item.current .left-index {
+          color: #0095eb;
+        }
+        .faq-item .right-con {
+          flex: 1;
+          line-height: 24px;
+          padding: 20px 80px 10px 20px;
+        }
+        .faq-item h3 {
+          margin: 0;
+          font-size: 14px;
+          font-weight: normal;
+          color: #333;
+        }
+        .faq-item.current h3 {
+          color: #0095eb;
+        }
+        .faq-item p {
+          font-size: 12px;
+          color: #666;
+          word-break: break-all;
+        }
+        .faq-item .icon {
+          position: absolute;
+          top: 0;
+          line-height: 60px;
+          width: 60px;
+          text-align: center;
+          right: 0;
+          color: #666;
+        }
+        .faq-item a {
+          color: #0095eb;
+        }
+        @media only screen and (min-width: 1240px){
+            .mainBody{max-width: 1220px;}
+        }
+        @media only screen and (max-width: 1239px) and (min-width: 960px){
+            .mainBody{max-width: 940px;}
+        }
+        @media only screen and (max-width: 959px) and (min-width: 768px){
+            .mainBody{max-width: 708px;}
+        }
+        @media only screen and (max-width: 767px){
+            .mainBody{max-width: 700px !important;padding: 0 33px!important;}
+
+        }
+        @media only screen and (max-width: 479px){
+            .mainBody h1{
+                font-size: 29px;
+                line-height: 30px;
+            }
+        }
+    </style>
+
+    <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager -->
+    <script>
+      ; (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'AW-965740562');
+    </script>
+    <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<body ng-app="app" ng-controller="cjFaqCtrl">
+<div class="mainBody">
+  <div class="mainWrap">
+    <h1>FAQ</h1>
+
+    <div ng-cloak ng-class="{'faq-item':true,'current':!item.zhedie}" ng-repeat="item in faqArr track by $index" ng-click="toggleCon(item,$index)">
+      <div class="left-index">{{$index + 1}}</div>
+      <div class="right-con">
+        <h3>{{item.question}}</h3>
+        <p ng-show="item.zhedie" ng-bind-html="item.answer"></p>
+      </div>
+      <span ng-hide="item.zhedie" class="icon icon-plus">+</span>
+      <span ng-show="item.zhedie" class="icon icon-minus">-</span>
+    </div>
+  </div>
+</div>
+<script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+</html>
+<script type="text/javascript" src="./static/js/public/jquery-3.0.0.min.js"></script>
+<script src="./static/js/public/base64.min.js"></script>
+<script src="./static/js/public/config.js"></script>
+<script src="./static/js/public/common.js"></script>
+<script src="static/providers/cjdot/cjdot.js"></script>
+<script>
+  (function (angular) {
+    var app = angular.module('app', ['service','ngSanitize','cjDotModule']);
+    app.controller('cjFaqCtrl', ['$scope', '$sce', 'dsp', '$http',function ($scope, $sce, dsp, $http) {
+      console.log('cjFaqCtrl')
+      /**
+       * Deprecated
+       * $http.get(`https://cjdropshipping.com/faq/?cj_enhance=true`)
+        .then(res => {
+          res = res.data;
+          const temp = res.split('----boundary----');
+          const d = JSON.parse(temp[1]);
+
+          // title 标题
+          // count 数量
+          // data = { title, content } 标题，内容
+          const { title, count, data } = d;
+
+          // do something ...
+          console.log(title, count, data);
+          $scope.faqArr = data;
+          console.log($scope.faqArr)
+        }); */
+
+      dsp.postFun('app/message/getQuestionListByPage', {
+        limit: "100",
+        page: "1",
+        search: "",
+        status: "1",
+        type: ""
+      }, ({ data }) => {
+        const { result: { list } } = data
+        console.log(list)
+        $scope.faqArr = list
+      })
+      // $http.get(`https://cjdropshipping.com?cj-enhance=true&api=faq&pagesize=100`)
+      //   .then(res => {
+      //     const result = res.data;
+      //     $scope.faqArr = result.data.data;
+      //     console.log(result);
+      //   });
+
+      var faqArr = [
+        {
+          title: 'What is Dropshipping?',
+          content: 'Dropshipping is a retail fulfillment method in which the retailer does not keep goods in stock but instead directly transfers End Customer orders and shipment details to the Supplier, who then ships the goods directly to the End Customer.The Vendors make their profit on the difference between the Supplier and Sale price paid by the Supplier to the Vendor.',
+          zhedie: true
+        }
+        , {
+          title: 'Why Dropshipping is the Future?',
+          content: 'More or less, “dropshipping” is a business where the retailer doesn’t a keep the stock in his or her possession nor process the requests. All requests are satisfied and transported directly from a distributor, such as CJdropshipping. This enables the retailer to center around the advertising side of the business. Numerous names in this web-based business began with dropshipping, for example, Amazon and Zappos. Today, billion-dollar dropshippers such as Wayfair and the million-dollar Blinds.com can come to show you how profitable this market really is. The following are five reasons why the dropshipping is appealing to people who want to start a new business and earn passive income. <a href="https://cjdropshipping.com/2018/05/26/how-to-start-drop-shipping-business/" target="_blank">Dropshipping is Future</a>',
+          zhedie: true
+        }
+        , {
+          title: 'How to start dropshipping business?',
+          content: 'Dropshipping is an extremely popular business model for new entrepreneurs, especially Gen Xers and Millennials, due to internet marketing skills far outweighing financial capacity. Since you don’t need to stock or handle the items you are selling, it’s possible to start a dropshipping business with limited funds. </br> An e- commerce website that operates a dropshipping model purchases the items it sells from a third - party supplier or manufacturer, who then fulfills the order.This not only cuts operational costs, but it also frees up your time to focus all of your efforts on customer acquisition.</br>If you are ready to start a business that can compete with retail giants, and do so on a limited budget, then follow the six steps below.While it doesn’t take a lot of startup funds to launch a dropshipping business, it will require an immense amount of hard work.</br>Check it here: <a href="https://cjdropshipping.com/2018/05/26/how-to-start-drop-shipping-business/" target="_blank">How to Start Dropshipping Business</a>',
+          zhedie: true
+        }
+        , {
+          title: 'How to Run Facebook Ads?',
+          content: 'CJdropshipping is a reliable dropshipping source and fulfillment company. We are not good at Facebook Ads. If you want to start your Facebook campaign, you need to learn from somewhere else, like Youtube, Facebook Group or paid course. Here are some channels that I knew (Those channels are only for reference, you should learn and decide it by yourself).</br>Free Channels: </br>1. Youtube 2. Facebook Group </br>Paid Channels:</br>1. The Unhooked Method - Manual Bidding Case Study For Facebook Ads.',
+          zhedie: true
+        }
+        , {
+          title: 'What is CJdropshipping offer and strength?',
+          content: `
+          <ul>
+            <li>No Setup Fee, No Monthly Fee, No Storage Fee, No Minimum Order</li>
+            <li>CJ APP is easy to use for hundreds of thousand products posting, order processing and free</li>
+            <li>US warehouse inventory and shipping, another faster shipping than ePacket</li>
+            <li>Sourcing any products for your dropshipping business and free</li>
+            <li>7*24 online support with different language</li>
+            <li>Professional products video and images supply</li>
+            <li>Quality control and brand building for you</li>
+            <li>Price normally lower than Aliexpress and eBay vendors</li>
+            <li>Same day processing if products stocked in the warehouse.</li>
+            <li>Real-time hot selling products updating</li>
+          </ul>
+          We charge our dropshippers only products cost + shipping cost if products are from our warehouse. Also, our APP is free to anybody. You can check detail here: <a href="https://cjdropshipping.com/2018/03/28/cjdropshipping-service-fee/" target="_blank">CJdropshipping Service Fee</a>`,
+          zhedie: true
+        }
+        , {
+          title: 'What is difference between CJdropshipping and other Dropshipping APP?',
+          content: `
+          Check it here: <a href="https://app.cjdropshipping.com/features.html" target="_blank">CJdropshipping Comparation and Print on Demand is coming soon. </a>`,
+          zhedie: true
+        }
+      ];
+
+      $scope.toggleCon = function (item,index) {
+        item.zhedie = !item.zhedie;
+      }
+    }])
+  })(angular)
+</script>

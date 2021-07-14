@@ -1,0 +1,548 @@
+<style>
+
+  .product_reviews_container{
+    padding: 0 20px;
+    overflow: hidden;
+  }
+
+  .product_reviews_container .reviews_tip{
+    background: rgba(255, 153, 0, 0.1);
+    height: 60px;
+    padding: 0 20px;
+    line-height: 60px;
+  }
+
+  .product_reviews_container .reviews_tip .tip{  
+    font-size: 14px;
+    font-weight: 400;
+    color: #FF6010;
+  }
+
+  .reviews_tip .export_reviews{
+    width: 130px;
+    display: inline-block;
+    height: 34px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 34px;
+    background-color: #F78E29;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: 13px;
+  }
+
+  .reviews_tip .export_reviews:hover{
+    background-color: #FF7700;
+  }
+
+  .reviews_tip .check_tutorial{
+    min-width: 130px;
+    display: inline-block;
+    height: 34px;
+    line-height: 34px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #FF7700;
+    background-color: #FEEEDF;
+    border: 1px solid #FFD1A5;
+    cursor: pointer;
+    float: right;
+    margin-top: 13px;
+    margin-left: 10px;
+  }
+
+  .reviews_tip .check_tutorial:hover{
+    background-color: #FDE3C9;
+  }
+
+  /* 评论信息展示 */
+  .review_container {
+    margin-top: 10px;
+    padding-bottom: 30px;
+  }
+
+  .reviewItem {
+    display: flex;
+    padding: 20px 0;
+    border-bottom: 1px solid #F3F3F3;
+  }
+
+  .reviewItem .left_user {
+    width: 200px;
+  }
+
+  .product_reviews_container .left_user .countryShow{
+    color: #666 !important;
+    margin-top: 19px;
+    font-size: 14px;
+  }
+
+  .left_user .nickname {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .left_user .avatar {
+    width: 70px;
+    height: 70px;
+    margin-top: 20px;
+    border-radius: 4px;
+  }
+
+  .avatar img {
+    max-width: 70px;
+    max-height: 70px;
+  }
+
+  .reviewItem .right_info {
+    width: 640px;
+  }
+
+  .reviewItem .review_message {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 20px;
+  }
+
+  .imgList {
+    display: flex;
+    margin-top: 10px;
+  }
+
+  .review_container .img_active{
+    border: 1px solid #FF7700 !important;
+  }
+
+  .review_container .imgItem{
+    border: 1px solid #F4F4F4;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.08);
+    width: 70px;
+    height: 70px;
+    box-sizing: content-box;
+  }
+  .review_container .imgItem img{
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+  }
+
+  .reviewTime {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 17px;
+  }
+
+  .empty {
+    width: 100%;
+    height: 200px;
+    padding-top: 80px;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 21px;
+    text-align: center;
+    margin-top: 10px;
+  }
+</style>
+
+<!-- 评分星星样式 start -->
+<style>
+  .right_info .staring>input {
+    position: absolute;
+    margin-right: -100%;
+    opacity: 0;
+  }
+
+  .right_info .staring>label {
+    position: relative;
+    float: right;
+    width: 18px;
+    height: 18px;
+    color: transparent;
+    background-image: url(static/image/goods/starIcon.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+
+
+  .right_info .staring>input:checked~ :not(.isModify),
+  .right_info .staring>input:focus~ :not(.isModify),
+  .right_info .staring>input:hover~ :not(.isModify) {
+    background-position: 0 -18px;
+  }
+
+  .right_info .staring>label.rated {
+    background-position: 0 -18px;
+  }
+
+  .right_info .staring>label:before {
+    display: none;
+    position: absolute;
+    content: " ";
+    width: 18px;
+    height: 18px;
+    background-image: url(static/image/goods/starIcon.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    bottom: 0;
+  }
+
+  .right_info .starTotal.staring>label {
+    width: 19px;
+    height: 19px;
+  }
+
+  .right_info .starTotal.staring {
+    height: 17px;
+    width: 130px;
+    display: inline-block;
+    margin: 0;
+  }
+
+  .right_info .starTotal.staring>label:before {
+    width: 19px;
+    height: 19px;
+  }
+
+  .right_info .starTotal.staring>label.rated {
+    background-position: 0 -19px;
+  }
+
+  /* 评分星星样式 end*/
+</style>
+
+<!-- 大图展示 -->
+<style>
+  .review_big_img_show{
+    height: 0px;
+    width: 320px;
+    background: #fff;
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-top: 10px;
+    transition: all 0.5s;
+    overflow: hidden;
+    text-align: center;
+  }
+  .review_big_img_show .mainImg{
+    height: 280px;
+    width: 280px;
+    object-fit: contain;
+    margin-top: 34px;
+  } 
+
+  .review_big_img_show .closeImg{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+  }
+  .review_big_img_show .leftChange{
+    font-size: 22px;
+    position: absolute;
+    top: 163px;
+    left: 10px;
+    cursor: pointer;
+    z-index: 100;
+  }
+  .review_big_img_show .rightChange{
+    font-size: 22px;
+    position: absolute;
+    top: 163px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 100;
+    transform: rotate(180deg);
+  }
+
+</style>
+
+<!-- 操作指引 -->
+<style>
+  .review_tutorial{
+    width: 600px;
+    height: 600px;
+    background: #fff;
+    border-radius: 4px;
+  }
+  .review_tutorial .container_title{
+    height: 62px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    line-height: 62px;
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .review_tutorial .closeTutorial{
+    position: absolute;
+    right: 20px;
+    top: 3px;
+    font-size: 15px;
+    color: #666;
+    cursor: pointer;
+  }
+
+  .review_tutorial .main_info{
+    overflow-y: scroll;
+    height: 468px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* 超链接样式 */
+  .review_tutorial .link{
+    color: #FF7700;
+    font-size: 12px;
+    text-decoration: underline;
+  }
+  .review_tutorial .link:hover{
+    color: #FF9900;
+  }
+
+  .review_tutorial .main_steps{
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 12px;
+  }
+
+  .review_tutorial .one-title{
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    line-height: 20px;
+    margin-bottom: 20px;
+  }
+
+  .review_tutorial .general_title{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #333;
+    line-height: 17px;
+  }
+
+  .review_tutorial .img{
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .review_tutorial .conform_container{
+    height: 70px;
+    box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05);
+    padding-top: 20px;
+  }
+
+  .review_tutorial ._btn{
+    width: 80px;
+    height: 30px;
+    background: linear-gradient(131deg, #FFCC75 0%, #F78E29 100%);
+    line-height: 30px;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 4px;
+    margin: 0 auto;
+    text-align: center;
+    cursor: pointer;
+  }
+</style>
+
+<!-- 无评论展示 -->
+<style>
+  .product_reviews_container .no_reviews{
+    padding-top: 100px;
+    padding-bottom: 100px;
+    text-align: center;
+  }
+  .product_reviews_container .no_reviews >img{
+    width: 200px;
+    height: 200px;
+  }
+  .countryShow .CountryImg {
+    width: 21px; 
+    height: 16px;
+    vertical-align: top;
+    border: 1px solid #e5e5e5;
+  }
+</style>
+
+<div>
+  <div class="product_reviews_container">
+    <a name="reviewsTop"></a>
+    <!-- 提示以及操作 -->
+    <div class="reviews_tip" style="margin-top: 10px;" >
+      <span class="tip">
+        Hi, you can import product reviews to your Shopify store.
+      </span>
+  
+      <!-- product_reviews 打开教程 -->
+      <span
+        class="check_tutorial"
+        ng-click="showTutorial()"
+      >
+        Check Tutorial
+      </span>
+  
+      <!-- product_reviews 导出评论 -->
+      <span
+        class="export_reviews"
+        ng-click="downReviewCsv()"
+        ng-show="reviewList.length > 0"
+      >
+        Export Reviews
+      </span>
+  
+    </div>
+
+    <!-- 评论主体页面 -->
+    <div class="review_container" id="pull-review" ng-show="reviewList.length > 0">
+      <div ng-repeat="item in reviewList" class="reviewItem">
+        <div class="left_user">
+          <div class="nickname">
+            {{ item.userName }}
+          </div>
+          <div class="countryShow" ng-show=" item.flagUrlWeb || item.countryCode">
+            Country:&nbsp;
+            <img ng-show="item.flagUrlWeb" src="{{item.flagUrlWeb}}" class="CountryImg" alt="">
+            <span ng-show="!item.flagUrlWeb && item.countryCode" style="font-weight: unset; font-family: revert;">{{item.countryCode}}</span>
+          </div>
+          
+        </div>
+
+        <div class="right_info">
+          <div>
+            <div class="staring starTotal" style="width: 100px;">
+              <label for="rated5" ng-class="{'rated':5<=item.score}"></label>
+              <label for="rated4" ng-class="{'rated':4<=item.score}"></label>
+              <label for="rated3" ng-class="{'rated':3<=item.score}"></label>
+              <label for="rated2" ng-class="{'rated':2<=item.score}"></label>
+              <label for="rated1" ng-class="{'rated':1<=item.score}"></label>
+            </div>
+          </div>
+
+          <div class="review_message">
+            {{ item.body }}
+          </div>
+
+          <div class="imgList" ng-show="item.imglist.length > 0">
+            <div ng-repeat="img in item.imglist" class="imgItem" ng-class="{'img_active':(item.id == chooseReviewId)&&($index == currentImgIndex)}">
+              <img src="{{img}}" alt="" srcset="" ng-click="showBigImg(item.id,$index)">
+            </div>
+          </div>
+
+          <!-- 大图展示框 -->
+          <div class="review_big_img_show" id="reviewImg_{{item.id}}">
+            <img src="{{item.imglist[currentImgIndex]}}" alt="" class="mainImg">
+            <i class="iconfont iconreviewclose closeImg" ng-click="handleClose(item.id)"></i>
+            <img src="/static/image/review_tutorial/disable.svg" ng-show="currentImgIndex == 0" class="leftChange"></i>
+            <img src="/static/image/review_tutorial/disable.svg" ng-show="currentImgIndex >= item.imglist.length-1" class="rightChange"></i>
+            <img src="/static/image/review_tutorial/able.svg" ng-click="changeLeftImg()" ng-show="currentImgIndex>0" class="leftChange"></i>
+            <img src="/static/image/review_tutorial/able.svg" ng-click="changeRightImg(item.imglist)" ng-show="currentImgIndex < item.imglist.length -1 " class="rightChange"></i>
+          </div>
+
+          <div class="reviewTime" style="margin-top: 0px;">
+            {{ item.createDate | date:'yyyy-MM-dd HH:mm:ss' }}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 暂无评论展示 -->
+    <div class="no_reviews" ng-show="reviewList.length === 0">
+      <img src="/static/image/review_tutorial/no_review.png" alt="">
+      <p style="font-size: 14px; color: #999999; margin-top: 20px;">No review yet.</p>
+    </div>
+
+  </div>
+  <new-page change-page-id="changePageId" get-page-id="getPageId" page-obj="pageObj" ng-show="reviewList.length > 0" callback="pageCallback"></new-page>
+</div>
+
+<div class="confirm-box" ng-show="tutorialVisible" style="z-index: 1002;">
+  <div class="review_tutorial">
+    <!-- 头部栏 -->
+    <div class="container_title">
+      <span class="">How to import product reviews to Shopify store?</span>
+      <i class="iconfont iconreviewclose closeTutorial" ng-click="hideTutorial()"></i>
+    </div>
+
+    <!-- 主体部分 -->
+    <div class="main_info">
+      <!-- 前言main steps -->
+      <p style="font-size: 12px;color: #333;margin-bottom: 30px;">Please follow the tutorial.</span>
+
+      <p class="one-title">Main Steps：</p>
+      <p class="main_steps"><a href="" class="link" ng-click="downReviewCsv()">1. Export Reviews(10,000 reviews at most for a product). </a></p>
+      <p class="main_steps"><a href="https://apps.shopify.com/product-reviews" class="link">2. Login Shopify admin to install Product Reviews (plugin).</a></p>
+      <p class="main_steps">3. Import reviews at Products Reviews.</p>
+      <p class="main_steps"><a href="https://help.shopify.com/en/manual/apps/apps-by-shopify/product-reviews/import-export-reviews" class="link">4. Product Reviews’ Document.</a></p>
+      
+      <!-- 具体步骤 general steps -->
+      <p class="one-title" style="margin-top: 30px;">General Steps：</p>
+
+      <!-- 步骤一 -->
+      <p class="general_title" style="margin-top: 0;">1. Download reviews from CJ (CSV)</p>
+      <img src="/static/image/review_tutorial/review_tutorial_0.png" alt="" class="img">
+
+      <!-- 步骤二 -->
+      <p class="general_title">2. Open the CSV and enter the product name in your Shopify store. (You can get the name from product URL.).</p>
+      <img src="/static/image/review_tutorial/review_tutorial_1.png" alt="" class="img">
+      <img src="/static/image/review_tutorial/review_tutorial_3.png" alt="" class="img">
+
+      <!-- 步骤三 -->
+      <p class="general_title">3. Go to Shopify and login. </p>
+      <img src="/static/image/review_tutorial/review_tutorial_4.png" alt="" class="img">
+
+      <!-- 步骤四 -->
+      <p class="general_title">4. Search Product Reviews from Shopify App store. Click “Add app” to install it.</p>
+      <img src="/static/image/review_tutorial/review_tutorial_5.png" alt="" class="img">
+
+      <!-- 步骤五 -->
+      <p class="general_title">5. Click "Install App".</p>
+      <img src="/static/image/review_tutorial/review_tutorial_6.png" alt="" class="img">
+
+      <!-- 步骤六 -->
+      <p class="general_title">6. Click "Import reviews".</p>
+      <img src="/static/image/review_tutorial/review_tutorial_7.png" alt="" class="img">
+
+      <!-- 步骤七 -->
+      <p class="general_title">7. Select the CSV file downloaded from CJ and tick "Import using month/day/year date format". Then, click "Import reviews".</p>
+      <img src="/static/image/review_tutorial/review_tutorial_8.png" alt="" class="img">
+      <img src="/static/image/review_tutorial/review_tutorial_9.png" alt="" class="img">
+
+      <!-- 步骤八 -->
+      <p class="general_title">8. No product reviews yet.</p>
+      <img src="/static/image/review_tutorial/review_tutorial_10.png" alt="" class="img">
+
+       <!-- 步骤九 -->
+       <p class="general_title">9. Imported success. You will have reviews now.</p>
+       <img src="/static/image/review_tutorial/review_tutorial_11.png" alt="" class="img">
+    </div>
+
+    <div class="conform_container">
+      <div class="_btn" ng-click="hideTutorial()">
+        Confirm
+      </div>
+    </div>
+
+  </div>
+</div>
+

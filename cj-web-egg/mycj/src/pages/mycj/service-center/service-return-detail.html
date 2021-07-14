@@ -1,0 +1,101 @@
+<div class="content service-return-detail">
+  <div class="mycj-home-box aftersaleorders-wrap">
+    <!-- 右边部分 -->
+    <div class="aftersale-right p-3">
+      <div class="rede-top">
+        <div ng-click="backHref()" class="backhref-div">
+          <img class="backhref-img" src="static/image/public-img/back.png">
+          <span class="backhref-span">Back</span>
+        </div>
+      </div>
+      <div class="rede-ordetail p-4">
+        <div class="rede-ordnum-line">
+          <span>Order Number:</span>
+          <span ng-cloak>{{ordReturnList.ordernumber}}</span>
+          <button ng-if="ordReturnList.status<2" ng-click="passCheckFun()" class="rede-approve-btn"
+            ng-cloak>Approve</button>
+          <button ng-if="ordReturnList.status<2" ng-click="refuseCheckFun()" class="rede-canrequest" ng-cloak>Cancel
+            Return Request</button>
+        </div>
+        <ul>
+          <li>
+            <span>Your Name:</span>
+            <span ng-cloak>{{ordReturnList.name}}</span>
+          </li>
+          <li>
+            <span>Your Email:</span>
+            <span ng-cloak>{{ordReturnList.email}}</span>
+          </li>
+          <!-- <li>
+                  <span>Order Number:</span>
+                  <span ng-cloak>{{ordReturnList.name}}</span>
+              </li> -->
+          <li>
+            <span>Return Date:</span>
+            <span ng-cloak>
+              {{ ordReturnList.createat.year+1900}}-{{ordReturnList.createat.month+1}}-{{ordReturnList.createat.date}}
+              {{ordReturnList.createat.hours}}:{{ordReturnList.createat.minutes}}:{{ordReturnList.createat.seconds}}
+            </span>
+          </li>
+          <li>
+            <span>Return Tracking Number:</span>
+            <span ng-cloak>{{ordReturnList.returntrackingumber}}</span>
+          </li>
+          <li>
+            <span>Reason:</span>
+            <span ng-cloak>{{ordReturnList.reason}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="rede-retun-stu mt-2 mb-2">
+        <div class="rede-stu-tit">Return Status</div>
+        <div class="rede-stu-con">
+
+          <img src="static/image/public-img/icon-check.png">
+          <span>Submit Success</span>
+          <div class="stu-active-line"></div>
+
+          <img ng-if="ordReturnList.status>1" src="static/image/public-img/icon-check.png">
+          <span ng-if="ordReturnList.status==1" class="yellow-stu-circle">2</span>
+          <span ng-if="ordReturnList.status=='1'">Reviewing</span>
+          <span ng-if="ordReturnList.status=='2'||ordReturnList.status>3">Approved</span>
+          <span ng-if="ordReturnList.status=='3'">Declined</span>
+          <div ng-if="ordReturnList.status<4&&ordReturnList.status!=2" class="stu-line"></div>
+          <div class="stu-active-line" ng-if="ordReturnList.status>3||ordReturnList.status==2"></div>
+
+          <img ng-if="ordReturnList.status>5" src="static/image/public-img/icon-check.png">
+          <span ng-if="ordReturnList.status<4&&ordReturnList.status!=2" class="gray-stu-circle">3</span>
+          <span ng-if="ordReturnList.status==4||ordReturnList.status==5||ordReturnList.status==2"
+            class="yellow-stu-circle">3</span>
+          <span ng-if="ordReturnList.status<4">Pending Delived to {{websiteName}}</span>
+          <span ng-if="ordReturnList.status>3&&ordReturnList.status!=5">{{websiteName}} Received</span>
+          <span ng-if="ordReturnList.status==5">Not Received By {{websiteName}}</span>
+          <div class="stu-line"></div>
+          <img ng-if="ordReturnList.status==6" src="static/image/public-img/icon-check.png">
+          <span ng-if="ordReturnList.status<6" class="gray-stu-circle">4</span>
+          <span ng-if="ordReturnList.status==7">4</span>
+          <span ng-if="ordReturnList.status<7">Not Received By {{websiteName}}</span>
+          <span ng-if="ordReturnList.status==7">Defective Returned</span>
+        </div>
+      </div>
+      <div class="rede-return-imgs mt-2 mb-2">
+        <div class="rede-imgs-left">
+          <div class="rede-imgs-tit pl-3 pr-3">
+            Items Picture
+          </div>
+          <div class="rede-imgs-div">
+            <img ng-repeat="item in ordReturnList.imgcj track by $index" ng-src="{{item}}">
+          </div>
+        </div>
+        <div class="rede-imgs-right">
+          <div class="rede-imgs-tit pl-3 pr-3">
+            Items Picture
+          </div>
+          <div class="rede-imgs-div">
+            <img ng-repeat="item in ordReturnList.imgs track by $index" ng-src="{{item}}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,296 @@
+<div class="profile-user-info" id="profile-user-info">
+  <div class="user-basic-info">
+    <!-- 用户头像 -->
+    <div class="user-portrait" ng-class="{'user-name-avatar': !userInfoOne.img}">
+      <img ng-show="userInfoOne.img" ng-style="userImgStyles" ng-src="{{userImgUrl}}" alt="">
+      <span class="imgname" ng-show="!userInfoOne.img">{{userInfoOne.imgname}}</span>
+      <div class="upload-portrait-wrap">
+        <div class="upload-portrait">
+          <div ng-click="uploadPortrait()" class="upload-portrait-btn">
+            {{userInfoOne.img ? 'Change image' : 'Upload image'}}</div>
+        </div>
+      </div>
+    </div>
+    <!-- 用户基本信息 -->
+    <div class="user-message">
+      <div class="eidt-btn">
+        <img ng-show="!userEditFlag" ng-click="editOpen()" class="cursor-pointer"
+          src="/static/image/profile/editBtn.svg" alt="">
+      </div>
+      <div class="user-message-name">{{userInfoOne.NAME}}</div>
+      <div class="user-message-data">ID: {{userInfoOne.num}}</div>
+      <div class="user-message-data">Date Created: {{userInfoOne.createOn}}</div>
+      <div class="user-message-item">
+        <div class="user-personal-info">
+          <span class="info-title">First Name:&nbsp;</span>
+          <span ng-show="!userEditFlag" class="user-personal-text" ng-bind-html="userInfoOne.firstName"></span>
+          <input type="text" class="info-input" ng-change="nameVerify()" ng-show="userEditFlag" maxlength="19" ng-model="userInfoEdit.firstName">
+        </div>
+        <div class="user-personal-info">
+          <span class="info-title">Email:&nbsp;</span>
+          <span ng-show="!userEditFlag" class="user-personal-text" ng-bind-html="fromErpNotAdmin ? '**********' : userInfoOne.EMAIL"></span>
+          <input type="text" ng-blur="reqEmailFn()" maxlength="320" class="info-input" ng-show="userEditFlag" ng-model="userInfoEdit.EMAIL">
+        </div>
+        <div class="user-personal-info">
+          <span class="info-title">Mobile:&nbsp;</span>
+          <span ng-show="!userEditFlag" class="user-personal-text" ng-bind-html="fromErpNotAdmin ? '**********' : userInfoOne.PHONE"></span>
+          <input type="text" class="info-input" ng-show="userEditFlag" maxlength="20" ng-model="userInfoEdit.PHONE">
+        </div>
+        <div class="user-personal-info">
+          <span class="info-title">Last Name:&nbsp;</span>
+          <span ng-show="!userEditFlag" class="user-personal-text" ng-bind-html="userInfoOne.lastName"></span>
+          <input type="text" class="info-input" ng-change="nameVerify()" ng-show="userEditFlag" maxlength="19" ng-model="userInfoEdit.lastName">
+        </div>
+        <div class="user-personal-info">
+          <span class="info-title">Country:&nbsp;</span>
+          <span ng-show="!userEditFlag" class="user-personal-text" ng-bind-html="userInfoOne.COUNTRY"></span>
+          <input type="text" class="info-input" ng-show="userEditFlag" ng-model="userInfoEdit.COUNTRY">
+        </div>
+      </div>
+
+      <div class="user-personal-adress">
+        <div class="info-title">Address:&nbsp;</div>
+        <div ng-show="!userEditFlag" class="user-personal-text" ng-bind-html="fromErpNotAdmin ? '**********' : userInfoOne.ADDRESS"></div>
+        <textarea type="text" class="info-input" maxlength="80" ng-show="userEditFlag" ng-model="userInfoEdit.ADDRESS"></textarea>
+      </div>
+      <div class="user-personal-info" ng-if="userInfoOne.supplierCompanyName || userInfoOne.privateInventorys" style="margin-top: 18px;">
+          <span>Linked to Supplier Account:&nbsp;&nbsp;</span>
+          <!-- <span class="user-personal-text">{{userInfoOne.ADDRESS}}</span> -->
+          <a ng-if="!userInfoOne.supplierCompanyName" target="_blank" ng-href={{getSupplierAppUrl()}} title="You can create an account on CJ Supplier and link it to current account. Then,you can transfer your private inventory and sell them as a supplier." class="user-personal-text">
+            Create Supplier Account&nbsp;
+            <span class="iconfont glyphicon-question-sign"></span>
+          </a>
+          <span ng-if="userInfoOne.supplierCompanyName" class="user-personal-text">{{userInfoOne.supplierCompanyName}}</span>
+        </div>
+    </div>
+  </div>
+  <div class="user-content">
+    <!-- 聊天 agent -->
+    <div class="store-link-title" style="padding: 16px 0;">My Agent</div>
+    <div class="user-agent d-flex align-items-center" style="position: relative; justify-content: center;margin-top: 0;">
+      <div ng-show="agentInfo.nameEN" class="d-flex align-items-center" style="flex: 1;">
+        <div class="agent-portrait-wrap position-relative">
+          <div class="agent-portrait bg-white w-100 h-100 d-flex-center">
+            <img style="width: 100px;" ng-show="agentInfo.AVATAR" src="{{agentInfo.AVATAR}}" alt="">
+            <span ng-show="!agentInfo.AVATAR">{{agentInfo.avatarName}}</span>
+          </div>
+        </div>
+        <div class="agent-info d-flex justify-content-between align-items-center" style="width: auto;">
+          <div class="agent-message">
+            <div class="agent-name">{{agentInfo.nameEN}}</div>
+            <!-- <div>Skype: <a href="skype:{{agentInfo.skype}}?chat" target="_blank" class="agent-href" ng-if="agentInfo.skype">{{agentInfo.skype}}</a></div> -->
+            <div>Email: <a href="mailto:agent@cjdropshipping.co" target="_blank" class="agent-href">agent@cjdropshipping.co</a></div>
+            <!-- <div>Tel: <a href="tel:{{add86prefix(agentInfo.PHONE)}}" class="agent-href" ng-if="agentInfo.PHONE">{{add86prefix(agentInfo.PHONE)}}</a></div> -->
+            <div>WhatsApp: <a href="https://wa.me/8618067627100" target="_blank" class="agent-href">86-18067627100</a></div>
+            <div class="youtube-link" ng-if="agentInfo.youTubVideo">
+              <a href="{{ agentInfo.youTubVideo }}" target="_blank">
+                <i class="iconfont iconyoutube"></i>
+                <span>Know more about agents. Click here!</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="agent-concat bg-white" ng-click="goToContact()" style="margin-right: 30px;">Online Contact</div>
+    </div>
+    <!-- 注册信息 -->
+    <div class="user-sign-info">
+      <!-- 显示模式 -->
+      <div class="user-sign-item" ng-show="!userEditFlag" ng-repeat="sign in userInfoOne.signList">
+        <img class="user-sign-info-icon" src="{{sign.img}}" alt="">
+        <div>
+          <div class="user-sign-title">{{sign.name}}</div>
+          <div class="user-sign-text">{{fromErpNotAdmin ? '**********' : sign.value}}</div>
+        </div>
+      </div>
+      <!-- 编辑模式 -->
+      <div class="user-sign-item" ng-show="userEditFlag" ng-repeat="sign in userInfoEdit.signList">
+        <img class="user-sign-info-icon" src="{{sign.img}}" alt="">
+        <div>
+          <div class="user-sign-title">{{sign.name}}</div>
+          <input type="text" class="info-input" ng-model="sign.value" maxlength="200">
+        </div>
+      </div>
+    </div>
+    <div class="store-link">
+      <div class="store-link-title">Your Store Link</div>
+      <!-- 显示模式 -->
+      <div class="store-link-wrap" ng-show="!userEditFlag" ng-repeat="storeLink in userInfoOne.STORE_LINK track by $index">
+        <!-- <a target="_blank" ng-href="{{storeLink}}"><div class="store-link-item">{{storeLink}}</div></a> -->
+        <a target="_blank" ng-href="{{handleLink(storeLink)}}" ng-show="storeLink"><div class="store-link-item">{{storeLink}}</div></a>
+        <div class="store-link-item" ng-show="!storeLink"></div>
+      </div>
+      <!-- 编辑模式 -->
+      <div class="store-link-wrap" ng-show="userEditFlag" ng-repeat="storeLink in userInfoEdit.STORE_LINK track by $index">
+        <input type="text" class="info-input" ng-blur="setStoreLink($event, $index)" ng-model="storeLink" maxlength="200">
+        <span class="iconfont iconbianzu21" ng-click="addStoreLink()" ng-if="$index==0"></span>
+        <span class="iconfont icon123" ng-click="deleteStoreLink($index)" ng-if="$index!=0"></span>
+      </div>
+
+    </div>
+    <!-- Preference -->
+    <div class="user-preference">
+      <div class="user-preference-title store-link-title">Preferences</div>
+      <!-- 喜好显示模式 -->
+      <div class="preference-wrap" ng-show="!userEditFlag">
+        <div class="preference-item d-flex">
+          <div class="col-6 preference-question">
+            How many orders do you need to process daily?
+          </div>
+          <div class="col-6">
+            <div class="preference-answer" ng-repeat="odnum in userInfoOne.survey.orderNumber">{{odnum}}</div>
+          </div>
+        </div>
+        <div class="preference-item d-flex">
+          <div class="col-6 preference-question">
+            What kind of platform are you running? 
+          </div>
+          <div class="col-6">
+            <div class="preference-answer" ng-repeat="plat in userInfoOne.survey.platforms">{{plat}}</div>
+          </div>
+        </div>
+        <div class="preference-item d-flex">
+          <div class="col-6 preference-question">
+            What categories are you marketing?
+          </div>
+          <div class="col-6">
+            <div class="preference-answer" ng-repeat="mark in userInfoOne.survey.markets">{{mark}}</div>
+          </div>
+        </div>
+        <div class="preference-item">
+          <div class="col-6 preference-question">
+            What niches are you focusing on?
+          </div>
+          <div class="preference-item-focuse">
+            <span class="preference-niches" ng-repeat="niche in userInfoOne.survey.niches track by $index">{{niche.name || ''}}</span>
+          </div>
+        </div>
+      </div>
+      <!-- 喜好编辑模式 -->
+      <div class="preference-wrap" ng-show="userEditFlag">
+        <div class="preference-item">
+          <div class="preference-question">
+            How many orders do you need to process daily?
+          </div>
+          <div class="question-wrap">
+            <div class="question-item" ng-repeat="item in orderModel">
+              <span ng-click="radioClickFn(item.name)" class="inradio-btn"
+                ng-class="{'incheckedactive': item.checked}"></span>
+              <span>{{item.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="preference-item">
+          <div class="preference-question">
+            What kind of platform are you running? 
+          </div>
+          <div class="question-wrap">
+            <div class="question-item" ng-repeat="item in platformModel">
+              <span ng-click="checkBoxClickFn(item.key, 'platform')" class="checkbox-btn"
+                ng-class="{'incheckedactive': item.checked}"></span>
+              <span>{{item.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="preference-item">
+          <div class="preference-question">
+            What categories are you marketing?
+          </div>
+          <div class="question-wrap">
+            <div class="question-item" ng-repeat="item in marketModel">
+              <span ng-click="checkBoxClickFn(item.key, 'market')" class="checkbox-btn"
+              ng-class="{'incheckedactive': item.checked}"></span>
+              <span>{{item.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="preference-item">
+          <div class="preference-question">
+            What categories are you marketing?
+          </div>
+          <div class="preference-item-select" ng-class="{disabel:userInfoEdit.survey.niches.length==6}">
+            <div class="select-wrap ui-select1" ng-class="{cant:firstCategory.err}">
+              <select ng-model="firstCategory.current" ng-disabled="userInfoEdit.survey.niches.length==6" ng-change="selectTag(firstCategory, secondCategory)">
+                <option value="">Please select</option>
+                <option value="{{first.id}}" ng-repeat="first in firstCategory.list">{{first.nameEn}}</option>
+              </select>
+              <p class="err" ng-show="firstCategory.most">6 categories at most.</p>
+              <p class="err" ng-show="firstCategory.err">you have selected the category befefore</p>
+            </div>
+            <div class="select-wrap ui-select1" ng-class="{cant:secondCategory.err}" ng-show="secondCategory.flag">
+              <select ng-model="secondCategory.current" ng-disabled="userInfoEdit.survey.niches.length==6" ng-change="selectTag(secondCategory, thirdCategory)">
+                <option value="">Please select</option>
+                <option value="{{first.id}}" ng-repeat="first in secondCategory.list">{{first.nameEn}}</option>
+              </select>
+              <p class="err" ng-show="secondCategory.most">6 categories at most.</p>
+              <p class="err" ng-show="secondCategory.err">you have selected the category befefore</p>
+            </div>
+            <div class="select-wrap ui-select1" ng-class="{cant:thirdCategory.err}" ng-show="thirdCategory.flag">
+              <select ng-model="thirdCategory.current" ng-disabled="userInfoEdit.survey.niches.length==6" ng-change="selectTag(thirdCategory)">
+                <option value="">Please select</option>
+                <option value="{{first.id}}" ng-repeat="first in thirdCategory.list">{{first.nameEn}}</option>
+              </select>
+              <p class="err" ng-show="thirdCategory.most">6 categories at most.</p>
+              <p class="err" ng-show="thirdCategory.err">you have selected the category befefore</p>
+            </div>
+          </div>
+          <ul class="preference-edit-list">
+            <li class="preference-edit-item" ng-repeat="item in userInfoEdit.survey.niches track by $index">{{item.name}}
+              <span class="iconfont iconx" ng-click="nichesDelete($index)"></span>
+            </li>
+          </ul>
+      </div>
+    </div>
+    <!-- 编辑按钮 -->
+    <div style="height: 59px">
+      <div ng-show="userEditFlag" ng-class="{fixed: isFixed}" class="info-btn-box" ng-cloak>
+        <button ng-click="cancelSubmitFn()"
+          class="edit-btn edit-undertint user-submit-btn mr-2 ml-2">Cancel</button>
+        <button ng-click="submitEdit()" class="edit-btn edit-highlight user-submit-btn mr-2 ml-2">Submit</button>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<!--授权弹窗-->
+<div id="add-store" ng-show="AuthorizedDailog" ng-cloak>
+  <div class="ASL-content Authorized">
+    <h5>Please improve your information</h5>
+    <label style="position: absolute;top: -10000px">
+      <input type="text" name="user">
+      <input autocomplete="new-password"  type="password" name="user">
+    </label>
+    <label>
+      <span>Login name:</span>
+      <input ng-model="Username" type="text">
+    </label>
+    <label>
+      <span>First name:</span>
+      <input ng-model="FirstName" type="text">
+    </label>
+    <label>
+      <span>Last name:</span>
+      <input ng-model="LastName" type="text">
+    </label>
+    <label>
+      <span>Password:</span>
+      <input autocomplete="new-password"  ng-model="Password" type="password">
+    </label>
+    <label>
+      <span>Confirm password:</span>
+      <input  autocomplete="new-password" ng-model="Confirmpassword" type="password">
+    </label>
+    <label>
+      <span>Mobile:</span>
+      <input ng-model="Mobile" type="text">
+    </label>
+    <label>
+      <span>Email:</span>
+      <input ng-model="email" type="email">
+    </label>
+    <label style="float:right;">
+      <button class="ASL-btn btn-theme" ng-click="authorizedConfirm()">Confirm</button>
+    </label>
+  </div>
+</div>

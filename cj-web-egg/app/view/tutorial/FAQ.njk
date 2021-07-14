@@ -1,0 +1,19 @@
+{% from "../macor/faqListWarp.njk" import faqListWarp %}
+
+<div class="tutorial-faq content" id='vue-faq'>
+  <div class="main-warp">
+    <div class="box">
+      <div class="tab">
+        {% for item in faqTabList %}
+          <a href="/help-center?navType=faq&faqType={{item.type}}&scrollToNum=400" class="{{'active' if item.active else ''}}">
+            {{item.name}}
+          </a>
+        {% endfor %}
+      </div>
+      {{ faqListWarp(faqList) }}
+      {% if pageModule.totalNum > 10 %}
+        {% include "./common/page.njk" %}
+      {% endif %}
+    </div>
+  </div>
+</div>

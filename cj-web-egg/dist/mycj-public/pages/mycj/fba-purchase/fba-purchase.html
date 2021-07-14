@@ -1,0 +1,1173 @@
+<style>
+  @font-face {
+    font-family: 'icomoon';
+    src: url('/static/fonts/fbafonts/icomoon.eot?d71s0e');
+    src: url('/static/fonts/fbafonts/icomoon.eot?d71s0e#iefix') format('embedded-opentype'),
+      url('/static/fonts/fbafonts/icomoon.ttf?d71s0e') format('truetype'),
+      url('/static/fonts/fbafonts/icomoon.woff?d71s0e') format('woff'),
+      url('/static/fonts/fbafonts/icomoon.svg?d71s0e#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  [class^="icon-"],
+  [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .icon-up_circle:before {
+    content: "\e901";
+  }
+
+  .icon-right_hover:before {
+    content: "\e902";
+    color: #f90;
+  }
+
+  .icon-down_circle:before {
+    content: "\e903";
+  }
+
+  .icon-close:before {
+    content: "\e904";
+    color: #666;
+  }
+
+  .icon-delect_black:before {
+    content: "\e905";
+  }
+
+  .icon-right_default:before {
+    content: "\e900";
+    color: #666;
+  }
+
+  .mycj-right-bar {
+    padding: 20px;
+  }
+
+  .shipAddress {
+    border: 1px solid #e6e6e6;
+  }
+
+  .shipAddress h2 {
+    background: #F9F8F8;
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+  }
+
+  .address-1,
+  .address-2 {
+    padding: 25px 0;
+    display: flex;
+  }
+
+  .address-1-left,
+  .address-2-left {
+    border-right: 1px dashed #c1c1c1;
+    padding-right: 30px;
+  }
+
+  .inputGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .inputGroup input,
+  #selectCountry {
+    width: 220px;
+    height: 38px;
+    border-radius: 4px;
+    border: 1px solid #e4e4e4;
+  }
+
+  .inputGroup label {
+    width: 113px;
+    text-align: center;
+  }
+
+  .inputGroup textarea {
+    width: 554px;
+    height: 58px;
+    border-radius: 4px;
+    border: 1px solid #e4e4e4;
+    resize: none;
+  }
+
+  .address-1-r-con {
+    display: flex;
+    align-items: center;
+  }
+
+  .address-1-r-con>span.defaultIcon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("/static/image/direct-orders/multiple1.png") no-repeat;
+    position: relative;
+    top: 1px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .address-1-r-con>span.defaultIcon.act {
+    background: url("/static/image/direct-orders/multiple2.png") no-repeat;
+  }
+
+  .address-1-r-con button {
+    width: 140px;
+    height: 38px;
+    color: #fff;
+    border-radius: 2px;
+  }
+
+  .address-1-right {
+    padding: 59px 30px 0 30px;
+  }
+
+  .address-1-r-con .addressSaveBtn {
+    background: #F78E29;
+  }
+
+  .address-1-r-con .addressCancelBtn {
+    background: #FFF2EA;
+    border: 1px solid #F78E29;
+    color: #F78E29;
+  }
+
+  .address-1-r-con .addressSaveBtn:hover {
+    background: #FFA200;
+  }
+
+  .address-1-r-con .addressCancelBtn:hover {
+    background: #fff;
+  }
+
+  .address-2-left {
+    padding-left: 18px;
+    width: 698px;
+  }
+
+  .address-2-left>p {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .address-2-left>p>span:last-child {
+    font-weight: 500;
+  }
+
+  .updateAddressBtn {
+    background: #FFF2EA;
+    border: 1px solid #F78E29;
+    border-radius: 2px;
+    color: #F78E29;
+    padding: 5px 10px;
+    margin-left: 15px;
+    cursor: pointer;
+  }
+
+  .updateAddressBtn:hover {
+    background: #F78E29;
+    color: #fff;
+  }
+
+  .switchAddressBtn {
+    display: inline-block;
+    color: #4A90E2;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+
+  .newAddressBtn {
+    cursor: pointer;
+    background: #F6F6F6;
+    color: #333;
+    border: 1px solid #c1c1c1;
+    border-radius: 2px;
+    padding: 5px 10px;
+  }
+
+  .address-2-right {
+    padding: 20px 40px;
+  }
+
+  .uploadFileWrap {
+    margin-top: 20px;
+    display: flex;
+  }
+
+  .upload-left,
+  .upload-right {
+    width: 50%;
+    padding: 0 11px;
+  }
+
+  .upload-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .upload-con {
+    display: flex;
+  }
+
+  .uploadBtn {
+    margin-right: 18px;
+    margin-top: 10px;
+  }
+
+  .uploadBtn input {
+    line-height: initial;
+  }
+
+  .uploadUl {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .uploadUl li {
+    width: 340px;
+    display: flex;
+    border-bottom: 1px solid #e6e6e6;
+    justify-content: space-between;
+    padding: 0 10px;
+    line-height: 30px;
+  }
+
+  .uploadUl li>span:first-child {
+    display: inline-block;
+    width: 85%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #999;
+  }
+
+  .uploadUl li>span:last-child {
+    display: inline-block;
+    color: #c6c6c6;
+    /*margin-left: 10px;*/
+    cursor: pointer;
+  }
+
+  .pd-head {
+    display: flex;
+    background: #F9F8F8;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #E6E6E6;
+    border-bottom: none;
+    padding: 15px 0;
+  }
+
+  .pd-head>.pd-th:not(:first-child) {
+    text-align: center;
+  }
+
+  .pd-head>.pd-th:first-child {
+    padding-left: 18px;
+  }
+
+  .pd-body {
+    border: 1px solid #e6e6e6;
+    border-top: none;
+  }
+
+  .pd-tr {
+    display: flex;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .pd-td {
+    padding: 12px 20px;
+  }
+
+  .pd-td:not(:first-child) {
+    text-align: center;
+  }
+
+  .pd-td:first-child {
+    display: flex;
+  }
+
+  .pd-img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #e6e6e6;
+  }
+
+  .productName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .product-con {
+    width: 100%;
+    padding-left: 20px;
+  }
+
+  .productSku {
+    color: #999;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .pd-bottom {
+    padding: 14px 20px;
+  }
+
+  .pd-bottom>p {
+    line-height: 38px;
+    font-size: 14px;
+  }
+
+  .pd-bottom>p>span {
+    display: inline-block;
+    margin-left: 35px;
+  }
+
+  .pd-bottom>p:not(:last-child)>span {
+    margin-left: 55px;
+  }
+
+  .pd-bottom>p:last-child {
+    color: #F78E29;
+  }
+
+  .pd-bottom>p:last-child>span {
+    font-size: 22px;
+  }
+
+  .submitBtn {
+    background: #F78E29;
+    color: #fff;
+    padding: 5px 25px;
+    margin-top: 30px;
+  }
+
+  .zzcWrap {
+    background: #fff;
+    border-radius: 5px;
+    margin: 150px auto;
+    width: 740px;
+
+  }
+
+  .addressCon {
+    padding: 29px 22px;
+    border: 2px solid #e6e6e6;
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .addressWrap {
+    margin-top: 30px;
+  }
+
+  .addressCon>p {
+    font-size: 14px;
+  }
+
+  .addressCon>p>span:first-child {
+    display: inline-block;
+    width: 80px;
+    color: #999;
+  }
+
+  .addressCon>b {
+    /*display: block;*/
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 25px;
+    height: 21px;
+    background: url("static/image/fba/Group5.png") no-repeat;
+    display: none;
+  }
+
+  .addressCon.act {
+    border-color: #F78E29;
+  }
+
+  .addressCon.act>b {
+    display: block;
+  }
+
+  .btBtn {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .btBtn button {
+    padding: 5px 15px;
+  }
+
+  .cancelBtn {
+    margin-right: 14px;
+    border: 2px solid #999;
+    color: #666;
+    background: #fff;
+  }
+
+  .cancelBtn:hover {
+    border-color: #eee;
+    background: #eee;
+  }
+
+  .confirmBtn {
+    color: #fff;
+    background: #FF9900;
+    border: 2px solid #FF9900;
+  }
+
+  .confirmBtn:hover {
+    border-color: #FFA200;
+    background: #FFA200;
+  }
+
+  .ad1 {
+    display: none;
+  }
+
+  .editBtn {
+    display: inline-block;
+    height: 16px;
+    width: 17px;
+    background: url("static/image/fba/edit.png") no-repeat;
+    background-size: 16px;
+    margin-left: 15px;
+    cursor: pointer;
+  }
+
+  .deleteBtn {
+    display: inline-block;
+    margin-left: 15px;
+    width: 14px;
+    height: 14px;
+    background: url("/static/image/public-img/close-img.png") no-repeat;
+    background-size: 14px;
+    cursor: pointer;
+  }
+
+  .cjWrap {
+    padding: 20px;
+    background: #Fff;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px 0px rgba(227, 226, 226, 0.5);
+  }
+
+  .cjWrap:not(:first-child) {
+    margin-top: 12px;
+  }
+
+  .cjWrap h2 {
+    line-height: 22px;
+    font-size: 14px;
+    padding: 0 6px 17px 6px;
+    font-weight: bold;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .productRow {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .product-td {
+    width: 33%;
+    padding: 0 20px;
+    display: flex;
+    margin-bottom: 13px;
+  }
+
+  .product-image {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e6e6e6;
+  }
+
+  .product-right {
+    padding-left: 12px;
+    width: 65%;
+  }
+
+  .product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .product-sku {
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .product-price {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .zzcWrap p.title {
+    padding: 14px 22px;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .wrapMiddle {
+    padding: 14px 13px;
+    display: flex;
+  }
+
+  .wrap-left {
+    width: 330px;
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+    margin-right: 21px;
+  }
+
+  .wrap-right {
+    width: 360px;
+    max-height: 405px;
+    overflow-y: auto;
+  }
+
+  .wrap-left-top {
+    height: 35px;
+    background: #F9F8F8;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex;
+    padding: 0 11px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .addOrder {
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #FF9900;
+    color: #FF9900;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .product-list {
+    padding: 10px;
+    background: #fff;
+    max-height: 370px;
+    overflow-y: auto;
+  }
+
+  .left-product {
+    display: flex;
+    padding: 6px;
+    background: #F9F8F8;
+    border: 1px solid #E6E6E6;
+    border-radius: 4px;
+    align-items: center;
+  }
+
+  .left-product:hover {
+    background: #FFF5ED;
+    border-color: #FF9900;
+  }
+
+  .lp-1 {
+    width: 46px;
+    height: 46px;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  .lp-2 {
+    width: 195px;
+    margin: 0 10px;
+  }
+
+  .lp-name,
+  .rp-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    color: #333;
+  }
+
+  .lp-sku,
+  .rp-sku {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+  }
+
+  .lp-3 span {
+    cursor: pointer;
+  }
+
+  .left-product:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  .wr-con {
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+    width: 100%;
+  }
+
+  .rc-top {
+    height: 35px;
+    padding: 0 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #F9F8F8;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .rc-top>div>span {
+    cursor: pointer;
+  }
+
+  .rc-top>div>span:first-child {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .rc-con {
+    padding: 9px 11px;
+  }
+
+  .selectDrop {
+    width: 100%;
+    position: relative;
+  }
+
+  .rc-p {
+    padding: 6px;
+    border: 1px solid #e6e6e6;
+    background: #F9F8F8;
+    display: flex;
+    align-items: center;
+    margin-top: 9px;
+    border-radius: 4px;
+  }
+
+  .rc-p1 {
+    width: 46px;
+    height: 46px;
+    background: #fff;
+  }
+
+  .rc-p2 {
+    width: 142px;
+    padding: 0 10px;
+  }
+
+  .rc-p3 {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+  }
+
+  .rc-p3 input {
+    width: 46px;
+    height: 22px;
+    border: 1px solid #e6e6e6;
+    text-align: center;
+  }
+
+  .rc-p3 span {
+    display: inline-block;
+    border: 1px solid #E6E6E6;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .subtract-c {
+    position: relative;
+    right: -1px;
+  }
+
+  .add-c {
+    position: relative;
+    left: -1px;
+  }
+
+  .wr-con:not(:first-child) {
+    margin-top: 13px;
+  }
+
+  .wr-con.active {
+    border-color: #FF9900;
+  }
+
+  .wr-con.active>.rc-top {
+    background: #FFF5ED;
+    border-bottom-color: #FF9900;
+  }
+
+  .wr-con.active .rc-p {
+    background: #fff;
+  }
+
+  .dropCon {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 1px 8px 1px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    top: 28px;
+    left: 0px;
+    z-index: 999999999;
+    width: 100%;
+    max-height: 400px;
+    overflow: auto;
+  }
+
+  .selectDrapCon {
+    border-radius: 4px;
+    border: 1px solid #C1C1C1;
+    color: #999;
+    font-size: 12px;
+    height: 24px;
+    line-height: 22px;
+    padding: 0 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .selectDrapCon>span:last-child {
+    display: inline-block;
+    /*height: 1px;*/
+    border: 5px solid transparent;
+    border-top-color: #666;
+    position: relative;
+    top: 1px;
+  }
+
+  .selectDrapCon>span:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dropCon>ul>li>span {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .dropCon>ul>li>span:hover {
+    color: #FF9900;
+    background: #FFF5ED;
+  }
+
+  .zzcWrap2 {
+    border-radius: 4px;
+    background: #fff;
+    width: 740px;
+    margin: 150px auto;
+    padding: 20px;
+  }
+
+  .zzcWrap2 p {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .table-thead {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  .table-th {
+    background: #FCF4D9;
+    color: #8B572A;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .table-tr {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e9e9e9;
+    border-left: 1px solid #e9e9e9;
+    cursor: pointer;
+  }
+
+  .table-tr:hover {
+    background: #FFFDF8;
+  }
+
+  .table-td {
+    border-right: 1px solid #e9e9e9;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 6px;
+  }
+
+  .wrap2-bottom {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .wrap2-bottom button {
+    background: #FF9900;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 4px;
+  }
+
+  .wrapBottom {
+    padding: 15px 12px;
+    background: #F9F8F8;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .wrapBottom button {
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  .wrapBottom .orangeBtn {
+    width: 82px;
+    background: #FF9900;
+    color: #fff;
+    border-color: #FF9900;
+    margin-left: 15px;
+  }
+
+  .wrapBottom .defaultBtn {
+    width: 72px;
+    color: #666;
+    border-color: #999;
+    background: #fff;
+  }
+
+  .rc-p4>span {
+    cursor: pointer;
+  }
+
+  .addressContent {
+    max-width: 480px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+  }
+
+  .productDetailWrap>p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 18px;
+    font-weight: bold;
+  }
+
+  .productDetailCon:not(:last-child) {
+    margin-bottom: 14px;
+  }
+
+  .selectWuliu {
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+    width: 174px;
+    height: 28px;
+    font-size: 13px;
+  }
+</style>
+<div class="mycj-home-box mycj-purchase-confirm fba-purchase">
+  <div class="mycj-right-wrap">
+    <div class="mycj-right-bar">
+      <div class="cjWrap">
+        <div class="shipAddress">
+          <h2>delivery information</h2>
+          <div class="ad1">
+            <div class="address-1">
+              <div class="address-1-left">
+                <div class="inputGroup">
+                  <label>Country:</label>
+                  <select name="" id="selectCountry">
+                    <option value="">Please Select</option>
+                    <option value="{{country.nameEn}}#{{country.id}}" ng-repeat="country in countrylist">
+                      {{country.nameEn}}</option>
+                  </select>
+                  <label>City:</label>
+                  <input id="city" type="text" />
+                </div>
+                <div class="inputGroup">
+                  <label>Province:</label>
+                  <input id="province" type="text" />
+                </div>
+                <div class="inputGroup">
+                  <label>Phone:</label>
+                  <input id="phone" type="text" />
+                </div>
+                <div class="inputGroup" style="align-items: flex-start">
+                  <label>Address:</label>
+                  <textarea id="address"></textarea>
+                </div>
+              </div>
+              <div class="address-1-right">
+                <div class="address-1-r-con" style="margin-bottom: 22px;">
+                  <span class="defaultIcon act"></span>
+                  <span>Set to the default</span>
+                </div>
+                <div class="address-1-r-con">
+                  <button class="addressSaveBtn" style="margin-right: 10px" ng-click="addAddressFun()">Save
+                    Address</button>
+                  <button class="addressCancelBtn" ng-click="closeAdd()">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ad2">
+            <div class="address-2">
+              <div class="address-2-left">
+                <!--<p>Shipping Address <span class="updateAddressBtn">Update Address</span></p>-->
+                <p ng-repeat="address in addressList" style="display: flex"><span
+                    style="display: inline-block;width: 80px;color:#999;text-align: left">Address
+                    {{$index+1}}:</span><span title="{{address.reserve}}"
+                    class="addressContent">{{address.address}}</span><span class="editBtn"
+                    ng-click="openEidtFun(address)"></span><span class="deleteBtn"
+                    ng-click="deleteFun(address.ID)"></span></p>
+              </div>
+              <div class="address-2-right">
+                <!--<p><span class="switchAddressBtn" ng-click="openChangeAddress()">Address switching</span></p>-->
+                <p><span class="newAddressBtn" ng-click="newAddressFun()">New address</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="uploadFileWrap">
+          <div class="upload-left">
+            <p class="upload-title">Upload Shipping Label</p>
+            <div class="upload-con">
+              <div class="uploadBtn">
+                <input id="uploadInputFile1" type="file" multiple />
+                <!-- <span
+                  style="background: #F78E29;color: #fff;padding: 5px 15px;position: relative;top: -25px;cursor: pointer;">Choose
+                  Files</span> -->
+              </div>
+              <div class="uploadUl" id="uploadUl1">
+                <ul>
+                  <li ng-repeat="file in fileArr"><span data-link="{{file.href}}">{{file.name}}</span><span
+                      class="deleteBtn">X</span></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+          <div class="upload-right">
+            <p class="upload-title">Upload FNSKU</p>
+            <div class="upload-con">
+              <div class="uploadBtn">
+                <input id="uploadInputFile2" type="file" multiple />
+                <!-- <span
+                  style="background: #F78E29;color: #fff;padding: 5px 15px;position: relative;top: -25px;cursor: pointer;">Choose
+                  Files</span> -->
+              </div>
+              <div class="uploadUl" id="uploadUl2">
+                <ul>
+                  <li ng-repeat="file2 in fileArr2"><span data-link="{{file2.href}}">{{file2.name}}</span><span
+                      class="deleteBtn">X</span></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cjWrap">
+        <h2>Please Split Order:</h2>
+        <div class="productListWrap">
+          <div class="productRow">
+            <div class="product-td" ng-repeat="a in buylist">
+              <div class="product-image">
+                <img src="{{a.BIGIMG}}" style="width: 98px;height: 98px;" alt="" />
+              </div>
+              <div class="product-right">
+                <p class="product-name">{{a.NAMEEN}}</p>
+                <p class="product-sku">{{a.SKU}}</p>
+                <p class="product-price">Cost:$ <span>{{a.SELLPRICE}}</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="chaifenWrap">
+            <button class="submitBtn" ng-click="openzzc1()">Split Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="cjWrap" ng-show="SingleResult.length>0">
+        <div class="productDetailWrap">
+          <p>Your wishlist has been split into the following orders：</p>
+          <div class="productDetailCon" ng-repeat="(index1,item) in SingleResult track by index1">
+            <div class="pd-head">
+              <div class="pd-th" style="width:60%">Packet-{{index1+1}}</div>
+              <div class="pd-th" style="width:20%">Price</div>
+              <div class="pd-th" style="width:20%">Quantity</div>
+            </div>
+            <div class="pd-body">
+              <div class="pd-tr" ng-repeat="buy in item.productList">
+                <div class="pd-td" style="width:60%">
+                  <div class="pd-img"><img style="width: 100%;" src="{{buy.BIGIMG}}" alt="" /></div>
+                  <div class="product-con">
+                    <p class="productName">{{buy.NAMEEN}}</p>
+                    <p class="productSku">{{buy.SKU}}</p>
+                  </div>
+                </div>
+                <div class="pd-td" style="width:20%">${{buy.SELLPRICE}}</div>
+                <div class="pd-td" style="width:20%">x {{buy.pcount}}</div>
+              </div>
+              <div class="pd-bottom">
+                <select class="selectWuliu" name="" id="">
+                  <option value="">Please select logistics</option>
+                  <option value="{{w.logisticName}}#{{w.price}}" ng-repeat="w in item.wuliuList">{{w.logisticName}}
+                  </option>
+                </select>
+                <p>Total merchandise: <span>${{item.totalProductPrice}}</span></p>
+                <p>Total shipping cost: <span>$ {{item.wuliuPrice}}</span></p>
+                <p>Total amount payable: <span>${{fixedTwo(item.totalProductPrice + item.wuliuPrice)}}</span></p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <button class="submitBtn" ng-click="submitFun()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--选择地址弹窗-->
+<div class="zzc zzc1">
+  <div class="zzcWrap">
+    <p class="title">Split Order</p>
+    <div class="wrapMiddle">
+      <div class="wrap-left">
+        <div class="wrap-left-top">
+          <span>Whishist</span>
+          <span class="addOrder" ng-click="addckFun()">+ Split Order</span>
+        </div>
+        <div class="product-list">
+          <div class="left-product" ng-repeat="b in buylist">
+            <div class="lp-1">
+              <img src="{{b.BIGIMG}}" style="width: 45px;height: 45px;" alt="" />
+            </div>
+            <div class="lp-2">
+              <p class="lp-name">{{b.NAMEEN}}</p>
+              <p class="lp-sku">{{b.SKU}}</p>
+            </div>
+            <div class="lp-3"><span ng-click="checkFun(b)" class="icon-right_default"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap-right">
+        <div ng-repeat="(index1,ck) in ckarr track by index1" class="wr-con">
+          <div class="rc-top">
+            <span>{{ck.name}}</span>
+            <div><span ng-click="deleteCk(index1,$event)" class="icon-delect_black"></span><span
+                class="shouqi icon-up_circle"></span></div>
+          </div>
+          <div class="rc-con">
+            <div class="selectDrop">
+              <div class="selectDrapCon">
+                <span>{{ck.warehouse.address}} </span><span></span>
+              </div>
+            </div>
+            <div class="rc-p" ng-repeat="(index2,pro) in ck.productList track by index2">
+              <div class="rc-p1">
+                <img src="{{pro.BIGIMG}}" style="width: 45px;height: 45px;" alt="" />
+              </div>
+              <div class="rc-p2">
+                <p class="rp-name">{{pro.NAMEEN}}</p>
+                <p class="rp-sku">{{pro.SKU}}</p>
+              </div>
+              <div class="rc-p3">
+                <span class="subtract-c" ng-click="subtractCount(index1,index2)">-</span>
+                <input type="text" value="{{pro.pcount}}" />
+                <span class="add-c" ng-click="addCount(index1,index2)">+</span>
+              </div>
+              <div class="rc-p4"><span class="icon-delect_black" ng-click="deletePro(index1,index2,$event)"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrapBottom">
+      <button class="orangeBtn" ng-click="saveFun()">Conserve</button>
+      <button class="defaultBtn" ng-click="closezzc1()">Cancel</button>
+    </div>
+  </div>
+</div>
+<!--地址列表-->
+<div class="zzc zzc2">
+  <div class="zzcWrap2">
+    <p>Address List</p>
+    <div class="table-thead">
+      <div class="table-th" style="width: 60%">Address</div>
+      <div class="table-th" style="width: 15%">Country</div>
+      <div class="table-th" style="width: 15%">City</div>
+      <div class="table-th" style="width: 20%">Phone</div>
+    </div>
+    <div class="table-tbody">
+      <div class="table-tr" ng-repeat="dz in addressList" data-id="{{dz.ID}}">
+        <div class="table-td" style="width: 60%;">{{dz.address}}</div>
+        <div class="table-td" style="width: 15%;">{{dz.country}}</div>
+        <div class="table-td" style="width: 15%;">{{dz.city}}</div>
+        <div class="table-td" style="width: 20%;">{{dz.phone}}</div>
+      </div>
+    </div>
+    <div class="wrap2-bottom">
+      <button ng-click="closezzc2()">Cancel</button>
+    </div>
+  </div>
+</div>

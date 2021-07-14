@@ -1,0 +1,95 @@
+@bar-height: 86px;
+@disabled: rgba(224, 32, 32, 1);
+@enabled: #ff7700;
+
+.securityRoute {
+    :global {
+        .switchBlock {
+            margin: 0 auto;
+
+            .switchBar {
+                width: 1200px;
+                height: @bar-height;
+                // line-height: @bar-height;
+                margin-top: 30px;
+                padding-left: 48px;
+                font-size: 16px;
+                // font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #333333;
+                background: rgba(245, 245, 245, 0.5);
+
+                .action-box {
+                    width: 122px;
+                    height: 36px;
+                    border-radius: 4px;
+                    border: 1px solid #FF7700;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: rgba(255, 119, 0, 0.05);;
+                    }
+
+                    .security-img {
+                        width: 24px;
+                        height: 24px;
+                        margin-right: 5px;
+                    }
+                    .security-icon {
+                        font-size: 22px;
+                        margin-right: 5px;
+                        color: #ff7700;
+                    }
+                }
+
+                .action-disable {
+                    border: 1px solid @disabled;
+
+                    &:hover {
+                        background: rgba(224, 32, 32, 0.05);
+                    }
+                }
+                
+            }
+            .flex-bar {
+                padding-right: 46px;
+                display: flex;
+                align-items: center;
+                font-size: 16px;
+
+                .label {
+                    width: 90%;
+                }
+            }
+            .enabled{
+                color: @enabled;
+                cursor: pointer;
+            }
+            .disabledVerification{
+                color: @disabled;
+                cursor: pointer;
+            }
+            .backSecurity {
+                font-size: 14px;
+                text-align: center;
+                cursor: pointer;
+                width: 68px;
+                border-radius: 4px;
+                border: 1px solid #FF7700;
+                font-weight: 400;
+                color: #FF7700;
+                line-height: 28px;
+                margin-top: 40px;
+                &:hover {
+                    background-color: #f99429;
+                    color: #fff;
+                    border: 1px solid #ff9900;
+                }
+            }
+        }
+
+    }
+}

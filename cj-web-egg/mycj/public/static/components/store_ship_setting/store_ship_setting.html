@@ -1,0 +1,116 @@
+<!-- <div class="pro-ship-method-wrap">
+  <div class="addpodfature" ng-click="logisticsClick()">
+    Store Logistics
+  </div>
+</div> -->
+
+<!-- 物流设置弹窗 -->
+<div class="connection-logistics"
+  ng-show="logisListShow || notificationShow">
+  <!-- 物流数据 -->
+  <div class="logistics-wrap" ng-show="logisListShow">
+    <div class="logistics-header">
+      <span>Store Shipping Methods</span>
+      <i class="glyphicon glyphicon-remove" ng-click="closeLogistics()"></i>
+    </div>
+    <div class="add-logistics">
+      <button class="add-logistics-btn btn" ng-click="addSellogistics()">Add Shipping Method</button>
+    </div>
+    <div class="logistics-box">
+      <div class="logistics-table">
+        <div class="thead">
+          <div class="tr">
+            <div class="th">Store Name</div>
+            <div class="th">Shipping Method</div>
+            <div class="th">Priority</div>
+            <div class="th">Operate</div>
+          </div>
+        </div>
+        <div class="tbody">
+          <div class="tr" ng-repeat="(index,item) in getlogisticsList">
+            <div class="td">{{item.shopName}}</div>
+            <div class="td">
+              <span ng-show="item.editFlag">{{item.shippingMethod}}</span>
+              <select class="setwuliu-sele" ng-show="!item.editFlag" ng-model="$parent.wuliuMethod[$index]">
+                <option value="">Please select</option>
+                <option value="{{item1.nameen}}" ng-repeat="item1 in getLogisticsWay">
+                  {{item1.nameen}}
+                </option>
+              </select>
+            </div>
+            <div class="td">
+              <span ng-show="item.editFlag">
+                {{item.priority?item.priority +
+                  (item.priority%10==1?'st':item.priority%10==2?'nd':item.priority%10==3?'rd':'th') +
+                  ' Priority' : 'Not set'}}</span>
+              <select class="setwuliu-sele" ng-show="!item.editFlag" ng-model="$parent.wuliuPriority[$index]"
+                ng-init="$parent.wuliuPriority[$index] = $index+1+''">
+                <option value="">Please select</option>
+                <option value="{{$index+1}}" ng-repeat="item2 in getlogisticsList">
+                  {{($index+1) + (($index+1)%10==1?'st':($index+1)%10==2?'nd':($index+1)%10==3?'rd':'th') + ' Priority'}}
+                </option>
+              </select>
+            </div>
+            <div class="td">
+              <span ng-show="item.status == 'Save'" ng-click="editLogistics($index, item)">Edit</span>
+              <span ng-show="item.status == 'Edit' || item.newItemFlag" ng-click="saveLogistics($index, item)">Save</span>
+              <span ng-show="item.status == 'Edit'" ng-click="cancelLogistics($index, item)">Cancel</span>
+              <span ng-show="item.status == 'Save' || item.newItemFlag" ng-click="deleteLogistics($index, item)">Delete</span>
+            </div>
+          </div>
+        </div>
+        <div class="not-data" ng-show="getlogisticsList.length<1">
+          <img src="static/image/page/not_dsata.png" alt="">
+          No data found
+        </div>
+      </div>
+      <div class="submit-btns">
+        <button class="cancel" ng-click="closeLogistics()">Cancel</button>
+        <!-- <button class="confirm btn" ng-click="submitLogistics()">Confirm</button> -->
+      </div>
+    </div>
+    <!-- 取消提示 -->
+    <!-- <div class="pop-box" ng-show="notificationShow">
+      <div class="Notification-message">
+        <div class="message-wrap">
+          <div class="message-header">
+            <span>Notification</span>
+          </div>
+          <div class="message-content">
+            <p>The changes have not been saved. Are you sure to exit?</p>
+          </div>
+          <div class="submit-btns">
+            <button class="cancel" ng-click="candelMessage()">Cancel</button>
+            <button class="confirm btn" ng-click="confirmMessage()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- 弹框 -->
+    <div class="pop_ups">
+      <pop-ups content="content" level="2" ng-show="notificationShow"></pop-ups>
+    </div>
+  </div>
+</div>
+
+<div id="isCJPub" ng-show="saveLogisticsShow" ng-cloak>
+  <!-- 公用class：CJ-content -->
+  <!-- 操作失败class：operate-fail -->
+  <div class="CJ-content">
+    <span class="close" ng-click="saveLogisticsShow=false">×</span>
+    <!-- icon span视具体情况加或不加-->
+    <!-- <h3><span class="icon">!</span>{{title}}</h3> -->
+    <p>Are you sure to update this shipping method?</p>
+    <button class="btn1" ng-click="updateLogistics()">Confirm</button>
+    <button class="btn2" ng-click="saveLogisticsShow=false">Cancel</button>
+  </div>
+</div>
+
+<div id="isCJPub" ng-show="deleteLogisticsShow" ng-cloak>
+  <div class="CJ-content">
+    <span class="close" ng-click="deleteLogisticsShow=false">×</span>
+    <p>Are you sure to delete this shipping method?</p>
+    <button class="btn1" ng-click="deleteLogisticsAck()">Confirm</button>
+    <button class="btn2" ng-click="deleteLogisticsShow=false">Cancel</button>
+  </div>
+</div>

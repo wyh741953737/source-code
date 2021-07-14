@@ -1,0 +1,856 @@
+<style>
+  #add-store .closel {
+    line-height: 16px;
+  }
+  .storeDialogBody {
+    max-height: 490px;
+    overflow-y: auto;
+  }
+  .ASL-content li {
+    margin-bottom: 20px;
+  }
+  .ASL-content p {
+    line-height: 20px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+  }
+  #add-store .ASL-content {
+    width: 600px;
+    padding: 0;
+  }
+  .authorButton {
+    display: flex;
+    justify-content: center;
+  }
+  .authorRadio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .authorRadio.authorNote {
+    align-items: baseline;
+  }
+
+  .storeType,
+  .authorRadio .title {
+    width: 130px;
+    height: 20px;
+    line-height: 20px;
+    text-align: right;
+    font-size: 14px;
+    font-family: PingFangSC;
+    color: #000000;
+    margin-right: 20px;
+  }
+  .radio1 {
+    display: none;
+  }
+  .radio2 {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #d9d9d9;
+    vertical-align:middle;
+    position: relative;
+    margin: -2px 8px 1px 0;
+  }
+  .radio2::before {
+    content: '';
+    display: none;
+    width: 8px;
+    height: 8px;
+    background: var(--color-theme-1);
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -4px;
+    margin-top: -4px;
+  }
+  .vip .radio2::before{
+    background: var(--color-theme-1-vip);
+  }
+  .isActive{
+    border-color: var(--color-theme-1);
+  }
+  
+  .vip .isActive {
+    border-color: var(--color-theme-1-vip);
+  }
+  .radio1:checked~.isActive::before {
+    display: block;
+  }
+  #siteUrl::-webkit-input-placeholder {
+    position: relative;
+    left: -226px;
+  }
+  .isRequired::before {
+    margin-right: 4px;
+    color: red;
+    content: '*';
+  }
+  #siteUrl,
+  #consumerKey,
+  #consumerSecret,
+  #clientKey,
+  #clientSecret,
+  #erifierCode,
+  #storeAddress,
+  #storeName,
+  #apiKey,
+  #apiSecret {
+    width: 300px;
+    text-indent: 8px;
+  }
+  .bottomButton {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  .goback {
+    width: 80px;
+    height: 30px;
+    background: #F9F9F9;
+    color: #666666;
+    border: 1px solid #E4E4E4;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 10px;
+  }
+  .footText {
+    padding: 0 45px 20px 45px;
+  }
+</style>
+<div class="mycj-home-box mycj-authorize" ng-click="dropDown({},'')">
+  <div class="mycj-right-wrap p-3">
+    <ul class="top-taps" ng-show="currentAuthorize =='api'">
+      <li class="tab-theme video active"><a href="#/authorize/API">API</a></li>
+      <li class="tab-theme video"><a href="#/apikey">API Key</a></li>
+    </ul>
+    <div class="mycj-right-bar" style="padding-top: 10px;background: #fff;">
+      <div class="store-authorize-box">
+        <!-- top -->
+        <div class="sa-title" ng-show="currentAuthorize !=='api'">
+          <h3>{{navparamy}} Store Authorization</h3>
+          <div class="add-store">
+            <button class="add-store-btn btn-theme" ng-click="addStore()" cjdot cjdotshow='{"eventType":2}'>Add Stores</button>
+          </div>
+        </div>
+        <!-- main -->
+        <div class="sa-list">
+          <h3>Store List</h3>
+          <div class="function-bar">
+            <div class="show-deactivate-stores">
+                <i class="iconfont iconzizhanghuweixuanzhong checkIcon" ng-show="!showDeactiStoresVal" ng-click="handleCheck(true)"></i>
+                <i class="iconfont iconicon checkIcon" ng-show="showDeactiStoresVal" ng-click="handleCheck(false)"></i>
+              <span style="margin-left: 10px;">Show Deactivated/Unauthorized Stores</span>
+            </div>
+            <div class="search-bar">
+              <input type="password" class="search-inp" style="display:none">
+              <input type="text" class="search-inp" ng-model="searchName" placeholder="Enter Store Name"><button class="search-btn btn-theme"
+                ng-click="searchStore()">Search</button>
+            </div>
+            <div class="transfer-wrap" ng-if="transferStoreList.length > 0 && !subAccountName">
+              <button class="addpodfature btn-theme1 transfer-btn"  ng-click="toggleTransferStore(true, 'transfer')">Transfer Store</button>
+            </div>
+          </div>
+
+          <table class="tb-storelist" ng-show="!noData">
+            <thead>
+              <tr>
+                <th width="150">Updated Date</th>
+                <th width="130">Store Name</th>
+                <th width="150">Non-public Store Name</th>
+                <th width="150">Store Type</th>
+                <th width="120">Token Verification Results</th>
+                <th width="200">Store Status</th>
+                <th width="120" ng-show="StoreType=='0' || StoreType=='7'|| StoreType=='8'">Inventory Sync</th>
+                <th width="100" ng-show="StoreType === '0'">
+                  <div class="iconTh">
+                    <span>Email Permission</span>
+                    <!-- <img src="./static/image/authorize/question.png" alt=""> -->
+                    <i class="iconfont suspend-icon">&#xe70e;</i>
+                    <div class="suspend">
+                      Allow CJ to send an email to your customer via Shopify
+                    </div>
+                  </div>
+                </th>
+                <th width="270">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr ng-repeat="item in storeList">
+                <td class="td-id" style="display: none;">{{item.id}}</td>
+                <td class="update-date">{{item.updataDate}}</td>
+                <td class="store-id">{{item.name}}</td>
+                <td>
+                  <span ng-if="isChangeCurrentIndex !== $index" ng-click="changeAliasName($index)">
+                    {{item.aliasName || 'please enter the store name'}}
+                  </span>
+                  <span ng-if="isChangeCurrentIndex === $index">
+                    <input type="text" style="border: 1px solid #eee; border-radius: 6px; margin: 4px 10px;"  ng-model="item.aliasName" ng-blur="upateAliasName(item)">
+                  </span>
+                </td>
+                <td>
+                  <img style="height: 30px;" ng-if="item.type=='shopify'"
+                    src="./static/image/logos/logo_shopify_145x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='Woocommerce'"
+                    src="./static/image/logos/logo_woocommerce_200x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='Shipstation'"
+                    src="./static/image/logos/logo_shipstation_240x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='api'" src="./static/image/logos/logo_cjapi_130x40.png">
+                  <img style="height: 30px;"
+                    ng-if="item.type=='brightpearl' || item.type=='brightpearl1' || item.type=='Brightpearl'"
+                    src="./static/image/logos/logo_brightpearl_180x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='ebay'" src="./static/image/logos/logo_ebay_110x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='wix'" src="./static/image/logos/logo_wix_110x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='amazon'"
+                    src="./static/image/logos/logo_amazon_130x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='Lazada'"
+                    src="./static/image/logos/logo_lazada_282X60.png">
+                  <img style="height: 30px;" ng-if="item.type=='shopee'"
+                    src="./static/image/logos/logo_shopee_124x40.png">
+                  <img style="height: 30px;" ng-if="item.type=='etsy'" src="./static/image/logos/logo_etsy_422x200.png">
+                </td>
+                <td>
+                  <span ng-if="item.status == 1 || item.status == 2 || item.status == 5">Authorized</span>
+                  <span ng-if="item.status == 3 || item.status == 4">Unauthorized</span>
+                  <div style="color: #ef3a40;" ng-if="item.ebayIsOut == '1'">Token will expire soon</div>
+                  <div style="color: #ef3a40;" ng-if="item.ebayIsOut == '2'">Token expired</div>
+                </td>
+                <td>
+                  <span class="store-status status-activate" ng-if="item.status == 1">Activated</span>
+                  <span class="store-status status-deactivate" ng-if="item.status == 2">Deactivated</span>
+                  <span class="store-status status-activate" ng-if="item.status == 5">Transferring</span>
+                  <span class="store-status status-authofail" ng-if="item.status == 3 || item.status == 4">Authorization Failed</span>
+                  <!-- <img src="./static/image/authorize/set.png" alt="" class="setIcon" ng-click="dropDown(item,'authorizeShow')"> -->
+                  <i class="iconfont iconshopifyshezhi setIcon" ng-click="dropDown(item,'authorizeShow')"></i>
+                  <ul ng-show="item.authorizeShow" class="sel" ng-class="{'sel-top': $index == storeList.length-1}">
+                    <li ng-if="item.status == 1" ng-click="deactivate(item.id)">Deactivate</li>
+                    <li ng-if="item.status == 2" ng-click="activate(item.id)">Activate</li>
+                    <li ng-click="reauthorize(item)" ng-show="StoreType != 9">Reauthorize</li>
+                    <li ng-if="item.ebayIsOut == '1'" ng-click="reauthorize(item)">Update Authorize</li>
+                  </ul>
+                </td>
+
+                <td ng-show="StoreType=='0' || StoreType=='7'|| StoreType=='8'">
+                  {{item.syncInventory==1?'Enabled':item.syncInventory==0?'Disabled':''}}
+                  <!-- <img src="./static/image/authorize/set.png" alt="" class="setIcon" ng-click="dropDown(item,'syncShow')" ng-show="StoreType=='0' || StoreType=='7'|| StoreType=='8'"> -->
+                  <i class="iconfont iconshopifyshezhi setIcon" ng-click="dropDown(item,'syncShow')" ng-show="StoreType=='0' || StoreType=='7'|| StoreType=='8'"></i>
+                  <ul ng-show="item.syncShow" class="sel">
+                    <li ng-click="enableStockSync(item)">{{item.syncInventory==1?'Disable':item.syncInventory==0?'Enable':''}}</li>
+                  </ul>
+                </td>
+
+                <!-- <td class="action-btnstd">
+                  <button class="deactivate" ng-if="item.status == 1" ng-click="deactivate($event)">Deactivate</button>
+                  <button class="activate" ng-if="item.status == 2" ng-click="activate($event)">Activate</button>
+                  <button class="reauthorize" ng-click="reauthorize(item)">Reauthorize</button>
+                  <button class="reauthorize" ng-if="item.ebayIsOut == '1'" ng-click="reauthorize(item)">Update
+                    Authorize</button>
+                  <button class="addpodfature btn-theme"
+                    ng-if="item.type=='shopify' && !item.individuationNum && item.status == 1"
+                    ng-click="addPODFeature(item)">Add POD Feature</button>
+                  <button class="addpodfature btn-theme"
+                    ng-if="item.type=='shopify' && item.individuationNum && item.status == 1"
+                    ng-click="removePODFeature(item)">Remove POD Feature</button>
+                  <button class="addpodfature btn-theme"
+                    ng-if="item.type=='shopify' && item.individuationNum && item.status == 1 && item.memo == '1'"
+                    ng-click="updatePODFeature(item)">Update POD Feature</button>
+                  <button class="addpodfature btn-theme"
+                    ng-if="item.type=='shopify' && item.individuationNum && item.status == 1"
+                    ng-click="podSetting(item)">POD Settings</button>
+                  <button class="addpodfature btn-theme">
+                    <store-ship-setting iteminfo="item"></store-ship-setting>
+                  </button>
+                </td> -->
+
+                <td ng-show="item.type=='shopify'">
+                  {{item.emailNotification == 1 ? 'Allow' :  'Don’t Allow'}}
+                  <!-- <img src="./static/image/authorize/set.png" alt="" class="setIcon" ng-click="dropDown(item,'emlShow')" ng-show="item.status == 1 || item.status == 5"> -->
+                  <i class="iconfont iconshopifyshezhi setIcon" ng-click="dropDown(item,'emlShow')" ng-show="item.status == 1 || item.status == 5"></i>
+                  <ul ng-show="item.emlShow" class="sel">
+                    <li ng-click="updateEmailNotification(item)" ng-show="StoreType=='0' || StoreType=='7'|| StoreType=='8'">{{item.emailNotification==1 ? 'Don’t Allow' :  'Allow'}}</li>
+                  </ul>
+                </td>
+                <td class="action-flex-td" ng-if="item.status !== 5" style="padding: 5px 0 0 0;">
+                    <i class="iconfont icongengduo moreIcon" ng-class="{'iconHover': showAction == item.id}" ng-mouseover="handleActionHover(item)" ng-mouseout="handleActionOut()"></i>
+                    <div class="action-box" ng-mouseover="handleActionHover(item)" ng-mouseout="handleActionOut()" ng-show="showAction == item.id" ng-class="{'action-top': $index == storeList.length-1}">
+                      <div class="action-item action-pod" ng-if="item.type=='shopify' && item.status == 1" ng-class="{'no-click': item.status != 1}" ng-click="podSetting(item)">
+                        <div class="tracking-info pod-info" ng-show="item.status == 1">POD design button settings</div>
+                        POD
+                      </div>
+                      <div class="action-item" ng-click="handleStoreLogistics(item)">
+                        <!-- <store-ship-setting iteminfo="item"></store-ship-setting> -->
+                        Store Logistics
+                      </div>
+                      <div 
+                        class="action-item action-tracking" 
+                        ng-show="navparamy == 'Shopify' && item.status != 2 && (item.status == 1 || item.status == 5)"
+                        ng-click="configLogisticsDialog.trackingBtnClick(item)"
+                      >
+                        <div class="tracking-info tracking-info">Set up the tracking URL for your orders in Shopify.</div>
+                        Tracking URL
+                      </div>
+                      <!--  -->
+                      <div class="action-item" ng-click="handleShowShipping(item)" ng-show="navparamy == 'Shopify' && switchIdentification == 1" ng-cloak>
+                        Shipping Method Settings
+                      </div>
+                    </div>
+                  
+                  <!-- <div class="action-drop-down mlr"
+                    ng-class="{'triangle-after': !item.podShow, 'hover-arrow': item.podShow,'triangle-after-none': !item.podShow && item.status !=1}"
+                    ng-if="item.type=='shopify'"
+                    style="margin-bottom: 5px;">
+                    <div class="border-theme text-theme" ng-click="dropDown(item,'podShow')" ng-class="{'no-click': item.status != 1}">POD</div>
+                    <ul ng-show="item.podShow">
+                      <li ng-if="!item.individuationNum && item.status == 1"
+                        ng-click="addPODFeature(item)">Add</li>
+                      <li ng-if="item.individuationNum && item.status == 1"
+                        ng-click="removePODFeature(item)">Remove</li>
+                      <li ng-if="item.individuationNum && item.status == 1 && item.memo == '1'"
+                        ng-click="updatePODFeature(item)">Update</li>
+                      <li ng-if="item.individuationNum && item.status == 1"
+                        ng-click="podSetting(item)">Settings</li>
+                    </ul>
+                  </div>
+                  <button class="addpodfature btn-theme1 mlr" style="margin-bottom: 5px;">
+                    <store-ship-setting iteminfo="item"></store-ship-setting>
+                  </button>
+                  <div style="display: inline-block;position: relative;" ng-show="navparamy == 'Shopify'">
+                    <div class="tracking-info" ng-show="showTrackingInfo == item.id">Set up the tracking URL for your orders in Shopify.</div>
+                    <button 
+                      class="addpodfature btn-theme1 mlr"  
+                      ng-show="item.status == 1 || item.status == 5" 
+                      ng-click="configLogisticsDialog.trackingBtnClick(item)" 
+                      ng-mouseover="configLogisticsDialog.showTrackingInfo(item)" 
+                      ng-mouseout="configLogisticsDialog.hideTrackingInfo(item)"
+                      style="margin-bottom: 5px;">
+                      Tracking URL
+                    </button>
+                  </div> -->
+                  
+                </td>
+                
+                <td class="action-flex-td" ng-if="item.status == 5">
+                  <button class="btn-theme" ng-click="acceptTransfer(item)">Accept</button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+          <div class="mycj-nodata" ng-show="noData">
+            <div class="nodata-cont">
+              <img src="/static/image/new-nodata/noAuthorization.png" ng-show="!userVip" alt="">
+              <img src="/static/image/new-nodata/noAuthorizationVIP.png" ng-show="userVip" alt="">
+              <p class="store-nodata-tip">We don't have permission to access your store data for now. Please authorize your store to CJ as soon as possible so that we can provide you with better services.</p>
+              <!-- <span class="btn btn-theme" ng-click="addStore()">Add Stores</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<!-- 弹窗s -->
+<pod-setting></pod-setting>
+<!-- 店铺物流设置弹窗 -->
+<store-ship-setting></store-ship-setting>
+<!-- 物流映射弹窗 -->
+<logistics-settings></logistics-settings>
+<!--弹窗-->
+<div id="add-store" ng-show="StoreDialog">
+  <div class="ASL-content" style="overflow-y:auto;overflow-x:hidden;">
+    <i class="iconfont closel" ng-click="StoreDialog = false;addStoreFlag = false; updateStoreFlag = false;"></i>
+    <h5 ng-show="addStoreFlag">Add Store</h5>
+    <h5 ng-show="updateStoreFlag">Reauthorize Store</h5>
+    <div class="storeDialogBody">
+    <ul style="padding: 20px 45px 0 45px;">
+      <li>
+        <label style="display: flex; height: 20px; line-height: 20px;">
+          <span class="title storeType">Store Type:</span>
+          <span ng-show="StoreType === '0'" class="shopType-c">Shopify</span>
+          <span ng-show="StoreType === '4'" class="shopType-c">eBay</span>
+          <span ng-show="StoreType === '1'" class="shopType-c">Woocommerce</span>
+          <span ng-show="StoreType === '2'" class="shopType-c">Shipstation</span>
+          <!-- <span ng-show="StoreType === '5'" class="shopType-c">Amazon</span> -->
+          <span ng-show="StoreType === '6'" class="shopType-c">Wix</span>
+          <span ng-show="StoreType === '7'" class="shopType-c">Lazada</span>
+          <span ng-show="StoreType === '8'" class="shopType-c">Shopee</span>
+          <span ng-show="StoreType === '9'" class="shopType-c">API</span>
+          <span ng-show="StoreType === '10'" class="shopType-c">Etsy</span>
+          <!-- <select ng-model="StoreType" ng-show="addStoreFlag"> -->
+          <!-- <option value="1">Woocommerce</option> -->
+          <!-- <option value="2">Shipstation</option> -->
+          <!-- <option value="3" ng-if="brightpearl_show">brightpearl</option> -->
+          <!-- <option value="4">ebay</option> -->
+          <!-- <option value="5">Amazon</option> -->
+          <!-- <option value="6">Wix</option> -->
+          <!-- 18-11-02-add 控制店铺显示【backend:tyy】 -->
+          <!-- </select> -->
+        </label>
+      </li>
+      <!-- <li ng-show="StoreType == '0'" class="Shopifydialog">
+            <label>
+              <span class="title">API Password:</span>
+              <input ng-model="apiPassword" type="text"  placeholder="">
+            </label>
+          </li> -->
+      <li ng-show="StoreType == '0'" class="Shopifydialog">
+        <div class="authorRadio">
+            <label class="title" for="storeAddress">Store Address:</label>
+            <input ng-model="linkurl" id="storeAddress" type="text" placeholder=".myshopify.com" autocomplete="gan">
+        </div>
+      </li>
+      <li ng-show="StoreType == '1'" class="Woocommercedialog" style="margin-bottom: 20px;">
+        <div class="authorRadio">
+          <span class="title">Authorization:</span>
+          <label>
+            <input type="radio" name="radio" class="radio1" ng-checked="notShowOAuth" ng-click="isDisplay()" autocomplete="gan">
+            <span id="defaultRadio" class="radio2" ng-class="{'isActive': notShowOAuth}"></span>
+            <span class="radio2-text" style="margin-right: 77px;">Default</span>
+          </label>
+          <label>
+            <input type="radio" name="radio" class="radio1" ng-checked="!notShowOAuth" ng-click="notDisplay()" autocomplete="gan">
+            <span id="oauthRadio" class="radio2" ng-class="{'isActive': !notShowOAuth}"></span>
+            <span class="radio2-text">OAuth Plugin</span>
+          </label>
+        </div>
+        <div class="authorRadio authorNote" ng-show="!notShowOAuth">
+          <span class="title">Note:</span>
+          <span class="shopType-c" ng-show="!isShowNext">You need to install the OAuth plugin.</span>
+          <span class="shopType-c" ng-show="isShowNext" style="width: 350px;">Please finish the authorization and copy the Verifier Code in the new tab.</span>
+        </div>
+        <div class="authorRadio" style="margin: 0;" ng-show="isShowNext && !notShowOAuth">
+          <label class="title" for="erifierCode" ng-class="{'isRequired': !notShowOAuth}">Erifier code:</label>
+          <input class="urlInput" id="erifierCode" ng-model="ErifierCode" type="text" maxlength="201" ng-change="limitNum()" autocomplete="gan">
+        </div>
+        <div class="authorRadio" style="margin: 0;" ng-show="!isShowNext">
+          <label class="title" for="siteUrl" ng-class="{'isRequired': !notShowOAuth}">Site Url:</label>
+          <input class="urlInput" id="siteUrl" ng-model="SiteUrl" type="text" placeholder="https://" maxlength="500" autocomplete="gan">
+        </div>
+        <span class="example" ng-show="!isShowNext">Example: If your website is https://www.cjdropshipping.com, please fill in
+          www.cjdropshipping.com, excluding (https://). Please fill in correctly.</span>
+      </li>
+      <li ng-show="StoreType == '1'" class="Woocommercedialog">
+        <div class="authorRadio" ng-show="notShowOAuth">
+          <label class="title" for="consumerKey">Consumer Key:</label>
+          <input id="consumerKey" ng-model="ConsumerKey" type="text" maxlength="201" autocomplete="gan">
+        </div>
+        <div class="authorRadio" ng-show="!notShowOAuth && !isShowNext">
+          <label class="title" for="clientKey" ng-class="{'isRequired': !notShowOAuth}">Client Key:</label>
+          <input id="clientKey" ng-model="ClientKey" type="text" maxlength="201" ng-change="limitNum()" autocomplete="gan">
+        </div>
+      </li>
+      <li ng-show="StoreType == '1'" class="Woocommercedialog">
+        <div class="authorRadio" ng-show="notShowOAuth">
+          <label class="title" for="consumerSecret">Consumer Secret:</label>
+          <input id="consumerSecret" ng-model="ConsumerSecret" type="text" maxlength="201" autocomplete="gan">
+        </div>
+        <div class="authorRadio" style="margin-bottom: 0;" ng-show="!notShowOAuth && !isShowNext">
+          <label class="title" for="clientSecret" ng-class="{'isRequired': !notShowOAuth}">Client Secret:</label>
+          <input id="clientSecret" ng-model="ClientSecret" type="text" maxlength="201" ng-change="limitNum()" autocomplete="gan">
+        </div>
+        <span class="example" ng-show="!notShowOAuth && !isShowNext">The Client Key and Client Secret are generated from your WooCommerce store.</span>
+      </li>
+      <li ng-show="StoreType == '2'">
+        <div class="authorRadio">
+          <label class="title" for="apiKey">API Key:</label>
+          <input ng-model="APIKey" id="apiKey" type="text" placeholder="">
+        </div>
+        <div class="authorRadio">
+          <label class="title" for="apiSecret">API Secret:</label>
+          <input ng-model="APISecret" id="apiSecret" type="text" placeholder="">
+        </div>
+      </li>
+
+      <!-- 18-10-15-add 增加店鋪类型【backend:tyy】 -->
+      <li ng-show="StoreType == '3'">
+        <label>
+          <span class="title">account:</span>
+          <input ng-model="account" type="text" placeholder="">
+        </label>
+      </li>
+      <li ng-show="StoreType == '3'">
+        <label>
+          <span class="title">brightpearl-app-ref:</span>
+          <input ng-model="brightpearl_app_ref" type="text" placeholder="">
+        </label>
+      </li>
+      <li ng-show="StoreType == '3'">
+        <label>
+          <span class="title">brightpearl-account-token:</span>
+          <input ng-model="brightpearl_account_token" type="text" placeholder="">
+          <button class="Authorize" ng-click="ShopifySub()" ng-show="addStoreFlag">Authorize</button>
+          <button class="Authorize" ng-click="ShopifyUpdate()" ng-show="updateStoreFlag">Reauthorize</button>
+        </label>
+      </li>
+      <li ng-show="StoreType == '4'" class="Shopifydialog">
+        <div class="authorRadio">
+          <label class="title" for="storeName">Store Name:</label>
+          <input ng-model="ebaylinkurl" id="storeName" type="text" placeholder="">
+        </div>
+      </li>
+      <li ng-show="StoreType == '6'" class="Shopifydialog">
+        <label>
+          <span class="title">Store URL:</span>
+          <input ng-model="wixName" type="text" placeholder="">
+          <button class="Authorize" ng-click="ShopifySub()" ng-show="addStoreFlag">Authorize</button>
+          <button class="Authorize" ng-click="ShopifyUpdate()" ng-show="updateStoreFlag">Reauthorize</button>
+        </label>
+      </li>
+      <li ng-show="StoreType == '5'" class="amazonInput">
+        <label>
+          <span class="title">Shop Name:</span>
+          <input ng-model="shopName" type="text" placeholder="">
+          <!-- <button class="Authorize" ng-click="ShopifySub()" ng-show="addStoreFlag">Authorize</button>
+        <button class="Authorize" ng-click="ShopifyUpdate()" ng-show="updateStoreFlag">Reauthorize</button> -->
+        </label>
+      </li>
+      <li ng-show="StoreType == '5'" class="amazonInput">
+        <label>
+          <span class="title">Country:</span>
+<!--            <select-->
+<!--                    ng-model="country">-->
+<!--                <option ng-repeat="item in countryList" value="{{item.countryCode}}">{{item.countryCode}}</option>-->
+<!--            </select>-->
+          <select  ng-options="i.countryCode as i.countryCode for i in countryList" ng-model="country">
+        </select>
+        </label>
+      </li>
+      <li ng-show="StoreType == '5'" class="amazonInput">
+        <label>
+          <span class="title">Seller Id:</span>
+          <input ng-model="consumerKey" type="text" placeholder="">
+        </label>
+      </li>
+      <li ng-show="StoreType == '5'" class="amazonInput">
+        <label>
+          <span class="title">MWS Auth Token:</span>
+          <input ng-model="consumerSecret" type="text" placeholder="">
+          <button class="Authorize" ng-click="amazonSub()" >Authorize</button>
+        </label>
+      </li>
+    </ul>
+    <div class="footText">
+      <p style="color: red;" ng-show="StoreType == '0'">Note: Please enter the default URL provided by Shopify. You can find it in your Shopify admin.</p>
+      <p ng-show="StoreType == '0'">
+        Installation Steps :
+        <br /> 1. Log into your Shopify Admin
+        <br /> 2. Copy the URL which says your store name: store-name.myshopify.com
+        <br /> 3. Fill in the blank field above with the store ID, please do not include .myshopify.com
+        <br /> 4. Click the "install app" button on the Shopify authorization page
+      </p>
+      <p ng-show="StoreType == '1' && notShowOAuth">
+        Steps to connect your Woocommerce store:
+        <br /> 1. Log into your Wordpress admin > Woocommerce > Settings > Advanced
+        <br /> 2. Click REST API and fill in the Description and choose Read/Write permission to generate API Key
+        <br /> 3. Go back to CJ app, fill in the information on the authorization page
+        <br /> 4. Click Plugins > Search with the keywords: Shipment Tracking > Install Now > Activate
+        <br />
+      </p>
+      <p ng-show="StoreType == '1' && !notShowOAuth">
+        Steps to connect your Woocommerce store:
+        <br /> 1. Log into your WordPress admin > Plugins > Add New.
+        <br /> 2. Search “OAuth 1.0a Server” > Install “WordPress REST API – OAuth 1.0a Server” > Activate.
+        <br /> 3. Go to Users > Applications > Add New.
+        <br /> 4. Fill in application information, including Consumer Name, Description and Callback. The Callback must be https://cjdropshipping.com/.
+        <br /> 5. Copy and paste the Client Key and Client Secret to CJ. Click “Next” to generate an authorization URL.
+        <br /> 6. Log into your WooCommerce account > Authorize > Generate the Verifier Code.
+        <br /> 7. Copy and paste the Verifier Code to CJ to authorize.
+      </p>
+      <p ng-show="StoreType == '2'">
+        Steps to connect your ShipStation store:
+        <br /> 1. Log into your ShipStaion account
+        <br /> 2. Welcome Page > Navigation > Account Setting > Account > API Setting > API Key > Generate API Keys
+        <br /> 3. Copy and Paste API Keys & API Secret in the required fields and click Authorize
+        <br /> 4. Please contact our agent in our chatroom for further settings after authorization
+      </p>
+      <p ng-show="StoreType == '4'">
+        Authorization Steps:
+        <br /> 1. Log into your eBay account
+        <br /> 2. Click 'My eBay' to get your store name
+        <br /> 3. Input the name above and click 'Authorize'
+        <br /> 4. Follow the steps to sign in again and click 'Agree' to authorize
+        <br />
+        <span style="color: #333333;">* Please complete step 4 within 5 minutes, or the authorization will
+          fail</span>
+      </p>
+      <!-- <p ng-show="StoreType == '5'">
+        Authorization Steps:
+        <br /> 1. Log in your Amazon Seller Central
+        <br /> 2.1 Settings > User Permissions > Authorize a Developer or
+        <br /> 2.2 App Store > Manage Your Apps > Authorize New Developer
+        <br /> 3. Enter CJdropshipping as Developer's Name and 111108993696 as Account Number
+        <br /> 4. Get your Amazon MWS API credentials and input them into the appropriate fields and click 'Authorize'
+        <br />
+      </p> -->
+      <p ng-show="StoreType == '6'">
+        Authorization Steps:
+        <br /> 1. Enter your Wix store name and click 'Authorize'
+        <br /> 2.Log in to yout Wix admin as required
+        <br /> 3. Agree to install CJdropshipping app
+      </p>
+      <a ng-show="StoreType == '0'" target="_blank"
+        href="https://cjdropshipping.com/2018/03/26/how-to-connect-shopify-shops-to-app-cjdropshipping-com/">You can
+        refer to this tutorial.</a>
+      <a ng-show="StoreType == '1' && notShowOAuth" target="_blank"
+        href="https://cjdropshipping.com/2018/05/24/how-to-connect-woocommerce-manually/">You can refer to this
+        tutorial.</a>
+      <a ng-show="StoreType == '2'" target="_blank"
+        href="https://cjdropshipping.com/2017/04/25/how-to-connect-shipstation-with-cjdropshipping/">You can refer to this
+        tutorial.</a>
+      <a ng-show="StoreType == '4'" target="_blank"
+        href="https://cjdropshipping.com/2018/12/20/how-to-connect-your-ebay-store-to-cj-dropshipping-app/">You can
+        refer to this tutorial.</a>
+      <a ng-show="StoreType == '5'" target="_blank"
+        href="https://cjdropshipping.com/2019/05/13/connecting-cjdropshipping-with-your-amazon-seller-account/">You
+        can refer to this tutorial.</a>
+      <a ng-show="StoreType == '6'" target="_blank"
+        href="https://cjdropshipping.com/2019/05/17/how-to-authorize-wix-stores-to-cjdropshipping-com/">You
+        can refer to this tutorial.</a>
+    </div>
+    </div>
+    <div class="footButtom">
+      <div class="bottomButton" ng-show="StoreType == '0'">
+        <button class="Authorize" ng-click="ShopifySub()" ng-show="addStoreFlag">Authorize</button>
+        <button class="Authorize" ng-click="ShopifyUpdate()" ng-show="updateStoreFlag">Reauthorize</button>
+      </div>
+      <div class="bottomButton" ng-show="notShowOAuth && StoreType == '1'">
+        <button class="Authorize" ng-click="ShopifySub()" ng-show="addStoreFlag">Authorize</button>
+        <button class="Authorize" ng-click="ShopifyUpdate()" ng-show="updateStoreFlag">Reauthorize</button>
+      </div>
+      <div class="bottomButton" ng-show="!notShowOAuth && !isShowNext && StoreType == '1'">
+        <button class="Authorize" ng-click="nextStep()">Next</button>
+      </div>
+      <div class="bottomButton" ng-show="isShowNext && !notShowOAuth && StoreType == '1'">
+        <button class="goback" ng-click="goBack()">Back</button>
+        <button class="Authorize" ng-click="oauthSub()">Authorize</button>
+      </div>
+      <div class="bottomButton" ng-show="StoreType == '2'">
+        <button class="Authorize" ng-click="ShopifySub()" ng-show="addStoreFlag">Authorize</button>
+        <button class="Authorize" ng-click="ShopifyUpdate()" ng-show="updateStoreFlag">Reauthorize</button>
+      </div>
+      <div class="bottomButton" ng-show="StoreType == '4'">
+        <button class="Authorize" ng-click="ShopifySub()" ng-show="addStoreFlag">Authorize</button>
+        <button class="Authorize" ng-click="ShopifyUpdate()" ng-show="updateStoreFlag">Reauthorize</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="isCJPub" ng-show="addPODFail" ng-cloak>
+  <div class="new-operate-fail">
+    <span class="close" ng-click="addPODFail=false;">
+      <i class="iconfont">&#xe70d;</i>
+    </span>
+    <h3><span class="icon">!</span>Added failed</h3>
+    <p>The POD feature will be activated after your store Re-authorized to CJ. </p>
+    <button class="btn1" ng-click="ReauthAfterAddFail()">Reauthorize</button>
+  </div>
+</div>
+<div id="isCJPub" ng-show="updatePODTan" ng-cloak>
+  <div class="CJ-content">
+      <span class="close" ng-click="updatePODTan=false;">
+        <i class="iconfont">&#xe70d;</i>
+      </span>
+      <h3>Update POD Feature</h3>
+      <p>The POD feature will be updated after your store Re-authorized to CJ. </p>
+      <button class="btn1" ng-click="goUpdatePOD()">Reauthorize</button>
+  </div>
+</div>
+<div id="add-store" ng-show="transferShow">
+  <div class="ASL-content yzy-transfer-box">
+    <div class="transfer-top position-relative">
+      Store Transfer
+      <img class="transfer-close position-absolute curser-pointer" width="30" src="static/image/login/close.png" alt=""
+      ng-click="toggleTransferStore(false)">
+    </div>
+    <div class="transfer-middle" ng-class="{'small': isInSmallPage}">
+      <div class="transfer-notice-box">
+        <div class="transfer-head">Notes:</div>
+        <div>
+          <div class="transfer-notice-item">1. Each store can only be transferred once in 3 months;</div>
+          <div ng-if="info.type === 'transfer'" class="transfer-notice-item">2. All data and connections will not be transferred to your new account. You need to set everything again;</div>
+          <div ng-if="info.type === 'transfer'" class="transfer-notice-item">3. Please note that your new orders may not be synced to your new account;</div>
+          <div ng-if="info.type === 'transfer'" class="transfer-notice-item">4. Please contact your agent if you want to transfer all data and connections.</div>
+          <div ng-if="info.type === 'suerTransfer'" class="transfer-notice-item">2. To sync orders, you need to set up all connections including products, packages, logistics priority and so on.</div>
+        </div>
+      </div>
+      <div class="transfer-img-box">
+        <div class="transfer-head">Steps:</div>
+        <div class="transfer-img-wrap d-flex position-relative">
+          <img ng-src="{{transferList.leftList[userVip ? 'vip' : 'normal']}}" class="transfer-left first" alt="">
+          <img ng-src="{{transferList.leftList[userVip ? 'vip' : 'normal']}}" class="transfer-left second" alt="">
+          <img ng-src="{{transferList.leftList[userVip ? 'vip' : 'normal']}}" class="transfer-left third" alt="">
+          <div class="transfer-img-item d-flex-center flex-column" ng-repeat="v in transferList.imgList" >
+            <img ng-src="{{userVip ? v.vipPath : v.path}}" alt="">
+            <div>{{v.name}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="transfer-form">
+        <div class="transfer-head">{{info.type === 'transfer' ? "Setting" : 'Submission'}}:</div>
+        <div class="transfer-form-wrap">
+          <div class="transfet-form-item" ng-class="{'error': storeError}">
+            <label>Store Name:</label>
+            <select
+              ng-if="info.type === 'transfer'"
+              ng-model="$parent.info.shop"
+              ng-blur="storeVerify()"
+            >
+              <option value='' disabled style='display:none; color: #999;'>Please select a store</option>
+              <option ng-repeat="item in transferStoreList" value="{{item.id}}">{{item.name}}</option>
+            </select>
+            <input ng-if="info.type === 'suerTransfer'" readonly ng-model="info.transferShop" type="text">
+            <div class="position-absolute transfer-err">{{storeError}}</div>
+          </div>
+          <div class="transfet-form-item" ng-class="{'error': emailError}" ng-if="info.type === 'transfer'">
+            <label>New Account:</label>
+            <select
+              ng-model='newAccountType'
+              ng-change='newAccountTypeFun(newAccountType)'
+              style='width: 150px;flex: none;margin-right: 20px !important;'
+            >
+              <option value='loginName'>User Name</option>
+              <option value='email'>Email</option>
+            </select>
+            <input ng-model="$parent.info.receiveName" ng-blur="emailVerify()" placeholder="{{newAccountType == 'loginName' ? 'Please enter the User Name' : 'Please enter the Email'}}" type="text">
+            <div class="position-absolute transfer-err">{{emailError}}</div>
+          </div>
+          <div class="transfet-form-item">
+            <label>Old Account:</label>
+            <input ng-model="info.originName" readonly type="text">
+          </div>
+          <div class="transfet-form-item" ng-class="{'error': mailCodeError}">
+            <label>Verification Code:</label>
+            <input ng-blur="mailCodeVerify()" ng-model="info.mailCode" placeholder="Please enter the verification code" type="text">
+            <span ng-click="getEmailCode()" class="transfer-form-btn" ng-class="{'diabled': text !== 'Send'}">{{text}}</span>
+            <div class="position-absolute transfer-err">{{mailCodeError}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="transfer-bottom d-flex-center">
+      <button class="transfer-btn-default" ng-click="toggleTransferStore(false)">Cancel</button>
+      <button class="btn-theme" ng-click="transferSubmit()">Confirm</button>
+    </div>
+    <!-- <img class="closel" width="30" src="static/image/page/close-default.png" alt=""
+      ng-click="toggleTransferStore(false)">
+    <h5>Transfer Store</h5>
+    <div class="input-area">
+      <span class="need">Original account:</span>
+      <input type="text" placeholder="account" ng-model="info.loginName">
+    </div>
+    <div class="input-area">
+      <span class="need">Original password:</span>
+      <input type="password" placeholder="Password" ng-model="info.password">
+    </div>
+    <div class="input-area">
+      <span class="need">Transfering store name:</span>
+      <input type="text" placeholder="store name" ng-model="info.shopName">
+    </div>
+    <div class="input-area" style="margin-bottom: 60px;">
+      <span class="need">Email verification code:</span>
+      <input type="text" placeholder="Verification code" ng-model="info.mailCode">
+      <p ng-click="getEmailCode()" ng-class="{'disabled': text !== 'Send'}">{{text}}</p>
+    </div>
+    <div class="input-area">
+      <span></span>
+      <div class="btn-wrap">
+        <button ng-click="toggleTransferStore(false)">Cancel</button>
+        <button ng-click="transferStoreSubmit()">Submit</button>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<!-- 关联／刊登商品库存同步－店铺控制 弹窗-->
+<div class="confirm-box" ng-show="confirmBox.showFlag">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="confirmBox.cancel()"></i>
+    <div class="confirm-title"></div>
+    <div class="confirm-content">
+      {{confirmBox.content}}
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="confirmBox.cancel()" class="no-btn">Cancel</span>
+      <span ng-click="confirmBox.confirm()" class="yes-btn btn-theme">Confirm</span>
+    </div>
+  </div>
+</div>
+<!-- 关联／刊登商品库存同步－店铺控制 弹窗-->
+
+<!-- 配置物流查询链接弹窗 -->
+<div class="confirm-box configLogisticsDialog" ng-show="configLogisticsDialog.isShow">
+  <div class="confirm-main">
+    <i class="iconfont confirm-close" ng-click="configLogisticsDialog.close()"></i>
+    <div class="confirm-title">Set up Tracking URL</div>
+    <div class="configLogisticsForm">
+      <label for="">URL:</label>
+      <div class="trackingUrlSelect" ng-show="!configLogisticsDialog.showInoutAddNew" ng-click="configLogisticsDialog.showSelectLinkBox = !configLogisticsDialog.showSelectLinkBox">
+        <div class="tooltip">
+          <div class="trackingUrlSelectUrl notranslate">{{configLogisticsDialog.selectLink}}</div>
+          <span ng-show="configLogisticsDialog.selectLink" class="tooltiptext notranslate">
+            {{configLogisticsDialog.selectLink}}
+            <i class="iconfont iconfuzhi copyIcon" ng-click="handleCopy(configLogisticsDialog.selectLink, $event)"></i>
+          </span>
+        </div>
+        <i class="iconfont iconbianzu101 selectIcon" ng-show="!configLogisticsDialog.showSelectLinkBox"></i>
+        <i class="iconfont iconbianzu12 selectIcon" ng-show="configLogisticsDialog.showSelectLinkBox"></i>
+      </div>
+      <div class="trackingUrlSelectBox" ng-show="configLogisticsDialog.showSelectLinkBox">
+        <div class="trackingUrlSelectItem" ng-class="{'isSelect': configLogisticsDialog.selectLink == configLogisticsDialog.selectLinkArr[0], 'isVip': userVip}" ng-click="configLogisticsDialog.handleSelectLink(0)">{{configLogisticsDialog.selectLinkArr[0]}}</div>
+        <div class="trackingUrlSelectItem" ng-class="{'isSelect': configLogisticsDialog.selectLink == configLogisticsDialog.selectLinkArr[1], 'isVip': userVip}" ng-click="configLogisticsDialog.handleSelectLink(1)">{{configLogisticsDialog.selectLinkArr[1]}}</div>
+      </div>
+      <!-- <select name="trackingUrlSelect" id="trackingUrlSelect" class="trackingUrlSelect">
+        <option value="1">https://www.17track.net/zh-cn</option>
+        <option value="2">https://cjpacket.com/</option>
+      </select> -->
+      <input ng-model="configLogisticsDialog.link" type="text" placeholder="" maxlength="1000" ng-show="configLogisticsDialog.showInoutAddNew">
+       <button class="configLogisticsFormBtn" ng-click="configLogisticsDialog.handleAddNew()" ng-show="!configLogisticsDialog.showInoutAddNew">Add New</button>
+      <button class="configLogisticsFormBtn" ng-click="configLogisticsDialog.handleShowResetInfo()" ng-show="!configLogisticsDialog.showInoutAddNew">Reset</button>
+      <button class="configLogisticsFormBtn" ng-show="configLogisticsDialog.showInoutAddNew" ng-click="configLogisticsDialog.handleBack()">Back</button>
+      <!-- <span ng-click="configLogisticsDialog.reset()">Reset</span> -->
+    </div>
+    <!-- <div class="tip">{{configLogisticsDialog.link === defaultConfigLogisticsUrl ? 'CJ URL' : 'Your URL' }}</div> -->
+    <div class="confirm-main-bottom-btn">
+      <span ng-click="configLogisticsDialog.close()" class="cancel-btn">Cancel</span>
+      <span ng-click="configLogisticsDialog.confirm()" class="confirm-btn">Confirm</span>
+    </div>
+  </div>
+  <div class="showResetInfoBox" ng-show="configLogisticsDialog.showResetInfoBox">
+    <i class="iconfont confirm-close" ng-click="configLogisticsDialog.infoCancel()"></i>
+    <p class="content">
+      {{configLogisticsDialog.infoText}}
+    </p>
+    <div class="show-reset-info-box-btn">
+      <span ng-click="configLogisticsDialog.infoCancel()" class="cancel-btn">Cancel</span>
+      <span ng-click="configLogisticsDialog.infoConfirm()" class="confirm-btn">Confirm</span>
+    </div>
+  </div>
+</div>
+
+<!-- 弹框 -->
+<div class="pop_ups" ng-if="showPopUps">
+  <pop-ups content="content"></pop-ups>
+</div>
+
+<!-- pod设置弹窗
+<div class="podSettingModal">
+  <div class="podSettingBox">
+    <div class="podHead"></div> -->
+    <!-- pod关闭状态 -->
+    <!-- <div class="podClose"></div> -->
+    <!-- pod开启状态 -->
+    <!-- <div class="podOpen"></div>
+    <div class="podBottom"></div>
+  </div>
+</div> -->
+
+  <!-- 点击复制物流链接的input -->
+  <input id="copyUrl" type="text" value="" style="opacity: 0;height: 0;">
+</div>

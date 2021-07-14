@@ -1,0 +1,911 @@
+<style>
+  .fba-searchWrap {
+    display: flex;
+    align-items: center;
+  }
+
+  .fba-searchWrap input {
+    height: 38px;
+    width: 400px;
+    padding: 0 15px;
+    border: 1px solid #e0e0e0;
+    font-size: 12px;
+    border-radius: 2px 0px 0px 2px;
+  }
+
+  .searchBtn {
+    background: #F99429;
+    color: #fff;
+    height: 38px;
+    width: 97px;
+    border: none;
+    border-radius: 0px 2px 2px 0px;
+  }
+
+  .submitBrn {
+    background: #F99429;
+    color: #fff;
+    height: 38px;
+    border: none;
+    border-radius: 2px;
+    width: 90px;
+    margin-left: 24px;
+  }
+
+  .navTab>ul>li {
+    display: inline-block;
+    padding: 0 18px;
+    border-right: 1px solid #D8D8D8;
+    font-weight: bold;
+  }
+
+  .navTab>ul>li>span {
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .navTab>ul>li>span:hover {
+    color: #F78E29;
+  }
+
+  .navTab>ul>li:first-child {
+    padding-left: 0;
+  }
+
+  .navTab>ul>li:last-child {
+    border-right: none;
+  }
+
+  .navTab>ul>li.act {
+    color: #F78E29;
+  }
+
+  .table-thead {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: 20px;
+    background: #5E5F64;
+  }
+
+  .table-th {
+    height: 44px;
+
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .table-th {
+    justify-content: center;
+  }
+
+  #selectTimeLimit,
+  #selectState {
+    background: #5E5F64;
+    border: 1px solid #fff;
+    font-size: 14px;
+    border-radius: 3px;
+  }
+
+  #selectTimeLimit {
+    width: 160px;
+    margin-left: 18px;
+    margin-right: 50px;
+  }
+
+  .dataWrap {
+    margin-top: 15px;
+  }
+
+  .orderWrap {
+    border: 1px solid #E6E6E6;
+    margin-bottom: 15px;
+  }
+
+  .order-gray {
+    background: #F3F3F3;
+    color: #666666;
+    font-size: 12px;
+    padding: 15px 7px;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .order-gray>span {
+    display: inline-block;
+    margin-right: 30px;
+  }
+
+  .order-con {
+    display: flex;
+  }
+
+  .order-2 .order-con {
+    display: block;
+  }
+
+  .order-o {
+    padding: 18px 0;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .order-o:first-child {
+    padding: 0;
+  }
+
+  .order-o:not(:last-child) {
+    border-right: 1px solid #e6e6e6;
+  }
+
+  .order-c:not(:last-child) {
+    border-bottom: 1px solid #E6E6E6;
+  }
+
+  .order-c {
+    padding: 18px 10px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .order-img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #e6e6e6;
+  }
+
+  .order-img>img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .order-detail {
+    width: 78%;
+    padding: 0 25px;
+  }
+
+  .productName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .productSku {
+    color: #999;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .order-state>span {
+    color: #F78E29;
+    display: block;
+    text-align: center;
+  }
+
+  .order-state>a {
+    color: #333;
+    font-size: 14px;
+    display: block;
+    text-align: center;
+  }
+
+  .order-state>a:hover {
+    color: #F78E29;
+  }
+
+  .order-Btn {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .order-Btn>button {
+    color: #F78E29;
+    background: #fff;
+    border: 1px solid #F78E29;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 3px 10px;
+  }
+
+  .order-Btn>button:hover {
+    background: #F78E29;
+    color: #fff;
+  }
+
+  .cancelBtn {
+    color: #333;
+    font-size: 14px;
+  }
+
+  .cancelBtn:hover {
+    color: #F78E29;
+  }
+
+  .fendan {
+    position: relative;
+  }
+
+  .fendan>span {
+    margin-right: 60px;
+    color: #333;
+  }
+
+  .order-m:not(:last-child) {
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .order-top {
+    border-bottom: 1px solid #e6e6e6;
+    padding: 7px;
+    font-size: 12px;
+    color: #666666;
+  }
+
+  .order-top>span:first-child {
+    margin-right: 30px;
+  }
+
+  .order-bottom {
+    display: flex;
+  }
+
+  .order-detail {
+    text-align: left;
+  }
+
+  #ddDetail {
+    display: none;
+  }
+
+  .backBtn {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .backBtn>span {
+    cursor: pointer;
+  }
+
+  .backBtn>span:hover {
+    color: #F78E29;
+  }
+
+  .detail-top {
+    background: #fff;
+    border-top: 4px solid #5A6872;
+    padding: 22px 0;
+    display: flex;
+    margin-bottom: 12px;
+  }
+
+  .detail-t-left {
+    width: 25%;
+    border-right: 1px solid #e6e6e6;
+    padding: 0 22px;
+    font-size: 12px;
+    color: #333;
+  }
+
+  .detail-t-left p {
+    font-size: 12px;
+  }
+
+  .detail-top .detail-t-left {
+    text-align: center;
+  }
+
+  .detail-t-right {
+    width: 75%;
+    padding: 0 30px;
+  }
+
+  .detail-top .detail-t-right {
+    padding: 10px 0;
+  }
+
+  .detail-t-left p.order-state {
+    color: #F78E29;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 25px;
+    margin-bottom: 10px;
+  }
+
+  .order-sysj {
+    color: #F78E29;
+  }
+
+  .order-Btn button {
+    color: #F78E29;
+    border: 1px solid #F78E29;
+    padding: 5px 10px;
+    margin: 10px 0 10px 0;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  .order-Btn button:hover {
+    color: #fff;
+    background: #F78E29;
+  }
+
+  .order-footer>span {
+    cursor: pointer;
+  }
+
+  .order-footer>span:hover {
+    color: #F78E29;
+  }
+
+  .iconGroup {
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+  }
+
+  .iconWrap {
+    display: inline-block;
+    width: 46px;
+    height: 46px;
+  }
+
+  .iconGoto {
+    display: inline-block;
+    margin: 0 9px;
+    color: #999;
+    font-weight: bold;
+  }
+
+  .iconGoto.over,
+  .iconGoto.act {
+    color: #FF9900;
+  }
+
+  .icon-1 {
+    background: url(static/image/fba/Icon_order.png) no-repeat -5px;
+  }
+
+  .icon-2 {
+    background: url(static/image/fba/Icon_bank.png) no-repeat -5px;
+  }
+
+  .icon-3 {
+    background: url(static/image/fba/Icon_goods.png) no-repeat -5px;
+  }
+
+  .icon-4 {
+    background: url(static/image/fba/Icon_box.png) no-repeat -5px;
+  }
+
+  .icon-5 {
+    background: url(static/image/fba/Icon_success.png) no-repeat -5px;
+  }
+
+  .icon-1.over {
+    background: url(static/image/fba/Icon_order2.png) no-repeat -5px;
+  }
+
+  .icon-2.over {
+    background: url(static/image/fba/Icon_bank2.png) no-repeat -5px;
+  }
+
+  .icon-3.over {
+    background: url(static/image/fba/Icon_goods2.png) no-repeat -5px;
+  }
+
+  .icon-4.over {
+    background: url(static/image/fba/Icon_box2.png) no-repeat -5px;
+  }
+
+  .icon-5.over {
+    background: url(static/image/fba/Icon_success2.png) no-repeat -5px;
+  }
+
+  .icon-1.act {
+    background: url(static/image/fba/Icon_order3.png) no-repeat -5px;
+  }
+
+  .icon-2.act {
+    background: url(static/image/fba/icon_bank3.png) no-repeat -5px;
+  }
+
+  .icon-3.act {
+    background: url(static/image/fba/icon_goods3.png) no-repeat -5px;
+  }
+
+  .icon-4.act {
+    background: url(static/image/fba/Icon_box3.png) no-repeat -5px;
+  }
+
+  .icon-5.act {
+    background: url(static/image/fba/Icon_success3.png) no-repeat -5px;
+  }
+
+  .iconState {
+    display: flex;
+  }
+
+  .iconState-1 {
+    width: 140px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .iconState-1>p {
+    color: #333;
+    font-size: 12px;
+  }
+
+  .iconState-1>p:first-child {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .iconState-1:not(:last-child) {
+    margin-right: 2px;
+  }
+
+  .detail-wuliu {
+    background: #fff;
+    margin-bottom: 12px;
+    display: flex;
+    padding: 22px 0;
+  }
+
+  .detail-wuliu .detail-t-left {
+    padding: 0 20px;
+  }
+
+  .detailwuliu-Name {
+    padding: 35px 0 44px 0;
+    display: flex;
+  }
+
+  .detail-img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e6e6e6;
+    margin-right: 14px;
+  }
+
+  .detail-name {
+    font-size: 14px;
+    margin-top: 17px;
+  }
+
+  .detail-wuliu .detail-t-right {
+    padding: 4px 30px;
+  }
+
+  .wuliu-Step {
+    display: flex;
+    margin-bottom: 12px;
+  }
+
+  .wuliu-Step>p {
+    line-height: 20px;
+    font-size: 12px;
+  }
+
+  .wuliu-Step>p:first-child {
+    font-size: 36px;
+    margin-right: 6px;
+    line-height: 15px;
+  }
+
+  .wuliu-Step>p:nth-child(2) {
+    margin-right: 36px;
+  }
+
+  .wuliu-Step:first-child>p {
+    color: #FF9900;
+  }
+
+  .detail-info {
+    display: flex;
+    margin-bottom: 12px;
+    background: #fff;
+    padding: 22px 0;
+  }
+
+  .order-info-con {
+    padding-bottom: 18px;
+  }
+
+  .order-info-con>p {
+    margin-bottom: 10px;
+  }
+
+  .order-info-con>p:first-child {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 13px;
+  }
+
+  .order-info-con>p:not(:first-child) {
+    display: flex;
+  }
+
+  .viewInvoiceBtn {
+    padding: 2px 10px;
+    background: #f6f6f6;
+    border: 1px solid #c1c1c1;
+    color: #333;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+
+  .viewInvoiceBtn:hover {
+    background: #fff;
+  }
+
+  .detail-order {
+    background: #fff;
+  }
+
+  .detail-order>.table-thead>.table-th {
+    text-align: center;
+    background: #e6e6e6;
+    font-size: 14px;
+    color: #333;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .table-tr {
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .table-tr {
+    display: flex;
+  }
+
+  .table-tr>.table-td {
+    padding: 12px 20px;
+    display: flex;
+  }
+
+  .table-tr>.table-td:not(:first-child) {
+    justify-content: center;
+  }
+
+  .product-img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #e6e6e6;
+    margin-right: 20px;
+  }
+
+  .afterSaleBtn {
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .afterSaleBtn:hover {
+    color: #FF9900;
+  }
+
+  .detail-order-footer {
+    padding: 20px;
+  }
+
+  .detail-order-footer p {
+    font-size: 12px;
+    display: flex;
+    line-height: 30px;
+    align-items: center;
+  }
+
+  .order-gray>.payBtn {
+    float: right;
+    background: #fff;
+    padding: 2px 10px;
+    border: 1px solid #F99429;
+    margin-right: 30px;
+    color: #F99429;
+    position: relative;
+    top: -4px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .order-gray>.payBtn:hover {
+    background: #F99429;
+    color: #fff;
+  }
+
+  .mycj-right-bar>div:not(:first-child) {
+    box-shadow: 0 2px 4px 0 rgba(227, 226, 226, 0.5);
+  }
+</style>
+<div class="mycj-home-box amazon-fba">
+  <div class="mycj-right-wrap p-3" id="shouye">
+    <div class="top-space-bar"></div>
+    <div class="mycj-right-bar">
+      <div class="fba-searchWrap">
+        <input type="text" placeholder="Input Total order number" ng-model="searchInfo" id="searchInput" />
+        <button class="searchBtn btn-theme" ng-click="searchFun()">
+          <img src="static/image/fba/icon_search.png" alt="" />
+        </button>
+        <button class="submitBrn btn-theme" ng-click="gotoCar()">
+          <img src="static/image/fba/goods.png" alt="" />
+          <span>Start</span>
+        </button>
+      </div>
+      <div class="FBA-con">
+        <!-- tab-->
+        <div class="navTab mt-4">
+          <ul>
+            <li class="act"><span>All orders</span></li>
+            <li><span>Pending Payment</span></li>
+            <li><span>Prepaid</span></li>
+            <li><span>Delivered</span></li>
+            <li><span>Dispatched</span></li>
+            <li><span>Completed</span></li>
+          </ul>
+        </div>
+        <!-- 表头-->
+        <div class="table-thead">
+          <div style="width: 49%;" class="table-th">
+            <span>Product Details</span>
+          </div>
+          <div style="width: 15%" class="table-th">Consignee Address</div>
+          <div style="width: 10%" class="table-th">Grand Total</div>
+          <div style="width: 13%;" class="table-th">
+            <select name="" id="selectState">
+              <option value="0" selected>Status</option>
+              <option value="1">Pending Payment</option>
+              <option value="2">Prepaid</option>
+              <option value="3">Delivered</option>
+              <option value="4">Dispatched</option>
+              <option value="5">Completed</option>
+            </select>
+          </div>
+          <div style="width: 13%;" class="table-th">Action</div>
+        </div>
+        <!-- 数据列表-->
+        <div class="dataWrap">
+          <div class="orderWrap" ng-repeat="(index1,order) in orderList track by index1">
+            <div class="order-2">
+              <div class="order-gray">
+                <span>{{order.createTime}}</span>
+                <span>Total Order Number：<span class="orderNum">{{order.shipments_order_id}}</span></span>
+                <span>Recipients: <span>{{loginName}}</span></span>
+                <span>Grand Total: $ <span>{{order.AMOUNT}}</span></span>
+                <span>Order Status: <span>Splitted</span></span>
+                <span class="payBtn" ng-show="order.status=='3'" ng-click="gotoPay(order)">Pay</span>
+              </div>
+              <div class="order-con">
+                <div class="order-m" ng-repeat="(index2,storage) in order.storageList track by index2">
+                  <div class="order-top">
+                    <span>{{storage.createTime}}</span>
+                    <span>Order Number：<span>{{storage.id}}</span></span>
+                  </div>
+                  <div class="order-bottom">
+                    <div style="width: 49%;" class="order-o">
+                      <div class="order-c" ng-repeat="(index3,item) in storage.productList track by index3">
+                        <div class="order-img">
+                          <img src="{{item.cjImage | IMG_SIZE: 78}}" style="width: 78px;height: 78px;" alt="" />
+                        </div>
+                        <div class="order-detail">
+                          <p class="productName">{{item.cj_product_name}}k</p>
+                          <p class="productSku">{{item.sku}}</p>
+                        </div>
+                        <div class="order-count">
+                          <p>x <span>{{item.QUANTITY}}</span></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="width: 15%;font-size: 12px;padding: 18px 10px;" class="order-o">
+                      <span>{{storage.shipping_address}}</span>
+                    </div>
+                    <div style="width: 10%;" class="order-o">
+                      $<span>{{storage.amount}}</span>
+                    </div>
+                    <div style="width: 13%;" class="order-o">
+                      <div class="order-state">
+                        <span>{{classStatus(storage.status)}}</span>
+                        <a href="javascript:void(0);"
+                          ng-click="viewDetailFun(classStatus(storage.status),storage)">Order Details</a>
+                      </div>
+                    </div>
+                    <div style="width: 13%;" class="order-o">
+                      <div class="order-Btn">
+                        <button ng-show="order.status=='12'">View Shipping</button>
+                        <button ng-show="order.status=='13'">Purchase Again</button>
+                      </div>
+                      <a class="cancelBtn" href="">Cancel</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mycj-right-wrap" id="ddDetail">
+    <div class="mycj-right-bar" style="background: #f2f3f5">
+      <div class="backBtn">
+        <span ng-click="goBack()">&lt;&nbsp;&nbsp;Back</span>
+      </div>
+      <div class="detail-top">
+        <div class="detail-t-left">
+          <p class="order-Num" style="margin-top: 30px;">Order Number：<span>{{orderDetail.orderID}}</span></p>
+          <p class="order-state">{{orderDetail.orderType}}</p>
+          <div class="order-Btn">
+          </div>
+          <div class="order-footer">
+          </div>
+        </div>
+        <div class="detail-t-right">
+          <div class="iconGroup" style="min-width: 760px;">
+            <span class="iconWrap icon-1"></span>
+            <span
+              class="iconGoto ">&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&gt;</span>
+            <span class="iconWrap icon-2"></span>
+            <span
+              class="iconGoto ">&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&gt;</span>
+            <span class="iconWrap icon-3"></span>
+            <span
+              class="iconGoto">&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&gt;</span>
+            <span class="iconWrap icon-4"></span>
+            <span
+              class="iconGoto">&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&nbsp;&sdot;&gt;</span>
+            <span class="iconWrap icon-5"></span>
+          </div>
+          <div class="iconState">
+            <div class="iconState-1" style="width:130px;margin-right: 5px; ">
+              <p>Submit Order</p>
+              <p>{{classYear(orderDetail.createDate)}}</p>
+              <p>{{classYear2(orderDetail.createDate)}}</p>
+            </div>
+            <div class="iconState-1">
+              <p>Successful payment</p>
+              <p>{{classYear(orderDetail.paymentDate)}}</p>
+              <p>{{classYear2(orderDetail.paymentDate)}}</p>
+            </div>
+            <div class="iconState-1">
+              <p>Commodity out</p>
+              <p></p>
+              <p></p>
+            </div>
+            <div class="iconState-1">
+              <p>Waiting for receipt</p>
+              <p></p>
+              <p></p>
+            </div>
+            <div class="iconState-1">
+              <p>trade successfully</p>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-wuliu" ng-show="orderDetail.prderType=='Dispatched'">
+        <div class="detail-t-left">
+          <div class="detailwuliu-Name">
+            <div class="detail-img">1</div>
+            <div class="detail-name">送货方式：<span>usps+</span></div>
+          </div>
+        </div>
+        <div class="detail-t-right">
+          <div class="wuliu-Step">
+            <p>&sdot;</p>
+            <p>2017-02-04 10:34:13</p>
+            <p>The delivery man is on his way. His contact number is 190888787</p>
+          </div>
+          <div class="wuliu-Step">
+            <p>&sdot;</p>
+            <p>2017-02-04 10:34:13</p>
+            <p>Your order has been inspected and the deliveryman is being assigned</p>
+          </div>
+          <div class="wuliu-Step">
+            <p>&sdot;</p>
+            <p>2017-02-04 10:34:13</p>
+            <p>Your order is delivered at yiwu center</p>
+          </div>
+          <div class="wuliu-Step">
+            <p>&sdot;</p>
+            <p>2017-02-04 10:34:13</p>
+            <p>Your order has been packed</p>
+          </div>
+          <div class="wuliu-Step">
+            <p>&sdot;</p>
+            <p>2017-02-04 10:34:13</p>
+            <p>The parcel is sorting the goods</p>
+          </div>
+        </div>
+      </div>
+      <div class="detail-info">
+        <div class="detail-t-left order-info-con">
+          <p>Recipient Information</p>
+          <!--<p><span style="display: inline-block;width:52px;text-align: left;">Name：</span><span>{{loginName}}</span></p>-->
+          <p><span
+              style="display: inline-block;width:52px;text-align: left;">Phone：</span><span>{{orderDetail.phone}}</span>
+          </p>
+          <p><span
+              style="display: inline-block;width:52px;text-align: left;">Address：</span><span>{{orderDetail.shipping_address}}</span>
+          </p>
+        </div>
+        <div class="detail-t-left order-info-con">
+          <p>Shipping Information</p>
+          <p><span style="display: inline-block;width:60px;text-align: left;">Method：</span><span>DHL</span></p>
+          <p><span style="display: inline-block;width:60px;text-align: left;">Time：</span><span>Expected to arrive
+              tomorrow</span></p>
+          <p><span>Tracking Number：</span><span>1231231231</span></p>
+        </div>
+        <div class="detail-t-left order-info-con">
+          <p>Payment Information</p>
+          <p ng-show="orderDetail.orderType=='Pending Payment'"><span
+              style="display: inline-block;width:125px;text-align: left;">Payment Method：</span><span>Pending
+              Payment</span></p>
+          <p ng-show="orderDetail.orderType!='Pending Payment'"><span
+              style="display: inline-block;width:125px;text-align: left;">Payment Method：</span><span>Prepaid</span></p>
+          <p><span style="display: inline-block;width:125px;text-align: left;">Total
+              merchandise：</span><span>${{orderDetail.order_amount}}</span></p>
+          <p><span style="display: inline-block;width:125px;text-align: left;">Total shipping
+              cost：</span><span>${{orderDetail.postage}}</span></p>
+          <p><span style="display: inline-block;width:125px;text-align: left;">Total amount
+              payable：</span><span>${{orderDetail.discountFromMoney}}</span></p>
+        </div>
+        <div class="detail-t-left order-info-con" style="border-right: none;">
+          <p>Invoice Information</p>
+          <p><span style="display: inline-block;width:60px;text-align: left;">Type：</span><span>personal</span></p>
+          <p><span style="display: inline-block;width:60px;text-align: left;">Content：</span><span>Purchase product
+              details</span></p>
+          <p><span style="display: inline-block;width:60px;text-align: left;">Title：</span><span>tony</span></p>
+          <button class="viewInvoiceBtn">
+            View Invoice
+          </button>
+        </div>
+      </div>
+      <div class="detail-order">
+        <div class="table-thead">
+          <div class="table-th" style="width: 45%">Product Detail</div>
+          <div class="table-th" style="width: 17%">Price</div>
+          <div class="table-th" style="width: 17%">Quantity</div>
+          <div class="table-th" style="width: 21%">Action</div>
+        </div>
+        <div class="table-tbody">
+          <div class="table-tr" ng-repeat="pro in orderDetail.productList">
+            <div style="width:45%" class="table-td">
+              <div class="product-img">
+                <img src="{{pro.cjImage}}" width="80" height="80" alt="" />
+              </div>
+              <div class="product-con">
+                <p class="productName">{{pro.cj_product_name}}</p>
+                <p class="productSku">{{pro.sku}}</p>
+              </div>
+            </div>
+            <div style="width:17%" class="table-td">${{pro.price}}</div>
+            <div style="width:17%" class="table-td">x {{pro.quantity}}</div>
+            <div style="width:21%" class="table-td">
+              <span class="afterSaleBtn">Apply for after sales</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-order-footer">
+          <p><span style="display: inline-block;width:121px;text-align: right;margin-right: 50px;">Total
+              merchandise：</span><span>${{orderDetail.order_amount}}</span></p>
+          <p><span style="display: inline-block;width:121px;text-align: right;margin-right: 50px;">Total shipping
+              cost：</span><span>${{orderDetail.postage}}</span></p>
+          <p><span style="display: inline-block;width:121px;text-align: right;margin-right: 49px;color: #F78E29">Total
+              amount payable：</span><span
+              style="color: #F78E29;font-size: 20px;">${{orderDetail.discountFromMoney}}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<loading-cart el="'.navTab'" bottom="'.router-outlet'" ng-if="loading"></loading-cart>

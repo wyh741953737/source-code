@@ -1,0 +1,41 @@
+<!-- 没啥用了，已封装到 vue.componet.js -->
+<div class="card-wrap" v-for="(prod, idx) of list" :key="prod.id">
+  <div class="inner-box">
+    <a href="#" class="detail-anchor">
+      <img :src="prod.bigImg | IMG_SIZE(179, 190)">
+    </a>
+    <div class="move-box">
+      <a href="#" class="desc detail-anchor">${ prod.nameEn | INIT_UPPERCASE }</a>
+      <div class="list-collect">
+        <span class="list" :style='{display:(prod.isAut != 1 ? "inline-block": "none" )}'>
+          <span>Lists:</span>
+          <span>${ prod.num }</span>
+
+        </span>
+        <div class="collect" :class="{ active: prod.isCollect==1 }" @click="clickCollect(prod)">
+          <span v-if="prod.isCollect==1" class="iconfont icontianjiashoucangzhihou solid"></span>
+          <span v-if="prod.isCollect==0" class="iconfont icontianjiashoucang hollow"></span>
+        </div>
+      </div>
+      <div class="price">${ prod | GET_PRICE | EXCHANGE_RATE }</div>
+      <div class="btns">
+        <div
+          class="btn-item view-inventory"
+          @mouseenter="enterInventory(prod)"
+          @mouseleave="leaveInventory(prod)">
+          <span>View Inventory</span>
+          <div class="inventory d-flex justify-content-between" v-if="prod.showInventory">
+            <template v-for="inven of prod.inventories">
+              <span class="name">${ inven.areaEn }</span>
+              <span class="num">${ inven.num }</span>
+            </template>
+          </div>
+        </div>
+        <div class="btn-item list">List</div>
+      </div>
+      <div class="add-queue">
+        <div class="btn-add">+ Add to Queue</div>
+      </div>
+    </div>
+  </div>
+</div>

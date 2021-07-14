@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="{{ PUBLIC_STYLE + '/swiper-tab.css' | VERSION }}">
+
+<div class="swiper-tab" id="vue-swiper-tab">
+  <div class="swiper-container" ref="swiperContainerDom">
+    <div class="swiper-wrapper" :style='wrapperStyles'>
+      {% for item in categoryTab %}
+        <div class="swiper-slide {{'active' if item.isActive else ''}}" :style='slideStyles'>
+          <div class="main">
+            <a href="{{item.url}}">
+              {{item.nameEn}}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <span class="swiper-button-prev iconfont iconleft2" v-on:click="onPrev($event)" v-show="isPrev"></span>
+  <span class="swiper-button-next iconfont iconright2" v-on:click="onNext($event)" v-show="isNext"></span>
+</div>
+
+<script src="{{ PUBLIC_SCRIPT + '/swiper-tab.js' | VERSION }}"></script>

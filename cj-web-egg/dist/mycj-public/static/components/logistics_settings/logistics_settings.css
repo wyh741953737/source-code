@@ -1,0 +1,426 @@
+[ng-cloak] {
+  display: none;
+}
+.LogisticsSettingsModal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox {
+  width: 700px;
+  height: 600px;
+  background: #FFFFFF;
+  box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsHead {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  background: #F9F8F8;
+  border-radius: 4px 4px 0px 0px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--color-font-1);
+  position: relative;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsHead .closeIcon {
+  font-size: 14px;
+  color: var(--color-font-2);
+  position: absolute;
+  top: 0;
+  right: 20px;
+  cursor: pointer;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsMain {
+  width: 100%;
+  height: 480px;
+  padding: 10px 20px;
+}
+.LogisticsSettingsMain .LogisticsSettingsTips {
+  width: 100%;
+  height: auto;
+  padding: 8px 16px;
+  background: #FFFBE6;
+  border-radius: 4px;
+  border: 1px solid #FFE58F;
+  display: flex;
+}
+.LogisticsSettingsMain .LogisticsSettingsTips .tipIcon {
+  font-size: 15px;
+  color: #FAAD14;
+  margin-right: 15px;
+}
+.LogisticsSettingsMain .LogisticsSettingsTips .tipText {
+  font-size: 14px;
+  color: rgba(0,0,0,0.65);
+  font-weight: 400;
+  word-break: break-word;
+}
+.LogisticsSettingsMain .storeName {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  /* height: 35px; */
+  /* line-height: 35px; */
+}
+.LogisticsSettingsMain .storeName div {
+  padding: 5px 0;
+}
+.LogisticsSettingsMain .storeName .store {
+  width: 354px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.LogisticsSettingsMain .storeName .addBox {
+  border-radius: 2px;
+  border: 1px solid var(--color-theme-1);
+  padding: 5px 16px;
+  cursor: pointer;
+  background: #ffffff;
+}
+.LogisticsSettingsMain .storeName .storeImg {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+.LogisticsSettingsMain .storeName span {
+  font-size: 14px;
+  color: var(--color-font-1);
+}
+.LogisticsSettingsMain .storeName .addBox .addIcon {
+  font-size: 14px;
+  color: var(--color-theme-1);
+  cursor: pointer;
+  /* vertical-align: sub; */
+  margin-right: 5px;
+}
+.LogisticsSettingsMain .storeName .addBox span {
+  color: var(--color-theme-1)
+}
+.LogisticsSettingsMain .storeName .addBox:hover {
+  border: 1px solid var(--color-theme-1-1);
+}
+.LogisticsSettingsMain .storeName .addBox:hover .addIcon {
+  color: var(--color-theme-1-1);
+}
+.LogisticsSettingsMain .storeName .addBox:hover span {
+  color: var(--color-theme-1-1);
+}
+.LogisticsSettingsMain .storeName .disabledAdd {
+  border-color: #e4e4e4 !important;
+  cursor: not-allowed;
+}
+.LogisticsSettingsMain .storeName .disabledAdd .addIcon,.LogisticsSettingsMain .storeName .disabledAdd span {
+  color: #e4e4e4 !important;
+}
+.LogisticsSettingsMain .storeName .disabledAdd:hover {
+  border-color: #e4e4e4 !important;
+}
+.LogisticsSettingsMain .storeName .disabledAdd:hover .addIcon,.LogisticsSettingsMain .storeName .disabledAdd:hover span {
+  color: #e4e4e4 !important;
+}
+.LogisticsSettingsMain .listBox {
+  margin-top: 20px;
+}
+.LogisticsSettingsMain .listBox .listTitle {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background: #F0EDE7;
+  border-radius: 4px 4px 0px 0px;
+  font-size: 12px;
+  color: var(--color-font-1);
+  padding-left: 20px;
+  display: flex;
+}
+.LogisticsSettingsMain .listBox .ship {
+  width: 260px;
+  margin-right: 20px;
+  text-align: left;
+}
+.LogisticsSettingsMain .listBox .action {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LogisticsSettingsMain .listBox .listMain {
+  width: 100%;
+  height: 290px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.LogisticsSettingsMain .listBox .listMain::-webkit-scrollbar {
+  width : 4px;
+  height: 1px;
+}
+.LogisticsSettingsMain .listBox .listMain::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background   : #888;
+}
+.LogisticsSettingsMain .listBox .listMain::-webkit-scrollbar-track {
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background   : #ededed;
+}
+.LogisticsSettingsMain .listBox .list {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+.LogisticsSettingsMain .listBox .tips {
+  font-size: 14px;
+  color: var(--color-font-3);
+  margin: 15px 0;
+}
+.LogisticsSettingsMain .listBox .list .listItem {
+  width: 100%;
+  padding: 20px 0 20px 20px;
+  display: flex;
+  border-left: 1px solid #E4E4E4;
+  border-right: 1px solid #E4E4E4;
+  border-bottom: 1px solid #E4E4E4;
+  box-shadow: 0px -1px 0px 0px #F3F3F3, -1px 0px 0px 0px #F3F3F3, 1px 0px 0px 0px #E4E4E4;
+}
+.LogisticsSettingsMain .listBox .list .listItem .shopifyShipInput {
+  width: 260px;
+  height: 32px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  padding-left: 10px;
+  font-size: 12px;
+  color: var(--color-font-1);
+}
+.LogisticsSettingsMain .listBox .list .listItem input::placeholder {
+  font-size: 12px;
+  color: var(--color-font-3);
+}
+.LogisticsSettingsMain .listBox .list .listItem .selectBox {
+  position: relative;
+}
+.listItem .selectBox .selectContent {
+  width: 260px;
+  height: 32px;
+  line-height: 32px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  padding-left: 10px;
+  padding-right: 25px;
+  font-size: 12px;
+  color: var(--color-font-1);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.listItem .selectBox .selectContent input {
+  background: #ffffff; 
+  width: 220px; 
+  font-size: 12px;
+  color: var(--color-font-1);
+}
+.listItem .selectBox .downIcon {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.75);
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.listItem .selectBox .optionBox {
+  width: 260px;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 38px;
+  left: 0;
+  padding: 10px 0;
+  z-index: 2;
+}
+.listItem .selectBox .optionBoxTop {
+  top: -160px;
+}
+.listItem .selectBox .optionBox .search {
+  width: 100%;
+  padding: 0 10px;
+}
+.listItem .selectBox .optionBox .searchInput {
+  width: 100%;
+  height: 30px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  padding-left: 10px;
+  font-size: 12px;
+  color: var(--color-font-2);
+}
+.listItem .selectBox .optionBox .optionMain {
+  width: 100%;
+  height: 96px;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin-top: 10px;
+}
+.listItem .selectBox .optionBox .optionItem {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 10px;
+  font-size: 12px;
+  color: var(--color-font-2);
+  cursor: pointer;
+}
+.listItem .selectBox .optionBox .optionItem:hover {
+  color: var(--color-theme-1);
+  background: rgba(255, 119, 0, 0.2);
+}
+.LogisticsSettingsMain .listBox .list .listItem .deleteBox {
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+.LogisticsSettingsMain .listBox .list .listItem .deleteBox:hover .delIcon {
+  color: #E02020;
+}
+.LogisticsSettingsMain .listBox .list .listItem .delIcon {
+  font-size: 14px;
+  color: #000000;
+}
+.LogisticsSettingsMain .listBox .list .listItem .delTool {
+  position: relative;
+}
+.LogisticsSettingsMain .listBox .list .listItem .delTool:hover .delToolText{
+  visibility: visible;
+}
+.LogisticsSettingsMain .listBox .list .listItem .delToolText{
+  width: 56px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  color: var(--color-font-4);
+  visibility: hidden;
+  position: absolute;
+  top: -4px;
+  left: -60px;
+}
+.LogisticsSettingsMain .listBox .list .listItem .delToolText::after{
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid rgba(0, 0, 0, 0.75);
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  position: absolute;
+  right: -10px;
+  bottom: 12px;
+}
+/* .LogisticsSettingsMain .listBox .list .listItem .delIcon:hover {
+  color: #E02020;
+} */
+.LogisticsSettingsMain .listBox .listNoData {
+  margin: 54px auto 0;
+  text-align: center;
+}
+.listNoData .noDataImg {
+  width: 150px;
+  height: 150px;
+}
+.listNoData .noDataText {
+  font-size: 14px;
+  color: var(--color-font-3);
+  margin-top: 20px;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .heighLight {
+  border-color: #FF4949 !important;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom {
+  width: 100%;
+  height: 70px;
+  background: #FFFFFF;
+  box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 0px 0px 4px 4px;
+  text-align: center;
+  padding: 19px 0;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom .btn {
+  height: 32px;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 4px;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom .LogisticsSettingsCancelBtn {
+  width: 80px;
+  color: var(--color-font-1);
+  background: var(--color-bg-14);
+  border: 1px solid var(--color-line-1);
+  margin-right: 15px;
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom .LogisticsSettingsCancelBtn:hover {
+  color: var(--color-font-1);
+  background: var(--color-bg-14-1);
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom .LogisticsSettingsConfirmBtn {
+  width: 83px;
+  color: var(--color-font-4);
+  background: var(--color-theme-1);
+}
+.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom .LogisticsSettingsConfirmBtn:hover {
+  background: var(--color-theme-1-1);
+}
+
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom .LogisticsSettingsConfirmBtn {
+  background: var(--color-theme-2-vip) !important;
+  color: var(--color-font-1);
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .LogisticsSettingsBottom .LogisticsSettingsConfirmBtn:hover {
+  background: var(--color-theme-2-1-vip) !important;
+  color: var(--color-font-1);
+}
+.isVip .LogisticsSettingsMain .storeName .addBox {
+  border: 1px solid var(--color-theme-1-vip) !important;
+  background: #ffffff;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox  .addIcon {
+  color: var(--color-theme-1-vip) !important;
+}
+.isVip .LogisticsSettingsMain .storeName .addBox span {
+  color: var(--color-theme-1-vip) !important;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .addBox:hover {
+  border-color: var(--color-theme-1-1-vip) !important;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .addBox:hover .addIcon{
+  color: var(--color-theme-1-1-vip) !important;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .addBox:hover span{
+  color: var(--color-theme-1-1-vip) !important;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .disabledAdd, .isVip.LogisticsSettingsModal .LogisticsSettingsBox  .disabledAdd:hover {
+  border-color: #e4e4e4 !important;
+  cursor: not-allowed;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .disabledAdd .addIcon, .isVip.LogisticsSettingsModal .LogisticsSettingsBox .disabledAdd span{
+  color: #e4e4e4 !important;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .disabledAdd:hover .addIcon, .isVip.LogisticsSettingsModal .LogisticsSettingsBox .disabledAdd:hover span{
+  color: #e4e4e4 !important;
+}
+.isVip.LogisticsSettingsModal .LogisticsSettingsBox .listItem .selectBox .optionBox .optionItem:hover {
+  color: var(--color-theme-2-vip);
+  background: rgba(221, 168, 99, 0.2);
+}

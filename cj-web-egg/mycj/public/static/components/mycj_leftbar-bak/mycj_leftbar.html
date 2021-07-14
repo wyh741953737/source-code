@@ -1,0 +1,22 @@
+<div
+  class="mycj-left-bar"
+  ng-class="{vipFlag:vip==1,'leftbar-light':!isShow}"
+  ng-if="navArr.length">
+  <i class="iconfont menu-icon" ng-show="isShow" ng-click="hideFun()">&#xe60a;</i>
+  <i class="iconfont menu-icon" ng-show="!isShow" ng-click="showFun()">&#xe604;</i>
+  <ul>
+    <li ng-repeat="item in navArr track by $index" ng-class="{'active':item.active,'hide':item.hide}">
+      <a id="{{item.id}}" href="{{item.route}}">
+        <i class="iconfont" ng-class="item.iconclass"></i>
+        <span class="title">{{item.name}}</span>
+        <i ng-if="item.name=='Service Products'" class="iconfont showmore">&#xe616;</i>
+      </a>
+      <div class="menu" ng-if="item.isShowChild">
+        <div class="menu-item" ng-class="{'menu-item-active':itemChild.active}"
+          ng-repeat="itemChild in item.childRouter track by $index">
+          <a class="menu-submenu-title" href="{{itemChild.route}}">{{itemChild.name}}</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

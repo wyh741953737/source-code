@@ -1,0 +1,255 @@
+<div cjdot cjdotshow='{"eventType": 2}' class="content mycj-favorites">
+  <div class="mycj-home-box mycj-favorite-box">
+    <div class="mycj-right-wrap p-3">
+      <div class="top-space-bar"></div>
+      <div class="mycj-right-bar favorite-box">
+		<div class="custom-category-box clearfix pb-3" >
+			<div ng-if="firstCategoryList" class="wash-list" ng-class="{'checkedBottom':selectedCategory == '0'}" ng-click="selectCategory(firstCategoryList)">
+				{{firstCategoryList.wishName}} ({{firstCategoryList.wishproductSum}})
+			</div>
+			<div class="scroll-box">
+				<div class="scroll-box-mask" ng-show="isHideScrollBtn"></div>
+				<ul class="scroll-box-ul">
+					<li class="textColor" ng-class="{'checkedBottom':item.id == selectedCategory}" ng-repeat="(index, item) in customCategoryList" on-finish-render>
+						<i style="font-size: 14px;margin-right: 4px;" ng-click="openCategoryModal('rename', item.wishName)" ng-if="item.id == selectedCategory" class="iconfont textColor">&#xe785;</i>
+						<span class="textColor" ng-click="selectCategory(item, index)">{{item.wishName}} ({{item.wishproductSum}})</span>
+						<span class="close-font" ng-if="item.id == selectedCategory">
+							<i style="font-size: 12px;" ng-click="openCategoryModal('delete')"  class="iconfont">&#xe9b2;</i>
+						</span>
+						
+					</li>
+				</ul>
+			</div> 
+			
+			<div class="scroll-category-btn-box">
+				<div class="scroll-btn" ng-show="isHideScrollBtn">
+					<span class="scrollBtnCl textColor" ng-class="{'disableScroll': disableScrollType == 'left'}" ng-click="scrollCategoryList(true)">
+						<i class="iconfont">&#xe6a8;</i>
+					</span>
+					<span class="scrollBtnCl textColor" ng-class="{'disableScroll': disableScrollType == 'right'}" ng-click="scrollCategoryList(false)">
+						<i class="iconfont ">&#xe6ad;</i>
+					</span>
+				</div>
+				<div class="button-wrapper">
+					<span style="color: #555555;margin-right: 16px;">|</span>
+					<button class="btn-theme add-category-btn" ng-click="openCategoryModal('add')">
+						Create folder
+					</button>
+				</div>
+				
+			</div>
+		</div>
+        <div class="favorite-header clearfix pb-3" ng-hide="noData">
+          <div class="type-select textColor" ng-cloak>
+            Category:
+            <select style="background-color: #0E0E0E;border: none;color: #F3DBA5;" class="format-bgcolor textColor" name="" ng-change="searchFavList(tue)" ng-model="seletedCate">
+              <option ng-repeat="item in categoryListOne" value="{{item.id}}">{{item.nameEn}}</option>
+            </select>
+          </div>
+          <div class="search-bar clearfix">
+            <input style="background-color: #0E0E0E;border: none;" type="text" class="search-inp ng-pristine ng-untouched ng-valid ng-empty textColor" ng-model="searchVal"
+              ng-keyup="enterSearch($event)" placeholder="Enter SKU/Product Name">
+            <button class="search-btn btn-theme" ng-click="searchFavList()"  cjdot cjdotshow='{"eventType":2}'>Search</button>
+					</div>
+
+			<div style="float: right;">
+				<span class="icon-wrapper" ng-click="openCategoryModal('move')">
+					<i class="iconfont" style="font-size: 20px;">&#xe78c;</i>
+					<span class="tips-custom" style="right: 58px;">Move</span>
+				</span>
+				<span class="icon-wrapper" ng-click="handleDelete()">
+					<i class="iconfont"  style="font-size: 20px;">&#xe79e;</i>
+					<span class="tips-custom" style="right: 14px;">
+						Delete
+					</span>
+				</span>
+			</div>
+			
+			
+			<!-- <button style="margin: 0 4px 0 16px;width: 98px;" class="search-btn btn-theme f-right" ng-click="handleDelete()">Delete</button>
+			<button style="width: 98px;" class="search-btn btn-theme f-right" ng-click="openCategoryModal('move')">Move</button> -->
+					
+        </div>
+        <div class="favorite-cont">
+	        <table class="wishist-table" ng-show="hasListData">
+		        <thead>
+		        	<tr>
+								<th>
+									<i id="check-all-wish" ng-click="handleCheckAllWish()" ng-if="!check_All_Wish" class="iconfont check-all-wish" style="cursor: pointer; color: #FFFFFF;">&#xe63e;</i>
+									<i id="check-all-wish" ng-click="handleCheckAllWish()" ng-if="check_All_Wish" class="iconfont check-all-wish" style="cursor: pointer; color: #FFFFFF;">&#xe6fb;</i>
+									<!-- <input type="checkbox" id="check-all-wish" class="check-all-wish" ng-model="check_All_Wish" ng-change="handleCheckAllWish()">
+              						<label for="check-all-wish"></label> -->
+								</th>
+				        <th style="width: 18%;">Date</th>
+				        <th style="text-align: right;padding-right: 34px;">Images</th>
+				        <th style="text-align: left;">Title</th>
+				        <th>Product Price</th>
+				        <th style="width: 30%;">Action</th>
+			        </tr>
+		        </thead>
+		        <tbody>
+		          <tr class="tr" ng-repeat="(index,item) in favoriteList">
+								<td>
+									<i id="{{item.pid}}" ng-click="handleCheckItem(item)" ng-if="!item.check" class="iconfont checkbox-bcg">&#xe63e;</i>
+									<i id="{{item.pid}}" ng-click="handleCheckItem(item)" ng-if="item.check" class="iconfont checkbox-bcg">&#xe6fb;</i>
+									<!-- <input type="checkbox" id="{{item.pid}}" class="check-item" ng-model="item.check" ng-change="handleCheckItem(item,index)">
+                  					<label for="{{item.pid}}"></label> -->
+								</td>
+			          <td>
+				          {{item.updateDate.time | date:'MMM dd, yyyy HH:mm:ss'}}
+			          </td>
+					<td class="wares-img asj-zoom-img" style="width: 96px;">
+						<img style="float: right;margin-right: 16px;" class="small-img" ng-src="{{item.BIGIMG | IMG_SIZE: 80}}" alt="">
+						<img style="border: 1px solid #eeeeee;" class="big-img" ng-src="{{item.BIGIMG | IMG_SIZE: 300}}" alt="">
+					</td>
+					<td style="max-width: 100px;text-align: left;">
+						<div class="favFreeConatiner" ng-if="item.addMarkStatus == 1" >
+							<div class="favorites-freeShip" >
+								<img src="static/image/CJ-home/freeShip.svg" class="freeShipIcon"></img>
+								<div class="freeShipText">Free Shipping</div>
+							</div>
+						</div>
+									
+						<a class="text-overflow"
+							href="{{(item.flag == 1  || item.flag == 3) ? ('product-detail.html?id=' + item.ID) : ('reptail-detail.html?id=' + item.ID )}}"
+							target="_blank">{{(item.NAMEEN || '') | fWordUpcase}}</a>
+						<span ng-if="item.flag == 1 || item.flag == 3">SKU: {{ item.SKU }}</span>
+					</td>
+			          <td>
+				          {{item.price | exchangeRate}}
+			          </td>
+			          <td class="action-btn">
+						  <div class="action-btn-wrapper">
+							<button ng-show="item.flag == 1 && item.podFlag != 1" class="btn-theme search-btn" ng-class="{'disableAddCar': item.shop_id}" ng-click="item.shop_id ? null : addDia(item.ID)">
+								Add to Cart
+								<tips ng-show="item.shop_id" content="'Product from supplier is unable to Add to Cart.'" placement="'bottomRight'" />
+							</button>
+							<a class="btn-line-theme listing hover-bcg"
+							   ng-show="item.flag == 1 || item.flag == 3" href="{{'product-detail.html?id='+item.ID+'&list=1'}}"
+							   target="_blank">List It Now</a>
+							<button ng-show="item.flag == 2" class="btn-line-theme" ng-click="goActSource(item.ID)">Source</button>
+							<!-- <button ng-show="item.flag == 1 || item.flag == 3" class="btn-line-theme" ng-click="addEditFrame(item.ID, item.podFlag)">Edit Before Listing</button> -->
+							<!-- <button class="btn-line-theme" ng-click="cancelCollection(item,index)">Delete</button> -->
+							<button class="btn-line-theme more-btn hover-bcg">
+								  <!-- <span class="custom-ellipsis"></span>
+								  <span class="custom-ellipsis"></span>
+								  <span class="custom-ellipsis"></span> -->
+								<i class="iconfont">&#xe704;</i>
+									<div class="more-btn-wrapper">
+									  <div class="more-btn-wrapper-content">
+										  <span ng-show="item.flag == 1 || item.flag == 3" ng-click="addEditFrame(item.ID, item.podFlag)" >Edit Before Listing</span>
+										  <span ng-click="cancelCollection(item,index)">Delete</span>
+										  <span ng-click="openCategoryModal('move', item.wishid)">Move</span>
+									  </div>
+								  </div>
+							</button>
+						  </div>
+			          </td>
+		          </tr>
+		        </tbody>
+	        </table>
+        </div>
+	      <page ng-show="favoriteList.length < totalNum && favoriteList.length > 0"></page>
+        <!-- 默认图片展示 -->
+        <div class="asj-default-imgbox" ng-show="noData">
+          <img ng-if="isVip == '0'" class="default-img" src="/static/image/page/like_default_new.png">
+		  <img style="width: 200px;height: 200px;" ng-if="isVip == '1'" class="default-img" src="/static/image/page/like_default_new_vip.png">
+          <p ng-if="selectedCategory == '0'" class="default-msg">Add products to your wishlist to start wholesale dropshipping. You can also add to the SKU List, Source section, etc.</p>
+		  <p ng-if="selectedCategory != '0'" class="default-msg">The folder is currently empty. You can move products here from other folders.</p>
+          <a ng-if="selectedCategory == '0'" class="mycj-btn-default btn-theme search-btn" style="height: 32px; line-height: 32px; font-size: 14px;" href="home.html">Start</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--弹窗-add-->
+  <div id="cart">
+     <!--弹窗-add-->
+	  <div id="add-store" ng-show="addDialog" class="ng-scope">
+	    <div class="ASL-content clearfix" style="height: -moz-fit-content;">
+	      <img class="closel" ng-click="close()" width="30" src="static/image/page/close-default.png" alt="">
+	      <img class="proimg fl" ng-src="{{additem.BIGIMG | IMG_SIZE: 200}}" alt="">
+		    <div class="fr" style="width: 385px;">
+	        <h3 ng-attr-title="{{additem.NAMEEN}}">{{additem.NAMEEN}}</h3>
+	        <p>SKU: {{additem.SKU}}</p>
+	        <div ng-show="varientArr.length>0">
+	          <h3>Specifications:</h3>
+	          <select class="varient-sel" ng-repeat="items in varientArr track by $index" ng-model="items.val"
+	                  ng-change="chanVariant(items.val, $index)" index="{{ $index }}">
+	            <option value="{{ item }}" ng-repeat="item in items.key track by $index">{{ item }}</option>
+	          </select>
+	        </div>
+	        <div class="clearfix">
+	          <h3>Quantilty:</h3>
+	          <div class="commodity fl clearfix">
+	            <div class="iteminner clearfix">
+	              <span class="minus" ng-click="minusOne(itemcount)">-</span>
+	              <input value="{{itemcount}}" ng-model="itemcount" onpaste="return false;" ng-blur="checkIsNum(itemcount)">
+	              <span class="plus" ng-click="plusOne(itemcount)">+</span>
+	            </div>
+	          </div>
+	          <div class="fl cart-price">
+		          Price:
+		          <span ng-if="!variantItem.nowPrice" class="notranslate">{{variantItem.SELLPRICE | currency}}</span>
+	            <ng-template ng-if="variantItem.nowPrice">
+	              <span class="notranslate">{{variantItem.nowPrice | currency}}</span>
+	              <del ng-if="toFixed2(variantItem.SELLPRICE) !== toFixed2(variantItem.nowPrice)" class="notranslate">{{variantItem.SELLPRICE | currency}}</del>
+	            </ng-template>
+	          </div>
+	          <div class="fl cart-price">
+		          Total: <span class="notranslate">{{toFixed2((variantItem.nowPrice ? variantItem.nowPrice : variantItem.SELLPRICE) * itemcount) | exchangeRate}}</span>
+	          </div>
+	        </div>
+	        <button class="sub ui-btn btn-theme" ng-click="addbuy($event)">Add</button>
+	      </div>
+	    </div>
+	  </div>
+  </div>
+
+  <!-- 心愿单弹窗 -->
+  <div id="add-category">
+	<div id="add-store" ng-show="showCategoryModal" class="ng-scope">
+		<div class="ASL-content clearfix" style="width: 470px; padding: 20px;height: -moz-fit-content;">
+			<div class="category-modal-title-bar">
+				<h2 ng-if="categoryModalType==='add'">Add New Folder</h2>
+				<h2 ng-if="categoryModalType==='delete'">Delete Folder</h2>
+				<h2 ng-if="categoryModalType==='move'">Move</h2>
+				<h2 ng-if="categoryModalType==='rename'">Rename</h2>
+				<i ng-click="showCategoryModal = false" class="iconfont closel" style="top: 20px; right: 20px;">&#xe6d3;</i>
+				<!-- <img class="closel" ng-click="showCategoryModal = false" width="30" src="static/image/page/close-default.png" alt=""> -->
+			</div>
+			<div ng-if="categoryModalType==='add' || categoryModalType==='rename'" class="category-modal-content">
+				<span>
+					Title:
+				</span>
+				<input ng-class="{'borderDanger': sameDanger || requireDanger}" maxlength="10" ng-model="$parent.categoryName" placeholder="Please enter a title within 10 characters"/>
+				<p class="dangerText" ng-if="sameDanger">You have an existing folder with the same name. Please enter a different one.</p>
+				<p class="dangerText" ng-if="requireDanger">The title is required.</p>
+			</div>
+			<p class="delete-tip" ng-if="categoryModalType==='delete'">Products included in the folder will be deleted too.</p>
+			<div class="cgy-select-box" ng-if="categoryModalType==='move'">
+				<span>Move to:</span>
+				<select ng-class="{'borderDanger': selectDanger}" placeholder="Please select a folder" name="" ng-model="$parent.moveToCategory">
+					<option value="">Please select a folder</option>
+					<option value="0" ng-if="selectedCategory != '0'">Wishlist</option>
+					<option ng-repeat="item in customCategoryList" value="{{item.id}}" ng-if="item.id != selectedCategory">{{item.wishName}}</option>
+				</select>
+				<p class="dangerText" style="margin-left: 80px;" ng-if = "selectDanger">Please select a folder.</p>
+			</div>
+			<div class="category-modal-btn">
+				<button class="category-modal-btn-close" ng-click="showCategoryModal = false">Close</button>
+				<button class="category-modal-btn-confirm" ng-click="cgyModalConfirm()">Confirm</button>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+
+<loading-cart top="19" left="19" right="19" ng-if="loading"></loading-cart>
+
+<div>
+  <edit-frame
+    on-close="closeEditFrame()"
+    ng-if="editFrameShow"
+    data="editFrameData">
+  </edit-frame>
+</div>

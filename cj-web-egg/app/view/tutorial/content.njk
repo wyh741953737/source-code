@@ -1,0 +1,69 @@
+<div class="tutorial-content lf content">
+  <div class="left">
+    <div class="main-warp">
+      {% include "./common/menu.njk" %}
+    </div>
+    {% if popularList.length > 0 %}
+      <div class="main-warp popular-tutorials">
+        <h3>Popular Tutorials</h3>
+        <ul>
+          {% for item in popularList %}
+            <li>
+              <a href="{{item.contentUrl}}">{{item.title}}</a>
+              <div class="info">
+                <span>
+                  <i class="iconfont iconliulanliang"></i>
+                  {{item.skimCount}}
+                </span>
+                <span>
+                  {{item.readTime}} min article
+                </span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+  <div class="right">
+    {% if articleList.length > 0 %}
+      <div class="main-warp marginBottom30 popup-article-box">
+        {% include "./common/popupArticle.njk" %}
+      </div>
+    {% endif %}
+    {% if latestList.length > 0 %}
+      <div class="latest-tutorials">
+        <div class="main-warp">
+          <h3>Latest Tutorials</h3>
+          <div class="ul-box">
+            <ul class="article-ul"> 
+              {% for item in latestList %}
+                <li>
+                  <a href="{{item.contentUrl}}">
+                    <div class="title">
+                      <h4>{{item.title}}</h4>
+                      <div class="info">
+                        <span>
+                          <i class="iconfont iconliulanliang"></i>
+                          {{item.skimCount}}
+                        </span>
+                        <span>
+                          {{item.readTime}} min article
+                        </span>
+                      </div>
+                    </div>
+                    <div class="text">
+                      {% set defaultText = 'The tutorial provides pictures/videos for you to better understand the content. Please click the title for details. Also, you can pay attention to other popular and latest tutorials here. We will update and add them timely.'
+                      %}
+                      {{(item.simpleContext or (item.context | SIMPLE_TEXT) or defaultText) | safe}}
+                    </div>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

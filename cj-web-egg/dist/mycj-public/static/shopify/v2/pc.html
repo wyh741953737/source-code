@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="/static/js/public/jquery-3.0.0.min.js"></script>
+  <script src="/static/angular-1.5.8/angular.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/static/css/pod.css">
+  <script src="/static/layer/layer.js"></script>
+  <title>Document</title>
+</head>
+<body ng-app="app" ng-controller="shopifypc" style="height: 100%;">
+    <designframe-shopifypc parentctrl="parentctrl"></designframe-shopifypc>
+</body>
+<script src="/static/js/public/base64.min.js"></script>
+<script src="/static/js/public/config.js"></script>
+<script src="/static/js/public/common.js"></script>
+<script>
+    var app = angular.module('app', ['service','cjCompnentModule']);
+    // 创建组件模块
+    angular.module('cjCompnentModule', []);
+    app.controller('shopifypc', ['$scope','dsp', function ($scope,dsp) {
+      $scope.parentctrl = 'shopifypc';
+      window.addEventListener('message', function (event) {
+        var flag = event.data.flag;
+        // console.log(event.data.data)
+        // alert(flag)
+        if (flag == 'gotdata') {
+          $scope.$broadcast('mdata',event.data.data);
+          console.log(event.data.data)
+        }
+      })
+    }])
+  </script>
+<script src="/static/components/design_frame2/design_frame.js"></script>
+<script src="./js/fabric.min.js"></script>
+<!-- cj 通用工具库 [上传图到OSS、播放视频、md5、base64、uuid] -->
+<script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+</html>

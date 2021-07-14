@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cj</title>
+  <style>
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    .header{
+      padding: 10px;
+    }
+    .header img{
+      width: 220px;
+    }
+    .wrap{
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0 20%;
+    }
+    .wrap .left{
+      flex: 1.5;
+    }
+    .wrap .right{
+      flex: 2;
+    }
+    .right img{
+      width: 100%;
+    }
+    .status{
+      font-size: 24px;
+      color:rgba(0,0,0,1);;
+    }
+    .tip{
+      font-size: 14px;
+      color: #999;
+      padding-top: 10px;
+      min-height: 30px;
+    }
+    .btn{
+      display: inline-block;
+      font-size: 14px;
+      color: #fff;
+      background-color: #FF7700;
+      padding: 6px 36px;
+      border-radius: 4px;
+      text-align: center;
+      margin-top: 33px;
+      cursor: pointer;
+    }
+    .btn.default{
+      background-color: #FCFCFC;
+      color: #666666;
+      border: 1px solid #E1E1E1;
+    }
+    .btn img{
+      width: 20px;
+    }
+    .btn:hover{
+      background-color: #F78E29;
+    }
+    .btn.default:hover{
+      background-color: #FCFCFC;
+    }
+    .spinner-container {
+        width: auto;
+        border-radius: 50px;
+        padding: 10px;
+        display: table;
+        margin: 0 auto;
+        position: relative
+    }
+
+    .spinner-container span {
+        height: 10px;
+        width: 10px;
+        float: left;
+        margin: 0 2px;
+        background-color: #fff;
+        display: block;
+        border-radius: 50%;
+        opacity: .2
+    }
+
+    .spinner-container span:first-of-type {
+        -webkit-animation: bounceIn 1.1s .36666s infinite;
+        animation: bounceIn 1.1s .36666s infinite
+    }
+
+    .spinner-container span:nth-of-type(2) {
+        -webkit-animation: bounceIn 1.1s .73332s infinite;
+        animation: bounceIn 1.1s .73332s infinite
+    }
+
+    .spinner-container span:nth-of-type(3) {
+        -webkit-animation: bounceIn 1.1s 1.09998s infinite;
+        animation: bounceIn 1.1s 1.09998s infinite
+    }
+
+    @-webkit-keyframes bounceIn {
+        0%,20%,40%,60%,80%,to {
+            -webkit-animation-timing-function: cubic-bezier(.215,.61,.355,1);
+            animation-timing-function: cubic-bezier(.215,.61,.355,1)
+        }
+
+        0% {
+            opacity: 0;
+            transform: scale3d(.3,.3,.3)
+        }
+
+        20% {
+            transform: scale3d(1.1,1.1,1.1)
+        }
+
+        40% {
+            transform: scale3d(.9,.9,.9)
+        }
+
+        60% {
+            opacity: 1;
+            transform: scale3d(1.03,1.03,1.03)
+        }
+
+        80% {
+            transform: scale3d(.97,.97,.97)
+        }
+
+        to {
+            opacity: 1;
+            transform: scaleX(1)
+        }
+    }
+
+    @keyframes bounceIn {
+        0%,20%,40%,60%,80%,to {
+            -webkit-animation-timing-function: cubic-bezier(.215,.61,.355,1);
+            animation-timing-function: cubic-bezier(.215,.61,.355,1)
+        }
+
+        0% {
+            opacity: 0;
+            transform: scale3d(.3,.3,.3)
+        }
+
+        20% {
+            transform: scale3d(1.1,1.1,1.1)
+        }
+
+        40% {
+            transform: scale3d(.9,.9,.9)
+        }
+
+        60% {
+            opacity: 1;
+            transform: scale3d(1.03,1.03,1.03)
+        }
+
+        80% {
+            transform: scale3d(.97,.97,.97)
+        }
+
+        to {
+            opacity: 1;
+            transform: scaleX(1)
+        }
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="header" @click="toHome">
+      <img src="/egg/image/logo.png" />
+    </div>
+    <div v-if="!disabled" class="wrap">
+      <div class="left">
+        <p class="status">{{txt}}</p>
+        <p class="tip"><span v-if="status==1">Redirect to order page in {{count}} seconds.</span></p>
+        <span v-if="status==1" class="btn">
+          <span class="spinner-container">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </span>
+        <span v-if="status==2" class="btn" v-on:click="reauthorizeFun">
+          REAUTHORIZE 
+        </span>
+        <span v-if="status==2" v-on:click="failBack" class="btn default">
+          BACK
+        </span>
+      </div>
+      <div class="right">
+        <img v-bind:src="img" />
+      </div>
+    </div>
+  </div>
+  <script src="/egg/libs/vue-2.6.11/vue.min.js"></script>
+  <script src='/egg/libs/base64/base64.min.js'></script>
+  <script src="static/js/public/jquery-3.0.0.min.js"></script>
+  <script>
+    const base64 = new Base64();
+    const token = localStorage.getItem('token')?base64.decode(localStorage.getItem('token')):'';
+    var getQueryString = name => {
+      var reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i');
+      var r = window.location.search.substr(1).match(reg);
+      if (r !== null) {
+        return unescape(r[2]);
+      }
+      return null;
+    };
+    let awinTesMode = "0";
+    if(location.href.indexOf('https:') === -1){
+      awinTesMode = "1"
+    }
+    const postFun=(url, data, fn) => {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      // 添加http头，发送信息至服务器时内容编码类型
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.setRequestHeader("token", token);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+          fn.call(this, xhr.responseText);
+        }
+      };
+      xhr.send(data);
+    }
+    var TEXT = {
+      auth_1: 'Link Successful',
+      auth_2: 'Link Failed',
+      pay_1: 'Payment Successful!',
+      pay_2: 'Payment Failed',
+    }
+    var IMAGE = {
+      auth_1: '/static/image/payoneer/p-auth-success.png',
+      auth_2: '/static/image/payoneer/p-auth-fail.png',
+      pay_1: '/static/image/payoneer/p-pay-success.png',
+      pay_2: '/static/image/payoneer/p-pay-fail.png'
+    }
+    var app = new Vue({
+      el: '#app',
+      data: {
+        type: '',               // 来自授权或者挑战授权
+        returnId: '',           // returnid     授权-自定义，支付-后端返
+        status: '',             // 授权与支付     状态码一样
+
+        redirectHref: '',      // 跳转地址
+        img: '',               // 插画
+        txt: '',               // 状态文案
+        count: 5,              // 倒计时时间
+        isCharge: false,       // 是否充值
+
+        disabled: false,       // 不可用
+        returnData: {}
+      },
+      created: function() {
+        //this.clearPayStorage();
+        // 1-成功   2-失败
+        console.log('created')
+        var authStatus = getQueryString('authStatus'),
+            payStatus = getQueryString('payStatus'),
+            returnId = getQueryString('returnId');
+        // 先判断回调类型
+        this.type = authStatus ? 'auth' : payStatus ? 'pay' : '';
+        this.status = authStatus || payStatus;
+        this.returnId = returnId;
+        if (this.type && this.status) {
+          // 插画
+          this.img = IMAGE[`${this.type}_${this.status}`];
+          // 状态文案
+          this.txt = TEXT[`${this.type}_${this.status}`];
+          // 回调地址
+          var raw = null;
+          try {
+            raw = JSON.parse(localStorage.getItem(`_p_${returnId}`))
+          } catch(err) { console.log('解析错误'); this.disabled = true }
+          if (raw) {
+            this.redirectHref = raw.href;
+            this.isCharge = raw.isCharge;
+            this.returnData = raw;
+          } else {
+            console.log('未取到返回数据');
+          }
+        } else {
+          this.disabled = true;
+        }
+        //awin 发送支付成功fall-back
+        if(payStatus && payStatus == 1){
+          let awinLocalParams = null;
+          try {
+            awinLocalParams = JSON.parse(localStorage.getItem(`_awin_${returnId}`))
+          } catch(err) { console.log('解析错误'); }
+          if(awinLocalParams){
+            function getCookie (c_name) {
+              if (document.cookie.length > 0) {
+                let c_start = document.cookie.indexOf(c_name + "=")
+                if (c_start != -1) {
+                  c_start = c_start + c_name.length + 1
+                  let c_end = document.cookie.indexOf(";", c_start)
+                  if (c_end == -1) c_end = document.cookie.length
+                  return document.cookie.substring(c_start, c_end)
+                }
+              }
+              return ""
+            }
+            function awinJS () {
+              let content = '<script >'+
+                  ' var AWIN = {};' + 
+                  '  AWIN.Tracking = {};' +
+                  ' AWIN.Tracking.Sale = {};' +
+                  ' AWIN.Tracking.Sale.amount =' + awinLocalParams.awinAmount + ';' +
+                  ' AWIN.Tracking.Sale.orderRef ="' + awinLocalParams.awinRef+ '";' +
+                  ' AWIN.Tracking.Sale.parts  ="' + "DEFAULT:" + awinLocalParams.awinAmount+ '";' +
+                  'AWIN.Tracking.Sale.currency = "USD";'+
+                  ' AWIN.Tracking.Sale.test = "' + awinTesMode + '";'+
+                  'AWIN.Tracking.Sale.channel = "aw";'+
+                  +'<\/script>'
+                $('body').append(content);
+                let osrc = 'https://www.dwin1.com/21578.js';
+                let script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = osrc;
+                document.getElementsByTagName('body')[0].appendChild(script);
+            }
+
+            function imgHttpFun(){
+              let orderCountMoney = awinLocalParams.awinAmount.toFixed(2)
+              let BasketImage = new Image(1,1);
+              BasketImage.src = `https://www.awin1.com/sread.img?tt=ns&tv=2&merchant=21578&amount=${orderCountMoney}&ch=aw&parts=DEFAULT:${orderCountMoney}&cr=USD&ref=${awinLocalParams.awinRef}&tesmode=${awinTesMode}`;
+              localStorage.removeItem(`_awin_${returnId}`)
+            }
+            let awcText = getCookie('awc');
+            let utmSource = localStorage.getItem('utmSource');
+            if(awcText && utmSource == 'awin'){//有awin的awc值 并且登录平台来源是awin
+              awinJS()
+              imgHttpFun()
+            }
+          }
+        }
+      },
+      beforeMount: function() {
+        console.log('before mount')
+      },
+      mounted: function() {
+        console.log('mounted', this.redirectHref);
+        var self = this;
+        if (this.status == 1) {
+          this.timer = setInterval(function() {
+            self.count--;
+            if (self.count <= 0) {
+              console.log('self', self)
+              clearInterval(self.timer);
+              // 回去前设置授权成功标识
+              if(!self.isCharge) {
+                // 支付
+                if (self.returnData.isAuth) {
+                  console.log('[支付]: 授权回调成功');
+                  // 授权回调，回到支付页
+                  localStorage.setItem(`_r_auth_${self.returnId}`, true)
+                  location.href = self.redirectHref;
+                } else {
+                  console.log('[支付]: 支付回调成功');
+                  self.clearPayStorage();
+                  // 支付回调, 回到订单页   成功失败返回地址一样
+                  location.href = self.returnData.successHref;
+                }
+              } else {
+                // 充值
+                if (self.returnData.isAuth) {
+                  console.log('[充值]: 授权回调成功', self.redirectHref);
+                  // 授权回调，回到支付页
+                  localStorage.setItem(`_r_charge_auth_${self.returnId}`, true)
+                  location.href = self.redirectHref;
+                } else {
+                  console.log('[充值]: 支付回调成功', self.returnData.successHref);
+                  self.clearPayStorage();
+                  // 支付回调, 回到订单页   成功失败返回地址一样
+                  location.href = self.returnData.successHref;
+                }
+              }
+            }
+          }, 1000)
+        }
+      },
+      methods: {
+        toHome:function(){
+          location.href=location.origin
+        },
+        // 清除支付完成后的缓存
+        clearPayStorage: function() {
+          if (this.returnData.isPay) {
+            //localStorage.removeItem(`_p_${this.returnId}`)
+          }
+        },
+        // 失败后返回地址
+        failBack: function() {
+          if (this.returnData.isAuth) {
+            location.href = this.redirectHref;
+          } else {
+            // 支付回调, 回到订单页   成功失败返回地址一样
+            location.href = this.returnData.successHref;
+          }
+        },
+        reauthorizeFun:function(){
+          let ordnumber = this.returnId;
+          let _params = { returnId: ordnumber, redirectUrl: `${location.origin}/payoneer-auth.html` };
+          // let ourl = 'http://dsp-server.cj-1.com/';
+          let ourl = location.origin.indexOf('192.168')>-1?'http://app.test.com/':location.origin;
+          postFun(`${ourl}/app/payoneer/authorizeLink`, JSON.stringify(_params), res => {
+            const _res = JSON.parse(res);
+            const _data = (_res.data || {}) || {};
+            const { authorizeUrl } = _data
+            if (!authorizeUrl) {
+              console.log('The server is busy now, please try again later.')
+            } else {
+              // 接下来用户就要去授权了，在这之前保存当前地址作为中间页跳转回来地址
+              // localStorage.setItem(`_p_${ordnumber}`, JSON.stringify({ href: location.href, isAuth: true }))
+              // 跳转授权地址
+              location.href = authorizeUrl;
+            }
+          }, err => {
+            console.log('err', err)
+          })
+        },
+      }
+    })
+  </script>
+</body>
+</html>

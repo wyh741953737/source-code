@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+  <meta charset="UTF-8">
+  <title>Dropshipping from Worldwide to Worldwide!</title>
+	<!-- bootstrap.css -->
+  <link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<!-- reset.css -->
+  <link rel="stylesheet" type="text/css" href="static/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="static/css/home-common.css">
+	<!--公共头部-->
+  <link rel="stylesheet" type="text/css" href="static/components/headerandfooters/common-header.css">
+	<!-- 公共底部 -->
+  <link rel="stylesheet" type="text/css" href="static/components/headerandfooters/common-footer.css">
+	<!--商品展示card-->
+  <link rel="stylesheet" type="text/css" href="static/components/product_card/product_card.css">
+	<!--loading-->
+  <link rel="stylesheet" href="static/loading/loading.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_jbbgmgksp7p.css">
+	<!-- board.css -->
+	<link rel="stylesheet" href="static/activity/board/css/boards.css">
+  <link rel="stylesheet" href="static/css/workOrders.css">
+  <link rel="stylesheet" href="static/components/intel_guid/intel-guid.css">
+  <script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/lottie.js"></script>
+	<!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+	<!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+  </noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager -->
+  <script>
+    ;(function (w, d, s, l, i) {
+	    w[l] = w[l] || [];
+	    w[l].push({
+		    'gtm.start':
+			    new Date().getTime(), event: 'gtm.js'
+	    });
+	    var f = d.getElementsByTagName(s)[0],
+		    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+	    j.async = true;
+	    j.src =
+		    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+	    f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+  </script>
+	<!-- End Google Tag Manager -->
+	<!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+	    dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'AW-965740562');
+  </script>
+  <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+
+  <!-- cj 通用工具库 [上传图到OSS、播放视频、md5、base64、uuid] -->
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<body ng-app="boardsApp" ng-controller="boardsController" ng-cloak>
+<div class="board-warp">
+  <!--公共头部-->
+  <common-header></common-header>
+  <!--banner-->
+	<div class="banner"></div>
+  <!-- 内容区域 -->
+	<div class="bg-box" ng-cloak>
+		<div class="content-box" ng-show="!$root.isSwitch">
+			<div class="nav-tab-warp" ng-class="{'nav-tabs-fixed':scrollTop > navOffsetTop}">
+				<div class="nav-tab-box">
+					<div class="nav-tabs">
+						<div class="tab"
+                 ng-class="{'active':item.flag}"
+                 ng-repeat="item in floorDatas"
+                 ng-click="jump($index+1)" ng-bind="item.name">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="floor" ng-repeat="item in floorDatas" ng-class="'floor-'+($index+1)" repeat-finish="repeatDone()">
+				<h3 class="title" ng-bind="item.name"></h3>
+				<div class="product-box">
+					 <product-card ng-repeat="productItem in item.productData" data="productItem" width="220" ng-cloak class="product-card-box"></product-card>
+				</div>
+			</div>
+		</div>
+	</div>
+  <!-- 公共底部 -->
+	<common-footer ng-show="!$root.isSwitch"></common-footer>
+</div>
+<script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+<!-- angular -->
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/angular-1.5.8/angular-sanitize.min.js"></script>
+<script src="static/layer/layer.js"></script>
+<script src="static/js/public/config.js"></script>
+<script src="static/js/public/common.js"></script>
+<script src="static/js/public/base64.min.js"></script>
+<script src="static/providers/filter/filter.js"></script>
+<script src="static/providers/utils/utils.js"></script>
+<!-- js -->
+<script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<!-- myCJ.js -->
+<script src="static/js/myCJ/myCJ-old.js"></script>
+<script src="static/js/home/home-common.js"></script>
+<script src="static/js/cjmsg/cjmsg.js"></script>
+<!--公共头部-->
+<script src="static/components/headerandfooters/common-header.js"></script>
+<!-- 公共底部 -->
+<script src="static/components/headerandfooters/common-footer.js"></script>
+<!--商品展示卡片-->
+<script src="static/components/product_card/product_card.js"></script>
+<!-- workOrders.js -->
+<script src="static/components/work_orders/workOrders.js"></script>
+<!-- board.js -->
+<script src="static/activity/board/js/boards.js"></script>
+<!--加载层-->
+<script src="static/loading/loading.js"></script>
+<script src="static/providers/cjdot/cjdot.js"></script>
+<!-- 智能引导 -->
+<script src="static/components/intel_guid/intel-guid.js"></script>
+<!-- // skyWalking 监控-->
+<script  src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/skyWalking.js"></script>
+<script src="/egg/libs/skyWalking/init.js"></script>
+</html>

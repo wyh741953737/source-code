@@ -1,0 +1,335 @@
+<div class="mycj-home-box mycj-purchase-list">
+  <div class="mycj-right-wrap p-3">
+    <div class="top-space-bar"></div>
+    <!-- chrome插件隐藏合并 -->
+    <!-- <ul class="top-taps">
+      <li class="tab-theme purchase active"><a href="#/purchase-history">From CJ</a></li>
+      <li class="tab-theme purchase"><a href="#/purchase-Taobao">From 1688/Taobao</a></li>
+    </ul> -->
+    <div class="mycj-right-bar" style="padding-top: 10px">
+      <!-- ng-hide="noData" -->
+      <div class="asj-history-top clearfix" ng-hide="noData">
+        <div class="search-bar clearfix">
+          <input type="text" class="search-inp ng-pristine ng-untouched ng-valid ng-empty" ng-model="searchStr"
+            placeholder="Enter Order Number/SKU/Product Name" ng-keydown="enterSearch($event)"><button class="search-btn btn-theme"
+            ng-click="search()" cjdot cjdotshow='{"eventType":2}'>Search</buttnpmon>
+        </div>
+        <div class="right-btn">
+          <a href="#/goods" class="ui-btn btn-theme">Add Purchase</a>
+          <a href="#/cart" class="ui-btn btn-theme">Purchase Cart</a>
+        </div>
+      </div>
+      <div class="asj-history-order">
+        <div class="asj-top-head" ng-hide="noData">
+          <ul>
+            <li class="li-merch" style="width: 32.5%;">Products</li>
+            <li class="li-price">Price</li>
+            <li class="li-linkx" style="width: 3%;">&nbsp;</li>
+            <li class="li-quan" style="width: 8%;">Quantity</li>
+            <li class="li-status">Status </li>
+            <li class="li-type" style="width: 10%;">Type</li>
+            <li class="li-trac" style="width: 10%;"><p style="font-size: 12px">Tracking Number</p></li>
+            <li class="li-opera">Action</li>
+          </ul>
+        </div>
+        <div class="cj-load-wrap">
+          <not-data ng-if="notDataFound"></not-data>
+          <div class="asj-order-body" ng-repeat="(index1,item) in purchaseList track by index1">
+            <div class="asj-order-title">
+              <ul>
+                <li class="li-date">{{item.createDate | date:"yyyy-MM-dd HH:mm"}}</li>
+                <li class="li-num">Order Number: {{item.id || item.ID}}</li>
+                <li class="li-detail" ng-if="!item.orderSourceType || item.orderSourceType === 'CJPAY' || (item.orderSourceType && item.orderSourceType !== 'CJPAY' && item.status !== '111')">
+                  <a href="{{'#/order-detail/'+item.id+'/'+
+                  (item.impStorageFlag=='ISIMP' ? '1': item.status==12 || item.status==7 ? '0': '1')+
+                  '/1/DIRECT'}}">View Details</a>
+                </li>
+                <li class="li-detail" ng-if="item.orderSourceType === 'CJPAY'"><a ng-click="queryLogsFun(item.id)" href="javascript:void(0)">Order Logs</a></li>
+                <!-- <li class="li-detail"><a ng-click="ordLogFun(item.id)" href="javascript:void(0)">Product Status</a></li> -->
+                <li ng-show="item.status == '6' || item.status == '10' || item.status == '12' || item.status == '14' || item.status == '67'"
+                  class="li-detail">
+	                <!-- 纠纷 -->
+									<dispute-btn params="item" type="'1'"></dispute-btn>
+                </li>
+                <li>
+                  <span class="stockout-box ml-2" ng-if="item.stockout">
+                    <span ng-if="item.handlerResult === handlerResult.partRefund.key && item.refundStatus == '1'">Refund in progress</span>
+                    <span 
+                      class="cursor-pointer" ng-click="showStockout(item, 'refund')" 
+                      ng-if="item.handlerResult === handlerResult.partRefund.key && item.refundStatus == '2'">Refunded</span>
+                    <span ng-if="item.handlerResult === handlerResult.allRefund.key && item.refundStatus == '1'">Refund in progress</span>
+                    <span 
+                      class="cursor-pointer" ng-click="showStockout(item, 'refund')" 
+                      ng-if="item.handlerResult === handlerResult.allRefund.key && item.refundStatus == '2'">Refunded</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <table class="asj-order-con">
+              <tr>
+                <td class="li-pro-info">
+                  <table class="pro-info" width="100%" ng-repeat="(index2,itemP) in item.productList track by index2 ">
+                    <tr>
+                      <td colspan="5" height="5"></td>
+                    </tr>
+                    <tr>
+                      <td class="li-img asj-zoom-img" style="width:16%">
+                        <img class="small-img" ng-src="{{itemP.img || itemP.cjImage | IMG_SIZE: 80}}" alt="">
+                        <img class="big-img" ng-src="{{itemP.img || itemP.cjImage | IMG_SIZE: 300}}" alt="">
+                      </td>
+                      <td class="li-pro-name" style="width:34%">
+                        <div class="merch-name">{{itemP.name}}</div>
+                        <div class="merch-size tooltip" role="tooltip">
+                          <a href="{{'/product-detail.html?id='+itemP.cjProductId+'&productType='+itemP.productType}}" target="_blank">
+                            <span class="notranslate">{{itemP.sku}}</span>
+                            <span class="stockout-box ml-2" ng-if="itemP.stockout">
+                              <span ng-if="itemP.orderId.indexOf('SY') === -1 && !itemP.handlerResult">Stockout</span>
+                              <span ng-if="itemP.orderId.indexOf('SY') === -1 && itemP.handlerResult === handlerResult.fenkaifahuo.key">Stockout</span>
+                              <span class="cursor-pointer" ng-click="showStockout(itemP, 'barter')" ng-if="itemP.orderId.indexOf('SY') === -1 && itemP.handlerResult === handlerResult.tihuan.key">Exchanged</span>
+                            </span>
+                            <span class="stockout-box ml-2" ng-if="itemP.orderId.indexOf('SY') !== -1 && itemP.refundStatus === '0'">Stockout</span>
+                            <span class="stockout-box ml-2" ng-if="itemP.orderId.indexOf('SY') !== -1 && itemP.refundStatus === '1'">Refunded (Stockout)</span>
+                          </a>
+                          <span class="tooltiptext">
+                            {{itemP.sku}}
+                            <i class="iconfont iconfuzhi copyIcon" ng-click="handleCopy(itemP.sku)"></i>
+                          </span>
+                        </div>
+                      </td>
+                      <td class="li-pro-price notranslate" style="width:13%">${{itemP.price}}</td>
+                      <td class="li-linkx" style="width:5%">×</td>
+                      <td class="li-pro-quan" style="width:13%">
+                        <p style="font-size: 12px;">{{itemP.totalNum}}</p>
+                        <p ng-if="itemP.allocated>0" style="font-size: 12px;">({{itemP.allocated}} Stocked)</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="5" height="5"></td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="li-status" ng-if="item.orderSourceType && item.orderSourceType !== 'CJPAY'">
+                  <ul>
+                    <li>Via Chrome Extension</li>
+                  </ul>
+                </td>
+                <td class="li-status" ng-if="!item.orderSourceType || item.orderSourceType === 'CJPAY'">
+                  <ul ng-if="item.impStorageFlag == ''">
+                    <li ng-if="item.status == 3">
+                      Awaiting Payment
+                      <tips ng-show="item.paymentSign == '1'" content="'Your payment transaction failed. Please check it and try again.'"
+                          width="'266'"
+                          placement="'bottomRight'">
+                      </tips>
+                    </li>
+                    <li ng-if="item.status == 10">Paid</li>
+                    <li ng-if="item.status == 5">Refunded</li>
+                    <li ng-if="item.status == 11">Payment Incoming</li>
+                    <li ng-if="item.status == 6 || item.status == 67">Pending Shipment</li>
+                    <li ng-if="item.status == 12">Dispatched</li>
+                    <li ng-if="item.status == 12" style="margin-top: 8px;">
+                      <a href="{{'https://cjpacket.com/?trackingNumber=' + item.trackingNumber}}" target="_blank" class="ui-btn btn-theme">Track</a>
+                    </li>
+                    <li ng-if="item.status == 13">Closed</li>
+                    <li ng-if="item.status == 14">Completed</li>
+                  </ul>
+                  <ul ng-if="item.impStorageFlag == 'ISIMP'">
+                    <li ng-if="item.status == 3">
+                      Awaiting Payment
+                      <tips ng-show="item.paymentSign == '1'" content="'Your payment transaction failed. Please check it and try again.'"
+                          width="'266'"
+                          placement="'bottomRight'">
+                      </tips>
+                    </li>
+                    <li ng-if="item.status == 10">Paid</li>
+                    <li ng-if="item.status == 5">Refunded</li>
+                    <li ng-if="item.status == 11">Payment Incoming</li>
+                    <li ng-if="item.status == 6">Pending Stock</li>
+                    <li ng-if="item.status == 7">Stocked</li>
+                    <li ng-if="item.status == 14">Completed</li>
+                    <li ng-if="item.status == 13">Closed</li>
+                  </ul>
+                </td>
+                <td class="li-type" style="width: 10%;" ng-if="item.orderSourceType && item.orderSourceType !== 'CJPAY'">
+                  Inventory
+                </td>
+                <td class="li-type" style="width: 10%;" ng-if="!item.orderSourceType || item.orderSourceType === 'CJPAY'">
+                  {{item.impStorageFlag == '' ? 'Bulk Purchase' : 'Inventory'}}
+                  <p style="font-size: 12px;" ng-show="item.impStorageFlag == 'ISIMP'">({{item.storageNo2Name}})</p>
+                </td>
+                <td class="li-type" style="width: 11%;">
+                  <!-- {{item.trackingNumber}} -->
+                  {{showPoint(item)}}
+                </td>
+                <td class="li-opera" ng-if="item.orderSourceType && item.orderSourceType !== 'CJPAY'">
+                  <div class="operation-dropdown" ng-mouseenter="show_modal_parent = true" ng-mouseleave="show_modal_parent = false">
+                    <div class="operation-dropdown-btn">
+                        Action
+                      <span class="caret"></span>
+                    </div>
+                    <ul class="operation-dropdown-menu" ng-show="show_modal_parent">
+                      <li ng-if="item.status == '3'" ng-click="countryTipFun(item)"><a>Pay</a></li>
+                      <li ng-if="item.status == '3' || item.status == '111' || item.status == '20'" ng-click="cancelOrder(item, $index)"><a>Cancel</a></li>
+                      <li ng-if="item.status == '12'" ng-click="confirmReceive(item, $index)"><a>Confirm Received</a></li>
+                      <li ng-if="item.status == '3' || item.status == '10'"><a ng-href="invoice.html?id={{item.id}}&type=CJPAY" target="_blank">View Invoice</a></li>
+                      <li ng-if="item.status == '20'" ng-click="handleViewDetail(item)"><a>Sourcing Details</a></li>
+                      <li ng-if="item.supplierLink"><a target="_blank" ng-href="{{item.supplierLink}}">Product Link</a></li>
+                    </ul>
+                  </div>
+                </td>
+                <td class="li-opera" ng-if="!item.orderSourceType || item.orderSourceType === 'CJPAY'">
+                  <div class="operation-dropdown" ng-mouseenter="show_modal_parent = true" ng-mouseleave="show_modal_parent = false">
+                    <div class="operation-dropdown-btn">
+                        Action
+                      <span class="caret"></span>
+                    </div>
+                    <ul class="operation-dropdown-menu" ng-show="show_modal_parent">
+                      <li ng-if="item.status == 3" ng-click="countryTipFun(item)"><a>Pay</a></li>
+                      <li ng-if="item.status == 3" ng-click="cancelOrder(item, $index)"><a>Cancel</a></li>
+                      <li ng-if="item.status == 12" ng-click="confirmReceive(item, $index)"><a>Confirm Received</a></li>
+                      <li><a ng-href="invoice.html?id={{item.id}}&type=CJPAY" target="_blank">View Invoice</a></li>
+                      <li ng-click="ordLogFun(item.id)"><a>Product Status</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <div class="asj-order-total">
+              {{item.orderNumber}}
+              Unit<span ng-show="item.orderNumber>1">s</span>&nbsp;&nbsp;&nbsp;
+              Amount:
+              <span class="bigSize notranslate text-theme">
+                ${{item.orderMoney}}
+              </span>
+              <span ng-if="(item.discountFromMoney * 1) > (item.orderMoney * 1)" style="text-decoration: line-through;color: #999;font-size: 12px;" class="notranslate">
+                ${{item.discountFromMoney}}
+              </span>
+              <span ng-if="item.impStorageFlag == ''">(Shipping Cost Included)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <page ng-show="purchaseList.length > 0"></page>
+      <!-- 默认图片展示 -->
+      <div class="asj-default-imgbox" ng-show="noData">
+        <img class="default-img" src="static/image/page/purchase_default.png">
+        <p class="default-msg">You don't have any purchasing list. </p>
+        <a class="mycj-btn-default" href="#/goods">Add Purchase</a>
+        <a class="mycj-btn-default" href="#/cart">Purchase Cart</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="com-tan-wrap" ng-show="confirmReceiveFlag" ng-cloak>
+  <div class="common-tan-sty1">
+    <div class="tan-content" style="display: flex;justify-content:center;align-items: center;height: 120px;">
+      <p class="one-line" style="line-height: 60px;">Are you sure to confirm received?</p>
+    </div>
+    <div class="tan-btns">
+      <a class="tan-btn0" style="display: flex;justify-content:center;align-items: center;line-height: 20px;" ng-click="confirmReceiveFlag=false;operateItem=null;">Cancel</a>
+      <a class="tan-btn1" style="display: flex;justify-content:center;align-items: center;line-height: 20px;" ng-click="goConfirmRexeive()">Confirm</a>
+    </div>
+  </div>
+</div>
+
+<div class="com-tan-wrap" ng-show="cancelOrderFlag" ng-cloak>
+  <div class="common-tan-sty1">
+    <div class="tan-content" style="display: flex;justify-content:center;align-items: center;height: 120px;">
+      <p class="one-line" style="line-height: 60px;">Are you sure to cancel the order?</p>
+    </div>
+    <div class="tan-btns">
+      <a class="tan-btn0" style="display: flex;justify-content:center;align-items: center;line-height: 20px;" ng-click="cancelOrderFlag=false;operateItem=null;">Cancel</a>
+      <a class="tan-btn1" style="display: flex;justify-content:center;align-items: center;line-height: 20px;" ng-click="goConfirmCancel()">Confirm</a>
+    </div>
+  </div>
+</div>
+<!-- 纠纷的弹框 -->
+<div class="dispute-wrap" ng-show="disputeFlag">
+  <div class="dispute-con">
+    <div class="top-tips">
+      <p class="tt-ptext">
+        Please upload dispute detail.
+      </p>
+    </div>
+    <div class="dispute-sel">
+      <select class="sel-jfres">
+        <option value="">Please select a reason for dispute</option>
+        <option value="No Tracking Information Found">No Tracking Information Found</option>
+        <option value="Tracking Information Frozen">Tracking Information Frozen</option>
+        <option value="Tracking Information Error">Tracking Information Error</option>
+        <option value="Order Returned">Order Returned</option>
+        <option value="Products Short">Products Short</option>
+        <option value="Defective Products">Defective Products</option>
+        <option value="Received Incorrect Products">Received Incorrect Products</option>
+        <option value="Order Not Received">Order Not Received</option>
+        <option value="Lack Of Inventory">Lack of Inventory</option>
+        <option value="Unfilled Orders Cancellation">Unfulfilled Orders Cancellation</option>
+      </select>
+    </div>
+    <div class="dispute-tip">
+      <p class="dispute-tiptext">
+        The screenshot of buyer complains (email address included) and images of parcel are required for this kinds of
+        dispute.
+      </p>
+    </div>
+    <div class="dispute-sel">
+      <select class="sel-wantway">
+        <option value="">Please select expected result</option>
+        <option value="Refund">Refund</option>
+      </select>
+    </div>
+    <div class="dispute-upimgs">
+      <img ng-repeat="item in imgArr track by $index" ng-click="viewBigImg(item)" class="before-img" ng-src="{{item}}">
+      <div class="upload-img">
+        <img class="upload-plusimg" src="static/image/public-img/plus.png">
+        <input type="file" multiple ng-model="documentupload2" id="document-img"
+          onchange="angular.element(this).scope().upLoadImg4(this.files)">
+      </div>
+    </div>
+    <div class="dispute-textarea">
+      <textarea ng-model="disTextareaVal"></textarea>
+    </div>
+    <div class="bottom-btns">
+      <button ng-click="closeJfFun()" class="dp-cancel-btn">Cancel</button>
+      <button ng-click="sureJfFun()" class="dp-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<div class="confirm-box f-center" ng-show="showCountryTip">
+  <div class="confirm-main">
+    <div class="confirm-title">
+      {{holidayTips.title}}
+    </div>
+    <div class="confirm-content" ng-bind-html="holidayTips.content">
+    </div>
+    <div class="confirm-btn-box">
+      <span ng-click="showCountryTip=false" class="no-btn">Cancel</span>
+      <span ng-click="payMoney()" class="yes-btn btn-theme">Accept</span>
+    </div>
+  </div>
+</div>
+<div class="confirm-box ordlog-wrap" ng-show="ordLogFlag">
+  <div class="confirm-main">
+      <div class="confirm-title">
+        Order Logs
+      </div>
+      <div class="confirm-content">
+          <div class="editmess-top" ng-show="logData.length>0">
+            <div class="ordlog-line" ng-repeat="item in logData">
+              <div class="ordlog-line-time">{{item.createdate | date:'yyyy-MM-dd hh:mm:ss'}}</div>
+              <div>{{item.translation}}</div>
+            </div>
+        </div>
+        <div class="editmess-top nodata-box" ng-show="logData.length<1">No record yet.</div>
+      </div>
+      <div class="confirm-btn-box">
+          <span ng-click="ordLogFlag=false" class="no-btn">Close</span>
+      </div>
+  </div>
+</div>
+<loading-cart el="'.mycj-right-bar'" ng-if="loading"></loading-cart>
+<!-- 点击复制sku的input -->
+<input id="copySku" type="text" value="" style="opacity: 0;height: 0;">
+<stockout-notice></stockout-notice>

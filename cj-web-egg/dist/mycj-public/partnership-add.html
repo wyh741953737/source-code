@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+  <meta charset="UTF-8">
+  <title>Dropshipping from Worldwide to Worldwide!</title>
+	<!-- bootstrap.css -->
+  <link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<!-- reset.css -->
+  <link rel="stylesheet" type="text/css" href="static/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="static/css/home-common.css">
+	<!--公共头部-->
+  <link rel="stylesheet" type="text/css" href="static/components/headerandfooters/common-header.css">
+	<!-- 公共底部 -->
+  <link rel="stylesheet" type="text/css" href="static/components/headerandfooters/common-footer.css">
+	<!--商品展示card-->
+  <link rel="stylesheet" type="text/css" href="static/components/product_card/product_card.css">
+	<!--loading-->
+  <link rel="stylesheet" href="static/loading/loading.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_jbbgmgksp7p.css">
+
+	<!-- board.css -->
+	<!-- <link rel="stylesheet" href="static/activity/board/css/board.css"> -->
+  <link rel="stylesheet" href="static/css/workOrders.css">
+  <link rel="stylesheet" href="static/components/intel_guid/intel-guid.css">
+  <link rel="stylesheet" href="static/css/partnership.css">
+  <script src="https://cc-west-usa.oss-accelerate.aliyuncs.com/web/cjweb/lottie.js"></script>
+	<!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '544649226705462');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=544649226705462&ev=PageView&noscript=1"
+  /></noscript>
+ <!-- End Facebook Pixel Code -->
+
+	<!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFZM5BM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+  </noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager -->
+  <script>
+    ;(function (w, d, s, l, i) {
+	    w[l] = w[l] || [];
+	    w[l].push({
+		    'gtm.start':
+			    new Date().getTime(), event: 'gtm.js'
+	    });
+	    var f = d.getElementsByTagName(s)[0],
+		    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+	    j.async = true;
+	    j.src =
+		    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+	    f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PFZM5BM');
+  </script>
+	<!-- End Google Tag Manager -->
+	<!-- Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-965740562"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+	    dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'AW-965740562');
+  </script>
+  <!-- End Global site tag (gtag.js) - Google Ads: 965740562 - 再营销 -->
+
+  <!-- cj 通用工具库 [上传图到OSS、播放视频、md5、base64、uuid] -->
+  <script src="https://miandan.cjdropshipping.com/js-lib/utils.1.0.0.js"></script>
+<script src="static/js/public/commonScriptImport.js"></script>
+</head>
+<body ng-app="partnership-app" ng-controller="partnershipController" ng-cloak>
+<div class="board-warp">
+  <!--公共头部-->
+  <common-header></common-header>
+
+  <!-- 内容区域 -->
+
+	<div class="bg-box" ng-cloak>
+		<div class="partnership-box" ng-show="!$root.isSwitch">
+			<div class="bg-img-wrap"></div>
+    <div class="partnership-header">
+      <h2 class="partnership-header-title">Let’s work together!</h2>
+      <p class="partnership-header-content">We will deal with your application in 24 hours.</p>
+      <p class="partnership-header-content">Please email <span class="text-warn">support@cjdropshipping.com </span>if you have any doubts.</p>
+    </div>
+    <div class="partnership-content" ng-click="closePartnerType($event)">
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left align-center" ng-click="dad()">
+            <span><i class="text-danger">* </i>Name</span>
+          </div>
+          <div class="partnership-box-right">
+            <input ng-class="{borderErr:applicantNameFlag}"
+              class="partnership-right-input"
+              placeholder=""
+              ng-keyup="applicantNameInput()"
+              ng-change="applicantNameInput()"
+              type="text"
+              maxlength="40"
+              ng-model="applicantName">
+              <div style="height: 32px;" ng-show="!applicantNameFlag"></div>
+              <div ng-show="applicantNameFlag">
+                <p class="error-message" style="line-height: 20px;text-align:left;padding: 14px 0;color: #F24724;" ng-cloak>{{applicantNameErrorMsg}}</p>
+              </div>
+              <!-- <div style="height: 32px;" ng-cloak>
+                <p style="line-height: 20px;padding: 5px 0;" class="error-message" ng-show="emailFlag" ng-cloak>{{emailVerifyErrorMsg}}</p>
+              </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left align-center">
+            <span><i class="text-danger">* </i>Email</span>
+          </div>
+          <div class="partnership-box-right">
+            <input ng-class="{borderErr:emailFlag}"
+              class="partnership-right-input"
+              placeholder=""
+              ng-keyup="emailInput()"
+              ng-change="emailInput()"
+              type="text"
+              maxlength="40"
+              ng-model="email">
+              <div style="height: 32px;" ng-show="!emailFlag"></div>
+              <div ng-show="emailFlag">
+                <p class="error-message" style="line-height: 20px;text-align:left;padding: 14px 0;color: #F24724;" ng-cloak>{{emailVerifyErrorMsg}}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left align-center">
+            <span><i class="text-danger">* </i>Website Name</span>
+          </div>
+          <div class="partnership-box-right">
+            <input ng-class="{borderErr:partnerNameFlag}"
+              class="partnership-right-input"
+              placeholder=""
+              ng-keyup="partnerNameInput()"
+              ng-change="partnerNameInput()"
+              type="text"
+              maxlength="40"
+              ng-model="partnerName">
+              <!-- <p class="error-message" ng-bind-html="partnerNameVerifyErrorMsg" ng-show="partnerNameFlag" ng-cloak></p> -->
+              <div style="height: 32px;" ng-show="!partnerNameFlag"></div>
+              <div ng-show="partnerNameFlag">
+                <p style="line-height: 20px;text-align:left;padding: 14px 0;color: #F24724;" class="error-message" ng-cloak>{{partnerNameVerifyErrorMsg}}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left align-center">
+            <span><i class="text-danger">* </i>URL</span>
+          </div>
+          <div class="partnership-box-right">
+            <input ng-class="{borderErr:partnerUrlFlag}"
+              class="partnership-right-input"
+              placeholder=""
+              ng-keyup="partnerUrlInput()"
+              ng-change="partnerUrlInput()"
+              type="text"
+              maxlength="255"
+              ng-model="partnerUrl">
+              <!-- <p class="error-message" ng-bind-html="partnerUrlVerifyErrorMsg" ng-show="partnerUrlFlag" ng-cloak></p> -->
+              <div style="height: 32px;" ng-show="!partnerUrlFlag"></div>
+              <div ng-show="partnerUrlFlag">
+                <p style="line-height: 20px;text-align:left;padding: 14px 0;color: #F24724;" class="error-message" ng-cloak>{{partnerUrlVerifyErrorMsg}}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left">
+            <span><i class="text-danger">* </i>Logo</span>
+          </div>
+          <div class="partnership-box-right">
+            <div style="width: 360px;">
+
+              <div class="res-upload-div">
+                <form class="pull-left ng-pristine ng-valid" action="" method="post" enctype="multipart/form-data">
+                  <input type="file" class="upimg-inp ng-pristine ng-untouched ng-valid ng-empty upload_file"
+                    ng-model="documentupload2" id="file" accept="image/*" multiple=""
+                    onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display: none;">
+                </form>
+                <label class="up-bg-div" for="file">
+                  <div class="up-bg-img" ng-if="imgArr.length==0">
+                    <img src="./static/image/ticket-list/uploadImg.png" style="width:37px;height: 32px;">
+                    <p>Upload Image</p>
+                  </div>
+                  <div ng-if="imgArr.length>0" ng-cloak class="img-uploadTxt" ng-mouseenter="showUploadTxt()" ng-mouseleave="hideUploadTxt()">
+                    <img ng-src="{{imgArr[0]}}" style="width:98px;height:98px;border-radius: 4px;" ng-cloak>
+                    <p ng-show="uploadTxtFlag" class="" ng-class="{uploadTxt:uploadTxtFlag}">Upload Image</p>
+                  </div>
+                </label>
+              </div>
+              <div style="height: 32px;" ng-show="!partnerLogoFlag"></div>
+              <div ng-show="partnerLogoFlag">
+                <p class="error-message" style="line-height: 20px;text-align:left;padding: 14px 0;color: #F24724;" ng-cloak>{{partnerLogoVerifyErrorMsg}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left align-center">
+            <span><i class="text-danger">* </i>Type</span>
+          </div>
+          <div class="partnership-box-right">
+            <div class="partnership-right-partnertype">
+              <div class="partnership-right-partnertype-sel" ng-click="openPartnerType($event)">
+                <!-- <input value={{partnerTypeName}} type="text" class="partnership-right-input" readonly> -->
+                <p ng-bind-html='partnerTypeName' class="partnership-right-input" style="line-height:40px;text-align:left;text-indent:12px;"></p>
+                <span class="iconfont iconshou partnership-partnertype-arrow"></span>
+              </div>
+              <div class="partnership-right-partnertype-list" ng-show="selectFlag" ng-cloak>
+                <ul ng-mouseleave="closePartnerType($event)">
+                  <!-- <li ng-click="getPartnerType('')" ng-mouseenter="handleSelected('')" ng-mouseleave="cancleSelected()" ng-class="{selected:!currentType}">
+                    <span class="partner">please select</span>
+                    <span class="iconfont iconduihao partnership-partnertype-selected" ng-show="!currentType"></span>
+                  </li> -->
+                  <li ng-click="getPartnerType(i)" ng-repeat='i in typeList' ng-mouseenter="handleSelected(i)" ng-mouseleave="cancleSelected()" ng-class="{selected:currentType == i.partnerType}" ng-cloak >
+                    <span class="partner">{{i.partnerTypeName}}</span>
+                    <span class="iconfont iconduihao partnership-partnertype-selected" ng-show="currentType == i.partnerType"></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+
+            <!-- <select ng-model="partnerType" ng-change="handleTypeChange()" class="partnership-right-input for-select">
+              <option value=''>please select</option>
+              <option ng-repeat='i in typeList' value="{{i.partnerType}}" class="partnership-content-label-option">{{i.partnerTypeName}}</option>
+            </select> -->
+            <div style="height: 30px;" ng-show="!partnerTypeFlag"></div>
+            <div ng-show="partnerTypeFlag">
+              <p style="line-height: 20px;text-align:left;padding: 13px 0;color: #F24724;" class="error-message" ng-cloak>{{partnerTypeVerifyErrorMsg}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left">
+            <span><i class="text-danger">* </i>Website Description</span>
+          </div>
+          <div class="partnership-box-right">
+            <textarea ng-model="description" class="partnership-content-label-textarea te-h106" ng-class="{borderErr:descriptionFlag}" maxlength="150" ng-keyup="descriptionInput()" ng-change="descriptionInput()" style="overflow-x:hidden; overflow-y:hidden;"></textarea>
+            <!-- <p class="error-message" ng-bind-html="descriptionVerifyErrorMsg" ng-show="descriptionFlag" ng-cloak></p> -->
+            <div style="height: 32px;" ng-show="!descriptionFlag"></div>
+            <div ng-show="descriptionFlag">
+              <p class="error-message" style="line-height: 20px;text-align:left;padding: 14px 0;color: #F24724;" ng-cloak>{{descriptionVerifyErrorMsg}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="partnership-content-main">
+        <div class="partnership-content-box">
+          <div class="partnership-box-left">
+            <span><i class="text-danger">* </i>Cooperation Goals</span>
+          </div>
+          <div class="partnership-box-right">
+            <textarea ng-model="partnerIntention" class="partnership-content-label-textarea te-h186" maxlength="500" ng-keyup="intentionsInput()" ng-change="intentionsInput()" style="overflow-x:hidden; overflow-y:hidden;"></textarea>
+            <div ng-show="intentionsFlag">
+              <p class="error-message" style="line-height: 20px;text-align:left;padding: 14px 0;color: #F24724;" ng-cloak>{{intentionsVerifyErrorMsg}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="submit-btn-wrap" id="login">
+        <div class="submit-btn">
+          <p ng-click="handleSubmit($event)">Submit</p>
+        </div>
+      </div>
+    </div>
+		</div>
+	</div>
+
+</div>
+<script src="https://www.dwin1.com/21578.js" type="text/javascript" defer="defer"></script>
+</body>
+<!-- angular -->
+<script src="static/js/public/jquery-3.0.0.min.js"></script>
+<script src="static/angular-1.5.8/angular.min.js"></script>
+<script src="static/angular-1.5.8/angular-sanitize.min.js"></script>
+<script src="static/layer/layer.js"></script>
+<script src="static/js/public/config.js"></script>
+<script src="static/js/public/common.js"></script>
+<script src="static/js/public/base64.min.js"></script>
+<script src="static/providers/filter/filter.js"></script>
+<script src="static/providers/utils/utils.js"></script>
+<!-- js -->
+<script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<!-- myCJ.js -->
+<script src="static/js/myCJ/myCJ-old.js"></script>
+<script src="static/js/home/home-common.js"></script>
+<!--消息模块-->
+<script src="static/js/cjmsg/cjmsg.js"></script>
+<!--公共头部-->
+<script src="static/components/headerandfooters/common-header.js"></script>
+<!-- 公共底部 -->
+<script src="static/components/headerandfooters/common-footer.js"></script>
+<!--商品展示卡片-->
+<script src="static/components/product_card/product_card.js"></script>
+<!-- workOrders.js -->
+<!-- <script src="static/components/work_orders/workOrders.js"></script> -->
+<!-- board.js -->
+<!-- <script src="static/activity/board/js/board.js"></script> -->
+<script src="./static/js/partnership/partnership.js"></script>
+<!--加载层-->
+<script src="static/loading/loading.js"></script>
+<script src="static/providers/cjdot/cjdot.js"></script>
+<!-- 智能引导 -->
+<script src="static/components/intel_guid/intel-guid.js"></script>
+</html>

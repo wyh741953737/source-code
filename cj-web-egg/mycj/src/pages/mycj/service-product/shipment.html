@@ -1,0 +1,1536 @@
+<style>
+  .spzd-wrap .confirm-btn,
+  .shipping-fee-btn .confirm-btn,
+  .service-table .download {
+    width: 88px;
+    height: 40px;
+    color: #fff;
+    border-radius: 2px;
+  }
+
+  .spzd-wrap .form-btn .confirm {
+    color: #fff;
+  }
+  .mycj-right-bar {
+    background-color: #F0EDE7;
+    padding: 0;
+  }
+  .search-box-wrap .nav-box {
+    float: left;
+    height: 58px;
+    line-height: 58px;
+  }
+
+
+  .service-table .look {
+    width: 60px;
+    height: 28px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  .waybill .not {
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+    border: 1px solid #F3F3F3;
+  }
+
+  .search-box-wrap .search-box {
+    width: 40%;
+    margin: 0;
+  }
+
+  .search-box-wrap .form-input {
+    width: 70%;
+    height: 38px;
+    padding-left: 10px;
+    border-radius: 2px 0px 0px 2px;
+    border: 1px solid #e0e0e0;
+  }
+
+
+  .cj-load-wrap {
+    padding: 20px 25px;
+    margin-top: 10px;
+    background-color: #fff;
+  }
+
+  .service-table {
+    width: 100%;
+    text-align: center;
+    border: 1px solid #F3F3F3;
+  }
+  .service-table td {
+    height: 80px;
+    font-size: 12px;
+    font-weight: 400;
+    border-bottom: 1px solid #f3f3f3;
+    color: rgba(51, 51, 51, 1);
+  }
+
+  .service-table .td-img {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .service-table .td-img img:last-child {
+    position: absolute;
+    max-width: 400px;
+    max-height: 400px;
+    width: 300px;
+    height: auto;
+    left: 100%;
+    bottom: 0;
+    display: none;
+    z-index: 99;
+  }
+
+  .service-table .td-img:hover img:last-child {
+    display: block;
+  }
+
+  .cj-load-wrap .pull-down img {
+    width: 20px;
+  }
+
+  .service-table .tr_son_wrap {
+    display: flex;
+  }
+
+  .service-table .tr_son_wrap div {
+    height: 80px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #f3f3f3;
+  }
+
+  .service-table .cur {
+    cursor: pointer;
+  }
+
+  .service-table .tr_box td:first-child {
+    width: 30%;
+    padding: 0 10px;
+  }
+
+  .cj-load-wrap .service-table .img {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+  }
+
+  .cj-load-wrap .service-table .btn {
+    display: inline-block;
+    padding: 0;
+    width: 60px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 4px;
+    border: 1px solid #c1c1c1;
+    box-shadow: 0px -1px 3px 0px rgba(170, 166, 166, 0.5);
+  }
+
+  .service-table .item-content {
+    text-align: center;
+  }
+
+  .service-table .item-content .batch {
+    margin-right: 8px;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .service-table .item-content .download {
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    border-radius: 4px;
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .spzd-wrap h4 {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: PingFangSC-Medium;
+    color: #333;
+  }
+
+  .spzd-wrap {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .spzd-wrap .spaz-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .spzd-wrap .sing-order {
+    width: 700px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+
+  .spzd-wrap .sing-order .order-top {
+    position: relative;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+  }
+
+  .spzd-wrap .order-top .glyphicon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+  }
+
+  .spzd-wrap .order-table {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .spzd-wrap .order-table thead {
+    height: 40px;
+    background-color: #F0EDE7;
+    border-radius: 4px 4px 0px 0px;
+  }
+
+  .spzd-wrap .order-table tbody tr {
+    border: 1px solid #f3f3f3;
+  }
+
+  .spzd-wrap .order-table th {
+    height: 40px;
+  }
+
+  .spzd-wrap .order-table td {
+    height: 40px;
+  }
+
+  .spzd-wrap .order-table th,
+  .spzd-wrap .order-table td {
+    text-align: center;
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: #333;
+    border-right: 0;
+  }
+
+  .spzd-wrap .Refusal {
+    width: 1100px;
+    padding: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+  }
+
+  .spzd-wrap .Refusal-top {
+    position: relative;
+  }
+
+  .spzd-wrap .Refusal h4 {
+    height: 22px;
+    line-height: 22px;
+    font-family: PingFangSC-Medium;
+  }
+
+  .spzd-wrap .Refusal .glyphicon-remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .spzd-wrap .Refusal-table {
+    width: 100%;
+    margin: 20px 0 38px 0;
+  }
+
+  .spzd-wrap .Refusal-table thead {
+    background-color: #F0EDE7;
+  }
+
+  .spzd-wrap .Refusal-table tbody {
+    border-left: 1px solid#f3f3f3;
+    border-right: 1px solid#f3f3f3;
+  }
+
+  .spzd-wrap .Refusal-table th,
+  .spzd-wrap .Refusal-table td {
+    border: 0;
+    color: #333;
+    font-family: PingFangSC-Regular;
+  }
+
+  .spzd-wrap .Refusal-table td {
+    padding: 0 5px;
+    height: 70px;
+    text-align: center;
+    font-size: 12px;
+    border-bottom: 1px solid#f3f3f3;
+  }
+
+  .spzd-wrap .Refusal-table td:first-child {
+    width: 30%;
+  }
+
+  .spzd-wrap .Refusal-table .color1 {
+    color: #FF1B1B;
+  }
+
+  .spzd-wrap .Refusal-table .color2 {
+    color: #08ACEB;
+  }
+
+  .spzd-wrap .Refusal-table img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .spzd-wrap .Refusal-btn {
+    text-align: center;
+  }
+
+  .spzd-wrap .Refusal-btn button {
+    width: 140px;
+    height: 30px;
+    border-radius: 4px;
+  }
+
+  .spzd-wrap .Refusal-btn button:first-child {
+    margin-right: 15px;
+    border: 1px solid #C1C1C1;
+    color: #666;
+  }
+
+  .spzd-wrap .Refusal-btn button:last-child {
+    color: #666;
+    height: 32px;
+    color: #fff;
+  }
+
+  .spzd-wrap .notification {
+    border-radius: 6px;
+    width: 500px;
+    padding: 30px;
+    background-color: #fff;
+  }
+
+  .spzd-wrap .head {
+    height: 22px;
+    line-height: 22px;
+    font-size: 16px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .spzd-wrap .main {
+    margin: 20px 0 30px 0;
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: #666;
+  }
+
+  .spzd-wrap .btn-box {
+    text-align: right;
+    color: #fff;
+  }
+
+  .spzd-wrap .btn-box button {
+    width: 88px;
+    font-size: 14px;
+    font-family: PingFangSC-Medium;
+  }
+
+  .down-batchimg {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+
+  .online-wrap {
+    position: absolute;
+    top: 248px;
+    right: 125px;
+  }
+
+  p.online-content {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 1px 2000px;
+  }
+
+  .online-wrap2>p.online-content {
+    width: 202px;
+    height: 214px;
+  }
+
+  .online-wrap3>p.online-content {
+    width: 85px;
+    height: 40px;
+  }
+
+  .img1 {
+    position: absolute;
+    top: 47px;
+    left: -80px;
+  }
+
+  .img2 {
+    position: absolute;
+    top: 60px;
+    left: -60px;
+  }
+
+  .img3 {
+    position: absolute;
+    left: 30px;
+    top: -20px;
+  }
+
+  p.online-notice {
+    width: 600px;
+    color: #fff;
+    position: absolute;
+    top: 170px;
+    left: -500px;
+  }
+
+  p.know {
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 50%;
+    width: 100px;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    top: 210px;
+    left: -190px;
+    cursor: pointer;
+  }
+
+  .spzd-wrap {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .spzd-wrap .spzd-wrap-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .spzd-wrap .tracking {
+    width: 530px;
+    font-family: PingFangSC-Medium;
+    background-color: #fff;
+    border-radius: 4px;
+  }
+
+  .tracking .tracking_top {
+    position: relative;
+    text-align: center;
+    background-color: #F0EDE7;
+  }
+
+  .tracking h3 {
+    height: 45px;
+    line-height: 45px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: PingFangSC-Medium;
+    color: #333;
+  }
+
+  .tracking .tracking_top .intracking_top {
+    position: absolute;
+    top: 12px;
+    right: 160px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .fausebox1 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -54%);
+    width: 800px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    z-index: 2000;
+  }
+
+  .fausebox1 .title {
+    display: flex;
+    margin-bottom: 5px;
+  }
+
+  .fausebox1 .title span {
+    width: 110px;
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  .fausebox1 .title p {
+    flex: 1;
+    font-size: 14px;
+  }
+
+  .fausebox1:after {
+    content: '';
+    border-color: transparent transparent rgba(0, 0, 0, 0.75) transparent;
+    border-style: solid;
+    border-width: 8px;
+    height: 0;
+    width: 0;
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  .fausebox1:after {
+    position: absolute;
+    top: -15px;
+    right: 295px;
+  }
+
+  .spzd-wrap .form {
+    height: 390px;
+    padding: 20px 0 0 18px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    overflow: auto;
+  }
+
+  .spzd-wrap .form-item {
+    margin-bottom: 20px;
+    padding-right: 16px;
+  }
+
+  .spzd-wrap .form-item-label {
+    float: left;
+    width: 155px;
+    line-height: 38px;
+    text-align: right;
+    vertical-align: middle;
+    box-sizing: border-box;
+  }
+
+  .spzd-wrap .form-radio:last-child {
+    margin-left: 10px;
+  }
+
+  .spzd-wrap .form-item-content {
+    margin-left: 190px;
+    line-height: 38px;
+    position: relative;
+  }
+
+  .spzd-wrap .form-item-money {
+    margin-bottom: 5px;
+  }
+
+  .spzd-wrap .form-item-money .form-item-content {
+    margin-left: 170px;
+    text-align: right;
+  }
+
+  .spzd-wrap .input-inner {
+    width: 305px;
+    height: 38px;
+    line-height: 38px;
+    border-radius: 4px;
+    border: 1px solid #E4E4E4;
+    box-sizing: border-box;
+    padding: 0 15px;
+  }
+
+  .spzd-wrap .form-radio {
+    color: #606266;
+    font-weight: 500;
+    line-height: 1;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
+    outline: none;
+    font-size: 14px;
+  }
+
+  .spzd-wrap .form-radio.disabled {
+    cursor: not-allowed !important;
+    pointer-events: auto;
+  }
+
+  .spzd-wrap .form-radio.disabled span {
+    color: #999;
+    cursor: not-allowed !important;
+  }
+
+  .spzd-wrap .radio__label {
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    line-height: 1;
+    color: #333;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
+    outline: none;
+    font-size: 14px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .spzd-wrap .radio_input {
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    display: inline-block;
+    line-height: 1;
+    position: relative;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .spzd-wrap .radio__inner {
+    border: 1px solid #dcdfe6;
+    border-radius: 100%;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    box-sizing: border-box;
+  }
+
+  .spzd-wrap .radio__inner:after {
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background-color: #fff;
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform .15s ease-in;
+  }
+
+  .spzd-wrap .radio_input.is-checked .radio__inner {
+    border-color: #F78E29;
+    background: #F78E29;
+  }
+
+  .spzd-wrap.vip .radio_input.is-checked .radio__inner {
+    border-color: linear-gradient(135deg, rgba(252, 193, 83, 1) 0%, rgba(223, 173, 101, 1) 100%);
+    background: linear-gradient(135deg, rgba(252, 193, 83, 1) 0%, rgba(223, 173, 101, 1) 100%);
+  }
+
+  .spzd-wrap .radio_input.is-checked .radio__inner:after {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .spzd-wrap .radio__original {
+    opacity: 0;
+    outline: none;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+  }
+
+  .spzd-wrap .form-item-download .form-item-content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .spzd-wrap .form-item-download span {
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .spzd-wrap .form-item-download .cur {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 25px;
+    top: 5px;
+  }
+
+  .spzd-wrap .download {
+    color: red;
+  }
+
+  .spzd-wrap .form-btn {
+    height: 50px;
+    text-align: center;
+  }
+
+  .spzd-wrap .form-btn button {
+    width: 70px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 4px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+  }
+
+  .spzd-wrap .form-btn button:first-child {
+    margin-right: 15px;
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #C1C1C1;
+  }
+
+
+  .spzd-wrap .shipping-fee {
+    width: 600px;
+    /* height: 320px; */
+    padding: 20px 0;
+    background-color: #fff;
+    border-radius: 6px;
+  }
+
+  .spzd-wrap .shipping-fee-top {
+    padding: 0 38px;
+    border-bottom: 1px solid rgba(88, 88, 88, 0.09);
+  }
+
+  .spzd-wrap .shipping-fee-top h4 {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 16px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .spzd-wrap .shipping-fee-top h4 img {
+    margin-right: 6px;
+  }
+
+  .spzd-wrap .shipping-fee-top .price {
+    width: 404px;
+    height: 60px;
+    font-size: 14px;
+    margin-top: 6px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: #666;
+  }
+
+  .spzd-wrap .shipping-fee-bot {
+    display: flex;
+    height: 276px;
+    padding: 20px;
+    text-align: center;
+    overflow: auto;
+  }
+
+  .spzd-wrap .shipping-fee-bot>div {
+    flex: 1;
+    border: 1px solid #999;
+  }
+
+  .spzd-wrap .shipping-fee-bot .shipping-fee-bot_left {
+    border-right: 0;
+  }
+
+  .spzd-wrap .shipping-fee-bot .fee-title {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #999;
+  }
+
+  .spzd-wrap .shipping-fee-bot .fee-box {
+    padding: 20px 0;
+  }
+
+  .spzd-wrap .shipping-fee-bot .fee-box>div {
+    display: flex;
+  }
+
+  .spzd-wrap .shipping-fee-bot label {
+    width: 165px;
+    text-align: right;
+  }
+
+  .spzd-wrap .shipping-fee-bot span {
+    flex: 1;
+    margin-left: 5px;
+    text-align: left;
+  }
+
+  .spzd-wrap .shipping-fee_hint {
+    width: 480px;
+    height: 340px;
+    padding: 20px 0;
+    background-color: #fff;
+    border-radius: 6px;
+  }
+
+  .spzd-wrap .shipping-fee_hint-top {
+    padding: 0 38px;
+    border-bottom: 1px solid rgba(88, 88, 88, 0.09);
+  }
+
+  .spzd-wrap .shipping-fee_hint-top h4 {
+    height: 22px;
+    line-height: 22px;
+    font-size: 16px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .spzd-wrap .shipping-fee_hint-top .price {
+    width: 404px;
+    height: 60px;
+    font-size: 14px;
+    margin-top: 6px;
+    margin-bottom: 5px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: #666;
+  }
+
+  .spzd-wrap .shipping-fee_hint-bot {
+    height: 162px;
+    padding: 15px 38px;
+    text-align: center;
+    overflow: auto;
+  }
+
+  .spzd-wrap .shipping-fee_hint-bot div {
+    display: flex;
+  }
+
+  .spzd-wrap .shipping-fee_hint-bot label {
+    width: 150px;
+    text-align: right;
+    font-size: 14px;
+  }
+
+  .spzd-wrap .shipping-fee_hint-bot span {
+    flex: 1;
+    margin-left: 5px;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .layui-layer-dialog .layui-layer-content {
+    padding: 40px 20px 20px;
+  }
+
+  .goods-class .layui-layer-btn .layui-layer-btn0 {
+    border-color: #DDA863;
+    color: #DDA863;
+    background: #fff;
+  }
+
+  .goods-class .layui-layer-btn .layui-layer-btn0,
+  .goods-class .layui-layer-btn .layui-layer-btn1 {
+    height: 35px;
+    line-height: 33px;
+    margin: 6px 6px 0 0;
+  }
+
+  .shipping-fee-btn {
+    padding-right: 28px;
+    text-align: right;
+  }
+
+  .shipping-fee-btn .btn {
+    width: 88px;
+    height: 40px;
+    line-height: 26px;
+    text-align: center;
+    border: 0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #fff;
+  }
+
+  .txt-color {
+    cursor: pointer;
+  }
+
+
+  .service-goods .cj-load-wrap .add_tracking,
+  .spzd-wrap .form-box .search-btn,
+  .spzd-wrap .goods-table .add,
+  .service-goods .cj-load-wrap .cancel_goos,
+  .spzd-wrap .shipping-fee-btn .btn {
+    background: #F78E29;
+  }
+
+  .spzd-wrap .search-btn,
+  .spzd-wrap.vip .shipping-fee-btn .btn,
+  .service-goods.vip .cj-load-wrap .add_tracking,
+  .spzd-wrap.vip .form-box .search-btn,
+  .spzd-wrap.vip .goods-table .add,
+  .spzd-wrap.vip .shipping-fee-btn .btn,
+  .service-goods.vip .cj-load-wrap .cancel_goos {
+    background: linear-gradient(135deg, rgba(242, 215, 161, 1) 0%, rgba(223, 173, 101, 1) 100%);
+  }
+
+
+  .search-box-wrap .nav-box li:hover,
+  .search-box-wrap .nav-box .acvive {
+    color: #F78E29;
+  }
+
+  .vip .search-box-wrap .nav-box li:hover,
+  .vip .search-box-wrap .nav-box .acvive {
+    color: #DDA863;
+  }
+
+  .form-text-area {
+    width: 100%;
+    border: 1px solid #E0E0E0;
+    height: 110px;
+    resize: none;
+    text-indent: 12px;
+  }
+
+  .w20img {
+    width: 20px;
+  }
+
+  .alow-type {
+    font-size: 12px;
+    color: #999999;
+  }
+
+  .dispute-upload {
+    display: flex;
+    margin: 22px auto 0;
+  }
+
+  .dispute-upload .upload_wrap {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+  }
+
+  .dispute-upload .upload_wrap li {
+    margin-bottom: 20px;
+    margin-right: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+
+  .dispute-upload .upload_wrap .li-img {
+    width: 104px;
+    height: 104px;
+  }
+
+  .dispute-upload .upload_wrap .img-show {
+    position: relative;
+  }
+
+  .dispute-upload .upload_wrap .before-img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .dispute-upload .upload_wrap .close-img {
+    position: absolute;
+    width: 20px;
+    top: -10px;
+    right: -10px;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .dispute-upload .upload_wrap .upload-img {
+    width: 104px;
+    height: 104px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.02);
+    position: relative;
+  }
+
+  .dispute-upload .upload_wrap .upload_file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 104px;
+    height: 104px;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 0;
+  }
+
+  .dispute-upload .upload_img_wrap img {
+    width: 37px;
+    height: 33px;
+  }
+
+  .dispute-upload .upload_video_wrap img {
+    width: 48px;
+    height: 30px;
+  }
+
+  .tips-con {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+  }
+
+  .fontsize14px {
+    font-size: 14px;
+  }
+
+  .service-goods .goods-table .td-img .apply-big-img {
+    position: absolute;
+    max-width: 400px;
+    max-height: 400px;
+    width: 300px;
+    height: auto;
+    left: -100%;
+    bottom: 0;
+    display: none;
+    z-index: 99;
+  }
+
+  .service-goods .goods-table .td-img:hover .apply-big-img {
+    display: block;
+  }
+
+  .del-btn {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    color: #666666;
+    border-radius: 4px;
+    border: 1px solid #C1C1C1;
+    margin-left: 8px;
+    display: inline-block;
+  }
+</style>
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1265799_d25b02o8asp.css">
+<div class="mycj-home-box PC-wrap service-product-shipment">
+  <div class="mycj-right-wrap waybill">
+    <div class="top-space-bar"></div>
+    <div class="mycj-right-bar PC-w1200 pro-skulist clearfix p-3">
+      <div class="search-box-wrap">
+        <ul class="nav-box">
+          <li ng-class="status == '1' ? 'acvive' : ''" ng-click="navShow('1')">Awaiting Delivery</li>
+          <li ng-class="status == '2' ? 'acvive' : ''" ng-click="navShow('2')">Delivered</li>
+          <li ng-class="status == '4' ? 'acvive' : ''" ng-click="navShow('4')">Completed</li>
+          <li ng-class="status == '3' ? 'acvive' : ''" ng-click="navShow('3')">Rejected</li>
+        </ul>
+        <div class="input-group search-box">
+          <input type="text" ng-model="orderName" ng-keypress="enterSearch($event)" class="form-input" placeholder="Enter SKU/Product Name">
+          <button class="search-btn btn-theme" type="button" ng-click="orderSearch()" cjdot cjdotshow='{"eventType":2}'>Search</button>
+        </div>
+      </div>
+      <div class="cj-load-wrap">
+        <table class="service-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Image</th>
+              <th>SKU</th>
+              <th>
+                <span ng-if="status == '1'">Warehouse</span>
+                <span ng-if="status == '2' || status == '4'">Quantity</span>
+                <span ng-if="status == '3'">Dispatch Time</span>
+              </th>
+              <th>
+                <span ng-if="status == '1'">Tracking Number</span>
+                <span ng-if="status == '2' || status == '4'">Unused</span>
+                <span ng-if="status == '3'">Arrival Time</span>
+              </th>
+              <th>
+                <span ng-if="status == '1'">Quantity</span>
+                <span ng-if="status == '3'">Reason</span>
+                <span ng-if="status == '2' || status == '4'">Warehouse</span>
+              </th>
+              <th ng-if="status == '1'">
+                <span>Dispatch Time</span>
+              </th>
+              <th ng-if="status == '1'">
+                <span ng-if="status == '1'">Batch Number</span>
+                <!-- <span ng-if="status == '3'">Reason</span> -->
+              </th>
+              <th ng-if="status == '2' || status == '4'">Action</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="item in serveOrderList" repeat-finish>
+            <tr class="tr_box" ng-class="status != '1'? 'cur':''">
+              <td>
+                <a href="product-detail.html?id={{item.dbProductId}}" target="_blank"
+                  class="txt-color text-theme new-text-theme">{{item.dbProductNameen}}</a>
+              </td>
+              <td class="td-img">
+                <img src="{{item.dbImages}}" class="img" alt="">
+                <img src="{{item.dbImages}}" class="img" alt="">
+              </td>
+              <td>{{item.dbSku}}</td>
+              <td>
+                <span
+                  ng-if="status == '1'">{{item.storeTypeName}}</span>
+                <span ng-if="status == '2' || status == '4'">{{item.num}}</span>
+                <span ng-if="status == '3'">{{item.deliveryTimeStr | date:'yyyy-MM-dd'}}</span>
+              </td>
+              <td>
+                <span ng-if="status == '1'">{{item.trackingNumber}}</span>
+                <span ng-if="status == '2' || status == '4'" ng-click="lookOrderNum(item, $event)"
+                  class="txt-color text-theme">{{item.residualNum}}</span>
+                <!-- <span ng-if="status == '2' || status == '4'" ng-click="lookOrderNum(item)" class="txt-color text-theme">View</span> -->
+                <span ng-if="status == '3'">{{item.signforTimeStr | date:'yyyy-MM-dd'}}</span>
+              </td>
+              <td>
+                <span ng-if="status == '1'">{{item.num}}</span>
+                <button class="look btn-theme" ng-if="status == '3'" ng-click="lookRefusal(item, $event)">View</button>
+                <span
+                  ng-if="status == '2' || status == '4'">{{item.storeTypeName}}</span>
+              </td>
+              <td ng-if="status == '1'">
+                <span>{{item.deliveryTime}}</span>
+              </td>
+              <td ng-if="status == '1'" style="min-width: 300px;">
+                <div class="item-content">
+                  <span class="batch">{{item.batchNumber}}</span>
+                  <!-- <img ng-if="vipStuFlag==1" class="down-batchimg" id="down-batch{{$index}}"
+                    ng-click="batchDownload(item)" src="static/image/public-img/down-load2x.png">
+                  <img ng-if="vipStuFlag!=1" class="down-batchimg" id="down-batch{{$index}}"
+                    ng-click="batchDownload(item)" src="static/image/public-img/notvip-down.svg"> -->
+                  <i class="iconfont iconxiazai2 downloadIcon" id="down-batch{{$index}}"
+                  ng-click="batchDownload(item)"></i>
+                  <a ng-show="!item.trackingNumber" href="javascript:;" id="input-yd{{$index}}"
+                    ng-click="addTracking(item)" class="download btn-theme">Edit</a>
+                  <a ng-show="!item.trackingNumber" href="javascript:;" class="del-btn"
+                    ng-click="delFun(item)">Delete</a>
+                </div>
+              </td>
+              <td ng-if="status == '2' || status == '4'">
+                <button class="look btn-theme" ng-click="trShow(item, $event, $index)">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <not-data ng-if="notDataFound" nohtml="'Sorry, we cannot find any data.'"></not-data>
+        <!-- <div ng-if="serveOrderList.length < 1" class="not">Sorry, the data is not found.</div> -->
+        <!-- 分页 -->
+        <page ng-show="serveOrderList.length>0"></page>
+        <!-- <div class="asj-page-box" ng-show="serveOrderList.length>0" ng-cloak>
+          <div class="total-num">
+            {{totalPageNum}} records found
+          </div>
+          <div class="page-index" id="page6"> </div>
+          <div class="to-go">
+            <span>showing：</span>
+            <input type="text" class="form-control" placeholder="" ng-model="pageNum">
+            <span>of {{skuTotalPage}}</span>
+            <a class="btn btn-default" href="javascript:void(0)" role="button" ng-click="chanPageNum()">go</a>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 订单弹窗-->
+<div class="spzd-wrap waybill-spzd-wrap" ng-show="singOrderShow || RefusalShow || notificationShow || actionViewFlag">
+  <div class="spaz-box">
+    <!-- 已签收订单查看使用数量 -->
+    <div class="sing-order" ng-show="singOrderShow">
+      <div class="order-top">
+        <h4>Order number</h4>
+        <i class="iconfont glyphicon-remove" ng-click="cancelOrderNum()"></i>
+      </div>
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th>SKU</th>
+            <th>Tracking Number</th>
+            <th>Warehouse</th>
+            <th>Deducted Amount</th>
+            <th>The service amount</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody ng-show="orderNumList.length === 0" ng-cloak>
+          <tr>
+            <td colspan="6">Sorry, we cannot find any data.</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr ng-repeat="item in orderNumList">
+            <td>{{item.dbSku}}</td>
+            <td>{{item.trackingNumber}}</td>
+            <td>{{item.storagedoName}}</td>
+            <td>{{item.num}}</td>
+            <td>{{item.money}}</td>
+            <td>{{item.createTime}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- 查看 -->
+    <div class="Refusal" ng-show="actionViewFlag">
+      <div class="Refusal-top">
+        <h4>Service Products</h4>
+        <i class="iconfont glyphicon-remove" ng-click="actionViewFlag=false"></i>
+      </div>
+      <div class="Refusal-table-box" style="max-height: 400px;overflow: auto;">
+        <table class="Refusal-table" style="width: 99%;">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Image</th>
+              <th>SKU</th>
+              <th>
+                Quantity
+              </th>
+              <th>
+                Received
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in actionVariantList">
+              <td>
+                {{item.create_time.time}}
+              </td>
+              <td>
+                <img src="{{item.stan_img}}" class="img" alt="">
+              </td>
+              <td>
+                {{item.stan_sku}}
+              </td>
+              <td>
+                {{item.actual_num}}
+              </td>
+              <td>
+                {{item.residual_num}}
+              </td>
+              <!-- <td>
+                  {{item.create_user_name}}
+                </td> -->
+            </tr>
+          </tbody>
+        </table>
+        <div style="text-align: center;" ng-if="actionVariantList.length<1">Sorry, we cannot find any data.</div>
+      </div>
+    </div>
+    <!-- 拒签原因 -->
+    <div class="Refusal" ng-show="RefusalShow">
+      <div class="Refusal-top">
+        <h4>Rejection Reasons</h4>
+        <i class="iconfont glyphicon-remove" ng-click="closeRefusal()"></i>
+      </div>
+      <div class="Refusal-table-box">
+        <table class="Refusal-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Image</th>
+              <th>Tracking Number</th>
+              <th>
+                Batch Number
+              </th>
+              <th>
+                Quantity
+              </th>
+              <th>
+                Damaged
+              </th>
+              <th>
+                Received
+              </th>
+              <th>
+                Able to be stocked in
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in orderObj">
+              <td>
+                <a href="product-detail.html?id={{item.dbProductId}}" target="_blank"
+                  class="txt-color text-theme">{{item.dbProductNameen }}</a>
+              </td>
+              <td>
+                <img src="{{item.dbImages}}" class="img" alt="">
+              </td>
+              <td>
+                {{item.trackingNumber}}
+              </td>
+              <td>
+                {{item.batchNumber}}
+              </td>
+              <td>
+                {{item.num}}
+              </td>
+              <td class="color1">
+                {{item.damageNum}}
+              </td>
+              <td ng-if="status != '4'">
+                {{item.actualNum}}
+              </td>
+              <td ng-if="status == '3'" class="color2">
+                {{item.actualNum - item.damageNum}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="Refusal-btn">
+        <button class="cancel-btn" type="button" ng-click="cancelRefusal(orderObj)">Stock in rejected</button>
+        <button class="confirm-btn btn-theme" type="button" ng-click="confrimRefusal(orderObj)">Agree to sign
+          for</button>
+      </div>
+    </div>
+    <!-- 拒签通知 -->
+    <div class="notification" ng-show="notificationShow">
+      <div class="head">
+        <img src="static/image/public-img/tip.svg" alt="">
+        <span>Notification</span>
+      </div>
+      <div class="main">
+        Hi, we have received your request for not stocking your products in our warehouse. Our customer service support
+        would contact you for the details later. Thank you for your patience.
+      </div>
+      <div class="btn-box">
+        <button class="confirm-btn" type="button" ng-click="confirmNotificatio()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--新手指导-->
+<div class="zzc" ng-show="downBatchFlag">
+  <div class="online-wrap fir-zhidao">
+    <p class="online-content" id="online-content1"></p>
+    <img class="img1" src="static/image/Newbie/arrow.png" alt="" />
+    <img class="img2" src="static/image/Newbie/star.png" alt="" />
+    <img class="img3" src="static/image/Newbie/embellish.png" alt="" />
+    <p class="online-notice">“Please download and print this batch number PDF file before inputting the tracking number.
+      After that, please make sure you have stuck the batch number on the parcel.”</p>
+    <p class="know" ng-click="downLoadBatchFun()" style="top: 220px;left: -110px; width: 93px;height: 44px;">I Know</p>
+  </div>
+</div>
+<div class="zzc" ng-show="inputMesFlag">
+  <div class="online-wrap sec-zhidao">
+    <p class="online-content" style="width: 105px;height:52px;" id="online-content1"></p>
+    <img class="img1" src="static/image/Newbie/arrow.png" alt="" />
+    <img class="img2" src="static/image/Newbie/star.png" alt="" />
+    <img class="img3" style="left: 122px;" src="static/image/Newbie/embellish.png" alt="" />
+    <p class="online-notice">“Please make sure you had input the full shipping information and tracking numbers before
+      shipping out.”</p>
+    <p class="know" ng-click="txspFun()" style="top: 210px;left: -110px; width: 93px;height: 44px;">I Know</p>
+  </div>
+</div>
+
+<div class="spzd-wrap" ng-show="txspFlag || shippingFeeHintShow">
+  <!-- 服务商品 -->
+  <div class="spzd-wrap-box">
+    <!-- 添加运单 -->
+    <div class="tracking" ng-show="txspFlag">
+      <div class="tracking_top">
+        <h3>Add Tracking Number</h3>
+        <div class="intracking_top">
+          <!-- <b class="icon" ng-mouseleave="isFause1 = false;" ng-mouseenter="isFause1 = true;"></b> -->
+          <b class="iconfont asj-wuliu-tip-icon" ng-mouseleave="isFause1 = false;"
+            ng-mouseenter="isFause1 = true;">&#xe626;</b>
+        </div>
+      </div>
+      <div class="form">
+        <div class="form-item">
+          <label class="form-item-label">Shipping Label Name :</label>
+          <div class="form-item-content">
+            <input type="text" class="input-inner" ng-model="trackingName">
+          </div>
+        </div>
+        <div class="form-item">
+          <label class="form-item-label">Warehouse :</label>
+          <div class="form-item-content">
+            <select ng-model="storagedoId" ng-options="s.name for s in warehouse" ng-change="stateChange()"
+              class="input-inner"></select>
+          </div>
+        </div>
+        <div class="form-item">
+          <label class="form-item-label">Tracking number :</label>
+          <div class="form-item-content">
+            <input type="text" class="input-inner" ng-model="trackingNumber" ng-blur="quantityBlur()">
+          </div>
+        </div>
+        <div class="form-item">
+          <label class="form-item-label">Quantity :</label>
+          <div class="form-item-content">
+            <input type="text" class="input-inner" placeholder="Please enter quantity" ng-model="num"
+              ng-blur="quantityBlur()" oninput="this.value=this.value.replace(/[^\d]/g,'')">
+          </div>
+        </div>
+        <div class="form-item">
+          <label class="form-item-label">Dispatch time :</label>
+          <div class="form-item-content">
+            <input id="cj-stime" class="input-inner Wdate data-inp"
+              onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',readOnly:true})" placeholder=""></input>
+          </div>
+        </div>
+        <div class="form-item form-item-money" ng-repeat="item in serveMoneyList" ng-if="item.serverMoneyTypeId !='7'">
+          <label class="form-item-label">{{item.itemNameen}} :</label>
+          <div class="form-item-content">
+            <label class="form-radio">
+              <span class="radio__label">Accept</span>
+              <span class="radio_input" ng-class="item.status==1?'is-checked':''">
+                <span class="radio__inner"></span>
+                <input type="radio" name="" class="radio__original" ng-click="radioClick(item, '1')"
+                  ng-model="isRadio1">
+                <!-- <input type="radio" name="" class="show-ds-btn ng-valid ng-dirty ng-valid-parse ng-empty ng-touched checkbox__original" ng-model="isShowPrivatePro"> -->
+              </span>
+            </label>
+            <label class="form-radio" ng-class="item.flag ? '' : 'disabled'">
+              <span class="radio__label">Deny</span>
+              <span class="radio_input" ng-class="item.status==0?'is-checked':''">
+                <span class="radio__inner"></span>
+                <input type="radio" name="" class="radio__original" ng-click="radioClick(item, '0')"
+                  ng-model="isRadio1">
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-btn">
+        <button class="cancel" ng-click="cancelTracking()">Cancel</button>
+        <button class="confirm btn-theme" ng-click="confirmTracking()">Confirm</button>
+      </div>
+    </div>
+    <!-- 运单费用温馨提示 -->
+    <div class="shipping-fee_hint" ng-show="shippingFeeHintShow">
+      <div class="shipping-fee_hint-top">
+        <h4 style="text-align: left;">
+          <img src="static/image/public-img/notification.png" alt="">
+          Shipping fee
+        </h4>
+        <p class="price">Tracking number is added successfully. {{shippingFeeHintMoneyList.days}} days for free storage
+          in Warehouse. Over {{shippingFeeHintMoneyList.days}} days,
+          {{shippingFeeHintMoneyList.moneys}} USD/pc is charged for one-day storage.</p>
+      </div>
+      <div class="shipping-fee_hint-bot">
+        <div ng-repeat="item in shippingFeeHintMoneyList.moneyList">
+          <label>{{item.itemNameen}}</label>:<span> $ {{item.moneys}}</span>
+        </div>
+      </div>
+      <div class="shipping-fee-btn">
+        <button class="confirm-btn btn-theme" ng-click="cancelShippingFeeHint()">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <div class="fausebox1" ng-show="isFause1">
+    <div class="title">
+      <span>Warehouse :</span>
+      <p>Please select the warehouse you are going to place the goods. If the warehouse you selected is different from
+        the final warehouse the goods arrive, we will not refuse to receive it.</p>
+    </div>
+    <div class="title">
+      <span>Tracking Number :</span>
+      <p>The tracking number is provided by you and we will use it to track the goods before arriving. We also use it
+        for telling the goods, we will be unable to recognize the goods if it is different from the cargo we received.
+      </p>
+    </div>
+    <div class="title">
+      <span>Quantity :</span>
+      <p>The quantity should correspond with the goods you had shipped to CJ warehouse. We will let you know how many
+        pcs we had received. We will contact you once the quantity does not correspond.</p>
+    </div>
+    <div class="title">
+      <span>Service Fee :</span>
+      <p>The products have a lot of procedure when coming to the position in warehouse and most of them are by manually.
+        It will cause different fee, some of them are charged by unit and some of them are charged by days/unit. The
+        list below is the fee you might need to pay, please contact the agent if you have any doubt.</p>
+    </div>
+    <div class="title">
+      <span>Batch number :</span>
+      <p>In order to avoid the effect of tracking numbers changes, we will need to add a Unique ID (Batch Number) for
+        this shipment. Please download and print this batch number PDF file so we will know what we are receiving.
+        Please do download it just in case.</p>
+    </div>
+  </div>
+</div>
+
+<div class="spzd-wrap" ng-show="delOrdFlag">
+  <!-- 服务商品 -->
+  <div class="spzd-wrap-box">
+    <!-- 添加运单 -->
+    <div class="tracking" style="width: 326px;">
+      <div class="form" style="height: 60px;">
+        <p>Are you sure to delete this shipment?</p>
+      </div>
+      <div class="form-btn">
+        <button class="cancel" ng-click="delOrdFlag = false">Cancel</button>
+        <button class="confirm btn-theme" ng-click="sureDelFun()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<loading-cart el="'.cj-load-wrap'" bottom="'#router-outlet-wrap'" ng-if="loading"></loading-cart>

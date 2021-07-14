@@ -1,0 +1,1102 @@
+<div class="mycj-home-box relevant-packaging" id="relevant-packaging">
+  <!--右侧内容-->
+  <div class="mycj-right-wrap" style="padding: 0;" ng-class="{vip:vip == '1'}">
+    <div class="mycj-right-bar" style="margin-top: 0;background-color: #f8f8f8;">
+      <div style="width: 1200px;margin: auto;">
+        <!--搜索部分-->
+        <div class="back-box">
+          <a class="back" ng-click="cancel()">〈 Back</a>
+        </div>
+        <!---->
+        <div class="head" style="background-color: #fff;">
+          <strong>Custom Packaging</strong>
+        <div ng-show="itemData.type === '1' || itemData.type === '0'" class="proMsg">
+          <span class="name" ng-attr-title="{{itemData.NAMEEN}}">{{itemData.NAMEEN}}</span>
+          <span>{{itemData.SKU}}</span>
+          <span>{{'$'+itemData.prices}}</span>
+          <span>{{itemData.packweight + 'g'}}</span>
+          <span ng-if="itemData.type === '1'">
+            <span ng-if="itemData.long != ''">Length {{itemData.long+'mm'}}</span>
+            <span ng-if="itemData.width != ''">Width {{itemData.width+'mm'}}</span>
+            <span ng-if="itemData.height != ''">Height {{itemData.height+'mm'}}</span>
+          </span>
+        </div>
+          <span ng-show="isFromPro" class="pickVarBtn" ng-click="onClickViewPackageShow()">
+            <span class="new-pickVarBtn">
+              <i class="iconfont iconzidingyibaozhuang"></i> View Packaging</span>
+            </span>
+          <div ng-show="!isFromPro && itemData.type !== '1'" class="AllProMsg">
+            <p class="name-list">
+              <span class="name-item" ng-repeat="item in itemData" ng-show="itemData">{{item.SKU}};</span>
+            </p>
+            <span class="nameAll" ng-click="openProduct()">All ></span>
+          </div>
+          
+        </div>
+        <div class="item bor title" style="border-bottom: none;">
+          <span class="title">Applied:</span>
+          <!-- <span class="title">Applied to Order:</span> -->
+          <div class="item-rideo" ng-click="matchingChange('1')">
+            <i ng-class="{act:matchingType === '1'}"></i>
+            Applied to Order
+          </div>
+          <!-- <span class="title">Applied to Product:</span> -->
+          <div class="item-rideo" ng-click="matchingChange('0')">
+            <i ng-class="{act:matchingType === '0'}"></i>
+            Applied to Product
+          </div>
+        </div>
+        <div class="tips">
+          {{ matchingType === '0' ? 'Tip:The package will be used for each connected product.' : 'Tip:The package will be used for the order.' }}
+        </div>
+        <!-- Selected 选择 -->
+        <div class="item bor">
+          <div class="title item-selected">Selected:</div>
+          <div class="group-selected-sku">
+            <div class="selected-sku" ng-repeat="(index,item) in skus track by $index" ng-class="{'isproduct':item.matchingType=='1'}">
+              {{item.sku}}
+              <i class="delete-icon iconfont iconguanbi" ng-click="cancelSelectPackageSku(item.sku)"></i>
+              <div class="skutooltip">
+                {{item.matchingType=='0'?'Applied to Product':'Applied to Order'}}
+              </div> 
+            </div>
+
+            <div class="option-num">
+              （{{skus.length}}/{{PACKAGE_LIMIT_NUM}}）
+            </div>
+          </div>
+        </div>
+        <!--<div class="item bor">-->
+        <!--<span class="title">Product quantity:</span>-->
+        <!--<div class="count-box">-->
+        <!--<span class="minus" ng-click="minusOne()">-</span>-->
+        <!--<input ng-model="count"-->
+        <!--onpaste="return false;"-->
+        <!--ng-change="checkIsNum()">-->
+        <!--<span class="plus" ng-click="plusOne()">+</span>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="item">
+          <span class="title">Packaging Type:</span>
+          <div class="item-rideo" ng-click="packagingTypeFun('1')">
+            <i ng-class="{act:packagingType === '1'}"></i>
+            Default design
+          </div>
+          <div class="item-rideo" ng-click="packagingTypeFun('2')">
+            <i ng-class="{act:packagingType === '2'}"></i>
+            Custom design
+          </div>
+          <!--     <div class="item-rideo" ng-click="packagingTypeFun('4')">
+                 <i ng-class="{act:packagingType === '4'}"></i>
+                 My design
+               </div>-->
+        </div>
+        <div class="item">
+          <div class="title">Packaging Material:</div>
+          <div class="group-value">
+            <div class="item-checked group-value-item" ng-repeat="item in packagingPropertiesArr"
+              ng-click="packagingPropertiesFun(item)">
+              <i ng-class="{act:item.flag}"></i>
+              {{item.name}}
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <span class="title">Search:</span>
+          <div class="search-bar">
+            <span id="category-span" class="category" ng-click="isShowCategory = 1">{{queryName}}</span>
+            <!--ng-show="item.individuationTotle"-->
+            <ul class="category-ul" ng-show="isShowCategory === 1">
+              <li ng-click="categoryItemClick('name')">Packaging Name</li>
+              <li ng-click="categoryItemClick('sku')">Packaging SKU</li>
+            </ul>
+            <input type="text" placeholder="Please enter the {{queryNameLower}}" class="search-inp" ng-model="inputStr"
+              ng-keyup="enterSearch($event)">
+            <button class="search-btn" ng-click="searchPro()">Search</button>
+          </div>
+        </div>
+        <div ng-show="dataList.length > 0">
+          <div class="product">
+            <ul>
+              <li ng-repeat="(index,item) in dataList" ng-class="{act:item.select}" ng-click="selectPro(item,$event,index)" ng-cloak>
+                <!-- 如果没有选择变体，展示商品状态 -->
+                <ng-template ng-if="!item.tempStand">
+                  <a href="javascript:void(0);" class="view-detail-a">
+                    <img class="product-img" ng-src="{{item.IMG | IMG_SIZE: 284:284}}"
+                      title="{{(item.english || item.NAMEEN) | fWordUpcase}}" ng-cloak>
+                  </a>
+                  <span class="tag">Connected: {{item.correlationNum}}</span>
+                  <span class="selectNum" ng-show="item.selectNum > 0">{{item.selectNum}}</span>
+                  <div class="info">
+                    <div class="item-1">
+                      <strong ng-attr-title="{{item.NAMEEN | fWordUpcase}}">{{item.NAMEEN | fWordUpcase}}</strong>
+                    </div>
+                    <div
+                      class="item-2"
+                      style="display: flex;"
+                    >
+                      <div
+                        style="width: 160px;" 
+                      >
+                        Length {{item.long+'mm'}} Width {{item.width+'mm'}} Height
+                        {{item.height+'mm'}}
+                      </div>
+                      <div
+                        style="width: 95px;color: #333;font-weight: 500;text-align: right;display: block;"
+                      >{{item.WEIGHT + 'g'}}</div>
+                    </div>
+                    <div class="item-3">
+                      <span>{{'$'+item.SELLPRICE}}</span>
+                      <span>{{item.goodNum}} pieces remained</span>
+                    </div>
+                  </div>
+                </ng-template>
+                <!-- 如果已经选择变体，展示临时状态 -->
+                <ng-template ng-if="item.tempStand">
+                  <a href="javascript:void(0);" class="view-detail-a">
+                    <img class="product-img" ng-src="{{item.tempStand.IMG | IMG_SIZE: 284:284}}"
+                      title="{{(item.english || item.NAMEEN) | fWordUpcase}}" ng-cloak>
+                  </a>
+                  <span class="tag">Connected: {{item.tempStand.correlationNum}}</span>
+                  <!-- <span class="selectNum" ng-show="item.tempStand.selectNum > 0">{{item.tempStand.selectNum}}</span> -->
+                  <div class="info">
+                    <div class="item-1">
+                      <strong ng-attr-title="{{item.NAMEEN | fWordUpcase}}">{{item.tempStand.NAMEEN | fWordUpcase}}</strong>
+                    </div>
+                    <div
+                      class="item-2"
+                      style="display: flex;"
+                    >
+                      <span
+                        style="width: 160px;" 
+                      >
+                        Length {{item.long+'mm'}} Width {{item.width+'mm'}} Height
+                        {{item.height+'mm'}}
+                      </span>
+                      <span
+                        style="width: 95px;color: #333;font-weight: 500;display: block;"
+                      >{{item.WEIGHT + 'g'}}</span>
+                    </div>
+                    <div class="item-3">
+                      <span>{{'$'+item.tempStand.SELLPRICE}}</span>
+                      <span>{{item.tempStand.goodNum}} pieces remained</span>
+                    </div>
+                  </div>
+
+                </ng-template>
+
+              </li>
+            </ul>
+          </div>
+          <!-- page -->
+          <page></page>
+          <!--btn-->
+          <div class="btns">
+            <button ng-click="cancel()" class="new-cancel-color">Cancel</button>
+            <button ng-click="confirm()" class="new-confirm-color">Confirm</button>
+          </div>
+        </div>
+        <!--no-data-->
+        <div class="no-data" ng-show="dataList.length == 0" style="text-align: center;">
+          <img src="./static/image/public-img/nodata_new.png">
+          <p style="text-align: center;color: #87899C;font-size: 14px;line-height: 50px;">Sorry, The data is not
+            found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 选择变体 sku -->
+  <div class="package-sku-box" ng-show="showPackage">
+    <p class="box-title">Select Variant：</p>
+    <i class="delete-icon iconfont iconguanbi" ng-click="closePackageBox()"></i>
+    <ul class="package-sku-list">
+      <!-- selecting 选中效果 -->
+      <li ng-class="{'package-sku-item':true,'selecting':standItem.selecting}" ng-repeat="(index,standItem) in standInfo"  ng-click="pickPackageSku(standItem)">
+        <p class="sku-item_title">{{standItem.sku}}</p>
+        <!-- selected 确定选择效果 -->
+        <i ng-class="{selected:standItem.isSelected}" ng-click="changeSelectPackageSku(standItem,$event)"></i>
+      </li>
+    </ul>
+  </div>
+  <div class="package-sku-mask" ng-show="showPackage" ng-click="closePackageBox()"></div>
+
+
+  <!-- 选中关联商品列表弹窗 -->
+  <div class="productWrap" ng-show="showProduct">
+    <div class="product-container">
+      <span class="product-cencel" ng-click="cencelProduct()"></span>
+      <div class="product-title">
+        <p>Selected Product</p>
+      </div>
+      <div class="product-header">
+        <table class="product-table1"> 
+          <colgroup>
+            <col style="width: 150px; min-width: 150px;"></col>
+            <col style="width: 150px; min-width: 150px;"></col>
+            <col style="width: 120px; "></col>
+            <col style="width: 120px; "></col>
+            <col style="width: 17px; min-width: 150px;"></col>
+          </colgroup>
+          <thead  class="product-thead">
+            <tr>
+              <th>Name</th>
+              <th>SKU</th>
+              <th>Price</th>
+              <th>Weight</th>
+              <th></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="product-context">
+        <table>
+          <colgroup>
+            <col style="width: 150px; min-width: 150px;"></col>
+            <col style="width: 150px; min-width: 150px;"></col>
+            <col style="width: 120px; min-width: 120px;"></col>
+            <col style="width: 120px; min-width: 150px;"></col>
+            <col style="width: 17px; min-width: 150px;"></col>
+          </colgroup>
+          <tbody class="product-tbody" ng-show="isFromPro">
+            <tr>
+              <td><p>{{itemData.NAMEEN}}</p></td>
+              <td><p>{{itemData.SKU}}</p></td>
+              <td>${{itemData.prices}}</td>
+              <td>{{itemData.packweight}}g</td>
+            </tr>
+          </tbody>
+          <tbody class="product-tbody" ng-show="!isFromPro">
+            <tr ng-repeat="item in itemData track by $index">
+              <td><p>{{item.NAMEEN}}</p></td>
+              <td><p>{{item.SKU}}</p></td>
+              <td>${{item.prices}}</td>
+              <td>{{item.packweight}}g</td>
+              <td ng-show="itemDataList"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Packaging 提示 -->
+  <div class="confirm-box" ng-show="viewPackagingModal">
+    <div class="confirm-main inventory-tips">
+      <i class="iconfont confirm-close" ng-click="closeViewPackagingModal()" style="cursor: pointer;"></i>
+      <div class="confirm-title">View Packaging</div>
+      <div class="confirm-content">
+        <div class="tabs">
+          <label for="select_variant">Select Variant </label>
+          <select id="select_variant" class="singleSelect" style="width:380px;height: 30px;" ng-change="onSelectPackaging()" ng-model="selectedVid">
+                <option value=""  ng-selected=''>Select Product SKU</option>
+                <option ng-value="variant.vid" ng-repeat="(index,variant) in proStandList track by $index">{{variant.sku}}</option>
+            </select>
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th style="width: 160px;">SKU</th>
+            <th>Packaging Name</th>
+            <th style="width: 60px;">Image</th>
+            <th style="width: 100px;">Material</th>
+            <th>Size(mm)</th>
+            <th>Weight(g)</th>
+            <th>Remaining inventory</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-show="vidCheckedList.length > 0" ng-repeat="(index,vidItem) in vidCheckedList" >
+            <td>{{vidItem.sku}}</td>
+            <td>{{vidItem.name}}</td>
+            <td> <img ng-src="{{vidItem.imgUrl}}" alt="" width="40" height="40"></td>
+            <td>{{vidItem.packKey}}</td>
+            <td>{{vidItem.size}}</td>
+            <td>{{vidItem.weight}}</td>
+            <td>{{vidItem.remain}}</td>
+          </tr>
+          <tr ng-show="vidCheckedList.length == 0">
+            <td colspan="7" style="height: 50px;">There is no package connected for the product.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .productWrap {
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+  .product-container {
+    min-width: 600px;
+    /* max-height: 300px; */
+    background: #FFFFFF;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0px 12px 24px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    height: 464px;
+  }
+  .product-title {
+    text-align: center;
+    height: 59px;
+    line-height: 59px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 20px;
+  }
+  .product-cencel {
+    background-image: url("static/image/public-img/close-proAll.png");
+    position: absolute;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+    top: 22px;
+    right: 30px;
+  }
+  .product-header {
+    width: 534px;
+    height: 40px;
+    background: #F0EDE7;
+    border-radius: 4px 4px 0px 0px;
+    margin: 0 auto;
+  }
+  .product-table1 {
+    table-layout: fixed;
+  }
+  .product-thead {
+    background: #F0EDE7 !important;
+  }
+  .product-thead tr th {
+    color: #333333;
+    border: none;
+    height: 40px;
+  }
+  .product-context {
+    overflow: auto;
+    max-height: 325px;
+    text-align: center;
+    width: 534px;
+    /* height: 464px; */
+    margin: 0 auto; 
+  }
+  .product-tbody tr {
+    width: 534px;
+    height: 54px;
+    border: 1px solid #F0F0F0;
+    border-top: none;
+  }
+  .product-tbody tr td {
+    font-size: 12px;
+  }
+  .product-tbody tr td p{
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    word-break: break-word;
+  }
+  #relevant-packaging .back {
+    font-size: 12px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(102, 102, 102, 1);
+    cursor: pointer;
+    width: 68px;
+    height: 26px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    padding: 4px 14px;
+  }
+  #relevant-packaging .back:hover {
+    border: 1px solid #FF7700;
+    color: #FF7700;
+  }
+
+  #relevant-packaging .back:hover {
+    color: var(--color-theme-1);
+  }
+
+  #relevant-packaging .back-box {
+    border-bottom: 1px solid #F2F2F1;
+    width: 100%;
+    padding-bottom: 10px;
+    margin: 20px 0;
+  }
+
+  #relevant-packaging .head {
+    display: flex;
+    height: 50px;
+    background: rgba(242, 242, 241, 1);
+    line-height: 50px;
+    padding: 0 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #relevant-packaging .head strong {
+    margin-right: 40px;
+    font-size: 16px;
+  }
+
+  #relevant-packaging .head .pickVarBtn {
+    flex:1;
+    text-align: right;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  #relevant-packaging .head .pickVarBtn .new-pickVarBtn {
+    color: var(--color-theme-1);
+  }
+
+  #relevant-packaging .head .pickVarBtn .new-pickVarBtn:hover {
+    color: var(--color-theme-1-1);
+  }
+
+  #relevant-packaging .head .name {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .proMsg {
+    display: flex;
+  }
+  .AllProMsg{
+    display: flex;
+  }
+  #relevant-packaging .head .name-list {
+    max-width: 946px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #relevant-packaging .head .name-list .name-item{
+    margin-right: 0px;
+  }
+  #relevant-packaging .head .nameAll {
+    margin-left: 20px;
+    color: #ff7700;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .head span {
+    margin-right: 20px;
+    color: #333333;
+    font-size: 14px;
+  }
+
+  #relevant-packaging .count-box {
+    display: flex;
+  }
+
+  #relevant-packaging .count-box span {
+    width: 30px;
+    height: 30px;
+    line-height: 27px;
+    border: 1px solid #d4d4d4;
+    text-align: center;
+    margin-left: -1px;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .count-box input {
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #d4d4d4;
+    border-radius: 0;
+    margin-left: -1px;
+    width: 60px;
+  }
+
+  #relevant-packaging .item {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    padding: 0 10px;
+  }
+
+  #relevant-packaging .bor {
+    /* border-bottom: 1px solid #F2F2F1; */
+     border-bottom: 1px solid #DBDBDB;
+    padding-bottom: 15px;
+  }
+
+  #relevant-packaging .bor.title{
+    display: flex;
+    align-items: center;
+  }
+
+  #relevant-packaging .item .title {
+    color: #303133;
+    font-size: 16px;
+    margin-right: 40px;
+    width: 145px;
+    text-align: right;
+  }
+
+  #relevant-packaging .item .title.item-selected {
+    line-height: 35px;
+  }
+
+  #relevant-packaging .item .group-value {
+    display: flex;
+    flex-wrap: wrap;
+    color: #303133;
+    font-size: 16px;
+    margin-right: 40px;
+    max-width: 945px;
+    text-align: right;
+  }
+
+  #relevant-packaging .item .group-value .group-value-item {
+    width: 150px;
+    margin-bottom: 15px;
+  }
+
+
+  #relevant-packaging .item .item-checked,
+  #relevant-packaging .item .item-rideo {
+    margin-right: 40px;
+    display: flex;
+    align-items: center;
+    color: #606266;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  #relevant-packaging .item .item-checked i {
+    background-image: url("static/image/public-img/checkbox_unchecked@2x.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .item .item-checked .act {
+    background-image: url("static/image/CJ-home/icon_checkbox_select_copy@2x.png");
+  }
+
+  #relevant-packaging .item .item-rideo i {
+    background-image: url("static/image/CJ-home/Oval@2x.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .item .item-rideo .act {
+    background-image: url("static/image/CJ-home/All@2x-new.png");
+  }
+
+  /* #relevant-packaging .item .item-rideo b {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(static/image/public-img/fause@2x.png);
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-left: 8px;
+  } */
+
+  #relevant-packaging  .tips {
+    font-size: 12px;
+    color: #FF6010;
+    margin-left: 195px;
+    margin-top: -34px;
+    margin-bottom: 20px;
+
+  }
+
+
+  #relevant-packaging .item .item-rideo .fausebox {
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 500px;
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    line-height: 19px;
+    padding: 15px;
+    z-index: 1;
+  }
+
+  #relevant-packaging .item .item-rideo .fausebox:after {
+    content: '';
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid #40424C;
+    height: 0;
+    width: 0;
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    left: 71px;
+    top: -8px;
+  }
+
+  #relevant-packaging .product ul {
+    display: inline-block;
+    margin-top: 10px;
+    width: 1200px;
+  }
+
+  #relevant-packaging .product li {
+    width: 285px;
+    height: 425px;
+    border-radius: 2px;
+    display: inline-block;
+    position: relative;
+    margin: 0 5px 10px 5px;
+    /* border: 1px solid #E4E4E4; */
+    transition: all .3s;
+    background-color: #fff;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .product li strong {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 210px;
+  }
+
+  #relevant-packaging .product .act {
+    border: 1px solid #f99429;
+  }
+
+  #relevant-packaging .product li:hover {
+    box-shadow: 2px 2px 16px 0px rgba(216, 213, 213, 0.5);
+    transition: all .3s;
+  }
+
+  #relevant-packaging .product li a {
+    width: 285px;
+    height: 285px;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 2px 2px 0 0;
+  }
+
+  #relevant-packaging .product li a img {
+    width: 100%;
+    height: 284px;
+    transition: all 0.3s;
+  }
+
+  #relevant-packaging .product li a img:hover {
+    transform: scale(1.1);
+    transition: all 0.3s;
+  }
+
+  #relevant-packaging .product li .tag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 98px;
+    height: 25px;
+    background: #FDE3DA;
+    border-radius: 2px 0px 2px 0px;
+    font-size: 12px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: #F97442;
+    line-height: 25px;
+    text-align: center;
+  }
+
+  #relevant-packaging .product li .selectNum {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: #FF7700;
+    font-size: 12px;
+    color: #fff;
+  }
+
+  #relevant-packaging .product li .info {
+    margin: 16px 0;
+    padding: 0 12px;
+  }
+
+  #relevant-packaging .product li .info div {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+  }
+
+  #relevant-packaging .product li .info .item-1 {
+    color: #333333;
+    font-size: 14px;
+  }
+
+  #relevant-packaging .product li .info .item-2 {
+    color: #999;
+    font-size: 12px;
+    height: 40px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #relevant-packaging .product li .info .item-3 {
+    color: #333333;
+    font-size: 14px;
+  }
+
+  #relevant-packaging .product li .info .item-3 span:nth-child(1) {
+    color: #FF7700;
+    font-size: 16px;
+  }
+
+  #relevant-packaging .btns {
+    display: flex;
+    margin: 20px 0;
+    justify-content: flex-end;
+    width: 1178px;
+  }
+
+  #relevant-packaging .btns button {
+    height: 30px;
+    padding: 0 20px;
+    /* border: 1px solid rgba(193, 193, 193, 1); */
+    border-radius: 4px;
+    margin-left: 25px;
+  }
+
+  /* #relevant-packaging .btns button:last-child {
+    background-color: #f99429;
+    color: #fff;
+    border: none;
+  } */
+
+  #relevant-packaging .btns .new-cancel-color {
+    background: var(--color-bg-14);
+    color: var(--color-font-1);
+    border: 1px solid var(--color-line-1);
+  } 
+
+  #relevant-packaging .btns .new-cancel-color:hover {
+    background: var(--color-bg-14-1);
+    color: var(--color-font-1);
+    border: 1px solid var(--color-line-1);
+  }
+
+  #relevant-packaging .btns .new-confirm-color {
+    background: var(--color-theme-1);
+    color: var(--color-font-4);
+  } 
+
+  #relevant-packaging .btns .new-confirm-color:hover {
+    background: var(--color-theme-1-1);
+    color: var(--color-font-4);
+  }
+
+  #relevant-packaging .item .group-selected-sku {
+    display: flex;
+    flex-wrap: wrap;
+    /* margin-right: 40px; */
+    max-width: 1100px;
+    height: 85px;
+  }
+
+  .selected-sku {
+    padding: 5px 10px;
+    border: 1px solid #FF7700;
+    background-color: rgba(255, 119, 0, 0.1);
+    color: #FF7700;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 9px;
+    margin-right: 20px;
+    height: 32px;
+  }
+
+  #relevant-packaging .item .delete-icon {
+    font-size: 12px;
+    padding-left: 4px;
+    cursor: pointer;
+  }
+
+
+  #relevant-packaging .item .option-num {
+    line-height: 35px;
+    color: #666;
+    font-size: 14px;
+  }
+
+
+  #relevant-packaging .item .search-bar {
+    position: relative;
+  }
+
+
+  #relevant-packaging .item .search-bar .search-inp {
+    padding-left: 130px;
+  }
+
+  #relevant-packaging .item .category {
+    padding: 0 15px 0 0;
+    color: #333333;
+    font-size: 12px;
+    /*font-family: PingFangSC-Medium;*/
+    font-weight: 500;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 36px;
+    /* border-top: 1px solid rgba(189, 189, 189, 1);
+    border-bottom: 1px solid rgba(189, 189, 189, 1); */
+  }
+
+
+
+  #relevant-packaging .item .category:after {
+    content: '';
+    border-color: #BDBDBD transparent transparent transparent;
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    height: 0;
+    width: 0;
+    margin-left: 15px;
+  }
+
+  #relevant-packaging .item .category-ul {
+    width: 130px;
+    background-color: #fff;
+    box-shadow: 0px 1px 4px 1px rgba(213, 212, 212, 0.48);
+    position: absolute;
+    left: 0;
+    top: 32px;
+    z-index: 100;
+    border-radius: 2px;
+    overflow: hidden;
+    text-align: left;
+  }
+
+  #relevant-packaging .item .category-ul li {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 11px;
+    color: #666666;
+    font-size: 14px;
+    /*font-family: PingFangSC-Regular;*/
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .item .category-ul li:hover {
+    background: rgba(255, 119, 0, .2);
+    color: #FF7700;
+  }
+
+  #relevant-packaging .package-sku-box {
+    position: absolute;
+    padding: 16px;
+    width: 297px;
+    height: 425px;
+    top: 533px;
+    left: 330px;
+    background-color: #fff;
+    z-index: 2;
+    box-shadow: 0px 0px 16px 0px rgba(216, 213, 213, 0.5);
+    transition: all .3s;
+  }
+
+  #relevant-packaging .package-sku-box .package-sku-list {
+    margin-top: 10px;
+    height: 360px;
+    overflow-y: scroll;
+  }
+
+  #relevant-packaging .package-sku-box .package-sku-list .package-sku-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 258px;
+    height: 40px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: 1px solid #eee;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .package-sku-box .package-sku-list .package-sku-item:hover {
+    border-color: var(--color-line-1);
+    color: var(--color-font-1);
+  }
+
+
+
+  #relevant-packaging .package-sku-item.selecting {
+    border: 1px solid #FF7700 !important;
+    color: #FF7700;
+  }
+
+  #relevant-packaging .package-sku-item .sku-item_title {
+    font-size: 12px;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .package-sku-box .delete-icon {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-font-2);
+  }
+
+  .package-sku-box .delete-icon:hover {
+    color: var(--color-font-1);
+  }
+
+  .package-sku-box .box-title {
+    font-size:14px;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+  }
+
+
+
+  #relevant-packaging .package-sku-item  i.selected {
+    background-image: url(static/image/CJ-home/icon_checkbox_select_copy@2x.png);
+  }
+
+  #relevant-packaging .package-sku-item i {
+    background-image: url(static/image/CJ-home/icon_chekbox_copy@2x.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+
+  #relevant-packaging .package-sku-mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #fff;
+    opacity: 0.3;
+  }
+
+  .inventory-tips {
+    width: 854px;
+    max-width: initial;
+  }
+  .inventory-tips .confirm-content {
+    text-align: left;
+  }
+  .inventory-tips .confirm-content .tips {
+    color: #FF4949;
+  }
+  .inventory-tips .confirm-content .tabs {
+    margin: 20px 0;
+  }
+  /* .inventory-tips .confirm-content .tabs span {
+    cursor: pointer;
+    margin-right: 30px;
+    color: #333;
+    font-size: 14px;
+    padding-bottom: 5px;
+  } */
+  .inventory-tips .confirm-content .tabs .active {
+    color: #f70;
+    border-bottom: 2px solid #f70;
+  }
+  .inventory-tips .confirm-content .table {
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 4px 4px 0 0;
+  }
+  .inventory-tips .confirm-content .table thead {
+    background: initial;
+  }
+  .inventory-tips .confirm-content .table thead th {
+    color: #333;
+    background-color: #F2F3F5;
+    border-right: 1px solid #F0EDE7;
+    font-weight: normal;
+    width: 200px;
+  }
+  .inventory-tips .confirm-content .table td {
+    padding: 5px 0;
+    font-size: 12px;
+    text-align: center;
+    border-left: 1px solid #F3F3F3;
+    border-right: 1px solid #F3F3F3;
+    border-bottom: 1px solid #F3F3F3;
+  }
+  .inventory-tips .confirm-content .table td img {
+    width: 50px;
+    height: 50px;
+  }
+  .inventory-tips .confirm-btn-box {
+    box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, 0.05);
+    z-index: 9999;
+  }
+  .inventory-tips .confirm-btn-box .opt {
+    text-decoration: underline;
+    font-size: 14px;
+  }
+  .vip .tabs .active {
+    color: #DDA863 !important;
+    border-bottom: 2px solid #DDA863 !important;
+  }
+  .vip .table th {
+    background-color: #F0EDE7 !important;
+  }
+
+</style>

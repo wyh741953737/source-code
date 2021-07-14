@@ -1,0 +1,179 @@
+<style type="text/css">
+  .bigimg {
+    position: absolute;
+    top: -70px;
+    left: 106%;
+    z-index: 999;
+    max-width: 360px;
+    width: 360px;
+    height: 360px;
+    display: none;
+  }
+
+  .product-showimg:hover .bigimg {
+    display: block;
+  }
+
+  #delete:hover {
+    background-color: #CEC5C5;
+  }
+
+  .sourcing-tankuang {
+    width: 20%;
+    min-width: 400px;
+    height: 200px;
+    background-color: #fff;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    padding: 25px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 20px #C1C1C1;
+    border-radius: 5px;
+  }
+
+  .priceTip {
+    display: block;
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px #C1C1C1;
+    border-radius: 5px;
+    background-color: #fff;
+    width: 100px;
+    height: 40px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .cj-nodata-pic {
+    top: initial !important;
+  }
+</style>
+<!-- 左边部分 -->
+<div class="video-demand h-100" id="videos">
+  <div class="mycj-right-wrap p-3 h-100">
+    <div class="top-space-bar"></div>
+    <ul class="top-taps">
+      <li class="video tab-theme"><a href="#/video-history">Photography Orders</a></li>
+      <li class="video tab-theme active"><a href="#/video-demand">Photography Requests</a></li>
+    </ul>
+    <div class="video-demand-main-content bg-white p-2">
+      <div class="seachgoods-con">
+        <div class="search-order" ng-hide="noData">
+          <input class="search-inp" placeholder="Please enter shooting ID" ng-keydown="enterSearch($event)" ng-model="searchNum"/><span
+            class="search-btn btn-theme" ng-click="handleSearch()">Search</span>
+          <select class="select-search-stu select-border-vip" ng-model="status" ng-change="handleSearch()">
+            <option value="">All Status</option>
+            <option ng-repeat='(index, item) in statusEnums' value="{{index}}">{{item.value}}</option>
+            <!-- <option value="14">Pending</option>
+            <option value="15">Rejected</option>
+            <option value="16">Quoted</option>
+            <option value="17">Processing</option>
+            <option value="18">Completed</option> -->
+          </select>
+           <select ng-model="mediaType" class="select-border-vip" ng-change="handleSearch()">
+		        <option value="">All</option>
+		        <option value="1">Photo</option>
+		        <option value="0">Video</option>
+	        </select>
+          <a class="export-orders" href="#/add-video-demand">Post Photography Request</a>
+        </div>
+        <div class="source-orders-list">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>
+                  <span>Updated Date</span>
+                </th>
+                <th>Shooting ID</th>
+                <th>
+                  <select style="width: 85px;" class="select-border-vip" ng-model="sourceType" ng-change="handleSearch()">
+                    <option value="">All Style</option>
+                    <option value="2">CJ`s</option>
+                    <option value="0">Store`s</option>
+                    <option value="1">Individual</option>
+                  </select>
+                </th>
+                <th>Status</th>
+                <th class="vols-th">Product Title</th>
+                <th>Images</th>
+                <th>Type</th>
+                <th class="vols-th">URL</th>
+                <th class="vols-th">Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="item in dataList">
+              <tr class="order-detail">
+	              <td>{{item.updateDate}}</td>
+	              <td>{{item.number}}</td>
+	              <td>
+		              <p ng-if="item.sourcetype=='0'">
+                    <span>Store's</span>
+                    <br>
+                    <span style="color: #ccc;">({{item.shopName}})</span>
+                  </p>
+                  <p ng-if="item.sourcetype=='1'">Individual</p>
+                  <p ng-if="item.sourcetype=='2'">CJ's</p>
+	              </td>
+	              <td>
+		              <p class="cj-source-status" ng-style="{color: statusEnums[item.status].color}">{{statusEnums[item.status].value}}</p>
+		              <!-- <p class="cj-source-status" ng-if="item.status =='14'" style="color: #f1ca16;">Pending</p>
+                  <p class="cj-source-status" ng-if="item.status =='15'" style="color: #e44101;">Rejected</p>
+                  <p class="cj-source-status" ng-if="item.status =='16'" style="color: #cb7f00;">Quoted</p>
+                  <p class="cj-source-status" ng-if="item.status =='17'" style="color: #2d7aa4;">Processing</p>
+                  <p class="cj-source-status" ng-if="item.status =='18'" style="color: #04a452;">Completed</p> -->
+                  <!-- <p class="cj-source-status" ng-if="item.status =='19'" style="color: #04a452;">Quoted</p> -->
+	              </td>
+	              <td>
+		              <div class="vols" title="{{item.productName}}">{{item.productName}}</div>
+	              </td>
+	              <td class="product-showimg" style="position: relative;overflow: visible;cursor: pointer;">
+                  <ul ng-if="item.imageUrl">
+                    <li>
+                      <img class="smallimg center-block" ng-src="{{item.imageUrl | IMG_SIZE: 80}}">
+                      <img class="bigimg" ng-src="{{item.imageUrl | IMG_SIZE: 304}}">
+                    </li>
+                  </ul>
+                  <p ng-if="!item.imageUrl">--</p>
+                </td>
+	              <td>{{item.mediaType === 0 ? 'Video' : 'Photo'}}</td>
+	              <td>
+		              <div class="vols" title="{{item.producteUrl}}">
+		                <a ng-if="item.producteUrl" ng-href="{{item.producteUrl}}">{{item.producteUrl}}</a>
+			              <p ng-if="!item.producteUrl">--</p>
+		              </div>
+	              </td>
+	              <td>
+		              <div class="vols" title="{{item.description}}">
+			              {{item.description==""?"--":item.description?item.description:"--"}}
+		              </div>
+	              </td>
+	              <td>
+                  <a href="{{'#/video-demand-detail/' + item.id+'/'+item.sourcetype}}" class="ui-btn btn-line-theme">View Details</a>
+                  <a href="javascript:void(0)" class="ui-btn btn-line-theme danger" ng-click="deleteSourcing(item)">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+	        <!-- 分页 -->
+	        <page ng-show="dataList.length > 0"></page>
+        </div>
+      </div>
+      <!-- 弹框 -->
+      <div class="sourcing-tankuang" ng-show="isDelSourcing">
+        <p class="center-block" style="text-align: center;margin-top: 20px;">Are you sure to permanently delete this photography request?</p>
+        <div class="btns center-block">
+          <button style="background-color: #666;padding:4px 10px;" ng-click="isDelSourcing = false">Cancel</button>
+          <button style="background-color: #f88f29;" ng-click="confirmFun()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<loading-cart top="'.video-demand-main-content'" left="10" right="10" ng-if="loading"></loading-cart>

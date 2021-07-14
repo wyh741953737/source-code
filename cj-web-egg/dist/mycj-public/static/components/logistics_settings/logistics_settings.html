@@ -1,0 +1,104 @@
+<!-- 物流映射设置组件 -->
+<div class="LogisticsSettingsModal" ng-show="showLogisticsSettings" ng-class="{'isVip': vip == 1}" ng-click="handleBlur()" ng-cloak>
+  <div class="LogisticsSettingsBox">
+    <div class="LogisticsSettingsHead">
+      <span>Shipping Method Settings</span>
+      <i class="iconfont iconreviewclose closeIcon" ng-click="handleClose()"></i>
+    </div>
+    <div class="LogisticsSettingsMain">
+      <div class="LogisticsSettingsTips">
+        <i class="iconfont icontishi3 tipIcon"></i>
+        <span class="tipText">
+          Shopify Shipping Method is what your customers choose when they place orders. Please select the corresponding shipping method provided by CJ to deliver your order.
+        </span>
+      </div>
+      <div class="storeName">
+        <div class="store">
+          <img src="/egg/image/authorize/store.png" class="storeImg" ng-show="vip != 1" alt="">
+          <img src="/egg/image/authorize/store-vip.png" class="storeImg" ng-show="vip == 1" alt="">
+          <span>{{ storeName }}</span>
+        </div>
+        <div ng-class="{'disabledAdd': shippingMethodList.length > 49}" class="addBox" ng-click="handleAddShipMethod()">
+          <i class="iconfont iconbianzu21 addIcon"></i>
+          <span>Add Corresponding Shipping Method</span>
+        </div>
+      </div>
+      <div class="listBox">
+        <div class="listTitle">
+          <div class="ship">Shopify Shipping Method</div>
+          <div class="ship">CJ Shipping Method</div>
+          <div class="action">Action</div>
+        </div>
+        <div class="listMain" id="listMain" ng-show="!noData">
+          <div class="list">
+            <div 
+              class="listItem" 
+              id="listItem{{key}}" 
+              ng-repeat="(key, shipItem) in shippingMethodList track by $index"
+            >
+              <div class="ship">
+                <input 
+                  type="text" 
+                  class="shopifyShipInput notranslate" 
+                  ng-class="{'heighLight': shipItem.shopLogisticsHeighLight}"
+                  placeholder="Please enter" 
+                  ng-model="shipItem.shippingType" 
+                  ng-change="handleChangeShopLogistics(shipItem, key)"
+                  maxlength="500"
+                  title="{{shipItem.shippingType}}"
+                >
+              </div>
+              <div class="ship">
+                <div class="selectBox">
+                  <div 
+                    class="selectContent notranslate" 
+                    ng-class="{'heighLight': shipItem.cjLogisticsHeighLight}"
+                    ng-click="handleSelectCJShip(shipItem, key, $event)"
+                    title="{{ shipItem.logisticsWayNameen }}"
+                  >
+                    <input type="text" placeholder="Please select" value="{{shipItem.logisticsWayNameen}}" disabled>
+                    <i class="iconfont iconjiantou_xia downIcon"></i>
+                  </div>
+                  <div class="optionBox" ng-show="showCJShip == key" id="optionBox{{key}}">
+                    <div class="search" ng-click="$event.stopPropagation();">
+                      <input type="text" class="searchInput" ng-model="search" placeholder="Please enter" ng-change="handleSearch(search, $event)" id="searchInput{{key}}" autocomplete="off">
+                    </div>
+                    <div class="optionMain">
+                      <div ng-if="CJShipList.length > 0">
+                        <div class="optionItem" ng-repeat="ele in CJShipList" ng-click="handleChecked(ele, key)">{{ ele.optionNameEn }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="action">
+                <div class="deleteBox delTool" ng-click="handleDelete(shipItem, key)">
+                  <i class="iconfont iconshanchu delIcon"></i>
+                  <div class="delToolText">
+                    Delete
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <p class="tips">Shopify Shipping Method is set up on your Shopify admin page.</p>
+        </div>
+        <div class="listNoData" ng-show="noData">
+          <img src="/egg/image/authorize/nodata.png" class="noDataImg" ng-show="vip != 1" alt="">
+          <img src="/egg/image/authorize/nodata-vip.png" class="noDataImg" ng-show="vip == 1" alt="">
+          <p class="noDataText">No Shipping Method Settings</p>
+        </div>
+      </div>
+    </div>
+    <div class="LogisticsSettingsBottom">
+      <button class="btn LogisticsSettingsCancelBtn" ng-click="handleClose()">Cancel</button>
+      <button class="btn LogisticsSettingsConfirmBtn" ng-click="handleConfirm()">Confirm</button>
+    </div>
+    <!-- 弹框 -->
+  <div class="pop_ups" ng-if="showLogisticsSettingsPopUps">
+    <pop-ups content="content" confirm="confirmText"></pop-ups>
+  </div>
+  </div>
+  
+</div>

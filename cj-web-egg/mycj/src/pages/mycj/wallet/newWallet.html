@@ -1,0 +1,678 @@
+<div class="new-wallet-box" cjdot cjdotshow='{"pageCode":"myCJWallet", "eventType": 2}' >
+	<div class="new-wallet-top position-relative">
+		<div class="wallet-top-wrap">
+			<div class="wallet-top-content">
+				<div class="wallet-top-balance">
+					<p class="wallet-balance-title">Account Balance ($)</p>
+					<p class="wallet-balance-text"><span class="notranslate" ng-bind-html="returnFloat(+accountInfo.balance + (+accountInfo.noWithdrawalAmount))"></span></p>
+				</div>
+				<div class="wallet-top-info">
+					<div class="wallet-info-content">
+						<p class="wallet-info-title">Pending ($)</p>
+						<p class="wallet-info-text"><span class="notranslate" ng-bind-html="returnFloat(+accountInfo.uncollected)"></span></p>
+					</div>
+					<div class="wallet-info-content">
+						<p class="wallet-info-title">Withdrawable ($)</p>
+						<p class="wallet-info-text"><span class="notranslate" ng-bind-html="returnFloat(+accountInfo.balance)"></span></p>
+					</div>
+					<!-- <div class="wallet-info-content">
+						<div class="wallet-info-frozen">
+							<p class="wallet-info-title">Frozen ($) {{'\u00A0'}}</p>
+							<div class="frozen-icon-wrap" ng-mouseenter="showFrozenTip($event)" ng-mouseleave="showFrozenTip($event)">
+								<i class="iconfont iconputongtishi icon-frozen-ques" ng-class="{'ques-active': frozenTipFlag}"></i>
+								<p class="frozen-tip-wrap" ng-show="frozenTipFlag">
+									<span class="frozen-tip-text">1. When using combined payment, the balance deducted from CJ Wallet will be frozen until successful payment.</span>
+									<span class="frozen-tip-text">2. The frozen balance will be returned to your wallet when the order is canceled or the payment is overtimed.</span>
+									<span class="frozen-tip-text">3. The withdrawal amount will be frozen once a withdrawal request is submitted. The frozen amount will be returned to your CJ wallet if withdrawal failed.</span>
+									<span class="frozen-tip-text">4. The deducted amount will be frozen when deduction is being processed. The deducted amount will be returned to your CJ wallet if the deduction failed to be authorized.</span>
+								</p>
+							</div>
+						</div>
+						<p class="wallet-info-text" ng-bind-html="accountInfo.freezeAmount || '0.00'"></p>
+					</div> -->
+					<div class="wallet-info-content">
+						<p class="wallet-info-title">Points</p>
+						<p class="wallet-info-text" ng-bind-html="accountInfo.integral || 0"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- charge 和 历史账单 模块 -->
+	<div class="new-wallet-charge bg-white d-flex-center">
+		<div class="wallet-content">
+			<div class="wallet-tab d-flex justify-content-between">
+				<div>
+					<span ng-click="changeCharge(chargeModal.charge.key)"
+					ng-class="{'tab-active': chargeFlag === chargeModal.charge.key}" class="cursor-pointer">Charge</span>
+					<span ng-click="changeCharge(chargeModal.billing.key)"
+						ng-class="{'tab-active': chargeFlag === chargeModal.billing.key}" class="cursor-pointer">Billing
+						History</span>
+				</div>
+				<div class="currencies-box d-flex align-items-center">
+					<div class="recharge-box" ng-click="showRechargeModal()">
+						<p class="recharge-text">Top-up with Gift Card</p>
+					</div>
+				</div>
+			</div>
+			<!-- charge 模块 -->
+			<div ng-if="chargeFlag === chargeModal.charge.key">
+				<!-- 币种切换 -->
+				<div class="currencies-box d-flex align-items-center currency-top" ng-show="chargeFlag == 1">
+					Currency:
+					<div class="wawllet-select-box">
+						<div
+							class="wallet-select cursor-pointer ml-3 d-flex-center align-items-center justify-content-between position-relative">
+							<p ng-bind="chargeItem.currency"></p> <b></b>
+							<ul class="position-absolute w-100 wallet-drop-box">
+								<li ng-click="selectCurrency('USD')">USD</li>
+								<li ng-click="selectCurrency('EUR')">EUR</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- 充值金额 tag 组 -->
+				<div class="tag-content d-flex flex-wrap">
+					<div class="d-flex-center tag-item cursor-pointer notranslate" ng-click="checkMoneyTag(chargeItem.money)"
+						ng-class="{'isMr': chargeItem.isMr, 'tag-active': chargeItem.active}"
+						ng-repeat="chargeItem in chargeList track by $index">
+						<span ng-if="$parent.chargeItem.currency=='USD'">$</span><span ng-if="$parent.chargeItem.currency=='EUR'">€</span> <span>{{chargeItem.money}}</span>
+					</div>
+				</div>
+				<!-- 安盈 活动图 -->
+				<!-- <div class="ay-activity-box w-100">
+					From April 1 to June 30, you can get 2% bonus as long as you charge CJ wallet via Payoneer over 10 USD/EUR.
+				</div> -->
+				<div class="w-100 swiper-container" style="height: 80px;cursor: pointer;" ng-show="payoneerImglist && payoneerImglist.length>0">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" ng-repeat="item in payoneerImglist" ng-click="handleBanner(item)">
+							<img 
+								ng-src="{{item.webImg}}" 
+								ng-if="item.webImg"  
+								data-idx="{{ $index }}"
+								ng-click=""
+								alt="banner"
+							/>
+						</div>
+					</div>
+					<div class="swiper-pagination" ng-show="payoneerImglist.length>1"></div>
+					<div class="swiper-button-prev" ng-show="payoneerImglist.length>1"></div>
+					<div class="swiper-button-next" ng-show="payoneerImglist.length>1"></div>
+				</div>
+
+				<!-- 折扣梯度 -->
+				<div class="charge-grads-wrap">
+					<div class="charge-grads-box d-flex justify-content-between position-relative">
+						<div class="xuxian position-absolute"></div>
+						<div class="charge-grads">
+							<div class="charge-grads-item charge-grads-title d-flex align-items-center justify-content-between">
+								<span>Amount</span><span>Benefit</span>
+							</div>
+							<div class="charge-grads-item d-flex align-items-center justify-content-between"
+								ng-repeat="grads in chargeGrads track by $index">
+								<span ng-if="chargeItem.currency=='USD'">{{grads.amount}}</span>
+								<span ng-if="chargeItem.currency=='EUR'">{{grads.euAmount}}</span>
+								<span class="charge-benefits">{{grads.benefits}}</span>
+							</div>
+						</div>
+						<div class="charge-payment">
+							<div class="payment-input d-flex align-items-center">
+								<span class="mr-2">Other Amount:</span>
+								<input
+									ng-change="inputOrdMoneyFn()" ng-model="$parent.ordmoneyInput" class="wallet-input"
+									placeholder="Please input">
+							</div>
+							<div class="payment-mathed">
+								<div>Charging Method:</div>
+								<div class="d-flex payment-card-box">
+									<div class="payment-card position-relative" ng-click="selectChargeCard(card.name)"
+										ng-class="{'{{card.name}}': card.name, 'card-disabled': card.name === 'transfer' && ordmoney < 2000}"
+										ng-repeat="card in chargeCardList track by $index">
+										<b ng-if="currentChargeCard === card.name"></b>
+									</div>
+								</div>
+							</div>
+							<div class="payment-amount d-flex align-items-center justify-content-between">
+								<div class="d-flex-center">
+									
+									<!-- Amount Charging:  -->
+									Actual Amount:
+									<span class="amount-color notranslate ml-4" ng-if="$parent.noMoney === true">
+										$0.00
+									</span>
+										<span class="amount-color notranslate ml-4" ng-if="$parent.noMoney === false">
+											<!-- <span ng-if="$parent.chargeItem.currency == 'USD'">$</span><span ng-if="$parent.chargeItem.currency == 'EUR'">€</span> -->
+											{{'$' + rewardAmount}}
+										</span>
+								</div>
+								<button class="payment-amount-btn cj-wallet-btn" ng-click="gotoCharge()" ng-disabled="!$parent.ordmoney || $parent.ordmoney == 0">Confirm</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- search condition -->
+			<div class="billing-history-search mt-30" ng-show="chargeFlag === chargeModal.billing.key">
+				<div class="ipt-item">
+					<input type="text" placeholder="Search by bill number or order number" ng-model="cjOrderId" ng-keyup="cjOrderIdKeyup()" />
+					<button class="search-btn" ng-click="cjOrderIdKeyup(true)">Search</button>
+				</div>
+				<div class="d-flex-center">
+					<span class="mr-2">Date: </span>
+					<wui-date format="yyyy-mm-dd hh:mm:ss" placeholder="Start Date" width="170"
+						btns="{'ok':'Confirm','now':'Now'}" ng-model="startTime" position="left" class="cj-date"></wui-date>
+					<span class="ml-2 mr-2 date-long"></span>
+					<wui-date format="yyyy-mm-dd hh:mm:ss" placeholder="End Date" width="170" btns="{'ok':'Confirm','now':'Now'}"
+						ng-model="endTime" position="left" class="cj-date"></wui-date>
+					<div class="wawllet-select-box">
+						<div
+							class="wallet-select cursor-pointer ml-3 d-flex-center align-items-center justify-content-between position-relative">
+							<span ng-bind="exportTypeList[exportType].name"></span> <b></b>
+							<ul class="position-absolute w-100 wallet-drop-box">
+								<li ng-click="selectExport($index)" ng-repeat="export in exportTypeList track by $index">
+									{{export.name}}
+								</li>
+							</ul>
+						</div>
+					</div>
+					<button ng-click="generateInvoice()" class="billing-button cj-wallet-btn ml-3">Generate Invoice</button>
+				</div>
+			</div>
+
+			<!-- 历史账单 模块 -->
+			<div class="mt-20 mb-30" ng-show="chargeFlag === chargeModal.billing.key">
+				<table class="wallet-table w-100">
+					<thead>
+						<tr>
+							<th>Bill Number</th>
+							<th>
+								CJ Order ID<br>
+								Store Order Number
+							</th>
+							<th>Date</th>
+							<th>Type</th>
+							<th>Payment Method</th>
+							<th>Account</th>
+							<th style="text-align: center;">Transfer Slip</th>
+							<th class="amount">Amount</th>
+							<th>Message</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in billList track by $index">
+							<td><span>{{item.ID}}</span></td>
+							<td><span>{{item.cjOrderId || defaultSymbol}}</span><br>
+								<span>{{item.orderNumber || defaultSymbol}}</span>
+							</td>
+							<td><span>{{item.createDate.time | date:"yyyy-MM-dd HH:mm:ss"}}</span></td>
+							<td>
+								<ng-template ng-if="item.type==9">Resend</ng-template>
+								<ng-template ng-if="item.type==8">Other</ng-template>
+								<ng-template ng-if="item.type==7">Benefits</ng-template>
+								<ng-template ng-if="item.type==1 || item.type==17">Charge</ng-template>
+								<ng-template ng-if="item.type==2 || item.type==6">Order paid</ng-template>
+								<ng-template ng-if="item.type==3">Withdraw cash</ng-template>
+								<ng-template ng-if="item.type==4">Order refund</ng-template>
+								<ng-template ng-if="item.type==5">Stockout refund</ng-template>
+							</td>
+							<td>
+								<span>{{item.payment_method != null ? (item.payment_method === 0 ? item.paymentType : 'Western Union') : (item.paymentType || defaultSymbol)}}</span>
+							</td>
+							<td><span>{{item.paymentType === 'WeChat Pay' ? defaultSymbol : item.account|| defaultSymbol}}</span></td>
+							<td style="text-align: center;">
+								<span ng-if="!item.image && !item.pdf">---</span>
+								<span ng-if="item.image">
+									<a ng-href="{{'https://'+item.image}}" target="_blank"><img
+											ng-src="{{'https://'+ item.image}}" alt=""></a>
+								</span>
+								<span ng-if="item.pdf">
+									<a class='pdfImg tips-warp' href="{{'https://'+ item.pdf}}" target="_blank">
+										<div
+											class="tips-info"
+											ng-class= 'tips-info-top-left'
+										>
+										Click to view the transfer slip
+									</div>
+									</a>
+								</span>
+							</td>
+							<td class="amount">
+								<span ng-if="item.type==7 || item.type==5 || item.type==17">+${{item.copeMoney}}</span>
+								<span ng-if="item.type==1 && item.status != '2'">+${{item.copeMoney}}</span>
+								<span ng-if="item.type==1 && item.status == '2'">${{item.copeMoney}}</span>
+								<span ng-if="item.type==2 || item.type==6 || item.type==8 || item.type==9">-${{item.copeMoney}}</span>
+								<span ng-if="item.type==4">+${{item.copeMoney}}</span>
+							</td>
+							<td>
+									<a class="mes-a BillingMessage" href="javascript:void(0);" ng-if="item.message"
+										ng-mouseover="showMessage(item.message,$index)" ng-mouseleave="clearMessage()">
+										{{item.message}}
+									<div class="tooltiptext" ng-if="$index === showMesIndex">{{showMessageName}}</div>
+									</a>
+								<span ng-if="!item.message">{{defaultSymbol}}</span>
+							</td>
+							<td>
+								<div ng-if="item.status == '2'">
+									<p class="bot-p mb-1">Failed</p>
+									<p class="bot-p" ng-if='item.errorInfo=="金额有误"'>(incorrect amount)</p>
+									<p class="bot-p" ng-if='item.errorInfo && item.errorInfo!="金额有误"'>({{item.errorInfo}})</p>
+								</div>
+								<div ng-if="item.status == '0'">Pending</div>
+								<div ng-if="item.status == '1'">Success</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ng-if="billNoDataFlag" class="bill-list-noData d-flex-center flex-column pt-5 pb-5">
+					<img src="./static/image/public-img/nodata_new.png" alt="">
+					<div class="mt-3">Sorry, we cannot find any data.</div>
+				</div>
+				<div ng-show="!billNoDataFlag" class="billing-bottom d-flex align-items-center justify-content-between mt-20">
+					<div class="asj-page-box" style="width: initial;" ng-cloak>
+						<div class="total-num">
+							{{billTotalPage}} record<span ng-show="billTotalPage > 1">s</span> found
+						</div>
+						<div class="page-index bill-page">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- cash 提现模块 -->
+	<div class="new-wallet-cash bg-white mt-30 d-flex-center">
+		<div class="wallet-content">
+			<div class="wallet-tab">
+				<span ng-click="changeCash(cashModal.cash.key)" ng-class="{'tab-active': cashFlag === cashModal.cash.key}"
+					class="cursor-pointer">Withdraw Cash</span>
+				<span ng-click="changeCash(cashModal.history.key)" ng-class="{'tab-active': cashFlag === cashModal.history.key}"
+					class="cursor-pointer">Withdrawal History</span>
+			</div>
+			<!-- cash 提现 -->
+			<div class="cash-box w-100" ng-if="cashFlag === cashModal.cash.key">
+				<div class="d-flex">
+					<div ng-click="selectCashCard(card.name)" class="payment-card position-relative" ng-class="card.name"
+						ng-repeat="card in cashCardList track by $index">
+						<b ng-if="currentCashCard === card.name"></b>
+					</div>
+				</div>
+				<!-- 提现 form -->
+				<div class="cash-item mt-30">
+					<div class="d-flex align-items-center">
+						<div class="cash-item-label text-right">Amount:</div>
+						<input ng-show="currentCashCard === 'payoneer'" ng-model="$parent.withdrawMoney" type="text" class="wallet-input" placeholder="Enter the amount ($50 at least)" ng-change="inputwithdrawMoneyFn()">
+						<input ng-show="currentCashCard !== 'payoneer'" ng-model="$parent.withdrawMoney" type="text" class="wallet-input" placeholder="Please enter amount" ng-change="inputwithdrawMoneyFn()">
+					</div>
+					<div class="d-flex align-items-center mt-1">
+						<div class="cash-item-label"></div>
+						<div class="cash-describe" ng-bind-html="'Withdrawable: $' + accountInfo.balance"></div>
+					</div>
+				</div>
+				<div class="cash-item">
+					<div class="d-flex align-items-center">
+						<div class="cash-item-label text-right">
+							<span ng-show="currentCashCard === 'paypal'">PayPal Account: </span>
+							<span ng-show="currentCashCard === 'payoneer'">Payoneer Account: </span>
+							<span ng-show="currentCashCard === 'stripe'">CJ Registration Email: </span>
+						</div>
+						<input ng-show="withdrawEmailArr.length === 0" ng-model="$parent.withdrawEmail" type="text" class="wallet-input"
+							placeholder="Please enter your account">
+						<select
+							ng-show="withdrawEmailArr.length > 0"
+							ng-options="item for item in withdrawEmailArr"
+							ng-model="$parent.withdrawEmail">
+					</select>
+					</div>
+					<div class="d-flex align-items-center mt-1">
+						<div class="cash-item-label"></div>
+						<div class="cash-describe">We will charge you 3% fee when withdrawing.</div>
+					</div>
+				</div>
+				<div class="cash-item">
+					<div class="d-flex align-items-center">
+						<div class="cash-item-label text-right">Verification Code:</div>
+						<input ng-model="$parent.verify_code" type="text" class="wallet-input" placeholder="Enter the code">
+						<div class="cursor-pointer send-ver-code"
+							ng-click="verifyCode($parent.verify_code)" ng-bind-html="verify_code_txt"></div>
+					</div>
+					<div class="d-flex align-items-center mt-1">
+						<div class="cash-item-label"></div>
+						<div class="cash-describe">The verification code will be sent to your registered email. </div>
+					</div>
+				</div>
+				<div class="cash-item">
+					<div class="d-flex align-items-center">
+						<div class="cash-item-label text-right"></div>
+						<button class="cj-wallet-btn cash-btn" ng-click="confirmWithdraw()">Confirm</button>
+					</div>
+					<div class="d-flex align-items-center mt-3">
+						<div class="cash-item-label"></div>
+						<div class="cash-describe red pl-0">Note: the cash will be returned to the original payment account.
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- cash 提现记录 -->
+			<div class="mt-30 mb-30" ng-if="cashFlag === cashModal.history.key">
+				<table class="wallet-table w-100">
+					<thead>
+						<tr>
+							<th>Transfer ID</th>
+							<th>Date</th>
+							<th>Collection Account</th>
+							<th class="amount">Amount</th>
+							<th>Transfer Slip</th>
+							<th>Status</th>
+							<th>Message</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in withdrawList track by $index">
+							<td><span>{{item.ID}}</span></td>
+							<td><span>{{item.createDate.time | date:"yyyy-MM-dd HH:mm:ss"}}</span></td>
+							<td><span>{{item.email || defaultSymbol}}</span></td>
+							<td class="amount"><span>${{item.copeMoney}}</span></td>
+							<td>
+								<span ng-if="!item.image">{{defaultSymbol}}</span>
+								<span ng-if="item.image">
+									<a ng-href="{{'https://'+img}}" target="_blank" ng-repeat="img in item.image.split(',')"><img
+											ng-src="{{'https://'+ img}}" alt=""></a>
+								</span>
+							</td>
+							<td>
+								<span ng-if="item.status == '0'">Pending</span>
+								<span ng-if="item.status == '1'">Success</span>
+								<span ng-if="item.status == '2'">Failed</span>
+							</td>
+							<td>
+								<a class="mes-a  BillingMessage" href="javascript:void(0);" ng-if="item.errorInfo"
+									ng-mouseover="showWithDrawalMessage(item.errorInfo, $index)" ng-mouseleave="clearWithDrawalMessage()">{{item.errorInfo}}
+									<div class="tooltiptext" ng-if="$index === showWithDrawalIndex">{{WithDrawalMes}}</div>
+								</a>
+								<span ng-if="!item.errorInfo">{{defaultSymbol}}</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ng-if="withdrawNoDataFlag" class="bill-list-noData d-flex-center flex-column pt-5 pb-5">
+					<img src="./static/image/public-img/nodata_new.png" alt="">
+					<div class="mt-3">Sorry, we cannot find any data.</div>
+				</div>
+				<div ng-show="!withdrawNoDataFlag"
+					class="billing-bottom d-flex align-items-center justify-content-between mt-20">
+					<div class="asj-page-box" ng-cloak>
+						<div class="total-num">
+							{{withdrawTotalPage}} {{withdrawTotalPage > 1 ? 'records' : 'record'}} found
+						</div>
+						<div class="page-index withdraw-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 信用卡充值弹窗 -->
+	<div class="confirm-box" ng-show="showFlag">
+		<div class="confirm-main" style="width: 800px; max-width: 800px; max-height: initial;">
+			<div class="confirm-title wallet-confrim-title d-flex align-items-center justify-content-between bg-white">
+				<span>Here is our banking account information</span>
+				<!-- <div class="wawllet-select-box">
+					<div
+						class="wallet-select cursor-pointer ml-3 d-flex-center align-items-center justify-content-between position-relative">
+						<span>{{chargeItem.currency}}</span> <b></b>
+						<ul class="position-absolute w-100 wallet-drop-box">
+							<li ng-click="selectCurrency('USD')">USD</li>
+							<li ng-click="selectCurrency('EUR')">EUR</li>
+						</ul>
+					</div>
+				</div> -->
+			</div>
+			<div class="confirm-content wallet-confrim-content">
+				<div class="account-info-box" ng-if="chargeItem.currency === 'USD'">
+					<div class="account-item d-flex justify-content-between align-items-center" ng-repeat="item in bankInfoData.wireTrans.usd track by $index">
+						<span class="account-label">{{item.key}}:</span>
+						<span>{{item.value}}</span>
+					</div>
+				</div>
+				<div class="account-info-box" ng-if="chargeItem.currency === 'EUR'">
+					<div class="account-item d-flex justify-content-between align-items-center" ng-repeat="item in bankInfoData.wireTrans.eur track by $index">
+						<span class="account-label">{{item.key}}:</span>
+						<span>{{item.value}}</span>
+					</div>
+				</div>
+				<div class="wallet-confrim-title d-flex align-items-center justify-content-between boder-b-0">
+					<span>Submit Transfer Slip</span>
+				</div>
+				<div class="d-flex confirm-item">
+					<span class="mr-3">Amount:</span> <span class="cjColor"><span ng-if="chargeItem.currency == 'USD'">$</span><span ng-if="chargeItem.currency == 'EUR'">€</span>{{ordmoney}}</span>
+				</div>
+				<div class="d-flex confirm-item font-size-14px">
+					<span class="mr-3 gray-color">Estimated Amount Value:</span><span class="mr-2">${{dollarAmount}}</span><span class="mr-2 gray-color">(Bonus:</span><span>${{benefitsMoney}}</span><span class="gray-color">)</span>
+				</div>
+				<div class="confirm-item ">
+					<div class="d-flex flex-wrap">
+						<form action="" method="post" enctype="multipart/form-data" id="uploadimg2" class="position-relative">
+							<div class="img-item uplode-btn d-flex-center flex-column cursor-pointer">
+								<img src="./static/image/wallet/update.png" alt="">
+								<span class="mt-3">Upload</span>
+							</div>
+							<input accept="image/gif, image/jpeg, image/jpg, image/png, image/pdf"
+								class="position-absolute cursor-pointer" type="file" multiple ng-model="documentupload2" id="document2"
+								onchange="angular.element(this).scope().upLoadImg4(this.files)">
+						</form>
+						<div class="img-item position-relative d-flex-center" ng-repeat="img in chargeItem.imgArr track by $index">
+							<a ng-href="{{'https://'+img}}" target="_blank">
+								<img ng-src="{{'https://'+img}}" alt="" class="pay-uploadimg">
+							</a>
+							<b ng-click="deleteOnePic($index)" class="confirm-img-close cursor-pointer position-absolute"></b>
+						</div>
+					</div>
+					<div class="upload-text">(Allowed File Extensions: .jpg, .gif, .jpeg, .png, .pdf)</div>
+				</div>
+				<div class="d-flex confirm-item">
+					<span class="mr-3 position-relative" style="top: 10px;">Message:</span>
+					<textarea ng-model="chargeItem.rechargeRemark" placeholder="Please enter your message here" class="wallet-textArea w-100"
+						name="" id=""></textarea>
+				</div>
+			</div>
+			<div class="confirm-btn-box" style="box-shadow:0px -2px 3px 0px rgba(0,0,0,0.05)">
+				<span ng-click="showFlag=false" class="no-btn">Cancel</span>
+				<span ng-class="{'disabled': confirmClicked}" ng-click="confirmBtnFun()"
+					class="yes-btn btn-theme cj-wallet-btn">Confirm</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- payoneer 支付方式-->
+	<div class="isagreementTc paynner_dia" ng-show="isShowPaynnerDia" ng-cloak>
+		<div class="isag-con ispayby-yecon">
+			<!-- <i ng-hide="isAuthorize === 1" class="back" ng-click="payonnerBack()"></i> -->
+			<span class="close-btn" ng-click="isShowPaynnerDia = false">×</span>
+			<div class="logo-box">
+				<img src="static/image/CJ-home/payoneer.png" alt="">
+			</div>
+			<div class="top">
+				<h3 class="tit">Payoneer</h3>
+				<span class="email" ng-show="payoneerEmail">{{ payoneerEmail }}</span>
+			</div>
+			<div class="bot">
+				<!-- <div class="select-account" ng-show="isAuthorize === 1">
+					<div class="item" ng-click="selectAccount(0)">
+						<i ng-class="{ active:currencyType === 0 }"></i>
+						<span>Please select US dollar USD ($)</span>
+					</div>
+					<div class="item" ng-click="selectAccount(1)">
+						<i ng-class="{ active:currencyType === 1 }"></i>
+						<span>Please select Euros EUR (€)</span>
+					</div>
+				</div> -->
+				<div class="authorize" ng-show="isAuthorize === 2">
+					<button ng-click="signInOrRegister('0')" class="sign-in">Sign in</button>
+					<button ng-click="signInOrRegister('1')" class="register">Register</button>
+				</div>
+				<div class="un_authorize" ng-show="isAuthorize === 3">
+					<div class="v-code">
+						<i class="icon"></i>
+						<input type="text" ng-model="verificationCode" placeholder="Enter the code" />
+						<button ng-click="getCode()">
+							{{ isGetCode ? num+'s' : 'Send' }}
+						</button>
+					</div>
+					<button ng-click="payoneer_Pay()" class="paynnerPay-btn">{{ payAmount }}</button>
+					<div class="bot-btn">
+						<a href="javascript:void (0);" ng-click="updateAccount()">Update</a>
+						<a href="javascript:void (0);" ng-click="unbind()">Unbind</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- payoneer 支付方式 新-->
+	<div class="isagreementTc paynner_dia paynner_dia_new" ng-show="isShowNewPaynnerDia" ng-cloak>
+		<div class="isag-con ispayby-yecon">
+			<!-- modal header -->
+			<span class="iconfont iconicon2" ng-click="closeShowNewPaynnerDia()"></span>
+			<div class="logo-box">
+				<img src="/static/image/CJ-home/payoneer_logo_small.png" alt="">
+			</div>
+			<!-- 授权引导 -->
+			<div class="payoneerAuthWrap" ng-show="payoneerAuth">
+				<p class="header">The linked makes payment faster.</p>
+				<div class="content">
+					<p class="payoneerTitle">PAY WITH <img src="/static/image/CJ-home/payoneer_logo.png"/></p>
+					<p class="tip">Already have an account</p>
+					<span ng-click="authClick()" class="payoneerBtn">Link</span>
+				</div>
+				<div class="footer">
+					You haven’t linked the account. Please click on the "Link" to Payoneer for agreement.
+				</div>
+			</div>
+			<!-- 已授权，显示账号 -->
+			<div class="payoneerOrderWrap" ng-show="payoneerOrder">
+				<div class="orderHeader">
+					<div class="account">
+						<p>Account</p>
+					</div>
+					<div class="link">
+						<p class="email">{{ payoneerAuthData.account }}</p>
+						<a class="link" ng-click="switchPayoneerAuth()">Link to Another Account>></a>
+					</div>
+				</div>
+				<div class="orderContent">
+					<p class="payoneerTitle">PAY WITH <img src="/static/image/CJ-home/payoneer_logo.png" /></p>
+					<p class="amountItem">
+						<span class="label">Amount</span>
+						<span class="value">{{ payoneerData.chargeCurrency === 'USD' ? '$' : '€' }}<span>{{payoneerData.chargeMoney}}</span></span>
+					</p>
+					<div class="list">
+						<span>My Available Balance</span>
+						<div class="no-balance" ng-show="nextAshFlag && (!payoneerAuthData.balanceList || payoneerAuthData.balanceList.length == 0)">
+							<p class="no-balance-left">
+							  <i class="iconfont no-balance-icon">&#xe6cd;</i>
+							</p>
+							<p class="no-balance-right">
+							  <span class="no-balance-tip">You need to activate your Payoneer USD or EUR account to process the transaction.</span>
+							</p>
+						</div>
+						<p ng-click="payoneerBalanceClick(item)" class="amountItem {{ item.selected ? 'selected' : '' }} {{ item.disabled ? 'disableds' : '' }}" ng-repeat="item in payoneerAuthData.balanceList">
+							<span class="label">{{item.currency}}</span>
+							<span class="value">{{item.balanceAmount}}</span>
+						</p>
+					</div>
+				</div>
+				<div class="footer">
+					<span class="payoneerBtn default" ng-click="payoneerOrderCancel()">CANCEL</span>
+					<span class="payoneerBtn" ng-class="{'ashNext': nextAshFlag}" ng-click="payoneerConfirmClick()">NEXT</span>
+				</div>
+			</div>
+			<!-- 支付确认 -->
+			<div class="payoneerConfirmWrap" ng-show="payoneerConfirm">
+				<div class="header">
+					<p class="payoneerTitle">PAY WITH <img src="/static/image/CJ-home/payoneer_logo.png" /></p>
+				</div>
+				<div class="content">
+					<p class="title">Confirm Order Details</p>
+					<!-- 美元直接显示，其它币种前端转换。新逻辑：不转换汇率 -->
+					<p class="amountItem">
+						<span class="label">Amount</span>
+						<span class="value">{{ payoneerPayCurrency === 'USD' ? ('$' + payoneerData.usdPayMoney) : ('€' + payoneerData.eurPayMoney) }}</span>
+					</p>
+					<!-- <div ng-if="payoneerPayBalance.currencyType === 1" class="eurAmount">
+						<p>
+							<span>Order Amount :</span>
+							<span>USD {{payoneerData.usdPayMoney}}</span>
+						</p>
+						<p>
+							<span>FX Rate :</span>
+							<span>USD 1 : EUR {{payoneerEurRate}}</span>
+						</p>
+						<p>
+							<span>Payment Amount :</span>
+							<span>EUR <span>{{payoneerData.eurPayMoney}}</span>
+						</p>
+					</div> -->
+					<div class="tip">
+						<p>Click “Pay” means that I accept CJ to deduct the order amount from my Payoneer account.</p>
+						<p>Please check the order amount before payment.</p>
+					</div>
+				</div>
+				<div class="footer">
+					<span class="payoneerBtn default" ng-click="payoneerPayCancel()">BACK</span>
+					<span class="payoneerBtn" ng-click="payoneerConfirmPayClick()">PAY</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 充值卡充值弹窗 -->
+	<div class="recharge-box-modal" ng-show="rechargeFlag">
+		<div class="recharge-main">
+			<div class="recharge-header">
+				<p class="recharge-header-title">Top-up with Gift Card</p>
+				<p class="recharge-header-close" ng-click="rechargeFlag=false">
+          <i class="iconfont iconguanbi1 icon-recharge-close"></i>
+        </p>
+			</div>
+			<div class="recharge-content">
+				<p class="recharge-content-title">Amount ($)</p>
+				<p class="recharge-content-amount" ng-show="!rechargeAmount">
+					<i class="iconfont icona---- icon-recharge-nomoney"></i>
+				</p>
+				<p class="recharge-content-amount amount-active" ng-show="rechargeAmount">{{rechargeAmount}}</p>
+				<div class="recharge-input-wrap">
+					<div class="recharge-input-content">
+						<p class="recharge-input-title"><span class="recharge-text-warn">*</span> Gift Card Number:</p>
+            <input class="recharge-commom-input" ng-class="{'error-input-show': !!giftCardErrorText}" name="giftCardNumber" type="text"  placeholder="Please enter the number" ng-model="giftCardNumber" ng-blur="giftCardNumberBlur()" ng-keyup="giftCardNumberChange($event)" />
+					</div>
+					<div class="recharge-error-info" ng-class="{'error-info-show': !!giftCardErrorText}">
+						<p class="recharge-error-text">{{giftCardErrorText}}</p>
+					</div>
+					<div class="recharge-input-content">
+						<p class="recharge-input-title"><span class="recharge-text-warn">*</span> Redeem Code:</p>
+            <input class="recharge-commom-input" ng-class="{'error-input-show': !!redeemCodeErrorText}" name="redeemCode" type="text"  placeholder="Please enter the code" ng-model="redeemCode" ng-blur="redeemCodeBlur()" ng-keyup="redeemCodeChange($event)" maxlength="6" />
+					</div>
+					<div class="recharge-error-info" ng-class="{'error-info-show': !!redeemCodeErrorText}">
+						<p class="recharge-error-text">{{redeemCodeErrorText}}</p>
+					</div>
+				</div>
+				<div class="recharge-note-info">
+					<p class="recharge-note-title">Note:</p>
+					<ul class="recharge-note-content">
+						<li ng-repeat="(noteind, noteItem) in rechargeNoteList" class="recharge-note-single">
+							<span class="recharge-note-text">
+								{{noteItem}}
+							</span>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+			<div class="confirm-btn-box" style="box-shadow:0px -2px 3px 0px rgba(0,0,0,0.05)">
+				<span ng-class="{'disabled': confirmClicked}" ng-click="rechargeBtnFun()"
+					class="yes-btn btn-theme cj-wallet-btn">Submit</span>
+			</div>
+		</div>
+	</div>
+</div>

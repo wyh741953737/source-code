@@ -1,0 +1,116 @@
+<div class="content-padding ticket-add">
+  <div class="sa-list add-ticket-box">
+
+    <div class="topBack">
+      <p ng-click="toBack()">&lt; Back</p>
+    </div>
+    <div class="content-box">
+      <div class="content-title">
+        <p class="content-title-font">Submit Form</p>
+      </div>
+      <div class="content-mainBox">
+        <p class="tip"><i class="iconfont icontishi2"></i>To solve your problems efficiently, please provide enough information like product SKU, order number, tracking number, screenshot for error report, etc.</p>
+        <div class="list-box">
+          <div class="list-box-left">
+            <span class="left-font">Ticket Type:</span>
+          </div>
+          <div class="list-box-right">
+            <div class="option-form" ng-repeat="type in typeList" ng-click="checkedVal($event)">
+              <div class="option-wrapper">
+                <div class="option-inputBox">
+                  <input type="radio" ng-checked="{{type.checked}}" id="{{type.name}}" name="1"
+                    value="{{type.name}}" /><span></span>
+                </div>
+                <label ng-for="{{type.val}}">{{type.name}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="list-box">
+          <div class="list-box-left">
+            <span class="left-font">Subject:</span>
+          </div>
+          <div class="list-box-right">
+            <input type="text" class="right-subject" name="subject" id="subject" placeholder="Subject" maxlength="200" ng-blur="subjectBlur()">
+          </div>
+          <small style="color: red;margin-top: 5px;margin-left: 142px;" ng-show="stipShow">{{subjectTip}}</small>
+        </div>
+        <div class="list-box">
+          <div class="list-box-left">
+            <span class="left-font">Message:</span>
+          </div>
+          <div class="list-box-right">
+            <textarea type="text" class="right-subject right-message" ng-blur="messageBlur()" name="message" maxlength="2000" id="message" placeholder="Message"></textarea>
+          </div>
+          <small style="color: red;margin-top: 5px;margin-left: 142px;" ng-show="mtipShow">{{messageTip}}</small>
+        </div>
+        <div class="list-box">
+          <div class="list-box-left">
+            <span class="left-font">Attachment:</span>
+          </div>
+          <div class="list-box-right">
+            <div class="res-upload-div" style="margin-bottom: 5px;">
+              <form class="pull-left ng-pristine ng-valid" action="" method="post" enctype="multipart/form-data">
+                <input type="file" class="upimg-inp ng-pristine ng-untouched ng-valid ng-empty"
+                  ng-model="documentupload2" id="file" accept="image/*" multiple=""
+                  onchange="angular.element(this).scope().upLoadImg4(this.files)" style="display: none;">
+              </form>
+              <label class="up-bg-div" for="file" style="border: 1px rgba(0,0,0,0.15) dashed;">
+                <div class="up-bg-img">
+                  <img src="./static/image/ticket-list/uploadImg.png" style="width:37px;height: 32px;">
+                </div>
+                <p style="color: #999;">Upload Image</p>
+              </label>
+            </div>
+            <p class="editInformation-font editInformation-font1">Allowed File Extensions: .jpg, .jpeg, .png</p>
+            <div style="height: 160px;" ng-show="imgArr.length==0"></div>
+            <div class="uploadImg-picture-preview">
+              <ul class="picture-preview-list">
+                <li class="picture-preview-item" ng-repeat="imge in imgArr track by $index">
+                  <div class="prewviewImg-list">
+                    <img ng-src="{{imge}}">
+                  </div>
+                  <div class="closeImg" ng-click="deleteImg($index)">
+                    <img src="./static/image/dropShipping/close.png" alt="">
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-btn">
+          <button class="alert-btn-cancel alert-addTicket-btn" ng-click="cancel()">Clear</button>
+          <button class="alert-btn-confirm alert-addTicket-btn" ng-click="subform()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .content {
+    background: #F2F3F5;
+    padding: 30px;
+  }
+
+  .uploadImg-content {
+    margin-bottom: 5px;
+  }
+
+  .picture-preview-item {
+    width: 180px;
+    height: 180px;
+  }
+
+  .prewviewImg-list {
+    width: 178px;
+    height: 178px;
+    overflow: hidden;
+  }
+
+  .prewviewImg-list>img {
+    width: 178px;
+    height: 178px;
+  }
+</style>
